@@ -1,0 +1,304 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: smolinsk
+ * Date: 10/20/2017
+ * Time: 11:19 AM
+ */
+
+/**
+ * Implements hook_views_api().
+ */
+function esmt_views_api() {
+  return array(
+    'api' => 3.0,
+    'path' => drupal_get_path('module', 'esmt') . '/views'
+  );
+}
+
+/**
+ * Implements hook_ctools_plugin_api().
+ */
+function esmt_ctools_plugin_api($module, $api) {
+  if ($module == 'page_manager' && $api == 'pages_default') {
+    return array(
+      'version' => 1,
+      'path' => drupal_get_path('module', 'esmt') . '/pages'
+    );
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function esmt_menu() {
+  $items = array();
+  $items['admin/config/system/esmt'] = array(
+    'title' => 'ESMT Settings',
+    'description' => 'Description of your on this date settings page',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('esmt_admin_form'),
+    'access arguments' => array('administer esmt settings'),
+    'file' => 'esmt.admin.inc',
+  );
+  $items['esmt/service_actions/%/%'] = array(
+    'page callback' => 'esmt_service_action_handler',
+    'page arguments' => array(2,3),
+    'access arguments' => array(3),
+    'access callback' => '_esmt_check_users_role_ids',
+  );
+  return $items;
+}
+
+
+/**
+ * Implements hook_menu_alter().
+ */
+function esmt_menu_alter(&$items) {
+  if (isset($items['esmt-service'])) {
+    $items['esmt-service']['access callback'] = '_esmt_check_access';
+  }
+}
+
+
+function _esmt_check_access() {
+  global $user;
+  $account = user_load($user->uid);
+  // If use has no role ids, reject access
+  return !empty($account->field_scs_role_ids);
+}
+
+/**
+ * Checks rid argument param and validates whether user has been granted permission
+ * to the specifc SCS Role ID.
+ * @return bool
+ */
+function _esmt_check_users_role_ids($rid) {
+  global $user;
+  $account = user_load($user->uid);
+  // If use has no role ids, reject access
+  if (empty($account->field_scs_role_ids)) {
+    return false;
+  }
+  // If user has role, allow access
+  foreach ($account->field_scs_role_ids[LANGUAGE_NONE] as $role) {
+    if ($role['value'] == $rid) {
+      return true;
+    }
+  }
+  // No roles meet the criteria for the form, reject user from accessing.
+  return false;
+}
+
+/**
+ * Implements hook_preprocess().
+ *
+ * Add esmt css to all pages.
+ * Set required vars for use in tpl file
+ */
+function esmt_preprocess(&$variables, $hook) {
+  // Adding critical CSS
+  if ($hook == 'page') {
+    drupal_add_css(drupal_get_path('module', 'esmt') . '/css/esmt.css', [
+      'preprocess' => TRUE,
+      'group' => CSS_THEME
+    ]);
+  }
+  // Add required service provider data to variables for use in the template files
+  if ($hook == 'views_view' && isset($variables['view']->name) && $variables['view']->name == 'esmt_service_provider') {
+    drupal_add_js(drupal_get_path('module', 'esmt') . '/js/esmt.js', ['scope' => 'footer', 'preprocess' => true, 'group' => JS_LIBRARY, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
+    $variables['service_providers'] = _retrieve_service_providers_with_user_access();
+  }
+}
+
+/**
+ * Search for ESMT parter nodes by SCS Role ID. Follow action argument to publish or unpublish
+ * node. Only users with passed in SCS Role ID are allowed access.
+ * @param string $action
+ * @param string $rid
+ * @throws Exception
+ */
+function esmt_service_action_handler($action, $rid) {
+  if ($action == 'publish') {
+    $node_status = 1;
+  }
+  else {
+    $node_status = 0;
+  }
+  // Query all ESMT Partners provisioned for eportal
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'esmt_partner')
+    ->fieldCondition('field_scs_role_id', 'value', $rid, '=');
+  $result = $query->execute();
+
+  if (isset($result['node'])) {
+    foreach ($result['node'] as $node) {
+      $nid = $node->nid;
+      $partner_node = node_load($nid);
+      $partner_node->status = $node_status;
+      node_save($partner_node);
+    }
+  }
+}
+
+/**
+ * Combine Content types Service Providers and SCS Partners with the users
+ *  subscribed SCS role IDs to build table.
+ * One row for each dataflow. If the user has a role id, then allow access to configure
+ * @return array $datatable_rows
+ */
+function _retrieve_service_providers_with_user_access() {
+  $service_providers = _retrieve_service_providers();
+  $user_allowed_dataflows = _retrieve_user_scs_role_ids();
+  $partner_mappings = _retrieve_partner_mappings();
+  $datatable_rows = [];
+  // Create datatable json combining all above mappings
+  foreach ($service_providers as $sp) {
+    $sp_entity = entity_metadata_wrapper('node', $sp);
+    // Load Role IDS field
+    $scs_role_ids = $sp_entity->field_scs_role_ids->value();
+    $instructions = $sp_entity->field_esmt_service_instructions->value();
+    $config_link = $sp_entity->field_esmt_configuration_link->value();
+    $purpose = $sp_entity->field_esmt_purpose->value();
+    if (empty($scs_role_ids)) {
+      $datatable_row = [];
+      $datatable_row[] = $sp->title;
+      $datatable_row[] = 'N/A';
+      $datatable_row[] = 'Widget';
+      $datatable_row[] = 'E-Enterprise';
+      $datatable_row[] = $purpose;
+      $datatable_row[] = '<a target="_blank" href="' . $instructions . '">' .
+        'Partner Kit' . '</a>';
+      $datatable_row[] = '<a class="disabled-link" href="" title="Insufficient permissions">Configuration</a>';
+      $datatable_row[] = _create_publish_link('#');
+      $datatable_rows[] = $datatable_row;
+    }
+    else {
+      foreach ($scs_role_ids as $rid) {
+        // Only add row if partner has been published/initialized
+        if (isset($partner_mappings[$rid])) {
+          $datatable_row = [];
+          $datatable_row[] = $sp->title;
+          $datatable_row[] = $partner_mappings[$rid]['partner_code'];
+          $datatable_row[] = 'Widget';
+          $datatable_row[] = 'E-Enterprise';
+          $datatable_row[] = $purpose;
+          $datatable_row[] = '<a target="_blank" href="' . $instructions . '">' .
+            'Partner Kit' . '</a>';
+          if (in_array($rid, $user_allowed_dataflows)) {
+            $datatable_row[] = '<a href="' . $config_link . '?rid=' . $rid . '">Configuration</a>';
+            $datatable_row[] = _create_publish_link($rid, true, $partner_mappings[$rid]['published']);
+          }
+          else {
+            $datatable_row[] = '<a class="disabled-link" href="" title="Insufficient permissions">Configuration</a>';
+            $datatable_row[] = _create_publish_link($rid);
+          }
+          $datatable_rows[] = $datatable_row;
+        }
+      }
+    }
+  }
+  return $datatable_rows;
+}
+
+/**
+ * Build html for publish checkbox
+ * @param integer $rid
+ * @return string $html
+ */
+function _create_publish_link($rid, $enabled = false, $published = false) {
+  if ($published) {
+    $checked = 'checked="checked"';
+  } else {
+    $checked = '';
+  }
+  if ($enabled) {
+    $html = '<input ' . $checked . ' id="publish-service-' . $rid . '" class="publish-service" data-rid="' . $rid . '" type="checkbox" />';
+  }
+  else {
+    $html = '<input disabled type="checkbox" />';
+  }
+  $html .= '<label for="publish-service-' . $rid . '">Publish</label>';
+  return $html;
+}
+
+/**
+ * Query esmt_partner content type and return results keyyed by role id
+ * @return array $partner_mappings
+ */
+function _retrieve_partner_mappings() {
+  $partner_mappings = [];
+  $nodes = [];
+  $query = new EntityFieldQuery;
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'esmt_partner');
+
+  $results = $query->execute();
+  if (isset($results['node'])) {
+    $nids = array_keys($results['node']);
+    $nodes = entity_load('node', $nids);
+  }
+  foreach ($nodes as $n) {
+    $partner_mappings[$n->field_scs_role_id[LANGUAGE_NONE][0]['value']] = [
+      'partner_code' => $n->esmt_service_partner_code[LANGUAGE_NONE][0]['value'],
+      'published' => $n->status,
+    ];
+  }
+  return $partner_mappings;
+}
+
+/**
+ * Return users SCS role IDs
+ * @return array $role_ids
+ */
+function _retrieve_user_scs_role_ids() {
+  global $user;
+  $role_ids = [];
+  $account = user_load($user->uid);
+  $scs_role_ids = $account->field_scs_role_ids;
+  foreach ($scs_role_ids[LANGUAGE_NONE] as $sri) {
+    $role_ids[] = $sri['value'];
+  }
+  return $role_ids;
+}
+
+/**
+ * Query Content of content type esmt_service_provider
+ * Return parsed data
+ * @return array $service_providers
+ */
+function _retrieve_service_providers() {
+  $service_providers = [];
+  $query = new EntityFieldQuery;
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'esmt_service_provider');
+
+  $results = $query->execute();
+  if (isset($results['node'])) {
+    $nids = array_keys($results['node']);
+    $service_providers = entity_load('node', $nids);
+  }
+  return $service_providers;
+}
+
+/**
+ * Allow use of tpl file for view content in esmt custom module
+ * Implements hook_theme_registry_alter().
+ */
+function esmt_theme_registry_alter(&$theme_registry) {
+  // Defined path to the current module.
+  $module_path = drupal_get_path('module', 'esmt');
+  // Find all .tpl.php files in this module's folder recursively.
+  $template_file_objects = drupal_find_theme_templates($theme_registry, '.tpl.php', $module_path);
+  // Iterate through all found template file objects.
+  foreach ($template_file_objects as $key => $template_file_object) {
+    // If the template has not already been overridden by a theme.
+    if (!isset($theme_registry[$key]['theme path']) || !preg_match('#/themes/#', $theme_registry[$key]['theme path'])) {
+      // Alter the theme path and template elements.
+      $theme_registry[$key]['theme path'] = $module_path;
+      $theme_registry[$key] = array_merge($theme_registry[$key], $template_file_object);
+      $theme_registry[$key]['type'] = 'module';
+    }
+  }
+}

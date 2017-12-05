@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @file
+ * Webform Replay install/uninstall routines.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function webform_replay_uninstall() {
+
+  variable_del('webform_replay_components');
+
+}

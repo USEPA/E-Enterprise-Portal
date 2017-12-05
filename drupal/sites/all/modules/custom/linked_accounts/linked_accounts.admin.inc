@@ -49,6 +49,11 @@ function linked_accounts_admin($form, $form_state) {
     '#title' => t('Authentication URL'),
     '#default_value' => variable_get('scs_auth_endpoint', "https://encromerrdev.epacdxnode.net/scs-portal-ws/services/SharedPortalService?wsdl")
   );
+  $form['scs_settings']['scs_shared_portal_service'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Shared Portal Service WSDL'),
+    '#default_value' =>  variable_get('scs_shared_portal_service', 'https://encromerrdev.epacdxnode.net/scs-portal-ws/services/SharedPortalService'),
+);
 
   $form['scs_settings']['scs_handoff_auth_endpoint'] = array(
     '#type' => 'textfield',

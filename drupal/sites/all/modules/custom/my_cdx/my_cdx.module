@@ -170,7 +170,6 @@ function my_cdx_links_json_output() {
     // convert the data into a format that DataTables ajax can understand
     $output = array();
     foreach ($input as $value) {
-      if (feature_toggle_get_status('mycdx_connections')) {
         // If status is not active, do not allow link to be clicked
         if (!in_array("Active", $value['statuses'])) {
           $link = $value['data']['role'];
@@ -188,14 +187,6 @@ function my_cdx_links_json_output() {
           printStatuses($value['statuses']),
           $link,
         );
-      }
-      else {
-        $output[] = array(
-          $value['program_service_name'],
-          processCDXStatus($value['status']),
-          $value['role'],
-        );
-      }
     }
     drupal_json_output(array('data' => $output));
   }
@@ -263,13 +254,14 @@ function load_my_cdx_data() {
         $data = $cache->data;
       }
       else {
-        $data = fetch_my_cdx_links();
-
-        // expire the cache every ___ minutes
-        $expire_ts = time() + (intval(variable_get('my_cdx_cache_reset_time', 5)) * 60);
-        module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
-        if (!feature_toggle_get_status('cdx_dev_mode')) {
-          cache_set($cache_key, $data, 'cache', $expire_ts);
+        // Only store data in cache if values stored (meaning $data != false)
+        if ($data = fetch_my_cdx_links()) {
+          // expire the cache every ___ minutes
+          $expire_ts = time() + (intval(variable_get('my_cdx_cache_reset_time', 5)) * 60);
+          module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+          if (!feature_toggle_get_status('cdx_dev_mode')) {
+            cache_set($cache_key, $data, 'cache', $expire_ts);
+          }
         }
       }
     }
@@ -479,9 +471,10 @@ function fetch_sample_my_cdx_links() {
  */
 function fetch_my_cdx_links() {
   global $user;
+  // format it to be some sort of array, match the structure of fetch_sample_my_cdx_links()
+  $data = [];
   $account = user_load($user->uid);
   $user_id = $account->field_cdx_username[LANGUAGE_NONE][0]['value'];
-
   // fetch the data from the soap service
   $location = 'my_cdx.module';
   $my_cdx_client_access = return_my_cdx_token();
@@ -492,15 +485,19 @@ function fetch_my_cdx_links() {
       'userId' => $user_id,
     );
     $result = callSOAPWithParams($my_cdx_client_access['client'], "RetrieveMyCdxLinks", $params_for_data, $location);
-
-    // format it to be some sort of array, match the structure of fetch_sample_my_cdx_links()
-    $data = array();
+    // In case of connection error, return false
+    if ($result->error) {
+      return false;
+    }
+    // A user with no progams will have an empty response. If that is the case, return false
+    if (!isset($result->response->links)) {
+      return false;
+    }
     // CDX service sends an object if the return is singular.
     // Convert the object to an array containing the object
     if (!is_array($result->response->links)) {
-      $result->response->links = array($result->response->links);
+      $result->response->links = [$result->response->links];
     }
-
 
     foreach ($result->response->links as $link) {
       $key = $link->DataflowAcronym . ': ' . $link->DataflowName . '|' . $link->Description;
@@ -524,11 +521,10 @@ function fetch_my_cdx_links() {
       }
       $data[$key]['role_ids'][] = $link->RoleId;
     }
-
     return $data;
   }
   else {
-    return array();
+    return false;
   }
 }
 

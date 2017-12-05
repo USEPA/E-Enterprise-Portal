@@ -21,7 +21,7 @@ module_load_include('inc', 'site_deployment', 'site_deployment_helpers');
 /**
  * Revert other_items_of_interest_feature
  */
-function site_deployment_update_7601(){
+function site_deployment_update_7601() {
   features_revert(['other_items_of_interest_feature']);
   drupal_set_message("Reverted other_items_of_interest_feature");
 
@@ -31,7 +31,7 @@ function site_deployment_update_7601(){
  * Remove deprecated Google Analytics view
  * Manually delete block: cdx_custom_analytics
  */
-function site_deployment_update_7602(){
+function site_deployment_update_7602() {
 
   if ($view = views_get_view('google_analytics')) {
     // Delete the view
@@ -43,7 +43,7 @@ function site_deployment_update_7602(){
 /**
  * Revert Page manager and workbench header to gather recent changes
  */
-function site_deployment_update_7603(){
+function site_deployment_update_7603() {
 
   features_revert(['page_manager_feature', 'workbench_header']);
   drupal_set_message("Reverted Page Manager and Workbench Header features");
@@ -57,7 +57,7 @@ function site_deployment_update_7603(){
 function site_deployment_update_7604() {
   $roles = array('logged_in_user');
 
-  foreach($roles as $name) {
+  foreach ($roles as $name) {
     $existing_role = user_role_load_by_name($name);
     if (empty($existing_role)) {
       $role = new stdClass();
@@ -101,6 +101,5 @@ function site_deployment_update_7606() {
  * Enable Testing module
  */
 function site_deployment_update_7607() {
-
   module_enable(['simpletest', 'site_test']);
 }

@@ -32,241 +32,26 @@ function be_well_informed_menu() {
     'file' => 'be_well_informed.admin.inc',
   );
   $items['be_well_informed/configuration_form'] = array( //this creates a URL that will call this form at "examples/form-example"
-    'title' => 'Configuration Upload', //page title
     'description' => 'Enter your state/tribe\'s Be Well Informed XML.',
     'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
     'page arguments' => array('be_well_informed_configurations_form'), //put the name of the form here
-    'access callback' => '_is_admin'
+    'access callback' => '_check_users_role_ids',
+    'file' => 'form/configurations_form.inc',
   );
   return $items;
-}
-
-function be_well_informed_configurations_form($form, &$form_state) {
-  $form['configuration_form']['partner'] = array(
-    '#type' => 'file',
-    '#title' => t('Partner Configurations- ' . _user_managed_partner()),
-    '#description' => t('Upload your configurations, allowed extensions: xml'),
-  );
-
-  $form['configuration_form']['flowchart'] = array(
-    '#type' => 'file',
-    '#title' => t('Flowchart Configurations'),
-    '#description' => t('Upload your configurations, allowed extensions: xml'),
-  );
-
-  $form['submit_button'] = array(
-    '#type' => 'submit',
-    '#value' => t('Submit'),
-  );
-
-  drupal_add_js(drupal_get_path('module', 'be_well_informed') . '/js/be_well_informed_file_upload.js', [
-    'scope' => 'footer',
-    'preprocess' => TRUE,
-    'group' => JS_DEFAULT,
-    'type' => 'file',
-    'cache' => TRUE,
-    'requires_jquery' => TRUE
-  ]);
-
-  // Add dynamic file size to Drupal.settings
-  drupal_add_js(
-    ["be_well_informed" =>
-      [
-        "file_limit" =>  variable_get("bwi_service_upload_file_size_limit", '2')
-      ]
-    ], 'setting');
-
-  return $form;
-}
-
-function be_well_informed_form_be_well_informed_configurations_form_alter(&$form, &$form_state, $form_id) {
-  global $user;
-
-  if(in_array('admin', $user->roles)) {
-    $form['configuration_form']['partner_code'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Partner Code'),
-      '#description' => t('Enter the partner code'),
-      '#required' => TRUE,
-    );
-  }
-}
-
-function _bwi_file_validate($file, $file_limit, $user_limit) {
-
-  global $user;
-  $errors = array();
-
-  if ($file_limit && $file->filesize == 0) {
-    $errors[] = t('The file is %filesize is empty', array('%filesize' => format_size($file->filesize)));
-  }
-
-  if ($file_limit && $file->filesize > $file_limit) {
-    $errors[] = t('The file is %filesize exceeding the maximum file size of %maxsize.', array('%filesize' => format_size($file->filesize), '%maxsize' => format_size($file_limit)));
-  }
-
-  // Save a query by only calling file_space_used() when a limit is provided.
-  if ($user_limit && (file_space_used($user->uid) + $file->filesize) > $user_limit) {
-    $errors[] = t('The file is %filesize which would exceed your disk quota of %quota.', array('%filesize' => format_size($file->filesize), '%quota' => format_size($user_limit)));
-  }
-
-  return $errors;
-}
-
-/**
- * Verify file contents are valid XML
- * @param $file
- * @return mixed
- */
-function _validate_valid_xml($file) {
-  $errors = [];
-
-  $content = file_get_contents($file->uri);
-  $version = '1.0';
-  $encoding = 'utf-8';
-
-  libxml_use_internal_errors(true);
-
-  $doc = new DOMDocument($version, $encoding);
-  $doc->loadXML($content);
-
-  $xml_errors = libxml_get_errors();
-  libxml_clear_errors();
-
-  while($e = array_pop($xml_errors)) {
-    $errors[] = $e->message;
-  }
-  return $errors;
-}
-
-function _bwi_xml_partner_validation($file) {
-  $errors = array();
-  try {
-
-  } catch (Exception $e) {
-
-  }
-  return $errors;
-}
-
-function _bwi_xml_flowchart_validation($file) {
-  $errors = array();
-  try {
-
-  } catch (Exception $e) {
-
-  }
-  return $errors;
 }
 
 /**
  * Checks if user is BWI admin allowed to see
  * upload page
  */
-function _is_admin() {
+function _is_bwi_partner_admin() {
   global $user;
   if (in_array('Be Well Informed External Admin', $user->roles) || in_array('admin', $user->roles)) {
     return true;
   }
   else {
     return false;
-  }
-}
-
-function be_well_informed_configurations_form_validate($form, &$form_state) {
-  // File_save_upload temporarily stores the file for evaluation
-  $file_size = variable_get("bwi_service_upload_file_size_limit", '2'); // default
-
-  // Validate account setting
-  $partner_file = file_save_upload('partner', [
-    'file_validate_extensions' => ['xml'],
-    '_validate_valid_xml' => [],
-    '_bwi_file_validate'=>[1024*1024*$file_size],
-    '_bwi_xml_partner_validation'=>[]
-  ]);
-
-  // Validate Flowchart settings
-  $flowchart_file = file_save_upload('flowchart', [
-    'file_validate_extensions' => ['xml'],
-    '_validate_valid_xml' => [],
-    '_bwi_file_validate'=>[1024*1024*$file_size],
-    '_bwi_xml_flowchart_validation'=>[]
-  ]);
-}
-
-function _user_managed_partner() {
-  global $user;
-  $user_data = user_load($user->uid);
-  $user_location = '';
-  if (isset($user_data->field_admin_state[LANGUAGE_NONE])) {
-    $user_location = $user_data->field_admin_state[LANGUAGE_NONE][0]['safe_value'];
-  }
-  return $user_location;
-}
-
-function be_well_informed_configurations_form_submit($form, &$form_state) {
-  // An Drupal admin can override the locations
-  if($form_state['values']['partner_code']) {
-    $user_location = $form_state['values']['partner_code'];
-  }
-  else {
-    $user_location = _user_managed_partner();
-  }
-  // Clean up whitespace and make is all uppercase
-  $user_location = strtoupper(trim($user_location));
-
-  if (empty($user_location)) {
-    drupal_set_message('Your account has not been assigned a location for administering Be Well Informed 
-    configurations.', 'error');
-  }
-  else {
-    // Pass the file to the CDX hosted service.
-    $cdx_upload_url = variable_get("bwi_service_url", 'https://nodeweb.epacdxnode.net/BWIService/bwievaluation');
-    $params = ['statecode' => $user_location];
-    // file_save_upload temporarily stores the file for evaluation
-    $partner_file = file_save_upload('partner');
-    $flowchart_file = file_save_upload('flowchart');
-
-    if ($partner_file) {
-      $partner_file_content = file_get_contents($partner_file->uri);
-      // Cache the partner configuration xml locally
-      variable_set('partner-' . $user_location, $partner_file_content);
-      // Prep the base64 encoded content for sending to the service
-      $partner_file_encoded = base64_encode($partner_file_content);
-      $params['PartnerContent'] = $partner_file_encoded;
-    }
-    if ($flowchart_file) {
-      $flowchart_file_content = file_get_contents($flowchart_file->uri);
-      // Cache the partner configuration xml locally
-      variable_set('flowchart-' . $user_location, $flowchart_file_content);
-      // Prep the base64 encoded content for sending to the service
-      $flowchart_file_encoded = base64_encode($flowchart_file_content);
-      $params['FlowchartContent'] = $flowchart_file_encoded;
-    }
-
-    $response = drupal_http_request($cdx_upload_url,
-      [
-        'method' => 'POST',
-        'data' => json_encode($params),
-        'headers' => ['Content-Type' => 'application/json', 'Accept' => 'application/json']
-      ]
-    );
-
-    if ($response->code != 200) {
-      drupal_set_message('Unable to upload file to BWI service.', 'error');
-      drupal_set_message('Response code: '. $response->code, 'error');
-      drupal_set_message('Response message: '. $response->status_message, 'error');
-      drupal_set_message('Response error: '. $response->error, 'error');
-    }
-    else {
-      if ($partner_file) {
-        drupal_set_message('Successfully uploaded partner configurations to BWI service.', 'success');
-      }
-      if ($flowchart_file) {
-        // Validate Flowchart settings
-        drupal_set_message('Successfully uploaded flowchart configurations to BWI service.', 'success');
-      }
-    }
   }
 }
 
@@ -416,7 +201,7 @@ function be_well_informed_theme() {
  * Implements hook_block_view().
  */
 function be_well_informed_block_view($delta = '') {
-  $bwi_admin = _is_admin();
+  $bwi_admin = _is_bwi_partner_admin();
   $block = array();
   if ($delta == 'be_well_informed') {
     //good idea to check user perms here
@@ -474,7 +259,7 @@ function be_well_informed_block_view($delta = '') {
               'state_selection' => $modal_state_selection,
               'widget_state_content' => $widget_state_content
             ],
-            "file_limit" =>  variable_get("bwi_service_upload_file_size_limit", '2')
+            "file_limit" => variable_get("bwi_service_upload_file_size_limit", '2')
           ]
         ], 'setting');
 
@@ -568,14 +353,25 @@ function be_well_informed_get_state_information() {
   echo _get_partner_information($_POST['state']);
 }
 
+function bwi_xmlstr_to_array($xmlstr, $clean_function = 'domnode_clean', $to_array_function = 'domnode_to_array') {
+  $doc = new DOMDocument();
+  $doc->loadXML($xmlstr);
+  $root = $doc->documentElement;
+  $root = call_user_func($clean_function, $root);
+  $output = call_user_func($to_array_function, $root);
+  $output['@root'] = $root->tagName;
+  return $output;
+}
+
+
 function _get_partner_information($partner_code) {
-  $partner_info = variable_get('partner-'.$partner_code);
-  $xml_array = xmlstr_to_array($partner_info, 'domnode_clean', 'bwi_domnode_to_array');
+  $partner_info = variable_get('partner-' . $partner_code);
+  $xml_array = bwi_xmlstr_to_array($partner_info, 'domnode_clean', 'bwi_domnode_to_array');
   return $xml_array;
 }
 
 function _get_partner_flowchart($partner_code) {
-  $partner_info = variable_get('flowchart-'.$partner_code);
+  $partner_info = variable_get('flowchart-' . $partner_code);
   $doc = new DOMDocument();
   $doc->loadXML($partner_info);
   $root = $doc->documentElement;
@@ -705,20 +501,38 @@ function template_preprocess_be_well_informed_modal_state_form(&$variables, $hoo
 }
 
 /**
+ * Load ESMT Partners and parse out required info for building selection
+ * @return array $partners
+ */
+function _load_bwi_published_partners() {
+  $partners = [];
+  // Query all ESMT Partners provisioned for eportal
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'esmt_partner')
+    ->propertyCondition('status', NODE_PUBLISHED);
+  $result = $query->execute();
+  if (isset($result['node'])) {
+    foreach ($result['node'] as $node) {
+      $nid = $node->nid;
+      $partner_node = node_load($nid);
+      $partner_node_entity = entity_metadata_wrapper('node', $partner_node);
+      $partners[$partner_node_entity->esmt_service_partner_code->value()] = $partner_node_entity->field_esmt_selection_text->value();
+    }
+  }
+  return $partners;
+}
+
+/**
  * Implements template_preprocess_hook for be-well-informed.tpl.php.
  */
 function template_preprocess_be_well_informed(&$variables, $hook) {
-
-  $variables['partner_list_options'] = implode("\n", [
-    "<option value=\"MA\">Massachusetts</option>",
-    "<option value=\"NH\">New Hampshire</option>",
-  ]);
-
-  if (variable_get('bwi_sample_partner', false)) {
-    $variables['partner_list_options'] .= "<option value=\"SAMPLE\">Sample Partner</option>";
+  $partners = _load_bwi_published_partners();
+  $options = '';
+  foreach($partners as $partner_code=>$partner_text){
+    $options .=  '<option value="' . $partner_code . '">' . $partner_text . '</option>';
   }
-
-  $variables['states'] = ['Massachusetts', 'New Hampshire'];
+  $variables['partner_list_options'] = $options;
   $variables['state_code'] = $_POST['state_code'];
   $bwi_body = variable_get('bwi_body', array('value' => variable_get('bwi_body', '<p> Have a well and wonder what your water testing results mean?</p><p> The Be Well Informed Guide lets you enter your test results and get feedback about health concerns and water treatment choices for your state or tribe.</p><p> Be Well Informed was created for residents, and has the most common contaminants that affect wells. It may not have all the contaminants present in your area - for those it does have, it can provide useful information.</p><p> A quick disclaimer before we start.</p><p class="widget-note"> Information provided on this website is for informational purposes only and should not be substituted for direct consultation with a qualified water treatment professional. Other conditions or factors related to your well or home not considered by this online guide may determine the most appropriate water treatment option.</p><p class="widget-note powered-by-nhbwi">Powered by: <a href="https://xml2.des.state.nh.us/DWITool/Welcome.aspx" target="_blank">New Hampshire Be <em>Well</em> Informed</a></p>'), 'format' => NULL));
   $variables['body'] = $bwi_body['value'];
@@ -1538,4 +1352,43 @@ function _generate_contaminants_sections(&$variables, $hook) {
 
   }
   $variables['contaminant_sections'] = implode("\n", $html);
+}
+
+/**
+ * Checks GET query param and validates whether user has been granted permission
+ * to the specifc SCS Role ID.
+ * @return bool
+ */
+function _check_users_role_ids() {
+  if (!isset($_GET['rid'])) {
+    return false;
+  }
+  global $user;
+  $account = user_load($user->uid);
+  // If use has no role ids, reject access
+  if (empty($account->field_scs_role_ids)) {
+    return false;
+  }
+  // If user has role, allow access
+  foreach ($account->field_scs_role_ids[LANGUAGE_NONE] as $role) {
+    if ($role['value'] == $_GET['rid']) {
+      return true;
+    }
+  }
+  // No roles meet the criteria for the form, reject user from accessing.
+  return false;
+}
+
+/**
+ * Remove current user's access to BWI configurations
+ * @throws Exception
+ */
+function remove_user_bwi_configurations_permissions() {
+  global $user;
+  $partner = '';
+  if ($user_role = user_role_load_by_name('Be Well Informed External Admin')) {
+    user_multiple_role_edit(array($user->uid), 'remove_role', $user_role->rid);
+  }
+  $edit = ['field_admin_state' => ['und' => [0 => ['value' => $partner]]]];
+  user_save($user, $edit);
 }

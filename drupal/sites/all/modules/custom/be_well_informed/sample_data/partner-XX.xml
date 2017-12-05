@@ -1,0 +1,56 @@
+<Partner>
+    <Name>Sample Partner</Name>
+    <Code>SAMPLE</Code>
+    <SupportInformation>
+        <Section html="true">
+            <![CDATA[<h4>Phone Support</h4>
+              <p class="bwi-support-intro">For telephone support please contact:</p>
+              <ul class="plain-list bwi-resources-list">
+                <li>
+                  <p class="bwi-resource-name">SAMPLE of Environmental Services</p>
+                  <p>Drinking Water and Groundwater Bureau</p>
+                  <p><i class="fa fa-phone"></i>(555) 555-1234</p>
+                </li>
+              </ul>]]>
+        </Section>
+        <Section html="true">
+            <![CDATA[<h4>Additional Resources</h4>
+              <ul class="bwi-resources-list plain-list">
+                <li>
+                  <p class="bwi-resource-name">Additional Resource #1</p>
+                </li>
+              </ul>]]>
+        </Section>
+        <Section html="true">
+            <![CDATA[<h4>Labs Conducting All Recommended Tests for Private Wells</h4>
+                <ul class="bwi-lab-list plain-list" style="">
+                    <li>
+                      <p class="bwi-resource-name">Lab #1</p>
+                      <p><i class="fa fa-phone"></i>(555) 555-1234</p>
+                  </li>
+                </ul>]]>
+        </Section>
+    </SupportInformation>
+    <Results>
+        <Heading>
+            <![CDATA[Sample Partner<br>
+     DEPARTMENT OF ENVIRONMENTAL SERVICES]]>
+        </Heading>
+        <Introduction>
+            <![CDATA[<p>Information provided in this report is for informational purposes only and should not be substituted for direct consultation with a qualified water treatment professional. Other conditions or factors related to your well or home not considered by this online guide may determine the most appropriate water treatment option.</p>]]>
+        </Introduction>
+        <AboutTheResults>
+            <![CDATA[<p> Based on what you entered from your laboratory report, the Results Summary below indicates whether your water meets federal and state health-based standards (Maximum Contaminant Levels - MCLs) as well as other guidelines (Secondary Maximum Contaminant Levels - SMCLs, health advisory levels, etc.). These standards and guidelines are often referred to as "limits" on your laboratory report. If your water exceeds or is approaching established federal/state drinking water limits or advisory levels for the contaminant(s) entered, additional health information and treatment options will be shown. </p>]]>
+        </AboutTheResults>
+        <WaterTreatmentSystem>
+            <![CDATA[<p><span>Print this report and make final water treatment decisions with a qualified water treatment professional.</span><br><br><span>More Information about selecting appropriate water treatment devices is available from Sample Cooperative Extension.<br></span></p>
+        <p><span>More Information is available from Sample Partner and <a target="_blank" href="http://water.epa.gov/drink/contaminants/index.cfm">US EPA</a></span></p>]]>
+        </WaterTreatmentSystem>
+        <Key>
+            <MeetsLimit><![CDATA[Meets the Drinking Water Limit]]></MeetsLimit>
+            <CloseToLimit><![CDATA[Close to the Drinking Water Limit]]></CloseToLimit>
+            <AboveLimit><![CDATA[Above the Drinking Water Limit]]></AboveLimit>
+            <Consult><![CDATA[Consult Additional Message in the Results Details]]></Consult>
+        </Key>
+    </Results>
+</Partner>

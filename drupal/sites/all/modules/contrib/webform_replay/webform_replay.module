@@ -1,0 +1,248 @@
+<?php
+
+/**
+ * @file
+ * Webform Replay routines.
+ */
+
+/**
+ * Implements hook_permission().
+ */
+function webform_replay_permission() {
+  return array(
+    'administer webform replay' => array(
+      'title' => t('Administer Webform Replay'),
+      'description' => t('Grants access to "Webform Replay" configuration. Generally an administrative permission.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function webform_replay_menu() {
+
+  $items = array();
+
+  $items['admin/config/content/webform-replay'] = array(
+    'title' => 'Webform replay',
+    'description' => 'Pre-fill webform fields from previous submission.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('webform_replay_admin'),
+    'access arguments' => array('administer webform replay'),
+    'file' => 'webform_replay.admin.inc',
+    'weight' => 99,
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_webform_component_info_alter().
+ */
+function webform_replay_webform_component_info_alter(&$components) {
+
+  $enabled = _webform_replay_component_types_enabled();
+
+  foreach ($components as $key => &$component) {
+    if (in_array($key, $enabled)) {
+      $component['features']['replay'] = TRUE;
+    }
+  }
+
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for webform_component_edit_form().
+ *
+ * Add a 'Replay component' checkbox to the component edit form.
+ */
+function webform_replay_form_webform_component_edit_form_alter(&$form, &$form_state, $form_id) {
+
+  if (!_webform_replay_component_type_enabled($form['type']['#value'])) {
+    return;
+  }
+
+  $form['replay'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Replay component'),
+    '#return_value' => 1,
+    '#description' => t('Prefill with value from previous submission if one exists.'),
+    '#weight' => 0,
+    '#default_value' => isset($form_state['build_info']['args'][1]['extra']['replay']) ? $form_state['build_info']['args'][1]['extra']['replay'] : 0,
+    '#parents' => array('extra', 'replay'),
+  );
+
+}
+
+/**
+ * Implements hook_webform_component_render_alter().
+ *
+ * Prepopulate webform component field with value from previous submission.
+ */
+function webform_replay_webform_component_render_alter(&$element, &$component) {
+
+  // Return early if anonymous user.
+  if (user_is_anonymous()) {
+    return;
+  }
+
+  // Are we editing an existing submission?
+  if (in_array('edit', arg())) {
+    return;
+  }
+
+  if (!_webform_replay_component_type_enabled($component['type'])) {
+    return;
+  }
+
+  if (isset($component['extra']['replay']) && $component['extra']['replay']) {
+
+    $submission = _webform_replay_get_previous_submission($component['nid']);
+
+    if (isset($submission->data[$component['cid']])) {
+
+      if (count($submission->data[$component['cid']]) == 1) {
+        $value = current($submission->data[$component['cid']]);
+      }
+      else {
+        $value = $submission->data[$component['cid']];
+      }
+
+      if ($value) {
+        $element['#default_value'] = $value;
+      }
+
+    }
+
+  }
+
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ *
+ * Show webform replay settings on the component overview page.
+ */
+function webform_replay_preprocess_webform_components_form(&$variables) {
+
+  array_splice($variables['header'], 3, 0, t('Replay'));
+
+  foreach ($variables['rows'] as &$row) {
+    $replay = '';
+    if (isset($row['data-cid'])) {
+      $data_cid = $row['data-cid'];
+      $component = $variables['form']['#node']->webform['components'][$data_cid];
+      // Show settings for enabled (and valid) components only.
+      if (_webform_replay_component_type_enabled($component['type'])) {
+        if (isset($component['extra']['replay'])) {
+          $replay = ($component['extra']['replay']) ? t('Yes') : t('No');
+        }
+        else {
+          // Replay may be enabled for the component but not yet set.
+          $replay = t('No');
+        }
+      }
+    }
+    if (isset($row['data'])) {
+      array_splice($row['data'], 3, 0, array('data' => $replay));
+    }
+  }
+
+}
+
+/**
+ * Get previous submission of this webform for the current user (if one exists).
+ *
+ * @param int $nid
+ *   The webform node ID.
+ *
+ * @return object|null
+ *   A submission object, or NULL if not found.
+ */
+function _webform_replay_get_previous_submission($nid) {
+
+  global $user;
+
+  $prev_submission = &drupal_static(__FUNCTION__);
+
+  if (!$prev_submission) {
+
+    $submissions = webform_get_submissions(array(
+      'nid' => $nid,
+      'uid' => $user->uid,
+    ));
+
+    if (!empty($submissions)) {
+      $prev_submission = array_pop($submissions);
+    }
+    else {
+      $prev_submission = 'none';
+    }
+
+  }
+
+  return ($prev_submission != 'none') ? $prev_submission : NULL;
+
+}
+
+/**
+ * Get webform component types for which replay is enabled.
+ *
+ * @return array
+ *   An array of component type names
+ */
+function _webform_replay_component_types_enabled() {
+
+  return variable_get('webform_replay_components', array());
+
+}
+
+/**
+ * Is webform component type replay enabled.
+ *
+ * @param string $type
+ *   The type of component to check.
+ *
+ * @return bool
+ *   TRUE if replay enabled for component type.
+ */
+function _webform_replay_component_type_enabled($type) {
+
+  $enabled = _webform_replay_component_types_enabled();
+  return in_array($type, $enabled);
+
+}
+
+/**
+ * Implements hook_help().
+ */
+function webform_replay_help($path, $arg) {
+
+  switch ($path) {
+    case 'admin/help#webform_replay':
+      $filepath = drupal_get_path('module', 'webform_replay') . '/README.md';
+      if (file_exists($filepath)) {
+        $readme = file_get_contents($filepath);
+      }
+
+      if (!isset($readme)) {
+        return NULL;
+      }
+
+      $output = '<pre>' . $readme . '</pre>';
+
+      if (module_exists('markdown')) {
+        $filters = module_invoke('markdown', 'filter_info');
+        $info = $filters['filter_markdown'];
+
+        if (function_exists($info['process callback'])) {
+          $output = $info['process callback']($readme, NULL);
+        }
+      }
+
+      return $output;
+  }
+
+}
