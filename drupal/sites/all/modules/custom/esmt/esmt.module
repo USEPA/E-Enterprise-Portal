@@ -56,12 +56,12 @@ function esmt_menu() {
  */
 function esmt_menu_alter(&$items) {
   if (isset($items['esmt-services'])) {
-    $items['esmt-services']['access callback'] = '_esmt_check_check_access';
+    $items['esmt-services']['access callback'] = '_esmt_check_access';
   }
 }
 
 
-function _esmt_check_check_access() {
+function _esmt_check_access() {
   global $user;
   $account = user_load($user->uid);
   // If use has no role ids, reject access
