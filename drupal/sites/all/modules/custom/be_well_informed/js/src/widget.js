@@ -106,6 +106,7 @@
               $('#bwi-check-water-btn').prop('disabled', false).text('Check your water')
             },
             close: function(event, ui) {
+              reset_form();
             }
           })
       }
@@ -159,7 +160,6 @@
         }
         if (typeof be_well_response_json === 'string') {
           // Handle the insertion result HTML into the modal
-          jQuery("#water_analysis_results_form").find('input:not([type=hidden])').each(function(){$(this).val('')})
           $results_wrapper.html(be_well_response_json);
           showElementOutOfMany($results_wrapper, $all_wrappers);
         } else if (!be_well_response_json.error) {
@@ -463,9 +463,6 @@
             })
             showElementOutOfMany($results_wrapper, $all_wrappers);
             $('#entry-tab').text('Results');
-
-            // Reset form, removing any cached values
-            jQuery("#water_analysis_results_form").find('input:not([type=hidden])').each(function(){$(this).val('')})
           }
           resizeModal();
         }
@@ -478,5 +475,14 @@
     });
   }
 
+  function reset_form() {
+
+    // Handle the insertion result HTML into the modal
+    convertNulls = false;
+    jQuery("#water_analysis_results_form").find('input:not([type=hidden])').each(function(){$(this).val('')});
+    jQuery('input[name$="[Interaction]"]').prop('checked', false);
+    jQuery('input[name$="[Value]"]').val('');
+
+  }
 
 })(jQuery, window);
