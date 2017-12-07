@@ -55,9 +55,17 @@ function esmt_menu() {
  * Implements hook_menu_alter().
  */
 function esmt_menu_alter(&$items) {
-  if (isset($items['esmt-services'])) {
-    $items['esmt-services']['access callback'] = '_esmt_check_users_role_ids';
+  if (isset($items['esmt-service'])) {
+    $items['esmt-service']['access callback'] = '_esmt_check_access';
   }
+}
+
+
+function _esmt_check_access() {
+  global $user;
+  $account = user_load($user->uid);
+  // If use has no role ids, reject access
+  return !empty($account->field_scs_role_ids);
 }
 
 /**

@@ -28,7 +28,7 @@ $menu_link = array(
       'class' => '',
       'style' => '',
     ),
-    'identifier' => 'user-menu_partnerships:esmt-service',
+    'identifier' => 'user-menu_shared-services:esmt-service',
   ),
   'module' => 'menu',
   'hidden' => 0,

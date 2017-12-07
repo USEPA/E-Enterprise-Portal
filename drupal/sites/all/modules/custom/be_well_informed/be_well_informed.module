@@ -81,14 +81,14 @@ function be_well_pdf_generate() {
   $descriptorspec = array(
     0 => array('pipe', 'r'), // stdin
     1 => array('pipe', 'w'), // stdout
-    2 => array('pipe', 'w'), // stderr
+    2 => array('pipe', 'a'), // stderr
   );
   $current_srvr_name = variable_get('eportal_server_name');
   if (isset($current_srvr_name) && ($current_srvr_name == $_SERVER['SERVER_NAME'])) {
     $process = proc_open('wkhtmltopdf -q - -', $descriptorspec, $pipes);
   }
   else {
-    $process = proc_open('sites/all/libraries/wkhtmltox/bin/wkhtmltopdf -q - -', $descriptorspec, $pipes);
+    $process = proc_open('sites\all\libraries\wkhtmltopdf\bin\wkhtmltopdf -q - -', $descriptorspec, $pipes);
   }
 
   // Send the HTML on stdin
@@ -529,8 +529,8 @@ function _load_bwi_published_partners() {
 function template_preprocess_be_well_informed(&$variables, $hook) {
   $partners = _load_bwi_published_partners();
   $options = '';
-  foreach($partners as $partner_code=>$partner_text){
-    $options .=  '<option value="' . $partner_code . '">' . $partner_text . '</option>';
+  foreach ($partners as $partner_code => $partner_text) {
+    $options .= '<option value="' . $partner_code . '">' . $partner_text . '</option>';
   }
   $variables['partner_list_options'] = $options;
   $variables['state_code'] = $_POST['state_code'];
