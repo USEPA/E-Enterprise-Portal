@@ -14,6 +14,9 @@ function gridstack_menu() {
  * @see https://benmarshall.me/load-js-css-specific-page-drupal-7/
  */
 function gridstack_init() {
+  // Add waypoints to every page
+  drupal_add_js(libraries_get_path('imakewebthings-waypoints') . '/lib/noframework.waypoints.min.js', ['scope' => 'footer', 'preprocess' => true, 'group' => JS_LIBRARY, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
+
   // Only add gridstack if rendering workbench page
   if (strpos(drupal_parse_url(request_uri())['path'], 'workbench')) {
     drupal_add_js(['gridstack_user_settings' => load_user_gridstack_data()], 'setting');
