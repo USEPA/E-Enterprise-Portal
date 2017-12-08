@@ -11,16 +11,21 @@ function createWayPoint(id, func) {
   var $obj = $('#' + id);
   var cachedHtml = $obj.html();
   $obj.html('<div class="text-align-center"><i class="fa fa-spinner font-5-rem" aria-hidden="true"></i></div>');
-  var waypoint = new Waypoint({
-    element: document.getElementById(id),
-    handler: function (direction) {
-      // Reset parent div with cached HTML now we are ready to view
-      $obj.html(cachedHtml);
-      // Call widget's passed in function to handle content
-      func();
-      // Only load the item once when triggered by the waypoint
-      this.context.destroy();
-    }
+  // Only initialize Waypoint for item when grid
+  $('body').on('grid_stack_initialized', function () {
+    var waypoint = new Waypoint({
+      element: document.getElementById(id),
+      // Set threshold for top of object
+      offset: '75%',
+      handler: function (direction) {
+        // Reset parent div with cached HTML now we are ready to view
+        $obj.html(cachedHtml);
+        // Call widget's passed in function to handle content
+        func();
+        // Only load the item once when triggered by the waypoint
+        this.context.destroy();
+      }
+    });
   });
 }
 
