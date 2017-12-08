@@ -241,7 +241,6 @@
     }
 
     var gsHeight = Math.ceil(contentHeight / (10 + verticalMargin));
-    console.log(gsHeight);
     grid.resize($elementToResize, null, gsHeight);
   }
 

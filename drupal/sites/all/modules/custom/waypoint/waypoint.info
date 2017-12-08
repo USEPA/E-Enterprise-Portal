@@ -1,0 +1,6 @@
+name = Waypoint
+description = Implements Waypoint for widgets
+core = 7.x
+version = "7.x-1.0"
+package = CGI
+dependencies[] = 'gridstack'

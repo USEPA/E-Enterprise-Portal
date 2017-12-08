@@ -1,5 +1,12 @@
-(function ($) {
-  "use strict";
+if (typeof createWayPoint == 'function') {
+  createWayPoint('enviromapper', EnviroMapperLoad);
+} else {
+  EnviroMapperLoad();
+}
+
+function EnviroMapperLoad() {
+  (function ($) {
+    "use strict";
 
     var currentZip;
     var previousZip;
@@ -7,27 +14,27 @@
     // Boolean tracking if a user is selecting first time settings to optimize UX
     var first_time_user_loading = false;
 
-  $(document).ready(function () {
+    $(document).ready(function () {
 
 
-    var first_time_user_block = $('#first-time-user-block');
-    if (first_time_user_block.length > 0) {
-      first_time_user_loading = true;
-    }
-    $(document).on('ee:first_time_user_complete', function () {
-      first_time_user_loading = false;
-    });
-
-    $(document).on('ee:zipCodeQueried', function (evt, data) {
-      if (!first_time_user_loading) {
-        currentZip = data.zip;
-        if (currentZip !== '' && currentZip !== previousZip) {
-          updateMyEnvMapperLoc(data);
-        }
-        previousZip = currentZip;
+      var first_time_user_block = $('#first-time-user-block');
+      if (first_time_user_block.length > 0) {
+        first_time_user_loading = true;
       }
+      $(document).on('ee:first_time_user_complete', function () {
+        first_time_user_loading = false;
+      });
+
+      $(document).on('ee:zipCodeQueried', function (evt, data) {
+        if (!first_time_user_loading) {
+          currentZip = data.zip;
+          if (currentZip !== '' && currentZip !== previousZip) {
+            updateMyEnvMapperLoc(data);
+          }
+          previousZip = currentZip;
+        }
+      });
     });
-  });
 
 
     function showMap() {
@@ -91,4 +98,5 @@
       $('#myEnvMoreInfo').attr('href', 'http://www3.epa.gov/myenv/myenview2.find?zipcode=' + currentZip + '&GO=go');
     }
 
-})(jQuery);
+  })(jQuery);
+}
