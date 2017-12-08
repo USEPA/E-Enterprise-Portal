@@ -19,7 +19,7 @@
     var $grid_container = $('.grid-stack');
     var options = {
       vertical_margin: verticalMargin,
-      cell_height: cellHeight,
+      cell_height: 10,
       'data-gs-width': 2,
       draggable: { // @see jquery-ui.js:837
         cancel: 'input, textarea, button, select, option, .faceted-filters'
@@ -57,6 +57,7 @@
     if (Drupal.settings.is_guest) {
       grid.movable('.grid-stack-item', false);
     }
+    $('body').trigger('grid_stack_initialized');
     $('.grid-stack-loading').removeClass('grid-stack-loading');
   }
 
@@ -72,7 +73,7 @@
           'data-gs-x': obj.x,
           'data-gs-y': obj.y,
           'data-gs-width': 1,
-          'data-gs-height': 1
+          'data-gs-height': 15
         }
       );
     });
@@ -90,7 +91,7 @@
         'data-gs-x': x,
         'data-gs-y': y,
         'data-gs-width': 1,
-        'data-gs-height': 1
+        'data-gs-height': 15
       });
       count++;
     });
@@ -239,7 +240,8 @@
       contentHeight += parseInt($pager.css('marginBottom'));
     }
 
-    var gsHeight = Math.ceil(contentHeight / (cellHeight + verticalMargin));
+    var gsHeight = Math.ceil(contentHeight / (10 + verticalMargin));
+    console.log(gsHeight);
     grid.resize($elementToResize, null, gsHeight);
   }
 
