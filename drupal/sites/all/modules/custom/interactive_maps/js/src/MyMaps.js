@@ -1,7 +1,13 @@
-(function ($) {
-  createWayPoint('interactive-maps-actions', load);
+if (typeof createWayPoint == 'function') {
+  console.log('Setting up My Maps');
+  createWayPoint('interactive-maps-actions', iMapsLoad);
+}
+else {
+  iMapsLoad();
+}
 
-  function load() {
+function iMapsLoad() {
+  (function ($) {
     $("#myMapsFiltering").tabs();
     $('#myMapsFiltering').find('.ui-corner-top').on('click', function (ev) {
       $(this).focus();
@@ -400,5 +406,6 @@
         }
       });
     });
-  }
-})(jQuery);
+
+  })(jQuery);
+}

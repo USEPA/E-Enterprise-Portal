@@ -4,26 +4,29 @@ var pane_class = ".pane-views-recommended-resources-block";
 function clearResources() {
   $children = jQuery('.facet-topic-container:visible a').trigger('click');
 }
+if (typeof createWayPoint == 'function') {
+  createWayPoint('local-resources-tabs', LGCLoad);
+} else {
+  LGCLoad();
+}
 
-(function ($) {
-    createWayPoint('local-resources-tabs', load);
+function LGCLoad() {
+  (function ($) {
+      function showFocusedTopicView($lgc_topic_elem) {
+        $lgc_topic_elem.addClass('selected');
+        $(pane_class).find('.pane-title').hide();
+        $(pane_class).find('.ui-tabs-nav').hide();
+        var id = $lgc_topic_elem.attr('id');
+        var title = $lgc_topic_elem.text();
+        var tid_array = id.split('-');
+        var tid = tid_array[tid_array.length - 1];
+        $('.lgc-header').text(title);
+        $('.back-to-lgc-widget').show();
+        $('.unfollow-lgc-topic').attr('id', 'unfollow-lgc-' + tid).show();
+        favorite_local_resources_table.filterTopics(title);
+      }
 
-    function showFocusedTopicView($lgc_topic_elem) {
-      $lgc_topic_elem.addClass('selected');
-      $(pane_class).find('.pane-title').hide();
-      $(pane_class).find('.ui-tabs-nav').hide();
-      var id = $lgc_topic_elem.attr('id');
-      var title = $lgc_topic_elem.text();
-      var tid_array = id.split('-');
-      var tid = tid_array[tid_array.length - 1];
-      $('.lgc-header').text(title);
-      $('.back-to-lgc-widget').show();
-      $('.unfollow-lgc-topic').attr('id', 'unfollow-lgc-' + tid).show();
-      favorite_local_resources_table.filterTopics(title);
-    }
-
-    // Wrap module functionality in this function
-    function load() {
+      // Wrap module functionality in this function
       var $body = $('body');
 
       all_local_resources_table =
@@ -111,7 +114,6 @@ function clearResources() {
         });
       }
     }
-  }
-  (jQuery)
-)
-;
+    (jQuery)
+  );
+}
