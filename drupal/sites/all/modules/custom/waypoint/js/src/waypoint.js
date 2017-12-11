@@ -22,8 +22,7 @@ function createWayPoint(id, func) {
       var waypoint = new Waypoint({
         element: document.getElementById(id),
         // Set threshold for top of object
-        offset: '80%',
-        continuous: false,
+        offset: 'bottom-in-view',
         handler: function (direction) {
           console.log('Waypoint for ' + id + ' was called');
           // Reset parent div with cached HTML now we are ready to view

@@ -39,7 +39,7 @@ drupal_add_js(['interactive_maps' => ['mapsets' => map_dataset()]], 'setting');
 drupal_add_js(drupal_get_path('module', 'interactive_maps') . "/js/jquery.dotdotdot.min.js", ['scope' => 'footer', 'preprocess' => true, 'group' => JS_LIBRARY, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
 drupal_add_js(drupal_get_path('module', 'interactive_maps') . "/js/jquery.jcarousel.min.js", ['scope' => 'footer', 'preprocess' => true, 'group' => JS_LIBRARY, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
 drupal_add_js(drupal_get_path('module', 'interactive_maps') . "/js/lazyload.jquery.js", ['scope' => 'footer', 'preprocess' => true, 'group' => JS_LIBRARY, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
-drupal_add_js(drupal_get_path('module', 'interactive_maps') . "/js/MyMaps.js", ['scope' => 'footer', 'preprocess' => true, 'group' => JS_LIBRARY, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
+drupal_add_js(drupal_get_path('module', 'interactive_maps') . "/js/MyMaps.js", ['scope' => 'footer', 'preprocess' => true, 'group' => JS_DEFAULT, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
 drupal_add_css(drupal_get_path('module', 'interactive_maps') . "/css/MyMaps.css", ['preprocess' => true, 'group' => CSS_DEFAULT]);
 
 ?>

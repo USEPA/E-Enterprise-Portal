@@ -73,7 +73,7 @@
           'data-gs-x': obj.x,
           'data-gs-y': obj.y,
           'data-gs-width': 1,
-          'data-gs-height': 15
+          'data-gs-height': 20
         }
       );
     });
@@ -91,7 +91,7 @@
         'data-gs-x': x,
         'data-gs-y': y,
         'data-gs-width': 1,
-        'data-gs-height': 15
+        'data-gs-height': 20
       });
       count++;
     });
