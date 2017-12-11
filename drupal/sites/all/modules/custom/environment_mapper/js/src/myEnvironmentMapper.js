@@ -1,94 +1,102 @@
-(function ($) {
-  "use strict";
+if (typeof createWayPoint == 'function') {
+  createWayPoint('enviromapper', EnviroMapperLoad);
+} else {
+  EnviroMapperLoad();
+}
 
-  var currentZip;
-  var previousZip;
+function EnviroMapperLoad() {
+  (function ($) {
+    "use strict";
 
-  // Boolean tracking if a user is selecting first time settings to optimize UX
-  var first_time_user_loading = false;
+    var currentZip;
+    var previousZip;
 
-  $(document).ready(function () {
+    // Boolean tracking if a user is selecting first time settings to optimize UX
+    var first_time_user_loading = false;
+
+    $(document).ready(function () {
 
 
-    var first_time_user_block = $('#first-time-user-block');
-    if (first_time_user_block.length > 0) {
-      first_time_user_loading = true;
-    }
-    $(document).on('ee:first_time_user_complete', function () {
-      first_time_user_loading = false;
-    });
+      var first_time_user_block = $('#first-time-user-block');
+      if (first_time_user_block.length > 0) {
+        first_time_user_loading = true;
+      }
+      $(document).on('ee:first_time_user_complete', function () {
+        first_time_user_loading = false;
+      });
 
-    $(document).on('ee:zipCodeQueried', function (evt, data) {
-      if (!first_time_user_loading) {
-        currentZip = data.zip;
-        if (currentZip !== '' && currentZip !== previousZip) {
-          updateMyEnvMapperLoc(data);
+      $(document).on('ee:zipCodeQueried', function (evt, data) {
+        if (!first_time_user_loading) {
+          currentZip = data.zip;
+          if (currentZip !== '' && currentZip !== previousZip) {
+            updateMyEnvMapperLoc(data);
+          }
+          previousZip = currentZip;
         }
-        previousZip = currentZip;
-      }
+      });
     });
-  });
 
 
-  function showMap() {
-    var logged_in_view = $('.embedMyEnv-container');
-    var error_view = $('#invalid-location');
-    logged_in_view.show();
-    error_view.hide();
-  }
+    function showMap() {
+      var logged_in_view = $('.embedMyEnv-container');
+      var error_view = $('#invalid-location');
+      logged_in_view.show();
+      error_view.hide();
+    }
 
-  function missingZipLatLong() {
-    var logged_in_view = $('.embedMyEnv-container');
-    var error_view = $('#invalid-location');
-    logged_in_view.hide();
-    error_view.show();
+    function missingZipLatLong() {
+      var logged_in_view = $('.embedMyEnv-container');
+      var error_view = $('#invalid-location');
+      logged_in_view.hide();
+      error_view.show();
 
-  }
+    }
 
-  function updateMyEnvMapperLoc(data) {
-    if (currentZip) {
-      if (data.latitude > 0 && data.latitude < 90) {
-        var zipCentLat = String(data.latitude);
-        var zipCentLon = String(data.longitude);
-        createIframe(zipCentLat, zipCentLon);
-        showMap();
-      } else {
-        missingZipLatLong();
+    function updateMyEnvMapperLoc(data) {
+      if (currentZip) {
+        if (data.latitude > 0 && data.latitude < 90) {
+          var zipCentLat = String(data.latitude);
+          var zipCentLon = String(data.longitude);
+          createIframe(zipCentLat, zipCentLon);
+          showMap();
+        } else {
+          missingZipLatLong();
+        }
       }
     }
-  }
 
-  /**
-   * Sets error message if iframe does not load in time
-   * @param $iframe
-   */
-  function iframeUnavailable($iframe) {
-    var $error_container = $('.error-loading-enviromapper');
-    $error_container.text('Unable to load Environment Mapper.');
-    $iframe.remove();
-  }
+    /**
+     * Sets error message if iframe does not load in time
+     * @param $iframe
+     */
+    function iframeUnavailable($iframe) {
+      var $error_container = $('.error-loading-enviromapper');
+      $error_container.text('Unable to load Environment Mapper.');
+      $iframe.remove();
+    }
 
-  /**
-   * Creates and appends Iframe
-   * @param zipCentLat
-   * @param zipCentLon
-   */
-  function createIframe(zipCentLat, zipCentLon) {
-    var iFrameURL = "https://map11.epa.gov/myem/envmap/mainmap.html?pTheme=all&pLayers=afs,triair,triwater,rcra,tsca&ve=11," + zipCentLat + "," + zipCentLon;
-    //Create Iframe
-    var $iframe = $('<iframe>', {
-      src: iFrameURL,
-      title: 'My EnviroMapper map from EPA.gov',
-      width: '800',
-      height: '500',
-      style: 'border:0',
-      id: "myEnviFrame"
-    });
+    /**
+     * Creates and appends Iframe
+     * @param zipCentLat
+     * @param zipCentLon
+     */
+    function createIframe(zipCentLat, zipCentLon) {
+      var iFrameURL = "https://map11.epa.gov/myem/envmap/mainmap.html?pTheme=all&pLayers=afs,triair,triwater,rcra,tsca&ve=11," + zipCentLat + "," + zipCentLon;
+      //Create Iframe
+      var $iframe = $('<iframe>', {
+        src: iFrameURL,
+        title: 'My EnviroMapper map from EPA.gov',
+        width: '800',
+        height: '500',
+        style: 'border:0',
+        id: "myEnviFrame"
+      });
 
-    //Load Iframe
-    $('.embedMyEnv-container').html($iframe);
-    // Update extra details text with new link
-    $('#myEnvMoreInfo').attr('href', 'http://www3.epa.gov/myenv/myenview2.find?zipcode=' + currentZip + '&GO=go');
-  }
+      //Load Iframe
+      $('.embedMyEnv-container').html($iframe);
+      // Update extra details text with new link
+      $('#myEnvMoreInfo').attr('href', 'http://www3.epa.gov/myenv/myenview2.find?zipcode=' + currentZip + '&GO=go');
+    }
 
-})(jQuery);
+  })(jQuery);
+}

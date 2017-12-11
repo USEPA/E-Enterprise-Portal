@@ -81,6 +81,10 @@ function load_eactivity_data($module_caller, $use_cache) {
   $account = user_load($user->uid);
   $cdx_username = $account->field_cdx_username[LANGUAGE_NONE][0]['value'];
 
+  // If user has no saved cdx username, do not even query the service
+  if (trim($cdx_username) == '') {
+    return [];
+  }
   $eactivity_data = &drupal_static(__FUNCTION__);
 
 

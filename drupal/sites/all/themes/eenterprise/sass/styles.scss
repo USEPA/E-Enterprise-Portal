@@ -115,6 +115,14 @@
   display: none;
 }
 
+.text-align-center {
+  text-align: center;
+}
+
+.font-5-rem {
+  font-size: 5rem;
+}
+
 .sr-only {
   @include sr-only;
 }

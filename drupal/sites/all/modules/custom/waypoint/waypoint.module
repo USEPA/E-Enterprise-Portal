@@ -1,0 +1,12 @@
+<?php
+
+
+/**
+ * Implements hook_page_build().
+ */
+function waypoint_page_build(&$page) {
+  // Add waypoints to every page
+  drupal_add_js(libraries_get_path('imakewebthings-waypoints') . '/lib/noframework.waypoints.min.js', ['scope' => 'footer', 'preprocess' => true, 'group' => JS_LIBRARY, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
+  drupal_add_js(libraries_get_path('jquery-visible') . '/jquery.visible.min.js', ['scope' => 'footer', 'preprocess' => true, 'group' => JS_LIBRARY, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
+  drupal_add_js(drupal_get_path('module', 'waypoint') . '/js/waypoint.js', ['scope' => 'footer', 'preprocess' => true, 'group' => JS_LIBRARY, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
+}
