@@ -1,5 +1,4 @@
 if (typeof createWayPoint == 'function') {
-  console.log('Setting up My Maps');
   createWayPoint('interactive-maps-actions', iMapsLoad);
 }
 else {
