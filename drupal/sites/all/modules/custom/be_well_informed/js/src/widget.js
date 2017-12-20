@@ -235,12 +235,13 @@
                     .appendTo($prompt)
                   var $column = $('<div class="column usa-width-one-half"></div>')
                     .appendTo($prompt)
-                  var contaminantType = 'RoutineContaminants';
-                  if (item.Symbol == 'Ecoli' || item.Symbol == 'Bac') {
-                    contaminantType = 'BacterialContaminants';
-                  } else if (item.Symbol == 'Ur') {
-                    contaminantType = 'RadionuclideContaminants';
-                  }
+
+                  var regex = /(\w+)\[\w+\]\[Value\]/;
+                  var str = $('[name$="[U][Value]"]').attr('name');
+                  var m = regex.exec(str);
+
+                  var contaminantType = m[1];
+
                   // we will use the existing form to submit the updated values
                   var $input = $('<input class="one-third offset-one-third" type="number" step="0.001">')
                     .on('change', function() {
