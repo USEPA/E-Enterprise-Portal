@@ -124,7 +124,7 @@
 
   function setCommunitySizeType(commsize, isurban) {
     var $comm_size_select = $('#edit-field-community-size-und');
-    if (commsize != NaN && isurban != '_none') {
+    if (!isNaN(commsize) && isurban != '_none') {
       var $urban_check = $('#edit-field-community-type-und');
       // Reset Population and Urban setting selections
       $urban_check.val("_none").find('input[value="_none"]').prop("checked", true);
