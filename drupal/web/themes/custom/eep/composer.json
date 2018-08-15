@@ -1,0 +1,9 @@
+{
+    "name": "eep/bootstrap_sass",
+    "type": "drupal-theme",
+    "description": "E-Enterprise Portal 2.0 Theme.",
+    "license": "MIT",
+    "require": {
+        "drupal/bootstrap_barrio": "^4.8.0"
+    }
+}

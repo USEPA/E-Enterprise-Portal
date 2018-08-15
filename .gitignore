@@ -1,1 +1,4 @@
 /.idea/
+**/node_modules/
+
+drupal/web/themes/custom/eep/css/*.css
