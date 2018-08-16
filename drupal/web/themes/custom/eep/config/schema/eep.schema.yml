@@ -1,0 +1,5 @@
+# Schema for the configuration files of the Bootstrap SASS Subtheme.
+
+bootstrap_sass.settings:
+  type: theme_settings
+  label: 'E-Enterprise Portal 2.0 settings'
