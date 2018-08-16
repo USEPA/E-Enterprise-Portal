@@ -1,0 +1,20 @@
+uuid: 2b5a16d7-6315-411b-9c33-788fa7a7f0a2
+langcode: en
+status: true
+dependencies:
+  theme:
+    - eep
+_core:
+  default_config_hash: 13GQpeITIJsp1kyPniXtWZfyFH87vb1xxJCHifL4UeE
+id: eep_local_actions
+theme: eep
+region: content
+weight: -20
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  provider: core
+  label_display: '0'
+visibility: {  }

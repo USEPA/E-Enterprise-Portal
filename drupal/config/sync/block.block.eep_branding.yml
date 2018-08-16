@@ -1,0 +1,25 @@
+uuid: ad16a4c1-d4df-4def-9d40-5491a03937a1
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - eep
+_core:
+  default_config_hash: NDwadleLD3YVSbDUaakxyYZyINYtkFtOVGShfq4kWy8
+id: eep_branding
+theme: eep
+region: header
+weight: 0
+provider: null
+plugin: system_branding_block
+settings:
+  id: system_branding_block
+  label: 'Site branding'
+  provider: system
+  label_display: '0'
+  use_site_logo: true
+  use_site_name: true
+  use_site_slogan: true
+visibility: {  }
