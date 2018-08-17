@@ -71,7 +71,7 @@ dependencies:
   - 'webform_analysis'
   - 'webform_composite'
 themes:
+  - 'bartik'
   - 'seven'
   - 'bootstrap_barrio'
   - 'eep'
-
