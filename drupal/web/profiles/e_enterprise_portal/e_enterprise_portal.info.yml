@@ -66,12 +66,10 @@ dependencies:
   - 'search_api'
   - 'simple_sitemap'
   - 'sqlsrv'
-  - 'supercache'
   - 'webform'
   - 'webform_views'
   - 'webform_analysis'
   - 'webform_composite'
-  - 'wincachedrupal'
 themes:
   - 'seven'
   - 'bootstrap_barrio'
