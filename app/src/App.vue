@@ -39,14 +39,18 @@
 <style lang="scss">
   @import '../node_modules/bootstrap/scss/bootstrap.scss';
   @import '../node_modules/bootstrap-vue/dist/bootstrap-vue.css';
+  @import '../node_modules/open-iconic/font/css/open-iconic-bootstrap.css';
+  @import '../node_modules/';
   @import './styles/styles.scss';
 
   .region-navigation {
     color: #ffffff;
     text-shadow: -1px 0 1px rgba(0,0,0, 0.5);
     background-color: #0071bc;
+    // background-color: #007bff;
     height: auto;
     font-size: 1.5rem;
+    /*
     background-image: -webkit-gradient(linear, left top, left bottom,
       from(rgba(255,255,255,0.2) 0%),
       to(rgba(0,0,0,0.15) 100%));
@@ -62,6 +66,7 @@
     -ms-filter:
       "progid:DXImageTransform.Microsoft.Blur(PixelRadius=3,MakeShadow=true,ShadowOpacity=0.30)";
     zoom: 1;
+    */
 
     a {
       @extend small;

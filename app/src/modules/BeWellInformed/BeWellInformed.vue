@@ -1,89 +1,95 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a
-        href="https://cli.vuejs.org"
-        target="_blank"
-        rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a
-        href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel"
-        target="_blank"
-        rel="noopener">babel</a></li>
-      <li><a
-        href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint"
-        target="_blank"
-        rel="noopener">eslint</a></li>
-      <li><a
-        href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-mocha"
-        target="_blank"
-        rel="noopener">unit-mocha</a></li>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-e2e-nightwatch"
-          target="_blank"
-          rel="noopener">e2e-nightwatch</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a
-        href="https://vuejs.org"
-        target="_blank"
-        rel="noopener">Core Docs</a></li>
-      <li><a
-        href="https://forum.vuejs.org"
-        target="_blank"
-        rel="noopener">Forum</a></li>
-      <li><a
-        href="https://chat.vuejs.org"
-        target="_blank"
-        rel="noopener">Community Chat</a></li>
-      <li><a
-        href="https://twitter.com/vuejs"
-        target="_blank"
-        rel="noopener">Twitter</a></li>
-      <li><a
-        href="https://news.vuejs.org"
-        target="_blank"
-        rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a
-        href="https://router.vuejs.org"
-        target="_blank"
-        rel="noopener">vue-router</a></li>
-      <li><a
-        href="https://vuex.vuejs.org"
-        target="_blank"
-        rel="noopener">vuex</a></li>
-      <li><a
-        href="https://github.com/vuejs/vue-devtools#vue-devtools"
-        target="_blank"
-        rel="noopener">vue-devtools</a></li>
-      <li><a
-        href="https://vue-loader.vuejs.org"
-        target="_blank"
-        rel="noopener">vue-loader</a></li>
-      <li><a
-        href="https://github.com/vuejs/awesome-vue"
-        target="_blank"
-        rel="noopener">awesome-vue</a></li>
-    </ul>
+  <div>
+    <AppWrapper :eep-app="eepApp">
+      <select
+        class="form-control">
+        <option
+          v-for="entity in statesAndTribes"
+          :key="entity.name"
+          :value="entity.code">{{ entity.name }}</option>
+      </select>
+      <div
+        id="bwi-widget-state-content"
+        class="py-2"
+        v-html="eepApp.html.mainCard">
+      </div>
+      <button
+        type="submit"
+        class="btn btn-primary">Check Your Water</button>
+    </AppWrapper>
   </div>
 </template>
 
 <script>
-  // import ADK from '@/modules/adk/ADK.vue';
+  import { mapState, mapActions, mapGetters, mapMutations } from 'vuex';
+  import { AppWrapper, AppAxios, commonAppStore, dynamicModule } from '../adk/ADK';
+  import storeModule from './store/index';
+
+  const name = 'BeWellInformed';
 
   export default {
     name: 'BeWellInformed',
-    props: {},
+    components: {
+      AppWrapper,
+    },
+    beforeCreate() {
+
+    },
+    // extends: dynamicModule(name),
+    created() {
+      const store = this.$store;
+      if (!(store && store.state && store.state[name])) {
+        console.log(`registering module: ${name}`, storeModule);
+        store.registerModule(name, storeModule);
+      } else {
+        console.log(`reusing module: ${name}`);
+      }
+      this.fetchStatesAndTribes();
+    },
+    data() {
+      return {
+        eepApp: {
+          id: 'be-well-informed',
+          title: 'Be Well Informed',
+          source: {
+            text: 'New Hampshire’s Be Well Informed Guide',
+            link: 'https://xml2.des.state.nh.us/DWITool/Welcome.aspx',
+          },
+          html: {
+            mainCard:
+              '<p>Have a well and wonder what your water testing results mean?</p>\n' +
+              '<p>\n' +
+              '  Be Well Informed lets you enter your test results and get feedback about health\n' +
+              '  concerns and water treatment choices. Be Well Informed includes useful information about\n' +
+              '  the most common contaminants that affect wells.\n' +
+              '</p>\n' +
+              '<p>\n' +
+              '  A quick disclaimer before we start: Information provided by the participating States\n' +
+              '  is for informational purposes only. It is recommended that you consult a qualified water\n' +
+              '  treatment professional if you need to treat your water. They can consider other\n' +
+              '  conditions or factors related to your well or home to determine the most appropriate\n' +
+              '  water treatment option.\n' +
+              '</p>\n' +
+              '<p class="widget-note powered-by-nhbwi">Modeled After:\n' +
+              '  <a\n' +
+              '    href="https://xml2.des.state.nh.us/DWITool/Welcome.aspx"\n' +
+              '    target="_blank">New Hampshire’s Be <em>Well</em> Informed Guide</a>\n' +
+              '</p>',
+          },
+        },
+      };
+    },
+    computed: {
+      ...mapGetters({
+        statesAndTribes: 'BeWellInformed/getStateAndTribes',
+      }),
+    },
+    methods: {
+      /*...mapActions(name, {
+        fetchStatesAndTribes: 'BeWellInformed/fetchStatesAndTribes',
+      }),*/
+      ...mapActions(name, ['fetchStatesAndTribes']),
+    },
   };
 </script>
 
