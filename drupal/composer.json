@@ -21,6 +21,8 @@
         "drupal-composer/drupal-scaffold": "^2.5",
         "drupal/console": "^1.0.2",
         "drupal/core": "~8.5.3",
+        "drupal/sqlsrv": "~1.0",
+        "drupal/wincachedrupal": "^1.11",
         "drush/drush": "^9.0.0",
         "vlucas/phpdotenv": "^2.4",
         "webflo/drupal-finder": "^1.0.0",
@@ -38,6 +40,9 @@
         "sort-packages": true
     },
     "autoload": {
+        "psr-4": {
+            "Drupal\\Driver\\": "web/drivers"
+        },
         "classmap": [
             "scripts/composer/ScriptHandler.php"
         ],
@@ -54,7 +59,8 @@
             "DrupalProject\\composer\\ScriptHandler::createRequiredFiles"
         ],
         "post-update-cmd": [
-            "DrupalProject\\composer\\ScriptHandler::createRequiredFiles"
+            "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
+            "xcopy /S /I /E /Y web\\modules\\contrib\\sqlsrv\\drivers web\\drivers"
         ]
     },
     "extra": {
@@ -74,4 +80,3 @@
         }
     }
 }
-
