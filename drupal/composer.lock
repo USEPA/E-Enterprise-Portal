@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2194223b144289d77ca4139778f3ca9e",
+    "content-hash": "e48db22899e29d7eeaaf258250d4cc40",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -3879,33 +3879,32 @@
         },
         {
             "name": "drupal/sqlsrv",
-            "version": "2.13.0",
+            "version": "1.0.0-rc4",
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/sqlsrv",
-                "reference": "8.x-2.13"
+                "reference": "8.x-1.0-rc4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/sqlsrv-8.x-2.13.zip",
-                "reference": "8.x-2.13",
-                "shasum": "a89649f126b981e86734f238d532de29f62fa3b4"
+                "url": "https://ftp.drupal.org/files/projects/sqlsrv-8.x-1.0-rc4.zip",
+                "reference": "8.x-1.0-rc4",
+                "shasum": "4c7e1b441a69159234c427f24e2cc051ac8d80e0"
             },
             "require": {
-                "drupal/core": "~8.0",
-                "php": "^7.0"
+                "drupal/core": "~8.0"
             },
             "type": "drupal-module",
             "extra": {
                 "branch-alias": {
-                    "dev-2.x": "2.x-dev"
+                    "dev-1.x": "1.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-2.13",
-                    "datestamp": "1499421242",
+                    "version": "8.x-1.0-rc4",
+                    "datestamp": "1463905746",
                     "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
+                        "status": "not-covered",
+                        "message": "RC releases are not covered by Drupal security advisories."
                     }
                 }
             },

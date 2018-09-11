@@ -48,7 +48,7 @@
     "drupal/redirect": "^1.2",
     "drupal/search_api": "^1.9",
     "drupal/simple_sitemap": "^2.12",
-    "drupal/sqlsrv": "^2.13",
+    "drupal/sqlsrv": "^1.0",
     "drupal/supercache": "^1.3",
     "drupal/token": "^1.3",
     "drupal/webform": "^5.0@RC",
@@ -92,14 +92,15 @@
       "npm install --global gulp-cli",
       "npm install bootstrap@^4.0 --prefix web/themes/custom/eep",
       "npm install gulp browser-sync gulp-sass gulp-autoprefixer gulp-compress gulp-minify-css gulp-sourcemaps gulp-uglify gulp-concat --save-dev  --prefix web/themes/custom/eep",
-      "drush pm-enable wincachedrupal supercache"
+      "xcopy /S /I /E /Y web\\modules\\contrib\\sqlsrv\\drivers web\\drivers"
     ],
     "post-update-cmd": [
       "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
-      "@php web/profiles/e_enterprise_portal/post-deployment-update.php"
+      "@php web/profiles/e_enterprise_portal/post-deployment-update.php",
+      "xcopy /S /I /E /Y web\\modules\\contrib\\sqlsrv\\drivers web\\drivers"
     ],
     "test-cmd": [
-      "@php web/profiles/e_enterprise_portal/post-deployment-update.php"
+      "xcopy /S /I /E /Y web\\modules\\contrib\\sqlsrv\\drivers web\\drivers"
     ]
   },
   "extra": {

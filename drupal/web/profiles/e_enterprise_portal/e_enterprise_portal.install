@@ -128,5 +128,8 @@ function e_enterprise_portal_install() {
     ->save(TRUE);
 
   // Add code here to make nodes, terms, etc.
+
+  // Enable these two functions separately so Drupal doesn't die
+  \Drupal::service('module_installer')->install(['wincachedrupal', 'supercache']);
 }
 
