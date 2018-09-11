@@ -1,28 +1,246 @@
 <template>
   <div>
     <AppWrapper :eep-app="eepApp">
-      <select
-        class="form-control">
-        <option
-          v-for="entity in statesAndTribes"
-          :key="entity.name"
-          :value="entity.code">{{ entity.name }}</option>
-      </select>
-      <div
-        id="bwi-widget-state-content"
-        class="py-2"
-        v-html="eepApp.html.mainCard">
-      </div>
-      <button
-        type="submit"
-        class="btn btn-primary">Check Your Water</button>
+      <b-form
+        class="needs-validation"
+        validated>
+        <b-form-select
+          :value="selectedPartner"
+          :options="partners"
+          @change="setSelectedPartner"
+          class="mb-3">
+          <template slot="first">
+            <!-- this slot appears above the options from 'options' prop -->
+            <option
+              :value="null"
+              disabled>-- Please select an partner --</option>
+          </template>
+        </b-form-select>
+        <div
+          id="bwi-widget-state-content"
+          class="py-2"
+          v-html="eepApp.html.mainCard">
+        </div>
+        <b-btn
+          variant="primary"
+          ref="btnCheckYourWater"
+          @click="onCheckYourWater">
+          Check Your Water
+        </b-btn>
+      </b-form>
+      <!-- Various Modals required for the workbench app-->
+      <AppModal
+        id="bwi-modal"
+        modal-ref="bwi-modal">
+        <b-tabs>
+          <b-tab
+            title="Entry"
+            active>
+            <h3>Enter the Results of Your Drinking Water Test</h3>
+            <div>
+              <div class="bs-callout bs-callout-warning hidden">
+                <h4>Please correct the errors below:</h4>
+              </div>
+
+              <div class="bs-callout bs-callout-info hidden">
+                <h4>Everything appears valid</h4>
+              </div>
+
+              <form
+                action=""
+                id="water_analysis_results_form">
+                <input
+                  type="hidden"
+                  name="StateCode"
+                  value="MA">
+                <div
+                  id="routine-contaminants"
+                  class="row usa-grid-full">
+                  <div class="usa-width-one-whole">
+                    <h3>Routine Water Analysis</h3>
+                    <div class="usa-width-one-half">
+                      <div class="row section"><div class="contaminant-wrapper">
+                        <input
+                          type="hidden"
+                          name="RoutineContaminants[As][Symbol]"
+                          value="As">
+                        <input
+                          type="hidden"
+                          name="RoutineContaminants[As][Name]"
+                          value="Arsenic">
+                        <label
+                          class="column one-third"
+                          for="txt-As"
+                          id="lbl-As">Arsenic </label>
+                        <input
+                          class="column one-third"
+                          name="RoutineContaminants[As][Value]"
+                          type="number"
+                          step="0.001"
+                          id="txt-As"
+                          aria-describedby="ddl-As">
+                        <select
+                          class="column one-third"
+                          name="RoutineContaminants[As][Unit]"
+                          id="ddl-As"
+                          aria-label="Select units for Arsenic ">
+                          <option value="g/L">g/L</option><option
+                            value="mg/L"
+                            selected=""
+                            class="default">mg/L</option>
+                          <option value="µg/L">µg/L</option>
+                          <option value="ppm">ppm</option>
+                          <option value="ppb">ppb</option>
+                        </select>
+                      </div></div>
+                      <div class="row section">
+                        <div class="contaminant-wrapper">
+                          <input
+                            type="hidden"
+                            name="RoutineContaminants[Fe][Symbol]"
+                            value="Fe">
+                          <input
+                            type="hidden"
+                            name="RoutineContaminants[Fe][Name]"
+                            value="Iron">
+                          <label
+                            class="column one-third"
+                            for="txt-Fe"
+                            id="lbl-Fe">Iron </label>
+                          <input
+                            class="column one-third"
+                            name="RoutineContaminants[Fe][Value]"
+                            type="number"
+                            step="0.001"
+                            id="txt-Fe"
+                            aria-describedby="ddl-Fe">
+                          <select
+                            class="column one-third"
+                            name="RoutineContaminants[Fe][Unit]"
+                            id="ddl-Fe"
+                            aria-label="Select units for Iron ">
+                            <option value="g/L">g/L</option>
+                            <option
+                              value="mg/L"
+                              selected=""
+                              class="default">mg/L</option>
+                            <option value="µg/L">µg/L</option>
+                            <option value="ppm">ppm</option>
+                            <option value="ppb">ppb</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div><div class="usa-width-one-half">
+                      <div class="row section"><div class="contaminant-wrapper">
+                        <input
+                          type="hidden"
+                          name="RoutineContaminants[Pb][Symbol]"
+                          value="Pb">
+                        <input
+                          type="hidden"
+                          name="RoutineContaminants[Pb][Name]"
+                          value="Lead">
+                        <label
+                          class="column one-third"
+                          for="txt-Pb"
+                          id="lbl-Pb">Lead </label>
+                        <input
+                          class="column one-third"
+                          name="RoutineContaminants[Pb][Value]"
+                          type="number"
+                          step="0.001"
+                          id="txt-Pb"
+                          aria-describedby="ddl-Pb">
+                        <select
+                          class="column one-third"
+                          name="RoutineContaminants[Pb][Unit]"
+                          id="ddl-Pb"
+                          aria-label="Select units for Lead ">
+                          <option value="g/L">g/L</option>
+                          <option
+                            value="mg/L"
+                            selected=""
+                            class="default">mg/L</option>
+                          <option value="µg/L">µg/L</option>
+                          <option value="ppm">ppm</option>
+                          <option value="ppb">ppb</option>
+                        </select>
+                      </div></div>
+                      <div class="row section"><div class="contaminant-wrapper">
+                        <input
+                          type="hidden"
+                          name="RoutineContaminants[PbSt][Symbol]"
+                          value="PbSt">
+                        <input
+                          type="hidden"
+                          name="RoutineContaminants[PbSt][Name]"
+                          value="Lead Stagnant">
+                        <label
+                          class="column one-third"
+                          for="txt-PbSt"
+                          id="lbl-PbSt">Lead Stagnant </label>
+                        <input
+                          class="column one-third"
+                          name="RoutineContaminants[PbSt][Value]"
+                          type="number"
+                          step="0.001"
+                          id="txt-PbSt"
+                          aria-describedby="ddl-PbSt">
+                        <select
+                          class="column one-third"
+                          name="RoutineContaminants[PbSt][Unit]"
+                          id="ddl-PbSt"
+                          aria-label="Select units for Lead Stagnant ">
+                          <option value="g/L">g/L</option>
+                          <option
+                            value="mg/L"
+                            selected=""
+                            class="default">mg/L</option>
+                          <option value="µg/L">µg/L</option>
+                          <option value="ppm">ppm</option>
+                          <option value="ppb">ppb</option>
+                        </select>
+                      </div></div>
+                    </div>
+                  </div>
+                </div>
+                <div id="interactive-prompts"></div>
+                <div class="row usa-width-one-whole reset-submit">
+                  <div class="column"></div>
+                  <div class="column right">
+                    <button
+                      id="water_analysis_reset"
+                      class="usa-button usa-button-outline"
+                      type="button">Reset
+                    </button>
+                    <button
+                      id="water_analysis_submit"
+                      class="usa-button-primary ga-tracking"
+                      data-ga-event-label="bwi MA submit"
+                      type="button">Submit
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </b-tab>
+          <b-tab title="State/Tribe Resources" >
+            <br>I'm the second tab content
+          </b-tab>
+          <b-tab
+            title="Results"
+            disabled>
+            <br>Disabled tab!
+          </b-tab>
+        </b-tabs>
+      </AppModal>
     </AppWrapper>
   </div>
 </template>
 
 <script>
-  import { mapState, mapActions, mapGetters, mapMutations } from 'vuex';
-  import { AppWrapper, AppAxios, commonAppStore, dynamicModule } from '../adk/ADK';
+  import { mapActions, mapGetters } from 'vuex';
+  import { AppWrapper, AppModal } from '../adk/ADK';
   import storeModule from './store/index';
 
   const name = 'BeWellInformed';
@@ -31,20 +249,17 @@
     name: 'BeWellInformed',
     components: {
       AppWrapper,
+      AppModal,
     },
     beforeCreate() {
 
     },
-    // extends: dynamicModule(name),
     created() {
       const store = this.$store;
       if (!(store && store.state && store.state[name])) {
-        console.log(`registering module: ${name}`, storeModule);
         store.registerModule(name, storeModule);
-      } else {
-        console.log(`reusing module: ${name}`);
       }
-      this.fetchStatesAndTribes();
+      this.fetchPartners();
     },
     data() {
       return {
@@ -81,14 +296,23 @@
     },
     computed: {
       ...mapGetters({
-        statesAndTribes: 'BeWellInformed/getStateAndTribes',
+        partners: 'BeWellInformed/getPartners',
+        selectedPartner: 'BeWellInformed/getSelectedPartner',
       }),
     },
     methods: {
-      /*...mapActions(name, {
-        fetchStatesAndTribes: 'BeWellInformed/fetchStatesAndTribes',
-      }),*/
-      ...mapActions(name, ['fetchStatesAndTribes']),
+      ...mapActions(name, [
+        'setSelectedPartner',
+        'fetchPartners',
+        'fetchPartnerAndFlowchartXML',
+      ]),
+      onCheckYourWater() {
+        const partner = this.selectedPartner;
+        this.fetchPartnerAndFlowchartXML(partner.code);
+        this.$root.$emit(
+          'bv::show::modal', 'bwi-modal', this.$refs.btnCheckYourWater,
+        );
+      },
     },
   };
 </script>

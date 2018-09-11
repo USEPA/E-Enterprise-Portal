@@ -1,6 +1,9 @@
 /* eslint-disable import/prefer-default-export */
-export const state = {
+
+const state = {
   user: {
     id: 0,
   },
 };
+
+export default state;

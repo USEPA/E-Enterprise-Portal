@@ -37,6 +37,7 @@
 </script>
 
 <style lang="scss">
+  @import './styles/bootstrap-variable-overrides.scss';
   @import '../node_modules/bootstrap/scss/bootstrap.scss';
   @import '../node_modules/bootstrap-vue/dist/bootstrap-vue.css';
   @import '../node_modules/open-iconic/font/css/open-iconic-bootstrap.css';

@@ -22,7 +22,8 @@
     "popper.js": "^1.14.4",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "xml-js": "^1.6.7"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.1",
@@ -67,15 +68,6 @@
           },
           "svg": "always",
           "math": "always"
-        }
-      ],
-      "indent": [
-        "error",
-        2,
-        {
-          "FunctionExpression": {
-            "parameters": "first"
-          }
         }
       ],
       "function-paren-newline": [
