@@ -3,6 +3,7 @@ import { commonAppStore } from '../../adk/ADK';
 export default {
   ...commonAppStore.state,
   selectedPartner: null,
+  partnerResource: null,
   partners: [],
   partnerXmls: {},
   urls: {

@@ -7,7 +7,7 @@
       slot="modal-header">
       <h5
         class="modal-title"
-        id="gridModalLabel">Grids in modals</h5>
+        id="gridModalLabel">{{ title }}</h5>
       <button
         type="button"
         class="close"
@@ -46,6 +46,10 @@
         type: Function,
         default: () => {},
         required: false,
+      },
+      title: {
+        type: String,
+        required: true,
       },
     },
     methods: {

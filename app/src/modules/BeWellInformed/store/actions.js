@@ -42,6 +42,7 @@ export default {
             partner,
             partnerJson,
           });
+          store.commit(types.NAMESPACE + types.UPDATE_PARTNER_RESOURCE);
         })
         .catch(() => {
           // @todo add sanity check for errors & visual prompt to the user
@@ -56,11 +57,41 @@ export default {
             partner,
             partnerJson,
           });
+          store.commit(types.NAMESPACE + types.UPDATE_PARTNER_RESOURCE);
         })
         .catch(() => {
         // @todo add sanity check for errors & visual prompt to the user
         // eslint-disable-next-line indent
       });
     }
+  },
+  createWaterAnalysisRequest() {
+    const store = this;
+    const { state: { partnerResource } } = store;
+    let { state: { waterAnalysisRequest } } = store;
+
+    if (!store.state.waterAnalysisRequest && partnerResource) {
+      waterAnalysisRequest = {
+        stateCode: partnerResource.code,
+      };
+      Object.keys(partnerResource.flowchart.Flowcharts.Sections)
+        .forEach((sectionMachineName) => {
+          waterAnalysisRequest[sectionMachineName] = {};
+          const contaminants = store.getters
+            .getFlowchartContaminants(store.state, sectionMachineName);
+          Object.keys(contaminants)
+            .forEach((contaminant) => {
+              // Set default values
+              waterAnalysisRequest[sectionMachineName][contaminant.Value] = {
+                Symbol: contaminant.Value,
+                Name: contaminant.Text,
+                Value: '',
+                Unit: contaminant.DefaultUnit,
+                Present: '',
+              };
+            });
+        });
+    }
+    store.commit(types.NAMESPACE + types.SET_WATER_ANALYSIS_REQUEST, waterAnalysisRequest);
   },
 };
