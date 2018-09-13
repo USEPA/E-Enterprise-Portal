@@ -37,6 +37,8 @@
 </script>
 
 <style lang="scss">
+  // @TODO - Move no scoped styles to the appropiate sass file
+
   @import './styles/bootstrap-variable-overrides.scss';
   @import '../node_modules/bootstrap/scss/bootstrap.scss';
   @import '../node_modules/bootstrap-vue/dist/bootstrap-vue.css';

@@ -1,3 +1,19 @@
+/**
+ * Methods added here are available to the BeWellInformed application. There
+ * are no returned values. Changes should be atomic when possible.
+ *
+ * IMPORTANT: Vue cannot detect property addition or deletion. Vue does not
+ * allow dynamically adding new root-level reactive properties to an already
+ * created instance. However, it’s possible to add reactive properties to a
+ * nested object using the Vue.set(object, key, value) method.
+ *
+ * IMPORTANT: Mutations Must Be Synchronous. Only Synchronous methods will
+ * be created here.
+ *
+ *  @SEE https://vuejs.org/v2/guide/list.html#Object-Change-Detection-Caveats
+ *  @SEE https://vuex.vuejs.org/guide/mutations.html
+ */
+
 /* eslint no-param-reassign: ["error", { "props": false }] */
 import Vue from 'vue';
 import { commonAppStore } from '../../adk/ADK';

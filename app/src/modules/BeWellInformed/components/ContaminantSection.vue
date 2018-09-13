@@ -8,6 +8,7 @@
           :key="key">
           <label
             class="">{{ contaminant._attributes.Test }}</label>
+          <!-- @TODO finish form input -->
           <input
             class=""
             type="number"
@@ -57,9 +58,7 @@
       },
     },
     data() {
-      return {
-        contaminants: {},
-      };
+      return {};
     },
     computed: {
       ...mapGetters({

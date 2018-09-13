@@ -10,6 +10,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 
+// Add Font Awesome SVG icons individually here
 library.add(
   faEllipsisV, faWindowMinimize, faWindowMaximize,
 );
