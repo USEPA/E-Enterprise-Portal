@@ -1,29 +1,63 @@
 <template>
   <div>
     <AppWrapper :eep-app="eepApp">
-      <select
-        class="form-control">
-        <option
-          v-for="entity in statesAndTribes"
-          :key="entity.name"
-          :value="entity.code">{{ entity.name }}</option>
-      </select>
-      <div
-        id="bwi-widget-state-content"
-        class="py-2"
-        v-html="eepApp.html.mainCard">
-      </div>
-      <button
-        type="submit"
-        class="btn btn-primary">Check Your Water</button>
+      <b-form
+        class="needs-validation"
+        validated>
+        <b-form-select
+          :value="selectedPartner"
+          :options="partners"
+          @change="setSelectedPartner"
+          class="mb-3">
+          <template slot="first">
+            <!-- this slot appears above the options from 'options' prop -->
+            <option
+              :value="null"
+              disabled>-- Please select an partner --</option>
+          </template>
+        </b-form-select>
+        <div
+          id="bwi-widget-state-content"
+          class="py-2"
+          v-html="eepApp.html.mainCard">
+        </div>
+        <b-btn
+          variant="primary"
+          ref="btnCheckYourWater"
+          @click="onCheckYourWater">
+          Check Your Water
+        </b-btn>
+      </b-form>
+      <!-- Various Modals required for the workbench app-->
+      <AppModal
+        id="bwi-modal"
+        modal-ref="bwi-modal"
+        title="Be Well Informed Water Analysis Tool">
+        <b-tabs>
+          <b-tab
+            title="Entry"
+            active>
+            <PartnerForm/>
+          </b-tab>
+          <b-tab title="State/Tribe Resources" >
+            <br>I'm the second tab content
+          </b-tab>
+          <b-tab
+            title="Results"
+            disabled>
+            <br>Disabled tab!
+          </b-tab>
+        </b-tabs>
+      </AppModal>
     </AppWrapper>
   </div>
 </template>
 
 <script>
-  import { mapState, mapActions, mapGetters, mapMutations } from 'vuex';
-  import { AppWrapper, AppAxios, commonAppStore, dynamicModule } from '../adk/ADK';
+  import { mapActions, mapGetters } from 'vuex';
+  import { AppWrapper, AppModal } from '../adk/ADK';
   import storeModule from './store/index';
+  import PartnerForm from './components/PartnerForm.vue';
 
   const name = 'BeWellInformed';
 
@@ -31,20 +65,18 @@
     name: 'BeWellInformed',
     components: {
       AppWrapper,
+      AppModal,
+      PartnerForm,
     },
     beforeCreate() {
 
     },
-    // extends: dynamicModule(name),
     created() {
       const store = this.$store;
       if (!(store && store.state && store.state[name])) {
-        console.log(`registering module: ${name}`, storeModule);
         store.registerModule(name, storeModule);
-      } else {
-        console.log(`reusing module: ${name}`);
       }
-      this.fetchStatesAndTribes();
+      this.fetchPartners();
     },
     data() {
       return {
@@ -81,14 +113,25 @@
     },
     computed: {
       ...mapGetters({
-        statesAndTribes: 'BeWellInformed/getStateAndTribes',
+        partners: 'BeWellInformed/getPartners',
+        partnerXmls: 'BeWellInformed/getPartnerXmls',
+        selectedPartner: 'BeWellInformed/getSelectedPartner',
+        partnerResource: 'BeWellInformed/getPartnerResource',
       }),
     },
     methods: {
-      /*...mapActions(name, {
-        fetchStatesAndTribes: 'BeWellInformed/fetchStatesAndTribes',
-      }),*/
-      ...mapActions(name, ['fetchStatesAndTribes']),
+      ...mapActions(name, [
+        'setSelectedPartner',
+        'fetchPartners',
+        'fetchPartnerAndFlowchartXML',
+      ]),
+      onCheckYourWater() {
+        const partner = this.selectedPartner;
+        this.fetchPartnerAndFlowchartXML(partner.code);
+        this.$root.$emit(
+          'bv::show::modal', 'bwi-modal', this.$refs.btnCheckYourWater,
+        );
+      },
     },
   };
 </script>

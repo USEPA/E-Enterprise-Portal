@@ -1,14 +1,10 @@
 [
   {
-    "value": "",
-    "name": "Select Your State or Tribe"
-  },
-  {
-    "value": "MA",
+    "code": "MA",
     "name": "Massachusetts"
   },
   {
-    "value": "NH",
+    "code": "NH",
     "name": "New Hampshire"
   }
 ]

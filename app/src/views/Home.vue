@@ -147,34 +147,15 @@
       onSlideEnd() {
         this.sliding = false;
       },
-      /* adjustHeight() {
-        this.fixedHeight = 0;
-        this.$el.querySelectorAll('.carousel-item').forEach((item, index, array) => {
-            this.fixedHeight = (item.offsetHeight > this.fixedHeight)
-            ? item.offsetHeight : this.fixedHeight;
-        }, this);
-      }, */
     },
-    mounted() {
-      // () => this.$el.querySelectorAll('.carousel-item'),
-      /* this.$watch(
-        'fixedHeight',
-        (oldVal, newVal) => {
-          // eslint-disable-next-line
-            console.log(oldVal, ' - ', newVal);
-          return '';
-        },
-      );
-      this.adjustHeight();
-      // eslint-disable-next-line
-      console.log('mounted');
-      this.$on('resize', this.adjustHeight); */
-    },
+    mounted() {},
   };
 </script>
 
 
 <style lang="scss">
+  // @TODO - Move no scoped styles to the appropiate sass file
+
   @import '../styles/bootstrap-mixins-cheatsheet.scss';
 
   #home-carousel {

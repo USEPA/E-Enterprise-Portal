@@ -1,5 +1,6 @@
 <template>
   <div class="workbench">
+    <!-- @TODO - Dynamically load workbench apps -->
     <BeWellInformed/>
   </div>
 </template>

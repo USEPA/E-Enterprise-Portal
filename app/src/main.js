@@ -4,13 +4,16 @@ import BootstrapVue from 'bootstrap-vue';
 // Font Awesome
 import { library } from '@fortawesome/fontawesome-svg-core';
 // Add Icons individually for performance reasons. No reason to load 3000+
-import { faEllipsisV,  } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisV, faWindowMinimize, faWindowMaximize } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import App from './App.vue';
 import router from './router';
 import store from './store';
 
-library.add(faEllipsisV);
+// Add Font Awesome SVG icons individually here
+library.add(
+  faEllipsisV, faWindowMinimize, faWindowMaximize,
+);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
