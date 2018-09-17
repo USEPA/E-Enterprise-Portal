@@ -1,0 +1,30 @@
+/*
+ The gutters between columns in our predefined grid classes can be removed with .no-gutters. This
+ removes the negative margins from .row and the horizontal padding from all immediate children
+ columns.
+
+ Example:
+ <div class="row no-gutters">
+  <div class="col-12 col-sm-6 col-md-8">.col-12 .col-sm-6 .col-md-8</div>
+  <div class="col-6 col-md-4">.col-6 .col-md-4</div>
+ </div>
+
+ */
+.no-gutters {
+    margin-right: 0;
+    margin-left: 0;
+
+    > .col,
+    > [class*="col-"] {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}
+
+a[target='_blank']:after {
+    content: '\f35d';
+    width: 2rem;
+    height: 2rem;
+    margin: 0 1rem;
+    display: inline-block;
+}

@@ -15,5 +15,7 @@ exports.assertion = function elementCount(selector, count) {
   function evaluator(_selector) {
     return document.querySelectorAll(_selector).length;
   }
-  this.command = cb => this.api.execute(evaluator, [selector], cb);
+  this.command = cb => this.api.execute(
+    evaluator, [selector], cb,
+  );
 };

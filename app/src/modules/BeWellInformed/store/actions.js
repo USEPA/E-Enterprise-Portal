@@ -1,33 +1,39 @@
+/* eslint-disable no-unused-vars */
 /**
  * Methods added here are available to the BeWellInformed application. Methods
  * should not directly modify any Store values directly but rather invoke
  * mutators by using store.commit(). Async tasks should be created here.
  *
+ * NOTE: In each action, the variable `context` is the local store from
+ * which the action was called.
+ *
  * @SEE https://vuex.vuejs.org/guide/actions.html
  */
 
 import convert from 'xml-js';
-import {AppAxios, commonAppStore} from '../../adk/ADK';
+import { AppAxios, commonAppStore } from '../../adk/ADK';
 import types from './types';
 
 export default {
   ...commonAppStore.actions,
-  createWaterAnalysisRequest() {
-    const store = this;
-    const { state: { partnerResource } } = store;
-    let { state: { waterAnalysisRequest } } = store;
+  createWaterAnalysisRequest(context) {
+    const store = context;
+    const { partnerResource } = store.state;
+    let { waterAnalysisRequest } = store.state;
 
     if (!store.state.waterAnalysisRequest && partnerResource) {
       waterAnalysisRequest = {
         stateCode: partnerResource.code,
       };
-      Object.keys(partnerResource.flowchart.Flowcharts.Sections)
+      Object.keys(partnerResource.flowchart.FlowCharts.Sections)
         .forEach((sectionMachineName) => {
           waterAnalysisRequest[sectionMachineName] = {};
           const contaminants = store.getters
-            .getFlowchartContaminants(store.state, sectionMachineName);
+            .getFlowchartContaminants(sectionMachineName);
           Object.keys(contaminants)
-            .forEach((contaminant) => {
+            .forEach((index) => {
+              // eslint-disable-next-line no-underscore-dangle
+              const contaminant = contaminants[index]._attributes;
               // Set default values
               waterAnalysisRequest[sectionMachineName][contaminant.Value] = {
                 Symbol: contaminant.Value,
@@ -39,24 +45,24 @@ export default {
             });
         });
     }
-    store.commit(types.NAMESPACE + types.SET_WATER_ANALYSIS_REQUEST, waterAnalysisRequest);
+    store.commit(types.SET_WATER_ANALYSIS_REQUEST, waterAnalysisRequest);
   },
   fetchPartnerAndFlowchartXML(context, partnerCode) {
-    const store = this;
-    const state = store.state.BeWellInformed;
+    const store = context;
+    const { state } = store;
     const partner = state.selectedPartner;
 
     if (!state.partnerXmls[partnerCode]) {
       AppAxios.get(`${state.urls.getPartnerXML + partnerCode}.xml`)
         .then((response) => {
           // @todo add sanity check for returned data
-          const partnerJsonString = convert.xml2json(response.data, {compact: true});
+          const partnerJsonString = convert.xml2json(response.data, { compact: true });
           const partnerJson = JSON.parse(partnerJsonString);
-          store.commit(types.NAMESPACE + types.UPDATE_PARTNER_XML, {
+          store.commit(types.UPDATE_PARTNER_XML, {
             partner,
             partnerJson,
           });
-          store.commit(types.NAMESPACE + types.UPDATE_PARTNER_RESOURCE);
+          store.commit(types.UPDATE_PARTNER_RESOURCE);
         })
         .catch(() => {
           // @todo add sanity check for errors & visual prompt to the user
@@ -65,36 +71,47 @@ export default {
       AppAxios.get(`${state.urls.getFlowchartXML + partnerCode}.xml`)
         .then((response) => {
           // @todo add sanity check for returned data
-          const partnerJsonString = convert.xml2json(response.data, {compact: true});
+          const partnerJsonString = convert.xml2json(response.data, { compact: true });
           const partnerJson = JSON.parse(partnerJsonString);
-          store.commit(types.NAMESPACE + types.UPDATE_PARTNER_FLOWCHART_XML, {
+          store.commit(types.UPDATE_PARTNER_FLOWCHART_XML, {
             partner,
             partnerJson,
           });
-          store.commit(types.NAMESPACE + types.UPDATE_PARTNER_RESOURCE);
+          store.commit(types.UPDATE_PARTNER_RESOURCE);
         })
         .catch(() => {
           // @todo add sanity check for errors & visual prompt to the user
         });
     }
   },
-  fetchPartners() {
-    const store = this;
+  fetchPartners(context) {
+    const store = context;
 
-    if (!store.state.BeWellInformed.partners.length) {
+    if (!store.state.partners.length) {
       // eslint-disable-next-line vue/no-async-in-computed-properties
-      AppAxios.get(store.state.BeWellInformed.urls.getPartners)
+      AppAxios.get(store.state.urls.getPartners)
         .then((response) => {
           // @todo add sanity check for returned data
-          store.commit(types.NAMESPACE + types.UPDATE_PARTNERS, response.data);
+          store.commit(types.UPDATE_PARTNERS, response.data);
         })
         .catch(() => {
           // @todo add sanity check for errors & visual prompt to the user
         });
     }
   },
+  updateWaterAnalysisRequestProperty(context, payload) {
+    const store = context;
+    const r = {
+      path: `BeWellInformed.waterAnalysisRequest.${payload.section}.${payload.contaminant._attributes.Value}`,
+      property: payload.property,
+      value: payload.event,
+      defaultValue: payload.defaultValue || '',
+    };
+
+    this.commit('SET_DEEP_PROPERTY', r);
+  },
   setSelectedPartner(context, payload) {
-    const store = this;
-    store.commit(types.NAMESPACE + types.SET_SELECTED_PARTNER, payload);
+    const store = context;
+    store.commit(types.SET_SELECTED_PARTNER, payload);
   },
 };
