@@ -36,14 +36,18 @@
         <b-tabs>
           <b-tab
             title="Entry"
-            active>
-            <PartnerForm/>
+            active
+            class="py-3">
+            <PartnerForm v-if="isFlowchartReady"/>
           </b-tab>
-          <b-tab title="State/Tribe Resources" >
-            <br>I'm the second tab content
+          <b-tab
+            title="State/Tribe Resources"
+            class="py-3">
+            <PartnerResources v-if="isFlowchartReady"/>
           </b-tab>
           <b-tab
             title="Results"
+            class="py-3"
             disabled>
             <br>Disabled tab!
           </b-tab>
@@ -58,6 +62,7 @@
   import { AppWrapper, AppModal } from '../adk/ADK';
   import storeModule from './store/index';
   import PartnerForm from './components/PartnerForm.vue';
+  import PartnerResources from './components/PartnerResources.vue';
 
   const name = 'BeWellInformed';
 
@@ -67,6 +72,7 @@
       AppWrapper,
       AppModal,
       PartnerForm,
+      PartnerResources,
     },
     beforeCreate() {
 
@@ -118,6 +124,10 @@
         selectedPartner: 'BeWellInformed/getSelectedPartner',
         partnerResource: 'BeWellInformed/getPartnerResource',
       }),
+      isFlowchartReady() {
+        const { partnerResource } = this;
+        return !!(partnerResource && partnerResource.flowchart);
+      },
     },
     methods: {
       ...mapActions(name, [

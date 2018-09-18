@@ -1,6 +1,7 @@
 <template>
   <div>
     <h3>Enter the Results of Your Drinking Water Test</h3>
+    <br/>
     <!-- @TODO - Add form validation and feedback for bad returns -->
 
     <b-form
@@ -13,6 +14,14 @@
       <ContaminantSection
         v-if="partnerResource"
         section="RoutineContaminants"/>
+
+      <ContaminantSection
+        v-if="partnerResource"
+        section="BacterialContaminants"/>
+
+      <ContaminantSection
+        v-if="partnerResource"
+        section="RadionuclideContaminants"/>
     </b-form>
   </div>
 </template>
@@ -35,6 +44,7 @@
         partnerXmls: 'BeWellInformed/getPartnerXmls',
         selectedPartner: 'BeWellInformed/getSelectedPartner',
         partnerResource: 'BeWellInformed/getPartnerResource',
+        waterAnalysisRequest: 'BeWellInformed/getWaterAnalysisRequest',
       }),
     },
     methods: {

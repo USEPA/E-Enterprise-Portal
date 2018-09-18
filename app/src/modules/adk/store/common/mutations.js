@@ -14,5 +14,4 @@
  *  @SEE https://vuex.vuejs.org/guide/mutations.html
  */
 
-export default {
-};
+export default {};

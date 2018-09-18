@@ -14,8 +14,9 @@ export default {
   partners: [],
   partnerXmls: {},
   urls: {
-    getPartners: 'http://localhost:8080/sample_data/stateAndTribes.json',
-    getPartnerXML: 'http://localhost:8080/sample_data/partner-',
-    getFlowchartXML: 'http://localhost:8080/sample_data/flowchart-',
+    getPartners: 'sample_data/stateAndTribes.json',
+    getPartnerXML: 'sample_data/partner-',
+    getFlowchartXML: 'sample_data/flowchart-',
   },
+  waterAnalysisRequest: null,
 };
