@@ -1,0 +1,22 @@
+uuid: 5cacca65-60f5-46e9-bcd4-cdc1c4419d8c
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - eep
+_core:
+  default_config_hash: 8I8iACSa0sKO3k3jlvUG1ge52rfcKX7USJAQYnzuBgg
+id: eep_help
+theme: eep
+region: content
+weight: -30
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  provider: help
+  label_display: '0'
+visibility: {  }
