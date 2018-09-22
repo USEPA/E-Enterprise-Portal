@@ -2,7 +2,7 @@
   <div class="bwi-partner-resources">
     <h3>State/Tribe Resources</h3>
     <br/>
-    <div v-if="partnerResource">
+    <div v-if="(partnerResource && partnerResource.info)">
       <template
         v-for="(section, key) in partnerResource.info.Partner.SupportInformation.Section">
         <div

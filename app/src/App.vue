@@ -19,6 +19,8 @@
       </div>
     </div>
     <MainFooter/>
+    <!-- set progressbar -->
+    <vue-progress-bar></vue-progress-bar>
   </div>
 </template>
 
@@ -26,12 +28,43 @@
   // @ is an alias to /src
   import MainHeader from '@/components/MainHeader.vue';
   import MainFooter from '@/components/MainFooter.vue';
+  import VueProgessBar from 'vue-progressbar';
+  import types from './store/types';
 
   export default {
     name: 'App',
     components: {
       MainHeader,
       MainFooter,
+      VueProgessBar,
+    },
+    mounted() {
+      //  [App.vue specific] When App.vue is finish loading finish the progress bar
+      this.$Progress.finish();
+    },
+    created() {
+      const vm = this;
+      vm.$store.commit(types.SET_APP, vm);
+      //  [App.vue specific] When App.vue is first loaded start the progress bar
+      vm.$Progress.start();
+      //  hook the progress bar to start before we move router-view
+      vm.$router.beforeEach((to, from, next) => {
+        //  does the page we want to go to have a meta.progress object
+        if (to.meta.progress !== undefined) {
+          const meta = to.meta.progress;
+          // parse meta tags
+          vm.$Progress.parseMeta(meta);
+        }
+        //  start the progress bar
+        vm.$Progress.start();
+        //  continue to next page
+        next();
+      });
+      //  hook the progress bar to finish after we've finished moving router-view
+      vm.$router.afterEach(() => {
+        //  finish the progress bar
+        vm.$Progress.finish();
+      });
     },
   };
 </script>

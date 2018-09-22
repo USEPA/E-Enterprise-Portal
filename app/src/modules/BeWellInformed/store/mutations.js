@@ -59,4 +59,18 @@ export default {
       obj.partnerJson,
     );
   },
+  [types.UPDATE_INTERACTIVE_PROMPTS](state, array) {
+    Vue.set(
+      state,
+      'interactivePrompts',
+      array,
+    );
+  },
+  [types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS](state, array) {
+    Vue.set(
+      state,
+      'additionalContaminantRequests',
+      array,
+    );
+  },
 };

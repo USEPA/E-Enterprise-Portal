@@ -22,6 +22,7 @@
     <div class="container-fluid">
       <slot></slot>
     </div>
+    <template slot="modal-footer"></template>
   </b-modal>
 </template>
 

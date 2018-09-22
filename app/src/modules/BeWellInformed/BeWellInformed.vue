@@ -13,7 +13,8 @@
             <!-- this slot appears above the options from 'options' prop -->
             <option
               :value="null"
-              disabled>-- Please select an partner --</option>
+              disabled>-- Please select an partner --
+            </option>
           </template>
         </b-form-select>
         <div
@@ -52,6 +53,127 @@
             <br>Disabled tab!
           </b-tab>
         </b-tabs>
+        <template slot="modal-footer"></template>
+      </AppModal>
+      <AppModal
+        id="bwi-modal-interactive"
+        modal-ref="bwi-modal-interactive"
+        title="Additional Information Needed">
+        <div class="row">
+          <h5 class="col-md-12">Enter the Results of Your Drinking Water Test</h5>
+
+          <template
+            v-if="interactivePrompts"
+            v-for="(question, key) in interactivePrompts">
+            <div
+              class="contaminant-wrapper col-md-12"
+              :key="key">
+              <div class="row my-2">
+                <div class="col-sm-6">
+                  <label class="">{{ question.Interaction }}</label>
+                </div>
+                <div class="col-sm-6">
+                  <b-form-radio-group
+                    @:change="updateInteractivePromptResponses(question, $event)"
+                    :id="`${question.Symbol}-question-Value`"
+                    :ref="`${question.Symbol}-question-Value`"
+                    name="radioSubComponent"
+                    class="row justify-content-end">
+                    <b-form-radio
+                      class="radio-btn radio-btn-primary"
+                      value="true">Yes</b-form-radio>
+                    <b-form-radio
+                      class="radio-btn radio-btn-primary"
+                      value="false">No</b-form-radio>
+                  </b-form-radio-group>
+                </div>
+              </div>
+              <!--<div class="row no-gutters my-2">
+                <div class="col-sm-5">
+                  <label class="">{{ question.Interaction }}</label>
+                </div>
+                <div class="col-sm-3">
+                  <b-form-input
+                    :ref="`${contaminant._attributes.Value}-Value`"
+                    :id="`${contaminant._attributes.Value}-Value`"
+                    type="number"
+                    step="0.001"
+                    size="lg"
+                    @:change.native="updateProperty( section, contaminant, 'Value', $event)" />
+                </div>
+                <div class="col-sm-4">
+                  <b-form-select
+                    :value="contaminant._attributes.DefaultUnit"
+                    @change="updateProperty( section, contaminant, 'Unit', $event)"
+                    size="lg">
+                    <template v-for="unit in contaminant._attributes.Units.split('|')" >
+                      <option
+                        :key="unit"
+                        :value="unit" >{{ unit }}</option>
+                    </template>
+                  </b-form-select>
+                </div>
+              </div>-->
+            </div>
+          </template>
+
+          <template
+            v-if="interactivePrompts"
+            v-for="(question, key) in interactivePrompts">
+            <div
+              class="contaminant-wrapper col-md-12"
+              :key="key">
+              <div class="row my-2">
+                <div class="col-sm-6">
+                  <label class="">{{ question.Interaction }}</label>
+                </div>
+                <div class="col-sm-6">
+                  <b-form-radio-group
+                    @:change="updateInteractivePromptResponses(question, $event)"
+                    :id="`${question.Symbol}-question-Value`"
+                    :ref="`${question.Symbol}-question-Value`"
+                    name="radioSubComponent"
+                    class="row justify-content-end">
+                    <b-form-radio
+                      class="radio-btn radio-btn-primary"
+                      value="true">Yes</b-form-radio>
+                    <b-form-radio
+                      class="radio-btn radio-btn-primary"
+                      value="false">No</b-form-radio>
+                  </b-form-radio-group>
+                </div>
+              </div>
+              <!--<div class="row no-gutters my-2">
+                <div class="col-sm-5">
+                  <label class="">{{ question.Interaction }}</label>
+                </div>
+                <div class="col-sm-3">
+                  <b-form-input
+                    :ref="`${contaminant._attributes.Value}-Value`"
+                    :id="`${contaminant._attributes.Value}-Value`"
+                    type="number"
+                    step="0.001"
+                    size="lg"
+                    @:change.native="updateProperty( section, contaminant, 'Value', $event)" />
+                </div>
+                <div class="col-sm-4">
+                  <b-form-select
+                    :value="contaminant._attributes.DefaultUnit"
+                    @change="updateProperty( section, contaminant, 'Unit', $event)"
+                    size="lg">
+                    <template v-for="unit in contaminant._attributes.Units.split('|')" >
+                      <option
+                        :key="unit"
+                        :value="unit" >{{ unit }}</option>
+                    </template>
+                  </b-form-select>
+                </div>
+              </div>-->
+            </div>
+          </template>
+
+        </div>
+
       </AppModal>
     </AppWrapper>
   </div>
@@ -63,12 +185,14 @@
   import storeModule from './store/index';
   import PartnerForm from './components/PartnerForm.vue';
   import PartnerResources from './components/PartnerResources.vue';
+  // import App from '../../App';
 
   const name = 'BeWellInformed';
 
   export default {
     name: 'BeWellInformed',
     components: {
+      // App,
       AppWrapper,
       AppModal,
       PartnerForm,
@@ -123,6 +247,9 @@
         partnerXmls: 'BeWellInformed/getPartnerXmls',
         selectedPartner: 'BeWellInformed/getSelectedPartner',
         partnerResource: 'BeWellInformed/getPartnerResource',
+        waterAnalysisRequest: 'BeWellInformed/getWaterAnalysisRequest',
+        interactivePrompts: 'BeWellInformed/getInteractivePrompts',
+        additionalContaminantRequests: 'BeWellInformed/getAdditionalContaminantRequests',
       }),
       isFlowchartReady() {
         const { partnerResource } = this;
@@ -141,6 +268,9 @@
         this.$root.$emit(
           'bv::show::modal', 'bwi-modal', this.$refs.btnCheckYourWater,
         );
+      },
+      updateInteractivePromptResponses(question, $event) {
+        console.log(this, question, $event);
       },
     },
   };

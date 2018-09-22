@@ -27,5 +27,6 @@ export default new Router({
       name: 'workbench',
       component: Workbench,
     },
+
   ],
 });

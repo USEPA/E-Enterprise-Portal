@@ -35,7 +35,8 @@
             </div>
           </div>
           <div
-            v-if="contaminant._attributes.ShowIsPresent"
+            v-if="(contaminant._attributes.hasOwnProperty('ShowIsPresent') &&
+            contaminant._attributes.ShowIsPresent)"
             class="row justify-content-end">
             <b-form-group
             class="col text-right">
@@ -43,7 +44,7 @@
                 :ref="`${contaminant._attributes.Value}-ShowIsPresent`"
                 :id="`${contaminant._attributes.Value}-ShowIsPresent`"
                 @change="updateProperty( section, contaminant, 'Present', $event)"
-                :name="`${contaminant._attributes.Value}`-ShowIsPresent">
+                :name="`${contaminant._attributes.Value}-ShowIsPresent`">
                 <b-form-radio value="true">Present</b-form-radio>
                 <b-form-radio value="false">Absent</b-form-radio>
               </b-form-radio-group>

@@ -8,5 +8,6 @@
 
 export default {
   NAMESPACE: '',
+  SET_APP: 'SET_APP',
   SET_DEEP_PROPERTY: 'SET_DEEP_PROPERTY',
 };

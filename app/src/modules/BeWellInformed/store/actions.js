@@ -49,6 +49,7 @@ export default {
   },
   fetchPartnerAndFlowchartXML(context, partnerCode) {
     const store = context;
+    const app = store.rootGetters.getApp;
     const { state } = store;
     const partner = state.selectedPartner;
 
@@ -66,6 +67,8 @@ export default {
         })
         .catch(() => {
           // @todo add sanity check for errors & visual prompt to the user
+          app.$Progress.fail;
+          console.warn('AppAxios fail: ', arguments);
         });
 
       AppAxios.get(`${state.urls.getFlowchartXML + partnerCode}.xml`)
@@ -81,11 +84,14 @@ export default {
         })
         .catch(() => {
           // @todo add sanity check for errors & visual prompt to the user
+          app.$Progress.fail;
+          console.warn('AppAxios fail: ', arguments);
         });
     }
   },
   fetchPartners(context) {
     const store = context;
+    const app = store.rootGetters.getApp;
 
     if (!store.state.partners.length) {
       // eslint-disable-next-line vue/no-async-in-computed-properties
@@ -96,6 +102,60 @@ export default {
         })
         .catch(() => {
           // @todo add sanity check for errors & visual prompt to the user
+          app.$Progress.fail;
+          console.warn('AppAxios fail: ', arguments);
+        });
+    }
+  },
+  submitPartnersData(context, payload) {
+    const { evt } = payload;
+    const { vm } = payload;
+
+    const store = context;
+    const app = store.rootGetters.getApp;
+    const { waterAnalysisRequest } = store.state;
+
+    if (waterAnalysisRequest) {
+      /* const axiosConfig = {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        transformRequest: [data => JSON.stringify(data.data)],
+      };
+
+      // eslint-disable-next-line vue/no-async-in-computed-properties
+      AppAxios.post(
+        store.state.urls.submitPartnersData,
+        waterAnalysisRequest,
+        axiosConfig,
+      ) */
+      AppAxios.get(store.state.urls.submitPartnersData)
+        .then((response) => {
+          if (response.status === 200 && !!response.data) {
+            const data = response.data;
+            if (data.InteractivePrompts.length) {
+              store.commit(types.UPDATE_INTERACTIVE_PROMPTS, data.InteractivePrompts);
+            }
+            if (data.AdditionalContaminantRequests.length) {
+              store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS,
+                data.AdditionalContaminantRequests);
+            }
+            if (!!data.InteractivePrompts.length
+              || !!data.AdditionalContaminantRequests.length) {
+              const bwiModalInteractive = vm.$refs.bwi_modal_interactive;
+
+              vm.$root.$emit(
+                'bv::show::modal', 'bwi-modal-interactive', bwiModalInteractive,
+              );
+            }
+          }
+        })
+        .catch(() => {
+          // @todo add sanity check for errors & visual prompt to the user
+          app.$Progress.fail;
+          console.warn('AppAxios fail: ', arguments);
         });
     }
   },

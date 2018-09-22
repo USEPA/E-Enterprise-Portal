@@ -1,0 +1,72 @@
+@import "./bootstrap-variable-overrides";
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/mixins";
+
+// meant for use with <b-form-radio>
+// It forces it too look like buttons
+.radio-btn, [class^='radio-btn-'] {
+    padding-left: 0;
+    &:last-child {
+        margin-right: 0;
+    }
+    input[type=radio] {
+        display: none;
+    }
+    .custom-control-label {
+        display: inline-block;
+        font-weight: $btn-font-weight;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        user-select: none;
+        border: $btn-border-width solid transparent;
+        @include button-size($btn-padding-y, $btn-padding-x, $font-size-base, $btn-line-height, $btn-border-radius);
+        @include transition($btn-transition);
+
+        // Share hover and focus styles
+        @include hover-focus {
+            text-decoration: none;
+        }
+
+        &:focus,
+        &.focus {
+            outline: 0;
+            box-shadow: $btn-focus-box-shadow;
+        }
+
+        // Disabled comes first so active can properly restyle
+        &.disabled,
+        &:disabled {
+            opacity: $btn-disabled-opacity;
+            @include box-shadow(none);
+        }
+
+        // Opinionated: add "hand" cursor to non-disabled .btn elements
+        &:not(:disabled):not(.disabled) {
+            cursor: pointer;
+        }
+
+        &:not(:disabled):not(.disabled):active,
+        &:not(:disabled):not(.disabled).active {
+            @include box-shadow($btn-active-box-shadow);
+
+            &:focus {
+                @include box-shadow($btn-focus-box-shadow, $btn-active-box-shadow);
+            }
+        }
+
+        &:before, &:after {
+            display: none;
+        }
+
+        @include button-variant($light, $light);
+    }
+}
+
+@each $color, $value in $theme-colors {
+    .radio-btn-#{$color} {
+        [type=radio]:checked + .custom-control-label {
+            @include button-variant($value, $value);
+        }
+    }
+}

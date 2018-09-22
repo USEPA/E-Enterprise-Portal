@@ -15,6 +15,9 @@ import { commonAppStore } from '../../adk/ADK';
 export default {
   ...commonAppStore.getters,
 
+  getAdditionalContaminantRequests(state) {
+    return state.additionalContaminantRequests;
+  },
   getFlowchartContaminants: (state, getters) => (section) => {
     const { flowchart } = getters.getPartnerResource;
     const r = (flowchart
@@ -26,6 +29,9 @@ export default {
         .filter(item => item._attributes.Section.match(section))
       : [];
     return r;
+  },
+  getInteractivePrompts(state) {
+    return state.interactivePrompts;
   },
   getPartnerResource(state) {
     return state.partnerResource;
