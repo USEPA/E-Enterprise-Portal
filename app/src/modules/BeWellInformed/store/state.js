@@ -25,22 +25,22 @@ export default {
     },
     DEV: {
       getPartners: 'sample_data/stateAndTribes.json',
-      getPartnerXML: 'http://e-enterprise/be_well_informed/get_bwi_xml/partner-',
-      getFlowchartXML: 'http://e-enterprise/be_well_informed/get_bwi_xml/flowchart-',
+      getPartnerXML: 'https://dev.e-enterprise.gov/be_well_informed/get_bwi_xml/partner-',
+      getFlowchartXML: 'https://dev.e-enterprise.gov/be_well_informed/get_bwi_xml/flowchart-',
       submitPartnersData: 'https://nodeweb.epacdxnode.net/BWIService/bwievaluation',
     },
     TEST: {
       getPartners: 'sample_data/stateAndTribes.json',
-      getPartnerXML: 'http://e-enterprise/be_well_informed/get_bwi_xml/partner-',
-      getFlowchartXML: 'http://e-enterprise/be_well_informed/get_bwi_xml/flowchart-',
+      getPartnerXML: 'https://test.e-enterprise.gov/be_well_informed/get_bwi_xml/partner-',
+      getFlowchartXML: 'https://test.e-enterprise.gov/be_well_informed/get_bwi_xml/flowchart-',
       submitPartnersData: 'https://nodeweb.epacdxnode.net/BWIService/bwievaluation',
     },
-    PROD: {
+    /*PROD: {
       getPartners: 'sample_data/stateAndTribes.json',
-      getPartnerXML: 'http://e-enterprise/be_well_informed/get_bwi_xml/partner-',
-      getFlowchartXML: 'http://e-enterprise/be_well_informed/get_bwi_xml/flowchart-',
+      getPartnerXML: 'https://e-enterprise.gov/be_well_informed/get_bwi_xml/partner-',
+      getFlowchartXML: 'https://e-enterprise.gov/be_well_informed/get_bwi_xml/flowchart-',
       submitPartnersData: 'https://nodeweb.epacdxnode.net/BWIService/bwievaluation',
-    },
+    },*/
   },
   waterAnalysisRequest: {},
   interactivePrompts: [],
