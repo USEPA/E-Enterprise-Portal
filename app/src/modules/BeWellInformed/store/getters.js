@@ -36,6 +36,15 @@ export default {
   getPartnerResource(state) {
     return state.partnerResource;
   },
+  getPartnerSectors(state, getters) {
+    const { flowchart } = getters.getPartnerResource;
+    const r = (flowchart
+      && flowchart.FlowCharts
+      && flowchart.FlowCharts.Sections)
+      ? flowchart.FlowCharts.Sections
+      : {};
+    return r;
+  },
   getPartners(state) {
     return state.partners.map(c => ({ value: c, text: c.name }));
   },
@@ -47,5 +56,11 @@ export default {
   },
   getWaterAnalysisRequest(state) {
     return state.waterAnalysisRequest;
+  },
+  getTreatmentSteps(state) {
+    return state.treatmentSteps;
+  },
+  getResultEvaluations(state) {
+    return state.resultEvaluations;
   },
 };

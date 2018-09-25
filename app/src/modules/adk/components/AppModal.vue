@@ -2,6 +2,7 @@
   <b-modal
     class="eep-app-modal"
     :id="id"
+    :hide-footer="hideFooter"
     :ref="modalRef">
     <template
       slot="modal-header">
@@ -19,10 +20,12 @@
       </button>
 
     </template>
-    <div class="container-fluid">
+    <div class="">
       <slot></slot>
     </div>
-    <template slot="modal-footer"></template>
+    <template slot="modal-footer">
+      <slot name="footer"></slot>
+    </template>
   </b-modal>
 </template>
 
@@ -33,6 +36,11 @@
       id: {
         type: String,
         required: true,
+      },
+      hideFooter: {
+        type: Boolean,
+        default: () => false,
+        required: false,
       },
       modalRef: {
         type: String,

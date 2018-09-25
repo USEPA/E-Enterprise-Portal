@@ -36,25 +36,31 @@ export default {
       : null;
   },
   [types.UPDATE_PARTNER_XML](state, obj) {
+    const partner = {};
+    Object.assign(partner, obj.partner);
+
     Vue.set(
       state.partnerXmls,
-      obj.partner.code,
-      state.partnerXmls[obj.partner.code] || obj.partner,
+      partner.code,
+      state.partnerXmls[partner.code] || partner,
     );
     Vue.set(
-      state.partnerXmls[obj.partner.code],
+      state.partnerXmls[partner.code],
       'info',
       obj.partnerJson,
     );
   },
   [types.UPDATE_PARTNER_FLOWCHART_XML](state, obj) {
+    const partner = {};
+    Object.assign(partner, obj.partner);
+
     Vue.set(
       state.partnerXmls,
-      obj.partner.code,
-      state.partnerXmls[obj.partner.code] || obj.partner,
+      partner.code,
+      state.partnerXmls[partner.code] || partner,
     );
     Vue.set(
-      state.partnerXmls[obj.partner.code],
+      state.partnerXmls[partner.code],
       'flowchart',
       obj.partnerJson,
     );
@@ -72,5 +78,22 @@ export default {
       'additionalContaminantRequests',
       array,
     );
+  },
+  [types.UPDATE_QUESTION_RESPONSE](state, obj) {
+    if (obj.index === null) {
+      state.waterAnalysisRequest[obj.type].push(obj.response);
+    } else {
+      Vue.set(
+        state.waterAnalysisRequest[obj.type],
+        obj.index,
+        obj.response,
+      );
+    }
+  },
+  [types.UPDATE_RESULT_EVALUATIONS](state, obj) {
+    state.resultEvaluations = obj;
+  },
+  [types.UPDATE_TREATMENT_STEPS](state, obj) {
+    state.treatmentSteps = obj;
   },
 };

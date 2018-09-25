@@ -1,6 +1,8 @@
-<template>
+<template
+  ref="bwi">
   <div>
-    <AppWrapper :eep-app="eepApp">
+    <AppWrapper
+      :eep-app="eepApp">
       <b-form
         class="needs-validation"
         validated>
@@ -33,8 +35,11 @@
       <AppModal
         id="bwi-modal"
         modal-ref="bwi-modal"
-        title="Be Well Informed Water Analysis Tool">
-        <b-tabs>
+        title="Be Well Informed Water Analysis Tool"
+        :hide-footer="true">
+        <b-tabs
+          v-model="tabIndex"
+          ref="bwi-tabs">
           <b-tab
             title="Entry"
             active
@@ -49,11 +54,13 @@
           <b-tab
             title="Results"
             class="py-3"
-            disabled>
-            <br>Disabled tab!
+            :disabled="!hasResults">
+            <WaterAnalysisResult/>
           </b-tab>
         </b-tabs>
-        <template slot="modal-footer"></template>
+        <template
+          slot="footer">&nbsp;
+        </template>
       </AppModal>
       <AppModal
         id="bwi-modal-interactive"
@@ -66,19 +73,20 @@
             v-if="interactivePrompts"
             v-for="(question, key) in interactivePrompts">
             <div
-              class="contaminant-wrapper col-md-12"
-              :key="key">
+              class="col-md-12"
+              :key="question.Symbol">
               <div class="row my-2">
                 <div class="col-sm-6">
                   <label class="">{{ question.Interaction }}</label>
                 </div>
                 <div class="col-sm-6">
                   <b-form-radio-group
-                    @:change="updateInteractivePromptResponses(question, $event)"
+                    @change="updatePromptResponses({question, $event,
+                                                    promptType:'InteractivePromptResponses'})"
                     :id="`${question.Symbol}-question-Value`"
                     :ref="`${question.Symbol}-question-Value`"
                     name="radioSubComponent"
-                    class="row justify-content-end">
+                    class="text-right">
                     <b-form-radio
                       class="radio-btn radio-btn-primary"
                       value="true">Yes</b-form-radio>
@@ -88,118 +96,90 @@
                   </b-form-radio-group>
                 </div>
               </div>
-              <!--<div class="row no-gutters my-2">
-                <div class="col-sm-5">
-                  <label class="">{{ question.Interaction }}</label>
-                </div>
-                <div class="col-sm-3">
-                  <b-form-input
-                    :ref="`${contaminant._attributes.Value}-Value`"
-                    :id="`${contaminant._attributes.Value}-Value`"
-                    type="number"
-                    step="0.001"
-                    size="lg"
-                    @:change.native="updateProperty( section, contaminant, 'Value', $event)" />
-                </div>
-                <div class="col-sm-4">
-                  <b-form-select
-                    :value="contaminant._attributes.DefaultUnit"
-                    @change="updateProperty( section, contaminant, 'Unit', $event)"
-                    size="lg">
-                    <template v-for="unit in contaminant._attributes.Units.split('|')" >
-                      <option
-                        :key="unit"
-                        :value="unit" >{{ unit }}</option>
-                    </template>
-                  </b-form-select>
-                </div>
-              </div>-->
             </div>
           </template>
 
           <template
-            v-if="interactivePrompts"
-            v-for="(question, key) in interactivePrompts">
+            v-if="additionalContaminantRequests"
+            v-for="(question, key) in additionalContaminantRequests">
             <div
-              class="contaminant-wrapper col-md-12"
-              :key="key">
+              class="col-md-12"
+              :key="question.Symbol">
               <div class="row my-2">
-                <div class="col-sm-6">
-                  <label class="">{{ question.Interaction }}</label>
-                </div>
-                <div class="col-sm-6">
-                  <b-form-radio-group
-                    @:change="updateInteractivePromptResponses(question, $event)"
-                    :id="`${question.Symbol}-question-Value`"
-                    :ref="`${question.Symbol}-question-Value`"
-                    name="radioSubComponent"
-                    class="row justify-content-end">
-                    <b-form-radio
-                      class="radio-btn radio-btn-primary"
-                      value="true">Yes</b-form-radio>
-                    <b-form-radio
-                      class="radio-btn radio-btn-primary"
-                      value="false">No</b-form-radio>
-                  </b-form-radio-group>
-                </div>
-              </div>
-              <!--<div class="row no-gutters my-2">
                 <div class="col-sm-5">
                   <label class="">{{ question.Interaction }}</label>
                 </div>
                 <div class="col-sm-3">
                   <b-form-input
-                    :ref="`${contaminant._attributes.Value}-Value`"
-                    :id="`${contaminant._attributes.Value}-Value`"
+                    :ref="`${question.Symbol}-question-Value`"
+                    :id="`${question.Symbol}-question-Value`"
                     type="number"
                     step="0.001"
                     size="lg"
-                    @:change.native="updateProperty( section, contaminant, 'Value', $event)" />
+                    @change="updateWaterAnalysisRequestProperty( {
+                      section: getSectionFromSymbol(question.Symbol),
+                      contaminant: getContaminantFromSymbol(question.Symbol),
+                      property: 'Value',
+                      event:$event })" />
                 </div>
                 <div class="col-sm-4">
                   <b-form-select
-                    :value="contaminant._attributes.DefaultUnit"
-                    @change="updateProperty( section, contaminant, 'Unit', $event)"
-                    size="lg">
-                    <template v-for="unit in contaminant._attributes.Units.split('|')" >
+                    :contam="getContaminantFromSymbol(question.Symbol)"
+                    :value="getContaminantFromSymbol(question.Symbol)._attributes.DefaultUnit"
+                    @change="updateWaterAnalysisRequestProperty( {
+                      section: getSectionFromSymbol(question.Symbol),
+                      contaminant: getContaminantFromSymbol(question.Symbol),
+                      property: 'Unit',
+                      event:$event })">
+                    <template v-for="unit in getContaminantFromSymbol(question.Symbol)._attributes.Units.split('|')" >
                       <option
                         :key="unit"
                         :value="unit" >{{ unit }}</option>
                     </template>
                   </b-form-select>
                 </div>
-              </div>-->
+              </div>
             </div>
           </template>
 
         </div>
-
+        <template
+          slot="footer">
+          <b-button
+            type="reset"
+            variant="danger">Reset</b-button>
+          <b-button
+            type="submit"
+            variant="primary"
+            @click="onSubmit">Submit</b-button>
+        </template>
       </AppModal>
     </AppWrapper>
   </div>
 </template>
 
 <script>
+  /* eslint-disable prefer-const,no-underscore-dangle */
+
   import { mapActions, mapGetters } from 'vuex';
   import { AppWrapper, AppModal } from '../adk/ADK';
   import storeModule from './store/index';
   import PartnerForm from './components/PartnerForm.vue';
   import PartnerResources from './components/PartnerResources.vue';
-  // import App from '../../App';
+  import types from './store/types';
+  import { EventBus } from '../../EventBus';
+  import WaterAnalysisResult from './components/WaterAnalysisResult.vue';
 
   const name = 'BeWellInformed';
 
   export default {
     name: 'BeWellInformed',
     components: {
-      // App,
+      WaterAnalysisResult,
       AppWrapper,
       AppModal,
       PartnerForm,
       PartnerResources,
-    },
-    beforeCreate() {
-
     },
     created() {
       const store = this.$store;
@@ -207,6 +187,9 @@
         store.registerModule(name, storeModule);
       }
       this.fetchPartners();
+
+      // Custom event listeners
+      EventBus.$on('bwi::showWaterAnalysisResults', this.showWaterAnalysisResults);
     },
     data() {
       return {
@@ -239,6 +222,8 @@
               '</p>',
           },
         },
+        tabIndex: 0,
+        hasResults: false,
       };
     },
     computed: {
@@ -251,6 +236,9 @@
         interactivePrompts: 'BeWellInformed/getInteractivePrompts',
         additionalContaminantRequests: 'BeWellInformed/getAdditionalContaminantRequests',
       }),
+      currentTab() {
+        return this.tabIndex;
+      },
       isFlowchartReady() {
         const { partnerResource } = this;
         return !!(partnerResource && partnerResource.flowchart);
@@ -258,9 +246,13 @@
     },
     methods: {
       ...mapActions(name, [
+        'createWaterAnalysisRequest',
         'setSelectedPartner',
         'fetchPartners',
         'fetchPartnerAndFlowchartXML',
+        'updateAdditionalContaminantProperty',
+        'updatePromptResponses',
+        'updateWaterAnalysisRequestProperty',
       ]),
       onCheckYourWater() {
         const partner = this.selectedPartner;
@@ -269,8 +261,45 @@
           'bv::show::modal', 'bwi-modal', this.$refs.btnCheckYourWater,
         );
       },
-      updateInteractivePromptResponses(question, $event) {
-        console.log(this, question, $event);
+      getContaminantFromSymbol(symbol) {
+        const { partnerResource } = this;
+        const Contaminants = partnerResource.flowchart.FlowCharts.Contaminants.Contaminant;
+        let contaminant = null;
+
+        let contaminantArray = Contaminants.filter(c => c._attributes.Value === symbol);
+
+        if (Array.isArray(contaminantArray) && contaminantArray.length) {
+          contaminant = contaminantArray[0];
+        }
+
+        return contaminant;
+      },
+      getSectionFromSymbol(symbol) {
+        const contaminant = this.getContaminantFromSymbol(symbol);
+        let section = '';
+
+        if (contaminant) {
+          section = contaminant._attributes.Section;
+        }
+        return section;
+      },
+      onSubmit(evt) {
+        evt.preventDefault();
+        const vm = this;
+        this.submitPartnersData({ vm, evt });
+      },
+      showWaterAnalysisResults(event) {
+        const vm = this;
+        const bwiModal = vm.$refs.bwi_modal;
+
+        vm.$root.$emit(
+          'bv::show::modal', 'bwi-modal', bwiModal,
+        );
+
+        vm.hasResults = true;
+        vm.$nextTick(function () {
+          vm.tabIndex = event.value;
+        });
       },
     },
   };

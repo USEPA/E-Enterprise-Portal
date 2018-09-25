@@ -48,7 +48,9 @@
       //  [App.vue specific] When App.vue is first loaded start the progress bar
       vm.$Progress.start();
       //  hook the progress bar to start before we move router-view
-      vm.$router.beforeEach((to, from, next) => {
+      vm.$router.beforeEach((
+        to, from, next,
+      ) => {
         //  does the page we want to go to have a meta.progress object
         if (to.meta.progress !== undefined) {
           const meta = to.meta.progress;
@@ -75,7 +77,7 @@
   @import './styles/bootstrap-variable-overrides.scss';
   @import '../node_modules/bootstrap/scss/bootstrap.scss';
   @import '../node_modules/bootstrap-vue/dist/bootstrap-vue.css';
-  @import '../node_modules/open-iconic/font/css/open-iconic-bootstrap.css';
+  @import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
   @import './styles/styles.scss';
 
   .region-navigation {

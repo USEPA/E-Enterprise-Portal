@@ -19,7 +19,7 @@
                 type="number"
                 step="0.001"
                 size="lg"
-                @:change.native="updateProperty( section, contaminant, 'Value', $event)" />
+                @change="updateProperty( section, contaminant, 'Value', $event)" />
             </div>
             <div class="col-sm-4">
               <b-form-select
@@ -107,7 +107,7 @@
       updateProperty: vm => (
  section, contaminant, property, event,
 ) => {
-        if(contaminant._attributes.ShowIsPresent && (event === 'false')) {
+        if (contaminant._attributes.ShowIsPresent && (event === 'false')) {
           vm.$refs[`${contaminant._attributes.Value}-Value`].forEach(input => input.setValue(''));
         }
         vm.updateWaterAnalysisRequestProperty({

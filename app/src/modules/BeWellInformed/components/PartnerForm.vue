@@ -90,7 +90,7 @@
 <style
   scoped
   lang="scss">
-  .row > button:not(:last-child) {
+  .row > button {
     margin-right: .5rem;
   }
 </style>
