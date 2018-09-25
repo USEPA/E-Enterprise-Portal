@@ -190,62 +190,60 @@ export default {
         aa = AppAxios.get(endpoint);
       }
 
-      aa.get(endpoint)
-        .then((response) => {
-          if (response.status === 200 && !!response.data) {
-            const data = response.data;
-            /**
+      aa.then((response) => {
+        if (response.status === 200 && !!response.data) {
+          const data = response.data;
+          /**
              * If we get InteractivePrompts or AdditionalContaminantRequests
              * handle the various states of the returns from the service
               */
 
-            if (data.InteractivePrompts.length) {
-              store.commit(types.UPDATE_INTERACTIVE_PROMPTS, data.InteractivePrompts);
-            } else {
-              store.commit(types.UPDATE_INTERACTIVE_PROMPTS, []);
-            }
-            if (data.AdditionalContaminantRequests.length) {
-              store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS,
-                data.AdditionalContaminantRequests);
-            } else {
-              store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS, []);
-            }
-            if (!!data.InteractivePrompts.length
+          if (data.InteractivePrompts.length) {
+            store.commit(types.UPDATE_INTERACTIVE_PROMPTS, data.InteractivePrompts);
+          } else {
+            store.commit(types.UPDATE_INTERACTIVE_PROMPTS, []);
+          }
+          if (data.AdditionalContaminantRequests.length) {
+            store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS,
+              data.AdditionalContaminantRequests);
+          } else {
+            store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS, []);
+          }
+          if (!!data.InteractivePrompts.length
               || !!data.AdditionalContaminantRequests.length) {
-              const bwiModalInteractive = vm.$refs.bwi_modal_interactive;
+            const bwiModalInteractive = vm.$refs.bwi_modal_interactive;
 
-              vm.$root.$emit(
-                'bv::show::modal', 'bwi-modal-interactive', bwiModalInteractive,
-              );
-            }
-            /**
+            vm.$root.$emit(
+              'bv::show::modal', 'bwi-modal-interactive', bwiModalInteractive,
+            );
+          }
+          /**
              * See if the response returns results for the test and proceed to
              * render as necessary
              */
 
-            const hasResultEvaluations = !!Object.keys(data.ResultEvaluations).length;
-            if (hasResultEvaluations) {
-              store.commit(types.UPDATE_RESULT_EVALUATIONS, data.ResultEvaluations);
-            } else {
-              store.commit(types.UPDATE_RESULT_EVALUATIONS, {});
-            }
-
-            const hasTreatmentSteps = !!Object.keys(data.TreatmentSteps).length;
-            if (hasTreatmentSteps) {
-              store.commit(types.UPDATE_TREATMENT_STEPS,
-                data.TreatmentSteps);
-            } else {
-              store.commit(types.UPDATE_TREATMENT_STEPS, {});
-            }
-            if (hasResultEvaluations || hasTreatmentSteps) {
-
-              EventBus.$emit('bwi::showWaterAnalysisResults', {
-                callee: this,
-                value: 2,
-              });
-            }
+          const hasResultEvaluations = !!Object.keys(data.ResultEvaluations).length;
+          if (hasResultEvaluations) {
+            store.commit(types.UPDATE_RESULT_EVALUATIONS, data.ResultEvaluations);
+          } else {
+            store.commit(types.UPDATE_RESULT_EVALUATIONS, {});
           }
-        })
+
+          const hasTreatmentSteps = !!Object.keys(data.TreatmentSteps).length;
+          if (hasTreatmentSteps) {
+            store.commit(types.UPDATE_TREATMENT_STEPS,
+              data.TreatmentSteps);
+          } else {
+            store.commit(types.UPDATE_TREATMENT_STEPS, {});
+          }
+          if (hasResultEvaluations || hasTreatmentSteps) {
+            EventBus.$emit('bwi::showWaterAnalysisResults', {
+              callee: this,
+              value: 2,
+            });
+          }
+        }
+      })
         .catch(() => {
           // @todo add sanity check for errors & visual prompt to the user
           app.$Progress.fail;

@@ -35,8 +35,7 @@
             </div>
           </div>
           <div
-            v-if="(contaminant._attributes.hasOwnProperty('ShowIsPresent') &&
-            contaminant._attributes.ShowIsPresent)"
+            v-if="canShowIsPresent(contaminant)"
             class="row justify-content-end">
             <b-form-group
             class="col text-right">
@@ -122,6 +121,15 @@
         'fetchPartnerAndFlowchartXML',
         'updateWaterAnalysisRequestProperty',
       ]),
+      canShowIsPresent(contaminant) {
+        const r = (
+          contaminant
+          && contaminant._attributes
+          && contaminant._attributes.hasOwnProperty('ShowIsPresent')
+          && contaminant._attributes.ShowIsPresent
+        ) ? true : false;
+        return r;
+      },
     },
   };
 </script>

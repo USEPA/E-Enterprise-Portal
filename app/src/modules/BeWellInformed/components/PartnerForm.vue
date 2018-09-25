@@ -27,9 +27,9 @@
 
       <div
         class="row justify-content-end">
-        <b-button
+        <!--<b-button
           type="reset"
-          variant="danger">Reset</b-button>
+          variant="danger">Reset</b-button>-->
         <b-button
           type="submit"
           variant="primary">Submit</b-button>
@@ -75,12 +75,17 @@
       onReset(evt) {
         evt.preventDefault();
         /* Reset our form values */
-        this.form.email = '';
-        this.form.name = '';
-        this.form.food = null;
-        this.form.checked = [];
-        /* Trick to reset/clear native browser form validation state */
-        this.show = false;
+        const vm = this;
+        // this.$children[0].$refs["As-Value"][0].$refs["input"].value
+        vm.$children.forEach((child) => {
+          Object.keys(child.$refs).forEach((key) => {
+
+            contaminants.forEach(() => {
+
+            });
+          });
+        });
+
         this.$nextTick(() => { this.show = true; });
       },
     },
