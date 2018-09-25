@@ -56,9 +56,10 @@ export default {
     const app = store.rootGetters.getApp;
     const { state } = store;
     const partner = state.selectedPartner;
+    const suffix = (env === 'LOCAL') ? '.xml' : '';
 
     if (!state.partnerXmls[partnerCode]) {
-      AppAxios.get(`${state.urls[env].getPartnerXML + partnerCode}.xml`)
+      AppAxios.get(state.urls[env].getPartnerXML + partnerCode + suffix)
         .then((response) => {
           // @todo add sanity check for returned data
           const partnerJsonString = convert.xml2json(response.data, { compact: true });
@@ -85,7 +86,7 @@ export default {
           console.warn('AppAxios fail: ', arguments);
         });
 
-      AppAxios.get(`${state.urls[env].getFlowchartXML + partnerCode}.xml`)
+      AppAxios.get(state.urls[env].getFlowchartXML + partnerCode + suffix)
         .then((response) => {
           // @todo add sanity check for returned data
           const partnerJsonString = convert.xml2json(response.data, { compact: true });
