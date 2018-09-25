@@ -6,7 +6,6 @@ export default {
     let env = 'LOCAL';
     const { host } = location;
     let m;
-    console.log(this.$route.query.test);
 
     const regex = {
       LOCAL: /(localhost|local|^e\-enterprise$)/gm,
