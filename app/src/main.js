@@ -45,8 +45,9 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 
+let m;
 const regex = /^e-enterprise\.gov/gm;
-while ((m = regex.exec(host)) !== null) {
+while ((m = regex.exec(location.host)) !== null) {
   // disable vue tool in Prod only
   if (m.length) {
     Vue.config.devtools = false;
