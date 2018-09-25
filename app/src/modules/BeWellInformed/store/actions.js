@@ -185,7 +185,7 @@ export default {
       } else {
         // handle local env endpoints when there is no service
         let endpoint = store.state.urls[env].submitPartnersData;
-        if (store.state.interactivePrompts) {
+        if (store.state.interactivePrompts && store.state.interactivePrompts.length) {
           endpoint = store.state.urls[env].submitPartnersData2;
         }
         aa = AppAxios.get(endpoint);

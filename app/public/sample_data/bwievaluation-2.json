@@ -3,7 +3,7 @@
     "As": {
       "Symbol": "As",
       "ContaminantFullName": "Arsenic",
-      "UserContaminatValue": "4444 mg/L",
+      "UserContaminatValue": "1 mg/L",
       "MaximumContaminantLevel": "0.010 mg/L",
       "GuidelineIcon": "Images/water/false4.png",
       "GuidelineColor": "font-red",
@@ -16,7 +16,7 @@
     "Cl": {
       "Symbol": "Cl",
       "ContaminantFullName": "Chloride",
-      "UserContaminatValue": "444 mg/L",
+      "UserContaminatValue": "300 mg/L",
       "MaximumContaminantLevel": "250 mg/L",
       "GuidelineIcon": "Images/water/false4.png",
       "GuidelineColor": "font-red",
@@ -55,14 +55,14 @@
     "Fl": {
       "Symbol": "Fl",
       "ContaminantFullName": "Fluoride",
-      "UserContaminatValue": "",
+      "UserContaminatValue": "3.5 mg/L",
       "MaximumContaminantLevel": "4.0 mg/L",
-      "GuidelineIcon": "",
-      "GuidelineColor": "",
-      "GuidelineText": "",
-      "InterpretationMessages": "",
-      "HealthMessages": "",
-      "TreatmentMessages": "",
+      "GuidelineIcon": "Images/water/false4.png",
+      "GuidelineColor": "font-red",
+      "GuidelineText": "The value entered meets, but is near, the drinking water standard but exceeds the guideline.  Collect another water sample to confirm the results of your first sample.",
+      "InterpretationMessages": "&lt;b&gt;\r\n                Does my well water meet the &lt;a target=&quot;_blank&quot; href=&quot;http://water.epa.gov/drink/contaminants/basicinformation/fluoride.cfm&quot;&gt; drinking water guideline for fluoride&lt;/a&gt;?\r\n              &lt;/b&gt;  No, your water does not meet federal and state drinking water guidelines for public water systems as it contains more than 2.0 mg/L of fluoride.",
+      "HealthMessages": "&lt;b&gt;Can consuming water containing fluoride affect my health?&lt;/b&gt;  Consuming water containing more than 2.0 mg/L of fluoride can cause small ‘white spots’ on children’s teeth (mottled enamel), or in extreme cases, brown staining or pitting of teeth that are still developing below the gums (dental fluorosis).&lt;br /&gt;&lt;br /&gt;\r\n              To reduce your exposure to fluoride in your well water, treat the water that you use for drinking and cooking to a level less than 2.0 mg/L.  If treatment is not feasible, children under nine years old should be provided with an alternative source of water that contains less than 2.0 mg/L of fluoride.&lt;br /&gt;&lt;br /&gt;\r\n              Consuming water containing an optimal level of fluoride helps protect against tooth decay.  The U.S. Department of Health and Human Services’ recommended optimal range for fluoride in drinking water is 0.6 - 0.8 mg/L.  You should talk with your dentist and doctor about the level of fluoride in your water and how you can reduce your and your family’s total fluoride exposure.  Click &lt;a target=&quot;_blank&quot; href=&quot;http://www.cdc.gov/fluoridation/faqs/wellwater.htm&quot;&gt; here&lt;/a&gt; for more information from the U.S. Centers for Disease Control and Prevention about private well water and fluoride.&lt;br /&gt;&lt;br /&gt;",
+      "TreatmentMessages": "&lt;b&gt;How can I reduce the level of fluoride in my water?&lt;/b&gt;  Install one of the following point-of-use (POU) water treatment systems at your kitchen sink to reduce the level of fluoride in the water that you consume:\r\n              &lt;br /&gt;&lt;ol&gt;&lt;li&gt;\r\n              An NSF/ANSI Standard 61 certified activated alumina filter system.\r\n            &lt;/li&gt;&lt;br /&gt;&lt;b&gt;OR&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;&lt;li&gt;\r\n              An NSF/ANSI Standard 58 certified reverse osmosis (RO) system.\r\n            &lt;/li&gt;&lt;/ol&gt;&lt;br /&gt;&lt;ul style=&quot;list-style-type:none&quot;&gt;&lt;li&gt;\r\n              More information about treatment for fluoride can be found in &lt;a target=&quot;_blank&quot; href=&quot;http://www.mass.gov/eea/agencies/massdep/water/drinking/lead-and-other-contaminants-in-drinking-water.html#7 &quot;&gt;MassDEP’s Fluoride Information web page&lt;/a&gt;.\r\n            &lt;/li&gt;&lt;/ul&gt;&lt;br /&gt;",
       "StateNode": ""
     },
     "Har": {
@@ -81,7 +81,7 @@
     "Fe": {
       "Symbol": "Fe",
       "ContaminantFullName": "Iron",
-      "UserContaminatValue": "1234 mg/L",
+      "UserContaminatValue": "1 mg/L",
       "MaximumContaminantLevel": "0.3 mg/L",
       "GuidelineIcon": "Images/water/false4.png",
       "GuidelineColor": "font-red",
@@ -94,14 +94,14 @@
     "Pb": {
       "Symbol": "Pb",
       "ContaminantFullName": "Lead",
-      "UserContaminatValue": "",
+      "UserContaminatValue": "1 mg/L",
       "MaximumContaminantLevel": "0.015 mg/L",
-      "GuidelineIcon": "",
-      "GuidelineColor": "",
-      "GuidelineText": "",
-      "InterpretationMessages": "",
-      "HealthMessages": "",
-      "TreatmentMessages": "",
+      "GuidelineIcon": "Images/water/false4.png",
+      "GuidelineColor": "font-red",
+      "GuidelineText": "The value entered exceeds the drinking water action level",
+      "InterpretationMessages": "&lt;b&gt;\r\n                Does my well water meet the &lt;a target=&quot;_blank&quot; href=&quot;http://water.epa.gov/drink/contaminants/basicinformation/lead.cfm&quot;&gt; drinking water action level for lead&lt;/a&gt;?\r\n              &lt;/b&gt;  No, your water does not meet the federal and state drinking water action level for public water systems as it contains more than 0.015 mg/L of lead.",
+      "HealthMessages": "&lt;b&gt;Can consuming water containing lead affect my health?&lt;/b&gt;  Consuming water containing more than 0.015 mg/L of lead can cause serious health problems, especially for babies, children, and pregnant women.  &lt;br /&gt;&lt;br /&gt;  It is important to reduce lead exposures from lead paint, drinking water, and other sources as much as possible, particularly for young children, pregnant women, and infants, because there is no safe level of lead in a child&#39;s blood.  EPA has set the maximum contaminant level goal for lead in drinking water at zero because lead is a toxic metal that can be harmful to human health even at low exposure levels. Lead is persistent, and it can bioaccumulate in the body over time. &lt;br&gt;&lt;/br&gt;\r\n              Babies and children who consume water containing more than 0.015 mg/L of lead could experience long-term problems with physical and mental growth and development, including slowed body growth, kidney problems, hearing problems, seizures, brain damage, lower IQ level, trouble learning, reduced attention span, and behavior problems.&lt;br /&gt;&lt;br /&gt;\r\n              Pregnant women and their unborn babies are especially at risk from consuming water containing more than 0.015 mg/L of lead.  Lead exposure can seriously harm the unborn baby, causing premature birth, lower birth weight, and delayed mental and physical development.&lt;br /&gt;&lt;br /&gt;\r\n              Adults who consume water containing more than 0.015 mg/L of lead may be at higher risk for cancer, stroke, and high blood pressure and could develop nervous system problems, kidney problems, anemia, and decreased sperm production in men.&lt;br /&gt;&lt;br /&gt;\r\n              The presence of lead in your water may also indicate that other pollutants, such as copper, may be present in your water.&lt;br /&gt;&lt;br /&gt;\r\n              You can continue to use your water for washing food and dishes, brushing your teeth, bathing, showering, and for other uses, as these are not considered major sources of exposure.&lt;br /&gt;&lt;br /&gt;\r\n              For additional information see &lt;a target=&quot;_blank&quot; href=&quot;http://www.mass.gov/eohhs/docs/dph/environmental/lead/lead-drinking-water-faq.pdf&quot;&gt;MADPH Lead in Drinking Water FAQ&lt;/a&gt;.&lt;br&gt;&lt;/br&gt;",
+      "TreatmentMessages": "&lt;b&gt;What should I do?&lt;/b&gt;&lt;br /&gt;&lt;ol&gt;&lt;li&gt;\r\n                  If you haven’t already done so, you should also test your water for copper.\r\n                &lt;/li&gt;&lt;br /&gt;&lt;li&gt;\r\n                  Use only water from the cold-water tap for drinking, cooking, and especially for making baby food and formula. Hot water from the tap is likely to contain higher levels of lead and copper.  In most cases, you can reduce the level of lead and copper in the water that you use for drinking and cooking by clearing the water from the pipes before using it.&lt;/li&gt;&lt;br /&gt;&lt;li&gt;\r\n                  Lead (and copper) levels may be high in your water because of the materials used in your home’s plumbing and how acidic your water is.  Metals, such as lead and copper, can leach from pipes and plumbing fixtures when water is acidic.  If you haven’t already done so, you should also test the pH of your water, which will tell you if your water is acidic.&lt;br /&gt;&lt;br /&gt;\r\n                  If your water is acidic (pH is less than 7.0), install a whole house acid neutralizer system, such as a calcite filter, to increase the pH and make the water less acidic, which should reduce the level of lead (and copper) in your water.&lt;br /&gt;&lt;br /&gt;\r\n                  Another option is to remove the source of lead by replacing your lead or galvanized iron pipes and fittings, lead-soldered pipes, and brass or chrome fixtures with other approved materials, such as plastic.&lt;br /&gt;&lt;/li&gt;&lt;/ol&gt;&lt;br /&gt;&lt;div Id=&quot;Pb1&quot; style=&quot;display:none; padding-bottom: 5px; padding-left: 5px; padding-right: 5px;&quot;&gt;\r\n                In most cases, flushing out your plumbing will reduce the lead (and copper) level in your water. The routine of letting the water run to get the lead (and copper) out should be done each morning and if the water has not been used for more than six hours – for example, overnight or during the day when you have been out of the house.  To “flush the tap,” turn on the cold water faucet and let the water run for at least 15 seconds.  If you need hot water for drinking or cooking, take water from the cold water tap and heat it.&lt;br /&gt;&lt;br /&gt;\r\n                Other household water uses, such as showering or toilet flushing, will also help clear water from your plumbing. Keep in mind that you will still need to run individual faucets for a short time before using them for cooking and drinking water. You may want to keep a container of water in your refrigerator, so that the water does not have to be run every time you need it.&lt;br /&gt;&lt;br /&gt;\r\n                Corrosive water can result in damage to plumbing which can also result in increased levels of lead and copper.  More information about treatment for corrosive water or lead can be found at &lt;a target=&quot;_blank&quot; href=&quot;http://articles.extension.org/pages/31580/selecting-a-home-water-treatment-system&quot;&gt;Cooperative Extension&lt;/a&gt;.\r\n                &lt;br /&gt;&lt;/div&gt;",
       "StateNode": ""
     },
     "PbSt": {
@@ -120,7 +120,7 @@
     "Mn": {
       "Symbol": "Mn",
       "ContaminantFullName": "Manganese",
-      "UserContaminatValue": "1234 mg/L",
+      "UserContaminatValue": "1 mg/L",
       "MaximumContaminantLevel": "0.3 mg/L",
       "GuidelineIcon": "Images/water/false4.png",
       "GuidelineColor": "font-red",
@@ -172,11 +172,11 @@
     "Bac": {
       "Symbol": "Bac",
       "ContaminantFullName": "Total Coliform",
-      "UserContaminatValue": "",
+      "UserContaminatValue": "12345 CFU/100 mL",
       "MaximumContaminantLevel": "0 CFU/100 mL or Absent",
-      "GuidelineIcon": "",
-      "GuidelineColor": "",
-      "GuidelineText": "",
+      "GuidelineIcon": "Images/water/false4.png",
+      "GuidelineColor": "font-red",
+      "GuidelineText": "The value entered exceeds the drinking water standard. See your E. coli results.",
       "InterpretationMessages": "",
       "HealthMessages": "",
       "TreatmentMessages": "",
@@ -185,40 +185,40 @@
     "Ecoli": {
       "Symbol": "Ecoli",
       "ContaminantFullName": "E. coli",
-      "UserContaminatValue": "",
+      "UserContaminatValue": "12345 CFU/100 mL",
       "MaximumContaminantLevel": "0 CFU/100 mL or Absent",
-      "GuidelineIcon": "",
-      "GuidelineColor": "",
-      "GuidelineText": "",
-      "InterpretationMessages": "",
-      "HealthMessages": "",
-      "TreatmentMessages": "",
+      "GuidelineIcon": "Images/water/false4.png",
+      "GuidelineColor": "font-red",
+      "GuidelineText": "The value entered exceeds the drinking water standard.  <font color='red' >YOUR WATER IS NOT SAFE TO CONSUME </font>.",
+      "InterpretationMessages": "&lt;b&gt;\r\n                Does my well water meet the &lt;a target=&quot;_blank&quot; href=&quot;http://water.epa.gov/drink/contaminants/basicinformation/pathogens.cfm&quot;&gt; drinking water standard for E. coli bacteria&lt;/a&gt;?\r\n              &lt;/b&gt;  No, your water does not meet federal and state drinking water standards for public water systems as it contains E. coli bacteria and &lt;font color=&quot;red&quot;&gt;YOUR WATER IS NOT SAFE TO CONSUME.&lt;/font&gt;",
+      "HealthMessages": "&lt;b&gt;Can consuming water containing E. coli bacteria affect my health?&lt;/b&gt; Consuming water containing E. coli bacteria can cause vomiting, diarrhea, stomach cramps, nausea, and fever.  Babies, young children, and adults whose immune systems are not working well have the highest risk of getting sick.",
+      "TreatmentMessages": "&lt;b&gt;What should I do?&lt;/b&gt;\r\n              To avoid getting sick from consuming water containing E. coli bacteria, boil all water that you use for drinking, brushing teeth, washing fruits and vegetables, food preparation, washing dishes, making baby food and formula, and making ice or use an alternative source of water that is known to be safe, such as bottled water, until the problem is fixed and E. coli bacteria are absent.  Water should be boiled for two minutes and cooled before using it. Dishes can be safely washed in a dishwasher if you use the hot water/sanitary cycle setting and the dry cycle. You can continue to use your water for bathing and showering as long as you do not drink it; extra care should be taken with small children.  To fix the E. coli bacteria problem in your well water, see the steps below.\r\n              &lt;div&gt;\r\n                To fix the E. coli bacteria problem in your well water, take these steps:\r\n                &lt;br /&gt;&lt;ol&gt;&lt;li&gt;\r\n                E. coli bacteria in your water sample means there is a strong chance that human or animal waste is getting into your well.  Inspect the condition of your wellhead and the area around it - check your well’s cap and casing to make sure there are no cracks or holes where bacteria can enter your well; and check for possible sources of pollution, such as septic systems and waste from pets and farm animals.  Also, make sure rain and melting snow are directed away from your wellhead. If you cannot find your wellhead, it may be buried and need to be dug up.&lt;/li&gt;&lt;br /&gt;&lt;li&gt;\r\n                Once you have taken care of any potential sources of pollution, disinfect your well and collect another water sample.  See the Disinfection Section of the &lt;a target=&quot;_blank&quot; href=&quot;http://www.mass.gov/eea/agencies/massdep/water/drinking/private-wells.html&quot;&gt;MassDEP Private Well Guidelines&lt;/a&gt; for instructions on how to disinfect your well.&lt;/li&gt;&lt;br /&gt;&lt;li&gt;\r\n                If the bacteria problem continues, there may be a problem with the construction of your well that is allowing bacteria to easily enter it. In this case, contact an MA-certified well driller to get an assessment of your well and have any construction-related problems fixed.  Click &lt;a target=&quot;_blank&quot; href=&quot;http://www.mass.gov/eea/agencies/massdep/water/drinking/well-drillers-program.html &quot;&gt;here&lt;/a&gt; to search for MA-certified well drillers that work in your area.\r\n              &lt;/li&gt;&lt;br /&gt;&lt;li&gt;\r\n                If bacteria are present in your water after you have taken care of all potential pollution sources or well construction problems, you have the following options:\r\n                &lt;ol type=&quot;a&quot;&gt;&lt;li&gt;Install an NSF/ANSI Standard 55 certified whole house Class A ultraviolet (UV) disinfection system, following the manufacturer’s requirements for pretreatment; or&lt;/li&gt;&lt;li&gt;Use an alternative source of water that is known to be safe, such as bottled water; or&lt;/li&gt;&lt;li&gt;Replace your well.&lt;/li&gt;&lt;/ol&gt;&lt;/li&gt;&lt;br /&gt;&lt;/ol&gt;&lt;/div&gt;",
       "StateNode": ""
     },
     "Rn": {
       "Symbol": "Rn",
       "ContaminantFullName": "Radon",
-      "UserContaminatValue": "",
+      "UserContaminatValue": "99999 pCi/L",
       "MaximumContaminantLevel": "10000 pCi/L",
-      "GuidelineIcon": "",
-      "GuidelineColor": "",
-      "GuidelineText": "Test both the air in your home (if you live below the third floor) and in your water (unless it is from a dug well) for radon.  In Massachusetts, it is estimated that 650,000 homes have indoor air radon levels that exceed the EPA action guideline of 4 pCi/L.",
-      "InterpretationMessages": "",
-      "HealthMessages": "",
-      "TreatmentMessages": "",
+      "GuidelineIcon": "Images/water/orange.png",
+      "GuidelineColor": "font-red",
+      "GuidelineText": "The value entered exceeds the MassDEP guideline for radon in water.",
+      "InterpretationMessages": "&lt;b&gt;\r\n                What do my results mean?&lt;/b&gt; See  &lt;a target=&quot;_blank&quot; href=&quot;http://www.mass.gov/eea/agencies/massdep/water/drinking/fact-sheet-for-radionuclides-including-uranium-in-drin.html&quot;&gt;MassDEP&#39;s Fact Sheet for Radionuclides, including Uranium in Drinking Water &lt;/a&gt; for information regarding radon in your drinking water. See &lt;a target=&quot;_blank&quot; href=&quot;http://www.mass.gov/eohhs/docs/dph/environmental/iaq/radon-fact-sheet-2016.pdf &quot;&gt; MDPH’s Radon Fact Sheet &lt;/a&gt;for recommendations for indoor air testing and for an interpretation of the indoor air radon results.",
+      "HealthMessages": "&lt;b&gt;Can radon affect my health?&lt;/b&gt;  Yes. Most of the risk from radon in water comes from breathing radon gas that is released into the air when water is used in the home. Radon is the leading cause of lung cancer in people who never smoke, and the second leading cause of lung cancer overall. The greater the exposure to radon, especially if you smoke cigarettes, the greater your chance of developing lung cancer. If you haven’t already done so, you should also test the air in your home for radon gas if you live below the third floor. A secondary concern is the risk of cancer associated with the ingestion of drinking water with radon.&lt;br /&gt;",
+      "TreatmentMessages": "&lt;b&gt;How can I reduce my health risk from radon?&lt;/b&gt;In most cases, reducing the level of radon in air by preventing air from entering your house from the ground is more cost-effective than treating radon in water.  However, radon-in-water treatment is cost-effective in many cases, either in addition to radon-in-air mitigation or (in fewer situations) on its own. Testing of both your air and water, in consultation with a certified radon mitigation professional, will help you make a well-informed decision about the best way to reduce your exposure to radon).  Certified radon service providers can be found at &lt;a target=&quot;_blank&quot; href=&quot;http://www.nrsb.org/&quot;&gt;NRSB &lt;/a&gt;and&lt;a target=&quot;_blank&quot; href=&quot;http://aarst-nrpp.com/wp/database-search/&quot;&gt;AARST-NRPP&lt;/a&gt;.&lt;br&gt;&lt;/br&gt;&lt;br /&gt;To remove high levels of radon from water, install an NSF/ANSI Standard 61 certified whole house aeration device, which bubbles air through the water to release the radon gas and then moves the gas out of your home using an exhaust fan. &lt;br /&gt;&lt;br /&gt;\r\n              More information about radon can be found on &lt;a target=&quot;_blank&quot; href=&quot;http://www.mass.gov/eea/agencies/massdep/water/drinking/lead-and-other-contaminants-in-drinking-water.html#18 &quot;&gt;MassDEP&#39;s Radon Information web page&lt;/a&gt;.\r\n              &lt;br /&gt;",
       "StateNode": ""
     },
     "U": {
       "Symbol": "U",
       "ContaminantFullName": "Uranium",
-      "UserContaminatValue": "",
+      "UserContaminatValue": "100 μg/L",
       "MaximumContaminantLevel": "30 μg/L",
-      "GuidelineIcon": "",
-      "GuidelineColor": "",
-      "GuidelineText": "If your gross alpha result is 15 pCi/L or greater, test your water for uranium.  Studies show that many private wells in Massachusetts have high uranium.",
-      "InterpretationMessages": "",
-      "HealthMessages": "",
-      "TreatmentMessages": "",
+      "GuidelineIcon": "Images/water/false4.png",
+      "GuidelineColor": "font-red",
+      "GuidelineText": "The value entered exceeds the drinking water standard",
+      "InterpretationMessages": "&lt;b&gt;\r\n                Does my well water meet the &lt;a target=&quot;_blank&quot; href=&quot;http://water.epa.gov/drink/contaminants/basicinformation/radionuclides.cfm&quot;&gt; drinking water standard for uranium&lt;/a&gt;?\r\n              &lt;/b&gt;  No, your water does not meet federal and state drinking water standards for public water systems as it contains more than 30 ug/L of uranium.",
+      "HealthMessages": "&lt;b&gt;Can consuming water containing uranium affect my health?&lt;/b&gt;  Consuming water containing more than 30 ug/L of uranium is associated with an increased risk of cancer and kidney damage.  Your individual health risk depends on the amount of uranium in your water, how much of the water you drink each day, and the number of years you drink the water.  To reduce your exposure to uranium in your well water, treat the water that you use for drinking and cooking to a level less than 30 ug/L.  You can continue to use your water for washing food and dishes, brushing your teeth, bathing, showering, and for other uses.",
+      "TreatmentMessages": "&lt;b&gt;How can I reduce the level of uranium in my water?&lt;/b&gt;  Install an NSF/ANSI Standard 58 certified point-of-use (POU) reverse osmosis (RO) system at your kitchen sink to reduce the level of uranium in the water that you consume.  More information about treatment for uranium can be found in MassDEP’s &lt;a target=&quot;_blank&quot; href=&quot;http://www.mass.gov/eea/agencies/massdep/water/drinking/fact-sheet-for-radionuclides-including-uranium-in-drin.html&quot;&gt;Fact Sheet for Radionuclides, including Uranium in Drinking Water&lt;/a&gt;.\r\n            &lt;br&gt;&lt;/br&gt;&lt;ul style=&quot;list-style-type:none&quot;&gt;&lt;li&gt;\r\nMassachusetts regulations prohibit the on-site discharge of regeneration brine solutions from anion exchange systems that are designed to remove uranium from water.  If you decide to use an anion exchange system you may only do so if the anion exchange filter media vessel is either exchanged with a vessel containing fresh filter media with the spent filter media being sent off-site for proper off-site regeneration/disposal, or the regeneration brine solution is temporarily held in an on-site storage tank for subsequent transport to a facility that is licensed to properly treat/dispose of wastewater containing uranium.&lt;/li&gt;&lt;/ul&gt;&lt;br&gt;&lt;/br&gt;",
       "StateNode": ""
     },
     "AGA": {
@@ -261,6 +261,24 @@
         {
           "SystemType": "House",
           "Recommendation": "Whole House Cation Exchange Water Softener"
+        }
+      ]
+    },
+    "3": {
+      "Order": "3",
+      "OrInstructions": [
+        {
+          "SystemType": "House",
+          "Recommendation": "Whole House Aeration Device"
+        }
+      ]
+    },
+    "4": {
+      "Order": "4",
+      "OrInstructions": [
+        {
+          "SystemType": "House",
+          "Recommendation": "Whole House Acid Neutralizer System"
         }
       ]
     },

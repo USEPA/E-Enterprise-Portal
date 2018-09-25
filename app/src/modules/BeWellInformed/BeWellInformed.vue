@@ -250,6 +250,7 @@
         'setSelectedPartner',
         'fetchPartners',
         'fetchPartnerAndFlowchartXML',
+        'submitPartnersData',
         'updateAdditionalContaminantProperty',
         'updatePromptResponses',
         'updateWaterAnalysisRequestProperty',

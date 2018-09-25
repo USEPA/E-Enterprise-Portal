@@ -4,120 +4,68 @@
     "As": {
       "Symbol": "As",
       "Name": "Arsenic",
-      "Value": "1234",
+      "Value": "1",
       "Unit": "mg\/L"
     },
     "Cl": {
       "Symbol": "Cl",
       "Name": "Chloride",
-      "Value": "1234",
-      "Unit": "mg\/L"
-    },
-    "Cu": {
-      "Symbol": "Cu",
-      "Name": "Copper",
-      "Value": "-9999",
-      "Unit": "mg\/L"
-    },
-    "CuSt": {
-      "Symbol": "CuSt",
-      "Name": "Copper Stagnant",
-      "Value": "-9999",
+      "Value": "300",
       "Unit": "mg\/L"
     },
     "Fl": {
       "Symbol": "Fl",
       "Name": "Fluoride",
-      "Value": "-9999",
-      "Unit": "mg\/L"
-    },
-    "Har": {
-      "Symbol": "Har",
-      "Name": "Hardness",
-      "Value": "-9999",
+      "Value": "3.5",
       "Unit": "mg\/L"
     },
     "Fe": {
       "Symbol": "Fe",
       "Name": "Iron",
-      "Value": "123",
+      "Value": "1",
       "Unit": "mg\/L"
     },
     "Pb": {
       "Symbol": "Pb",
       "Name": "Lead",
-      "Value": "-9999",
-      "Unit": "mg\/L"
-    },
-    "PbSt": {
-      "Symbol": "PbSt",
-      "Name": "Lead Stagnant",
-      "Value": "-9999",
+      "Value": "1",
       "Unit": "mg\/L"
     },
     "Mn": {
       "Symbol": "Mn",
       "Name": "Manganese",
-      "Value": "123",
+      "Value": "1",
       "Unit": "mg\/L"
-    },
-    "NO3": {
-      "Symbol": "NO3",
-      "Name": "Nitrate-N",
-      "Value": "-9999",
-      "Unit": "mg\/L"
-    },
-    "NO2": {
-      "Symbol": "NO2",
-      "Name": "Nitrite-N",
-      "Value": "-9999",
-      "Unit": "mg\/L"
-    },
-    "Na": {
-      "Symbol": "Na",
-      "Name": "Sodium",
-      "Value": "-9999",
-      "Unit": "mg\/L"
-    },
-    "pH": {
-      "Symbol": "pH",
-      "Name": "pH",
-      "Value": "-9999",
-      "Unit": "unit"
     }
   },
   "BacterialContaminants": {
     "Bac": {
       "Symbol": "Bac",
       "Name": "Total Coliform",
-      "Value": "-9999",
+      "Value": "12345",
       "Unit": "CFU\/100 mL"
     },
     "Ecoli": {
       "Symbol": "Ecoli",
       "Name": "E. coli",
-      "Value": "-9999",
+      "Value": "12345",
       "Unit": "CFU\/100 mL"
     }
   },
+  "Bac_G": "absent",
+  "Ecoli_G": "absent",
   "RadionuclideContaminants": {
     "Rn": {
       "Symbol": "Rn",
       "Name": "Radon",
-      "Value": "-9999",
+      "Value": "99999",
       "Unit": "pCi\/L"
     },
     "U": {
       "Symbol": "U",
       "Name": "Uranium",
-      "Value": "-9999",
+      "Value": "100",
       "Unit": "\u03bcg\/L"
-    },
-    "AGA": {
-      "Symbol": "AGA",
-      "Name": "Gross Alpha",
-      "Value": "-9999",
-      "Unit": "pCi\/L"
     }
   },
   "InteractivePromptResponses": [
