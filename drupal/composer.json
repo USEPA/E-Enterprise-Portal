@@ -92,11 +92,14 @@
       "npm install --global gulp-cli",
       "npm install bootstrap@^4.0 --prefix web/themes/custom/eep",
       "npm install gulp browser-sync gulp-sass gulp-autoprefixer gulp-compress gulp-minify-css gulp-sourcemaps gulp-uglify gulp-concat --save-dev  --prefix web/themes/custom/eep",
+      "npm install --prefix ../app/",
+      "npm run build --prefix ../app/",
       "xcopy /S /I /E /Y web\\modules\\contrib\\sqlsrv\\drivers web\\drivers"
     ],
     "post-update-cmd": [
       "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
       "@php web/profiles/e_enterprise_portal/post-deployment-update.php",
+      "npm run build --prefix ../app/",
       "xcopy /S /I /E /Y web\\modules\\contrib\\sqlsrv\\drivers web\\drivers"
     ],
     "test-cmd": [
