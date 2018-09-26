@@ -37,11 +37,13 @@ export default {
     return state.partnerResource;
   },
   getPartnerSectors(state, getters) {
-    const { flowchart } = getters.getPartnerResource;
-    const r = (flowchart
-      && flowchart.FlowCharts
-      && flowchart.FlowCharts.Sections)
-      ? flowchart.FlowCharts.Sections
+    const partnerResource = getters.getPartnerResource;
+    const r = (
+      partnerResource
+      && partnerResource.flowchart
+      && partnerResource.flowchart.FlowCharts
+      && partnerResource.flowchart.FlowCharts.Sections)
+      ? partnerResource.flowchart.FlowCharts.Sections
       : {};
     return r;
   },
@@ -62,5 +64,8 @@ export default {
   },
   getResultEvaluations(state) {
     return state.resultEvaluations;
+  },
+  getWaterAnalysisResults(state) {
+    return state.waterAnalysisResults;
   },
 };

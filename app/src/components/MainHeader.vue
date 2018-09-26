@@ -14,9 +14,10 @@
       </div>
       <div class="w-100 d-block d-md-none "></div>
       <div class="col-4-md d-flex justify-content-end align-self-end align-items-center">
-        <a
+        <!-- @todo add back login buttons
+          <a
           class="btn btn-sm btn-outline-secondary"
-          href="#">Guest</a>
+          href="#">Guest</a>-->
       </div>
     </div>
   </header>

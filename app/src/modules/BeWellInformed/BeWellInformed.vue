@@ -58,7 +58,11 @@
             title="Results"
             class="py-3"
             :disabled="!hasResults">
-            <WaterAnalysisResult/>
+            <template
+              v-if="waterAnalysisResults && waterAnalysisResults.length && waterAnalysisResults[0]">
+              <WaterAnalysisResult
+                :water-analysis-result="waterAnalysisResults[0]"/>
+            </template>
           </b-tab>
         </b-tabs>
         <template
@@ -149,9 +153,6 @@
         <template
           slot="footer">
           <b-button
-            type="reset"
-            variant="danger">Reset</b-button>
-          <b-button
             type="submit"
             variant="primary"
             @click="onSubmit">Submit</b-button>
@@ -231,13 +232,14 @@
     },
     computed: {
       ...mapGetters({
+        additionalContaminantRequests: 'BeWellInformed/getAdditionalContaminantRequests',
+        interactivePrompts: 'BeWellInformed/getInteractivePrompts',
+        partnerResource: 'BeWellInformed/getPartnerResource',
         partners: 'BeWellInformed/getPartners',
         partnerXmls: 'BeWellInformed/getPartnerXmls',
         selectedPartner: 'BeWellInformed/getSelectedPartner',
-        partnerResource: 'BeWellInformed/getPartnerResource',
         waterAnalysisRequest: 'BeWellInformed/getWaterAnalysisRequest',
-        interactivePrompts: 'BeWellInformed/getInteractivePrompts',
-        additionalContaminantRequests: 'BeWellInformed/getAdditionalContaminantRequests',
+        waterAnalysisResults: 'BeWellInformed/getWaterAnalysisResults',
       }),
       currentTab() {
         return this.tabIndex;

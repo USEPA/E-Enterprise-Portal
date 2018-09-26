@@ -1,7 +1,7 @@
 <template>
   <div
     class="be-well-informed-result-wrapper row"
-    v-if="infoXmlResults && resultEvaluations">
+    v-if="waterAnalysisResult">
 
     <!--
       Title & About the Results
@@ -74,7 +74,7 @@
       </div>
 
       <div class="container">
-        <template v-for="(result, key, index) in resultEvaluations">
+        <template v-for="(result, key, index) in waterAnalysisResult.ResultEvaluations">
           <resultRow
             :index="index"
             :a-key="key"
@@ -116,7 +116,7 @@
 
       <div class="container ">
         <template
-          v-for="(treatment, key, index) in treatmentSteps">
+          v-for="(treatment, key, index) in waterAnalysisResult.TreatmentSteps">
           <div
             :key="key"
             class="row my-2">
@@ -207,7 +207,7 @@
       </div>
 
       <div class="container">
-        <template v-for="(result, key, index) in resultEvaluations">
+        <template v-for="(result, key, index) in waterAnalysisResult.ResultEvaluations">
           <resultRow
             :index="index"
             :a-key="key"
@@ -231,6 +231,12 @@
   export default {
     name: 'WaterAnalysisResult',
     components: { ResultRow, ResultLegend },
+    props: {
+      waterAnalysisResult: {
+        required: true,
+        type: Object,
+      },
+    },
     created() {
     },
     computed: {
@@ -239,14 +245,10 @@
         partnerXmls: 'BeWellInformed/getPartnerXmls',
         selectedPartner: 'BeWellInformed/getSelectedPartner',
         partnerResource: 'BeWellInformed/getPartnerResource',
-        waterAnalysisRequest: 'BeWellInformed/getWaterAnalysisRequest',
-        interactivePrompts: 'BeWellInformed/getInteractivePrompts',
-        additionalContaminantRequests: 'BeWellInformed/getAdditionalContaminantRequests',
-        treatmentSteps: 'BeWellInformed/getTreatmentSteps',
-        resultEvaluations: 'BeWellInformed/getResultEvaluations',
       }),
       infoXmlResults() {
-        const pr = this.partnerResource;
+        const xmls = this.partnerXmls;
+        const pr = xmls[this.waterAnalysisResult.StateCode];
         const r = (pr
           && pr.info
           && pr.info.Partner.Results
@@ -254,7 +256,7 @@
         return r;
       },
       resultSummary() {
-        const results = this.resultEvaluations;
+        const results = this.waterAnalysisResult.ResultEvaluations;
         const r = {};
         Object.keys(results).forEach((key) => {
           if (results[key].UserContaminatValue) {
@@ -292,8 +294,8 @@
         return r;
       },
       getWaterTreatmentTitle() {
-        let r = 'Water Treatment Systems That Remove';
-        const { resultEvaluations } = this;
+        let r = 'Water Treatment Systems That Remove ';
+        const { waterAnalysisResult: resultEvaluations } = this;
         const treatedContaminants = [];
         Object.keys(resultEvaluations).forEach((symbol) => {
           if (resultEvaluations[symbol].GuidelineColor === 'font-red' ||

@@ -1,10 +1,9 @@
 <template>
   <div class="section mb-4">
     <div
-      v-if="flowchartContaminants(section)"
       class="row">
       <h5 class="col-md-12">{{ getContaminantTitle }}</h5>
-      <template v-for="(contaminant, key, index) in flowchartContaminants(section)">
+      <template v-for="(contaminant, key, index) in contaminants">
         <div
           class="contaminant-wrapper col-md-6"
           :key="key">
@@ -18,12 +17,14 @@
                 :id="`${contaminant._attributes.Value}-Value`"
                 type="number"
                 step="0.001"
-                size="lg"
-                @change="updateProperty( section, contaminant, 'Value', $event)" />
+                v-model="request[contaminant._attributes.Value].Value"
+                @change="updateProperty( section, contaminant, 'Value', $event)"
+                size="lg"/>
             </div>
             <div class="col-sm-4">
               <b-form-select
                 :value="contaminant._attributes.DefaultUnit"
+                v-model="request[contaminant._attributes.Value].Unit"
                 @change="updateProperty( section, contaminant, 'Unit', $event)"
                 size="lg">
                 <template v-for="unit in contaminant._attributes.Units.split('|')" >
@@ -38,11 +39,12 @@
             v-if="canShowIsPresent(contaminant)"
             class="row justify-content-end">
             <b-form-group
-            class="col text-right">
+              class="col text-right">
               <b-form-radio-group
                 :ref="`${contaminant._attributes.Value}-ShowIsPresent`"
                 :id="`${contaminant._attributes.Value}-ShowIsPresent`"
                 @change="updateProperty( section, contaminant, 'Present', $event)"
+                v-model="request[contaminant._attributes.Value].Present"
                 :name="`${contaminant._attributes.Value}-ShowIsPresent`">
                 <b-form-radio value="true">Present</b-form-radio>
                 <b-form-radio value="false">Absent</b-form-radio>
@@ -74,9 +76,19 @@
         required: true,
         type: String,
       },
+      request: {
+        required: true,
+        type: Object,
+      },
+    },
+    created() {
+      const vm = this;
+      vm.contaminants = vm.flowchartContaminants(vm.section);
     },
     data() {
-      return {};
+      return {
+        contaminants: {},
+      };
     },
     computed: {
       ...mapGetters({
@@ -103,16 +115,6 @@
       maxColumnCount() {
         return Math.floor(this.flowchartContaminants(this.section).length / 2);
       },
-      updateProperty: vm => (
- section, contaminant, property, event,
-) => {
-        if (contaminant._attributes.ShowIsPresent && (event === 'false')) {
-          vm.$refs[`${contaminant._attributes.Value}-Value`].forEach(input => input.setValue(''));
-        }
-        vm.updateWaterAnalysisRequestProperty({
-         section, contaminant, property, event,
-        });
-      },
     },
     methods: {
       ...mapActions(name, [
@@ -122,13 +124,26 @@
         'updateWaterAnalysisRequestProperty',
       ]),
       canShowIsPresent(contaminant) {
-        const r = (
+        const r = !!((
           contaminant
           && contaminant._attributes
           && contaminant._attributes.hasOwnProperty('ShowIsPresent')
           && contaminant._attributes.ShowIsPresent
-        ) ? true : false;
+        ));
         return r;
+      },
+      updateProperty( section, contaminant, property, event ) {
+        const vm = this;
+        if (contaminant._attributes.ShowIsPresent && (event === 'false')) {
+          vm.$refs[`${contaminant._attributes.Value}-Value`].forEach(input => input.setValue(''));
+        }
+
+        vm.updateWaterAnalysisRequestProperty({
+          section, contaminant, property, event,
+        });
+      },
+      getContaminant(contaminant){
+        const vm = this;
       },
     },
   };

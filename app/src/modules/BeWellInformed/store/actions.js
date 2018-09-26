@@ -137,12 +137,13 @@ export default {
   submitPartnersData(context, payload) {
     const rootStore = this;
     const env = rootStore.getters.getEnvironment;
-    const { evt } = payload;
     const { vm } = payload;
 
     const store = context;
     const app = store.rootGetters.getApp;
     const { waterAnalysisRequest } = store.state;
+    const selectedPartner = store.getters.getSelectedPartner;
+    const partnerCode = selectedPartner.code;
 
     if (waterAnalysisRequest) {
       // Purge unused values
@@ -156,7 +157,6 @@ export default {
             || waterAnalysisRequest[section][symbol].Present) {
             r[section][symbol] = {};
             Object.assign(r[section][symbol], waterAnalysisRequest[section][symbol]);
-            // r[section][symbol] = waterAnalysisRequest[section][symbol];
           }
         });
       });
@@ -191,7 +191,7 @@ export default {
 
       aa.then((response) => {
         if (response.status === 200 && !!response.data) {
-          const data = response.data;
+          const { data } = response;
           /**
              * If we get InteractivePrompts or AdditionalContaminantRequests
              * handle the various states of the returns from the service
@@ -217,25 +217,30 @@ export default {
             );
           }
           /**
-             * See if the response returns results for the test and proceed to
-             * render as necessary
-             */
+           * See if the response returns results for the test and proceed to
+           * render as necessary
+           */
 
-          const hasResultEvaluation = !!Object.keys(data.ResultEvaluation).length;
-          if (hasResultEvaluation) {
+          const hasResultEvaluation = !!Object.keys(data.ResultEvaluations).length;
+          const hasTreatmentSteps = !!Object.keys(data.TreatmentSteps).length;
+
+          /*if (hasResultEvaluation) {
             store.commit(types.UPDATE_RESULT_EVALUATION, data.ResultEvaluation);
           } else {
             store.commit(types.UPDATE_RESULT_EVALUATION, {});
           }
-
-          const hasTreatmentSteps = !!Object.keys(data.TreatmentSteps).length;
           if (hasTreatmentSteps) {
             store.commit(types.UPDATE_TREATMENT_STEPS,
               data.TreatmentSteps);
           } else {
             store.commit(types.UPDATE_TREATMENT_STEPS, {});
-          }
+          }*/
+
+          // Check if we have a fully formed response then add it to the
           if (hasResultEvaluation || hasTreatmentSteps) {
+            data.StateCode = partnerCode;
+            store.commit(types.SET_WATER_ANALYSIS_RESULT, data);
+            store.commit(types.UNSHIFT_WATER_ANALYSIS_RESULT, data);
             EventBus.$emit('bwi::showWaterAnalysisResults', {
               callee: this,
               value: 2,

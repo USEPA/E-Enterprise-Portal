@@ -9,10 +9,16 @@ import { commonAppStore } from '../../adk/ADK';
 
 export default {
   ...commonAppStore.state,
-  selectedPartner: null,
+  additionalContaminantRequests: [],
+  currentWaterAnalysisResults: {},
+  interactivePrompts: [],
   partnerResource: {},
   partners: [],
   partnerXmls: {},
+  resultEvaluation: {},
+  resultEvaluations: [],
+  selectedPartner: null,
+  treatmentSteps: {},
   useSampleData: true,
   urls: {
     LOCAL: {
@@ -43,9 +49,5 @@ export default {
     },*/
   },
   waterAnalysisRequest: {},
-  interactivePrompts: [],
-  additionalContaminantRequests: [],
-  resultEvaluation: {},
-  resultEvaluations: [],
-  treatmentSteps: {},
+  waterAnalysisResults: [],
 };

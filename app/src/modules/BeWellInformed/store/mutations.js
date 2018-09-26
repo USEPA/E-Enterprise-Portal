@@ -21,11 +21,8 @@ import types from './types';
 
 export default {
   ...commonAppStore.mutations,
-  [types.SET_SELECTED_PARTNER](state, obj) {
-    state.selectedPartner = obj;
-  },
-  [types.SET_WATER_ANALYSIS_REQUEST](state, obj) {
-    state.waterAnalysisRequest = obj;
+  [types.PUSH_WATER_ANALYSIS_RESULT](state, obj) {
+    state.waterAnalysisResults.push(obj);
   },
   [types.UPDATE_PARTNERS](state, obj) {
     state.partners = obj;
@@ -95,10 +92,25 @@ export default {
       );
     }
   },
+  [types.UPDATE_RESULT_EVALUATIONS]( state, array) {
+    state.resultEvaluations = array;
+  },
   [types.UPDATE_RESULT_EVALUATION]( state, obj) {
-    state.resultEvaluations = obj;
+    state.resultEvaluation = obj;
   },
   [types.UPDATE_TREATMENT_STEPS](state, obj) {
     state.treatmentSteps = obj;
+  },
+  [types.UNSHIFT_WATER_ANALYSIS_RESULT](state, obj) {
+    state.waterAnalysisResults.unshift(obj);
+  },
+  [types.SET_SELECTED_PARTNER](state, obj) {
+    state.selectedPartner = obj;
+  },
+  [types.SET_WATER_ANALYSIS_REQUEST](state, obj) {
+    state.waterAnalysisRequest = obj;
+  },
+  [types.SET_WATER_ANALYSIS_RESULT](state, obj) {
+    state.waterAnalysisResult = obj;
   },
 };

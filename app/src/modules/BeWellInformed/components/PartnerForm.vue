@@ -14,15 +14,18 @@
         :value="partnerResource.code"
       />-->
       <ContaminantSection
-        v-if="partnerResource"
+        v-if="partnerResource && waterAnalysisRequest.RoutineContaminants"
+        :request="waterAnalysisRequest.RoutineContaminants"
         section="RoutineContaminants"/>
 
       <ContaminantSection
-        v-if="partnerResource"
+        v-if="partnerResource && waterAnalysisRequest.BacterialContaminants"
+        :request="waterAnalysisRequest.BacterialContaminants"
         section="BacterialContaminants"/>
 
       <ContaminantSection
-        v-if="partnerResource"
+        v-if="partnerResource && waterAnalysisRequest.RadionuclideContaminants"
+        :request="waterAnalysisRequest.RadionuclideContaminants"
         section="RadionuclideContaminants"/>
 
       <div
@@ -75,23 +78,7 @@
       onReset(evt) {
         evt.preventDefault();
         /* Reset our form values */
-        const vm = this;
-        // this.$children[0].$refs["As-Value"][0].$refs["input"].value
-        vm.$children.forEach((child) => {
-          Object.keys(child.$refs).forEach((key) => {
-            const contaminants = child.$refs[key];
-            contaminants.forEach((contam) => {
-              if (contam.$refs.input) {
-                contam.$refs.input.value = '';
-              }
-              if (contam.$refs.radio) {
-                contam.$refs.radio.value = '';
-              }
-            });
-          });
-        });
-
-        this.$nextTick(() => { this.show = true; });
+        this.createWaterAnalysisRequest();
       },
     },
   };
