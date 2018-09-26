@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Composer Run: post-deployment-update" type="PhpLocalRunConfigurationType" factoryName="PHP Console" path="$PROJECT_DIR$/drupal/web/profiles/e_enterprise_portal/post-deployment-update.php">
+    <CommandLine workingDirectory="$PROJECT_DIR$/drupal">
+      <envs>
+        <env name="COMPOSER_ALLOW_XDEBUG" value="true" />
+      </envs>
+    </CommandLine>
+    <option name="workingDirectory" value="C:\inetpub\wwwroot\eep2\drupal" />
+    <method v="2" />
+  </configuration>
+</component>

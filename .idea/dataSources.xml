@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="EEP_DEV@SMOLINSK-F12384" uuid="9b087eb1-fa20-4477-a9bd-fd62e18bbacd">
+      <driver-ref>sqlserver.ms</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
+      <jdbc-url>jdbc:sqlserver://SMOLINSK-F12384\SQLEXPRESS:1433;database=EEP_DEV</jdbc-url>
+      <driver-properties>
+        <property name="appName" value="DataGrip" />
+        <property name="applicationName" value="DataGrip" />
+      </driver-properties>
+    </data-source>
+    <data-source source="LOCAL" name="SQL Server (Microsoft) - EEP2@SMOLINSK-F12384" uuid="d9579643-9a5b-4992-9b6b-8ea733788896">
+      <driver-ref>sqlserver.ms</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
+      <jdbc-url>jdbc:sqlserver://SMOLINSK-F12384\SQLEXPRESS:1433;database=EEP2</jdbc-url>
+      <driver-properties>
+        <property name="appName" value="DataGrip" />
+        <property name="applicationName" value="DataGrip" />
+      </driver-properties>
+    </data-source>
+  </component>
+</project>

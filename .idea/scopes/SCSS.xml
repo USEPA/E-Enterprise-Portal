@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="SCSS" pattern="file[eep2]:drupal/web/*/custom/*/scss/*.scss" />
+</component>
