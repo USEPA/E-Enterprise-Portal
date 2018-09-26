@@ -25,7 +25,7 @@
     <!-- set progressbar -->
     <div class="enviroment-status bg-info text-white">
       <div class="vertical-align-center">
-        <span class="is-strong">{{ ENV }}</span>
+        <span class="is-strong">{{ (ENV == 'LOCAL') ? 'Demo' : ENV }}</span>
       </div>
     </div>
     <vue-progress-bar></vue-progress-bar>
