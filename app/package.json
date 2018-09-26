@@ -67,8 +67,14 @@
       ],
       "function-paren-newline": [
         "error",
+        "consistent"
+      ],
+      "no-underscore-dangle": [
+        "error",
         {
-          "minItems": 3
+          "allow": [
+            "_attributes"
+          ]
         }
       ]
     },

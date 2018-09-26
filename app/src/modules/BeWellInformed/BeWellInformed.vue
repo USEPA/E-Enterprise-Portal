@@ -96,10 +96,12 @@
                     class="text-right">
                     <b-form-radio
                       class="radio-btn radio-btn-primary"
-                      value="true">Yes</b-form-radio>
+                      value="true">Yes
+                    </b-form-radio>
                     <b-form-radio
                       class="radio-btn radio-btn-primary"
-                      value="false">No</b-form-radio>
+                      value="false">No
+                    </b-form-radio>
                   </b-form-radio-group>
                 </div>
               </div>
@@ -127,7 +129,7 @@
                       section: getSectionFromSymbol(question.Symbol),
                       contaminant: getContaminantFromSymbol(question.Symbol),
                       property: 'Value',
-                      event:$event })" />
+                      event:$event })"/>
                 </div>
                 <div class="col-sm-4">
                   <b-form-select
@@ -138,10 +140,11 @@
                       contaminant: getContaminantFromSymbol(question.Symbol),
                       property: 'Unit',
                       event:$event })">
-                    <template v-for="unit in getContaminantFromSymbol(question.Symbol)._attributes.Units.split('|')" >
+                    <template v-for="unit in getContaminantFromSymbol(question.Symbol)._attributes.Units.split('|')">
                       <option
                         :key="unit"
-                        :value="unit" >{{ unit }}</option>
+                        :value="unit">{{ unit }}
+                      </option>
                     </template>
                   </b-form-select>
                 </div>
@@ -155,7 +158,8 @@
           <b-button
             type="submit"
             variant="primary"
-            @click="onSubmit">Submit</b-button>
+            @click="onSubmit">Submit
+          </b-button>
         </template>
       </AppModal>
     </AppWrapper>
@@ -187,13 +191,13 @@
     },
     created() {
       const store = this.$store;
-      if (!(store && store.state && store.state[name])) {
-        store.registerModule(name, storeModule);
+      if ( !( store && store.state && store.state[ name ] ) ) {
+        store.registerModule( name, storeModule );
       }
       this.fetchPartners();
 
       // Custom event listeners
-      EventBus.$on('bwi::showWaterAnalysisResults', this.showWaterAnalysisResults);
+      EventBus.$on( 'bwi::showWaterAnalysisResults', this.showWaterAnalysisResults );
     },
     data() {
       return {
@@ -231,7 +235,7 @@
       };
     },
     computed: {
-      ...mapGetters({
+      ...mapGetters( {
         additionalContaminantRequests: 'BeWellInformed/getAdditionalContaminantRequests',
         interactivePrompts: 'BeWellInformed/getInteractivePrompts',
         partnerResource: 'BeWellInformed/getPartnerResource',
@@ -240,17 +244,17 @@
         selectedPartner: 'BeWellInformed/getSelectedPartner',
         waterAnalysisRequest: 'BeWellInformed/getWaterAnalysisRequest',
         waterAnalysisResults: 'BeWellInformed/getWaterAnalysisResults',
-      }),
+      } ),
       currentTab() {
         return this.tabIndex;
       },
       isFlowchartReady() {
         const { partnerResource } = this;
-        return !!(partnerResource && partnerResource.flowchart);
+        return !!( partnerResource && partnerResource.flowchart );
       },
     },
     methods: {
-      ...mapActions(name, [
+      ...mapActions( name, [
         'createWaterAnalysisRequest',
         'setSelectedPartner',
         'fetchPartners',
@@ -259,47 +263,48 @@
         'updateAdditionalContaminantProperty',
         'updatePromptResponses',
         'updateWaterAnalysisRequestProperty',
-      ]),
-      onCheckYourWater(evt) {
+      ] ),
+      onCheckYourWater( evt ) {
         evt.preventDefault();
         const partner = this.selectedPartner;
-        if (partner) {
-          this.fetchPartnerAndFlowchartXML(partner.code);
+        if ( partner ) {
+          this.fetchPartnerAndFlowchartXML( partner.code );
           this.$root.$emit(
             'bv::show::modal', 'bwi-modal', this.$refs.btnCheckYourWater,
           );
-        } else {
+        }
+        else {
 
         }
       },
-      getContaminantFromSymbol(symbol) {
+      getContaminantFromSymbol( symbol ) {
         const { partnerResource } = this;
         const Contaminants = partnerResource.flowchart.FlowCharts.Contaminants.Contaminant;
         let contaminant = null;
 
-        let contaminantArray = Contaminants.filter(c => c._attributes.Value === symbol);
+        let contaminantArray = Contaminants.filter( c => c._attributes.Value === symbol );
 
-        if (Array.isArray(contaminantArray) && contaminantArray.length) {
-          contaminant = contaminantArray[0];
+        if ( Array.isArray( contaminantArray ) && contaminantArray.length ) {
+          contaminant = contaminantArray[ 0 ];
         }
 
         return contaminant;
       },
-      getSectionFromSymbol(symbol) {
-        const contaminant = this.getContaminantFromSymbol(symbol);
+      getSectionFromSymbol( symbol ) {
+        const contaminant = this.getContaminantFromSymbol( symbol );
         let section = '';
 
-        if (contaminant) {
+        if ( contaminant ) {
           section = contaminant._attributes.Section;
         }
         return section;
       },
-      onSubmit(evt) {
+      onSubmit( evt ) {
         evt.preventDefault();
         const vm = this;
-        this.submitPartnersData({ vm, evt });
+        this.submitPartnersData( { vm, evt } );
       },
-      showWaterAnalysisResults(event) {
+      showWaterAnalysisResults( event ) {
         const vm = this;
         const bwiModal = vm.$refs.bwi_modal;
 
@@ -308,11 +313,11 @@
         );
 
         vm.hasResults = true;
-        vm.$nextTick(function () {
+        vm.$nextTick( function () {
           vm.tabIndex = event.value;
-        });
+        } );
       },
-      onHideMainModal(bvEvt) {
+      onHideMainModal( bvEvt ) {
         const vm = this;
         vm.tabIndex = 0;
       },
