@@ -45,6 +45,7 @@ export default {
   waterAnalysisRequest: {},
   interactivePrompts: [],
   additionalContaminantRequests: [],
-  resultEvaluations: {},
+  resultEvaluation: {},
+  resultEvaluations: [],
   treatmentSteps: {},
 };

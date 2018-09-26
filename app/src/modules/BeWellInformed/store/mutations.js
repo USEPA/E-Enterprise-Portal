@@ -31,7 +31,12 @@ export default {
     state.partners = obj;
   },
   [types.UPDATE_PARTNER_RESOURCE](state) {
-    state.partnerResource = (state.selectedPartner)
+    state.partnerResource = (
+      state.selectedPartner
+      && state.selectedPartner.code
+      && state.partnerXmls
+      && state.partnerXmls[state.selectedPartner.code]
+    )
       ? state.partnerXmls[state.selectedPartner.code]
       : null;
   },
@@ -90,7 +95,7 @@ export default {
       );
     }
   },
-  [types.UPDATE_RESULT_EVALUATIONS](state, obj) {
+  [types.UPDATE_RESULT_EVALUATION]( state, obj) {
     state.resultEvaluations = obj;
   },
   [types.UPDATE_TREATMENT_STEPS](state, obj) {

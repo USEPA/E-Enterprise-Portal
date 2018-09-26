@@ -23,7 +23,7 @@ export default {
       }
     });
 
-    // FORCING LOCAL FOR DEMO MODE
+    // FORCING ENV FOR TESTING
     env = 'LOCAL';
     return env;
   },

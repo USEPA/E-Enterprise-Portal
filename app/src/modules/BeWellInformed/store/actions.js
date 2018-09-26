@@ -145,9 +145,7 @@ export default {
     const { waterAnalysisRequest } = store.state;
 
     if (waterAnalysisRequest) {
-      // Purge unsed values
-      // const sections = store.getters.getPartnerSectors(store.state,
-      // store.getters);
+      // Purge unused values
       const r = {};
       const sections = store.getters.getPartnerSectors;
 
@@ -156,7 +154,9 @@ export default {
         Object.keys(waterAnalysisRequest[section]).forEach((symbol) => {
           if (waterAnalysisRequest[section][symbol].Value
             || waterAnalysisRequest[section][symbol].Present) {
-            r[section][symbol] = waterAnalysisRequest[section][symbol];
+            r[section][symbol] = {};
+            Object.assign(r[section][symbol], waterAnalysisRequest[section][symbol]);
+            // r[section][symbol] = waterAnalysisRequest[section][symbol];
           }
         });
       });
@@ -168,12 +168,10 @@ export default {
       let aa = null;
       if (env !== 'LOCAL') {
         const axiosConfig = {
+          transformRequest: [data => JSON.stringify(data.data)],
           headers: {
-            'Access-Control-Allow-Origin': '*',
-            Accept: 'application/json',
             'Content-Type': 'application/json',
           },
-          transformRequest: [data => JSON.stringify(data.data)],
         };
 
         // eslint-disable-next-line vue/no-async-in-computed-properties
@@ -223,11 +221,11 @@ export default {
              * render as necessary
              */
 
-          const hasResultEvaluations = !!Object.keys(data.ResultEvaluations).length;
-          if (hasResultEvaluations) {
-            store.commit(types.UPDATE_RESULT_EVALUATIONS, data.ResultEvaluations);
+          const hasResultEvaluation = !!Object.keys(data.ResultEvaluation).length;
+          if (hasResultEvaluation) {
+            store.commit(types.UPDATE_RESULT_EVALUATION, data.ResultEvaluation);
           } else {
-            store.commit(types.UPDATE_RESULT_EVALUATIONS, {});
+            store.commit(types.UPDATE_RESULT_EVALUATION, {});
           }
 
           const hasTreatmentSteps = !!Object.keys(data.TreatmentSteps).length;
@@ -237,7 +235,7 @@ export default {
           } else {
             store.commit(types.UPDATE_TREATMENT_STEPS, {});
           }
-          if (hasResultEvaluations || hasTreatmentSteps) {
+          if (hasResultEvaluation || hasTreatmentSteps) {
             EventBus.$emit('bwi::showWaterAnalysisResults', {
               callee: this,
               value: 2,
@@ -245,8 +243,15 @@ export default {
           }
         }
       })
-        .catch(() => {
+        .catch((res) => {
           // @todo add sanity check for errors & visual prompt to the user
+
+          if(res instanceof Error) {
+            console.log(res.message);
+          } else {
+            console.log(res.data);
+          }
+
           app.$Progress.fail;
           console.warn('AppAxios fail: ', arguments);
         });
@@ -296,5 +301,6 @@ export default {
   setSelectedPartner(context, payload) {
     const store = context;
     store.commit(types.SET_SELECTED_PARTNER, payload);
+    store.commit(types.UPDATE_PARTNER_RESOURCE);
   },
 };

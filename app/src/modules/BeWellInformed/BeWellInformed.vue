@@ -5,12 +5,14 @@
       :eep-app="eepApp">
       <b-form
         class="needs-validation"
-        validated>
+        @submit="onCheckYourWater"
+        novalidated>
         <b-form-select
           :value="selectedPartner"
           :options="partners"
           @change="setSelectedPartner"
-          class="mb-3">
+          class="mb-3"
+          required>
           <template slot="first">
             <!-- this slot appears above the options from 'options' prop -->
             <option
@@ -27,7 +29,7 @@
         <b-btn
           variant="primary"
           ref="btnCheckYourWater"
-          @click="onCheckYourWater">
+          type="submit">
           Check Your Water
         </b-btn>
       </b-form>
@@ -36,6 +38,7 @@
         id="bwi-modal"
         modal-ref="bwi-modal"
         title="Be Well Informed Water Analysis Tool"
+        @hide="onHideMainModal"
         :hide-footer="true">
         <b-tabs
           v-model="tabIndex"
@@ -255,12 +258,17 @@
         'updatePromptResponses',
         'updateWaterAnalysisRequestProperty',
       ]),
-      onCheckYourWater() {
+      onCheckYourWater(evt) {
+        evt.preventDefault();
         const partner = this.selectedPartner;
-        this.fetchPartnerAndFlowchartXML(partner.code);
-        this.$root.$emit(
-          'bv::show::modal', 'bwi-modal', this.$refs.btnCheckYourWater,
-        );
+        if (partner) {
+          this.fetchPartnerAndFlowchartXML(partner.code);
+          this.$root.$emit(
+            'bv::show::modal', 'bwi-modal', this.$refs.btnCheckYourWater,
+          );
+        } else {
+
+        }
       },
       getContaminantFromSymbol(symbol) {
         const { partnerResource } = this;
@@ -301,6 +309,10 @@
         vm.$nextTick(function () {
           vm.tabIndex = event.value;
         });
+      },
+      onHideMainModal(bvEvt) {
+        const vm = this;
+        vm.tabIndex = 0;
       },
     },
   };

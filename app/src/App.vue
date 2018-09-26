@@ -2,16 +2,19 @@
   <div
     id="app">
     <MainHeader/>
-    <div class="container">
-      <div
-        id="nav"
-        class="region-navigation pb-2 px-3">
+    <div
+      id="nav"
+      class="region-navigation pb-2 px-3">
+
+      <div class="container">
         <router-link to="/">Home</router-link>
         <span class="divider">|</span>
         <router-link to="/about">About</router-link>
         <span class="divider">|</span>
         <router-link to="/workbench">Workbench</router-link>
       </div>
+    </div>
+    <div class="container">
       <div
         id="main-content"
         class="no-gutters py-2">
@@ -20,12 +23,18 @@
     </div>
     <MainFooter/>
     <!-- set progressbar -->
+    <div class="enviroment-status bg-info text-white">
+      <div class="vertical-align-center">
+        <span class="is-strong">{{ ENV }}</span>
+      </div>
+    </div>
     <vue-progress-bar></vue-progress-bar>
   </div>
 </template>
 
 <script>
   // @ is an alias to /src
+  import { mapGetters } from 'vuex';
   import MainHeader from '@/components/MainHeader.vue';
   import MainFooter from '@/components/MainFooter.vue';
   import VueProgessBar from 'vue-progressbar';
@@ -68,6 +77,11 @@
         vm.$Progress.finish();
       });
     },
+    computed: {
+      ...mapGetters({
+        ENV: 'getEnvironment',
+      }),
+    },
   };
 </script>
 
@@ -102,5 +116,44 @@
   .divider {
     padding-left: 0.5em;
     padding-right: 0.5em;
+  }
+  .enviroment-status {
+    opacity: 0.35;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: .5rem;
+    span {
+      font-size: .3rem;
+      position: absolute;
+      height: 1.5rem;
+      transform: rotate(180deg);
+      writing-mode: tb-rl;
+      white-space: nowrap;
+      font-weight: 900;
+    }
+    &:hover {
+      opacity: 1.0;
+    }
+  }
+
+  // General slider media queries
+  @include media-breakpoint-up(sm) {
+    .enviroment-status {
+      width: 1.0rem;
+      span {
+        font-size: .7rem;
+        height: 1.5rem;
+      }
+    }
+  }
+  @include media-breakpoint-up(md) {
+    .enviroment-status {
+      width: 1.5rem;
+      span {
+        font-size: 1.0rem;
+      }
+    }
   }
 </style>

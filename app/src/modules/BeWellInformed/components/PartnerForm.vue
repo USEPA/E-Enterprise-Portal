@@ -27,9 +27,9 @@
 
       <div
         class="row justify-content-end">
-        <!--<b-button
+        <b-button
           type="reset"
-          variant="danger">Reset</b-button>-->
+          variant="danger">Reset</b-button>
         <b-button
           type="submit"
           variant="primary">Submit</b-button>
@@ -79,9 +79,14 @@
         // this.$children[0].$refs["As-Value"][0].$refs["input"].value
         vm.$children.forEach((child) => {
           Object.keys(child.$refs).forEach((key) => {
-
-            contaminants.forEach(() => {
-
+            const contaminants = child.$refs[key];
+            contaminants.forEach((contam) => {
+              if (contam.$refs.input) {
+                contam.$refs.input.value = '';
+              }
+              if (contam.$refs.radio) {
+                contam.$refs.radio.value = '';
+              }
             });
           });
         });

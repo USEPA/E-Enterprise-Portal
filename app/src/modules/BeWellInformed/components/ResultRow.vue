@@ -9,7 +9,7 @@
       <h6 class="d-inline d-md-none">Result: </h6>
       <img
         class="key-image-icon"
-        :src="require(`../images/${processGuidelineIcon}.png`)"
+        :src="includeImage(processGuidelineIcon)"
         :alt="aKey">
     </div>
 
@@ -131,6 +131,13 @@
             r = 'border-info';
         }
         return r;
+      },
+      includeImage(processGuidelineIcon) {
+        try {
+          return require(`../images/${processGuidelineIcon}.png`);
+        } catch (ex) {
+          console.warn(`Missing process guideline icon: ../images/${processGuidelineIcon}.png`, ex);
+        }
       },
     },
   };
