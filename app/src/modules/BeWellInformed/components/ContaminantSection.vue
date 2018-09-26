@@ -94,7 +94,6 @@
       ...mapGetters({
         partnerResource: 'BeWellInformed/getPartnerResource',
         flowchartContaminants: 'BeWellInformed/getFlowchartContaminants',
-        waterAnalysisRequest: 'BeWellInformed/getWaterAnalysisRequest',
       }),
       getContaminantTitle() {
         let r = '';

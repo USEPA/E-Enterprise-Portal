@@ -29,10 +29,8 @@
     computed: {
       ...mapGetters({
         partners: 'BeWellInformed/getPartners',
-        partnerXmls: 'BeWellInformed/getPartnerXmls',
         selectedPartner: 'BeWellInformed/getSelectedPartner',
         partnerResource: 'BeWellInformed/getPartnerResource',
-        waterAnalysisRequest: 'BeWellInformed/getWaterAnalysisRequest',
       }),
     },
     methods: {

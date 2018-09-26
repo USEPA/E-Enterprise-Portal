@@ -237,8 +237,6 @@
         type: Object,
       },
     },
-    created() {
-    },
     computed: {
       ...mapGetters({
         partners: 'BeWellInformed/getPartners',
@@ -253,16 +251,6 @@
           && pr.info
           && pr.info.Partner.Results
         ) ? pr.info.Partner.Results : null;
-        return r;
-      },
-      resultSummary() {
-        const results = this.waterAnalysisResult.ResultEvaluations;
-        const r = {};
-        Object.keys(results).forEach((key) => {
-          if (results[key].UserContaminatValue) {
-            r[key] = results[key];
-          }
-        });
         return r;
       },
     },
@@ -295,7 +283,7 @@
       },
       getWaterTreatmentTitle() {
         let r = 'Water Treatment Systems That Remove ';
-        const { waterAnalysisResult: resultEvaluations } = this;
+        const resultEvaluations = this.waterAnalysisResult.ResultEvaluations;
         const treatedContaminants = [];
         Object.keys(resultEvaluations).forEach((symbol) => {
           if (resultEvaluations[symbol].GuidelineColor === 'font-red' ||

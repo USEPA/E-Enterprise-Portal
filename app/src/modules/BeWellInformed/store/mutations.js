@@ -92,9 +92,6 @@ export default {
       );
     }
   },
-  [types.UPDATE_RESULT_EVALUATIONS]( state, array) {
-    state.resultEvaluations = array;
-  },
   [types.UPDATE_RESULT_EVALUATION]( state, obj) {
     state.resultEvaluation = obj;
   },
