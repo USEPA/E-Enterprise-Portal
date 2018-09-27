@@ -1,6 +1,25 @@
 <template>
   <div
     id="app">
+    <div
+      class="environment-status bg-warning text-white"
+      v-if="(ENV !='PROD')">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 text-center text-white">
+            <span class="is-strong">{{ environmentName }} :</span>
+            <span>
+              Welcome to the E-Enterprise {{ environmentName }} Environment
+              .</span>
+            <br>
+            <span>
+              This is a non-production demonstration environment and is not to be used for
+              any regulatory activity.
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
     <MainHeader/>
     <div
       id="nav"
@@ -23,12 +42,7 @@
     </div>
     <MainFooter/>
     <!-- set progressbar -->
-    <div class="enviroment-status bg-info text-white">
-      <div class="vertical-align-center">
-        <span class="is-strong">{{ (ENV == 'LOCAL') ? 'Demo' : ENV }}</span>
-      </div>
-    </div>
-    <vue-progress-bar></vue-progress-bar>
+    <vue-progress-bar/>
   </div>
 </template>
 
@@ -81,22 +95,26 @@
       ...mapGetters({
         ENV: 'getEnvironment',
       }),
+      environmentName() {
+        let r = 'Local';
+        r = (this.ENV === 'DEV') ? 'Development' : r;
+        r = (this.ENV === 'TEST') ? 'Test' : r;
+        return r;
+      },
     },
   };
 </script>
 
 <style lang="scss">
   // @TODO - Move no scoped styles to the appropiate sass file
-
   @import './styles/bootstrap-variable-overrides.scss';
   @import '../node_modules/bootstrap/scss/bootstrap.scss';
   @import '../node_modules/bootstrap-vue/dist/bootstrap-vue.css';
   @import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
   @import './styles/styles.scss';
-
   .region-navigation {
-    color: #ffffff;
-    text-shadow: -1px 0 1px rgba(0,0,0, 0.5);
+    color: #fff;
+    text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
     background-color: #0071bc;
     // background-color: #007bff;
     height: auto;
@@ -117,27 +135,11 @@
     padding-left: 0.5em;
     padding-right: 0.5em;
   }
-  .enviroment-status {
-    opacity: 0.35;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: .5rem;
-    span {
-      font-size: .3rem;
-      position: absolute;
-      height: 1.5rem;
-      transform: rotate(180deg);
-      writing-mode: tb-rl;
-      white-space: nowrap;
-      font-weight: 900;
-    }
+  .environment-status {
     &:hover {
       opacity: 1.0;
     }
   }
-
   // General slider media queries
   @include media-breakpoint-up(sm) {
     .enviroment-status {

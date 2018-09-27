@@ -5,5 +5,4 @@
  *
  * @SEE https://vuex.vuejs.org/guide/getters.html
  */
-export default {
-};
+export default {};

@@ -238,16 +238,16 @@
       },
     },
     computed: {
-      ...mapGetters({
+      ...mapGetters( {
         partners: 'BeWellInformed/getPartners',
         partnerXmls: 'BeWellInformed/getPartnerXmls',
         selectedPartner: 'BeWellInformed/getSelectedPartner',
         partnerResource: 'BeWellInformed/getPartnerResource',
-      }),
+      } ),
       infoXmlResults() {
         const xmls = this.partnerXmls;
-        const pr = xmls[this.waterAnalysisResult.StateCode];
-        const r = (pr
+        const pr = xmls[ this.waterAnalysisResult.StateCode ];
+        const r = ( pr
           && pr.info
           && pr.info.Partner.Results
         ) ? pr.info.Partner.Results : null;
@@ -258,9 +258,9 @@
       isReady() {
         return !!this.infoXmlResults;
       },
-      processGuidelineIcon(guidelineIcon) {
+      processGuidelineIcon( guidelineIcon ) {
         let r = '';
-        switch (guidelineIcon) {
+        switch ( guidelineIcon ) {
           case 'Images/water/check4.png':
             r = 'MeetsLimit';
             break;
@@ -285,41 +285,41 @@
         let r = 'Water Treatment Systems That Remove ';
         const resultEvaluations = this.waterAnalysisResult.ResultEvaluations;
         const treatedContaminants = [];
-        Object.keys(resultEvaluations).forEach((symbol) => {
-          if (resultEvaluations[symbol].GuidelineColor === 'font-red' ||
-            resultEvaluations[symbol].TreatmentMessages) {
-            treatedContaminants.push(resultEvaluations[symbol].ContaminantFullName);
+        Object.keys( resultEvaluations ).forEach( ( symbol ) => {
+          if ( resultEvaluations[ symbol ].GuidelineColor === 'font-red' ||
+            resultEvaluations[ symbol ].TreatmentMessages ) {
+            treatedContaminants.push( resultEvaluations[ symbol ].ContaminantFullName );
           }
-        });
+        } );
         const lastContaminant = treatedContaminants.pop();
-        if (treatedContaminants.length > 1) {
-          r += treatedContaminants.join(', ');
+        if ( treatedContaminants.length > 1 ) {
+          r += treatedContaminants.join( ', ' );
           r += ' and ';
         }
         r += lastContaminant;
         return r;
       },
-      hasWholeHomeTreatment(treatment) {
+      hasWholeHomeTreatment( treatment ) {
         let r = [];
-        const wholeHomeTreatments = ['home', 'house'];
+        const wholeHomeTreatments = [ 'home', 'house' ];
         const systemTypes = [];
-        if (Array.isArray(treatment.OrInstructions)) {
-          treatment.OrInstructions.forEach((instruction) => {
-            systemTypes.push(instruction.SystemType.toLowerCase());
-          });
-          r = wholeHomeTreatments.filter(value => -1 !== systemTypes.indexOf(value));
+        if ( Array.isArray( treatment.OrInstructions ) ) {
+          treatment.OrInstructions.forEach( ( instruction ) => {
+            systemTypes.push( instruction.SystemType.toLowerCase() );
+          } );
+          r = wholeHomeTreatments.filter( value => -1 !== systemTypes.indexOf( value ) );
         }
         return r.length;
       },
-      hasPointOfUseTreatment(treatment) {
+      hasPointOfUseTreatment( treatment ) {
         let r = [];
-        const pointOfUseTreatment = ['water', 'facet', 'faucet'];
+        const pointOfUseTreatment = [ 'water', 'facet', 'faucet' ];
         const systemTypes = [];
-        if (Array.isArray(treatment.OrInstructions)) {
-          treatment.OrInstructions.forEach((instruction) => {
-            systemTypes.push(instruction.SystemType.toLowerCase());
-          });
-          r = pointOfUseTreatment.filter(value => -1 !== systemTypes.indexOf(value));
+        if ( Array.isArray( treatment.OrInstructions ) ) {
+          treatment.OrInstructions.forEach( ( instruction ) => {
+            systemTypes.push( instruction.SystemType.toLowerCase() );
+          } );
+          r = pointOfUseTreatment.filter( value => -1 !== systemTypes.indexOf( value ) );
         }
         return r.length;
       },
@@ -329,11 +329,10 @@
 <style scoped
   lang="scss">
   @import '../../../styles/bootstrap-variable-overrides.scss';
-
   .heading-bar {
     // margin: -1.25rem -1.25rem 1.25rem;
     padding: .5rem 1.25rem;
-    background-color: #007AC6;
+    background-color: #007ac6;
     color: #fff;
   }
   .wt-step {

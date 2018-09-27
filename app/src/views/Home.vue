@@ -20,9 +20,9 @@
             <div class="col-md align-self-start">
               <h2>Customize your information</h2>
               <p>The E-Enterprise Portal provides an important new means by which
-              users can customize the types of information presented to them,
-              find and select tools and other resources, and conduct
-              transactions with EPA, Tribes, and States.</p>
+                users can customize the types of information presented to them,
+                find and select tools and other resources, and conduct
+                transactions with EPA, Tribes, and States.</p>
               <p>See the video <span aria-hidden="true">&gt;&gt;</span></p>
             </div>
             <div class="col-md align-self-end">
@@ -117,7 +117,7 @@
               </p>
             </div>
             <p class="lgc-calltoaction">Select your location, organization, and role
-            to find resources.</p>
+              to find resources.</p>
           </div>
         </div>
 
@@ -148,16 +148,15 @@
         this.sliding = false;
       },
     },
-    mounted() {},
+    mounted() {
+    },
   };
 </script>
 
 
 <style lang="scss">
   // @TODO - Move no scoped styles to the appropiate sass file
-
   @import '../styles/bootstrap-mixins-cheatsheet.scss';
-
   #home-carousel {
 
     h1, h2, h3, h4, h5, h6 {

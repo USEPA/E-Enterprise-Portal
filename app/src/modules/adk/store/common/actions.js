@@ -3,5 +3,4 @@
  * should not directly modify any Store values directly but rather invoke
  * mutators.  Async tasks should be created here.
  */
-export default{
-};
+export default {};

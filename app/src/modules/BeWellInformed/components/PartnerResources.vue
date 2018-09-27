@@ -25,29 +25,29 @@
   export default {
     name: 'PartnerResources',
     components: {},
-    created() {},
+    created() {
+    },
     computed: {
-      ...mapGetters({
+      ...mapGetters( {
         partners: 'BeWellInformed/getPartners',
         selectedPartner: 'BeWellInformed/getSelectedPartner',
         partnerResource: 'BeWellInformed/getPartnerResource',
-      }),
+      } ),
     },
     methods: {
-      ...mapActions(name, [
+      ...mapActions( name, [
         'setSelectedPartner',
         'fetchPartners',
         'fetchPartnerAndFlowchartXML',
         'createWaterAnalysisRequest',
-      ]),
+      ] ),
     },
   };
 </script>
 
 <style
-lang="scss">
+  lang="scss">
   @import '../../../styles/bootstrap-variable-overrides.scss';
-
   .bwi-partner-resources {
     .card {
       h4 {
@@ -58,11 +58,9 @@ lang="scss">
       }
     }
   }
-
   .bwi-resource-name {
     font-weight: 700;
   }
-
   .plain-list {
     margin: 0;
     padding: 0;

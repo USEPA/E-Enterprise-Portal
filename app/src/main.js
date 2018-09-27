@@ -30,7 +30,7 @@ const VueProgressBarOptions = {
   inverse: false,
 };
 
-Vue.use(VueProgressBar, VueProgressBarOptions);
+Vue.use( VueProgressBar, VueProgressBarOptions );
 
 // Add Font Awesome SVG icons individually here
 library.add(
@@ -40,10 +40,10 @@ library.add(
   faExternalLinkAlt,
 );
 
-Vue.component('font-awesome-icon', FontAwesomeIcon);
+Vue.component( 'font-awesome-icon', FontAwesomeIcon );
 
 Vue.config.productionTip = false;
-Vue.use(BootstrapVue);
+Vue.use( BootstrapVue );
 
 /*let m;
 const regex = /^e-enterprise\.gov/gm;
@@ -57,8 +57,8 @@ while ((m = regex.exec(location.host)) !== null) {
 }*/
 Vue.config.devtools = true;
 
-export default new Vue({
+export default new Vue( {
   router,
   store,
-  render: h => h(App),
-}).$mount('#app');
+  render: h => h( App ),
+} ).$mount( '#app' );

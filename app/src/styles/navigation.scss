@@ -1,27 +1,26 @@
 
 .nav-tabs .nav-link {
-    border-width: 1px;
-    border-bottom: 3px solid $blue;
+  border-width: 1px;
+  border-bottom: 3px solid $blue;
 }
-
 .nav-tabs {
-    .nav-link {
-        border: 0 solid transparent;
+  .nav-link {
+    border: 0 solid transparent;
 
-        @include hover-focus {
-            border-bottom: $nav-tabs-border-active-width solid $nav-tabs-border-active-color;
-        }
-
-        &.disabled {
-            color: $nav-link-disabled-color;
-            background-color: transparent;
-            border-color: transparent;
-            border-width: $border-width !important;
-        }
+    @include hover-focus {
+      border-bottom: $nav-tabs-border-active-width solid $nav-tabs-border-active-color;
     }
 
-    .nav-link.active,
-    .nav-item.show .nav-link {
-        border-bottom: $nav-tabs-border-active-width solid $nav-tabs-border-active-color;
+    &.disabled {
+      color: $nav-link-disabled-color;
+      background-color: transparent;
+      border-color: transparent;
+      border-width: $border-width !important;
     }
+  }
+
+  .nav-link.active,
+  .nav-item.show .nav-link {
+    border-bottom: $nav-tabs-border-active-width solid $nav-tabs-border-active-color;
+  }
 }

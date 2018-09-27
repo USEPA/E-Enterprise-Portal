@@ -18,35 +18,43 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 
  */
 .no-gutters {
-    margin-right: 0;
-    margin-left: 0;
+  margin-right: 0;
+  margin-left: 0;
 
-    > .col,
-    > [class*="col-"] {
-        padding-right: 0;
-        padding-left: 0;
-    }
+  > .col,
+  > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+  }
 }
-
 /**
  * Add "External Link" icon after links that navigate away from the site
  */
 a[target='_blank']:after {
-    font-family: 'Font Awesome 5 Free';
-    font-weight: 900;
-    content: fa-content($fa-var-external-link-alt);
-    margin: 0 0.5rem;
-    display: inline-block;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  content: fa-content($fa-var-external-link-alt);
+  margin: 0 0.5rem;
+  display: inline-block;
 }
-
 .vertical-align-center {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.vertical-align-bottom {
+  position: relative;
+  top: 100%;
+  transform: translateY(-100%);
 }
 
-.vertical-align-bottom {
-    position: relative;
-    top: 100%;
-    transform: translateY(-100%);
+// Rotation
+.rotate-90 {
+  transform: rotate(90deg);
+}
+.rotate-180{
+  transform: rotate(180deg);
+}
+.rotate-270 {
+  transform: rotate(270deg);
 }

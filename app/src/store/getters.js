@@ -1,5 +1,5 @@
 export default {
-  getApp(state) {
+  getApp( state ) {
     return state.app;
   },
   getEnvironment() {
@@ -14,14 +14,14 @@ export default {
       PROD: /^e-enterprise\.gov/gm,
     };
 
-    Object.keys(regex).forEach((envName) => {
-      while ((m = regex[envName].exec(host)) !== null) {
+    Object.keys( regex ).forEach( ( envName ) => {
+      while ( ( m = regex[ envName ].exec( host ) ) !== null ) {
         // This is necessary to avoid infinite loops with zero-width matches
-        if (m.length) {
+        if ( m.length ) {
           env = envName;
         }
       }
-    });
+    } );
 
     // FORCING ENV FOR TESTING
     env = 'LOCAL';

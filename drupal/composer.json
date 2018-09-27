@@ -40,6 +40,7 @@
     "drupal/entity_reference_revisions": "^1.5",
     "drupal/field_group": "^1.0",
     "drupal/google_analytics": "^2.3",
+    "drupal/guzzlerestgenerator": "3.1",
     "drupal/page_manager": "^4.0@beta",
     "drupal/panelizer": "^4.1",
     "drupal/panels": "^4.3",
@@ -132,4 +133,3 @@
     }
   }
 }
-

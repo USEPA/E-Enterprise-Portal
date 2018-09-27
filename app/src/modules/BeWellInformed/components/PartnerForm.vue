@@ -32,10 +32,12 @@
         class="row justify-content-end">
         <b-button
           type="reset"
-          variant="danger">Reset</b-button>
+          variant="danger">Reset
+        </b-button>
         <b-button
           type="submit"
-          variant="primary">Submit</b-button>
+          variant="primary">Submit
+        </b-button>
       </div>
     </b-form>
   </div>
@@ -54,27 +56,27 @@
       this.createWaterAnalysisRequest();
     },
     computed: {
-      ...mapGetters({
+      ...mapGetters( {
         partners: 'BeWellInformed/getPartners',
         selectedPartner: 'BeWellInformed/getSelectedPartner',
         partnerResource: 'BeWellInformed/getPartnerResource',
         waterAnalysisRequest: 'BeWellInformed/getWaterAnalysisRequest',
-      }),
+      } ),
     },
     methods: {
-      ...mapActions(name, [
+      ...mapActions( name, [
         'setSelectedPartner',
         'fetchPartners',
         'fetchPartnerAndFlowchartXML',
         'createWaterAnalysisRequest',
         'submitPartnersData',
-      ]),
-      onSubmit(evt) {
+      ] ),
+      onSubmit( evt ) {
         evt.preventDefault();
         const vm = this;
-        this.submitPartnersData({ vm, evt });
+        this.submitPartnersData( { vm, evt } );
       },
-      onReset(evt) {
+      onReset( evt ) {
         evt.preventDefault();
         /* Reset our form values */
         this.createWaterAnalysisRequest();

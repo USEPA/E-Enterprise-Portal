@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e48db22899e29d7eeaaf258250d4cc40",
+    "content-hash": "62a946c5b113bef6b70a4b95556e0fba",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -3379,6 +3379,53 @@
             "support": {
                 "source": "http://git.drupal.org/project/google_analytics.git",
                 "issues": "https://www.drupal.org/project/issues/google_analytics"
+            }
+        },
+        {
+            "name": "drupal/guzzlerestgenerator",
+            "version": "3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/guzzlerestgenerator",
+                "reference": "8.x-3.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/guzzlerestgenerator-8.x-3.1.zip",
+                "reference": "8.x-3.1",
+                "shasum": "274cf6a2aa6d39e43a7f7ba9d48aa6958bc93dae"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-3.x": "3.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-3.1",
+                    "datestamp": "1503474244",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "DigantDj",
+                    "homepage": "https://www.drupal.org/user/3369088"
+                }
+            ],
+            "description": "UI Interface to perform external REST requests and generate Drupal REST endpoint to get real-time JSON output.",
+            "homepage": "https://www.drupal.org/project/guzzlerestgenerator",
+            "support": {
+                "source": "http://cgit.drupalcode.org/guzzlerestgenerator"
             }
         },
         {
