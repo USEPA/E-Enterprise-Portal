@@ -96,9 +96,30 @@
         ENV: 'getEnvironment',
       }),
       environmentName() {
+        let env = 'LOCAL';
+        const { host } = window.location;
+        let m;
+
+        const regex = {
+          LOCAL: /(localhost|local|^e\-enterprise$)/gm,
+          DEV: /dev\d?\.e-enterprise/gm,
+          TEST: /test\d?\.e-enterprise/gm,
+          PROD: /^e-enterprise\.gov/gm,
+        };
+
+        Object.keys(regex).forEach((envName) => {
+          while ((m = regex[envName].exec(host)) !== null) {
+            // This is necessary to avoid infinite loops with zero-width matches
+            if (m.length) {
+              env = envName;
+            }
+          }
+        });
+
         let r = 'Local';
-        r = (this.ENV === 'DEV') ? 'Development' : r;
-        r = (this.ENV === 'TEST') ? 'Test' : r;
+        r = (env === 'DEV') ? 'Development' : r;
+        r = (env === 'TEST') ? 'Test' : r;
+
         return r;
       },
     },
