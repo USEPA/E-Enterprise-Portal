@@ -104,7 +104,7 @@
       "xcopy /S /I /E /Y web\\modules\\contrib\\sqlsrv\\drivers web\\drivers"
     ],
     "test-cmd": [
-      "xcopy /S /I /E /Y web\\modules\\contrib\\sqlsrv\\drivers web\\drivers"
+      "@php web/profiles/e_enterprise_portal/post-install-setup.php"
     ]
   },
   "extra": {
