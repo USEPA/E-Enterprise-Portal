@@ -138,12 +138,10 @@
                     v-for="(instruction, key) in treatment.OrInstructions"
                   >
                     <div
-                      :key="key"
                       class="col-sm-5 col-md-4 border bg-white p-2 my-2">
                       {{ instruction.Recommendation }}
                     </div>
                     <div
-                      :key="key"
                       class="col-sm-2 col-md-1 px-1 wt-or">
                       <span class="vertical-align-center d-inline-block">Or</span>
                     </div>

@@ -3,6 +3,7 @@
  *
  * @type {null}
  */
+// eslint-disable-next-line import/no-mutable-exports
 let parseXml = null;
 
 if (window.DOMParser) {

@@ -24,8 +24,8 @@ export default {
   ...commonAppStore.actions,
   createWaterAnalysisRequest(context) {
     const store = context;
-    const {partnerResource} = store.state;
-    let {waterAnalysisRequest} = store.state;
+    const { partnerResource } = store.state;
+    let { waterAnalysisRequest } = store.state;
 
     if (partnerResource) {
       waterAnalysisRequest = {
@@ -58,7 +58,7 @@ export default {
     const env = rootStore.getters.getEnvironment;
     const store = context;
     const app = store.rootGetters.getApp;
-    const {state} = store;
+    const { state } = store;
     const partner = state.selectedPartner;
     const suffix = (env === 'LOCAL') ? '.xml' : '';
 
@@ -66,7 +66,7 @@ export default {
       AppAxios.get(state.urls[env].getPartnerXML + partnerCode + suffix)
         .then((response) => {
           // @todo add sanity check for returned data
-          const partnerJsonString = convert.xml2json(response.data, {compact: true});
+          const partnerJsonString = convert.xml2json(response.data, { compact: true });
           const partnerJson = JSON.parse(partnerJsonString);
           store.commit(types.UPDATE_PARTNER_XML, {
             partner,
@@ -93,7 +93,7 @@ export default {
       AppAxios.get(state.urls[env].getFlowchartXML + partnerCode + suffix)
         .then((response) => {
           // @todo add sanity check for returned data
-          const partnerJsonString = convert.xml2json(response.data, {compact: true});
+          const partnerJsonString = convert.xml2json(response.data, { compact: true });
           const partnerJson = JSON.parse(partnerJsonString);
           store.commit(types.UPDATE_PARTNER_FLOWCHART_XML, {
             partner,
@@ -141,11 +141,11 @@ export default {
   submitPartnersData(context, payload) {
     const rootStore = this;
     const env = rootStore.getters.getEnvironment;
-    const {vm} = payload;
+    const { vm } = payload;
 
     const store = context;
     const app = store.rootGetters.getApp;
-    const {waterAnalysisRequest} = store.state;
+    const { waterAnalysisRequest } = store.state;
     const selectedPartner = store.getters.getSelectedPartner;
     const partnerCode = selectedPartner.code;
 
@@ -155,7 +155,7 @@ export default {
 
       if (!isRequestEmpty) {
         let aa = null;
-        if (env !== 'LOCAL') {
+        /* if (env !== 'LOCAL') {
           const axiosConfig = {
             headers: {
               'Content-Type': 'application/json',
@@ -176,11 +176,24 @@ export default {
             endpoint = store.state.urls[env].submitPartnersData2;
           }
           aa = AppAxios.get(endpoint);
-        }
+        } */
+
+        const axiosConfig = {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        };
+
+        // eslint-disable-next-line vue/no-async-in-computed-properties
+        aa = AppAxios.post(
+          store.state.urls[env].submitPartnersData,
+          JSON.stringify(r),
+          axiosConfig,
+        );
 
         aa.then((response) => {
           if (response.status === 200 && !!response.data) {
-            const {data} = response;
+            const { data } = response;
             /**
              * If we get InteractivePrompts or AdditionalContaminantRequests
              * handle the various states of the returns from the service
@@ -245,10 +258,10 @@ export default {
   },
   updatePromptResponses(context, payload) {
     const store = context;
-    const {question} = payload;
-    const {promptType} = payload;
+    const { question } = payload;
+    const { promptType } = payload;
     const value = payload.$event;
-    const {waterAnalysisRequest} = store.state;
+    const { waterAnalysisRequest } = store.state;
     if (!Array.isArray(waterAnalysisRequest.InteractivePromptResponses)) {
       waterAnalysisRequest.InteractivePromptResponses = [];
     }

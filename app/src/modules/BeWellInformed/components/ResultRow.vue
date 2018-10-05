@@ -88,6 +88,11 @@
         required: true,
       },
     },
+    data() {
+      return {
+        images: null,
+      };
+    },
     computed: {
       ...mapGetters({
         partnerResource: 'BeWellInformed/getPartnerResource',
@@ -133,14 +138,13 @@
         return r;
       },
       includeImage(processGuidelineIcon) {
-        let imageUri = '../images/ReferToOther.png';
-        try {
-          imageUri = `../images/${processGuidelineIcon}.png`;
+        const images = require.context('../images/', false, /\.png$/);
+        /* try {
+          return `../images/${processGuidelineIcon}.png`;
         } catch (ex) {
           console.warn(`Missing process guideline icon: ../images/${processGuidelineIcon}.png`, ex);
-        }
-        // eslint-disable-next-line import/no-dynamic-require,global-require
-        return require(imageUri);
+        } */
+        return images(`./${processGuidelineIcon}.png`);
       },
     },
   };

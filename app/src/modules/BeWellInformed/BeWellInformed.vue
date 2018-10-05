@@ -54,6 +54,7 @@
             class="py-3">
             <PartnerForm v-if="isFlowchartReady"/>
             <AppPlaceholderContent
+              v-if="!isFlowchartReady"
               :repeatitions="3">
               <div
                 v-for="i in 3"
@@ -62,7 +63,7 @@
                 <h5 class="col-md-12 pulse"></h5>
                 <div
                   v-for="j in 3"
-                  :key="j"
+                  :key="`${j}-left`"
                   class="col-md-6">
                   <div class="row m-2">
                     <div class="col-12 pulse"></div>
@@ -70,7 +71,7 @@
                 </div>
                 <div
                   v-for="j in 3"
-                  :key="j"
+                  :key="`${j}-right`"
                   class="col-md-6">
                   <div class="row m-2">
                     <div class="col-12 pulse"></div>
@@ -230,6 +231,9 @@
       PartnerForm,
       PartnerResources,
     },
+    beforeCreate() {
+      require.context('./images', false, /\.png$/);
+    },
     created() {
       const store = this.$store;
       if (!(store && store.state && store.state[name])) {
@@ -291,7 +295,7 @@
         return this.tabIndex;
       },
       isFlowchartReady() {
-        const {partnerResource} = this;
+        const { partnerResource } = this;
         return !!(partnerResource && partnerResource.flowchart);
       },
     },
@@ -320,7 +324,7 @@
         return this.getContaminantFromSymbol(question.Symbol)._attributes.Units.split('|');
       },
       getContaminantFromSymbol(symbol) {
-        const {partnerResource} = this;
+        const { partnerResource } = this;
         const Contaminants = partnerResource.flowchart.FlowCharts.Contaminants.Contaminant;
         let contaminant = null;
 
@@ -347,9 +351,8 @@
         if (!isRequestEmpty) {
           evt.preventDefault();
           vm.submissionErrorMessage = '';
-          vm.submitPartnersData({vm, evt});
-        }
-        else {
+          vm.submitPartnersData({ vm, evt });
+        } else {
           this.submissionErrorMessage = 'Please enter values for some of the contaminants.';
         }
       },

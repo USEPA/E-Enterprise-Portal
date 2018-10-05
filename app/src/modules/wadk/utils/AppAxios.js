@@ -1,6 +1,11 @@
 import axios from 'axios';
 import app from '../../../main'; // import the instance
 
+/**
+ * Initializes the Axios instance and setups pre/post request functionality,
+ * primarily progress bars and user feedback
+ * @type {AxiosInstance}
+ */
 const instance = axios.create();
 
 instance.interceptors.request.use((config) => {
