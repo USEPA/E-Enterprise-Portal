@@ -30,9 +30,7 @@
         required: false,
       },
     },
-    computed: {
-
-    },
+    computed: {},
     methods: {
       getRandomDistro(min = 2, max = 10) {
         // Standard Normal variate using Box-Muller transform for natural looking text
@@ -53,13 +51,13 @@
   };
 </script>
 
-<style scoped lang="scss">
+<style scoped
+  lang="scss">
   .pulse {
     &::before { content: '\00a0'; }
 
     animation: pulse 1s infinite ease-in-out;
   }
-
   @keyframes pulse {
     0% {
       background-color: rgba(165, 165, 165, 0.1)

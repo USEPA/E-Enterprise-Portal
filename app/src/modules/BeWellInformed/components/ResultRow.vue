@@ -61,7 +61,7 @@
   </div>
 </template>
 <script>
-  import { mapActions, mapGetters } from 'vuex';
+  import { mapGetters } from 'vuex';
   import _ from 'lodash';
 
   export default {
@@ -89,38 +89,38 @@
       },
     },
     computed: {
-      ...mapGetters( {
+      ...mapGetters({
         partnerResource: 'BeWellInformed/getPartnerResource',
-      } ),
+      }),
       showResultRow() {
-        const showSummary = ( this.isSummary && this.result.UserContaminatValue );
-        const showAll = ( !this.isSummary );
-        return ( showSummary || showAll );
+        const showSummary = (this.isSummary && this.result.UserContaminatValue);
+        const showAll = (!this.isSummary);
+        return (showSummary || showAll);
       },
     },
     methods: {
-      getContaminantFromSymbol( symbol ) {
+      getContaminantFromSymbol(symbol) {
         const { partnerResource } = this;
         const Contaminants = partnerResource.flowchart.FlowCharts.Contaminants.Contaminant;
         let contaminant = null;
 
-        const contaminantArray = Contaminants.filter( c => c._attributes.Value === symbol );
+        const contaminantArray = Contaminants.filter(c => c._attributes.Value === symbol);
 
-        if ( Array.isArray( contaminantArray ) && contaminantArray.length ) {
-          contaminant = contaminantArray[ 0 ];
+        if (Array.isArray(contaminantArray) && contaminantArray.length) {
+          [contaminant] = contaminantArray;
         }
 
         return contaminant;
       },
-      canShowDetail( msg ) {
-        return ( !this.isSummary && !!msg );
+      canShowDetail(msg) {
+        return (!this.isSummary && !!msg);
       },
-      unescape( msg ) {
-        return _.unescape( msg );
+      unescape(msg) {
+        return _.unescape(msg);
       },
-      processGuidelineColor( GuidelineColor ) {
+      processGuidelineColor(GuidelineColor) {
         let r = '';
-        switch ( GuidelineColor ) {
+        switch (GuidelineColor) {
           case 'font-red':
             r = 'border-danger';
             break;
@@ -132,13 +132,15 @@
         }
         return r;
       },
-      includeImage( processGuidelineIcon ) {
+      includeImage(processGuidelineIcon) {
+        let imageUri = '../images/ReferToOther.png';
         try {
-          return require( `../images/${processGuidelineIcon}.png` );
+          imageUri = `../images/${processGuidelineIcon}.png`;
+        } catch (ex) {
+          console.warn(`Missing process guideline icon: ../images/${processGuidelineIcon}.png`, ex);
         }
-        catch ( ex ) {
-          console.warn( `Missing process guideline icon: ../images/${processGuidelineIcon}.png`, ex );
-        }
+        // eslint-disable-next-line import/no-dynamic-require,global-require
+        return require(imageUri);
       },
     },
   };

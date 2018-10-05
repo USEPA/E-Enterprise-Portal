@@ -12,17 +12,20 @@
 
 import convert from 'xml-js';
 import _ from 'lodash';
-import { AppAxios, commonAppStore } from '../../adk/ADK';
-import parseXml from '../../adk/utils/xmlTools';
+import { AppAxios, commonAppStore } from '../../wadk/WADK';
+import parseXml from '../../wadk/utils/xmlTools';
 import types from './types';
 import { EventBus } from '../../../EventBus';
 
 export default {
+  /**
+   * Importing shared actions from the WADK's store
+   */
   ...commonAppStore.actions,
   createWaterAnalysisRequest(context) {
     const store = context;
-    const { partnerResource } = store.state;
-    let { waterAnalysisRequest } = store.state;
+    const {partnerResource} = store.state;
+    let {waterAnalysisRequest} = store.state;
 
     if (partnerResource) {
       waterAnalysisRequest = {
@@ -55,7 +58,7 @@ export default {
     const env = rootStore.getters.getEnvironment;
     const store = context;
     const app = store.rootGetters.getApp;
-    const { state } = store;
+    const {state} = store;
     const partner = state.selectedPartner;
     const suffix = (env === 'LOCAL') ? '.xml' : '';
 
@@ -63,7 +66,7 @@ export default {
       AppAxios.get(state.urls[env].getPartnerXML + partnerCode + suffix)
         .then((response) => {
           // @todo add sanity check for returned data
-          const partnerJsonString = convert.xml2json(response.data, { compact: true });
+          const partnerJsonString = convert.xml2json(response.data, {compact: true});
           const partnerJson = JSON.parse(partnerJsonString);
           store.commit(types.UPDATE_PARTNER_XML, {
             partner,
@@ -90,7 +93,7 @@ export default {
       AppAxios.get(state.urls[env].getFlowchartXML + partnerCode + suffix)
         .then((response) => {
           // @todo add sanity check for returned data
-          const partnerJsonString = convert.xml2json(response.data, { compact: true });
+          const partnerJsonString = convert.xml2json(response.data, {compact: true});
           const partnerJson = JSON.parse(partnerJsonString);
           store.commit(types.UPDATE_PARTNER_FLOWCHART_XML, {
             partner,
@@ -138,11 +141,11 @@ export default {
   submitPartnersData(context, payload) {
     const rootStore = this;
     const env = rootStore.getters.getEnvironment;
-    const { vm } = payload;
+    const {vm} = payload;
 
     const store = context;
     const app = store.rootGetters.getApp;
-    const { waterAnalysisRequest } = store.state;
+    const {waterAnalysisRequest} = store.state;
     const selectedPartner = store.getters.getSelectedPartner;
     const partnerCode = selectedPartner.code;
 
@@ -165,7 +168,8 @@ export default {
             JSON.stringify(r),
             axiosConfig,
           );
-        } else {
+        }
+        else {
           // handle local env endpoints when there is no service
           let endpoint = store.state.urls[env].submitPartnersData;
           if (store.state.interactivePrompts && store.state.interactivePrompts.length) {
@@ -176,7 +180,7 @@ export default {
 
         aa.then((response) => {
           if (response.status === 200 && !!response.data) {
-            const { data } = response;
+            const {data} = response;
             /**
              * If we get InteractivePrompts or AdditionalContaminantRequests
              * handle the various states of the returns from the service
@@ -184,13 +188,15 @@ export default {
 
             if (data.InteractivePrompts.length) {
               store.commit(types.UPDATE_INTERACTIVE_PROMPTS, data.InteractivePrompts);
-            } else {
+            }
+            else {
               store.commit(types.UPDATE_INTERACTIVE_PROMPTS, []);
             }
             if (data.AdditionalContaminantRequests.length) {
               store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS,
                 data.AdditionalContaminantRequests);
-            } else {
+            }
+            else {
               store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS, []);
             }
             if (!!data.InteractivePrompts.length
@@ -226,7 +232,8 @@ export default {
 
             if (res instanceof Error) {
               console.log(res.message);
-            } else {
+            }
+            else {
               console.log(res.data);
             }
 
@@ -238,10 +245,10 @@ export default {
   },
   updatePromptResponses(context, payload) {
     const store = context;
-    const { question } = payload;
-    const { promptType } = payload;
+    const {question} = payload;
+    const {promptType} = payload;
     const value = payload.$event;
-    const { waterAnalysisRequest } = store.state;
+    const {waterAnalysisRequest} = store.state;
     if (!Array.isArray(waterAnalysisRequest.InteractivePromptResponses)) {
       waterAnalysisRequest.InteractivePromptResponses = [];
     }

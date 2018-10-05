@@ -28,19 +28,19 @@
     created() {
     },
     computed: {
-      ...mapGetters( {
+      ...mapGetters({
         partners: 'BeWellInformed/getPartners',
         selectedPartner: 'BeWellInformed/getSelectedPartner',
         partnerResource: 'BeWellInformed/getPartnerResource',
-      } ),
+      }),
     },
     methods: {
-      ...mapActions( name, [
+      ...mapActions(name, [
         'setSelectedPartner',
         'fetchPartners',
         'fetchPartnerAndFlowchartXML',
         'createWaterAnalysisRequest',
-      ] ),
+      ]),
     },
   };
 </script>

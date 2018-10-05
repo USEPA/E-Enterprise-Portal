@@ -60,7 +60,7 @@
 
   export default {
     name: 'PartnerForm',
-    components: { ContaminantSection },
+    components: {ContaminantSection},
     created() {
       this.createWaterAnalysisRequest();
     },
@@ -95,8 +95,9 @@
         if (!isRequestEmpty) {
           evt.preventDefault();
           vm.submissionErrorMessage = '';
-          vm.submitPartnersData({ vm, evt });
-        } else {
+          vm.submitPartnersData({vm, evt});
+        }
+        else {
           vm.submissionErrorMessage = 'Please enter values for some of the contaminants.';
         }
       },

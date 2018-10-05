@@ -11,7 +11,7 @@
  */
 
 import _ from 'lodash';
-import { commonAppStore } from '../../adk/ADK';
+import { commonAppStore } from '../../wadk/WADK';
 
 export default {
   ...commonAppStore.getters,
@@ -20,7 +20,7 @@ export default {
     return state.additionalContaminantRequests;
   },
   getFlowchartContaminants: (state, getters) => (section) => {
-    const { flowchart } = getters.getPartnerResource;
+    const {flowchart} = getters.getPartnerResource;
     const r = (flowchart
       && flowchart.FlowCharts
       && flowchart.FlowCharts.Contaminants
@@ -49,7 +49,7 @@ export default {
     return r;
   },
   getPartners(state) {
-    return state.partners.map(c => ({ value: c, text: c.name }));
+    return state.partners.map(c => ({value: c, text: c.name}));
   },
   getPartnerXmls(state) {
     return state.partnerXmls;
@@ -71,7 +71,7 @@ export default {
   },
 
   getRawWaterAnalysisRequest: (state, getters) => () => {
-    const { waterAnalysisRequest } = state;
+    const {waterAnalysisRequest} = state;
     const r = {};
     const sections = getters.getPartnerSectors;
 

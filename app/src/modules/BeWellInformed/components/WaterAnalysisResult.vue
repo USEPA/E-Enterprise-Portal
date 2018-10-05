@@ -76,6 +76,7 @@
       <div class="container">
         <template v-for="(result, key, index) in waterAnalysisResult.ResultEvaluations">
           <resultRow
+            :key="key"
             :index="index"
             :a-key="key"
             :is-summary="true"
@@ -107,8 +108,8 @@
             <br>
             <span
               class='text-danger'>
-            Details concerning water treatment are below.
-          </span>
+              Details concerning water treatment are below.
+            </span>
           </p>
           <h4 class="text-danger">Treatment Order</h4>
         </div>
@@ -123,8 +124,10 @@
             <div class="col-sm-2 col-md-1 wt-step bg-danger text-white text-center">
               <div class="vertical-align-center">
                 <h6 class="my-0 d-none d-md-inline">Step</h6>
-                <h1 class="text-white text-center"><span class="d-inline d-md-none">Step </span>{{
-                  ++index }}</h1>
+                <h1 class="text-white text-center">
+                  <span class="d-inline d-md-none">Step </span>
+                  {{ ++index }}
+                </h1>
               </div>
 
             </div>
@@ -132,14 +135,16 @@
               <div class="container-fluid">
                 <div class="row justify-content-center text-center">
                   <template
-                    v-for="(instruction, key, index) in treatment.OrInstructions"
+                    v-for="(instruction, key) in treatment.OrInstructions"
                   >
                     <div
                       :key="key"
                       class="col-sm-5 col-md-4 border bg-white p-2 my-2">
                       {{ instruction.Recommendation }}
                     </div>
-                    <div class="col-sm-2 col-md-1 px-1 wt-or">
+                    <div
+                      :key="key"
+                      class="col-sm-2 col-md-1 px-1 wt-or">
                       <span class="vertical-align-center d-inline-block">Or</span>
                     </div>
                   </template>
@@ -209,6 +214,7 @@
       <div class="container">
         <template v-for="(result, key, index) in waterAnalysisResult.ResultEvaluations">
           <resultRow
+            :key="key"
             :index="index"
             :a-key="key"
             :is-summary="false"
@@ -221,10 +227,7 @@
   </div>
 </template>
 <script>
-  import { mapActions, mapGetters } from 'vuex';
-  import { AppWrapper, AppModal } from '../../adk/ADK';
-  import types from '../store/types';
-  import { EventBus } from '../../../EventBus';
+  import { mapGetters } from 'vuex';
   import ResultLegend from './ResultLegend.vue';
   import ResultRow from './ResultRow.vue';
 
@@ -238,16 +241,16 @@
       },
     },
     computed: {
-      ...mapGetters( {
+      ...mapGetters({
         partners: 'BeWellInformed/getPartners',
         partnerXmls: 'BeWellInformed/getPartnerXmls',
         selectedPartner: 'BeWellInformed/getSelectedPartner',
         partnerResource: 'BeWellInformed/getPartnerResource',
-      } ),
+      }),
       infoXmlResults() {
         const xmls = this.partnerXmls;
-        const pr = xmls[ this.waterAnalysisResult.StateCode ];
-        const r = ( pr
+        const pr = xmls[this.waterAnalysisResult.StateCode];
+        const r = (pr
           && pr.info
           && pr.info.Partner.Results
         ) ? pr.info.Partner.Results : null;
@@ -258,9 +261,9 @@
       isReady() {
         return !!this.infoXmlResults;
       },
-      processGuidelineIcon( guidelineIcon ) {
+      processGuidelineIcon(guidelineIcon) {
         let r = '';
-        switch ( guidelineIcon ) {
+        switch (guidelineIcon) {
           case 'Images/water/check4.png':
             r = 'MeetsLimit';
             break;
@@ -285,41 +288,41 @@
         let r = 'Water Treatment Systems That Remove ';
         const resultEvaluations = this.waterAnalysisResult.ResultEvaluations;
         const treatedContaminants = [];
-        Object.keys( resultEvaluations ).forEach( ( symbol ) => {
-          if ( resultEvaluations[ symbol ].GuidelineColor === 'font-red' ||
-            resultEvaluations[ symbol ].TreatmentMessages ) {
-            treatedContaminants.push( resultEvaluations[ symbol ].ContaminantFullName );
+        Object.keys(resultEvaluations).forEach((symbol) => {
+          if (resultEvaluations[symbol].GuidelineColor === 'font-red' ||
+            resultEvaluations[symbol].TreatmentMessages) {
+            treatedContaminants.push(resultEvaluations[symbol].ContaminantFullName);
           }
-        } );
+        });
         const lastContaminant = treatedContaminants.pop();
-        if ( treatedContaminants.length > 1 ) {
-          r += treatedContaminants.join( ', ' );
+        if (treatedContaminants.length > 1) {
+          r += treatedContaminants.join(', ');
           r += ' and ';
         }
         r += lastContaminant;
         return r;
       },
-      hasWholeHomeTreatment( treatment ) {
+      hasWholeHomeTreatment(treatment) {
         let r = [];
-        const wholeHomeTreatments = [ 'home', 'house' ];
+        const wholeHomeTreatments = ['home', 'house'];
         const systemTypes = [];
-        if ( Array.isArray( treatment.OrInstructions ) ) {
-          treatment.OrInstructions.forEach( ( instruction ) => {
-            systemTypes.push( instruction.SystemType.toLowerCase() );
-          } );
-          r = wholeHomeTreatments.filter( value => -1 !== systemTypes.indexOf( value ) );
+        if (Array.isArray(treatment.OrInstructions)) {
+          treatment.OrInstructions.forEach((instruction) => {
+            systemTypes.push(instruction.SystemType.toLowerCase());
+          });
+          r = wholeHomeTreatments.filter(value => systemTypes.indexOf(value) !== -1);
         }
         return r.length;
       },
-      hasPointOfUseTreatment( treatment ) {
+      hasPointOfUseTreatment(treatment) {
         let r = [];
-        const pointOfUseTreatment = [ 'water', 'facet', 'faucet' ];
+        const pointOfUseTreatment = ['water', 'facet', 'faucet'];
         const systemTypes = [];
-        if ( Array.isArray( treatment.OrInstructions ) ) {
-          treatment.OrInstructions.forEach( ( instruction ) => {
-            systemTypes.push( instruction.SystemType.toLowerCase() );
-          } );
-          r = pointOfUseTreatment.filter( value => -1 !== systemTypes.indexOf( value ) );
+        if (Array.isArray(treatment.OrInstructions)) {
+          treatment.OrInstructions.forEach((instruction) => {
+            systemTypes.push(instruction.SystemType.toLowerCase());
+          });
+          r = pointOfUseTreatment.filter(value => systemTypes.indexOf(value) !== -1);
         }
         return r.length;
       },
