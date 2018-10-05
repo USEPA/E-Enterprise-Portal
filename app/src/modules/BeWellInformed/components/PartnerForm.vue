@@ -2,17 +2,19 @@
   <div>
     <h3>Enter the Results of Your Drinking Water Test</h3>
     <br>
-    <!-- @TODO - Add form validation and feedback for bad returns -->
+
+    <div
+      v-if="submissionErrorMessage"
+      class="alert alert-danger"
+      role="alert">
+      {{ submissionErrorMessage }}
+    </div>
 
     <b-form
       @submit="onSubmit"
       @reset="onReset"
       id="water_analysis_form">
-      <!--<b-form-input
-        name="StateCode"
-        type="hidden"
-        :value="partnerResource.code"
-      />-->
+
       <ContaminantSection
         v-if="partnerResource && waterAnalysisRequest.RoutineContaminants"
         :request="waterAnalysisRequest.RoutineContaminants"
@@ -27,6 +29,13 @@
         v-if="partnerResource && waterAnalysisRequest.RadionuclideContaminants"
         :request="waterAnalysisRequest.RadionuclideContaminants"
         section="RadionuclideContaminants"/>
+
+      <div
+        v-if="submissionErrorMessage"
+        class="alert alert-danger"
+        role="alert">
+        {{ submissionErrorMessage }}
+      </div>
 
       <div
         class="row justify-content-end">
@@ -56,27 +65,42 @@
       this.createWaterAnalysisRequest();
     },
     computed: {
-      ...mapGetters( {
+      ...mapGetters({
         partners: 'BeWellInformed/getPartners',
         selectedPartner: 'BeWellInformed/getSelectedPartner',
         partnerResource: 'BeWellInformed/getPartnerResource',
         waterAnalysisRequest: 'BeWellInformed/getWaterAnalysisRequest',
-      } ),
+        isWaterAnalysisRequestEmpty: 'BeWellInformed/isWaterAnalysisRequestEmpty',
+      }),
+    },
+    data() {
+      return {
+        submissionErrorMessage: '',
+      };
     },
     methods: {
-      ...mapActions( name, [
+      ...mapActions(name, [
         'setSelectedPartner',
         'fetchPartners',
         'fetchPartnerAndFlowchartXML',
         'createWaterAnalysisRequest',
         'submitPartnersData',
-      ] ),
-      onSubmit( evt ) {
+      ]),
+      onSubmit(evt) {
         evt.preventDefault();
+
         const vm = this;
-        this.submitPartnersData( { vm, evt } );
+        const isRequestEmpty = vm.isWaterAnalysisRequestEmpty();
+
+        if (!isRequestEmpty) {
+          evt.preventDefault();
+          vm.submissionErrorMessage = '';
+          vm.submitPartnersData({ vm, evt });
+        } else {
+          vm.submissionErrorMessage = 'Please enter values for some of the contaminants.';
+        }
       },
-      onReset( evt ) {
+      onReset(evt) {
         evt.preventDefault();
         /* Reset our form values */
         this.createWaterAnalysisRequest();

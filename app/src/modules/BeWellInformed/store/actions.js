@@ -11,7 +11,7 @@
  */
 
 import convert from 'xml-js';
-import axios from 'axios';
+import _ from 'lodash';
 import { AppAxios, commonAppStore } from '../../adk/ADK';
 import parseXml from '../../adk/utils/xmlTools';
 import types from './types';
@@ -147,147 +147,93 @@ export default {
     const partnerCode = selectedPartner.code;
 
     if (waterAnalysisRequest) {
-      // Purge unused values
-      const r = {};
-      const sections = store.getters.getPartnerSectors;
+      const r = store.getters.getRawWaterAnalysisRequest();
+      const isRequestEmpty = store.getters.isWaterAnalysisRequestEmpty();
 
-      Object.keys(sections).forEach((section) => {
-        r[section] = {};
-        Object.keys(waterAnalysisRequest[section]).forEach((symbol) => {
-          if (waterAnalysisRequest[section][symbol].Value
-            || waterAnalysisRequest[section][symbol].Present) {
-            r[section][symbol] = {};
-            Object.assign(r[section][symbol], waterAnalysisRequest[section][symbol]);
+      if (!isRequestEmpty) {
+        let aa = null;
+        if (env !== 'LOCAL') {
+          const axiosConfig = {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          };
+
+          // eslint-disable-next-line vue/no-async-in-computed-properties
+          aa = AppAxios.post(
+            store.state.urls[env].submitPartnersData,
+            JSON.stringify(r),
+            axiosConfig,
+          );
+        } else {
+          // handle local env endpoints when there is no service
+          let endpoint = store.state.urls[env].submitPartnersData;
+          if (store.state.interactivePrompts && store.state.interactivePrompts.length) {
+            endpoint = store.state.urls[env].submitPartnersData2;
           }
-        });
-      });
+          aa = AppAxios.get(endpoint);
+        }
 
-      if (waterAnalysisRequest.InteractivePromptResponses) {
-        r.InteractivePromptResponses = waterAnalysisRequest.InteractivePromptResponses;
-      }
+        aa.then((response) => {
+          if (response.status === 200 && !!response.data) {
+            const { data } = response;
+            /**
+             * If we get InteractivePrompts or AdditionalContaminantRequests
+             * handle the various states of the returns from the service
+             */
 
-      let aa = null;
-      if (env !== 'LOCAL') {
-        const axiosConfig = {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        };
+            if (data.InteractivePrompts.length) {
+              store.commit(types.UPDATE_INTERACTIVE_PROMPTS, data.InteractivePrompts);
+            } else {
+              store.commit(types.UPDATE_INTERACTIVE_PROMPTS, []);
+            }
+            if (data.AdditionalContaminantRequests.length) {
+              store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS,
+                data.AdditionalContaminantRequests);
+            } else {
+              store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS, []);
+            }
+            if (!!data.InteractivePrompts.length
+              || !!data.AdditionalContaminantRequests.length) {
+              const bwiModalInteractive = vm.$refs.bwi_modal_interactive;
 
-        // eslint-disable-next-line vue/no-async-in-computed-properties
-        aa = AppAxios.post(store.state.urls[env].submitPartnersData, JSON.stringify(r), axiosConfig);
-        /*const bwidata = {
-          StateCode: 'NH',
-          RoutineContaminants: {
-            As: {
-              Symbol: 'As',
-              Name: 'Arsenic',
-              Value: '4444',
-              Unit: 'mg/L',
-            },
-            Cl: {
-              Symbol: 'Cl',
-              Name: 'Chloride',
-              Value: '4444',
-              Unit: 'mg/L',
-            },
-          },
-        };
-        axios.post('https://dev.e-enterprise.gov/TestRest/bwievaluation', JSON.stringify(bwidata), axiosConfig)
-          .then((response) => {
-            console.log(response.data); // ex.: { user: 'Your User'}
-            console.log(response.status); // ex.: 200
-          })
-          .catch(function (res) {
+              vm.$root.$emit(
+                'bv::show::modal', 'bwi-modal-interactive', bwiModalInteractive,
+              );
+            }
+            /**
+             * See if the response returns results for the test and proceed to
+             * render as necessary
+             */
+
+            const hasResultEvaluation = !!Object.keys(data.ResultEvaluations).length;
+            const hasTreatmentSteps = !!Object.keys(data.TreatmentSteps).length;
+
+            // Check if we have a fully formed response then add it to the
+            if (hasResultEvaluation || hasTreatmentSteps) {
+              data.StateCode = partnerCode;
+              store.commit(types.SET_WATER_ANALYSIS_RESULT, data);
+              store.commit(types.UNSHIFT_WATER_ANALYSIS_RESULT, data);
+              EventBus.$emit('bwi::showWaterAnalysisResults', {
+                callee: this,
+                value: 2,
+              });
+            }
+          }
+        })
+          .catch((res) => {
+            // @todo add sanity check for errors & visual prompt to the user
+
             if (res instanceof Error) {
               console.log(res.message);
             } else {
               console.log(res.data);
             }
-            console.warn('axios fail: ', arguments);
-          });*/
-      } else {
-        // handle local env endpoints when there is no service
-        let endpoint = store.state.urls[env].submitPartnersData;
-        if (store.state.interactivePrompts && store.state.interactivePrompts.length) {
-          endpoint = store.state.urls[env].submitPartnersData2;
-        }
-        aa = AppAxios.get(endpoint);
+
+            app.$Progress.fail;
+            console.warn('AppAxios fail: ', arguments);
+          });
       }
-
-      aa.then((response) => {
-        console.log(response.data); // ex.: { user: 'Your User'}
-        console.log(response.status); // ex.: 200
-        if (response.status === 200 && !!response.data) {
-          const { data } = response;
-          /**
-           * If we get InteractivePrompts or AdditionalContaminantRequests
-           * handle the various states of the returns from the service
-           */
-
-          if (data.InteractivePrompts.length) {
-            store.commit(types.UPDATE_INTERACTIVE_PROMPTS, data.InteractivePrompts);
-          } else {
-            store.commit(types.UPDATE_INTERACTIVE_PROMPTS, []);
-          }
-          if (data.AdditionalContaminantRequests.length) {
-            store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS,
-              data.AdditionalContaminantRequests);
-          } else {
-            store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS, []);
-          }
-          if (!!data.InteractivePrompts.length
-            || !!data.AdditionalContaminantRequests.length) {
-            const bwiModalInteractive = vm.$refs.bwi_modal_interactive;
-
-            vm.$root.$emit(
-              'bv::show::modal', 'bwi-modal-interactive', bwiModalInteractive,
-            );
-          }
-          /**
-           * See if the response returns results for the test and proceed to
-           * render as necessary
-           */
-
-          const hasResultEvaluation = !!Object.keys(data.ResultEvaluations).length;
-          const hasTreatmentSteps = !!Object.keys(data.TreatmentSteps).length;
-
-          /* if (hasResultEvaluation) {
-            store.commit(types.UPDATE_RESULT_EVALUATION, data.ResultEvaluation);
-          } else {
-            store.commit(types.UPDATE_RESULT_EVALUATION, {});
-          }
-          if (hasTreatmentSteps) {
-            store.commit(types.UPDATE_TREATMENT_STEPS,
-              data.TreatmentSteps);
-          } else {
-            store.commit(types.UPDATE_TREATMENT_STEPS, {});
-          } */
-
-          // Check if we have a fully formed response then add it to the
-          if (hasResultEvaluation || hasTreatmentSteps) {
-            data.StateCode = partnerCode;
-            store.commit(types.SET_WATER_ANALYSIS_RESULT, data);
-            store.commit(types.UNSHIFT_WATER_ANALYSIS_RESULT, data);
-            EventBus.$emit('bwi::showWaterAnalysisResults', {
-              callee: this,
-              value: 2,
-            });
-          }
-        }
-      })
-        .catch((res) => {
-          // @todo add sanity check for errors & visual prompt to the user
-
-          if (res instanceof Error) {
-            console.log(res.message);
-          } else {
-            console.log(res.data);
-          }
-
-          app.$Progress.fail;
-          console.warn('AppAxios fail: ', arguments);
-        });
     }
   },
   updatePromptResponses(context, payload) {

@@ -40,6 +40,7 @@
         title="Be Well Informed Water Analysis Tool"
         @hide="onHideMainModal"
         :hide-footer="true">
+
         <b-tabs
           v-model="tabIndex"
           ref="bwi-tabs">
@@ -48,11 +49,36 @@
             active
             class="py-3">
             <PartnerForm v-if="isFlowchartReady"/>
+            <AppPlaceholderContent
+              :repeatitions="3">
+              <div
+                v-for="i in 3"
+                class="row my-5">
+                <h5 class="col-md-12 pulse"></h5>
+                <div
+                  class="col-md-6"
+                  :key="i"
+                  v-for="i in 3">
+                  <div class="row m-2">
+                    <div class="col-12 pulse"></div>
+                  </div>
+                </div>
+                <div
+                  class="col-md-6"
+                  v-for="i in 3">
+                  <div class="row m-2">
+                    <div class="col-12 pulse"></div>
+                  </div>
+                </div>
+              </div>
+              <hr>
+            </AppPlaceholderContent>
           </b-tab>
           <b-tab
             title="State/Tribe Resources"
             class="py-3">
             <PartnerResources v-if="isFlowchartReady"/>
+            <AppPlaceholderContent v-if="!isFlowchartReady"/>
           </b-tab>
           <b-tab
             title="Results"
@@ -63,8 +89,10 @@
               <WaterAnalysisResult
                 :water-analysis-result="waterAnalysisResults[0]"/>
             </template>
+            <AppPlaceholderContent v-if="!(waterAnalysisResults && waterAnalysisResults.length && waterAnalysisResults[0])"/>
           </b-tab>
         </b-tabs>
+
         <template
           slot="footer">&nbsp;
         </template>
@@ -78,7 +106,7 @@
 
           <template
             v-if="interactivePrompts"
-            v-for="(question, key) in interactivePrompts">
+            v-for="(question) in interactivePrompts">
             <div
               class="col-md-12"
               :key="question.Symbol">
@@ -110,7 +138,7 @@
 
           <template
             v-if="additionalContaminantRequests"
-            v-for="(question, key) in additionalContaminantRequests">
+            v-for="(question) in additionalContaminantRequests">
             <div
               class="col-md-12"
               :key="question.Symbol">
@@ -140,7 +168,8 @@
                       contaminant: getContaminantFromSymbol(question.Symbol),
                       property: 'Unit',
                       event:$event })">
-                    <template v-for="unit in getContaminantFromSymbol(question.Symbol)._attributes.Units.split('|')">
+                    <template
+                      v-for="unit in getContaminantFromSymbol(question.Symbol)._attributes.Units.split('|')">
                       <option
                         :key="unit"
                         :value="unit">{{ unit }}
@@ -170,11 +199,10 @@
   /* eslint-disable prefer-const,no-underscore-dangle */
 
   import { mapActions, mapGetters } from 'vuex';
-  import { AppWrapper, AppModal } from '../adk/ADK';
+  import { AppWrapper, AppModal, AppPlaceholderContent } from '../adk/ADK';
   import storeModule from './store/index';
   import PartnerForm from './components/PartnerForm.vue';
   import PartnerResources from './components/PartnerResources.vue';
-  import types from './store/types';
   import { EventBus } from '../../EventBus';
   import WaterAnalysisResult from './components/WaterAnalysisResult.vue';
 
@@ -186,18 +214,19 @@
       WaterAnalysisResult,
       AppWrapper,
       AppModal,
+      AppPlaceholderContent,
       PartnerForm,
       PartnerResources,
     },
     created() {
       const store = this.$store;
-      if ( !( store && store.state && store.state[ name ] ) ) {
-        store.registerModule( name, storeModule );
+      if (!(store && store.state && store.state[name])) {
+        store.registerModule(name, storeModule);
       }
       this.fetchPartners();
 
       // Custom event listeners
-      EventBus.$on( 'bwi::showWaterAnalysisResults', this.showWaterAnalysisResults );
+      EventBus.$on('bwi::showWaterAnalysisResults', this.showWaterAnalysisResults);
     },
     data() {
       return {
@@ -235,26 +264,27 @@
       };
     },
     computed: {
-      ...mapGetters( {
+      ...mapGetters({
         additionalContaminantRequests: 'BeWellInformed/getAdditionalContaminantRequests',
         interactivePrompts: 'BeWellInformed/getInteractivePrompts',
+        isWaterAnalysisRequestEmpty: 'BeWellInformed/isWaterAnalysisRequestEmpty',
         partnerResource: 'BeWellInformed/getPartnerResource',
         partners: 'BeWellInformed/getPartners',
         partnerXmls: 'BeWellInformed/getPartnerXmls',
         selectedPartner: 'BeWellInformed/getSelectedPartner',
         waterAnalysisRequest: 'BeWellInformed/getWaterAnalysisRequest',
         waterAnalysisResults: 'BeWellInformed/getWaterAnalysisResults',
-      } ),
+      }),
       currentTab() {
         return this.tabIndex;
       },
       isFlowchartReady() {
         const { partnerResource } = this;
-        return !!( partnerResource && partnerResource.flowchart );
+        return !!(partnerResource && partnerResource.flowchart);
       },
     },
     methods: {
-      ...mapActions( name, [
+      ...mapActions(name, [
         'createWaterAnalysisRequest',
         'setSelectedPartner',
         'fetchPartners',
@@ -263,48 +293,51 @@
         'updateAdditionalContaminantProperty',
         'updatePromptResponses',
         'updateWaterAnalysisRequestProperty',
-      ] ),
-      onCheckYourWater( evt ) {
+      ]),
+      onCheckYourWater(evt) {
         evt.preventDefault();
         const partner = this.selectedPartner;
-        if ( partner ) {
-          this.fetchPartnerAndFlowchartXML( partner.code );
+        if (partner) {
+          this.fetchPartnerAndFlowchartXML(partner.code);
           this.$root.$emit(
             'bv::show::modal', 'bwi-modal', this.$refs.btnCheckYourWater,
           );
         }
-        else {
-
-        }
       },
-      getContaminantFromSymbol( symbol ) {
+      getContaminantFromSymbol(symbol) {
         const { partnerResource } = this;
         const Contaminants = partnerResource.flowchart.FlowCharts.Contaminants.Contaminant;
         let contaminant = null;
 
-        let contaminantArray = Contaminants.filter( c => c._attributes.Value === symbol );
+        let contaminantArray = Contaminants.filter(c => c._attributes.Value === symbol);
 
-        if ( Array.isArray( contaminantArray ) && contaminantArray.length ) {
-          contaminant = contaminantArray[ 0 ];
+        if (Array.isArray(contaminantArray) && contaminantArray.length) {
+          [contaminant] = contaminantArray;
         }
 
         return contaminant;
       },
-      getSectionFromSymbol( symbol ) {
-        const contaminant = this.getContaminantFromSymbol( symbol );
+      getSectionFromSymbol(symbol) {
+        const contaminant = this.getContaminantFromSymbol(symbol);
         let section = '';
 
-        if ( contaminant ) {
+        if (contaminant) {
           section = contaminant._attributes.Section;
         }
         return section;
       },
-      onSubmit( evt ) {
-        evt.preventDefault();
+      onSubmit(evt) {
         const vm = this;
-        this.submitPartnersData( { vm, evt } );
+        const isRequestEmpty = vm.isWaterAnalysisRequestEmpty();
+        if (!isRequestEmpty) {
+          evt.preventDefault();
+          vm.submissionErrorMessage = '';
+          vm.submitPartnersData({ vm, evt });
+        } else {
+          this.submissionErrorMessage = 'Please enter values for some of the contaminants.';
+        }
       },
-      showWaterAnalysisResults( event ) {
+      showWaterAnalysisResults(event) {
         const vm = this;
         const bwiModal = vm.$refs.bwi_modal;
 
@@ -313,11 +346,11 @@
         );
 
         vm.hasResults = true;
-        vm.$nextTick( function () {
+        vm.$nextTick(() => {
           vm.tabIndex = event.value;
-        } );
+        });
       },
-      onHideMainModal( bvEvt ) {
+      onHideMainModal() {
         const vm = this;
         vm.tabIndex = 0;
       },
