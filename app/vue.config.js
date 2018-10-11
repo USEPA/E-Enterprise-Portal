@@ -12,6 +12,6 @@ module.exports = {
     devtool: 'eval-source-map',
   },
   devServer: {
-    port: 8081,
+    port: 8082,
   },
 };

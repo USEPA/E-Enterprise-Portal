@@ -7,7 +7,7 @@
     </div>
     <div class="row border border-info">
       <div
-        v-for="(result, key, index) in keys"
+        v-for="(result, key) in keys"
         :key="key"
         class="col-sm-6">
         <div class="row py-1">

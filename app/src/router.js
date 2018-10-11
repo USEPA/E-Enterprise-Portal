@@ -3,9 +3,9 @@ import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Workbench from './views/Workbench.vue';
 
-Vue.use( Router );
+Vue.use(Router);
 
-export default new Router( {
+export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -29,4 +29,4 @@ export default new Router( {
     },
 
   ],
-} );
+});
