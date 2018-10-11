@@ -84,7 +84,7 @@
     },
     created() {
       const vm = this;
-      vm.contaminants = vm.flowchartContaminants( vm.section );
+      vm.contaminants = vm.flowchartContaminants(vm.section);
     },
     data() {
       return {
@@ -92,58 +92,55 @@
       };
     },
     computed: {
-      ...mapGetters( {
+      ...mapGetters({
         partnerResource: 'BeWellInformed/getPartnerResource',
         flowchartContaminants: 'BeWellInformed/getFlowchartContaminants',
-      } ),
+      }),
       getContaminantTitle() {
         let r = '';
 
-        if ( this.partnerResource && this.partnerResource.flowchart
+        if (this.partnerResource && this.partnerResource.flowchart
           && this.partnerResource.flowchart.FlowCharts
-          && this.partnerResource.flowchart.FlowCharts.Sections ) {
+          && this.partnerResource.flowchart.FlowCharts.Sections) {
           const sections = this.partnerResource.flowchart.FlowCharts.Sections;
 
-          r = ( sections && sections[ this.section ] )
+          r = (sections && sections[this.section])
             // eslint-disable-next-line no-underscore-dangle
-            ? sections[ this.section ].Name._text
+            ? sections[this.section].Name._text
             : '';
         }
 
         return r;
       },
       maxColumnCount() {
-        return Math.floor( this.flowchartContaminants( this.section ).length / 2 );
+        return Math.floor(this.flowchartContaminants(this.section).length / 2);
       },
     },
     methods: {
-      ...mapActions( name, [
+      ...mapActions(name, [
         'setSelectedPartner',
         'fetchPartners',
         'fetchPartnerAndFlowchartXML',
         'updateWaterAnalysisRequestProperty',
-      ] ),
-      canShowIsPresent( contaminant ) {
-        const r = !!( (
+      ]),
+      canShowIsPresent(contaminant) {
+        const r = !!((
           contaminant
           && contaminant._attributes
-          && contaminant._attributes.hasOwnProperty( 'ShowIsPresent' )
+          && Object.prototype.hasOwnProperty.call(contaminant._attributes, 'ShowIsPresent')
           && contaminant._attributes.ShowIsPresent
-        ) );
+        ));
         return r;
       },
-      updateProperty( section, contaminant, property, event ) {
+      updateProperty(section, contaminant, property, event) {
         const vm = this;
-        if ( contaminant._attributes.ShowIsPresent && ( event === 'false' ) ) {
-          vm.$refs[ `${contaminant._attributes.Value}-Value` ].forEach( input => input.setValue( '' ) );
+        if (contaminant._attributes.ShowIsPresent && (event === 'false')) {
+          vm.$refs[`${contaminant._attributes.Value}-Value`].forEach(input => input.setValue(''));
         }
 
-        vm.updateWaterAnalysisRequestProperty( {
+        vm.updateWaterAnalysisRequestProperty({
           section, contaminant, property, event,
-        } );
-      },
-      getContaminant( contaminant ) {
-        const vm = this;
+        });
       },
     },
   };

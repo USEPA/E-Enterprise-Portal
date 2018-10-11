@@ -25,7 +25,7 @@
 
 <script>
   // eslint-disable-next-line
-  console.log( 'MainHeader' );
+  console.log('MainHeader');
   export default {
     name: 'MainHeader',
     props: {},

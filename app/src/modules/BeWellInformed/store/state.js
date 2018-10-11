@@ -5,7 +5,7 @@
  * @SEE https://vuex.vuejs.org/guide/state.html
  */
 
-import { commonAppStore } from '../../adk/ADK';
+import { commonAppStore } from '../../wadk/WADK';
 
 export default {
   ...commonAppStore.state,
@@ -25,15 +25,13 @@ export default {
       getPartners: 'sample_data/stateAndTribes.json',
       getPartnerXML: 'sample_data/partner-',
       getFlowchartXML: 'sample_data/flowchart-',
-      submitPartnersData: 'sample_data/bwievaluation-1.json',
-      submitPartnersData2: 'sample_data/bwievaluation-2.json',
-      submitPartnersData3: 'sample_data/bwievaluation-3.json',
+      submitPartnersData: 'https://dev.e-enterprise.gov/TestRest/bwievaluation',
     },
     DEV: {
       getPartners: 'sample_data/stateAndTribes.json',
       getPartnerXML: 'https://dev.e-enterprise.gov/be_well_informed/get_bwi_xml/partner-',
       getFlowchartXML: 'https://dev.e-enterprise.gov/be_well_informed/get_bwi_xml/flowchart-',
-      submitPartnersData: 'https://nodeweb.epacdxnode.net/BWIService/bwievaluation',
+      submitPartnersData: 'https://dev.e-enterprise.gov/TestRest/bwievaluation',
     },
     TEST: {
       getPartners: 'sample_data/stateAndTribes.json',
@@ -41,12 +39,12 @@ export default {
       getFlowchartXML: 'https://test.e-enterprise.gov/be_well_informed/get_bwi_xml/flowchart-',
       submitPartnersData: 'https://nodeweb.epacdxnode.net/BWIService/bwievaluation',
     },
-    /*PROD: {
+    PROD: {
       getPartners: 'sample_data/stateAndTribes.json',
       getPartnerXML: 'https://e-enterprise.gov/be_well_informed/get_bwi_xml/partner-',
       getFlowchartXML: 'https://e-enterprise.gov/be_well_informed/get_bwi_xml/flowchart-',
       submitPartnersData: 'https://nodeweb.epacdxnode.net/BWIService/bwievaluation',
-    },*/
+    },
   },
   waterAnalysisRequest: {},
   waterAnalysisResults: [],

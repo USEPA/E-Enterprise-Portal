@@ -34,41 +34,82 @@
         </b-btn>
       </b-form>
       <!-- Various Modals required for the workbench app-->
+
+      <!-- Main BWI Modal-->
       <AppModal
         id="bwi-modal"
         modal-ref="bwi-modal"
         title="Be Well Informed Water Analysis Tool"
         @hide="onHideMainModal"
         :hide-footer="true">
+
         <b-tabs
           v-model="tabIndex"
           ref="bwi-tabs">
+
+          <!-- BWI primary form & placeholder -->
           <b-tab
             title="Entry"
             active
             class="py-3">
             <PartnerForm v-if="isFlowchartReady"/>
+            <AppPlaceholderContent
+              v-if="!isFlowchartReady"
+              :repeatitions="3">
+              <div
+                v-for="i in 3"
+                :key="i"
+                class="row my-5">
+                <h5 class="col-md-12 pulse"></h5>
+                <div
+                  v-for="j in 3"
+                  :key="`${j}-left`"
+                  class="col-md-6">
+                  <div class="row m-2">
+                    <div class="col-12 pulse"></div>
+                  </div>
+                </div>
+                <div
+                  v-for="j in 3"
+                  :key="`${j}-right`"
+                  class="col-md-6">
+                  <div class="row m-2">
+                    <div class="col-12 pulse"></div>
+                  </div>
+                </div>
+              </div>
+              <hr>
+            </AppPlaceholderContent>
           </b-tab>
+
+          <!-- BWI Partner Information and Additional Resources -->
           <b-tab
             title="State/Tribe Resources"
             class="py-3">
             <PartnerResources v-if="isFlowchartReady"/>
+            <AppPlaceholderContent v-if="!isFlowchartReady"/>
           </b-tab>
+
+          <!-- BWI Results -->
           <b-tab
             title="Results"
             class="py-3"
             :disabled="!hasResults">
             <template
-              v-if="waterAnalysisResults && waterAnalysisResults.length && waterAnalysisResults[0]">
+              v-if="hasWaterAnalysisResults()">
               <WaterAnalysisResult
                 :water-analysis-result="waterAnalysisResults[0]"/>
             </template>
           </b-tab>
         </b-tabs>
+
+        <!-- NBSP is used to prevent the default modal buttons from rendering -->
         <template
           slot="footer">&nbsp;
         </template>
       </AppModal>
+
+      <!-- Additional Information Request Modals -->
       <AppModal
         id="bwi-modal-interactive"
         modal-ref="bwi-modal-interactive"
@@ -76,9 +117,10 @@
         <div class="row">
           <h5 class="col-md-12">Enter the Results of Your Drinking Water Test</h5>
 
+          <!-- Requested prompts form the BWI Service -->
           <template
             v-if="interactivePrompts"
-            v-for="(question, key) in interactivePrompts">
+            v-for="(question) in interactivePrompts">
             <div
               class="col-md-12"
               :key="question.Symbol">
@@ -108,9 +150,10 @@
             </div>
           </template>
 
+          <!-- Requested missing contaminant information from the BWI Service -->
           <template
             v-if="additionalContaminantRequests"
-            v-for="(question, key) in additionalContaminantRequests">
+            v-for="(question) in additionalContaminantRequests">
             <div
               class="col-md-12"
               :key="question.Symbol">
@@ -140,7 +183,8 @@
                       contaminant: getContaminantFromSymbol(question.Symbol),
                       property: 'Unit',
                       event:$event })">
-                    <template v-for="unit in getContaminantFromSymbol(question.Symbol)._attributes.Units.split('|')">
+                    <template
+                      v-for="unit in getContaminantUnits(question)">
                       <option
                         :key="unit"
                         :value="unit">{{ unit }}
@@ -167,14 +211,11 @@
 </template>
 
 <script>
-  /* eslint-disable prefer-const,no-underscore-dangle */
-
   import { mapActions, mapGetters } from 'vuex';
-  import { AppWrapper, AppModal } from '../adk/ADK';
+  import { AppWrapper, AppModal, AppPlaceholderContent } from '../wadk/WADK';
   import storeModule from './store/index';
   import PartnerForm from './components/PartnerForm.vue';
   import PartnerResources from './components/PartnerResources.vue';
-  import types from './store/types';
   import { EventBus } from '../../EventBus';
   import WaterAnalysisResult from './components/WaterAnalysisResult.vue';
 
@@ -186,18 +227,22 @@
       WaterAnalysisResult,
       AppWrapper,
       AppModal,
+      AppPlaceholderContent,
       PartnerForm,
       PartnerResources,
     },
+    beforeCreate() {
+      require.context('./images', false, /\.png$/);
+    },
     created() {
       const store = this.$store;
-      if ( !( store && store.state && store.state[ name ] ) ) {
-        store.registerModule( name, storeModule );
+      if (!(store && store.state && store.state[name])) {
+        store.registerModule(name, storeModule);
       }
       this.fetchPartners();
 
       // Custom event listeners
-      EventBus.$on( 'bwi::showWaterAnalysisResults', this.showWaterAnalysisResults );
+      EventBus.$on('bwi::showWaterAnalysisResults', this.showWaterAnalysisResults);
     },
     data() {
       return {
@@ -235,26 +280,27 @@
       };
     },
     computed: {
-      ...mapGetters( {
+      ...mapGetters({
         additionalContaminantRequests: 'BeWellInformed/getAdditionalContaminantRequests',
         interactivePrompts: 'BeWellInformed/getInteractivePrompts',
+        isWaterAnalysisRequestEmpty: 'BeWellInformed/isWaterAnalysisRequestEmpty',
         partnerResource: 'BeWellInformed/getPartnerResource',
         partners: 'BeWellInformed/getPartners',
         partnerXmls: 'BeWellInformed/getPartnerXmls',
         selectedPartner: 'BeWellInformed/getSelectedPartner',
         waterAnalysisRequest: 'BeWellInformed/getWaterAnalysisRequest',
         waterAnalysisResults: 'BeWellInformed/getWaterAnalysisResults',
-      } ),
+      }),
       currentTab() {
         return this.tabIndex;
       },
       isFlowchartReady() {
         const { partnerResource } = this;
-        return !!( partnerResource && partnerResource.flowchart );
+        return !!(partnerResource && partnerResource.flowchart);
       },
     },
     methods: {
-      ...mapActions( name, [
+      ...mapActions(name, [
         'createWaterAnalysisRequest',
         'setSelectedPartner',
         'fetchPartners',
@@ -263,48 +309,54 @@
         'updateAdditionalContaminantProperty',
         'updatePromptResponses',
         'updateWaterAnalysisRequestProperty',
-      ] ),
-      onCheckYourWater( evt ) {
+      ]),
+      onCheckYourWater(evt) {
         evt.preventDefault();
         const partner = this.selectedPartner;
-        if ( partner ) {
-          this.fetchPartnerAndFlowchartXML( partner.code );
+        if (partner) {
+          this.fetchPartnerAndFlowchartXML(partner.code);
           this.$root.$emit(
             'bv::show::modal', 'bwi-modal', this.$refs.btnCheckYourWater,
           );
         }
-        else {
-
-        }
       },
-      getContaminantFromSymbol( symbol ) {
+      getContaminantUnits(question) {
+        return this.getContaminantFromSymbol(question.Symbol)._attributes.Units.split('|');
+      },
+      getContaminantFromSymbol(symbol) {
         const { partnerResource } = this;
         const Contaminants = partnerResource.flowchart.FlowCharts.Contaminants.Contaminant;
         let contaminant = null;
 
-        let contaminantArray = Contaminants.filter( c => c._attributes.Value === symbol );
+        const contaminantArray = Contaminants.filter(c => c._attributes.Value === symbol);
 
-        if ( Array.isArray( contaminantArray ) && contaminantArray.length ) {
-          contaminant = contaminantArray[ 0 ];
+        if (Array.isArray(contaminantArray) && contaminantArray.length) {
+          [contaminant] = contaminantArray;
         }
 
         return contaminant;
       },
-      getSectionFromSymbol( symbol ) {
-        const contaminant = this.getContaminantFromSymbol( symbol );
+      getSectionFromSymbol(symbol) {
+        const contaminant = this.getContaminantFromSymbol(symbol);
         let section = '';
 
-        if ( contaminant ) {
+        if (contaminant) {
           section = contaminant._attributes.Section;
         }
         return section;
       },
-      onSubmit( evt ) {
-        evt.preventDefault();
+      onSubmit(evt) {
         const vm = this;
-        this.submitPartnersData( { vm, evt } );
+        const isRequestEmpty = vm.isWaterAnalysisRequestEmpty();
+        if (!isRequestEmpty) {
+          evt.preventDefault();
+          vm.submissionErrorMessage = '';
+          vm.submitPartnersData({ vm, evt });
+        } else {
+          this.submissionErrorMessage = 'Please enter values for some of the contaminants.';
+        }
       },
-      showWaterAnalysisResults( event ) {
+      showWaterAnalysisResults(event) {
         const vm = this;
         const bwiModal = vm.$refs.bwi_modal;
 
@@ -313,13 +365,18 @@
         );
 
         vm.hasResults = true;
-        vm.$nextTick( function () {
+        vm.$nextTick(() => {
           vm.tabIndex = event.value;
-        } );
+        });
       },
-      onHideMainModal( bvEvt ) {
+      onHideMainModal() {
         const vm = this;
         vm.tabIndex = 0;
+      },
+      hasWaterAnalysisResults() {
+        return this.waterAnalysisResults
+          && this.waterAnalysisResults.length
+          && this.waterAnalysisResults[0];
       },
     },
   };

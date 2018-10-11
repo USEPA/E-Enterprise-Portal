@@ -101,13 +101,14 @@
         let m;
 
         const regex = {
-          LOCAL: /(localhost|local|^e\-enterprise$)/gm,
+          LOCAL: /(localhost|local|^e-enterprise$)/gm,
           DEV: /dev\d?\.e-enterprise/gm,
           TEST: /test\d?\.e-enterprise/gm,
           PROD: /^e-enterprise\.gov/gm,
         };
 
         Object.keys(regex).forEach((envName) => {
+          // eslint-disable-next-line no-cond-assign
           while ((m = regex[envName].exec(host)) !== null) {
             // This is necessary to avoid infinite loops with zero-width matches
             if (m.length) {

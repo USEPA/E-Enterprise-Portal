@@ -68,33 +68,33 @@
       inputListeners: function () {
         var vm = this
         // `Object.assign` merges objects together to form a new object
-        return Object.assign( {},
+        return Object.assign({},
           // We add all the listeners from the parent
           this.$listeners,
           // Then we can add custom listeners or override the
           // behavior of some listeners.
           {
             // This ensures that the component works with v-model
-            change: ( event ) => {
-              vm.$emit( 'change', event );
+            change: (event) => {
+              vm.$emit('change', event);
             },
-            show: ( event ) => {
-              vm.$emit( 'show', event );
+            show: (event) => {
+              vm.$emit('show', event);
             },
-            shown: ( event ) => {
-              vm.$emit( 'shown', event );
+            shown: (event) => {
+              vm.$emit('shown', event);
             },
-            hide: ( event ) => {
-              vm.$emit( 'hide', event );
+            hide: (event) => {
+              vm.$emit('hide', event);
             },
-            hidden: ( event ) => {
-              vm.$emit( 'hidden', event );
+            hidden: (event) => {
+              vm.$emit('hidden', event);
             },
-            ok: ( event ) => {
-              vm.$emit( 'ok', event );
+            ok: (event) => {
+              vm.$emit('ok', event);
             },
-            cancel: ( event ) => {
-              vm.$emit( 'cancel', event );
+            cancel: (event) => {
+              vm.$emit('cancel', event);
             },
           },
         );
@@ -102,7 +102,7 @@
     },
     methods: {
       hideModal() {
-        this.$refs[ this.modalRef ].hide();
+        this.$refs[this.modalRef].hide();
       },
     },
   };
