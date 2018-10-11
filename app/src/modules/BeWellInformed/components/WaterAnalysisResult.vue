@@ -135,7 +135,7 @@
               <div class="container-fluid">
                 <div class="row justify-content-center text-center">
                   <template
-                    v-for="(instruction, key) in treatment.OrInstructions"
+                    v-for="(instruction) in treatment.OrInstructions"
                   >
                     <div
                       class="col-sm-5 col-md-4 border bg-white p-2 my-2">
@@ -147,6 +147,7 @@
                     </div>
                   </template>
                 </div>
+                getter
               </div>
             </div>
             <div class="col-sm-2 col-md-1 wt-step bg-primary text-white">

@@ -20,7 +20,7 @@ export default {
     return state.additionalContaminantRequests;
   },
   getFlowchartContaminants: (state, getters) => (section) => {
-    const {flowchart} = getters.getPartnerResource;
+    const { flowchart } = getters.getPartnerResource;
     const r = (flowchart
       && flowchart.FlowCharts
       && flowchart.FlowCharts.Contaminants
@@ -49,7 +49,7 @@ export default {
     return r;
   },
   getPartners(state) {
-    return state.partners.map(c => ({value: c, text: c.name}));
+    return state.partners.map(c => ({ value: c, text: c.name }));
   },
   getPartnerXmls(state) {
     return state.partnerXmls;
@@ -71,7 +71,7 @@ export default {
   },
 
   getRawWaterAnalysisRequest: (state, getters) => () => {
-    const {waterAnalysisRequest} = state;
+    const { waterAnalysisRequest } = state;
     const r = {};
     const sections = getters.getPartnerSectors;
 
@@ -95,10 +95,11 @@ export default {
   },
   isWaterAnalysisRequestEmpty: (state, getters) => () => {
     const waterAnalysisRequest = getters.getRawWaterAnalysisRequest();
-    let isNotEmpty = false;
+    let isEmpty = true;
     Object.keys(waterAnalysisRequest).forEach((section) => {
-      isNotEmpty += !_.isEmpty(waterAnalysisRequest[section]);
+      // eslint-disable-next-line no-bitwise
+      isEmpty &= _.isEmpty(waterAnalysisRequest[section]);
     });
-    return !isNotEmpty;
+    return isEmpty;
   },
 };

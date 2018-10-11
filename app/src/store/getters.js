@@ -14,7 +14,7 @@ export default {
    */
   getEnvironment() {
     let env = 'LOCAL';
-    const {host} = window.location;
+    const { host } = window.location;
     let m;
 
     const regex = {

@@ -11,7 +11,6 @@
  */
 
 import convert from 'xml-js';
-import _ from 'lodash';
 import { AppAxios, commonAppStore } from '../../wadk/WADK';
 import parseXml from '../../wadk/utils/xmlTools';
 import types from './types';
@@ -74,20 +73,20 @@ export default {
           });
 
           const xml = parseXml(response.data);
-          const r = {
+          const request = {
             path: `BeWellInformed.partnerXmls[${partnerCode}]`,
             property: 'infoXML',
             value: xml,
             defaultValue: '',
           };
 
-          rootStore.commit('SET_DEEP_PROPERTY', r);
+          rootStore.commit('SET_DEEP_PROPERTY', request);
           store.commit(types.UPDATE_PARTNER_RESOURCE);
         })
-        .catch(() => {
+        .catch((...args) => {
           // @todo add sanity check for errors & visual prompt to the user
-          app.$Progress.fail;
-          console.warn('AppAxios fail: ', arguments);
+          app.$Progress.fail();
+          console.warn('AppAxios fail: ', args);
         });
 
       AppAxios.get(state.urls[env].getFlowchartXML + partnerCode + suffix)
@@ -101,20 +100,20 @@ export default {
           });
 
           const xml = parseXml(response.data);
-          const r = {
+          const request = {
             path: `BeWellInformed.partnerXmls[${partnerCode}]`,
             property: 'flowchartXML',
             value: xml,
             defaultValue: '',
           };
 
-          rootStore.commit('SET_DEEP_PROPERTY', r);
+          rootStore.commit('SET_DEEP_PROPERTY', request);
           store.commit(types.UPDATE_PARTNER_RESOURCE);
         })
-        .catch(() => {
+        .catch((...args) => {
           // @todo add sanity check for errors & visual prompt to the user
-          app.$Progress.fail;
-          console.warn('AppAxios fail: ', arguments);
+          app.$Progress.fail();
+          console.warn('AppAxios fail: ', args);
         });
     }
   },
@@ -131,10 +130,10 @@ export default {
           // @todo add sanity check for returned data
           store.commit(types.UPDATE_PARTNERS, response.data);
         })
-        .catch(() => {
+        .catch((...args) => {
           // @todo add sanity check for errors & visual prompt to the user
-          app.$Progress.fail;
-          console.warn('AppAxios fail: ', arguments);
+          app.$Progress.fail();
+          console.warn('AppAxios fail: ', args);
         });
     }
   },
@@ -150,11 +149,10 @@ export default {
     const partnerCode = selectedPartner.code;
 
     if (waterAnalysisRequest) {
-      const r = store.getters.getRawWaterAnalysisRequest();
+      const rawWaterAnalysisRequest = store.getters.getRawWaterAnalysisRequest();
       const isRequestEmpty = store.getters.isWaterAnalysisRequestEmpty();
 
       if (!isRequestEmpty) {
-        let aa = null;
         /* if (env !== 'LOCAL') {
           const axiosConfig = {
             headers: {
@@ -185,73 +183,71 @@ export default {
         };
 
         // eslint-disable-next-line vue/no-async-in-computed-properties
-        aa = AppAxios.post(
-          store.state.urls[env].submitPartnersData,
-          JSON.stringify(r),
-          axiosConfig,
-        );
+        AppAxios
+          .post(
+            store.state.urls[env].submitPartnersData,
+            JSON.stringify(rawWaterAnalysisRequest),
+            axiosConfig,
+          )
+          .then((response) => {
+            if (response.status === 200 && !!response.data) {
+              const { data } = response;
+              /**
+               * If we get InteractivePrompts or AdditionalContaminantRequests
+               * handle the various states of the returns from the service
+               */
 
-        aa.then((response) => {
-          if (response.status === 200 && !!response.data) {
-            const { data } = response;
-            /**
-             * If we get InteractivePrompts or AdditionalContaminantRequests
-             * handle the various states of the returns from the service
-             */
+              if (data.InteractivePrompts.length) {
+                store.commit(types.UPDATE_INTERACTIVE_PROMPTS, data.InteractivePrompts);
+              } else {
+                store.commit(types.UPDATE_INTERACTIVE_PROMPTS, []);
+              }
+              if (data.AdditionalContaminantRequests.length) {
+                store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS,
+                  data.AdditionalContaminantRequests);
+              } else {
+                store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS, []);
+              }
+              if (!!data.InteractivePrompts.length
+                || !!data.AdditionalContaminantRequests.length) {
+                const bwiModalInteractive = vm.$refs.bwi_modal_interactive;
 
-            if (data.InteractivePrompts.length) {
-              store.commit(types.UPDATE_INTERACTIVE_PROMPTS, data.InteractivePrompts);
-            }
-            else {
-              store.commit(types.UPDATE_INTERACTIVE_PROMPTS, []);
-            }
-            if (data.AdditionalContaminantRequests.length) {
-              store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS,
-                data.AdditionalContaminantRequests);
-            }
-            else {
-              store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS, []);
-            }
-            if (!!data.InteractivePrompts.length
-              || !!data.AdditionalContaminantRequests.length) {
-              const bwiModalInteractive = vm.$refs.bwi_modal_interactive;
+                vm.$root.$emit(
+                  'bv::show::modal', 'bwi-modal-interactive', bwiModalInteractive,
+                );
+              }
+              /**
+               * See if the response returns results for the test and proceed to
+               * render as necessary
+               */
 
-              vm.$root.$emit(
-                'bv::show::modal', 'bwi-modal-interactive', bwiModalInteractive,
-              );
-            }
-            /**
-             * See if the response returns results for the test and proceed to
-             * render as necessary
-             */
+              const hasResultEvaluation = !!Object.keys(data.ResultEvaluations).length;
+              const hasTreatmentSteps = !!Object.keys(data.TreatmentSteps).length;
 
-            const hasResultEvaluation = !!Object.keys(data.ResultEvaluations).length;
-            const hasTreatmentSteps = !!Object.keys(data.TreatmentSteps).length;
-
-            // Check if we have a fully formed response then add it to the
-            if (hasResultEvaluation || hasTreatmentSteps) {
-              data.StateCode = partnerCode;
-              store.commit(types.SET_WATER_ANALYSIS_RESULT, data);
-              store.commit(types.UNSHIFT_WATER_ANALYSIS_RESULT, data);
-              EventBus.$emit('bwi::showWaterAnalysisResults', {
-                callee: this,
-                value: 2,
-              });
+              // Check if we have a fully formed response then add it to the
+              if (hasResultEvaluation || hasTreatmentSteps) {
+                data.StateCode = partnerCode;
+                store.commit(types.SET_WATER_ANALYSIS_RESULT, data);
+                store.commit(types.UNSHIFT_WATER_ANALYSIS_RESULT, data);
+                EventBus.$emit('bwi::showWaterAnalysisResults', {
+                  callee: this,
+                  value: 2,
+                });
+              }
             }
-          }
-        })
-          .catch((res) => {
+          })
+          .catch((...args) => {
             // @todo add sanity check for errors & visual prompt to the user
+            const res = Array.prototype.shift.call(args);
 
             if (res instanceof Error) {
               console.log(res.message);
-            }
-            else {
+            } else {
               console.log(res.data);
             }
 
-            app.$Progress.fail;
-            console.warn('AppAxios fail: ', arguments);
+            app.$Progress.fail();
+            console.warn('AppAxios fail: ', args);
           });
       }
     }
@@ -283,19 +279,16 @@ export default {
     obj.index = index;
     store.commit(types.UPDATE_QUESTION_RESPONSE, obj);
   },
-  updateAdditionalContaminantProperty(context, payload) {
-    const store = context;
-  },
   updateWaterAnalysisRequestProperty(context, payload) {
     const rootStore = this;
-    const r = {
+    const request = {
       path: `BeWellInformed.waterAnalysisRequest.${payload.section}.${payload.contaminant._attributes.Value}`,
       property: payload.property,
       value: payload.event,
       defaultValue: payload.defaultValue || '',
     };
 
-    rootStore.commit('SET_DEEP_PROPERTY', r);
+    rootStore.commit('SET_DEEP_PROPERTY', request);
   },
   setSelectedPartner(context, payload) {
     const store = context;
