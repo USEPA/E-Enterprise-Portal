@@ -139,11 +139,6 @@
       },
       includeImage(processGuidelineIcon) {
         const images = require.context('../images/', false, /\.png$/);
-        /* try {
-          return `../images/${processGuidelineIcon}.png`;
-        } catch (ex) {
-          console.warn(`Missing process guideline icon: ../images/${processGuidelineIcon}.png`, ex);
-        } */
         return images(`./${processGuidelineIcon}.png`);
       },
     },

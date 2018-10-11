@@ -8,6 +8,7 @@ import app from '../../../main'; // import the instance
  */
 const instance = axios.create();
 
+// @todo Add code to intercept for sammple data
 instance.interceptors.request.use((config) => {
   app.$Progress.start(); // for every request start the progress
   return config;

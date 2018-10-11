@@ -153,28 +153,6 @@ export default {
       const isRequestEmpty = store.getters.isWaterAnalysisRequestEmpty();
 
       if (!isRequestEmpty) {
-        /* if (env !== 'LOCAL') {
-          const axiosConfig = {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          };
-
-          // eslint-disable-next-line vue/no-async-in-computed-properties
-          aa = AppAxios.post(
-            store.state.urls[env].submitPartnersData,
-            JSON.stringify(r),
-            axiosConfig,
-          );
-        }
-        else {
-          // handle local env endpoints when there is no service
-          let endpoint = store.state.urls[env].submitPartnersData;
-          if (store.state.interactivePrompts && store.state.interactivePrompts.length) {
-            endpoint = store.state.urls[env].submitPartnersData2;
-          }
-          aa = AppAxios.get(endpoint);
-        } */
 
         const axiosConfig = {
           headers: {
