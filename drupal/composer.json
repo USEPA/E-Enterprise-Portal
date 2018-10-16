@@ -114,12 +114,7 @@
       ],
       "web/themes/contrib/{$name}": [
         "type:drupal-theme"
-      ],
-      "patches": {
-        "drupal/core": {
-          "Drupal database system updating immutiable value": "https://www.drupal.org/files/issues/not-update-entity-serial-columns-2342699-133.patch"
-        }
-      }
+      ]
     },
     "drupal-scaffold": {
       "initial": {
