@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: smolinsk
- * Date: 8/14/2018
- * Time: 1:28 PM
+ * Date: 10/16/2018
+ * Time: 4:28 PM
  */
 
 /**
@@ -15,27 +15,13 @@ chdir(__DIR__ .'../../..');
 define('DRUPAL_DIR', getcwd());
 define('EEP_PROFILE_DIR', DRUPAL_DIR . 'profiles/e_enterprise_portal');
 
-/*
-use Drupal\Core\DrupalKernel;
-use Symfony\Component\HttpFoundation\Request;
-
-$autoloader = require_once DRUPAL_DIR . '/autoload.php';
-$request = Request::createFromGlobals();
-$kernel = DrupalKernel::createFromRequest($request, $autoloader, 'prod');
-$kernel->boot();
-
-require_once DRUPAL_DIR . '/core/includes/database.inc';
-require_once DRUPAL_DIR . '/core/includes/schema.inc';*/
-
 // Other Variables
 $cwd = getcwd();
 $newline = "\n\r";
 
-// Other Actions
+// Actions
 
-// The sqlsrv module is actually a database driver for Drupal 8. We need to
-// remove it from the contrib folder. It is not a true module and breaks
-// Drupal 8.
+// Need to apply a git patch to drupal core
 echo "post-deployment-update.php: " . $cwd . $newline;
 echo "== Apply Patches to Drupal Core ==" . $newline;
 try {
