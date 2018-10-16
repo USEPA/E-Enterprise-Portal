@@ -1,4 +1,4 @@
-uuid: cb61f760-7a57-4951-a1c2-565668016fd0
+uuid: 06c532a6-d0d8-4481-91f8-483c0134edf1
 langcode: en
 status: true
 dependencies:
@@ -105,5 +105,7 @@ content:
     third_party_settings: {  }
   url_redirects:
     weight: 50
+    settings: {  }
+    third_party_settings: {  }
     region: content
 hidden: {  }

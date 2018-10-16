@@ -53,18 +53,7 @@
       "@vue/airbnb"
     ],
     "rules": {
-      "vue/html-self-closing": [
-        "error",
-        {
-          "html": {
-            "void": "never",
-            "normal": "any",
-            "component": "always"
-          },
-          "svg": "always",
-          "math": "always"
-        }
-      ],
+      "no-console": ["error", { "allow": ["warn", "error"] }],
       "function-paren-newline": [
         "error",
         "consistent"
@@ -75,6 +64,18 @@
           "allow": [
             "_attributes"
           ]
+        }
+      ],
+      "vue/html-self-closing": [
+        "error",
+        {
+          "html": {
+            "void": "never",
+            "normal": "any",
+            "component": "always"
+          },
+          "svg": "always",
+          "math": "always"
         }
       ]
     },

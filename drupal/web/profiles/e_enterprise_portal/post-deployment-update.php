@@ -14,7 +14,7 @@ define('STARTING_DIR', __DIR__);
 chdir(__DIR__ .'../../..');
 define('DRUPAL_DIR', getcwd());
 define('EEP_THEME_DIR', DRUPAL_DIR . 'profiles/e_enterprise_portal');
-
+/*
 use Drupal\Core\DrupalKernel;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -24,7 +24,7 @@ $kernel = DrupalKernel::createFromRequest($request, $autoloader, 'prod');
 $kernel->boot();
 
 require_once DRUPAL_DIR . '/core/includes/database.inc';
-require_once DRUPAL_DIR . '/core/includes/schema.inc';
+require_once DRUPAL_DIR . '/core/includes/schema.inc';*/
 
 // Other Actions
 
