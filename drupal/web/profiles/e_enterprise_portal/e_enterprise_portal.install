@@ -70,8 +70,8 @@ function e_enterprise_portal_install() {
   $shortcut->save();*/
 
   // Allow all users to use search.
-  // user_role_grant_permissions(RoleInterface::ANONYMOUS_ID, ['search content']);
-  // user_role_grant_permissions(RoleInterface::AUTHENTICATED_ID, ['search content']);
+  user_role_grant_permissions(RoleInterface::ANONYMOUS_ID, ['search content']);
+  user_role_grant_permissions(RoleInterface::AUTHENTICATED_ID, ['search content']);
 
   // Enable the admin theme.
   \Drupal::configFactory()->getEditable('node.settings')->set('use_admin_theme', TRUE)->save(TRUE);
@@ -84,7 +84,7 @@ function e_enterprise_portal_install() {
   // Set front page to "node".
   \Drupal::configFactory()
     ->getEditable('system.site')
-    ->set('page.front', '/node')
+    ->set('page.front', '/user')
     ->save(TRUE);
 
   // Restrict user registration to admin role creation.
@@ -99,7 +99,7 @@ function e_enterprise_portal_install() {
   // Set the default and admin theme.
   \Drupal::configFactory()
     ->getEditable('system.theme')
-    ->set('default', 'eep')
+    ->set('default', 'bartik')
     ->set('admin', 'seven')
     ->save(TRUE);
 
@@ -109,27 +109,5 @@ function e_enterprise_portal_install() {
     ->set('use_admin_theme', TRUE)
     ->save(TRUE);
 
-  // Set the path to the logo, favicon and README file based on install
-  // directory.
-  $lightning_path = drupal_get_path('profile', 'e_enterprise_portal');
-  \Drupal::configFactory()
-    ->getEditable('system.theme.global')
-    ->set('logo', [
-      'path' => $lightning_path . '/lightning.png',
-      'url' => '',
-      'use_default' => FALSE,
-    ])
-    ->set('favicon', [
-      'mimetype' => 'image/vnd.microsoft.icon',
-      'path' => $lightning_path . '/favicon.ico',
-      'url' => '',
-      'use_default' => FALSE,
-    ])
-    ->save(TRUE);
-
-  // Add code here to make nodes, terms, etc.
-
-  // Enable these two functions separately so Drupal doesn't die
-  \Drupal::service('module_installer')->install(['wincachedrupal', 'supercache']);
 }
 

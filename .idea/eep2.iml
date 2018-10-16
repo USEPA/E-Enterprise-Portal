@@ -125,7 +125,6 @@
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/symfony/var-dumper" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/symfony/yaml" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/theseer/tokenizer" />
-      <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/twbs/bootstrap" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/twig/twig" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/vlucas/phpdotenv" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/webflo/drupal-finder" />

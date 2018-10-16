@@ -1,7 +1,7 @@
 toolbar_items:
+  - devel.admin_settings_link
   - devel.cache_clear
   - devel.container_info.service
-  - devel.admin_settings_link
   - devel.execute_php
   - devel.menu_rebuild
   - devel.reinstall

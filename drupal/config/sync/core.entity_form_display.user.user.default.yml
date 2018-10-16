@@ -1,4 +1,4 @@
-uuid: 1a727781-5434-4593-82be-4783eebeef63
+uuid: 34d652d8-8a09-4b76-a7ae-80d2cb1f88f3
 langcode: en
 status: true
 dependencies:
@@ -21,9 +21,6 @@ content:
     region: content
   contact:
     weight: 5
-    region: content
-  google_analytics:
-    weight: 3
     region: content
   language:
     weight: 0
