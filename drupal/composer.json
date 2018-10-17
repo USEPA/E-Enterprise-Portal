@@ -78,20 +78,14 @@
     ],
     "post-install-cmd": [
       "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
-      "xcopy /S /I /E /Y web\\modules\\contrib\\sqlsrv\\drivers web\\drivers",
-      "rmdir .\\web\\modules\\contrib\\sqlsrv /s /q",
-      "git apply patches/sqlserver-remove-idkey-from-update.patch --directory=web/core/lib"
-    ],
-    "_post-install-cmd": [
-      "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
-      "npm install --prefix ../app/",
-      "npm run build --prefix ../app/",
-      "xcopy /S /I /E /Y web\\modules\\contrib\\sqlsrv\\drivers web\\drivers",
-      "rmdir .\\web\\modules\\contrib\\sqlsrv /s /q"
+      "@php web/profiles/e_enterprise_portal/post-install-setup.php"
     ],
     "post-update-cmd": [
       "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
-      "git apply patches/sqlserver-remove-idkey-from-update.patch --directory=web/core/lib"
+      "@php web/profiles/e_enterprise_portal/post-deployment-update.php"
+    ],
+    "post-deployment-update": [
+      "@php web/profiles/e_enterprise_portal/post-deployment-update.php"
     ],
     "test-cmd": [
       "@php web/profiles/e_enterprise_portal/post-deployment-update.php",

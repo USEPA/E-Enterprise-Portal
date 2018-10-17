@@ -153,7 +153,6 @@ export default {
       const isRequestEmpty = store.getters.isWaterAnalysisRequestEmpty();
 
       if (!isRequestEmpty) {
-
         const axiosConfig = {
           headers: {
             'Content-Type': 'application/json',
@@ -219,9 +218,7 @@ export default {
             const res = Array.prototype.shift.call(args);
 
             if (res instanceof Error) {
-              console.log(res.message);
-            } else {
-              console.log(res.data);
+              console.warn(res.message);
             }
 
             app.$Progress.fail();

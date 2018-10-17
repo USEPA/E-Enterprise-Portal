@@ -1,10 +1,8 @@
 module.exports = {
   baseUrl: '/',
-  outputDir: undefined,
-  assetsDir: undefined,
-  runtimeCompiler: undefined,
+  outputDir: 'dist',
+  runtimeCompiler: false,
   productionSourceMap: false,
-  parallel: undefined,
   css: {
     sourceMap: true,
   },
