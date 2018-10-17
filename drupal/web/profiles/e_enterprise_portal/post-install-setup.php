@@ -22,10 +22,22 @@ $newline = "\n\r";
 // Actions
 
 // Need to apply a git patch to drupal core
-echo "post-deployment-update.php: " . $cwd . $newline;
+echo "post-install-setup.php: " . $cwd . $newline;
 echo "== Apply Patches to Drupal Core ==" . $newline;
 try {
   echo exec("git apply ../patches/sqlserver-remove-idkey-from-update.patch --directory=core/lib --recount --verbose");
+}
+catch (Exception $e) {
+  echo $e->getMessage() . $newline;
+  echo "== Errors while apply patches to Drupal Core ==" . $newline;
+}
+echo $newline;
+
+// Need to apply a git patch to drupal core
+echo "post-install-setup.php: " . $cwd . $newline;
+echo "== Vue build ==" . $newline;
+try {
+  echo exec("npm run build --prefix ../../app/ --verbose");
 }
 catch (Exception $e) {
   echo $e->getMessage() . $newline;
