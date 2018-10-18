@@ -2,5 +2,6 @@
 .idea
 vendor
 node_modules
-drupal/web/core
-drupal/web/sites/default/files
+contrib
+.\drupal\web\core
+.\drupal\web\sites\default\files
