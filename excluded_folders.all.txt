@@ -1,0 +1,3 @@
+.git
+.idea
+drupal/web/sites/default/files

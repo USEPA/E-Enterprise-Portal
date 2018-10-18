@@ -1,0 +1,13 @@
+.git
+.idea
+./e_enterprise_portal
+vendor
+node_modules
+drupal
+tests
+public
+src\assets
+src\components
+src\modules
+src\store
+src\styles

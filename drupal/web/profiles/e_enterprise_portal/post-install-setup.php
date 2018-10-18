@@ -19,7 +19,9 @@ define('EEP_PROFILE_DIR', DRUPAL_DIR . 'profiles/e_enterprise_portal');
 $cwd = getcwd();
 $newline = "\n\r";
 
-// Actions
+/**
+ * Actions
+ */
 
 // Need to apply a git patch to drupal core
 echo "== Apply Patches to Drupal Core == " . $cwd . $newline;
@@ -32,6 +34,7 @@ catch (Exception $e) {
 }
 echo $newline;
 
+
 // Need npmto apply a git patch to drupal core
 echo "== Vue build == " . $cwd . $newline;
 try {
@@ -42,3 +45,20 @@ catch (Exception $e) {
   echo "== Errors while apply patches to Drupal Core ==" . $newline;
 }
 echo $newline;
+
+
+// The sqlsrv module is actually a database driver for Drupal 8. We need to
+// remove it from the contrib folder. It is not a true module and breaks
+// Drupal 8.
+echo "== Removing sqlsrv module ==" . $cwd . $newline;
+try {
+  echo exec("xcopy /S /I /E /Y web\\modules\\contrib\\sqlsrv\\drivers web\\drivers\"");
+  echo exec("rmdir .\modules\contrib\sqlsrv /s /q");
+  echo "== Successfully removing sqlsrv module ==" . $newline;
+}
+catch (Exception $e) {
+  echo $e->getMessage() . $newline;
+  echo "== Failed to removed sqlsrv module ==" . $newline;
+}
+echo $newline;
+
