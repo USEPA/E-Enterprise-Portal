@@ -79,7 +79,7 @@ if (($mode -eq 'update')) {
         $files = Make-Blacklist ($excluded_files)
 
         robocopy "$src" "$dest" /mir /nocopy /copy:dt /dcopy:t /r:3 /w:3 /tee /log:robocopy-$mode-$target.log /xd $dirs /xf $files $list
-        echo "robocopy `"$src`" `"$dest`" /mir /nocopy /copy:dt /dcopy:t /r:3 /w:3 /tee /log:robocopy-$mode-$target.log /xd $dirs /xf $files $list"
+        Write-Output "robocopy `"$src`" `"$dest`" /mir /nocopy /copy:dt /dcopy:t /r:3 /w:3 /tee /log:robocopy-$mode-$target.log /xd $dirs /xf $files $list"
     }
 
     # Vendor Files
@@ -87,7 +87,7 @@ if (($mode -eq 'update')) {
         foreach($folder in $vendor_folders -split ' ') {
             $machine = $folder -replace '/','_'
             robocopy "$folder" "$dest" /mir /nocopy /copy:dt /dcopy:t /r:3 /w:3 /tee /log:robocopy-$mode-$target-$machine.log $list
-            echo "robocopy `"$folder`" `"$dest`" /mir /nocopy /copy:dt /dcopy:t /r:3 /w:3 /tee /log:robocopy-$mode-$target-$machine.log $list"
+            Write-Output "robocopy `"$folder`" `"$dest`" /mir /nocopy /copy:dt /dcopy:t /r:3 /w:3 /tee /log:robocopy-$mode-$target-$machine.log $list"
         }
     }
 
@@ -100,7 +100,7 @@ if (($mode -eq 'update')) {
         $files = Make-Blacklist ($excluded_files)
 
         robocopy "$src" "$dest" /mir /nocopy /copy:dt /dcopy:t /r:3 /w:3 /tee /log:robocopy-$mode-$target.log /xd $dirs /xf $files $list
-        echo "robocopy `"$src`" `"$dest`" /mir /nocopy /copy:dt /dcopy:t /r:3 /w:3 /tee /log:robocopy-$mode-$target.log /xd $dirs /xf $files $list"
+        Write-Output "robocopy `"$src`" `"$dest`" /mir /nocopy /copy:dt /dcopy:t /r:3 /w:3 /tee /log:robocopy-$mode-$target.log /xd $dirs /xf $files $list"
     }
 }
 
