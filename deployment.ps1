@@ -3,8 +3,8 @@ param (
     [string]$dest_overide = "",
     [string]$env = "local",
     [Parameter(Mandatory=$true,HelpMessage="Select a mode: (install|update)")][string]$mode,
-    [Parameter(Mandatory=$true,HelpMessage="Which files to update: (project|vendor|all)")][string]$updatetype
-    # [Parameter(Mandatory=$true,HelpMessage="Just dry run the robocopy? (true|false)")][bool]$dryRun
+    [Parameter(Mandatory=$true,HelpMessage="Which files to update: (project|vendor|all)")][string]$updatetype,
+    [Parameter(Mandatory=$true,HelpMessage="Just dry run the robocopy? (true|false)")][bool]$dryRun
 )
 
 # dot source the environment variables
