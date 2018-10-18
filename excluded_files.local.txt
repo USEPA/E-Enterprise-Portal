@@ -2,12 +2,10 @@
 .gitignore
 .htaccess
 .travis.yml
-package.json
 *.log
 .csslintrc
 .editorconfig
 .eslintignore
 .eslintrc.json
-web.config
 .gitkeep
 settings.php
