@@ -1,0 +1,22 @@
+uuid: f372e8f5-1dda-4230-b327-51e49ddab150
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.eep_workbench_application
+id: node.eep_workbench_application.status
+field_name: status
+entity_type: node
+bundle: eep_workbench_application
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

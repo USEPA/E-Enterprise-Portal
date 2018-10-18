@@ -1,0 +1,28 @@
+uuid: 01d7ad6c-97f0-4645-a58c-3b739514f53c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_html_content
+    - node.type.eep_app_content
+    - node.type.eep_workbench_application
+id: node.eep_workbench_application.field_html_content
+field_name: field_html_content
+entity_type: node
+bundle: eep_workbench_application
+label: 'HTML Content'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      eep_app_content: eep_app_content
+    sort:
+      field: _none
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

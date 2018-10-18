@@ -1,0 +1,19 @@
+uuid: df6a9792-887f-4971-84f8-c7b37812ec53
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_key
+    - node.type.eep_app_content
+id: node.eep_app_content.field_key
+field_name: field_key
+entity_type: node
+bundle: eep_app_content
+label: Key
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

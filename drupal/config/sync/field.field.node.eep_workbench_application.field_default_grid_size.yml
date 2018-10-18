@@ -1,0 +1,25 @@
+uuid: 62adc694-db0c-40a2-ac91-b18bfa9782f5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_default_grid_size
+    - node.type.eep_workbench_application
+id: node.eep_workbench_application.field_default_grid_size
+field_name: field_default_grid_size
+entity_type: node
+bundle: eep_workbench_application
+label: 'Default Grid Size'
+description: ''
+required: true
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  min: 1
+  max: 2
+  prefix: ''
+  suffix: ''
+field_type: integer

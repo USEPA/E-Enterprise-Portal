@@ -4,7 +4,7 @@ param (
     [string]$env = "local",
     [Parameter(Mandatory=$true,HelpMessage="Select a mode: (install|update)")][string]$mode,
     [Parameter(Mandatory=$true,HelpMessage="Which files to update: (project|vendor|all)")][string]$target,
-    [Parameter(Mandatory=$true,HelpMessage="Just dry run the robocopy? (true|false)")][bool]$dryRun
+    [Parameter(Mandatory=$true,HelpMessage="Just dry run the robocopy? (true|false)")][bool]$whatIf
 )
 
 # dot source the environment variables
@@ -22,7 +22,7 @@ if ($dest_overide) {
 }
 
 $list = '/l'
-if (!$dryRun) {
+if (!$whatIf) {
     $list = '';
 }
 
@@ -40,21 +40,22 @@ Function Make-Blacklist() {
             }
         }
     }
-    $output
-    return
+
+    return $output
 }
 
 
-<#Function Make-Path-Absolute() {
+Function Make-Path-Absolute() {
     param ([string]$relativePath)
+    # Resolve-Path ()
 
     $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
     $rootPath = "$scriptPath\"
     $modified_line = $relativePath -replace "\.\\", $rootPath
 
     $modified_line
-    return
-}#>
+    return $modified_line
+}
 
 # Mode Install (all files)
 # Needs work: convert to .zip
@@ -66,7 +67,7 @@ if (($mode -eq 'install')) {
     $files = Make-Blacklist ($excluded_files)
 
     robocopy "$src" "$dest" /mir /nocopy /copy:dt /dcopy:t /r:3 /w:3 /tee /log:robocopy-$mode-$target.log /xd $dirs /xf $files $list
-    echo "robocopy `"$src`" `"$dest`" /mir /nocopy /is /copy:dt /dcopy:t /r:3 /w:3 /tee /log:robocopy-$mode-$target.log /xd $dirs /xf $files $list"
+    Write-Output "robocopy `"$src`" `"$dest`" /mir /nocopy /is /copy:dt /dcopy:t /r:3 /w:3 /tee /log:robocopy-$mode-$target.log /xd $dirs /xf $files $list"
 }
 
 # Mode Update
@@ -78,7 +79,7 @@ if (($mode -eq 'update')) {
         $files = Make-Blacklist ($excluded_files)
 
         robocopy "$src" "$dest" /mir /nocopy /copy:dt /dcopy:t /r:3 /w:3 /tee /log:robocopy-$mode-$target.log /xd $dirs /xf $files $list
-        echo "robocopy `"$src`" `"$dest`" /mir /nocopy /copy:dt /dcopy:t /r:3 /w:3 /tee /log:robocopy-$mode-$target.log /xd $dirs /xf $files $list"
+        Write-Output "robocopy `"$src`" `"$dest`" /mir /nocopy /copy:dt /dcopy:t /r:3 /w:3 /tee /log:robocopy-$mode-$target.log /xd $dirs /xf $files $list"
     }
 
     # Vendor Files
@@ -86,7 +87,7 @@ if (($mode -eq 'update')) {
         foreach($folder in $vendor_folders -split ' ') {
             $machine = $folder -replace '/','_'
             robocopy "$folder" "$dest" /mir /nocopy /copy:dt /dcopy:t /r:3 /w:3 /tee /log:robocopy-$mode-$target-$machine.log $list
-            echo "robocopy `"$folder`" `"$dest`" /mir /nocopy /copy:dt /dcopy:t /r:3 /w:3 /tee /log:robocopy-$mode-$target-$machine.log $list"
+            Write-Output "robocopy `"$folder`" `"$dest`" /mir /nocopy /copy:dt /dcopy:t /r:3 /w:3 /tee /log:robocopy-$mode-$target-$machine.log $list"
         }
     }
 
@@ -99,6 +100,8 @@ if (($mode -eq 'update')) {
         $files = Make-Blacklist ($excluded_files)
 
         robocopy "$src" "$dest" /mir /nocopy /copy:dt /dcopy:t /r:3 /w:3 /tee /log:robocopy-$mode-$target.log /xd $dirs /xf $files $list
-        echo "robocopy `"$src`" `"$dest`" /mir /nocopy /copy:dt /dcopy:t /r:3 /w:3 /tee /log:robocopy-$mode-$target.log /xd $dirs /xf $files $list"
+        Write-Output "robocopy `"$src`" `"$dest`" /mir /nocopy /copy:dt /dcopy:t /r:3 /w:3 /tee /log:robocopy-$mode-$target.log /xd $dirs /xf $files $list"
     }
 }
+
+return 0
