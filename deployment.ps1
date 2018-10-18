@@ -103,3 +103,5 @@ if (($mode -eq 'update')) {
         echo "robocopy `"$src`" `"$dest`" /mir /nocopy /copy:dt /dcopy:t /r:3 /w:3 /tee /log:robocopy-$mode-$target.log /xd $dirs /xf $files $list"
     }
 }
+
+return 0
