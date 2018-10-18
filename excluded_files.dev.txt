@@ -1,7 +1,11 @@
 .gitattributes
 .gitignore
-.travis.yml
-package.json
-*_log
 .htaccess
-.css
+.travis.yml
+*.log
+.csslintrc
+.editorconfig
+.eslintignore
+.eslintrc.json
+.gitkeep
+settings.php
