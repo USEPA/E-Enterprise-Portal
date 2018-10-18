@@ -8,7 +8,6 @@
       <path value="$PROJECT_DIR$/drupal/vendor/doctrine/inflector" />
       <path value="$PROJECT_DIR$/drupal/vendor/symfony/psr-http-message-bridge" />
       <path value="$PROJECT_DIR$/drupal/vendor/symfony/yaml" />
-      <path value="$PROJECT_DIR$/drupal/vendor/cweagans/composer-patches" />
       <path value="$PROJECT_DIR$/drupal/vendor/doctrine/cache" />
       <path value="$PROJECT_DIR$/drupal/vendor/symfony/translation" />
       <path value="$PROJECT_DIR$/drupal/vendor/symfony/polyfill-mbstring" />

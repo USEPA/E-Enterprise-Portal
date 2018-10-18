@@ -22,7 +22,6 @@
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/consolidation/self-update" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/consolidation/site-alias" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/container-interop/container-interop" />
-      <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/cweagans/composer-patches" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/dflydev/dot-access-configuration" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/dflydev/dot-access-data" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/dflydev/placeholder-resolver" />
