@@ -1,0 +1,28 @@
+uuid: f76bbc8a-4e52-4b67-8a9c-c5689a108f6a
+langcode: en
+status: false
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.eep_workbench_application.field_default_grid_size
+    - field.field.node.eep_workbench_application.field_html_content
+    - field.field.node.eep_workbench_application.field_sources
+    - field.field.node.eep_workbench_application.field_title
+    - node.type.eep_workbench_application
+  module:
+    - user
+id: node.eep_workbench_application.teaser
+targetEntityType: node
+bundle: eep_workbench_application
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_default_grid_size: true
+  field_html_content: true
+  field_sources: true
+  field_title: true

@@ -1,0 +1,21 @@
+uuid: b7b9de1d-9aaf-423d-ad6b-6862c12ecf0f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_html
+    - node.type.eep_app_content
+  module:
+    - text
+id: node.eep_app_content.field_html
+field_name: field_html
+entity_type: node
+bundle: eep_app_content
+label: HTML
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

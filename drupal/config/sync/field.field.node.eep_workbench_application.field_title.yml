@@ -1,0 +1,19 @@
+uuid: f51cc92e-6ff1-4ec6-a988-33c6653b9cc3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_title
+    - node.type.eep_workbench_application
+id: node.eep_workbench_application.field_title
+field_name: field_title
+entity_type: node
+bundle: eep_workbench_application
+label: Title
+description: 'This is the title displayed in the workbench area.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

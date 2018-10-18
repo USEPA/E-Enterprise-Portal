@@ -1,0 +1,22 @@
+uuid: f3449d32-d3b7-483b-ba57-ed9ea3f24f5a
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.eep_app_content
+id: node.eep_app_content.status
+field_name: status
+entity_type: node
+bundle: eep_app_content
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

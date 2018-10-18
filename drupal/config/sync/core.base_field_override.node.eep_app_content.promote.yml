@@ -1,0 +1,22 @@
+uuid: 80e7a24b-8a62-4af3-8156-1d54db8dde17
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.eep_app_content
+id: node.eep_app_content.promote
+field_name: promote
+entity_type: node
+bundle: eep_app_content
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean
