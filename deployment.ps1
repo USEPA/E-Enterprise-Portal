@@ -104,4 +104,15 @@ if (($mode -eq 'update')) {
     }
 }
 
-return 0
+function Exit-With-Code
+{
+    param
+    (
+        $exitcode
+    )
+
+    $host.SetShouldExit($exitcode)
+    exit
+}
+
+Exit-With-Code(0)
