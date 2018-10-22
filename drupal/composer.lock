@@ -562,16 +562,16 @@
         },
         {
             "name": "consolidation/output-formatters",
-            "version": "3.3.1",
+            "version": "3.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/output-formatters.git",
-                "reference": "853d2d462a191d44a25a5593d8fe2c4a1e59e382"
+                "reference": "8f4a5696632cc1d3c8cfdea8e9b3c8cea38afda6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/output-formatters/zipball/853d2d462a191d44a25a5593d8fe2c4a1e59e382",
-                "reference": "853d2d462a191d44a25a5593d8fe2c4a1e59e382",
+                "url": "https://api.github.com/repos/consolidation/output-formatters/zipball/8f4a5696632cc1d3c8cfdea8e9b3c8cea38afda6",
+                "reference": "8f4a5696632cc1d3c8cfdea8e9b3c8cea38afda6",
                 "shasum": ""
             },
             "require": {
@@ -614,7 +614,7 @@
                 }
             ],
             "description": "Format text by applying transformations provided by plug-in formatters.",
-            "time": "2018-10-16T01:14:51+00:00"
+            "time": "2018-10-18T22:19:33+00:00"
         },
         {
             "name": "consolidation/robo",
@@ -2171,16 +2171,16 @@
         },
         {
             "name": "drupal/core",
-            "version": "8.6.1",
+            "version": "8.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core.git",
-                "reference": "1c8b96c89288daf4d145c6dbcf1e8f0d0c9d7970"
+                "reference": "356292934802bb1aecc478e88a3cba77442d7c62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core/zipball/1c8b96c89288daf4d145c6dbcf1e8f0d0c9d7970",
-                "reference": "1c8b96c89288daf4d145c6dbcf1e8f0d0c9d7970",
+                "url": "https://api.github.com/repos/drupal/core/zipball/356292934802bb1aecc478e88a3cba77442d7c62",
+                "reference": "356292934802bb1aecc478e88a3cba77442d7c62",
                 "shasum": ""
             },
             "require": {
@@ -2382,8 +2382,7 @@
                     "recurse": false,
                     "replace": false,
                     "merge-extra": false
-                },
-                "patches_applied": []
+                }
             },
             "autoload": {
                 "psr-4": {
@@ -2406,7 +2405,7 @@
                 "GPL-2.0-or-later"
             ],
             "description": "Drupal is an open source content management platform powering millions of websites and applications.",
-            "time": "2018-09-10T11:50:07+00:00"
+            "time": "2018-10-17T22:19:50+00:00"
         },
         {
             "name": "drupal/ctools",
@@ -4067,16 +4066,16 @@
         },
         {
             "name": "drush/drush",
-            "version": "9.5.1",
+            "version": "9.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drush-ops/drush.git",
-                "reference": "1d96b85ade0c21cbec8f20ae8111c0450718523e"
+                "reference": "17f0106706391675a281c6d212850853bdbe90f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drush-ops/drush/zipball/1d96b85ade0c21cbec8f20ae8111c0450718523e",
-                "reference": "1d96b85ade0c21cbec8f20ae8111c0450718523e",
+                "url": "https://api.github.com/repos/drush-ops/drush/zipball/17f0106706391675a281c6d212850853bdbe90f9",
+                "reference": "17f0106706391675a281c6d212850853bdbe90f9",
                 "shasum": ""
             },
             "require": {
@@ -4198,7 +4197,7 @@
             ],
             "description": "Drush is a command line shell and scripting interface for Drupal, a veritable Swiss Army knife designed to make life easier for those of us who spend some of our working hours hacking away at the command prompt.",
             "homepage": "http://www.drush.org",
-            "time": "2018-10-16T01:10:10+00:00"
+            "time": "2018-10-17T18:37:53+00:00"
         },
         {
             "name": "easyrdf/easyrdf",
@@ -9608,13 +9607,13 @@
         },
         {
             "name": "webflo/drupal-core-require-dev",
-            "version": "8.6.1",
+            "version": "8.6.2",
             "require": {
                 "behat/mink": "1.7.x-dev",
                 "behat/mink-goutte-driver": "^1.2",
                 "behat/mink-selenium2-driver": "1.3.x-dev",
                 "drupal/coder": "^8.2.12",
-                "drupal/core": "8.6.1",
+                "drupal/core": "8.6.2",
                 "jcalderonzumba/gastonjs": "^1.0.2",
                 "jcalderonzumba/mink-phantomjs-driver": "^0.3.1",
                 "mikey179/vfsstream": "^1.2",
@@ -9630,7 +9629,7 @@
                 "GPL-2.0-or-later"
             ],
             "description": "require-dev dependencies from drupal/core",
-            "time": "2018-09-10T13:31:43+00:00"
+            "time": "2018-10-17T23:02:16+00:00"
         }
     ],
     "aliases": [],

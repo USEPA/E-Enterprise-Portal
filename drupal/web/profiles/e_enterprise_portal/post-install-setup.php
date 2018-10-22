@@ -38,7 +38,7 @@ echo $newline;
 // Need npmto apply a git patch to drupal core
 echo "== Vue build == " . $cwd . $newline;
 try {
-  echo exec("npm run build --prefix ../../app/");
+  echo exec("npm run build --prefix ../../app/ --loglevel verbose");
 }
 catch (Exception $e) {
   echo $e->getMessage() . $newline;
