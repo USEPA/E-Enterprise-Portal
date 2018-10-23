@@ -130,6 +130,7 @@
       <path value="$PROJECT_DIR$/drupal/vendor/phpunit/phpunit-mock-objects" />
       <path value="$PROJECT_DIR$/drupal/vendor/theseer/tokenizer" />
       <path value="$PROJECT_DIR$/drupal/vendor/phpunit/phpunit" />
+      <path value="$PROJECT_DIR$/drupal/vendor/swagger-api/swagger-ui" />
     </include_path>
   </component>
 </project>

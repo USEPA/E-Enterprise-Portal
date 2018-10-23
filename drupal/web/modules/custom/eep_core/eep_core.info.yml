@@ -1,0 +1,6 @@
+name: 'EEP Core'
+type: module
+description: 'Provides the core functionality and utility functions for E-Enterprise Portal in a centralized module.'
+core: 8.x
+package: 'EEP'
+configure: eep_core.admin_settings

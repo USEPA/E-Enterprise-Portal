@@ -1,0 +1,7 @@
+eep_core.admin_settings:
+  path: '/admin/config/eep_core'
+  defaults:
+    _form: '\Drupal\eep_core\Form\ModuleConfigurationForm'
+    _title: 'E-Enterprise Configurations'
+  requirements:
+    _permission: 'administer site configuration'
