@@ -1,0 +1,30 @@
+
+eep_proxy_service.proxy_service_controller_listAll:
+  path: '/eep/proxy/listAll'
+  defaults:
+    _controller: '\Drupal\eep_proxy_service\Controller\ProxyServiceController::listAll'
+    _title: 'List all services'
+  requirements:
+    _permission: 'access content'
+eep_proxy_service.proxy_service_controller_service_generic:
+  path: '/eep/proxy/service'
+  defaults:
+    _controller: '\Drupal\eep_proxy_service\Controller\ProxyServiceController::listAll'
+    _title: 'Use service'
+  requirements:
+    _permission: 'access content'
+eep_proxy_service.proxy_service_controller_service:
+  path: '/eep/proxy/service/{service_machine_name}'
+  defaults:
+    _controller: '\Drupal\eep_proxy_service\Controller\ProxyServiceController::service'
+    _title: 'Use service'
+  requirements:
+    _permission: 'access content'
+
+eep_proxy_service.service_injection_controller_test:
+  path: '/eep_proxy_service/test'
+  defaults:
+    _controller: '\Drupal\eep_proxy_service\Controller\ServiceInjectionController::test'
+    _title: 'test'
+  requirements:
+    _permission: 'access content'

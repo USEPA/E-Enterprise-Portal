@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains eep_proxy_service.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function eep_proxy_service_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the eep_proxy_service module.
+    case 'help.page.eep_proxy_service':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('This module provides a way to declare a 3rd party service and make it available to in the EEP API.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
