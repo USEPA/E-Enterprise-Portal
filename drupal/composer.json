@@ -34,6 +34,8 @@
     "drupal/entity_browser": "^1.5",
     "drupal/entity_reference_revisions": "^1.5",
     "drupal/openapi": "^1.0@beta",
+    "drupal/openapi_ui": "^1.0@RC",
+    "drupal/openapi_ui_swagger": "^1.0@RC",
     "drupal/page_manager": "^4.0@beta",
     "drupal/panelizer": "^4.1",
     "drupal/panels": "^4.3",

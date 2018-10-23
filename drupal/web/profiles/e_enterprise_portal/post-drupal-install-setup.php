@@ -38,22 +38,6 @@ $newline = "\n\r";
 
 // Other Actions
 
-// The sqlsrv module is actually a database driver for Drupal 8. We need to
-// remove it from the contrib folder. It is not a true module and breaks
-// Drupal 8.
-echo "post-drupal-install-setup.php: " . $cwd . $newline;
-echo "== Removing sqlsrv module ==$newline";
-try {
-  echo exec("rmdir .\modules\contrib\sqlsrv /s /q");
-  echo "== Successfully removing sqlsrv module ==" . $newline;
-}
-catch (Exception $e) {
-  echo $e->getMessage() . $newline;
-  echo "== Failed to removed sqlsrv module ==" . $newline;
-}
-echo $newline;
-
-
 // Get the list of installed modules and enable the Supercache and Wincache
 // if they are not already enabled
 try {
