@@ -71,6 +71,8 @@ dependencies:
   - 'schemata_json_schema'
   - 'supercache'
   - 'wincachedrupal'
+  - 'eep_core'
+  - 'eep_proxy_service'
 themes:
   - 'bartik'
   - 'seven'

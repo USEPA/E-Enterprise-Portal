@@ -1,0 +1,18 @@
+eep_core.admin:
+  title: 'E-Enterprise Portal'
+  description: 'example of how to make an admin settings page link'
+  parent: system.admin
+  menu_name: system
+  route_name: eep_core.home
+  url: internal:/admin/config/eep_core
+  weight: 100
+  options:
+    attributes:
+      class:
+      - toolbar-icon-system-admin-config
+eep_core.eep_workbench_application:
+  title: 'EEP Workbench Applications'
+  description: 'example of how to make an admin settings page link'
+  parent: eep_core.admin
+  route_name: eep_core.eep_workbench_application
+  url: internal:/admin/content?title=&type=eep_workbench_application&status=All&langcode=All
