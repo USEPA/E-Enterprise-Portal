@@ -5,14 +5,8 @@ namespace Drupal\eep_proxy_service\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Request;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
+use Drupal\eep_proxy_service\Proxy\ProxyService;
 use GuzzleHttp\Psr7\Request as GuzzlePsr7Request;
-use GuzzleHttp\Psr7\Response as GuzzlePsr7Response;
-use GuzzleHttp\Exception\ServerException;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class ProxyServiceController.
@@ -65,71 +59,38 @@ class ProxyServiceController extends ControllerBase {
    */
   public function service($service_machine_name) {
     $r = null;
+    $proxy = new ProxyService();
     $request = $this->requestStack->getCurrentRequest();
-    // Get EEP proxy service
 
+    // @todo Check for cached responses
     // If cache is enabled, check if it is validated
-    // Check for cached responses
 
-    // Convert request
-    // GET https://cdxnodengn.epa.gov/cdx-srs-rest/reference/substance_lists
-    // POST https://dev.e-enterprise.gov/TestRest/bwievaluation
-    $uri = "https://cdxnodengn.epa.gov/cdx-srs-rest/reference/substance_lists";
-    if($request->getMethod() == 'POST') {
-      $uri = "https://dev.e-enterprise.gov/TestRest/bwievaluation";
+    // Get EEP proxy service entities
+    $entities = $proxy->getEntitiesByMachineName($service_machine_name);
+
+    try {
+      $uri = $proxy->getUriFromEntities($entities);
+    }
+    catch(\Exception $exception) {
+      // @todo handle errors
+      throwException($exception);
     }
 
-    // @todo Figure out the headers dilemma and how to filter the right ones to
-    // send to the endpoint
-
-    $headers = [];
-    $headers_whitelist = [
-      'cache-control',
-      'connection',
-      'content-length',
-      'content-type',
-      'server',
-    ];
-
-    $headers_blacklist = [
-      'host',
-    ];
-    
-    foreach ($request->headers->all() as $header => $value_array) {
-      if(in_array(strtolower($header), $headers_whitelist)) {
-        $headers[$header] = $value_array;
-      }
-    }
+    $proxy->getAllowedHeaders($request);
 
     $guzzle_request = new GuzzlePsr7Request(
       $request->getMethod(),
       $uri,
-      $headers,
+      $proxy->headers,
       $request->getContent(),
       '1.1'
     );
 
-    // Submit request
+    $guzzle_response = $proxy->submitRequestToEndpoint($guzzle_request);
 
-    // Return result
-    $guzzle_client = new Client();
+    // @todo Cache responses
 
-    $guzzle_response = $guzzle_client->send($guzzle_request, [
-      'timeout' => 60,
-      'http_errors' => false
-    ]);
-
-    $response = new Response(
-      $guzzle_response->getBody(),
-      $guzzle_response->getStatusCode(),
-      $guzzle_response->getHeaders()
-    );
-
-    $response->setProtocolVersion('1.1');
-
-
-    $response->send();
-    exit;
+    $proxy->returnResponseFromEndpoint($guzzle_response);
   }
 
 }
