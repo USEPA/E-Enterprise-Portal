@@ -3,3 +3,5 @@ type: module
 description: 'This module provides a way to declare a 3rd party service and make it available to in the EEP API.'
 core: 8.x
 package: 'EEP'
+dependencies:
+  - 'eep_core'

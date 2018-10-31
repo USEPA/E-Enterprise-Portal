@@ -1,0 +1,12 @@
+langcode: en
+status: true
+dependencies: {  }
+id: daily_schedule
+label: 'Daily Schedule'
+enabled: null
+keep: null
+period: null
+cron: null
+source_id: null
+destination_id: null
+settings_profile_id: null

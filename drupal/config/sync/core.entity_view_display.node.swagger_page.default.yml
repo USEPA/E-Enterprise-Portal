@@ -1,0 +1,44 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.swagger_page.body
+    - field.field.node.swagger_page.field_link
+    - node.type.swagger_page
+  module:
+    - file
+    - panelizer
+    - text
+    - user
+third_party_settings:
+  panelizer:
+    enable: false
+    custom: false
+    allow: false
+    default: default
+id: node.swagger_page.default
+targetEntityType: node
+bundle: swagger_page
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 101
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  field_link:
+    weight: 103
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    type: file_default
+    region: content
+  links:
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }
