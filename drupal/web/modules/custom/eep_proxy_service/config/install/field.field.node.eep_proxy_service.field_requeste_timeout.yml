@@ -1,0 +1,24 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_requeste_timeout
+    - node.type.eep_proxy_service
+id: node.eep_proxy_service.field_requeste_timeout
+field_name: field_requeste_timeout
+entity_type: node
+bundle: eep_proxy_service
+label: 'Request Timeout'
+description: 'Proxy request timeout in seconds.  Defaults to 60 seconds. Use zero to not have a timeout limt.'
+required: true
+translatable: false
+default_value:
+  -
+    value: 60
+default_value_callback: ''
+settings:
+  min: 0
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

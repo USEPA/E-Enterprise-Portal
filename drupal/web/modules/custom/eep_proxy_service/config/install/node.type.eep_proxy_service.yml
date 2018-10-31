@@ -1,0 +1,17 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - admin
+    parent: 'admin:'
+name: 'EEP Proxy Service'
+type: eep_proxy_service
+description: 'Provides a proxy bypass to a 3rd party service.'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

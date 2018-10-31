@@ -96,6 +96,7 @@
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/stack/builder" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/stecman/symfony-console-completion" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/sunra/php-simple-html-dom-parser" />
+      <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/swagger-api/swagger-ui" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/symfony-cmf/routing" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/symfony/browser-kit" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/symfony/class-loader" />
