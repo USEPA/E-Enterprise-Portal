@@ -40,3 +40,4 @@ dependencies:
   - 'views_ui'
   - 'tour'
   - 'double_field'
+  - 'default_content'
