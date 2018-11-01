@@ -133,4 +133,5 @@
       <path value="$PROJECT_DIR$/drupal/vendor/swagger-api/swagger-ui" />
     </include_path>
   </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="7" />
 </project>
