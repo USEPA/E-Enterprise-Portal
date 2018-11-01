@@ -10,6 +10,8 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Client;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Drupal\Component\Serialization\Json;
 
 /**
  * Class LocationServicesController.
@@ -47,12 +49,11 @@ class LocationServicesController extends ControllerBase {
   public function locate() {
     // logic here to handle the request etc
     $token = $this->frs_naas_authentication();
-    $request_criteria = $this->generate_request_options($token);
-    $response = $this->make_request($request_criteria['request_url'], $request_criteria['options']);
-    return [
-      '#type' => 'markup',
-      '#markup' => $this->t($token)
-    ];
+    $response = $this->make_request_for_city_and_state($token);
+
+    // all request here
+
+    return new JsonResponse(Json::decode($response->getBody()));
   }
 
   private function frs_naas_authentication() {
@@ -97,7 +98,7 @@ class LocationServicesController extends ControllerBase {
           "credential" => $password,
           "domain" => 'default',
           "authenticationMethod" => 'password',
-          "clientIp" => $_SERVER['SERVER_ADDR'], // possible bug here
+          "clientIp" => '172.20.2.22', // possible bug here
           'resourceURI' => ''
         );
         $soap_type = 'CentralAuth';
@@ -123,42 +124,29 @@ class LocationServicesController extends ControllerBase {
     return $token;
   }
 
-  private function generate_request_options($token) {
-    // @TODO: replace $frs_domain with variable_get('frs_ api_lookup_url')
+  private function make_request_for_city_and_state($token){
     $frs_domain = 'https://frsdev.cgifederal.com:8443/ords/fiitest/FRS_API_LOOKUP_SERVICES';
-    $ip = $_SERVER['SERVER_ADDR'];
-    $return_val = NULL;
-    // here down
-    if ($frs_domain == 'test_proxy') {
-      $test_domain = variable_get("frs_test_proxy");
-      $base_url = variable_get("frs_test_proxy_base_url") . '.get_city_state_by_zip?p_ip_address=' . $ip . '&p_postal_code=' . $zip . '&p_token=' . $token;
-      $encoded_base_url = urlencode($base_url);
-      $request_url = $test_domain . $encoded_base_url;
-    }
-    else {
-      $request_url = 'https://frsdev.cgifederal.com:8443/ords/fiitest/FRS_API_LOOKUP_SERVICES' .
-        '.get_city_state_by_zip?p_ip_address=' .
-        $ip .
-        '&p_postal_code=' .
-        '23146' . '&p_token=' .
-        $token;
-    }
-    $options = array(
-      'headers' => array(
-        'Content-Type' => 'application/json',
-      ),
-      'method' => 'GET',
+    $ip = '172.20.2.22';
+    $zip = '23146';
+    $request_url = $frs_domain .
+      '.get_city_state_by_zip?p_ip_address=' .
+      $ip .
+      '&p_postal_code=' .
+      $zip . '&p_token=' .
+      $token;
+    $guzzle_request = new Request(
+      'GET',
+      $request_url,
+      array(
+        'Content-Type' => 'application/json'
+      )
     );
-    return array(
-      'request_url' => $request_url,
-      'options' => $options
-    );
+    $guzzle_client = new Client();
+    $guzzle_response = $guzzle_client->send($guzzle_request, [
+      'timeout' => 60,
+      'http_errors' => FALSE
+    ]);
+    return $guzzle_response;
   }
 
-
-  function make_request($request_url, $options) {
-
-
-
-  }
 }
