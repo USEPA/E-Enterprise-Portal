@@ -22,5 +22,3 @@ skip_enabled_preprocess_check: false
 show_bypass_cookie_message: true
 symlinks: false
 symlinksifownermatch: false
-_core:
-  default_config_hash: Vi3b7DLLNw5X1UX9XG8mnU-ysvyNgdyvAasxV9yck3I

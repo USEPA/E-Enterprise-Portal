@@ -1,0 +1,11 @@
+variable_name:
+  blacklisted_header:
+    - host
+  add_header: 'Add another header'
+  submit: Submit
+  actions:
+    submit: 'Save configuration'
+  form_build_id: form-l85s5S0TQqBqMJXDK3hvjceZNrlR-dwuHON5lTjYJ2E
+  form_token: LLnnZOvACm61yY6cgHUEySYRS3d4OmCX1E7bxB30dSE
+  form_id: eep_core_admin_settings
+  op: 'Add another header'

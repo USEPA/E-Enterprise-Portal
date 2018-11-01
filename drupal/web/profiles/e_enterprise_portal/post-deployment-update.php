@@ -32,17 +32,3 @@ $cwd = getcwd();
 $newline = "\n\r";
 
 // Other Actions
-
-// The sqlsrv module is actually a database driver for Drupal 8. We need to
-// remove it from the contrib folder. It is not a true module and breaks
-// Drupal 8.
-echo "post-deployment-update.php: " . $cwd . $newline;
-echo "== Apply Patches to Drupal Core ==" . $newline;
-try {
-  echo exec("git apply ../patches/sqlserver-remove-idkey-from-update.patch --directory=core/lib --recount --verbose");
-}
-catch (Exception $e) {
-  echo $e->getMessage() . $newline;
-  echo "== Errors while apply patches to Drupal Core ==" . $newline;
-}
-echo $newline;

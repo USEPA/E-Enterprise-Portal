@@ -1,9 +1,6 @@
-uuid: 37d87008-cfcc-4f23-ac1e-eb585408b4f8
 langcode: en
 status: true
 dependencies: {  }
-_core:
-  default_config_hash: 0ziF0ShQzLTglyja9_chf5qouy7Ce3i-254JN-PWmk4
 id: entire_site
 label: 'Entire Site'
 type: EntireSite

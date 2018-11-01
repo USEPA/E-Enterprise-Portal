@@ -77,7 +77,8 @@
           "svg": "always",
           "math": "always"
         }
-      ]
+      ],
+      "linebreak-style":["error", "windows"]
     },
     "parserOptions": {
       "parser": "babel-eslint"
