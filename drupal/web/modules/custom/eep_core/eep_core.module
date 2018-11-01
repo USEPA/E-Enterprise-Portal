@@ -1,0 +1,57 @@
+<?php
+
+/**
+ * @file
+ * Contains eep_core.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function eep_core_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the eep_core module.
+    case 'help.page.eep_core':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Provides the core functionality and utility functions for E-Enterprise Portal in a centralized module.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/*function eep_core_toolbar() {
+  $items = [];
+  $items['eep_core'] = [
+    '#cache' => [
+      'contexts' => [
+        'user.permissions',
+      ],
+    ],
+  ];
+
+  if (!\Drupal::currentUser()->hasPermission('access eep_core')) {
+    return $items;
+  }
+
+  $items['eep_core'] += array(
+    '#type' => 'toolbar_item',
+    'tab' => array(
+      '#type' => 'html_tag',
+      '#tag' => 'button',
+      '#value' => t('E-Enterprise Portal'),
+      '#attributes' => array(
+        'class' => array('toolbar-icon', 'toolbar-icon-help'),
+        'aria-pressed' => 'false',
+      ),
+    ),
+    '#wrapper_attributes' => array(
+      'class' => array('eep_core-toolbar-tab', 'hidden'),
+      'id' => 'toolbar-tab-eep_core',
+    ),
+  );
+  return $items;
+}*/

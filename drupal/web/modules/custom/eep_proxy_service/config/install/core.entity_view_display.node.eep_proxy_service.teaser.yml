@@ -1,0 +1,29 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.eep_proxy_service.field_cache_max_age
+    - field.field.node.eep_proxy_service.field_proxy_service_machine_name
+    - field.field.node.eep_proxy_service.field_request_headers
+    - field.field.node.eep_proxy_service.field_requeste_timeout
+    - field.field.node.eep_proxy_service.field_service_endpoints
+    - node.type.eep_proxy_service
+  module:
+    - user
+id: node.eep_proxy_service.teaser
+targetEntityType: node
+bundle: eep_proxy_service
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_cache_max_age: true
+  field_proxy_service_machine_name: true
+  field_request_headers: true
+  field_requeste_timeout: true
+  field_service_endpoints: true

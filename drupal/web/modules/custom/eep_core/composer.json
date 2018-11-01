@@ -1,0 +1,14 @@
+{
+  "name": "drupal/eep_core",
+  "type": "drupal-module",
+  "description": "Provides the core functionality and utility functions for E-Enterprise Portal in a centralized module.",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/eep_core",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/eep_core",
+    "source": "http://cgit.drupalcode.org/eep_core"
+  },
+  "require": { }
+}

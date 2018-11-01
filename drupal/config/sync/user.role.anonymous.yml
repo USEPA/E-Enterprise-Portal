@@ -1,9 +1,6 @@
-uuid: 6a0a0251-42f7-45be-8f21-0dd75908c4b0
 langcode: en
 status: true
 dependencies: {  }
-_core:
-  default_config_hash: j5zLMOdJBqC0bMvSdth5UebkprJB8g_2FXHqhfpJzow
 id: anonymous
 label: 'Anonymous user'
 weight: 0
@@ -11,4 +8,5 @@ is_admin: false
 permissions:
   - 'access comments'
   - 'access content'
+  - 'search content'
   - 'use text format restricted_html'

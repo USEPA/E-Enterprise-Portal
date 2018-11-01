@@ -1,7 +1,7 @@
 name: E-Enterprise Portal API
 type: profile
 description: 'Installs the required modules for EEP'
-core: ^8.5
+core: ^8.6
 distribution:
   name: 'E-Enterprise Portal API'
 dependencies:
@@ -71,6 +71,8 @@ dependencies:
   - 'schemata_json_schema'
   - 'supercache'
   - 'wincachedrupal'
+  - 'eep_core'
+  - 'eep_proxy_service'
 themes:
   - 'bartik'
   - 'seven'

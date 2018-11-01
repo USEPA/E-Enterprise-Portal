@@ -1,4 +1,3 @@
-uuid: aab719df-8b5a-4dfe-89d0-28df83442f78
 langcode: en
 status: true
 dependencies:
@@ -6,8 +5,9 @@ dependencies:
     - menu_ui
 third_party_settings:
   menu_ui:
-    available_menus: {  }
-    parent: ''
+    available_menus:
+      - admin
+    parent: 'admin:eep_core.eep_workbench_application'
 name: 'EEP Workbench Application'
 type: eep_workbench_application
 description: 'EEP Workbench Application that appears on the workbench'

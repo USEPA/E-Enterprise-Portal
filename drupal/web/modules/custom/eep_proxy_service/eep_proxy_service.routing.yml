@@ -1,0 +1,28 @@
+eep_proxy_service.admin_settings:
+  path: '/admin/config/eep_proxy_service'
+  defaults:
+    _form: '\Drupal\eep_proxy_service\Form\EepProxyServiceModuleConfigurationForm'
+    _title: 'EEP Proxy Service Default Configurations'
+  requirements:
+    _permission: 'administer site configuration'
+eep_proxy_service.proxy_service_controller_listAll:
+  path: '/eep/proxy/listAll'
+  defaults:
+    _controller: '\Drupal\eep_proxy_service\Controller\ProxyServiceController::listAll'
+    _title: 'List all services'
+  requirements:
+    _permission: 'access content'
+eep_proxy_service.proxy_service_controller_service_generic:
+  path: '/eep/proxy/service'
+  defaults:
+    _controller: '\Drupal\eep_proxy_service\Controller\ProxyServiceController::listAll'
+    _title: 'Use service'
+  requirements:
+    _permission: 'access content'
+eep_proxy_service.proxy_service_controller_service:
+  path: '/eep/proxy/service/{service_machine_name}'
+  defaults:
+    _controller: '\Drupal\eep_proxy_service\Controller\ProxyServiceController::service'
+    _title: 'Use service'
+  requirements:
+    _permission: 'access content'

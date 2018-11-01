@@ -1,11 +1,8 @@
-uuid: be06bf4f-9de3-4b39-94a1-21667a3f5b45
 langcode: en
 status: true
 dependencies:
   module:
     - node
-_core:
-  default_config_hash: C7X8h9FWlwkQ9y5mnU2JzgaZICAdc6HFbPVbhvjlAYE
 id: node_unpublish_action
 label: 'Unpublish content'
 type: node
