@@ -53,7 +53,11 @@ class LocationServicesController extends ControllerBase {
    * @return string
    *   Return Hello string.
    */
-  public function locate($zipcode = "70506", $city = "Fairfax", $state = "VA") {
+  public function locate($query) {
+    // check query here
+    if($query){
+
+    }
     //$token = $this->frs_naas_authentication();
     // Make request for city and state with given zipcode
     //$city_and_state_response = $this->frs_zipcode_to_city_state($token, $zipcode);
@@ -63,7 +67,7 @@ class LocationServicesController extends ControllerBase {
     // Geo location below
     $response = $this->gpo_city_state_to_zip_code($city, $state);
 
-    return new JsonResponse(Json::decode($response->getBody()));
+    return new JsonResponse($response);
   }
 
   private function frs_naas_authentication() {
@@ -190,9 +194,10 @@ class LocationServicesController extends ControllerBase {
     // Get Zip Code to Census Place/Population Lookup table as json
     $zip_pop_url = 'https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
     $zip_pop_url = $zip_pop_url . 'where=UPPER%28NAME_LABEL%29%3D%27' . $cleaned_city . '%2C+' . $state . '%27&outFields=*&orderByFields=ZCTA&f=pjson';
+
+    $zip_found = FALSE;
     $response = $this->make_request_and_receive_response($zip_pop_url);
     $decoded_response = json_decode($response->getBody(), false);// might have to remove the decode from above
-    $zip_found = FALSE;
     if(!empty($decoded_response->features)){
       $city_attr = array();
       $zip_attr = array();
@@ -213,9 +218,53 @@ class LocationServicesController extends ControllerBase {
           $zip_found = TRUE;
         }
       }
+      $location_array = explode(',', $feature->attributes->NAME_LABEL);
+      $zip_data['city'] = trim($location_array[0]);
+      $zip_data['state'] = trim($location_array[1]);
+      $zip_data['zip_array'] = $zip_list;
+      $zip_data['city_attr'] = $city_attr;
+      $zip_data['zip_attr'] = $zip_attr;
     }
-    //return $result;
+
+    if (!$zip_found) {
+      // Get Zip Code to Tribal Area Lookup table as json
+      $zip_tribe_url = 'https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToTribalLookups_WFL/FeatureServer/1/query?';
+      $zip_tribe_url = $zip_tribe_url . 'where=UPPER%28TRIBE_NAME_CLEAN%29+LIKE+%27%25' . $cleaned_city . '%25%27&outFields=*&orderByFields=ZCTA&f=pjson';
+      $response = $this->make_request_and_receive_response($zip_tribe_url);
+      $decoded_response = json_decode($response->getBody(), FALSE);
+
+      if (!empty($decoded_response->features)) {
+        $tribalzips = array();
+        foreach ($decoded_response->features as $feature) {
+          $zip_found = TRUE;
+          // If the table has a placename, record that as the preferred name
+          $zip_data['zip_array'][] = $feature->attributes->ZCTA;
+          $zip_data['zip_attr'][$feature->attributes->ZCTA]["city"] = $feature->attributes->TRIBE_NAME_CLEAN;
+          $zip_data['city'] = $feature->attributes->TRIBE_NAME_CLEAN;
+          // For each found zip, lookup Census data
+          $tribalzips[] = $feature->attributes->ZCTA;
+        }
+        $tribalzips = array_unique($tribalzips);
+
+        if (!empty($tribalzips)) {
+          // Get Zip Code to Census Place/Population Lookup table as json
+          $zip_pop_url = 'https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
+          $zip_pop_url = $zip_pop_url . 'where=ZCTA+IN+%28%27' . implode("%27%2C%27", $tribalzips) . '%27%29&outFields=*&orderByFields=Place_Pop_2014_ACS2014&f=pjson';
+          $response = $this->make_request_and_receive_response($zip_pop_url);
+          $decoded_response = json_decode($response->getBody(), FALSE);
+          if (!empty($decoded_response->features)) {
+            // Loop through all Census Places for the specified zip
+            foreach ($decoded_response->features as $feature) {
+              // Also record the zip code's population and urban/rural status
+              $zip_data['zip_attr'][$feature->attributes->ZCTA]["pop"] = $feature->attributes->Zip_Pop2014_ACS5;
+              $zip_data['zip_attr'][$feature->attributes->ZCTA]["urban"] = $feature->attributes->Urban;
+            }
+          }
+        }
+      }
+    }
+    // here.... use FRS city state to zip for look up.... line 547
+
+    return $zip_data;
   }
-
-
 }
