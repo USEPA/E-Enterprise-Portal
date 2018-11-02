@@ -25,6 +25,12 @@ class LocationServicesController extends ControllerBase {
    */
   protected $requestStack;
 
+  // for temporary use until the DB is set up
+  private $frs_domain = 'https://frsdev.cgifederal.com:8443/ords/fiitest/FRS_API_LOOKUP_SERVICES';
+  private $ip = '172.20.2.22';
+
+
+
   /**
    * Constructs a new LocationServicesController object.
    */
@@ -46,14 +52,18 @@ class LocationServicesController extends ControllerBase {
    * @return string
    *   Return Hello string.
    */
-  public function locate() {
-    // logic here to handle the request etc
+  public function locate($zipcode = "23146", $city = "Rockville", $state = "VA") {
     $token = $this->frs_naas_authentication();
-    $response = $this->make_request_for_city_and_state($token);
+
+    // Make request for city and state with given zipcode
+    $city_and_state_response = $this->zipcode_to_city_state($token, $zipcode);
+
+    // Make request for zipcode with given city and state
+    $zipcode_response = $this->city_state_to_zipcode($token, $city, $state);
 
     // all request here
 
-    return new JsonResponse(Json::decode($response->getBody()));
+    return new JsonResponse(Json::decode($zipcode_response->getBody()));
   }
 
   private function frs_naas_authentication() {
@@ -124,16 +134,7 @@ class LocationServicesController extends ControllerBase {
     return $token;
   }
 
-  private function make_request_for_city_and_state($token){
-    $frs_domain = 'https://frsdev.cgifederal.com:8443/ords/fiitest/FRS_API_LOOKUP_SERVICES';
-    $ip = '172.20.2.22';
-    $zip = '23146';
-    $request_url = $frs_domain .
-      '.get_city_state_by_zip?p_ip_address=' .
-      $ip .
-      '&p_postal_code=' .
-      $zip . '&p_token=' .
-      $token;
+  private function make_request_and_receive_response($request_url) {
     $guzzle_request = new Request(
       'GET',
       $request_url,
@@ -142,11 +143,28 @@ class LocationServicesController extends ControllerBase {
       )
     );
     $guzzle_client = new Client();
-    $guzzle_response = $guzzle_client->send($guzzle_request, [
+    return $guzzle_client->send($guzzle_request, [
       'timeout' => 60,
       'http_errors' => FALSE
     ]);
-    return $guzzle_response;
+  }
+
+  private function zipcode_to_city_state($token, $zip) {
+    $request_url = $this->frs_domain .
+      '.get_city_state_by_zip?p_ip_address=' .
+      $this->ip .
+      '&p_postal_code=' .
+      $zip . '&p_token=' .
+      $token;
+    return $this->make_request_and_receive_response($request_url);
+  }
+
+  private function city_state_to_zipcode($token, $city, $state) {
+    $encoded_city = urlencode($city);
+    $request_url = $this->frs_domain . '.get_zip_by_city_state?p_ip_address=' . $this->ip . '&p_token=' . $token . '&p_city_name='
+      . $encoded_city . '&p_state_abbr=' . $state;
+    echo $request_url;
+    return $this->make_request_and_receive_response($request_url);
   }
 
 }
