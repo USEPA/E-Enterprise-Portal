@@ -52,7 +52,7 @@ class LocationServicesController extends ControllerBase {
    * @return string
    *   Return Hello string.
    */
-  public function locate($zipcode = "23146", $city = "Rockville", $state = "VA") {
+  public function locate($zipcode = "70506", $city = "Rockville", $state = "VA") {
     $token = $this->frs_naas_authentication();
 
     // Make request for city and state with given zipcode
@@ -63,7 +63,7 @@ class LocationServicesController extends ControllerBase {
 
     // all request here
 
-    return new JsonResponse(Json::decode($zipcode_response->getBody()));
+    return new JsonResponse(Json::decode($city_and_state_response->getBody()));
   }
 
   private function frs_naas_authentication() {
@@ -163,7 +163,6 @@ class LocationServicesController extends ControllerBase {
     $encoded_city = urlencode($city);
     $request_url = $this->frs_domain . '.get_zip_by_city_state?p_ip_address=' . $this->ip . '&p_token=' . $token . '&p_city_name='
       . $encoded_city . '&p_state_abbr=' . $state;
-    echo $request_url;
     return $this->make_request_and_receive_response($request_url);
   }
 
