@@ -28,6 +28,7 @@ class LocationServicesController extends ControllerBase {
   // for temporary use until the DB is set up
   private $frs_domain = 'https://frsdev.cgifederal.com:8443/ords/fiitest/FRS_API_LOOKUP_SERVICES';
   private $ip = '172.20.2.22';
+  private $no_ip = "";
 
 
 
@@ -160,9 +161,9 @@ class LocationServicesController extends ControllerBase {
   }
 
   private function city_state_to_zipcode($token, $city, $state) {
-    $encoded_city = urlencode($city);
-    $request_url = $this->frs_domain . '.get_zip_by_city_state?p_ip_address=' . $this->ip . '&p_token=' . $token . '&p_city_name='
-      . $encoded_city . '&p_state_abbr=' . $state;
+    $request_url = $this->frs_domain . '.get_zip_by_city_state?p_ip_address=' . $this->no_ip . '&p_token=' . $token . '&p_city_name='
+      . strtoupper(urlencode($city)) . '&p_state_abbr=' . strtoupper($state);
+    echo $request_url;
     return $this->make_request_and_receive_response($request_url);
   }
 
