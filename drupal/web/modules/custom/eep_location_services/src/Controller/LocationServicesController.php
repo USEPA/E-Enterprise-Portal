@@ -53,9 +53,9 @@ class LocationServicesController extends ControllerBase {
    * @return string
    *   Return Hello string.
    */
-  public function locate($query) {
+  public function locate($input) {
     // check query here
-    if($query){
+    if($input){
 
     }
     //$token = $this->frs_naas_authentication();

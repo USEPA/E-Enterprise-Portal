@@ -1,6 +1,6 @@
 
 eep_location_services.location_services_controller_locate:
-  path: '/eep/location_services/locate/{query}'
+  path: '/eep/location_services/locate/{input}'
   defaults:
     _controller: '\Drupal\eep_location_services\Controller\LocationServicesController::locate'
     _title: 'Locate'
