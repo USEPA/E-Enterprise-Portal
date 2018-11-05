@@ -5,11 +5,11 @@ use Drupal\eep_proxy_service\Plugin\ProxyServiceFilterBase;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 /**
- * Class TestProxyServiceFilter
+ * Class LocationProxyServiceFilter
  *
  * @ProxyServiceFilter(
- *   id = "test",
- *   label = @Translation("Test Filter")
+ *   id = "location",
+ *   label = @Translation("FRS Location Filter")
  * )
  *
  * @package Drupal\eep_core\Plugin\ProxyServiceFilter
@@ -23,8 +23,8 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
 
     //@TODO: getting the city and state here is handled through the request object
 
-
     $response = $this->gpo_city_state_to_zip_code("Fairfax", "VA");
+    $this->setPayload(json_decode($response->getBody(), FALSE));
     $this->setResponse($response);
 
   }
