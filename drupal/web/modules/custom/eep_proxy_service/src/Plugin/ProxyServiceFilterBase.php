@@ -16,6 +16,7 @@ abstract class ProxyServiceFilterBase extends PluginBase implements ProxyService
    * @var \GuzzleHttp\Psr7\Request
    */
   private $request;
+  private $payload;
   private $response;
   public $timeout = 60;
   public $http_errors = false;
@@ -34,6 +35,20 @@ abstract class ProxyServiceFilterBase extends PluginBase implements ProxyService
    */
   public function setRequest(Request $request) {
     $this->request = $request;
+  }
+
+  /**
+   * @return String
+   */
+  public function getPayload() {
+    return $this->payload;
+  }
+
+  /**
+   * @param String
+   */
+  public function setPayload($payload) {
+    $this->payload = $payload;
   }
 
   /**
