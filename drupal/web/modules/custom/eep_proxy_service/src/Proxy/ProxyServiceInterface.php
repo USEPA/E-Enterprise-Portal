@@ -12,7 +12,7 @@ use GuzzleHttp\Psr7\Response;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 
 interface ProxyServiceInterface {
-  public function getAllowedHeaders(HttpFoundationRequest $request);
+  public function getAllowedHeaders(HttpFoundationRequest $HFRequest);
   public function submitRequestToEndpoint(Request $guzzle_request);
   public function returnResponseFromEndpoint(Response $guzzle_response);
 }

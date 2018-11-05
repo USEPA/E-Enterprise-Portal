@@ -2,7 +2,12 @@
 
 namespace Drupal\eep_proxy_service\Controller;
 
+use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
+use Drupal\Component\Plugin\Exception\PluginException;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\eep_proxy_service\Plugin\ProxyServiceFilterInterface;
+use Drupal\eep_proxy_service\Plugin\ProxyServiceFilterManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Drupal\eep_proxy_service\Proxy\ProxyService;
@@ -21,13 +26,23 @@ class ProxyServiceController extends ControllerBase {
   public $requestStack;
 
   /**
+   * Proxy Request Filter Manater.
+   *
+   * @var ProxyServiceFilterManager
+   */
+  public $proxyServiceFilterManager;
+
+  /**
    * Class constructor.
    *
    * @param RequestStack $request
    *   Request stack.
+   * @param ProxyServiceFilterManager $proxyServiceFilterManager
+   *   Proxy Filter plugin
    */
-  public function __construct(RequestStack $request_stack) {
+  public function __construct(RequestStack $request_stack, ProxyServiceFilterManager $proxyServiceFilterManager) {
     $this->requestStack = $request_stack;
+    $this->proxyServiceFilterManager = $proxyServiceFilterManager;
   }
 
   /**
@@ -35,7 +50,8 @@ class ProxyServiceController extends ControllerBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('request_stack')
+      $container->get('request_stack'),
+      $container->get('plugin.manager.proxy_service_filter')
     );
   }
 
@@ -58,39 +74,45 @@ class ProxyServiceController extends ControllerBase {
    *   Return Hello string.
    */
   public function service($service_machine_name) {
-    $r = null;
-    $proxy = new ProxyService();
-    $request = $this->requestStack->getCurrentRequest();
+
+    $config = $this->config('eep_core.settings');
+    $environment = $config->get('environment');
+    $current_request = $this->requestStack->getCurrentRequest();
 
     // @todo Check for cached responses
     // If cache is enabled, check if it is validated
 
     // Get EEP proxy service entities
-    $entities = $proxy->getEntitiesByMachineName($service_machine_name);
-
     try {
-      $uri = $proxy->getUriFromEntities($entities);
+      $entities = ProxyService::getEntitiesByMachineName($service_machine_name);
+    } catch (InvalidPluginDefinitionException $e) {
+      throwException($e);
+    } catch (PluginNotFoundException $e) {
+      throwException($e);
     }
-    catch(\Exception $exception) {
-      // @todo handle errors
-      throwException($exception);
+
+    $entity = ProxyService::getEntity($entities);
+    $uri = ProxyService::getUriFromEntity($environment, $entity);
+
+    $filter_machine_name = $entity->field_proxy_filter->getValue();
+    if(is_array($filter_machine_name)) {
+      $filter_machine_name = $filter_machine_name[0]['value'];
+    }
+    try {
+      $filter = $this->proxyServiceFilterManager->createInstance($filter_machine_name);
+    } catch (PluginException $e) {
+      throwException($e);
     }
 
-    $proxy->getAllowedHeaders($request);
+    $proxy = new ProxyService($service_machine_name, $filter, $uri);
 
-    $guzzle_request = new GuzzlePsr7Request(
-      $request->getMethod(),
-      $uri,
-      $proxy->headers,
-      $request->getContent(),
-      '1.1'
-    );
+    $proxy->parseHttpFoundationRequest($current_request);
 
-    $guzzle_response = $proxy->submitRequestToEndpoint($guzzle_request);
+    // Make request
+    $proxy->submitRequestToEndpoint();
 
     // @todo Cache responses
 
-    $proxy->returnResponseFromEndpoint($guzzle_response);
+    $proxy->returnResponseFromEndpoint();
   }
-
 }
