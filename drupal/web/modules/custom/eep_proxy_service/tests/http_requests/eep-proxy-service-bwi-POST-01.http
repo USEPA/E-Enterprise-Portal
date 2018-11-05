@@ -35,3 +35,9 @@ Accept: */*
 Cache-Control: no-cache
 
 ###
+
+GET http://localhost:8080/eep/proxy/service/get_test?XDEBUG_SESSION_START=PHPSTORM
+Accept: */*
+Cache-Control: no-cache
+
+###

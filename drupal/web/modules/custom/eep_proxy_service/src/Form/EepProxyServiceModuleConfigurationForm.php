@@ -43,13 +43,13 @@ class EepProxyServiceModuleConfigurationForm extends ConfigFormBase {
       '#type' => 'textarea',
       '#title' => $this->t('Blacklisted Headers'),
       '#description' => $this->t('Lowercase, space separated header names'),
-      '#default_value' => $config->get('blacklisted_headers'),
+      '#default_value' => $config->get('blacklisted_headers') ?: 'host',
     ];
     $form['error_message_general'] = [
       '#type' => 'textarea',
       '#title' => $this->t('General Error Message'),
       '#description' => $this->t('This is the generic message for '),
-      '#default_value' => $config->get('error_message_general') || "The external service request was not able to be completed. Please try again later.",
+      '#default_value' => $config->get('error_message_general') ?: "The external service request was not able to be completed. Please try again later.",
     ];
 
     return parent::buildForm($form, $form_state);
