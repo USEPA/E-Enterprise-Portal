@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5c2977427921cb7ab7ce72ba0e13d06f",
+    "content-hash": "6cb0aeda85dfed33ed7eb69d22eeef81",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -2170,6 +2170,53 @@
             "time": "2017-07-28T17:11:54+00:00"
         },
         {
+            "name": "drupal/contact_message_rest",
+            "version": "1.0.0-alpha1",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/contact_message_rest",
+                "reference": "8.x-1.0-alpha1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/contact_message_rest-8.x-1.0-alpha1.zip",
+                "reference": "8.x-1.0-alpha1",
+                "shasum": "3a0e6d417f8c2b507ae70ecbbccc368bdc0822e0"
+            },
+            "require": {
+                "drupal/core": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0-alpha1",
+                    "datestamp": "1459436087",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "svendecabooter",
+                    "homepage": "https://www.drupal.org/user/35369"
+                }
+            ],
+            "description": "Allows posting of contact messages through REST",
+            "homepage": "https://www.drupal.org/project/contact_message_rest",
+            "support": {
+                "source": "http://cgit.drupalcode.org/contact_message_rest"
+            }
+        },
+        {
             "name": "drupal/core",
             "version": "8.6.2",
             "source": {
@@ -3512,7 +3559,7 @@
                 },
                 "drupal": {
                     "version": "8.x-1.4",
-                    "datestamp": "1540628880",
+                    "datestamp": "1541009695",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -9854,6 +9901,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "drupal/config_actions": 10,
+        "drupal/contact_message_rest": 15,
         "drupal/default_content": 15,
         "drupal/diff": 5,
         "drupal/openapi": 10,
