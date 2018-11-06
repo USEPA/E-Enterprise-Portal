@@ -2,18 +2,17 @@ langcode: en
 status: true
 dependencies:
   module:
-    - file
+    - eep_proxy_service
     - node
-id: node.field_link
-field_name: field_link
+id: node.field_proxy_filter
+field_name: field_proxy_filter
 entity_type: node
-type: file
+type: filters_field
 settings:
-  display_field: false
-  display_default: false
-  uri_scheme: public
-  target_type: file
-module: file
+  max_length: '255'
+  is_ascii: false
+  case_sensitive: false
+module: eep_proxy_service
 locked: false
 cardinality: 1
 translatable: true

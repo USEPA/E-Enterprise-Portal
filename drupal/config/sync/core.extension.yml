@@ -64,8 +64,6 @@ module:
   search: 0
   serialization: 0
   shortcut: 0
-  sqlsrv: 0
-  supercache: 0
   system: 0
   taxonomy: 0
   text: 0
@@ -74,7 +72,6 @@ module:
   tour: 0
   user: 0
   views_ui: 0
-  wincachedrupal: 0
   menu_link_content: 1
   pathauto: 1
   views: 10

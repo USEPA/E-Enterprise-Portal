@@ -75,6 +75,8 @@ class ProxyServiceController extends ControllerBase {
    */
   public function service($service_machine_name) {
 
+    // @todo manage requests that have appended endings
+
     $config = $this->config('eep_core.settings');
     $environment = $config->get('environment');
     $current_request = $this->requestStack->getCurrentRequest();
@@ -83,12 +85,15 @@ class ProxyServiceController extends ControllerBase {
     // If cache is enabled, check if it is validated
 
     // Get EEP proxy service entities
+    // @todo Better error messages
     try {
       $entities = ProxyService::getEntitiesByMachineName($service_machine_name);
     } catch (InvalidPluginDefinitionException $e) {
-      throwException($e);
+      \Drupal::logger('eep_proxy_service')->error($e->getMessage());
+      throw new Exception($e->getMessage());
     } catch (PluginNotFoundException $e) {
-      throwException($e);
+      \Drupal::logger('eep_proxy_service')->error($e->getMessage());
+      throw new Exception($e->getMessage());
     }
 
     $entity = ProxyService::getEntity($entities);
@@ -101,7 +106,8 @@ class ProxyServiceController extends ControllerBase {
     try {
       $filter = $this->proxyServiceFilterManager->createInstance($filter_machine_name);
     } catch (PluginException $e) {
-      throwException($e);
+      \Drupal::logger('eep_proxy_service')->error($e->getMessage());
+      throw new Exception($e->getMessage());
     }
 
     $proxy = new ProxyService($service_machine_name, $filter, $uri);
