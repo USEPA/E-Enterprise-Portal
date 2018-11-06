@@ -5,9 +5,8 @@ dependencies:
     - menu_ui
 third_party_settings:
   menu_ui:
-    available_menus:
-      - admin
-    parent: 'admin:eep_core.eep_workbench_application'
+    available_menus: {  }
+    parent: ''
 name: 'EEP Workbench Application'
 type: eep_workbench_application
 description: 'EEP Workbench Application that appears on the workbench'

@@ -1,0 +1,5 @@
+services:
+  plugin.manager.proxy_service_filter:
+    class: Drupal\eep_proxy_service\Plugin\ProxyServiceFilterManager
+    parent: default_plugin_manager
+

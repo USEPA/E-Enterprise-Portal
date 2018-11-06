@@ -39,8 +39,8 @@ class EepCoreModuleConfigurationForm extends ConfigFormBase {
     $config = $this->config('eep_core.settings');
     $form['your_message'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Your message'),
-      '#default_value' => $config->get('your_message'),
+      '#title' => $this->t('Environment:'),
+      '#default_value' => $config->get('environment') ?: 'LOCAL',
     ];
     return parent::buildForm($form, $form_state);
   }
@@ -51,7 +51,7 @@ class EepCoreModuleConfigurationForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $values = $form_state->getValues();
     $this->config('eep_core.settings')
-      ->set('variable_name', $values)
+      ->set('environment', $values['environment'])
       ->save();
     parent::submitForm($form, $form_state);
   }

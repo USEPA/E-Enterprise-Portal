@@ -4,6 +4,8 @@ status: true
 dependencies:
   module:
     - node
+_core:
+  default_config_hash: O2bKSl1EAEv8m7n3rfEVWUqtcAbvaThE0VMRKJvqOdY
 id: node.field_requeste_timeout
 field_name: field_requeste_timeout
 entity_type: node
