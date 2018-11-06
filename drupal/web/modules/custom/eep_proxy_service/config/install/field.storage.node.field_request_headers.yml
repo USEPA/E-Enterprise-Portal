@@ -5,6 +5,8 @@ dependencies:
   module:
     - double_field
     - node
+_core:
+  default_config_hash: E4sr6nQCJWKf-RrasrbMSDtlyhz7N8OmqBcjtUfqk2w
 id: node.field_request_headers
 field_name: field_request_headers
 entity_type: node

@@ -3,6 +3,7 @@ status: true
 dependencies:
   config:
     - field.field.node.eep_proxy_service.field_cache_max_age
+    - field.field.node.eep_proxy_service.field_proxy_filter
     - field.field.node.eep_proxy_service.field_proxy_service_machine_name
     - field.field.node.eep_proxy_service.field_request_headers
     - field.field.node.eep_proxy_service.field_requeste_timeout
@@ -10,6 +11,7 @@ dependencies:
     - node.type.eep_proxy_service
   module:
     - double_field
+    - eep_proxy_service
     - path
 id: node.eep_proxy_service.default
 targetEntityType: node
@@ -28,6 +30,14 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: number
+    region: content
+  field_proxy_filter:
+    weight: 128
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: filter_widget_type
     region: content
   field_proxy_service_machine_name:
     weight: 122

@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_proxy_filter
+    - node.type.eep_proxy_service
+  module:
+    - eep_proxy_service
+id: node.eep_proxy_service.field_proxy_filter
+field_name: field_proxy_filter
+entity_type: node
+bundle: eep_proxy_service
+label: 'Proxy Filter'
+description: 'Select the appropriate proxy service filter plugin to handle the requests made by the proxy service.  '
+required: true
+translatable: false
+default_value:
+  -
+    value: generic
+default_value_callback: ''
+settings: {  }
+field_type: filters_field

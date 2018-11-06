@@ -24,5 +24,9 @@ eep_proxy_service.proxy_service_controller_service:
   defaults:
     _controller: '\Drupal\eep_proxy_service\Controller\ProxyServiceController::service'
     _title: 'Use service'
+    service_machine_name: ''
+    path_part: ''
   requirements:
     _permission: 'access content'
+route_callbacks:
+- '\Drupal\eep_proxy_service\Routing\ProxyServiceRoutes::routes'

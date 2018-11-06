@@ -75,6 +75,8 @@ class ProxyServiceController extends ControllerBase {
    */
   public function service($service_machine_name) {
 
+    // @todo manage requests that have appended endings
+
     $config = $this->config('eep_core.settings');
     $environment = $config->get('environment');
     $current_request = $this->requestStack->getCurrentRequest();
