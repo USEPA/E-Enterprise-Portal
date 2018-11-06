@@ -88,9 +88,9 @@ class ProxyServiceController extends ControllerBase {
     try {
       $entities = ProxyService::getEntitiesByMachineName($service_machine_name);
     } catch (InvalidPluginDefinitionException $e) {
-      throwException($e);
+      throw new Exception($e->getMessage());
     } catch (PluginNotFoundException $e) {
-      throwException($e);
+      throw new Exception($e->getMessage());
     }
 
     $entity = ProxyService::getEntity($entities);
@@ -103,7 +103,7 @@ class ProxyServiceController extends ControllerBase {
     try {
       $filter = $this->proxyServiceFilterManager->createInstance($filter_machine_name);
     } catch (PluginException $e) {
-      throwException($e);
+      throw new Exception($e->getMessage());
     }
 
     $proxy = new ProxyService($service_machine_name, $filter, $uri);

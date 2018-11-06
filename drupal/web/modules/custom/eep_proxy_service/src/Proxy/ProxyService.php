@@ -241,7 +241,7 @@ class ProxyService implements ProxyServiceInterface {
       return $entities;
     }
     catch(Exception $e) {
-      throwException($e);
+      throw new Exception($e->getMessage());
     }
   }
 
