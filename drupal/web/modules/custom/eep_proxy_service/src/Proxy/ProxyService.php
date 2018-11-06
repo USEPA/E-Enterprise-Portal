@@ -241,6 +241,7 @@ class ProxyService implements ProxyServiceInterface {
       return $entities;
     }
     catch(Exception $e) {
+      \Drupal::logger('eep_proxy_service')->error($e->getMessage());
       throw new Exception($e->getMessage());
     }
   }

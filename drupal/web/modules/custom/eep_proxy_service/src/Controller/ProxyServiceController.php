@@ -85,11 +85,14 @@ class ProxyServiceController extends ControllerBase {
     // If cache is enabled, check if it is validated
 
     // Get EEP proxy service entities
+    // @todo Better error messages
     try {
       $entities = ProxyService::getEntitiesByMachineName($service_machine_name);
     } catch (InvalidPluginDefinitionException $e) {
+      \Drupal::logger('eep_proxy_service')->error($e->getMessage());
       throw new Exception($e->getMessage());
     } catch (PluginNotFoundException $e) {
+      \Drupal::logger('eep_proxy_service')->error($e->getMessage());
       throw new Exception($e->getMessage());
     }
 
@@ -103,6 +106,7 @@ class ProxyServiceController extends ControllerBase {
     try {
       $filter = $this->proxyServiceFilterManager->createInstance($filter_machine_name);
     } catch (PluginException $e) {
+      \Drupal::logger('eep_proxy_service')->error($e->getMessage());
       throw new Exception($e->getMessage());
     }
 
