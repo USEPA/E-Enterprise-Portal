@@ -3,3 +3,6 @@ type: module
 description: 'location services that affect all of the other widgets'
 core: 8.x
 package: 'EEP'
+dependencies:
+  - 'eep_core'
+  - 'default_content'

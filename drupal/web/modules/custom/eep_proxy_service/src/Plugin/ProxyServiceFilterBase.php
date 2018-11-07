@@ -3,6 +3,7 @@
 namespace Drupal\eep_proxy_service\Plugin;
 
 use Drupal\Component\Plugin\PluginBase;
+use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Client;
@@ -13,20 +14,44 @@ use GuzzleHttp\Client;
 abstract class ProxyServiceFilterBase extends PluginBase implements ProxyServiceFilterInterface {
 
   /**
-   * @var \GuzzleHttp\Psr7\Request
+   * @var HttpFoundationRequest
    */
-  private $request;
-  private $payload;
-  private $response;
+  protected $incoming_request;
+
+  /**
+   * @var Request
+   */
+  protected $request;
+
+  /**
+   * @var Response
+   */
+  protected $response;
+  protected $payload = [];
   public $timeout = 60;
   public $http_errors = false;
 
   // Add common methods and abstract methods for your plugin type here.
 
+
+  /**
+   * @return HttpFoundationRequest
+   */
+  public function getIncomingRequest(): HttpFoundationRequest {
+    return $this->incoming_request;
+  }
+
+  /**
+   * @param HttpFoundationRequest $incoming_request
+   */
+  public function setIncomingRequest(HttpFoundationRequest $incoming_request) {
+    $this->incoming_request = $incoming_request;
+  }
+
   /**
    * @return \GuzzleHttp\Psr7\Request
    */
-  public function getRequest() {
+  public function getRequest(): Request {
     return $this->request;
   }
 
@@ -38,14 +63,14 @@ abstract class ProxyServiceFilterBase extends PluginBase implements ProxyService
   }
 
   /**
-   * @return String
+   * @return Mixed
    */
   public function getPayload() {
     return $this->payload;
   }
 
   /**
-   * @param String
+   * @param Mixed
    */
   public function setPayload($payload) {
     $this->payload = $payload;
@@ -72,6 +97,23 @@ abstract class ProxyServiceFilterBase extends PluginBase implements ProxyService
    */
   public function prefetch() {
     // Override with any additional logic before fetch
+
+    // make sure the query params are passed on to the url
+    $this->incoming_request->query->remove('XDEBUG_SESSION_START');
+
+    $queries = http_build_query($this->incoming_request->query->all());
+    if(strlen($queries) > 0) {
+      $request = new Request(
+        $this->request->getMethod(),
+        $this->request->getUri() . '?' . $queries,
+        $this->request->getHeaders(),
+        $this->request->getBody(),
+        $this->request->getProtocolVersion()
+      );
+
+      $this->request = $request;
+    }
+
     return $this->request;
   }
 
@@ -95,6 +137,19 @@ abstract class ProxyServiceFilterBase extends PluginBase implements ProxyService
    */
   public function postfetch() {
     // Override with any additional logic after fetch
+    $headers = $this->response->getHeaders();
+    if(isset($headers['Transfer-Encoding'])) {
+      unset($headers['Transfer-Encoding']);
+
+      $this->response = new Response(
+        $this->response->getStatusCode(),
+        $headers,
+        $this->response->getBody(),
+        $this->response->getProtocolVersion(),
+        $this->response->getReasonPhrase()
+      );
+    }
+
     return $this->response;
   }
 
