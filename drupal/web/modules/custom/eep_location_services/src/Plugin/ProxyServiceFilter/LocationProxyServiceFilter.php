@@ -28,36 +28,42 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
   public function prefetch() {
     return $this->request;
   }
-
-
+  
   /**
    * @return \GuzzleHttp\Psr7\Response
    */
   public function fetch() {
     // Get the query values
     $query = $this->getIncomingRequest()->query->all();
+    // Add the important query information into the payload for processing later
+    (!isset($query['zipcode'])) ?: $this->payload['zipcode'][] = trim($query['zipcode']);
+    (!isset($query['city'])) ?: $this->payload['city'][] = ucwords(trim($query['city']));
+    (!isset($query['state'])) ?: $this->payload['state'][] = strtoupper(trim($query['state']));
 
-    $token = $this->frs_naas_authentication();
-
+    // If the user hands off a zip code
     if ($query['zipcode']) {
-      // Add the important query information into the payload for processing later
-      $this->payload['zipcode'][] = $query['zipcode'];
-
       // Make request for city and state with given zipcode
-      $city_and_state_response = $this->frs_zipcode_to_city_state($token, $query['zipcode']);
-      $this->payload['frs_zipcode_to_city_state'] = json_decode($city_and_state_response->getBody(), FALSE);
-      $result = ((Object) $this->payload['frs_zipcode_to_city_state'])->Results;
-      $this->payload['city'][] = ucwords($result->cityName);
-      $this->payload['state'][] = ucwords($result->stateCode);
+      $city_and_state_response = $this->gpo_zip_code_to_city_state($query['zipcode']);
+      $this->payload['gpo_zip_code_to_city_state'] = json_decode($city_and_state_response->getBody(), FALSE);
+
+      foreach ($this->payload["gpo_zip_code_to_city_state"]->features as $feature) {
+        // Check for existing matches, and add if it is a new unique value
+        $city_state = explode(', ', $feature->attributes->NAME_LABEL);
+        $city = $city_state[0];
+        $state = $city_state[1];
+        if (!$this->str_in_array($city, $this->payload['city'])) {
+          $this->payload['city'][] = ucwords(trim($city));
+        }
+        if (!$this->str_in_array($state, $this->payload['state'])) {
+          $this->payload['state'][] = strtoupper(trim($state));
+        }
+      }
     }
 
+    // If the user hands off a city & state code
     if ($query['city'] && $query['state']) {
-      // Add the important query information into the payload for processing later
-      $this->payload['city'][] = ucwords($query['city']);
-      $this->payload['state'][] = ucwords($query['state']);
-
-      $gpo_response = $this->gpo_city_state_to_zip_code($query['city'], $query['state']);
-      $this->payload['gpo_city_state_to_zip_code'] = json_decode($gpo_response->getBody(), FALSE);
+      $zipcode_response = $this->gpo_city_state_to_zip_code($query['city'], $query['state']);
+      $this->payload['gpo_city_state_to_zip_code'] = json_decode($zipcode_response->getBody(), FALSE);
 
       foreach ($this->payload['gpo_city_state_to_zip_code']->features as $feature) {
         $zip = $feature->attributes->ZCTA;
@@ -88,86 +94,21 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
     // Update the response
     $this->response = new Response(
       200,
-      [
-        'Content-Type' =>
-          [
-            'application/json',
-          ],
-      ],
+      ['Content-Type' => ['application/json']],
       $final_content
     );
 
     return $this->response;
   }
 
-  private function frs_naas_authentication() {
-
-    $create_new_token = TRUE;
-    // First time check to see if the token was already created
-    if (isset($_SESSION['frs_naas_token']) && isset($_SESSION['frs_naas_token_creation_time'])) {
-      // Check to see if it was created within the pass 5 minutes
-      $time_stamp = $_SESSION['frs_naas_token_creation_time'];
-      $current_timestamp = time();
-      $diff_minutes = abs($current_timestamp - $time_stamp) / (60);
-      if ($diff_minutes <= 20) {
-        // Return the previously created token
-        return $_SESSION['frs_naas_token'];
-      }
-    }
-
-    // If it was not created then go through and create it;
-    if ($create_new_token) {
-      /**
-       * @TODO: use variable get instead of hardcoded values
-       * These values should come from the database, but for right now it is hardcoded
-       * because of the new database
-       **/
-      $wsdl = "https://naasdev.epacdxnode.net/xml/auth_v30.wsdl";
-      $email = "enterprise.portal.frs.admin@epa.gov";
-      $password = "Devfrsenterprise01";
-
-      try {
-        $client = new \SoapClient($wsdl, ['soap_version' => SOAP_1_2]);
-      } catch (\SoapFault $f) {
-        // @TODO: drupal_set_message is deprecated. find work around
-        dpm($f);
-        drupal_set_message('Cannot connect to Registration Service for FRS.', 'error');
-        return;
-      }
-
-      if (isset($client)) {
-        // @TODO: replace the following hardcoded values with variable_get: domain, authenticationMethod
-        $params = [
-          "userId" => $email,
-          "credential" => $password,
-          "domain" => 'default',
-          "authenticationMethod" => 'password',
-          "clientIp" => '172.20.2.22', // possible bug here
-          'resourceURI' => '',
-        ];
-        $soap_type = 'CentralAuth';
-
-        $token = NULL;
-
-        try {
-          $response1 = $client->__soapCall($soap_type, [$params]);
-          $token = $response1->return;
-        } catch (SoapFault $f) {
-          dpm($f);
-          $token = '';
-          drupal_set_message('Cannot Authenticate to get data flow for FRS.', 'error');
-        }
-      }
-      else {
-        $token = '';
-      }
-      // Capture token and time to reduce calls to FRS
-      $_SESSION['frs_naas_token'] = $token;
-      $_SESSION['frs_naas_token_creation_time'] = time();
-    }
-    return $token;
-  }
-
+  /**
+   * @todo replace with Proxy Service call
+   *
+   * @param $request_url
+   *
+   * @return mixed|\Psr\Http\Message\ResponseInterface
+   * @throws \GuzzleHttp\Exception\GuzzleException
+   */
   private function make_request_and_receive_response($request_url) {
     $guzzle_request = new Request(
       'GET',
@@ -183,28 +124,13 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
     ]);
   }
 
-  public function frs_zipcode_to_city_state($token, $zip) {
-    $ip = '172.20.2.22';
-    // $ip = $_SERVER['SERVER_ADDR'];
-    $request_url = $this->getRequest()->getUri() .
-      '.get_city_state_by_zip?p_ip_address=' .
-      $ip .
-      '&p_postal_code=' .
-      $zip . '&p_token=' .
-      $token;
-    return $this->make_request_and_receive_response($request_url);
-  }
-
-  public function frs_city_state_to_zipcode($token, $city, $state) {
-    $no_ip = '';
-    // $ip = $_SERVER['SERVER_ADDR'];
-    $request_url = $this->getRequest()
-        ->getUri() . '.get_zip_by_city_state?p_ip_address=' . $no_ip . '&p_token=' . $token . '&p_city_name='
-      . strtoupper(urlencode($city)) . '&p_state_abbr=' . strtoupper($state);
-    echo $request_url;
-    return $this->make_request_and_receive_response($request_url);
-  }
-
+  /**
+   * Cleans up the city's name for making queries
+   *
+   * @param $city
+   *
+   * @return null|string|string[]
+   */
   private function clean_city($city) {
     $cleaned_city = "";
     $cleaned_city = preg_replace("/\b(SAINT)\b/", "ST.", $city);
@@ -216,6 +142,72 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
     return $cleaned_city;
   }
 
+  /**
+   * Call arcgis with the zipcode to find related city and states
+   * @todo It has obvious need of refactoring
+   *
+   * @param String $zip
+   *
+   * @return mixed|\Psr\Http\Message\ResponseInterface
+   * @throws \GuzzleHttp\Exception\GuzzleException
+   */
+  public function gpo_zip_code_to_city_state($zip) {
+
+    $zip_data = [
+      'zip_array' => '',
+      'state' => '',
+      'city' => '',
+      'zip_attr' => '',
+      'city_attr' => '',
+    ];
+    // Get Zip Code to Census Place/Population Lookup table as json
+    $zip_pop_url = 'https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
+    $zip_pop_url = $zip_pop_url . 'where=ZCTA%3D%27' . $zip . '%27&outFields=*&orderByFields=ZCTA&f=pjson';
+
+    $zip_found = FALSE;
+    $response = $this->make_request_and_receive_response($zip_pop_url);
+    $decoded_response = json_decode($response->getBody(), FALSE);// might have to remove the decode from above
+    if (!empty($decoded_response->features)) {
+      $city_attr = [];
+      $zip_attr = [];
+      $zip_list = [];
+      foreach ($decoded_response->features as $feature) {
+        if (!empty($feature->attributes->ZCTA)) {
+          // If the table has a placename, record that as the preferred name, along with its population
+          $zip_list[] = $feature->attributes->ZCTA;
+          $city_attr[$feature->attributes->NAME_LABEL] = [
+            "pop" => $feature->attributes->Place_Pop_2014_ACS2014,
+          ];
+          // Also record the zip code's population and urban/rural status
+          $zip_attr[$feature->attributes->ZCTA] = [
+            "city" => $feature->attributes->NAME_LABEL,
+            "pop" => $feature->attributes->Zip_Pop2014_ACS5,
+            "urban" => $feature->attributes->Urban,
+          ];
+          $zip_found = TRUE;
+        }
+      }
+      $location_array = explode(',', $feature->attributes->NAME_LABEL);
+      $zip_data['city'] = trim($location_array[0]);
+      $zip_data['state'] = trim($location_array[1]);
+      $zip_data['zip_array'] = $zip_list;
+      $zip_data['city_attr'] = $city_attr;
+      $zip_data['zip_attr'] = $zip_attr;
+    }
+
+    return $response;
+  }
+
+  /**
+   * Call arcgis with city and state information to find the related zipcodes
+   * @todo It has obvious need of refactoring
+   *
+   * @param $city
+   * @param $state
+   *
+   * @return mixed|\Psr\Http\Message\ResponseInterface
+   * @throws \GuzzleHttp\Exception\GuzzleException
+   */
   public function gpo_city_state_to_zip_code($city, $state) {
 
     $zip_data = [
@@ -302,6 +294,16 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
     return $response;
   }
 
+  /**
+   * replacement for in_array() when the search comparison doesn not need to be
+   * case sensitive.
+   *
+   * @param $needle
+   * @param array $haystack
+   * @param string $flags
+   *
+   * @return bool
+   */
   public static function str_in_array($needle, $haystack = [], $flags = 'i') {
     $needle = preg_replace('/\s+/i', '\\\\s', $needle);
     $regex_needle = "/$needle/$flags";
