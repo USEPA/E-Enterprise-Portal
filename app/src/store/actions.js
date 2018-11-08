@@ -6,7 +6,7 @@ import { EventBus } from '../EventBus';
 
 
 export default {
-  createLocationRequest(){
+  createLocationRequest() {
 
-  }
+  },
 };
