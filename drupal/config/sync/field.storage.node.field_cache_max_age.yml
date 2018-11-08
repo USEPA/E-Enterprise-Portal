@@ -1,8 +1,11 @@
+uuid: f5ad5340-cf58-4333-a7d0-132ef299ed97
 langcode: en
 status: true
 dependencies:
   module:
     - node
+_core:
+  default_config_hash: J-I1iMZacJq00l63rGggz0mX3UbhXo67tkcJuxCrtPg
 id: node.field_cache_max_age
 field_name: field_cache_max_age
 entity_type: node

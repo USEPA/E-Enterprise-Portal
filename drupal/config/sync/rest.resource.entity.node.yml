@@ -1,3 +1,4 @@
+uuid: 5e84b33f-9f13-41ae-a589-b460a4b50770
 langcode: en
 status: true
 dependencies:
@@ -5,6 +6,8 @@ dependencies:
     - basic_auth
     - hal
     - node
+_core:
+  default_config_hash: t_jfECmZhJqBOJuSOFn87EOi_TWi-_fRYTuJgd19vgg
 id: entity.node
 plugin_id: 'entity:node'
 granularity: resource

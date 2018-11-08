@@ -1,3 +1,4 @@
+uuid: b09ec04e-d8f1-4978-a665-a2f1140724d4
 langcode: en
 status: true
 dependencies:
@@ -6,6 +7,8 @@ dependencies:
     - node.type.eep_app_content
   module:
     - text
+_core:
+  default_config_hash: VSYnZNb-Ex8FcJfdB7BApapiujqhQq7lxxZjOn0-dXQ
 id: node.eep_app_content.field_html
 field_name: field_html
 entity_type: node

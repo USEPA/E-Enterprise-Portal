@@ -1,9 +1,12 @@
+uuid: d037032b-56c5-4197-af65-2a1f8b442ce5
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_requeste_timeout
     - node.type.eep_proxy_service
+_core:
+  default_config_hash: nVuiKmUaQZ3y0GHfjjna6xc21GohYziXHVb-u72uzwk
 id: node.eep_proxy_service.field_requeste_timeout
 field_name: field_requeste_timeout
 entity_type: node

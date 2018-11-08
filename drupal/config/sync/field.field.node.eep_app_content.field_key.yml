@@ -1,9 +1,12 @@
+uuid: 8274de11-b804-4951-a8df-4dcd65e8062a
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_key
     - node.type.eep_app_content
+_core:
+  default_config_hash: eUFSn2BbRv1JPdfruqTXEv0YOT_ZhkucOJbKchzOyHU
 id: node.eep_app_content.field_key
 field_name: field_key
 entity_type: node

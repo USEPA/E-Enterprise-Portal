@@ -1,3 +1,4 @@
+uuid: 6bc1373e-9e9d-4f02-bd67-9b2e46045e35
 langcode: en
 status: true
 dependencies:
@@ -8,6 +9,8 @@ dependencies:
   module:
     - text
     - user
+_core:
+  default_config_hash: qC85XKVFyAC1bMLWpySa9EoWNUdB-EgdiN7u4hHO8Dg
 id: node.eep_app_content.default
 targetEntityType: node
 bundle: eep_app_content

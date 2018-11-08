@@ -1,3 +1,4 @@
+uuid: f695418e-c8e2-4cfa-8d96-1279aa79e256
 langcode: en
 status: true
 dependencies:
@@ -13,6 +14,8 @@ dependencies:
     - double_field
     - eep_proxy_service
     - path
+_core:
+  default_config_hash: o7hwrqgP47JVpklvPP153-WhMfyAhvlGv0GJxhGETc0
 id: node.eep_proxy_service.default
 targetEntityType: node
 bundle: eep_proxy_service
