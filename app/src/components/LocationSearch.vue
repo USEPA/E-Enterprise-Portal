@@ -1,5 +1,5 @@
 <template>
-    <div id="location-wrapper">
+    <div id="location-wrapper" class="col-6">
         <b-input-group>
             <b-form-input placeholder="Enter city, state; tribe; or ZIP code"></b-form-input>
             <b-input-group-append>

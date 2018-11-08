@@ -26,12 +26,16 @@
       class="region-navigation pb-2 px-3">
 
       <div id="main-navigation-container" class="container">
-        <router-link to="/">Home</router-link>
-        <span class="divider">|</span>
-        <router-link to="/about">About</router-link>
-        <span class="divider">|</span>
-        <router-link to="/workbench">Workbench</router-link>
-        <LocationSearch/>
+        <div class="row">
+          <div class="col-6">
+            <router-link to="/">Home</router-link>
+            <span class="divider">|</span>
+            <router-link to="/about">About</router-link>
+            <span class="divider">|</span>
+            <router-link to="/workbench">Workbench</router-link>
+          </div>
+          <LocationSearch/>
+        </div>
       </div>
     </div>
     <div class="container">
@@ -183,17 +187,17 @@
       }
     }
   }
-  #nav {
-    padding-top: 5px;
+  #location-wrapper {
+    margin-top: 5px;
+    .input-group{
+      width: 60%;
+      float: right;
+    }
   }
 
-  #location-wrapper {
-    width: 50%;
-    float: right;
-    .input-group{
-       width: 56%;
-      float: right;
-     }
-
+  .row{
+    .col-6{
+      margin-top: 5px;
+    }
   }
 </style>
