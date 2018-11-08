@@ -36,6 +36,8 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
     // Get the query values
     $query = $this->getIncomingRequest()->query->all();
 
+    /// @TODO Add a case for when the user sends a 'location' string that needs to be parsed
+
     // Add the important query information into the payload for processing later
     (!isset($query['zipcode'])) ?: $this->payload['zipcode'][] = trim($query['zipcode']);
     (!isset($query['city'])) ?: $this->payload['city'][] = ucwords(trim($query['city']));
