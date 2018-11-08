@@ -6,6 +6,6 @@
       </envs>
     </CommandLine>
     <option name="workingDirectory" value="C:\inetpub\wwwroot\eep2\drupal" />
-    <method v="2" />
+    <method />
   </configuration>
 </component>

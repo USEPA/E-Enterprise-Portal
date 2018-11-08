@@ -1,9 +1,10 @@
 langcode: en
-status: true
+status: false
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.eep_proxy_service.field_cache_max_age
+    - field.field.node.eep_proxy_service.field_proxy_filter
     - field.field.node.eep_proxy_service.field_proxy_service_machine_name
     - field.field.node.eep_proxy_service.field_request_headers
     - field.field.node.eep_proxy_service.field_requeste_timeout
@@ -23,6 +24,7 @@ content:
     region: content
 hidden:
   field_cache_max_age: true
+  field_proxy_filter: true
   field_proxy_service_machine_name: true
   field_request_headers: true
   field_requeste_timeout: true

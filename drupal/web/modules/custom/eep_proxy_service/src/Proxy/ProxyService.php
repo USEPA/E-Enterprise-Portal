@@ -148,8 +148,11 @@ class ProxyService implements ProxyServiceInterface {
     if(empty($HFRequest)) {
       $HFRequest = $this->request;
     }
+    $this->filter->setIncomingRequest($HFRequest);
 
+    // @todo move allowed headers to filter plugin base
     $this->getAllowedHeaders($HFRequest);
+
 
     $this->buildRequest(
       $HFRequest->getMethod(),
@@ -206,7 +209,7 @@ class ProxyService implements ProxyServiceInterface {
 
     // Return result
     $HRResponse = new HttpFoundationResponse(
-      $guzzle_response->getBody(),
+      (String) $guzzle_response->getBody(),
       $guzzle_response->getStatusCode(),
       $guzzle_response->getHeaders()
     );

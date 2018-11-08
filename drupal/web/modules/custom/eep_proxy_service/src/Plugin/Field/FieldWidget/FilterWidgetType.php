@@ -72,6 +72,9 @@ class FilterWidgetType extends WidgetBase {
    */
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
 
+    // Make sure we pass on the set value to the widget so it doesn't reset
+    $value = isset($items[$delta]->value) ? $items[$delta]->value : '';
+
     // Pull together info we need to build the element.
     $options = [];
 
@@ -84,7 +87,7 @@ class FilterWidgetType extends WidgetBase {
     // Build the element render array.
     $element += [
       '#type' => 'select',
-      '#default_value' => 'generic',
+      '#default_value' => $value,
       '#options' => $options,
     ];
 
