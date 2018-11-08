@@ -1,8 +1,11 @@
+uuid: 89799b4e-2d30-42f7-916c-37d111c52193
 langcode: en
 status: true
 dependencies:
   config:
     - node.type.eep_app_content
+_core:
+  default_config_hash: iv80mgRwLLDg-G91BJfo4PhPTffVu4OsqabYQD_qg0E
 id: node.eep_app_content.status
 field_name: status
 entity_type: node

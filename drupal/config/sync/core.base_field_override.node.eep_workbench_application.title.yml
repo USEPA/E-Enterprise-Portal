@@ -1,8 +1,11 @@
+uuid: 1f6d57fa-31fe-4e11-adb3-5ba4b94d5528
 langcode: en
 status: true
 dependencies:
   config:
     - node.type.eep_workbench_application
+_core:
+  default_config_hash: NQoeqPTp-etbQNWcy7yiOcJZ1ryDaCGdN81HJ_SsbZc
 id: node.eep_workbench_application.title
 field_name: title
 entity_type: node

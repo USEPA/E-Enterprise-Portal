@@ -1,3 +1,4 @@
+uuid: 5ef2cec5-8a50-4b04-9bc0-0d7e6bce36c9
 langcode: en
 status: true
 dependencies:
@@ -7,6 +8,8 @@ third_party_settings:
   menu_ui:
     available_menus: {  }
     parent: ''
+_core:
+  default_config_hash: ePZi-8IbyQG2ePWbBE9o_ZUi8KTucuhbIJm1u-g_Pzg
 name: 'EEP Workbench Application'
 type: eep_workbench_application
 description: 'EEP Workbench Application that appears on the workbench'

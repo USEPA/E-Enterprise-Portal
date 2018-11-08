@@ -1,9 +1,12 @@
+uuid: 8267b0d9-6fd0-4df4-ae2d-ff156ad76f74
 langcode: en
 status: true
 dependencies:
   module:
     - double_field
     - node
+_core:
+  default_config_hash: pP2l7D5nEMbIiSjUrI1XLLTvUyR5zKm7nfHOd888L04
 id: node.field_service_endpoints
 field_name: field_service_endpoints
 entity_type: node

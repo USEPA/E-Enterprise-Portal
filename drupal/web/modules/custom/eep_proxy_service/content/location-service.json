@@ -25,12 +25,12 @@
     ],
     "uuid": [
         {
-            "value": "81e2ad02-0191-47ab-a709-f4e3a6534963"
+            "value": "428fd707-c63f-4735-9db7-4518dd250f2d"
         }
     ],
     "vid": [
         {
-            "value": 7
+            "value": 8
         }
     ],
     "langcode": [
@@ -46,7 +46,7 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2018-10-31T17:19:45+00:00",
+            "value": "2018-11-07T20:26:27+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -63,7 +63,7 @@
                 },
                 "uuid": [
                     {
-                        "value": "6bfa0b4e-c0ca-4b66-88fd-757244a2c5ba"
+                        "value": "877ec4a6-2317-4f53-abb8-74e1914ef93b"
                     }
                 ]
             }
@@ -80,7 +80,7 @@
                 },
                 "uuid": [
                     {
-                        "value": "6bfa0b4e-c0ca-4b66-88fd-757244a2c5ba"
+                        "value": "877ec4a6-2317-4f53-abb8-74e1914ef93b"
                     }
                 ],
                 "lang": "en"
@@ -89,33 +89,33 @@
     },
     "status": [
         {
-            "value": false,
+            "value": true,
             "lang": "en"
         }
     ],
     "title": [
         {
-            "value": "Be Well Informed",
+            "value": "Locations",
             "lang": "en"
         }
     ],
     "created": [
         {
-            "value": "2018-10-29T18:50:34+00:00",
+            "value": "2018-11-05T22:05:21+00:00",
             "lang": "en",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "changed": [
         {
-            "value": "2018-10-31T17:19:45+00:00",
+            "value": "2018-11-07T20:26:27+00:00",
             "lang": "en",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "promote": [
         {
-            "value": false,
+            "value": true,
             "lang": "en"
         }
     ],
@@ -142,12 +142,14 @@
             "value": 86400
         }
     ],
+    "field_proxy_filter": [
+        {
+            "value": "location"
+        }
+    ],
     "field_proxy_service_machine_name": [
         {
-            "value": "bwi"
-        },
-        {
-            "value": "be-well-informed"
+            "value": "location"
         }
     ],
     "field_requeste_timeout": [
@@ -158,11 +160,7 @@
     "field_service_endpoints": [
         {
             "first": "LOCAL",
-            "second": "https:\/\/dev.e-enterprise.gov\/TestRest\/bwievaluation"
-        },
-        {
-            "first": "DEV",
-            "second": "https:\/\/dev.e-enterprise.gov\/TestRest\/bwievaluation"
+            "second": "https:\/\/services.arcgis.com\/cJ9YHowT8TU7DUyn\/arcgis\/rest\/services"
         }
     ]
 }

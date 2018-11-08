@@ -1,9 +1,11 @@
+uuid: 71d043b1-9abf-4b2c-a9b5-57ec64a2dfaf
 langcode: en
-status: true
+status: false
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.eep_proxy_service.field_cache_max_age
+    - field.field.node.eep_proxy_service.field_proxy_filter
     - field.field.node.eep_proxy_service.field_proxy_service_machine_name
     - field.field.node.eep_proxy_service.field_request_headers
     - field.field.node.eep_proxy_service.field_requeste_timeout
@@ -11,6 +13,8 @@ dependencies:
     - node.type.eep_proxy_service
   module:
     - user
+_core:
+  default_config_hash: 0J-trH_J39oYVgDemkqguQ4EqzPte2hPadHwFWsDC4g
 id: node.eep_proxy_service.teaser
 targetEntityType: node
 bundle: eep_proxy_service
@@ -23,6 +27,7 @@ content:
     region: content
 hidden:
   field_cache_max_age: true
+  field_proxy_filter: true
   field_proxy_service_machine_name: true
   field_request_headers: true
   field_requeste_timeout: true

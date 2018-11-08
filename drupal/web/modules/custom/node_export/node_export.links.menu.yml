@@ -1,0 +1,25 @@
+node_export.import:
+  title: 'Node Export - Import'
+  parent: system.admin_content
+  description: 'Import the Node'
+  route_name: node_export.import
+node_export.export:
+  title: 'Node Export - Export'
+  parent: system.admin_content
+  description: 'Export the Node'
+  route_name: node_export.export_content_type
+node_export.import_file:
+  title: 'Node Import - File'
+  parent: node_export.import
+  description: 'Export the Node'
+  route_name: node_export.import_file
+node_export.import_text:
+  title: 'Node Import - Text'
+  parent: node_export.import
+  description: 'Export the Node'
+  route_name: node_export.import
+node_export.config:
+  title: 'Node Export Settings'
+  parent: system.admin_config_content
+  description: 'Node Export Configuration'
+  route_name: node_export.config

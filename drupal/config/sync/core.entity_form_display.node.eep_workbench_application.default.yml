@@ -1,3 +1,4 @@
+uuid: 0640f390-504f-4752-acc2-ba7248e97dae
 langcode: en
 status: true
 dependencies:
@@ -11,6 +12,8 @@ dependencies:
   module:
     - double_field
     - path
+_core:
+  default_config_hash: nSUTp1A8EqQgcX3h19-kL1Jf_CB-_ALzZu3mgAJHHok
 id: node.eep_workbench_application.default
 targetEntityType: node
 bundle: eep_workbench_application

@@ -1,0 +1,8 @@
+administer node_import:
+  title: 'Administer Node Import '
+  description: 'Grants full permissions for to Import Nodes'
+  restrict access: true
+administer node_export:
+  title: 'Administer Node Export '
+  description: 'Grants full permissions for to Export Nodes'
+  restrict access: true

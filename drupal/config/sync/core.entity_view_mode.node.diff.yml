@@ -1,3 +1,4 @@
+uuid: 1d2b53af-77a2-4019-9ce0-65584cfc3557
 langcode: en
 status: false
 dependencies:
@@ -7,6 +8,8 @@ dependencies:
       - diff
   module:
     - node
+_core:
+  default_config_hash: pqZNtad5J9THcdbYjwPD4qINqvrTxnOd8KCWn6tUBRs
 id: node.diff
 label: 'Revision comparison'
 targetEntityType: node

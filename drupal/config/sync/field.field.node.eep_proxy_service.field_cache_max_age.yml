@@ -1,9 +1,12 @@
+uuid: 65e32412-ec5e-4783-a679-1b239a063aec
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_cache_max_age
     - node.type.eep_proxy_service
+_core:
+  default_config_hash: p8kgoYfDhLpbFdBPEz7bi153zUJzZum-B27yt7sGwKM
 id: node.eep_proxy_service.field_cache_max_age
 field_name: field_cache_max_age
 entity_type: node

@@ -1,3 +1,4 @@
+uuid: a9e69d8b-ad94-4935-ad5a-a9ea0e41bfb0
 langcode: en
 status: true
 dependencies:
@@ -6,6 +7,8 @@ dependencies:
     - node.type.eep_proxy_service
   module:
     - double_field
+_core:
+  default_config_hash: Dsr1M_klMybk0tpze4S-nf3_6z3QBL5-mWB6jMkpawU
 id: node.eep_proxy_service.field_service_endpoints
 field_name: field_service_endpoints
 entity_type: node

@@ -1,3 +1,4 @@
+uuid: f78ff78f-56a5-4940-be85-54b00e2371d9
 langcode: en
 status: true
 dependencies:
@@ -12,7 +13,16 @@ dependencies:
   module:
     - double_field
     - eep_proxy_service
+    - panelizer
     - user
+third_party_settings:
+  panelizer:
+    enable: false
+    custom: false
+    allow: false
+    default: default
+_core:
+  default_config_hash: WfxNYcp5wso_8vWuQRRsOodUESOOgNvf5XVi9Kjse7g
 id: node.eep_proxy_service.default
 targetEntityType: node
 bundle: eep_proxy_service
@@ -93,7 +103,7 @@ content:
     region: content
   links:
     weight: 100
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
 hidden: {  }
