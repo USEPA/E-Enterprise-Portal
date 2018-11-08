@@ -12,7 +12,14 @@ dependencies:
   module:
     - double_field
     - eep_proxy_service
+    - panelizer
     - user
+third_party_settings:
+  panelizer:
+    enable: false
+    custom: false
+    allow: false
+    default: default
 id: node.eep_proxy_service.default
 targetEntityType: node
 bundle: eep_proxy_service
@@ -93,7 +100,7 @@ content:
     region: content
   links:
     weight: 100
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
 hidden: {  }

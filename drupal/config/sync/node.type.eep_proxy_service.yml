@@ -5,9 +5,8 @@ dependencies:
     - menu_ui
 third_party_settings:
   menu_ui:
-    available_menus:
-      - admin
-    parent: 'admin:'
+    available_menus: {  }
+    parent: ''
 name: 'EEP Proxy Service'
 type: eep_proxy_service
 description: 'Provides a proxy bypass to a 3rd party service.'

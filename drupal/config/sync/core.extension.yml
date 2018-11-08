@@ -1,4 +1,5 @@
 module:
+  action: 0
   admin_toolbar: 0
   admin_toolbar_tools: 0
   advagg: 0
@@ -16,6 +17,7 @@ module:
   config_actions: 0
   config_filter: 0
   config_split: 0
+  config_update: 0
   contact: 0
   contextual: 0
   ctools: 0
@@ -29,6 +31,7 @@ module:
   dynamic_page_cache: 0
   editor: 0
   eep_core: 0
+  eep_location_services: 0
   eep_proxy_service: 0
   entity_browser: 0
   entity_reference_revisions: 0
@@ -44,6 +47,7 @@ module:
   link: 0
   menu_ui: 0
   node: 0
+  node_export: 0
   openapi: 0
   openapi_ui: 0
   openapi_ui_swagger: 0
