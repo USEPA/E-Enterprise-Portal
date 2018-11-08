@@ -1,8 +1,11 @@
+uuid: 574bec41-3661-48f9-8c39-a82fe30154ec
 langcode: en
 status: true
 dependencies:
   config:
     - node.type.eep_app_content
+_core:
+  default_config_hash: F9icnW-0QJ80BqqHVkhbR3CKMEexV-WM3eJerQHAUB8
 id: node.eep_app_content.promote
 field_name: promote
 entity_type: node

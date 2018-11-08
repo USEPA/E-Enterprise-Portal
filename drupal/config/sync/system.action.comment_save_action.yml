@@ -1,8 +1,11 @@
+uuid: 61e9ffc2-faa1-4e27-9ae4-d1694318c1e6
 langcode: en
 status: true
 dependencies:
   module:
     - comment
+_core:
+  default_config_hash: lfyE_snmvfg_EQ3VDyhUtGAXgmqtEiqa46I3bTMg8DU
 id: comment_save_action
 label: 'Save comment'
 type: comment

@@ -1,3 +1,4 @@
+uuid: 35d88b0e-ab0a-43dc-8d3a-7fc1d2256fe7
 langcode: en
 status: true
 dependencies:
@@ -5,6 +6,8 @@ dependencies:
     - field.storage.node.field_html_content
     - node.type.eep_app_content
     - node.type.eep_workbench_application
+_core:
+  default_config_hash: mP2pfy-rCOXEEf6TGgksNpju8G0nuSsKq7wMpiOQ-Po
 id: node.eep_workbench_application.field_html_content
 field_name: field_html_content
 entity_type: node

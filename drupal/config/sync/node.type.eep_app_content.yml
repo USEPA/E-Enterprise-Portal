@@ -1,3 +1,4 @@
+uuid: fdf2ec69-5987-4a76-823e-f65a169f0df2
 langcode: en
 status: true
 dependencies:
@@ -7,6 +8,8 @@ third_party_settings:
   menu_ui:
     available_menus: {  }
     parent: ''
+_core:
+  default_config_hash: XAG-pxQ2TShULs74in0robXYndtQ-nvyhUbFBE8VM-0
 name: 'EEP App Content'
 type: eep_app_content
 description: ''

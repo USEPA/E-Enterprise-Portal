@@ -1,3 +1,4 @@
+uuid: 811c88ba-f3ed-4681-8d37-d995ec58e75c
 langcode: en
 status: true
 dependencies:
@@ -6,6 +7,8 @@ dependencies:
     - node.type.eep_workbench_application
   module:
     - double_field
+_core:
+  default_config_hash: IRjJKQkA4ZUQ1kRrQhCPWbH_Ng3XtCrikEzT9esjA14
 id: node.eep_workbench_application.field_app_html_content
 field_name: field_app_html_content
 entity_type: node

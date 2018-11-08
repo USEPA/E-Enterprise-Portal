@@ -1,8 +1,11 @@
+uuid: f2080440-4c00-41b5-a919-1b955867a6d4
 langcode: en
 status: true
 dependencies:
   module:
     - node
+_core:
+  default_config_hash: 3z4Uw7UG4uAbdDZnDHjYEj0sCWU7TogLy5yoYyMPpvc
 id: node.field_sources
 field_name: field_sources
 entity_type: node
