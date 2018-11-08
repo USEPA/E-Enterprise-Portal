@@ -5,4 +5,8 @@ import types from '../modules/wadk/store/common/types';
 import { EventBus } from '../EventBus';
 
 
-export default {};
+export default {
+  createLocationRequest(){
+
+  }
+};
