@@ -28,13 +28,14 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
   public function prefetch() {
     return $this->request;
   }
-  
+
   /**
    * @return \GuzzleHttp\Psr7\Response
    */
   public function fetch() {
     // Get the query values
     $query = $this->getIncomingRequest()->query->all();
+
     // Add the important query information into the payload for processing later
     (!isset($query['zipcode'])) ?: $this->payload['zipcode'][] = trim($query['zipcode']);
     (!isset($query['city'])) ?: $this->payload['city'][] = ucwords(trim($query['city']));
@@ -42,10 +43,12 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
 
     // If the user hands off a zip code
     if ($query['zipcode']) {
+
       // Make request for city and state with given zipcode
       $city_and_state_response = $this->gpo_zip_code_to_city_state($query['zipcode']);
       $this->payload['gpo_zip_code_to_city_state'] = json_decode($city_and_state_response->getBody(), FALSE);
 
+      // Cycle through features and extract the city and states values
       foreach ($this->payload["gpo_zip_code_to_city_state"]->features as $feature) {
         // Check for existing matches, and add if it is a new unique value
         $city_state = explode(', ', $feature->attributes->NAME_LABEL);
@@ -88,7 +91,6 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
       'state' => $this->payload['state'],
       'zipcode' => $this->payload['zipcode'],
     ];
-
     $final_content = \GuzzleHttp\json_encode($content);
 
     // Update the response
@@ -161,8 +163,8 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
       'city_attr' => '',
     ];
     // Get Zip Code to Census Place/Population Lookup table as json
-    $zip_pop_url = 'https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
-    $zip_pop_url = $zip_pop_url . 'where=ZCTA%3D%27' . $zip . '%27&outFields=*&orderByFields=ZCTA&f=pjson';
+    // https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services
+    $zip_pop_url = $this->request->getUri() . '/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?where=ZCTA%3D%27' . $zip . '%27&outFields=*&orderByFields=ZCTA&f=pjson';
 
     $zip_found = FALSE;
     $response = $this->make_request_and_receive_response($zip_pop_url);
@@ -219,8 +221,8 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
     ];
     $cleaned_city = $this->clean_city($city);
     // Get Zip Code to Census Place/Population Lookup table as json
-    $zip_pop_url = 'https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
-    $zip_pop_url = $zip_pop_url . 'where=UPPER%28NAME_LABEL%29%3D%27' . $cleaned_city . '%2C+' . $state . '%27&outFields=*&orderByFields=ZCTA&f=pjson';
+    // https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services
+    $zip_pop_url = $this->request->getUri() . '/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?where=UPPER%28NAME_LABEL%29%3D%27' . $cleaned_city . '%2C+' . $state . '%27&outFields=*&orderByFields=ZCTA&f=pjson';
 
     $zip_found = FALSE;
     $response = $this->make_request_and_receive_response($zip_pop_url);
@@ -255,8 +257,8 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
 
     if (!$zip_found) {
       // Get Zip Code to Tribal Area Lookup table as json
-      $zip_tribe_url = 'https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToTribalLookups_WFL/FeatureServer/1/query?';
-      $zip_tribe_url = $zip_tribe_url . 'where=UPPER%28TRIBE_NAME_CLEAN%29+LIKE+%27%25' . $cleaned_city . '%25%27&outFields=*&orderByFields=ZCTA&f=pjson';
+      // https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services
+      $zip_pop_url = $this->request->getUri() . '/ZipToTribalLookups_WFL/FeatureServer/1/query?where=UPPER%28TRIBE_NAME_CLEAN%29+LIKE+%27%25' . $cleaned_city . '%25%27&outFields=*&orderByFields=ZCTA&f=pjson';
       $response = $this->make_request_and_receive_response($zip_tribe_url);
       $decoded_response = json_decode($response->getBody(), FALSE);
 
@@ -275,8 +277,9 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
 
         if (!empty($tribalzips)) {
           // Get Zip Code to Census Place/Population Lookup table as json
-          $zip_pop_url = 'https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
-          $zip_pop_url = $zip_pop_url . 'where=ZCTA+IN+%28%27' . implode("%27%2C%27", $tribalzips) . '%27%29&outFields=*&orderByFields=Place_Pop_2014_ACS2014&f=pjson';
+
+          // https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services
+          $zip_pop_url = $this->request->getUri() . '/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?where=ZCTA+IN+%28%27' . implode("%27%2C%27", $tribalzips) . '%27%29&outFields=*&orderByFields=Place_Pop_2014_ACS2014&f=pjson';
           $response = $this->make_request_and_receive_response($zip_pop_url);
           $decoded_response = json_decode($response->getBody(), FALSE);
           if (!empty($decoded_response->features)) {
