@@ -14,7 +14,9 @@
 </template>
 
 <script>
-    import {mapActions, mapGetters} from 'vuex';
+    import {mapActions} from 'vuex';
+
+    const name = "LocationSearch"
     export default{
         data: function() {
             return{

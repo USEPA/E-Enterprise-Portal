@@ -59,7 +59,6 @@
   import LocationSearch from '@/components/LocationSearch.vue'
   import VueProgessBar from 'vue-progressbar';
   import types from './store/types';
-  import storeModule from './store/index';
 
   export default {
     name: 'App',
