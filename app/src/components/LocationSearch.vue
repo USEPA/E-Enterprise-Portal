@@ -14,10 +14,8 @@
 </template>
 
 <script>
-    import {mapActions} from 'vuex';
-    import {mapGetters} from 'vuex';
+    import {mapActions, mapGetters} from 'vuex';
 
-    const name = "LocationSearch"
     export default{
         data: function() {
             return{
@@ -29,9 +27,8 @@
                         'createLocationRequest'
                     ]
             ),
-            submitLocation(event){
+            submitLocation(){
                 alert(this.location);
-
             }
         }
     }
