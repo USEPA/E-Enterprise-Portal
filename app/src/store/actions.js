@@ -23,11 +23,12 @@ export default {
 
     // Make the request to retrieve the correct location information
     AppAxios.get(url).then((response) => {
-      console.log(response.data);
-      // if (zipcode) {
-      //
-      //   store.commit();
-      // }
+      let data = response.data;
+      if (zipcode) {
+        // commit cities it to the store..
+      } else {
+        // commit zipcodes to the store....
+      }
     }).catch((...args) => {
       // @todo add sanity check for errors & visual prompt to the user
       app.$Progress.fail();

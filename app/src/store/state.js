@@ -8,4 +8,6 @@ export default {
   },
   location: '',
   url: 'http://e-enterprise/eep/proxy/service/location?',
+  zipcodes: [],
+  cities: [],
 };

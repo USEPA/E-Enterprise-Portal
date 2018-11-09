@@ -194,7 +194,6 @@
       float: right;
     }
   }
-
   .row{
     .col-6{
       margin-top: 5px;
