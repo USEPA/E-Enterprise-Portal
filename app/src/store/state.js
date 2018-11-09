@@ -1,10 +1,10 @@
 /* eslint-disable import/prefer-default-export */
 
-const state = {
+
+export default {
   app: null,
   user: {
     id: 0,
   },
+  location: ''
 };
-
-export default state;
