@@ -20,6 +20,8 @@ export default {
         '&state=' + decoupled_location[1].toUpperCase().trim();
     }
 
+    console.log(url);
+
     // Make the request to retrieve the correct location information
     AppAxios.get(url).then((response) => {
       console.log(response);
