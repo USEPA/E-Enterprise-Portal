@@ -7,5 +7,5 @@ export default {
     id: 0,
   },
   location: '',
-  url: 'eep/proxy/service/location?',
+  url: 'http://e-enterprise/eep/proxy/service/location?',
 };

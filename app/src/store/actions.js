@@ -19,19 +19,14 @@ export default {
         decoupled_location[0].toUpperCase().trim() +
         '&state=' + decoupled_location[1].toUpperCase().trim();
     }
-    console.log(url);
 
-    // AppAxios.get(url).then((response) => {
-    //   if (zipcode) {
-    //
-    //     store.commit();
-    //   }
-    //
-    // });
-
-
-    // Axios GET call that retrieves the JSON for a given zip code or city and state
-
-
+    // Make the request to retrieve the correct location information
+    AppAxios.get(url).then((response) => {
+      console.log(response);
+      // if (zipcode) {
+      //
+      //   store.commit();
+      // }
+    });
   },
 };
