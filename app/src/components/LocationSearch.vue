@@ -15,6 +15,7 @@
 
 <script>
     import {mapActions} from 'vuex';
+    import {mapGetters} from 'vuex';
 
     const name = "LocationSearch"
     export default{
@@ -29,8 +30,8 @@
                     ]
             ),
             submitLocation(event){
-                let location_request_return = this.createLocationRequest(this.location);
-                //alert(location_request_return);
+                alert(this.location);
+
             }
         }
     }
