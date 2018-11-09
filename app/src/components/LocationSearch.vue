@@ -14,7 +14,9 @@
 </template>
 
 <script>
-    import {mapActions, mapGetters} from 'vuex';
+    import {mapActions, mapGetters, mapState} from 'vuex';
+
+    const name = "LocationSearch"
 
     export default{
         data: function() {
@@ -28,7 +30,7 @@
                     ]
             ),
             submitLocation(){
-                alert(this.location);
+                this.$store.state.location = this.location;
             }
         }
     }
