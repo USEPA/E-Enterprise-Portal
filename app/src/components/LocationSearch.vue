@@ -6,7 +6,9 @@
                           placeholder="Enter city, state; or ZIP code"></b-form-input>
             <b-input-group-append>
                 <b-button id="submit-location" v-on:click="submitLocation">
-                    <div class="button-image">Go</div> <!-- @TODO: make the background image an arrow get from kate -->
+                    <div class="button-image">
+                        <img id="go-btn-image" src="../assets/images/go_button.png" alt="Go">
+                    </div> <!-- @TODO: make the background image an arrow get from kate -->
                 </b-button>
             </b-input-group-append>
         </b-input-group>
@@ -15,8 +17,6 @@
 
 <script>
     import {mapActions, mapGetters, mapState} from 'vuex';
-
-    const name = "LocationSearch"
 
     // check with sam about ...mapActions or use .dispatch
     export default{
@@ -36,6 +36,10 @@
 </script>
 
 <style>
+    #go-btn-image{
+        width: 20px;
+        height:20px;
+    }
 </style>
 
 

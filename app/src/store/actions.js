@@ -5,6 +5,7 @@ export default {
   createLocationRequest(context, location) {
     // Variable declerations
     const store = context;
+    const app = store.rootGetters.getApp;
     let zipcode = false;
     let url = store.state.url;
 
@@ -20,15 +21,17 @@ export default {
         '&state=' + decoupled_location[1].toUpperCase().trim();
     }
 
-    console.log(url);
-
     // Make the request to retrieve the correct location information
     AppAxios.get(url).then((response) => {
-      console.log(response);
+      console.log(response.data);
       // if (zipcode) {
       //
       //   store.commit();
       // }
+    }).catch((...args) => {
+      // @todo add sanity check for errors & visual prompt to the user
+      app.$Progress.fail();
+      console.warn('AppAxios fail: ', args);
     });
   },
 };

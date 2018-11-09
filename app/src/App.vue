@@ -190,7 +190,7 @@
   #location-wrapper {
     margin-top: 5px;
     .input-group{
-      width: 60%;
+      width: 55%;
       float: right;
     }
   }
