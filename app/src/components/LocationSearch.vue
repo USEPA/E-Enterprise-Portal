@@ -2,18 +2,33 @@
 <template>
     <div id="location-wrapper" class="col-6">
         <b-input-group>
-            <b-form-input type="text" placeholder="Enter city, state; or ZIP code"
-            ></b-form-input>
+            <b-form-input id="location-input" type="text" v-model="location"
+                          placeholder="Enter city, state; or ZIP code"></b-form-input>
             <b-input-group-append>
-                <b-btn variant="info">
+                <b-button id="submit-location" v-on:click="submitLocation">
                     <div class="button-image">Go</div> <!-- @TODO: make the background image an arrow get from kate -->
-                </b-btn>
+                </b-button>
             </b-input-group-append>
         </b-input-group>
     </div>
 </template>
 
 <script>
+    import {mapActions, mapGetters} from 'vuex';
+    export default{
+        data: function() {
+            return{
+                location: ""
+            }
+        },
+        methods: {
+            submitLocation(event){
+                let location_request_return = this.createLocationRequest(this.location);
+                alert(location_request_return);
+//                alert(this.location);
+            }
+        }
+    }
 </script>
 
 <style>

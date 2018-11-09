@@ -6,7 +6,9 @@ import { EventBus } from '../EventBus';
 
 
 export default {
-  createLocationRequest() {
-
+  ...commonAppStore.actions,
+  createLocationRequest(location) {
+    const locationRef = location;
+    return locationRef;
   },
 };
