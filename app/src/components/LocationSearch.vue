@@ -22,10 +22,13 @@
             }
         },
         methods: {
+            ...mapActions(name, [
+                        'createLocationRequest'
+                    ]
+            ),
             submitLocation(event){
                 let location_request_return = this.createLocationRequest(this.location);
-                alert(location_request_return);
-//                alert(this.location);
+                //alert(location_request_return);
             }
         }
     }

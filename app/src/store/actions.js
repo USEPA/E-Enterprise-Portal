@@ -1,14 +1,9 @@
-import convert from 'xml-js';
 import { AppAxios, commonAppStore } from '../modules/wadk/WADK';
-import parseXml from '../modules/wadk/utils/xmlTools';
-import types from '../modules/wadk/store/common/types';
-import { EventBus } from '../EventBus';
-
 
 export default {
   ...commonAppStore.actions,
-  createLocationRequest(location) {
-    const locationRef = location;
-    return locationRef;
+  createLocationRequest(context, location) {
+    const store = context;
+    alert(location);
   },
 };
