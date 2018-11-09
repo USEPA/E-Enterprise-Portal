@@ -38,7 +38,7 @@ export default {
     // env = 'DEV';
     return env;
   },
-  getLocation(state){
+  getLocation(state) {
     return state.location;
   },
 };

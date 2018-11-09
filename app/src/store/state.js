@@ -7,4 +7,5 @@ export default {
     id: 0,
   },
   location: '',
+  url: 'eep/proxy/service/location?',
 };

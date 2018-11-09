@@ -18,6 +18,7 @@
 
     const name = "LocationSearch"
 
+    // check with sam about ...mapActions or use .dispatch
     export default{
         data: function() {
             return{
@@ -25,12 +26,10 @@
             }
         },
         methods: {
-            ...mapActions(name, [
-                        'createLocationRequest'
-                    ]
+            ...mapActions(name, ['createLocationRequest']
             ),
             submitLocation(){
-                this.$store.state.location = this.location;
+                this.$store.dispatch("createLocationRequest", this.location);
             }
         }
     }
