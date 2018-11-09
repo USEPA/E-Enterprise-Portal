@@ -21,9 +21,12 @@ export default {
         '&state=' + decoupled_location[1].toUpperCase().trim();
     }
 
+    console.log(url);
+
     // Make the request to retrieve the correct location information
     AppAxios.get(url).then((response) => {
       let data = response.data;
+      console.log(data);
       if (zipcode) {
         // commit cities it to the store..
       } else {
