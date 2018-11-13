@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import { AppAxios, commonAppStore } from '../modules/wadk/WADK';
 
 export default {
@@ -5,34 +6,40 @@ export default {
   createLocationRequest(context, location) {
     // Variable declerations
     const store = context;
+    const userLocation = {
+      zipcode: '',
+      city: '',
+      state: '',
+    };
     const app = store.rootGetters.getApp;
-    let zipcode = false;
-    let url = store.state.url;
+    const url = store.state.url;
 
     // Input validation for URL formation
     if (/^\d{5}(-\d{4})?$/.test(location)) {
-      url += 'zipcode=' + location;
-      zipcode = true;
+      //url += 'zipcode=' + location;
+      // @todo clean string/trim
+      userLocation.zipcode = location;
     } else if (/([A-Za-z]+(?: [A-Za-z]+)*),? ([A-Za-z]{2})/.test(location)
       || /([A-Za-z]+(?: [A-Za-z]+)*),?([A-Za-z]{2})/.test(location)) {
       const decoupled_location = location.split(",");
-      url += 'city=' +
-        decoupled_location[0].toUpperCase().trim() +
-        '&state=' + decoupled_location[1].toUpperCase().trim();
+      const city = decoupled_location[0].toUpperCase().trim();
+      const state = decoupled_location[1].toUpperCase().trim();
+      // url += 'city=' +
+      //   city +
+      //   '&state=' + state;
+      // @todo clean string/trim
+      userLocation.city = city;
+      userLocation.state = state;
     }
-
-    console.log(url);
 
     // Make the request to retrieve the correct location information
     AppAxios.get(url).then((response) => {
-      let data = response.data;
+      const data = response.data;
       console.log(data);
-      if (zipcode) {
-        // commit cities it to the store..
-        store.commit("");
-      } else {
-        // commit zipcodes to the store....
-      }
+      this.$modals.show('location-search-modal');
+
+      // // @todo figure out if has multiple options and ask for user input
+      store.commit('SET_USER_LOCATION', userLocation);
     }).catch((...args) => {
       // @todo add sanity check for errors & visual prompt to the user
       app.$Progress.fail();

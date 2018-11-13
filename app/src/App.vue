@@ -188,7 +188,7 @@
     }
   }
   #location-wrapper {
-    margin-top: 5px;
+    margin-top: 8px;
     .input-group{
       width: 55%;
       float: right;

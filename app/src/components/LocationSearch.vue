@@ -12,14 +12,25 @@
                 </b-button>
             </b-input-group-append>
         </b-input-group>
+        <AppModal id="location-search-modal-interactive"
+                  modal-ref="location-search-modal"
+                  title="Additional Information Needed">
+            this is the app modal
+        </AppModal>
     </div>
 </template>
 
 <script>
     import {mapActions, mapGetters, mapState} from 'vuex';
+    import {AppModal} from '../modules/wadk/WADK';
+
+    const name = "LocationSearch";
 
     // check with sam about ...mapActions or use .dispatch
     export default{
+        components: {
+            AppModal,
+        },
         data: function() {
             return{
                 location: ''
