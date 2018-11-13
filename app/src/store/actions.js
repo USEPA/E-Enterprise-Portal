@@ -29,6 +29,7 @@ export default {
       console.log(data);
       if (zipcode) {
         // commit cities it to the store..
+        store.commit("");
       } else {
         // commit zipcodes to the store....
       }

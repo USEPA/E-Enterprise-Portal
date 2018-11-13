@@ -20,5 +20,21 @@ export default {
       obj.value || obj.defaultValue,
     );
   },
+  [types.SET_USER_LOCATION](state, obj) {
+    if (obj.zipcode && obj.zipcode.length > 1) {
+      Vue.set(
+        state,
+        'zipcodes',
+        obj,
+      );
+    }
+    if (obj.city && obj.city.length > 1) {
+
+    }
+    if (obj.state && obj.state.length > 1) {
+
+    }
+
+  },
 
 };
