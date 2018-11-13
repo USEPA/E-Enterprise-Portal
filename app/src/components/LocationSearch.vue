@@ -25,20 +25,26 @@
     <AppModal
       id="location-search-modal-interactive"
       modal-ref="location-search-modal-interactive"
-      title="Additional Information Needed">
-
-      <!-- zipcode drop down -->
-      <b-dropdown id="location-zipcodes" v-if="zipcodes.length > 1" text="Select a zipcode">
-        <b-dropdown-item class="zipcodes" v-for="zipcode in zipcodes">{{zipcode}}</b-dropdown-item>
-      </b-dropdown>
-
-      <!-- city drop down -->
-      <b-dropdown id="location-cities" v-if="zipcodes.cities > 1" text="Select a city">
-        <b-dropdown-item class="cities" v-for="city in cities">{{city}}</b-dropdown-item>
-      </b-dropdown>
+      title="Additional Information Needed For Location">
 
 
+      <div id="zipcode-dropdown-wrapper">
+        <!-- zipcode drop down -->
+        <b-dropdown id="location-zipcodes" v-if="zipcodes.length > 1" text="Select a zipcode" class="mb-2">
+          <b-dropdown-item-button class="zipcodes" v-for="zipcode in zipcodes">
+            {{zipcode}}
+          </b-dropdown-item-button>>
+        </b-dropdown>
+      </div>
 
+      <div id="city-dropdown-wrapper">
+        <!-- city drop down -->
+        <b-dropdown id="location-cities" v-if="cities.length > 1" text="Select a city" class="mb-2">
+          <b-dropdown-item-button> class="cities" v-for="city in cities">
+            {{city}}
+          </b-dropdown-item-button>>
+        </b-dropdown>
+      </div>
     </AppModal>
   </div>
 </template>
@@ -60,6 +66,10 @@
         location: '',
         zipcodes: [],
         cities: [],
+        state_array: [],
+        finalized_state: '',
+        finalized_city: '',
+        finalized_zipcode: '',
       };
     },
     created() {
@@ -78,10 +88,12 @@
         vm.$root.$emit(
           'bv::show::modal', 'location-search-modal-interactive', lsModal,
         );
-        console.log(payload.value);
+
+        // set the variable values to the values in the payload to be binded to the dropdowns
         this.zipcodes = payload.value.zipcode;
         this.cities = payload.value.city;
-      },
+        this.state = payload.value.state;
+      }
     },
   };
 </script>
@@ -102,6 +114,5 @@
 
   .dropdown-item > a {
     background-color: grey;
-
   }
 </style>
