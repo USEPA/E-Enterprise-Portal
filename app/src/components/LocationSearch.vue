@@ -12,7 +12,7 @@
                 </b-button>
             </b-input-group-append>
         </b-input-group>
-        <AppModal id="location-search-modal-interactive"
+        <AppModal v-if="true" id="location-search-modal-interactive"
                   modal-ref="location-search-modal"
                   title="Additional Information Needed">
             this is the app modal

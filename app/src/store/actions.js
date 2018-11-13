@@ -36,9 +36,8 @@ export default {
     AppAxios.get(url).then((response) => {
       const data = response.data;
       console.log(data);
-      this.$modals.show('location-search-modal');
 
-      // // @todo figure out if has multiple options and ask for user input
+      // @todo figure out if has multiple options and ask for user input
       store.commit('SET_USER_LOCATION', userLocation);
     }).catch((...args) => {
       // @todo add sanity check for errors & visual prompt to the user
