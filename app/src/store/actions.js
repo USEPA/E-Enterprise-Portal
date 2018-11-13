@@ -1,6 +1,6 @@
 import Vue from 'vue';
-import { AppAxios, commonAppStore } from '../modules/wadk/WADK';
-import { EventBus } from '../EventBus';
+import {AppAxios, commonAppStore} from '../modules/wadk/WADK';
+import {EventBus} from '../EventBus';
 
 export default {
   ...commonAppStore.actions,
@@ -37,7 +37,7 @@ export default {
 
     // Make the request to retrieve the correct location information
     AppAxios.get(url).then((response) => {
-      const { data } = response;
+      const {data} = response;
       console.log(data);
 
       EventBus.$emit('locationSearch::showUserConfirmationModal', {
