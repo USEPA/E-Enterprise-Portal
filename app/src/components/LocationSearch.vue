@@ -23,11 +23,22 @@
       </b-input-group-append>
     </b-input-group>
     <AppModal
-      v-if="true"
       id="location-search-modal-interactive"
       modal-ref="location-search-modal-interactive"
       title="Additional Information Needed">
-      this is the app modal
+
+      <!-- zipcode drop down -->
+      <b-dropdown id="location-zipcodes" v-if="zipcodes.length > 1" text="Select a zipcode">
+        <b-dropdown-item class="zipcodes" v-for="zipcode in zipcodes">{{zipcode}}</b-dropdown-item>
+      </b-dropdown>
+
+      <!-- city drop down -->
+      <b-dropdown id="location-cities" v-if="zipcodes.cities > 1" text="Select a city">
+        <b-dropdown-item class="cities" v-for="city in cities">{{city}}</b-dropdown-item>
+      </b-dropdown>
+
+
+
     </AppModal>
   </div>
 </template>
@@ -47,6 +58,8 @@
     data() {
       return {
         location: '',
+        zipcodes: [],
+        cities: [],
       };
     },
     created() {
@@ -65,6 +78,9 @@
         vm.$root.$emit(
           'bv::show::modal', 'location-search-modal-interactive', lsModal,
         );
+        console.log(payload.value);
+        this.zipcodes = payload.value.zipcode;
+        this.cities = payload.value.city;
       },
     },
   };
@@ -74,5 +90,18 @@
   #go-btn-image {
     width: 20px;
     height: 20px;
+  }
+
+  #gridModalLabel {
+    color: white;
+  }
+
+  #location-search-modal-interactive___BV_modal_header_ {
+    background-color: #0071bc;
+  }
+
+  .dropdown-item > a {
+    background-color: grey;
+
   }
 </style>

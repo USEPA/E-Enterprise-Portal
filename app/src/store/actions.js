@@ -38,15 +38,19 @@ export default {
     // Make the request to retrieve the correct location information
     AppAxios.get(url).then((response) => {
       const {data} = response;
-      console.log(data);
 
-      EventBus.$emit('locationSearch::showUserConfirmationModal', {
-        callee: this,
-        value: data,
-      });
+      if (data.zipcode.length > 1 || data.city.length > 1) {
+        EventBus.$emit('locationSearch::showUserConfirmationModal', {
+          callee: this,
+          value: data,
+        });
+      } else {
+        // reflect inside of the workbench
+      }
+
 
       // @todo figure out if has multiple options and ask for user input
-      // store.commit('SET_USER_LOCATION', userLocation);
+      //store.commit('SET_USER_LOCATION', userLocation);
     }).catch((...args) => {
       // @todo add sanity check for errors & visual prompt to the user
       app.$Progress.fail();
