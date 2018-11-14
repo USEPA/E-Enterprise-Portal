@@ -85,8 +85,6 @@
         this.$store.dispatch('createLocationRequest', this.location);
       },
       showUserConfirmationModal(payload) {
-
-
         // set the variable values to the values in the payload to be binded to the dropdowns
         this.zipcodes = payload.value.zipcode;
         this.cities = payload.value.city;
@@ -101,8 +99,6 @@
           vm.$root.$emit(
                   'bv::show::modal', 'location-search-modal-interactive', lsModal,
           );
-
-
         } else {
           this.finalized_state = this.state[0];
           this.finalized_city = this.cities[0];
@@ -113,7 +109,7 @@
         // declare the modal instance
         const vm = this;
         const lsModal = vm.$refs.location_search_modal_interactive;
-        this.finalized_state = this.cities[0];
+        this.finalized_state = this.state[0];
         vm.$root.$emit(
                 'bv::hide::modal', 'location-search-modal-interactive', lsModal,
         );
