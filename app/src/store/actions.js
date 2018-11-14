@@ -42,9 +42,6 @@ export default {
           callee: this,
           value: data,
       });
-
-      // @todo figure out if has multiple options and ask for user input
-      store.commit('SET_USER_LOCATION', userLocation);
     }).catch((...args) => {
       // @todo add sanity check for errors & visual prompt to the user
       app.$Progress.fail();

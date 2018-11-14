@@ -27,7 +27,4 @@ export default {
       obj,
     );
   },
-  UPDATE_MODAL(state, value) {
-    state.modalOpen = value
-  }
 };

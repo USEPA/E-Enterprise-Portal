@@ -41,4 +41,7 @@ export default {
   getLocation(state) {
     return state.location;
   },
+  getUser(state){
+    return state.user;
+  },
 };

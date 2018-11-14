@@ -25,25 +25,20 @@
       id="location-search-modal-interactive"
       modal-ref="location-search-modal-interactive"
       title="Additional Information Needed For Location">
-
-
       <div id="zipcode-dropdown-wrapper">
         <!-- zipcode drop down -->
         <b-form-select id="location-zipcodes" v-if="zipcodes.length > 1" :options="zipcodes" v-model="finalized_zipcode">
         </b-form-select>
       </div>
-
       <div id="city-dropdown-wrapper">
         <!-- city drop down -->
         <b-form-select id="location-cities" v-if="cities.length > 1" :options="cities" v-model="finalized_city">
         </b-form-select>
       </div>
-
       <!-- NBSP is used to prevent the default modal buttons from rendering -->
       <template
               slot="footer">&nbsp;
         <b-button variant="primary" @click="submitLocationModal">Submit Location</b-button>
-
       </template>
     </AppModal>
   </div>
@@ -108,6 +103,11 @@
         if(this.zipcodes.length == 1){
           this.finalized_zipcode = this.zipcodes[0];
         }
+        vm.$store.commit('SET_USER_LOCATION', {
+          zipcode: this.finalized_zipcode,
+          city: this.finalized_city,
+          state: this.finalized_state
+        });
         vm.$root.$emit(
                 'bv::hide::modal', 'location-search-modal-interactive', lsModal,
         );
