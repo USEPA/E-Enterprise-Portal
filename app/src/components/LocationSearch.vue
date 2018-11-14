@@ -96,10 +96,6 @@
           vm.$root.$emit(
                   'bv::show::modal', 'location-search-modal-interactive', lsModal,
           );
-        } else {
-          this.finalized_state = this.state[0];
-          this.finalized_city = this.cities[0];
-          this.finalized_zipcode = this.zipcodes[0];
         }
       },
       submitLocationModal(){
@@ -107,6 +103,12 @@
         const vm = this;
         const lsModal = vm.$refs.location_search_modal_interactive;
         this.finalized_state = this.state[0];
+        if(this.cities.length == 1){
+          this.finalized_city = this.cities[0];
+        }
+        if(this.zipcodes.length == 1){
+          this.finalized_zipcode = this.zipcodes[0];
+        }
         vm.$root.$emit(
                 'bv::hide::modal', 'location-search-modal-interactive', lsModal,
         );
