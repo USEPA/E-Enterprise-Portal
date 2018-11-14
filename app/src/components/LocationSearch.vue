@@ -16,11 +16,8 @@
           id="submit-location"
           @click="submitLocation">
           <div class="button-image">
-            <img
-              id="go-btn-image"
-              src=""
-              alt="Go">
-          </div> <!-- @TODO: make the background image an arrow get from kate -->
+            <i class="fas fa-arrow-right"></i>
+          </div>
         </b-button>
       </b-input-group-append>
     </b-input-group>
