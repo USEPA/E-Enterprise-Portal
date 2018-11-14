@@ -3,8 +3,8 @@
   <div
     id="location-wrapper"
     class="col-7">
-    <div><span id="location-description" v-if="finalized_city != '' && finalized_state != '' && finalized_zipcode != ''">
-        {{finalized_city}}, {{finalized_state}} - {{finalized_zipcode}}</span></div>
+    <span id="location-description" v-if="finalized_city != '' && finalized_state != '' && finalized_zipcode != ''">
+        {{finalized_city}}, {{finalized_state}} - {{finalized_zipcode}}</span>
     <b-input-group>
       <b-form-input
         id="location-input"
@@ -178,10 +178,14 @@
   }
 
   #location-description {
-    float: left;
+    font-size: 70%;
   }
 
   #zipcode-dropdown-wrapper, #city-dropdown-wrapper{
     padding-bottom: 5px;
+  }
+
+  #description-wrapper{
+    width: 55%;
   }
 </style>

@@ -384,16 +384,15 @@
           && this.waterAnalysisResults[0];
       },
       updateLocationInDropdown(){
+        document.getElementById("partner-selection").selectedIndex = 0;
         const input_state = this.$store.getters.getUser.location.state;
-        const options = this.$refs.partnerDropdown.$options;
-        if (options !== undefined) {
-          options.propsData.options.forEach(function (partner_ref, index) {
+        const dropdown_options = this.$refs.partnerDropdown.$options;
+        if (dropdown_options !== undefined) {
+          dropdown_options.propsData.options.forEach(function (partner_ref, index) {
             console.log(index + ": "+partner_ref.value.code + " = " + input_state);
             if (partner_ref.value.code == input_state) {
               document.getElementById("partner-selection").selectedIndex = index + 1;
               return;
-            }else if(document.getElementById("partner-selection").selectedIndex != 0){
-              document.getElementById("partner-selection").selectedIndex = 0;
             }
           });
         }
