@@ -30,13 +30,42 @@
       <div id="zipcode-dropdown-wrapper">
         <!-- zipcode drop down -->
         <b-form-select id="location-zipcodes" v-if="zipcodes.length > 1" :options="zipcodes" v-model="finalized_zipcode">
+          <template slot="first">
+            <!-- this slot appears above the options from 'options' prop -->
+            <option
+                    :value="null"
+                    disabled>-- Please select an partner --
+            </option>
+          </template>
         </b-form-select>
       </div>
       <div id="city-dropdown-wrapper">
         <!-- city drop down -->
         <b-form-select id="location-cities" v-if="cities.length > 1" :options="cities" v-model="finalized_city">
+          <template slot="first">
+            <!-- this slot appears above the options from 'options' prop -->
+            <option
+                    :value="null"
+                    disabled>-- Please select an partner --
+            </option>
+          </template>
         </b-form-select>
       </div>
+
+      <div id="state-dropdown-wrapper">
+        <!-- city drop down -->
+        <b-form-select id="location-states" v-if="states.length > 1" :options="states" v-model="finalized_state">
+          <template slot="first">
+            <!-- this slot appears above the options from 'options' prop -->
+            <option
+                    :value="null"
+                    disabled>-- Please select an partner --
+            </option>
+          </template>
+        </b-form-select>
+      </div>
+
+
       <!-- NBSP is used to prevent the default modal buttons from rendering -->
       <template
               slot="footer">&nbsp;
@@ -62,7 +91,7 @@
         location: '',
         zipcodes: [],
         cities: [],
-        state_array: [],
+        states: [],
         finalized_state: '',
         finalized_city: '',
         finalized_zipcode: '',
@@ -81,29 +110,35 @@
         // set the variable values to the values in the payload to be binded to the dropdowns
         this.zipcodes = payload.value.zipcode;
         this.cities = payload.value.city;
-        this.state = payload.value.state;
+        this.states = payload.value.state;
 
-        console.log(payload);
         // declare the modal instance
         const vm = this;
         const lsModal = vm.$refs.location_search_modal_interactive;
 
         // call modal to pop up if the values that are returned in the payload are > 1
-        if ((this.zipcodes.length > 1 || this.cities.length > 1)) {
+        if ((this.zipcodes.length > 1 || this.cities.length > 1 || this.states.length > 1 )) {
           vm.$root.$emit(
                   'bv::show::modal', 'location-search-modal-interactive', lsModal,
           );
         } else {
-          this.finalized_state =this.state[0];
+          this.finalized_state =this.states[0];
           this.finalized_city = this.cities[0];
           this.finalized_zipcode = this.zipcodes[0];
+          vm.$store.commit('SET_USER_LOCATION', {
+            zipcode: this.finalized_zipcode,
+            city: this.finalized_city,
+            state: this.finalized_state
+          });
         }
       },
       submitLocationModal(){
         // declare the modal instance
         const vm = this;
         const lsModal = vm.$refs.location_search_modal_interactive;
-        this.finalized_state = this.state[0];
+        if(this.states.length == 1){
+          this.finalized_state = this.states[0];
+        }
         if(this.cities.length == 1){
           this.finalized_city = this.cities[0];
         }
@@ -146,7 +181,7 @@
     float: left;
   }
 
-  #zipcode-dropdown-wrapper{
+  #zipcode-dropdown-wrapper, #city-dropdown-wrapper{
     padding-bottom: 5px;
   }
 </style>

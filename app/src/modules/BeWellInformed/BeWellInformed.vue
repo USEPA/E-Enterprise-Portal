@@ -8,11 +8,13 @@
         @submit="onCheckYourWater"
         novalidated>
         <b-form-select
-          :value="selectedPartner"
-          :options="partners"
-          @change="setSelectedPartner"
-          class="mb-3"
-          required>
+                id="partner-selection"
+                :value="selectedPartner"
+                :options="partners"
+                ref="partnerDropdown"
+                @change="setSelectedPartner"
+                class="mb-3"
+                required>
           <template slot="first">
             <!-- this slot appears above the options from 'options' prop -->
             <option
@@ -382,9 +384,19 @@
           && this.waterAnalysisResults[0];
       },
       updateLocationInDropdown(){
-        const currentLocation = this.$store.rootGetters.getUser;
-        console.log(currentLocation);
-
+        const input_state = this.$store.getters.getUser.location.state;
+        const options = this.$refs.partnerDropdown.$options;
+        if (options !== undefined) {
+          options.propsData.options.forEach(function (partner_ref, index) {
+            console.log(index + ": "+partner_ref.value.code + " = " + input_state);
+            if (partner_ref.value.code == input_state) {
+              document.getElementById("partner-selection").selectedIndex = index + 1;
+              return;
+            }else if(document.getElementById("partner-selection").selectedIndex != 0){
+              document.getElementById("partner-selection").selectedIndex = 0;
+            }
+          });
+        }
       },
     },
   };
