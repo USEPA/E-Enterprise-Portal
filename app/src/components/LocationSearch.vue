@@ -2,7 +2,9 @@
 <template>
   <div
     id="location-wrapper"
-    class="col-6">
+    class="col-7">
+    <div><span id="location-description" v-if="finalized_city != '' || finalized_state != '' || finalized_zipcode != ''">
+        {{finalized_city}}, {{finalized_state}} - {{finalized_zipcode}}</span></div>
     <b-input-group>
       <b-form-input
         id="location-input"
@@ -30,21 +32,22 @@
 
       <div id="zipcode-dropdown-wrapper">
         <!-- zipcode drop down -->
-        <b-dropdown id="location-zipcodes" v-if="zipcodes.length > 1" text="Select a zipcode" class="mb-2">
-          <b-dropdown-item-button class="zipcodes" v-for="zipcode in zipcodes">
-            {{zipcode}}
-          </b-dropdown-item-button>>
-        </b-dropdown>
+        <b-form-select id="location-zipcodes" v-if="zipcodes.length > 1" :options="zipcodes">
+        </b-form-select>
       </div>
 
       <div id="city-dropdown-wrapper">
         <!-- city drop down -->
-        <b-dropdown id="location-cities" v-if="cities.length > 1" text="Select a city" class="mb-2">
-          <b-dropdown-item-button> class="cities" v-for="city in cities">
-            {{city}}
-          </b-dropdown-item-button>>
-        </b-dropdown>
+        <b-form-select id="location-cities" v-if="cities.length > 1" :options="cities">
+        </b-form-select>
       </div>
+
+      <!-- NBSP is used to prevent the default modal buttons from rendering -->
+      <template
+              slot="footer">&nbsp;
+        <b-button variant="primary" @click="submitLocationModal">Submit Location</b-button>
+
+      </template>
     </AppModal>
   </div>
 </template>
@@ -82,17 +85,41 @@
         this.$store.dispatch('createLocationRequest', this.location);
       },
       showUserConfirmationModal(payload) {
-        const vm = this;
-        const lsModal = vm.$refs.location_search_modal_interactive;
 
-        vm.$root.$emit(
-          'bv::show::modal', 'location-search-modal-interactive', lsModal,
-        );
 
         // set the variable values to the values in the payload to be binded to the dropdowns
         this.zipcodes = payload.value.zipcode;
         this.cities = payload.value.city;
         this.state = payload.value.state;
+
+        // declare the modal instance
+        const vm = this;
+        const lsModal = vm.$refs.location_search_modal_interactive;
+
+        // call modal to pop up if the values that are returned in the payload are > 1
+        if ((this.zipcodes.length > 1 || this.cities.length > 1)) {
+          vm.$root.$emit(
+                  'bv::show::modal', 'location-search-modal-interactive', lsModal,
+          );
+
+
+        } else {
+          this.finalized_state = this.state[0];
+          this.finalized_city = this.cities[0];
+          this.finalized_zipcode = this.zipcodes[0];
+        }
+      },
+      submitLocationModal(){
+        // declare the modal instance
+        const vm = this;
+        const lsModal = vm.$refs.location_search_modal_interactive;
+        //this.finalized_city = ;
+//        this.finalized_state = this.cities[0];
+//        this.finalized_zipcode =
+        vm.$root.$emit(
+                'bv::hide::modal', 'location-search-modal-interactive', lsModal,
+        );
+        //alert("modal submit location worked");
       }
     },
   };
@@ -114,5 +141,13 @@
 
   .dropdown-item > a {
     background-color: grey;
+  }
+
+  #location-description {
+    float: left;
+  }
+
+  #zipcode-dropdown-wrapper{
+    padding-bottom: 5px;
   }
 </style>

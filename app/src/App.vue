@@ -27,7 +27,7 @@
 
       <div id="main-navigation-container" class="container">
         <div class="row">
-          <div class="col-6">
+          <div id="page-selection-wrapper" class="col-5">
             <router-link to="/">Home</router-link>
             <span class="divider">|</span>
             <router-link to="/about">About</router-link>
@@ -198,5 +198,8 @@
     .col-6{
       margin-top: 5px;
     }
+  }
+  #page-selection-wrapper{
+    margin-top: 8px;
   }
 </style>

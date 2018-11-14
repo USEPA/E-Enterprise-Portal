@@ -20,4 +20,14 @@ export default {
       obj.value || obj.defaultValue,
     );
   },
+  [types.SET_USER_LOCATION](state, obj) {
+    Vue.set(
+      state.user,
+      'location',
+      obj,
+    );
+  },
+  UPDATE_MODAL(state, value) {
+    state.modalOpen = value
+  }
 };
