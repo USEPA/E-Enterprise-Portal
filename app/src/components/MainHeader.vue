@@ -24,16 +24,18 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex';
+
     // eslint-disable-next-line
     export default {
         name: 'MainHeader',
         props: {},
         methods: {},
-        data() {
-            return {
-                bridgeURL: this.$store.getters.getBridgeURL
-            }
-        }
+        computed: {
+            ...mapGetters({
+                bridgeURL: 'getBridgeURL'
+            }),
+        },
     };
 </script>
 
