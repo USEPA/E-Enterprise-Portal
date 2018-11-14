@@ -243,6 +243,9 @@
 
       // Custom event listeners
       EventBus.$on('bwi::showWaterAnalysisResults', this.showWaterAnalysisResults);
+
+      // Update location in BWI app
+      EventBus.$on('locationService::update', this.updateLocationInDropdown);
     },
     data() {
       return {
@@ -377,6 +380,11 @@
         return this.waterAnalysisResults
           && this.waterAnalysisResults.length
           && this.waterAnalysisResults[0];
+      },
+      updateLocationInDropdown(){
+        const currentLocation = this.$store.rootGetters.getUser;
+        console.log(currentLocation);
+
       },
     },
   };

@@ -35,6 +35,8 @@ export default {
       userLocation.state = state;
     }
 
+    console.log(url);
+
     // Make the request to retrieve the correct location information
     AppAxios.get(url).then((response) => {
       const {data} = response;

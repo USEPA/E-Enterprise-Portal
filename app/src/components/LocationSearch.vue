@@ -83,6 +83,7 @@
         this.cities = payload.value.city;
         this.state = payload.value.state;
 
+        console.log(payload);
         // declare the modal instance
         const vm = this;
         const lsModal = vm.$refs.location_search_modal_interactive;
@@ -92,6 +93,10 @@
           vm.$root.$emit(
                   'bv::show::modal', 'location-search-modal-interactive', lsModal,
           );
+        } else {
+          this.finalized_state =this.state[0];
+          this.finalized_city = this.cities[0];
+          this.finalized_zipcode = this.zipcodes[0];
         }
       },
       submitLocationModal(){
