@@ -15,11 +15,11 @@ export default {
       state: '',
     };
     const app = store.rootGetters.getApp;
-    const url = store.state.url;
+    let url = store.state.url;
 
     // Input validation for URL formation
     if (/^\d{5}(-\d{4})?$/.test(location)) {
-      // url += 'zipcode=' + location;
+      url += 'zipcode=' + location;
       // @todo clean string/trim
       userLocation.zipcode = location;
     } else if (/([A-Za-z]+(?: [A-Za-z]+)*),? ([A-Za-z]{2})/.test(location)
@@ -27,9 +27,9 @@ export default {
       const decoupled_location = location.split(',');
       const city = decoupled_location[0].toUpperCase().trim();
       const state = decoupled_location[1].toUpperCase().trim();
-      // url += 'city=' +
-      //   city +
-      //   '&state=' + state;
+      url += 'city=' +
+        city +
+        '&state=' + state;
       // @todo clean string/trim
       userLocation.city = city;
       userLocation.state = state;

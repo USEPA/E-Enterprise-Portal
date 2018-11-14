@@ -12,6 +12,6 @@ export default {
     },
   },
   location: '',
-  //url: 'http://e-enterprise/eep/proxy/service/location?',
-  url: 'http://localhost:8082/sample_data/LocationSearch-1.json',
+  url: 'http://e-enterprise/eep/proxy/service/location?',
+  //url: 'http://localhost:8082/sample_data/LocationSearch-1.json',
 };

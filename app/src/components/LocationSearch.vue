@@ -11,15 +11,17 @@
         type="text"
         v-model="location"
         placeholder="Enter city, state; or ZIP code"/>
-      <b-input-group-append>
-        <b-button
-          id="submit-location"
-          @click="submitLocation">
-          <div class="button-image">
-            <i class="fas fa-arrow-right"></i>
-          </div>
-        </b-button>
-      </b-input-group-append>
+        <b-input-group-append>
+          <b-button
+            id="submit-location"
+            type="submit"
+            @click="submitLocation">
+            <div class="button-image">
+              <i class="fas fa-arrow-right"></i>
+            </div>
+          </b-button>
+        </b-input-group-append>
+      </b-form-input>
     </b-input-group>
     <AppModal
       id="location-search-modal-interactive"
