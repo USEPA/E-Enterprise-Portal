@@ -103,7 +103,7 @@
           </b-tab>
         </b-tabs>
 
-       !-- NBSP is used to prevent the default modal buttons from rendering -->
+       <!-- NBSP is used to prevent the default modal buttons from rendering -->
         <template
           slot="footer">&nbsp;
         </template>

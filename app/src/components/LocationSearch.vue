@@ -3,7 +3,7 @@
   <div
     id="location-wrapper"
     class="col-7">
-    <div><span id="location-description" v-if="finalized_city != '' || finalized_state != '' || finalized_zipcode != ''">
+    <div><span id="location-description" v-if="finalized_city != '' && finalized_state != '' && finalized_zipcode != ''">
         {{finalized_city}}, {{finalized_state}} - {{finalized_zipcode}}</span></div>
     <b-input-group>
       <b-form-input
@@ -56,7 +56,6 @@
 
   const name = 'LocationSearch';
 
-  // check with sam about ...mapActions or use .dispatch
   export default {
     components: {
       AppModal,
