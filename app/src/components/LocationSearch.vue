@@ -115,6 +115,7 @@
           city: this.finalized_city,
           state: this.finalized_state
         });
+        EventBus.$emit('locationService::update');
         vm.$root.$emit(
                 'bv::hide::modal', 'location-search-modal-interactive', lsModal,
         );
