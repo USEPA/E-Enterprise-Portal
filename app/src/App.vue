@@ -25,12 +25,17 @@
       id="nav"
       class="region-navigation pb-2 px-3">
 
-      <div class="container">
-        <router-link to="/">Home</router-link>
-        <span class="divider">|</span>
-        <router-link to="/about">About</router-link>
-        <span class="divider">|</span>
-        <router-link to="/workbench">Workbench</router-link>
+      <div id="main-navigation-container" class="container">
+        <div class="row">
+          <div id="page-selection-wrapper" class="col-5">
+            <router-link to="/">Home</router-link>
+            <span class="divider">|</span>
+            <router-link to="/about">About</router-link>
+            <span class="divider">|</span>
+            <router-link to="/workbench">Workbench</router-link>
+          </div>
+          <LocationSearch/>
+        </div>
       </div>
     </div>
     <div class="container">
@@ -51,6 +56,7 @@
   import { mapGetters } from 'vuex';
   import MainHeader from '@/components/MainHeader.vue';
   import MainFooter from '@/components/MainFooter.vue';
+  import LocationSearch from '@/components/LocationSearch.vue'
   import VueProgessBar from 'vue-progressbar';
   import types from './store/types';
 
@@ -60,6 +66,7 @@
       MainHeader,
       MainFooter,
       VueProgessBar,
+      LocationSearch,
     },
     mounted() {
       //  [App.vue specific] When App.vue is finish loading finish the progress bar
@@ -128,7 +135,7 @@
 </script>
 
 <style lang="scss">
-  // @TODO - Move no scoped styles to the appropiate sass file
+  /*// @TODO - Move no scoped styles to the appropiate sass file*/
   @import './styles/bootstrap-variable-overrides.scss';
   @import '../node_modules/bootstrap/scss/bootstrap.scss';
   @import '../node_modules/bootstrap-vue/dist/bootstrap-vue.css';
@@ -179,5 +186,20 @@
         font-size: 1.0rem;
       }
     }
+  }
+  #location-wrapper {
+    margin-top: 8px;
+    .input-group{
+      width: 55%;
+      float: right;
+    }
+  }
+  .row{
+    .col-6{
+      margin-top: 5px;
+    }
+  }
+  #page-selection-wrapper{
+    margin-top: 8px;
   }
 </style>
