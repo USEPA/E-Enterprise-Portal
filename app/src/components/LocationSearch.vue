@@ -32,13 +32,13 @@
 
       <div id="zipcode-dropdown-wrapper">
         <!-- zipcode drop down -->
-        <b-form-select id="location-zipcodes" v-if="zipcodes.length > 1" :options="zipcodes">
+        <b-form-select id="location-zipcodes" v-if="zipcodes.length > 1" :options="zipcodes" v-model="finalized_zipcode">
         </b-form-select>
       </div>
 
       <div id="city-dropdown-wrapper">
         <!-- city drop down -->
-        <b-form-select id="location-cities" v-if="cities.length > 1" :options="cities">
+        <b-form-select id="location-cities" v-if="cities.length > 1" :options="cities" v-model="finalized_city">
         </b-form-select>
       </div>
 
@@ -113,13 +113,10 @@
         // declare the modal instance
         const vm = this;
         const lsModal = vm.$refs.location_search_modal_interactive;
-        //this.finalized_city = ;
-//        this.finalized_state = this.cities[0];
-//        this.finalized_zipcode =
+        this.finalized_state = this.cities[0];
         vm.$root.$emit(
                 'bv::hide::modal', 'location-search-modal-interactive', lsModal,
         );
-        //alert("modal submit location worked");
       }
     },
   };
