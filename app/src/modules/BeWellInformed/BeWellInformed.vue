@@ -8,11 +8,13 @@
         @submit="onCheckYourWater"
         novalidated>
         <b-form-select
-          :value="selectedPartner"
-          :options="partners"
-          @change="setSelectedPartner"
-          class="mb-3"
-          required>
+                id="partner-selection"
+                :value="selectedPartner"
+                :options="partners"
+                ref="partnerDropdown"
+                @change="setSelectedPartner"
+                class="mb-3"
+                required>
           <template slot="first">
             <!-- this slot appears above the options from 'options' prop -->
             <option
@@ -103,7 +105,7 @@
           </b-tab>
         </b-tabs>
 
-        <!-- NBSP is used to prevent the default modal buttons from rendering -->
+       <!-- NBSP is used to prevent the default modal buttons from rendering -->
         <template
           slot="footer">&nbsp;
         </template>
@@ -243,6 +245,9 @@
 
       // Custom event listeners
       EventBus.$on('bwi::showWaterAnalysisResults', this.showWaterAnalysisResults);
+
+      // Update location in BWI app
+      EventBus.$on('locationService::update', this.updateSelectedPartner);
     },
     data() {
       return {
@@ -308,6 +313,7 @@
         'submitPartnersData',
         'updateAdditionalContaminantProperty',
         'updatePromptResponses',
+        'updateSelectedPartner',
         'updateWaterAnalysisRequestProperty',
       ]),
       onCheckYourWater(evt) {

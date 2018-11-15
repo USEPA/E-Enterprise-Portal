@@ -2,7 +2,6 @@ import Vue from 'vue';
 import _ from 'lodash';
 import types from './types';
 
-
 export default {
   [types.SET_APP](state, obj) {
     Vue.set(
@@ -16,6 +15,13 @@ export default {
       _.get(state, obj.path),
       obj.property,
       obj.value || obj.defaultValue,
+    );
+  },
+  [types.SET_USER_LOCATION](state, obj) {
+    Vue.set(
+      state.user,
+      'location',
+      obj,
     );
   },
 };

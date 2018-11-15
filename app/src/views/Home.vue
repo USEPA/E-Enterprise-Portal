@@ -155,7 +155,7 @@
 
 
 <style lang="scss">
-  // @TODO - Move no scoped styles to the appropiate sass file
+  // @TODO - Move non scoped styles to the appropriate sass file
   @import '../styles/bootstrap-mixins-cheatsheet.scss';
   #home-carousel {
 

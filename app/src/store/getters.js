@@ -38,11 +38,20 @@ export default {
     // env = 'DEV';
     return env;
   },
-
+  getLocation(state) {
+    return state.location;
+  },
+  getUser(state){
+    return state.user;
+  },
+  getLocationSearchURL(state, ref){
+    const locationSearchURL = state.urls[ref.getEnvironment].locationSearch;
+    return locationSearchURL;
+  },
   getBridgeURL(state, ref) {
     const env = ref.getEnvironment;
     let url = '#';
-    let bridgeSettings = state.bridgeSettings[env];
+    const bridgeSettings = state.bridgeSettings[env];
     if (bridgeSettings) {
       url = bridgeSettings.issuer + "?wtrealm=" + encodeURI(bridgeSettings.relyingParty) +
         '&wreply=' + encodeURI(bridgeSettings.sendBridgeBackTo) + "&whr=urn:ENNAAS&wa=" + bridgeSettings.signInMethod;
