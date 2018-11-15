@@ -73,7 +73,7 @@
         isWaterAnalysisRequestEmpty: 'BeWellInformed/isWaterAnalysisRequestEmpty',
       }),
     },
-    data: function() {
+    data() {
       return {
         submissionErrorMessage: '',
       };

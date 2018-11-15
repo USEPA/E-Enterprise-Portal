@@ -270,4 +270,20 @@ export default {
     store.commit(types.SET_SELECTED_PARTNER, payload);
     store.commit(types.UPDATE_PARTNER_RESOURCE);
   },
+  updateSelectedPartner(context) {
+    const store = context;
+    const rootStore = this;
+
+    // So if the dropdown is already selected we do nothing
+    if (store.selectedPartner == null) {
+      // If there is an option we can update to it; the select options are driven
+      // by "partners"
+      const { partners } = store.state;
+      const { state } = rootStore.state.user.location;
+      const newSelectedpartners = partners.filter(partner => partner.code == state);
+      if (newSelectedpartners.length) {
+        store.commit(types.SET_SELECTED_PARTNER, newSelectedpartners[0]);
+      }
+    }
+  },
 };

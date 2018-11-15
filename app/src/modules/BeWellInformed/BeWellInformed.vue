@@ -247,7 +247,7 @@
       EventBus.$on('bwi::showWaterAnalysisResults', this.showWaterAnalysisResults);
 
       // Update location in BWI app
-      EventBus.$on('locationService::update', this.updateLocationInDropdown);
+      EventBus.$on('locationService::update', this.updateSelectedPartner);
     },
     data() {
       return {
@@ -313,6 +313,7 @@
         'submitPartnersData',
         'updateAdditionalContaminantProperty',
         'updatePromptResponses',
+        'updateSelectedPartner',
         'updateWaterAnalysisRequestProperty',
       ]),
       onCheckYourWater(evt) {
@@ -382,20 +383,6 @@
         return this.waterAnalysisResults
           && this.waterAnalysisResults.length
           && this.waterAnalysisResults[0];
-      },
-      updateLocationInDropdown(){
-        document.getElementById("partner-selection").selectedIndex = 0;
-        const input_state = this.$store.getters.getUser.location.state;
-        const dropdown_options = this.$refs.partnerDropdown.$options;
-        if (dropdown_options !== undefined) {
-          dropdown_options.propsData.options.forEach(function (partner_ref, index) {
-            if (partner_ref.value.code === input_state) {
-              // @todo: make proper uses of data binding
-              document.getElementById("partner-selection").selectedIndex = index + 1;
-              return;
-            }
-          });
-        }
       },
     },
   };
