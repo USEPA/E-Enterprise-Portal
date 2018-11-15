@@ -1,28 +1,30 @@
 <!-- get the button call back to call the axios function in actions.js-->
 <template>
   <div
-    id="location-wrapper"
-    class="col-7">
-    <span id="location-description" v-if="finalized_city != '' && finalized_state != '' && finalized_zipcode != ''">
+          id="location-wrapper" class="col-8 mt-1">
+    <div class="w-50 float-left mt-2 px-5">
+      <span id="location-description" v-if="finalized_city != '' && finalized_state != '' && finalized_zipcode != ''">
         {{finalized_city}}, {{finalized_state}} - {{finalized_zipcode}}</span>
-    <b-input-group>
-      <b-form-input
-        id="location-input"
-        type="text"
-        v-model="location"
-        placeholder="Enter city, state; or ZIP code"/>
+    </div>
+    <div class="w-50 float-right">
+      <b-input-group id="location-input">
+        <b-form-input
+                type="text"
+                v-model="location"
+                placeholder="Enter city, state; or ZIP code"/>
         <b-input-group-append>
           <b-button
-            id="submit-location"
-            type="submit"
-            @click="submitLocation">
+                  id="submit-location"
+                  type="submit"
+                  @click="submitLocation">
             <div class="button-image">
               <i class="fas fa-arrow-right"></i>
             </div>
           </b-button>
         </b-input-group-append>
-      </b-form-input>
-    </b-input-group>
+        </b-form-input>
+      </b-input-group>
+    </div>
     <AppModal
       id="location-search-modal-interactive"
       modal-ref="location-search-modal-interactive"
@@ -165,28 +167,9 @@
     width: 20px;
     height: 20px;
   }
-
-  #gridModalLabel {
-    color: white;
+  #location-description{
+    font-size: 60%;
+    float: right;
   }
 
-  #location-search-modal-interactive___BV_modal_header_ {
-    background-color: #0071bc;
-  }
-
-  .dropdown-item > a {
-    background-color: grey;
-  }
-
-  #location-description {
-    font-size: 70%;
-  }
-
-  #zipcode-dropdown-wrapper, #city-dropdown-wrapper{
-    padding-bottom: 5px;
-  }
-
-  #description-wrapper{
-    width: 55%;
-  }
 </style>
