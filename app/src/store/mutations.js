@@ -1,11 +1,8 @@
 import Vue from 'vue';
 import _ from 'lodash';
 import types from './types';
-import { commonAppStore } from '../modules/wadk/WADK';
-
 
 export default {
-  ...commonAppStore.mutations,
   [types.SET_APP](state, obj) {
     Vue.set(
       state,

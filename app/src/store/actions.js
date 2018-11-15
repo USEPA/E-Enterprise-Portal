@@ -42,10 +42,6 @@ export default {
           callee: this,
           value: data,
       });
-    }).catch((...args) => {
-      // @todo add sanity check for errors & visual prompt to the user
-      app.$Progress.fail();
-      console.warn('AppAxios fail: ', args);
     });
   },
 };
