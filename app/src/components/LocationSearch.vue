@@ -130,7 +130,7 @@
             city: this.finalized_city,
             state: this.finalized_state
           });
-        }
+          EventBus.$emit('locationService::update');        }
       },
       submitLocationModal(){
         // declare the modal instance
