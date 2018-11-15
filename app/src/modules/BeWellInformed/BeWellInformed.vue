@@ -393,7 +393,7 @@
           dropdown_options.propsData.options.forEach(function (partner_ref, index) {
 //            console.log(index + ": "+partner_ref.value.code + " = " + input_state);
             if (partner_ref.value.code == input_state) {
-              // @todo: use databinding here instead of manipulating the element with normal javascript
+              // @todo: make proper uses of data binding
               document.getElementById("partner-selection").selectedIndex = index + 1;
               return;
             }

@@ -9,6 +9,7 @@ import getters from './getters';
 
 const namespaced = true;
 
+// @todo: This file is a repeat of store.js and should be deleted and code refactored
 export default {
   namespaced,
   state,
