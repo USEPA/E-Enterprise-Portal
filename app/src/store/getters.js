@@ -44,4 +44,15 @@ export default {
   getUser(state){
     return state.user;
   },
+
+  getBridgeURL(state, ref) {
+    const env = ref.getEnvironment;
+    let url = '#';
+    let bridgeSettings = state.bridgeSettings[env];
+    if (bridgeSettings) {
+      url = bridgeSettings.issuer + "?wtrealm=" + encodeURI(bridgeSettings.relyingParty) +
+        '&wreply=' + encodeURI(bridgeSettings.sendBridgeBackTo) + "&whr=urn:ENNAAS&wa=" + bridgeSettings.signInMethod;
+    }
+    return url;
+  }
 };
