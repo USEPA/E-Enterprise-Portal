@@ -6,7 +6,7 @@
       <span id="location-description" v-if="finalized_city != '' && finalized_state != '' && finalized_zipcode != ''">
         {{finalized_city}}, {{finalized_state}} - {{finalized_zipcode}}</span>
     </div>
-    <div class="w-50 float-right mt-1">
+    <div class="w-50 float-right">
       <b-input-group id="location-input">
         <b-form-input
                 type="text"
