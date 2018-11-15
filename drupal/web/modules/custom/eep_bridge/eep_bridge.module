@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * @file
+ * Contains eep_bridge.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ * @param $route_name
+ * @param $route_match
+ *
+ * @return $output
+ *
+ */
+function eep_bridge_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.eep_bridge':
+      $output = '';
+      $output .= '<h1>' . t('EEP Bridge Authentication Help Page') . '</h1>';
+      return $output;
+    default:
+      return "";
+  }
+}
