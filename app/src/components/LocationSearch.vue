@@ -1,7 +1,7 @@
 <!-- get the button call back to call the axios function in actions.js-->
 <template>
   <!--just have to figure out how to make the width of the input smaller-->
-  <div id="location-wrapper" class="col-10 mt-1">
+  <div id='location-wrapper' class='col-10 mt-1'>
     <div class="w-50 float-left mt-2 px-5">
       <span id="location-description" v-if="finalized_city != '' && finalized_state != '' && finalized_zipcode != ''">
         {{finalized_city}}, {{finalized_state}} - {{finalized_zipcode}}</span>
