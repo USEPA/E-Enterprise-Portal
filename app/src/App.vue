@@ -27,7 +27,7 @@
 
       <div id="main-navigation-container" class="container">
         <div class="row">
-          <div id="page-selection-wrapper" class="col-2 mt-1">
+          <div id="page-selection-wrapper" class="col-4 mt-1">
             <router-link to="/">Home</router-link>
             <span class="divider">|</span>
             <router-link to="/about">About</router-link>
