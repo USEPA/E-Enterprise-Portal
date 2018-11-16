@@ -1,28 +1,30 @@
-<!-- get the button call back to call the axios function in actions.js-->
 <template>
-  <div
-    id="location-wrapper"
-    class="col-7">
-    <span id="location-description" v-if="finalized_city != '' && finalized_state != '' && finalized_zipcode != ''">
-        {{finalized_city}}, {{finalized_state}} - {{finalized_zipcode}}</span>
-    <b-input-group>
-      <b-form-input
-        id="location-input"
-        type="text"
-        v-model="location"
-        placeholder="Enter city, state; or ZIP code"/>
-        <b-input-group-append>
-          <b-button
-            id="submit-location"
-            type="submit"
-            @click="submitLocation">
-            <div class="button-image">
-              <i class="fas fa-arrow-right"></i>
-            </div>
-          </b-button>
-        </b-input-group-append>
-      </b-form-input>
-    </b-input-group>
+  <div id='location-wrapper' class='col-md-7 mt-1'>
+    <div class="row">
+      <div class=" col-sm-6">
+           <p id="location-description" class="text-md-right my-2" v-if="finalized_city != '' && finalized_state != '' && finalized_zipcode != ''">
+              {{finalized_city}}, {{finalized_state}} - {{finalized_zipcode}}</p>
+      </div>
+      <div class="col-sm-6">
+        <b-input-group id="location-input">
+          <b-form-input
+                  type="text"
+                  v-model="location"
+                  placeholder="Enter city, state; or ZIP code"/>
+          <b-input-group-append>
+            <b-button
+                    id="submit-location"
+                    type="submit"
+                    @click="submitLocation">
+              <div class="button-image">
+                <i class="fas fa-arrow-right"></i>
+              </div>
+            </b-button>
+          </b-input-group-append>
+          </b-form-input>
+        </b-input-group>
+      </div>
+    </div>
     <AppModal
       id="location-search-modal-interactive"
       modal-ref="location-search-modal-interactive"
@@ -161,32 +163,7 @@
 </script>
 
 <style>
-  #go-btn-image {
-    width: 20px;
-    height: 20px;
-  }
-
-  #gridModalLabel {
-    color: white;
-  }
-
-  #location-search-modal-interactive___BV_modal_header_ {
-    background-color: #0071bc;
-  }
-
-  .dropdown-item > a {
-    background-color: grey;
-  }
-
-  #location-description {
-    font-size: 70%;
-  }
-
-  #zipcode-dropdown-wrapper, #city-dropdown-wrapper{
-    padding-bottom: 5px;
-  }
-
-  #description-wrapper{
-    width: 55%;
+  #location-description{
+    font-size: 75%;
   }
 </style>
