@@ -1,29 +1,29 @@
-<!-- get the button call back to call the axios function in actions.js-->
 <template>
-  <!--just have to figure out how to make the width of the input smaller-->
-  <div id='location-wrapper' class='col-8 mt-1'>
-    <div class="w-50 float-left mt-2">
-      <span id="location-description" v-if="finalized_city != '' && finalized_state != '' && finalized_zipcode != ''">
-        {{finalized_city}}, {{finalized_state}} - {{finalized_zipcode}}</span>
-    </div>
-    <div class="w-50 float-right">
-      <b-input-group id="location-input">
-        <b-form-input
-                type="text"
-                v-model="location"
-                placeholder="Enter city, state; or ZIP code"/>
-        <b-input-group-append>
-          <b-button
-                  id="submit-location"
-                  type="submit"
-                  @click="submitLocation">
-            <div class="button-image">
-              <i class="fas fa-arrow-right"></i>
-            </div>
-          </b-button>
-        </b-input-group-append>
-        </b-form-input>
-      </b-input-group>
+  <div id='location-wrapper' class='col-md-7 mt-1'>
+    <div class="row">
+      <div class=" col-sm-6">
+           <p id="location-description" v-if="finalized_city != '' && finalized_state != '' && finalized_zipcode != ''">
+              {{finalized_city}}, {{finalized_state}} - {{finalized_zipcode}}</p>
+      </div>
+      <div class="col-sm-6">
+        <b-input-group id="location-input">
+          <b-form-input
+                  type="text"
+                  v-model="location"
+                  placeholder="Enter city, state; or ZIP code"/>
+          <b-input-group-append>
+            <b-button
+                    id="submit-location"
+                    type="submit"
+                    @click="submitLocation">
+              <div class="button-image">
+                <i class="fas fa-arrow-right"></i>
+              </div>
+            </b-button>
+          </b-input-group-append>
+          </b-form-input>
+        </b-input-group>
+      </div>
     </div>
     <AppModal
       id="location-search-modal-interactive"
@@ -165,10 +165,5 @@
 <style>
   #location-description{
     font-size: 75%;
-    float: right;
-  }
-  #location-input{
-    width: 75%;
-    float: right;
   }
 </style>
