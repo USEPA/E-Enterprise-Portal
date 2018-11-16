@@ -2,7 +2,7 @@
   <div id='location-wrapper' class='col-md-7 mt-1'>
     <div class="row">
       <div class=" col-sm-6">
-           <p id="location-description" v-if="finalized_city != '' && finalized_state != '' && finalized_zipcode != ''">
+           <p id="location-description" class="text-md-right my-2" v-if="finalized_city != '' && finalized_state != '' && finalized_zipcode != ''">
               {{finalized_city}}, {{finalized_state}} - {{finalized_zipcode}}</p>
       </div>
       <div class="col-sm-6">
