@@ -7,9 +7,8 @@
     </div>
 </template>
 
-
 <script>
-
+    
     import { mapActions, mapGetters } from 'vuex';
     import { AppWrapper, AppModal, AppPlaceholderContent } from '../wadk/WADK';
     import storeModule from './store/index';
@@ -57,10 +56,7 @@
             ]),
         }
     }
-
-
 </script>
-
 
 <style scoped
        lang="scss">
