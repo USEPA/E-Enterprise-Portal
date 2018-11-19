@@ -2,7 +2,7 @@
     <div>
         <AppWrapper
         :eep-app="eepApp">
-            <!-- Here is where all of the content goes for the trending air app -->
+            <!-- Here is where all of the content goes for the ModuleTemplate app -->
         </AppWrapper>
     </div>
 </template>
@@ -43,8 +43,19 @@
                 },
             }
         },
-        computed:{},
-        methods: {}
+        mounted(){
+
+        },
+        computed:{
+            ...mapGetters({
+                <!-- map getters go here -->
+            }),
+        },
+        methods: {
+            ...mapActions(name, [
+                    <!-- map actions go here-->
+            ]),
+        }
     }
 
 
