@@ -15,4 +15,6 @@ export default {
       'authenitcated',
     ],
   },
+  airMonitoringStations: ['Chicago, IL', 'Durham, NC', 'Hartford, CT', 'Kansas City, KS',
+    'Oklahoma City, OK', 'Philadelphia, PA', 'Washignton, DC'],
 };

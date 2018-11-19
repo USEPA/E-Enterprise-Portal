@@ -189,5 +189,11 @@
     }
   }
 
+  #main-content {
+    //margin-bottom: 3.2em;
+    margin-bottom: 10em;
+
+  }
+
   // @TODO - Refactor and fix bad generic styles
 </style>
