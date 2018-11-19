@@ -22,6 +22,12 @@
         components: {
             AppWrapper,
         },
+        beforeCreate(){
+
+        },
+        created(){
+
+        },
         data(){
             return{
                 eepApp: {
@@ -37,12 +43,14 @@
                 },
             }
         },
-        beforeCreate(){
+        computed{
 
         },
+        methods:{
+
+        }
+
     }
-
-
 </script>
 
 
