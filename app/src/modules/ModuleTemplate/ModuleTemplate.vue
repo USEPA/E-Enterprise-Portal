@@ -1,4 +1,4 @@
-<template ref="moduleTemplate">
+<!-- Go through this folder and rename all of the occurances to be specific to the app that you are building -->
     <div>
         <AppWrapper
         :eep-app="eepApp">
@@ -8,16 +8,16 @@
 </template>
 
 <script>
-    
+
     import { mapActions, mapGetters } from 'vuex';
     import { AppWrapper, AppModal, AppPlaceholderContent } from '../wadk/WADK';
     import storeModule from './store/index';
     import { EventBus } from '../../EventBus';
 
-    const name = 'ModuleTemplate';
+    const moduleName = 'ModuleTemplate';
 
     export default {
-        name: name,
+        name: moduleName,
         components: {
             AppWrapper,
         },
@@ -47,12 +47,12 @@
         },
         computed:{
             ...mapGetters({
-                <!-- map getters go here -->
+                // map getters go here
             }),
         },
         methods: {
-            ...mapActions(name, [
-                    <!-- map actions go here-->
+            ...mapActions(moduleName, [
+                // map actions go here
             ]),
         }
     }

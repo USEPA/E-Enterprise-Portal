@@ -221,10 +221,10 @@
   import { EventBus } from '../../EventBus';
   import WaterAnalysisResult from './components/WaterAnalysisResult.vue';
 
-  const name = 'BeWellInformed';
+  const moduleName = 'BeWellInformed';
 
   export default {
-    name: name,
+    name: moduleName,
     components: {
       WaterAnalysisResult,
       AppWrapper,
@@ -238,8 +238,8 @@
     },
     created() {
       const store = this.$store;
-      if (!(store && store.state && store.state[name])) {
-        store.registerModule(name, storeModule);
+      if (!(store && store.state && store.state[moduleName])) {
+        store.registerModule(moduleName, storeModule);
       }
       this.fetchPartners();
 
@@ -305,7 +305,7 @@
       },
     },
     methods: {
-      ...mapActions(name, [
+      ...mapActions(moduleName, [
         'createWaterAnalysisRequest',
         'setSelectedPartner',
         'fetchPartners',

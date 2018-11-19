@@ -15,10 +15,10 @@
     import storeModule from './store/index';
     import { EventBus } from '../../EventBus';
 
-    const name = 'TrendingAir';
+    const moduleName = 'TrendingAir';
 
     export default {
-        name: name,
+        name: moduleName,
         components: {
             AppWrapper,
         },
