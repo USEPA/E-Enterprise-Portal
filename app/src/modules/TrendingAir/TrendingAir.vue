@@ -43,13 +43,12 @@
                 },
             }
         },
-        computed{
+        computed:{
 
         },
         methods:{
 
         }
-
     }
 </script>
 

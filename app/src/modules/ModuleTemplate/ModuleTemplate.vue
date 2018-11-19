@@ -1,4 +1,4 @@
-<template ref="trendingAir">
+<template ref="moduleTemplate">
     <div>
         <AppWrapper
         :eep-app="eepApp">
@@ -15,18 +15,24 @@
     import storeModule from './store/index';
     import { EventBus } from '../../EventBus';
 
-    const name = 'TrendingAir';
+    const name = 'ModuleTemplate';
 
     export default {
         name: name,
         components: {
             AppWrapper,
         },
+        beforeCreate(){
+
+        },
+        created(){
+
+        },
         data(){
             return{
                 eepApp: {
-                    id: 'trending-air',
-                    title: 'Trending Air',
+                    id: 'module-template',
+                    title: 'Module Template',
                     source: {
                         text: '',
                         link: '',
@@ -37,9 +43,8 @@
                 },
             }
         },
-        beforeCreate(){
-
-        },
+        computed:{},
+        methods: {}
     }
 
 
