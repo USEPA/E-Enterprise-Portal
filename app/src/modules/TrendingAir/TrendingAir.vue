@@ -1,0 +1,61 @@
+<template ref="trendingAir">
+    <div>
+        <AppWrapper
+        :eep-app="eepApp">
+            <!-- Here is where all of the content goes for the trending air app -->
+        </AppWrapper>
+    </div>
+</template>
+
+
+<script>
+
+    import { mapActions, mapGetters } from 'vuex';
+    import { AppWrapper, AppModal, AppPlaceholderContent } from '../wadk/WADK';
+    import storeModule from './store/index';
+    import { EventBus } from '../../EventBus';
+
+    const moduleName = 'TrendingAir';
+
+    export default {
+        name: moduleName,
+        components: {
+            AppWrapper,
+        },
+        beforeCreate(){
+
+        },
+        created(){
+            const store = this.$store;
+            if (!(store && store.state && store.state[moduleName])) {
+                store.registerModule(moduleName, storeModule);
+            }
+        },
+        data(){
+            return{
+                eepApp: {
+                    id: 'trending-air',
+                    title: 'Trending Air',
+                    source: {
+                        text: '',
+                        link: '',
+                    },
+                    html: {
+                        mainCard: '',
+                    },
+                },
+            }
+        },
+        computed:{
+
+        },
+        methods:{
+
+        }
+    }
+</script>
+
+
+<style scoped
+       lang="scss">
+</style>
