@@ -25,7 +25,10 @@
 
         },
         created(){
-
+            const store = this.$store;
+            if (!(store && store.state && store.state[moduleName])) {
+                store.registerModule(moduleName, storeModule);
+            }
         },
         data(){
             return{
