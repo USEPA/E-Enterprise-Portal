@@ -7,21 +7,14 @@
             <p>Updated every minute via  <a v-bind:href = "providerURL" target = "_blank">{{providerName}}</a></p>
             Air Monitoring Station
             <b-form-select
-                    id="location-selection"
+                    id="location-dropdown"
                     :value="selectedPartner"
-                    :options="airMonitoringStations"
                     ref="locationDropdown"
-                    @change="changeLocation"
-                    class="mb-3"
-                    required>
-                <template slot="first">
-                    <!-- this slot appears above the options from 'options' prop -->
-                    <option
-                            :value="null"
-                            disabled>-- Please select an partner --
-                    </option>
-                </template>
+                    :options="airMonitoringStations"
+                    v-model="selected"
+                    class="mb-3">
             </b-form-select>
+            <p>Last Reading: {{lastWeatherReading}}</p>
         </AppWrapper>
     </div>
 </template>
@@ -66,12 +59,14 @@
                 description: 'This is the description. Please enter no more than 200 characters',
                 providerName: 'Village Green',
                 providerURL: 'http://villagegreen.airnowtech.org/',
-                airMonitoringStations: ['Chicago, IL', 'Durham, NC', 'Hartford, CT', 'Kansas City, KS',
-                    'Oklahoma City, OK', 'Philadelphia, PA', 'Washignton, DC']
             }
         },
         computed:{
-
+            ...mapGetters({
+                airMonitoringStations: 'TrendingAir/getAirMonitoringStations',
+                selected: 'TrendingAir/getDefaultSelectedValue',
+                lastWeatherReading: 'TrendingAir/getlastWeatherReading'
+            }),
         },
         methods:{
 
