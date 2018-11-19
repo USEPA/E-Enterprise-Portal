@@ -224,7 +224,7 @@
   const name = 'BeWellInformed';
 
   export default {
-    name: 'BeWellInformed',
+    name: name,
     components: {
       WaterAnalysisResult,
       AppWrapper,
