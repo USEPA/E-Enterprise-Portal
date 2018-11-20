@@ -6,4 +6,6 @@
  *  @SEE https://vuex.vuejs.org/guide/mutations.html
  */
 
-export default {};
+export default {
+  SELECTED_LOCATION: 'SELECTED_LOCATION',
+};

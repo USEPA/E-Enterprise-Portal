@@ -19,4 +19,5 @@ export default {
     'Oklahoma City, OK', 'Philadelphia, PA', 'Washignton, DC'],
   locationDropdownDefaultValue: 'Chicago, IL',
   lastWeatherReading: 'Mon 1:36 PM EDT',
+  currentSeletcedLocation: '',
 };

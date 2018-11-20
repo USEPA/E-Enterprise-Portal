@@ -18,4 +18,7 @@ export default {
   getlastWeatherReading(state){
     return state.lastWeatherReading;
   },
+  getCurrentDropDownSelection(state){
+    return state.currentSeletcedLocation;
+  },
 };

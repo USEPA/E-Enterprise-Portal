@@ -14,4 +14,13 @@
  *  @SEE https://vuex.vuejs.org/guide/mutations.html
  */
 
-export default {};
+import Vue from 'vue';
+import {commonAppStore} from '../../wadk/WADK';
+import types from './types';
+
+export default {
+  ...commonAppStore.mutations,
+  [types.SELECTED_LOCATION](state, obj){
+    state.currentSeletcedLocation = obj;
+  },
+};

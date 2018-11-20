@@ -8,10 +8,10 @@
             Air Monitoring Station
             <b-form-select
                     id="location-dropdown"
-                    :value="selectedPartner"
                     ref="locationDropdown"
                     :options="airMonitoringStations"
                     v-model="selected"
+                    @onchange="onLocationDropdownChangeUpdateFields"
                     class="mb-3">
             </b-form-select>
             <p>Last Reading: {{lastWeatherReading}}</p>
@@ -65,11 +65,15 @@
             ...mapGetters({
                 airMonitoringStations: 'TrendingAir/getAirMonitoringStations',
                 selected: 'TrendingAir/getDefaultSelectedValue',
-                lastWeatherReading: 'TrendingAir/getlastWeatherReading'
+                lastWeatherReading: 'TrendingAir/getlastWeatherReading',
+                currentDropSelection: ''
             }),
         },
         methods:{
-
+            onLocationDropdownChangeUpdateFields(){
+                this.$store.commit('selected', this.selected);
+                console.log(this.$refs.locationDropdown.value);
+            },
         }
     }
 </script>
