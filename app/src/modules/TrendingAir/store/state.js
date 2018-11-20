@@ -17,6 +17,6 @@ export default {
   },
   airMonitoringStations: ['Chicago, IL', 'Durham, NC', 'Hartford, CT', 'Kansas City, KS',
     'Oklahoma City, OK', 'Philadelphia, PA', 'Washignton, DC'],
-  currentSeletcedLocation: 'Chicago, IL',
+  defaultSeletcedLocation: 'Chicago, IL',
   lastWeatherReading: 'Mon 1:36 PM EDT',
 };

@@ -9,10 +9,10 @@
             <b-form-select
                     id="location-dropdown"
                     ref="locationDropdown"
-                    :options="airMonitoringStations"
                     :value="locationDropdownDefaultValue"
-                    v-on:change="onLocationDropdownChangeUpdateFields"
+                    v-on:change="reflectChangeForNewLocation"
                     class="mb-3">
+                <option v-for="(station, index) in airMonitoringStations" v-bind:value="station">{{station}}</option>
             </b-form-select>
             <p>Last Reading: {{lastWeatherReading}}</p>
         </AppWrapper>
@@ -32,8 +32,6 @@
         name: moduleName,
         components: {
             AppWrapper,
-        },
-        beforeCreate(){
         },
         created(){
             const store = this.$store;
@@ -62,14 +60,16 @@
         computed:{
             ...mapGetters({
                 airMonitoringStations: 'TrendingAir/getAirMonitoringStations',
-                locationDropdownDefaultValue: 'TrendingAir/getCurrentDropDownSelection',
+                locationDropdownDefaultValue: 'TrendingAir/getDefaultDropDownSelection',
                 lastWeatherReading: 'TrendingAir/getlastWeatherReading',
             }),
         },
         methods:{
-            onLocationDropdownChangeUpdateFields(){
-                this.$store.commit('CURRENT_SELECTED_LOCATION', this.$refs.locationDropdown.value);
-                console.log("it was changed");
+            ...mapActions(moduleName, [
+                'reflectLocationChange',
+            ]),
+            reflectChangeForNewLocation: function (newLocation) {
+                this.reflectLocationChange(newLocation);
             },
         }
     }
