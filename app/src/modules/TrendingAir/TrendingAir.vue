@@ -10,8 +10,8 @@
                     id="location-dropdown"
                     ref="locationDropdown"
                     :options="airMonitoringStations"
-                    v-model="selected"
-                    @onchange="onLocationDropdownChangeUpdateFields"
+                    :value="locationDropdownDefaultValue"
+                    v-on:change="onLocationDropdownChangeUpdateFields"
                     class="mb-3">
             </b-form-select>
             <p>Last Reading: {{lastWeatherReading}}</p>
@@ -21,7 +21,6 @@
 
 
 <script>
-
     import { mapActions, mapGetters } from 'vuex';
     import { AppWrapper, AppModal, AppPlaceholderContent } from '../wadk/WADK';
     import storeModule from './store/index';
@@ -35,7 +34,6 @@
             AppWrapper,
         },
         beforeCreate(){
-
         },
         created(){
             const store = this.$store;
@@ -64,14 +62,14 @@
         computed:{
             ...mapGetters({
                 airMonitoringStations: 'TrendingAir/getAirMonitoringStations',
-                selected: 'TrendingAir/getDefaultSelectedValue',
+                locationDropdownDefaultValue: 'TrendingAir/getCurrentDropDownSelection',
                 lastWeatherReading: 'TrendingAir/getlastWeatherReading',
-                currentDropSelection: ''
             }),
         },
         methods:{
             onLocationDropdownChangeUpdateFields(){
-                console.log(this.$refs.locationDropdown.value);
+                this.$store.commit('CURRENT_SELECTED_LOCATION', this.$refs.locationDropdown.value);
+                console.log("it was changed");
             },
         }
     }
