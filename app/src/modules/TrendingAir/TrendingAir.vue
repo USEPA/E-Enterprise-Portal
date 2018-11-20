@@ -71,7 +71,6 @@
         },
         methods:{
             onLocationDropdownChangeUpdateFields(){
-                this.$store.commit('selected', this.selected);
                 console.log(this.$refs.locationDropdown.value);
             },
         }

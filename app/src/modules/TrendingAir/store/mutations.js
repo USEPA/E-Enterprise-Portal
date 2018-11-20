@@ -15,12 +15,15 @@
  */
 
 import Vue from 'vue';
-import {commonAppStore} from '../../wadk/WADK';
+import { commonAppStore } from '../../wadk/WADK';
 import types from './types';
 
 export default {
   ...commonAppStore.mutations,
   [types.SELECTED_LOCATION](state, obj){
     state.currentSeletcedLocation = obj;
+  },
+  [types.DEFAULT_SELECTED_LOCATION](state, obj){
+    state.locationDropdownDefaultValue = obj;
   },
 };
