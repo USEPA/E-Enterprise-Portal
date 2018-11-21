@@ -49,8 +49,11 @@ class EEPBridgeController extends ControllerBase {
     // Pull UserDetails from Post
     $userDetails = $this->parse_post_for_user_details($post);
 
+    //check if user details is returned, TODO: remove this code after checking.
+    ksm($userDetails);
+
     return [
-      '#markup' => $this->t("wa_result " . $_POST['wa_result'] . " <br> wa_version " . $_POST['wa_version'])
+      '#markup' => $this->t("wa_result " . $_POST['wresult'])
     ];
   }
 
