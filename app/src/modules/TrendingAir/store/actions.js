@@ -12,6 +12,22 @@ export default {
   ...commonAppStore.actions,
   reflectLocationChange(context, newLocation){
     const store = context;
-    console.log(newLocation);
+    const newLocationSplitStr = newLocation.split(", ");
+    const inputBoxSelectedCity = store.rootGetters.getUser.location.city;
+    const inputBoxSelectedState = store.rootGetters.getUser.location.state;
+    const correspondingSiteId = store.state.airMonitoringStationsWithSiteIDs[newLocation];
+
+
+    // if (newLocationSplitStr[0].toLowerCase().trim() === inputBoxSelectedCity.toLowerCase().trim() &&
+    //   newLocationSplitStr[1].toLowerCase().trim() === inputBoxSelectedState.toLowerCase().trim()) {
+    //   console.log("hit if");
+    //
+    // } else {
+    //
+    //   console.log("hit else");
+    //
+    //
+    // }
+
   },
 };
