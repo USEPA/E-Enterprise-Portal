@@ -28,5 +28,6 @@ export default {
     'Washington, DC': 24293,
   },
   defaultSeletcedLocation: 'Chicago, IL',
+  newUpdatedLocation: null,
   lastWeatherReading: 'Mon 1:36 PM EDT',
 };

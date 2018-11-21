@@ -38,6 +38,7 @@
             if (!(store && store.state && store.state[moduleName])) {
                 store.registerModule(moduleName, storeModule);
             }
+            EventBus.$on('locationService::update', this.updateLocationOnInputBoxChange);
         },
         data(){
             return{
@@ -70,7 +71,7 @@
             ]),
             reflectChangeForNewLocation: function (newLocation) {
                 this.reflectLocationChange(newLocation);
-            },
+            }
         }
     }
 </script>
