@@ -9,7 +9,7 @@
             <b-form-select
                     id="location-dropdown"
                     ref="locationDropdown"
-                    :value="locationDropdownDefaultValue"
+                    :value="(newUpdatedLocation != '')? newUpdatedLocation : locationDropdownDefaultValue"
                     v-on:change="reflectChangeForNewLocation"
                     class="mb-3">
                 <option v-for="(station, index) in airMonitoringStations" v-bind:value="station">{{station}}</option>
@@ -38,6 +38,7 @@
             if (!(store && store.state && store.state[moduleName])) {
                 store.registerModule(moduleName, storeModule);
             }
+
             EventBus.$on('locationService::update', this.updateLocationOnInputBoxChange);
         },
         data(){
@@ -62,12 +63,14 @@
             ...mapGetters({
                 airMonitoringStations: 'TrendingAir/getAirMonitoringStations',
                 locationDropdownDefaultValue: 'TrendingAir/getDefaultDropDownSelection',
+                newUpdatedLocation: 'TrendingAir/getNewUpdatedLocation',
                 lastWeatherReading: 'TrendingAir/getlastWeatherReading',
             }),
         },
         methods:{
             ...mapActions(moduleName, [
                 'reflectLocationChange',
+                'updateLocationOnInputBoxChange'
             ]),
             reflectChangeForNewLocation: function (newLocation) {
                 this.reflectLocationChange(newLocation);

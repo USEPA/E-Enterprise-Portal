@@ -18,4 +18,7 @@ export default {
   getDefaultDropDownSelection(state){
     return state.defaultSeletcedLocation;
   },
+  getNewUpdatedLocation(state){
+    return state.newUpdatedLocation;
+  }
 };

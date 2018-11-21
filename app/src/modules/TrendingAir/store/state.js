@@ -28,6 +28,7 @@ export default {
     'Washington, DC': 24293,
   },
   defaultSeletcedLocation: 'Chicago, IL',
-  newUpdatedLocation: null,
+  newUpdatedLocation: '',
   lastWeatherReading: 'Mon 1:36 PM EDT',
+  villageGreenApiUrl: 'http://e-enterprise/eep/proxy/service/vg?',
 };

@@ -16,8 +16,12 @@ export default {
     const inputBoxSelectedCity = store.rootGetters.getUser.location.city;
     const inputBoxSelectedState = store.rootGetters.getUser.location.state;
     const correspondingSiteId = store.state.airMonitoringStationsWithSiteIDs[newLocation];
-    
-    // do axios ajax call here for the proxy endpoint that i created
+
+    // do axios ajax call here for the proxy endpoint
+    AppAxios.get(store.state.villageGreenApiUrl + 'siteId=' + correspondingSiteId)
+      .then((response) => {
+        console.log(response);
+      });
 
 
     // if (newLocationSplitStr[0].toLowerCase().trim() === inputBoxSelectedCity.toLowerCase().trim() &&
@@ -36,15 +40,14 @@ export default {
     const store = context;
     const rootStore = this;
 
-    console.log("hit here");
+    const newCity = rootStore.state.user.location.city.toLowerCase();
+    const stations = store.state.airMonitoringStations;
+    const newLocationFormat = newCity.charAt(0).toUpperCase() +
+      newCity.substring(1, newCity.length + 1) + ', ' + rootStore.state.user.location.state;
 
-    if (store.defaultSeletcedLocation != 'Chicago, IL') {
-      const newCity = rootStore.state.user.location.city;
-      const newState = rootStore.state.user.location.state;
-      const newLocationFormat = newCity + ', ' + newState;
-      if(store.state.airMonitoringStations.includes(newLocationFormat)){
-        store.commit('CURRENT_SELECTED_LOCATION', newLocationFormat);
-      }
+    // Loop through current locations in drop down to validate the new location
+    if (stations.indexOf(newLocationFormat) > -1) {
+      store.commit(types.NEW_UPDATED_LOCATION, newLocationFormat);
     }
   },
 };

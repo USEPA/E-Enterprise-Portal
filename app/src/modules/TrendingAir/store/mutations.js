@@ -23,4 +23,7 @@ export default {
   [types.CURRENT_SELECTED_LOCATION](state, obj){
     Vue.set(state.defaultSeletcedLocation, obj.property, obj);
   },
+  [types.NEW_UPDATED_LOCATION](state, obj){
+    state.newUpdatedLocation = obj;
+  },
 };

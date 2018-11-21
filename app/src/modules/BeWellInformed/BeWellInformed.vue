@@ -239,6 +239,7 @@
       }
       this.fetchPartners();
 
+
       // Custom event listeners
       EventBus.$on('bwi::showWaterAnalysisResults', this.showWaterAnalysisResults);
 
