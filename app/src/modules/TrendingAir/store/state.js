@@ -15,7 +15,7 @@ export default {
       'authenitcated',
     ],
   },
-  airMonitoringStations: ['Chicago, IL', 'Durham, NC', 'Hartford, CT', 'Kansas City, KS',
+  airMonitoringStations: ['Chicago, IL', 'Durham, NC', 'Hartford, CT', 'Houston, TX', 'Kansas City, KS',
     'Oklahoma City, OK', 'Philadelphia, PA', 'Washington, DC'],
   airMonitoringStationsWithSiteIDs: {
     'Chicago, IL': 24607,
@@ -32,3 +32,4 @@ export default {
   lastWeatherReading: 'Mon 1:36 PM EDT',
   villageGreenApiUrl: 'http://e-enterprise/eep/proxy/service/vg?',
 };
+
