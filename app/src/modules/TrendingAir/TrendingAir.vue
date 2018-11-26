@@ -17,7 +17,7 @@
             currentWeatherReadingAfterDropdownSubmission.timezone != ''">
                 Last Reading: {{currentWeatherReadingAfterDropdownSubmission.currentDateTime}}
                 {{currentWeatherReadingAfterDropdownSubmission.timezone}}</p>
-            <!-- @TODO: implement timer for the update of the current selected option in dropdown-->
+            <!-- @TODO: implement vue timer for the update of the current selected option in dropdown-->
             <b-container>
                 <b-row>
                     <b-col class="bg-light border text-center location-info-inner">
