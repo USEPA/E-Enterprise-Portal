@@ -26,4 +26,7 @@ export default {
   [types.NEW_UPDATED_LOCATION](state, obj){
     state.newUpdatedLocation = obj;
   },
+  [types.CURRENT_SELECTED_LOCATION_INFORMATION](state, obj){
+    state.currentSelectedLocationInforation = obj;
+  },
 };

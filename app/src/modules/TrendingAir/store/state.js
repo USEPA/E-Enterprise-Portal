@@ -31,5 +31,16 @@ export default {
   newUpdatedLocation: '',
   lastWeatherReading: 'Mon 1:36 PM EDT',
   villageGreenApiUrl: 'http://e-enterprise/eep/proxy/service/vg?',
+  currentSelectedLocationInforation: {
+    siteid: '',
+    locationCity: '',
+    locationState: ''
+    temperature: '',
+    humidity: '',
+    wind: '',
+    ozone: '',
+    pm: '',
+    updatedTime: '',
+  },
 };
 

@@ -19,26 +19,13 @@ export default {
 
     // do axios ajax call here for the proxy endpoint
     const url = store.state.villageGreenApiUrl + 'siteId=' + correspondingSiteId;
-    console.log(url);
+
     AppAxios.get(url)
       .then((response) => {
         console.log(response.data);
       });
 
     // finish up with axios request
-
-
-    // if (newLocationSplitStr[0].toLowerCase().trim() === inputBoxSelectedCity.toLowerCase().trim() &&
-    //   newLocationSplitStr[1].toLowerCase().trim() === inputBoxSelectedState.toLowerCase().trim()) {
-    //   console.log("hit if");
-    //
-    // } else {
-    //
-    //   console.log("hit else");
-    //
-    //
-    // }
-
   },
   updateLocationOnInputBoxChange(context){
     const store = context;

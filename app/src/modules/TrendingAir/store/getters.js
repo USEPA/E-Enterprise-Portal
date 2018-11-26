@@ -20,5 +20,8 @@ export default {
   },
   getNewUpdatedLocation(state){
     return state.newUpdatedLocation;
-  }
+  },
+  getCurrentSelectedLocationInformation(state){
+    return state.currentSelectedLocationInforation;
+  },
 };
