@@ -18,6 +18,7 @@
             currentWeatherReadingAfterDropdownSubmission.timezone != ''">
                 Last Reading: {{currentWeatherReadingAfterDropdownSubmission.currentDateTime}}
                 {{currentWeatherReadingAfterDropdownSubmission.timezone}}</p>
+            <!-- @TODO: implement timer for the update of the current selected option in dropdown-->
             <p>Update in 28 seconds</p>
             <b-container>
                 <b-row>
