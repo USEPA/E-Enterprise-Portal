@@ -18,14 +18,30 @@ export default {
     const correspondingSiteId = store.state.airMonitoringStationsWithSiteIDs[newLocation];
 
     // do axios ajax call here for the proxy endpoint
-    const url = store.state.villageGreenApiUrl + 'siteId=' + correspondingSiteId;
+    const url = store.state.villageGreenApiUrl + 'siteID=' + correspondingSiteId;
 
     AppAxios.get(url)
       .then((response) => {
-        console.log(response.data);
+        store.commit(types.CURRENT_SELECTED_LOCATION_INFORMATION, {
+          siteid: correspondingSiteId,
+          locationCity: inputBoxSelectedCity,
+          locationState: inputBoxSelectedState,
+          curHumUnit: ((response.data.curHumUnit === "PERCENT") ? '%' : response.data.curHumUnit),
+          curHumValue: response.data.curHumValue,
+          curOzoneUnit: response.data.curOzoneUnit,
+          curOzoneValue: response.data.curOzoneValue,
+          curPmUnit: response.data.curPmUnit,
+          curPmValue: response.data.curPmValue,
+          curTempUnit: response.data.curTempUnit,
+          curTempValue: response.data.curTempValue,
+          curWDValue: response.data.curWDValue,
+          curWSUnit: response.data.curWSUnit,
+          curWSValue: response.data.curWSValue,
+          currentDateTime: response.data.currentDateTime,
+          currentDateTimeUTCMillis: response.data.currentDateTimeUTCMillis,
+          timezone: response.data.timezone,
+        });
       });
-
-    // finish up with axios request
   },
   updateLocationOnInputBoxChange(context){
     const store = context;
@@ -39,6 +55,7 @@ export default {
     // Loop through current locations in drop down to validate the new location
     if (stations.indexOf(newLocationFormat) > -1) {
       store.commit(types.NEW_UPDATED_LOCATION, newLocationFormat);
+      store.dispatch('reflectLocationChange', newLocationFormat);
     }
   },
 };

@@ -24,4 +24,7 @@ export default {
   getCurrentSelectedLocationInformation(state){
     return state.currentSelectedLocationInforation;
   },
+  getSelectedLocationForLink(state){
+    return state.currentLocation;
+  }
 };

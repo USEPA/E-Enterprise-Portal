@@ -9,13 +9,54 @@
             <b-form-select
                     id="location-dropdown"
                     ref="locationDropdown"
-                    :value="(newUpdatedLocation != '')? newUpdatedLocation : locationDropdownDefaultValue"
+                    :value="(newUpdatedLocation != '') ? newUpdatedLocation : locationDropdownDefaultValue"
                     v-on:change="reflectChangeForNewLocation"
                     class="mb-3">
                 <option v-for="(station, index) in airMonitoringStations" v-bind:value="station">{{station}}</option>
             </b-form-select>
-            <p>Last Reading: {{lastWeatherReading}}</p>
+            <p v-if="currentWeatherReadingAfterDropdownSubmission.currentDateTime != '' &&
+            currentWeatherReadingAfterDropdownSubmission.timezone != ''">
+                Last Reading: {{currentWeatherReadingAfterDropdownSubmission.currentDateTime}}
+                {{currentWeatherReadingAfterDropdownSubmission.timezone}}</p>
+            <p>Update in 28 seconds</p>
+            <b-container>
+                <b-row>
+                    <b-col class="location-info location-info-inner">
+                        <p class="weather-first-header">Temp</p>
+                        <p class="weather-second-header">{{currentWeatherReadingAfterDropdownSubmission.curTempValue}}</p>
+                        <p class="weather-third-header"><span v-if="currentWeatherReadingAfterDropdownSubmission.curTempUnit != ''">°</span>
+                            {{currentWeatherReadingAfterDropdownSubmission.curTempUnit}}</p>
+                    </b-col>
+                    <b-col class="location-info location-info-inner">
+                        <p class="weather-first-header">Humidity</p>
+                        <p class="weather-second-header">{{currentWeatherReadingAfterDropdownSubmission.curHumValue}}</p>
+                        <p class="weather-third-header">{{currentWeatherReadingAfterDropdownSubmission.curHumUnit}}</p>
+
+                    </b-col>
+                    <b-col class="location-info location-info-inner">
+                        <p class="weather-first-header">Wind</p>
+                        <p class="weather-second-header">{{currentWeatherReadingAfterDropdownSubmission.curWSValue}}</p>
+                        <p class="weather-third-header">{{currentWeatherReadingAfterDropdownSubmission.curWSUnit}}</p>
+                    </b-col>
+                    <b-col class="location-info location-info-inner">
+                        <p class="weather-first-header">Ozone</p>
+                        <p class="weather-second-header">{{currentWeatherReadingAfterDropdownSubmission.curOzoneValue}}</p>
+                        <p class="weather-third-header">{{currentWeatherReadingAfterDropdownSubmission.curOzoneUnit}}</p>
+                    </b-col>
+                    <b-col class="location-info">
+                        <p class="weather-first-header">PM 2.5</p>
+                        <p class="weather-second-header">{{currentWeatherReadingAfterDropdownSubmission.curPmValue}}</p>
+                        <p class="weather-third-header">{{currentWeatherReadingAfterDropdownSubmission.curPmUnit}}</p>
+                    </b-col>
+                </b-row>
+            </b-container>
+
         </AppWrapper>
+        <p id="link-wrapper">
+            <a v-bind:href="'https://villagegreen.airnowtech.org/welcome/welcome?siteID=' + currentWeatherReadingAfterDropdownSubmission.siteid">
+                View more data for {{selectedLocation}}
+            </a>
+        </p>
     </div>
 </template>
 
@@ -65,6 +106,7 @@
                 locationDropdownDefaultValue: 'TrendingAir/getDefaultDropDownSelection',
                 newUpdatedLocation: 'TrendingAir/getNewUpdatedLocation',
                 lastWeatherReading: 'TrendingAir/getlastWeatherReading',
+                currentWeatherReadingAfterDropdownSubmission: 'TrendingAir/getCurrentSelectedLocationInformation',
             }),
         },
         methods:{
@@ -74,7 +116,10 @@
             ]),
             reflectChangeForNewLocation: function (newLocation) {
                 this.reflectLocationChange(newLocation);
-            }
+            },
+            getLocationDropdownValue(){
+                return this.$refs.locationDropdown.value;
+            },
         }
     }
 </script>
@@ -82,4 +127,18 @@
 
 <style scoped
        lang="scss">
+    .location-info{
+        background-color: #DCD9D9;
+        border: solid 1px;
+        text-align: center;
+    }
+    .weather-first-header, .weather-third-header{
+        font-size: 1.5em;
+    }
+    .weather-second-header{
+        font-size: 2.5em;
+    }
+    #link-wrapper{
+        padding-top: 5px;
+    }
 </style>
