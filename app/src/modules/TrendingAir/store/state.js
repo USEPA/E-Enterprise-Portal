@@ -30,7 +30,22 @@ export default {
   defaultSeletcedLocation: 'Chicago, IL',
   newUpdatedLocation: '',
   currentLocation: 'Chicago, IL',
-  villageGreenApiUrl: 'http://e-enterprise/eep/proxy/service/vg?',
+
+  urls: {
+    LOCAL: {
+      villageGreenApiUrl: 'http://e-enterprise/eep/proxy/service/vg?',
+    },
+    DEV: {
+      villageGreenApiUrl: 'https://dev2.e-enterprise.gov/eep/proxy/service/vg?',
+    },
+    TEST: {
+      villageGreenApiUrl: 'http://e-enterprise/eep/proxy/service/vg?',
+    },
+    PROD: {
+      villageGreenApiUrl: 'http://e-enterprise/eep/proxy/service/vg?',
+    },
+  },
+
   currentSelectedLocationInforation: {
     siteid: '',
     locationCity: '',

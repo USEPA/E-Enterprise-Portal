@@ -20,32 +20,32 @@
             <!-- @TODO: implement timer for the update of the current selected option in dropdown-->
             <b-container>
                 <b-row>
-                    <b-col class="location-info location-info-inner">
-                        <p class="weather-first-header">Temp</p>
-                        <p class="weather-second-header">{{currentWeatherReadingAfterDropdownSubmission.curTempValue}}</p>
-                        <p class="weather-third-header"><span v-if="currentWeatherReadingAfterDropdownSubmission.curTempUnit != ''">°</span>
-                            {{currentWeatherReadingAfterDropdownSubmission.curTempUnit}}</p>
+                    <b-col class="bg-light border text-center location-info-inner">
+                        <h5 class="weather-first-header">Temp</h5>
+                        <h3 class="weather-second-header">{{currentWeatherReadingAfterDropdownSubmission.curTempValue}}</h3>
+                        <h5 class="weather-third-header"><span v-if="currentWeatherReadingAfterDropdownSubmission.curTempUnit != ''">°</span>
+                            {{currentWeatherReadingAfterDropdownSubmission.curTempUnit}}</h5>
                     </b-col>
-                    <b-col class="location-info location-info-inner">
-                        <p class="weather-first-header">Humidity</p>
-                        <p class="weather-second-header">{{currentWeatherReadingAfterDropdownSubmission.curHumValue}}</p>
-                        <p class="weather-third-header">{{currentWeatherReadingAfterDropdownSubmission.curHumUnit}}</p>
+                    <b-col class="bg-light border text-center location-info-inner">
+                        <h5 class="weather-first-header">Humidity</h5>
+                        <h3 class="weather-second-header">{{currentWeatherReadingAfterDropdownSubmission.curHumValue}}</h3>
+                        <h5 class="weather-third-header">{{currentWeatherReadingAfterDropdownSubmission.curHumUnit}}</h5>
 
                     </b-col>
-                    <b-col class="location-info location-info-inner">
-                        <p class="weather-first-header">Wind</p>
-                        <p class="weather-second-header">{{currentWeatherReadingAfterDropdownSubmission.curWSValue}}</p>
-                        <p class="weather-third-header">{{currentWeatherReadingAfterDropdownSubmission.curWSUnit}}</p>
+                    <b-col class="bg-light border text-center location-info-inner">
+                        <h5 class="weather-first-header">Wind</h5>
+                        <h3 class="weather-second-header">{{currentWeatherReadingAfterDropdownSubmission.curWSValue}}</h3>
+                        <h5 class="weather-third-header">{{currentWeatherReadingAfterDropdownSubmission.curWSUnit}}</h5>
                     </b-col>
-                    <b-col class="location-info location-info-inner">
-                        <p class="weather-first-header">Ozone</p>
-                        <p class="weather-second-header">{{currentWeatherReadingAfterDropdownSubmission.curOzoneValue}}</p>
-                        <p class="weather-third-header">{{currentWeatherReadingAfterDropdownSubmission.curOzoneUnit}}</p>
+                    <b-col class="bg-light border text-center location-info-inner">
+                        <h5 class="weather-first-header">Ozone</h5>
+                        <h3 class="weather-second-header">{{currentWeatherReadingAfterDropdownSubmission.curOzoneValue}}</h3>
+                        <h5 class="weather-third-header">{{currentWeatherReadingAfterDropdownSubmission.curOzoneUnit}}</h5>
                     </b-col>
-                    <b-col class="location-info">
-                        <p class="weather-first-header">PM 2.5</p>
-                        <p class="weather-second-header">{{currentWeatherReadingAfterDropdownSubmission.curPmValue}}</p>
-                        <p class="weather-third-header">{{currentWeatherReadingAfterDropdownSubmission.curPmUnit}}</p>
+                    <b-col class="bg-light border text-center">
+                        <h5 class="weather-first-header">PM 2.5</h5>
+                        <h3 class="weather-second-header">{{currentWeatherReadingAfterDropdownSubmission.curPmValue}}</h3>
+                        <h5 class="weather-third-header">{{currentWeatherReadingAfterDropdownSubmission.curPmUnit}}</h5>
                     </b-col>
                 </b-row>
             </b-container>
@@ -126,18 +126,4 @@
 
 <style scoped
        lang="scss">
-    .location-info{
-        background-color: #DCD9D9;
-        border: solid 1px;
-        text-align: center;
-    }
-    .weather-first-header, .weather-third-header{
-        font-size: 1.5em;
-    }
-    .weather-second-header{
-        font-size: 2.5em;
-    }
-    #link-wrapper{
-        padding-top: 5px;
-    }
 </style>
