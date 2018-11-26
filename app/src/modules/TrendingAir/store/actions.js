@@ -18,9 +18,7 @@ export default {
     const correspondingSiteId = store.state.airMonitoringStationsWithSiteIDs[newLocation];
 
     // do axios ajax call here for the proxy endpoint
-    const url = store.state.urls.LOCAL.villageGreenApiUrl + 'siteID=' + correspondingSiteId;
-
-    console.log(url);
+    const url = store.state.urls.DEV.villageGreenApiUrl + 'siteID=' + correspondingSiteId;
 
     AppAxios.get(url)
       .then((response) => {
