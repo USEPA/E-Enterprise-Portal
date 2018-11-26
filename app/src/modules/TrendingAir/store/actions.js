@@ -52,7 +52,6 @@ export default {
     const newLocationFormat = newCity.charAt(0).toUpperCase() +
       newCity.substring(1, newCity.length + 1) + ', ' + rootStore.state.user.location.state;
 
-    // Loop through current locations in drop down to validate the new location
     if (stations.indexOf(newLocationFormat) > -1) {
       store.commit(types.NEW_UPDATED_LOCATION, newLocationFormat);
       store.dispatch('reflectLocationChange', newLocationFormat);

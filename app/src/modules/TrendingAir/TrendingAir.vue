@@ -3,7 +3,6 @@
         <AppWrapper
         :eep-app="eepApp">
             <!-- Here is where all of the content goes for the trending air app -->
-            <p id="trending-air-description">{{description}}</p>
             <p>Updated every minute via  <a v-bind:href = "providerURL" target = "_blank">{{providerName}}</a></p>
             Air Monitoring Station
             <b-form-select
@@ -19,7 +18,6 @@
                 Last Reading: {{currentWeatherReadingAfterDropdownSubmission.currentDateTime}}
                 {{currentWeatherReadingAfterDropdownSubmission.timezone}}</p>
             <!-- @TODO: implement timer for the update of the current selected option in dropdown-->
-            <p>Update in 28 seconds</p>
             <b-container>
                 <b-row>
                     <b-col class="location-info location-info-inner">
@@ -51,13 +49,7 @@
                     </b-col>
                 </b-row>
             </b-container>
-
         </AppWrapper>
-        <p id="link-wrapper">
-            <a v-bind:href="'https://villagegreen.airnowtech.org/welcome/welcome?siteID=' + currentWeatherReadingAfterDropdownSubmission.siteid">
-                View more data for {{selectedLocation}}
-            </a>
-        </p>
     </div>
 </template>
 
@@ -75,14 +67,19 @@
         components: {
             AppWrapper,
         },
+        beforeCreate(){
+
+        },
         created(){
             const store = this.$store;
             if (!(store && store.state && store.state[moduleName])) {
                 store.registerModule(moduleName, storeModule);
             }
 
+            // Sets the default location weather information to chicago
+            this.reflectLocationChange('Chicago, IL');
+
             EventBus.$on('locationService::update', this.updateLocationOnInputBoxChange);
-            store.dispatch('reflectLocationChange', 'Chicago, IL');
         },
         data(){
             return{
