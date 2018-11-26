@@ -17,6 +17,7 @@
                 required>
           <template slot="first">
             <!-- this slot appears above the options from 'options' prop -->
+            <option disabled>-- Please select an partner --</option>
           </template>
         </b-form-select>
         <div
