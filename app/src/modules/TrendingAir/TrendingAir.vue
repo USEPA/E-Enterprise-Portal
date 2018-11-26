@@ -82,6 +82,7 @@
             }
 
             EventBus.$on('locationService::update', this.updateLocationOnInputBoxChange);
+            store.dispatch('reflectLocationChange', 'Chicago, IL');
         },
         data(){
             return{
