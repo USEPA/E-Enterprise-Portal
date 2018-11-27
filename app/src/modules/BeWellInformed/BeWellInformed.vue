@@ -18,8 +18,8 @@
           <template slot="first">
             <!-- this slot appears above the options from 'options' prop -->
             <option
-              :value="null"
-              disabled>-- Please select an partner --
+                    :value="null"
+                    disabled>-- Please select an partner --
             </option>
           </template>
         </b-form-select>
@@ -242,6 +242,7 @@
         store.registerModule(moduleName, storeModule);
       }
       this.fetchPartners();
+
 
       // Custom event listeners
       EventBus.$on('bwi::showWaterAnalysisResults', this.showWaterAnalysisResults);

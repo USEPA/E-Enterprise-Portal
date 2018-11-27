@@ -1,4 +1,5 @@
 <!-- Go through this folder and rename all of the occurances to be specific to the app that you are building -->
+<template>
     <div>
         <AppWrapper
         :eep-app="eepApp">

@@ -43,7 +43,7 @@ const state = {
       sendBridgeBackTo: 'https://apitest2.e-enterprise.gov/user/authenticate',
       signInMethod: 'wsignin1.0',
     }
-  }
+  },
 };
 
 export default state;

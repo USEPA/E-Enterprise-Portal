@@ -5,4 +5,26 @@
  *
  * @SEE https://vuex.vuejs.org/guide/getters.html
  */
-export default {};
+
+import { commonAppStore } from '../../wadk/WADK';
+export default {
+  ...commonAppStore.getters,
+  getAirMonitoringStations(state){
+    return state.airMonitoringStations;
+  },
+  getlastWeatherReading(state){
+    return state.lastWeatherReading;
+  },
+  getDefaultDropDownSelection(state){
+    return state.defaultSeletcedLocation;
+  },
+  getNewUpdatedLocation(state){
+    return state.newUpdatedLocation;
+  },
+  getCurrentSelectedLocationInformation(state){
+    return state.currentSelectedLocationInforation;
+  },
+  getSelectedLocationForLink(state){
+    return state.currentLocation;
+  }
+};

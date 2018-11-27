@@ -188,6 +188,4 @@
       }
     }
   }
-
-  // @TODO - Refactor and fix bad generic styles
 </style>
