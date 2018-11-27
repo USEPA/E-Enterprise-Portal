@@ -17,10 +17,13 @@ export default {
     const inputBoxSelectedState = store.rootGetters.getUser.location.state;
     const correspondingSiteId = store.state.airMonitoringStationsWithSiteIDs[newLocation];
 
+    const env = rootStore.getters.getEnvironment;
+
+    console.log(env);
+
 
     // @TODO: change the Local in the URL TO be taken in from param! example in BWI
-    // do axios ajax call here for the proxy endpoint
-    const url = store.state.urls.LOCAL.villageGreenApiUrl + 'siteID=' + correspondingSiteId;
+    const url = store.state.urls[env].villageGreenApiUrl + 'siteID=' + correspondingSiteId;
 
     AppAxios.get(url)
       .then((response) => {
