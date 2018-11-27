@@ -19,7 +19,7 @@ export default {
     console.log(env);
 
     // @TODO: change the Local in the URL TO be taken in from param! example in BWI
-    const url = store.state.urls[env].villageGreenApiUrl + 'siteID=' + correspondingSiteId;
+    const url = store.state.urls[env].villageGreenApiUrl + '?siteID=' + correspondingSiteId;
 
     AppAxios.get(url)
       .then((response) => {
