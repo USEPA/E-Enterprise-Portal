@@ -27,10 +27,8 @@ export default {
     'Philadelphia, PA': 24292,
     'Washington, DC': 24293,
   },
-  defaultSeletcedLocation: 'Chicago, IL',
+  seletcedLocation: 'Chicago, IL',
   newUpdatedLocation: '',
-  currentLocation: 'Chicago, IL',
-
   urls: {
     LOCAL: {
       villageGreenApiUrl: 'https://e-enterprise/eep/proxy/service/vg',
@@ -45,7 +43,8 @@ export default {
       villageGreenApiUrl: 'https://api.e-enterprise.gov/eep/proxy/service/vg',
     },
   },
-  currentSelectedLocationInforation: {
+  currentEnviroment: 'DEV',
+  currentSelectedLocationInformation: {
     siteid: '',
     locationCity: '',
     locationState: '',

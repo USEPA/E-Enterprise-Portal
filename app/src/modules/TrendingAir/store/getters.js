@@ -15,16 +15,13 @@ export default {
   getlastWeatherReading(state){
     return state.lastWeatherReading;
   },
-  getDefaultDropDownSelection(state){
-    return state.defaultSeletcedLocation;
+  getDropDownSelection(state){
+    return state.seletcedLocation;
   },
   getNewUpdatedLocation(state){
     return state.newUpdatedLocation;
   },
   getCurrentSelectedLocationInformation(state){
-    return state.currentSelectedLocationInforation;
+    return state.currentSelectedLocationInformation;
   },
-  getSelectedLocationForLink(state){
-    return state.currentLocation;
-  }
 };
