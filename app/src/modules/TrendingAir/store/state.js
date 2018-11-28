@@ -30,7 +30,6 @@ export default {
   defaultSeletcedLocation: 'Chicago, IL',
   newUpdatedLocation: '',
   currentLocation: 'Chicago, IL',
-
   urls: {
     LOCAL: {
       villageGreenApiUrl: 'https://e-enterprise/eep/proxy/service/vg',
