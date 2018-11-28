@@ -2,6 +2,7 @@
     <div>
         <AppWrapper
         :eep-app="eepApp">
+            {{selectedValue}}
             <!-- Here is where all of the content goes for the trending air app -->
             <p>Updated every minute via  <a v-bind:href = "providerURL" target = "_blank">{{providerName}}</a></p>
             Air Monitoring Station
