@@ -22,7 +22,7 @@ export default {
     AppAxios.get(url)
       .then((response) => {
         store.commit(types.CURRENT_SELECTED_LOCATION_INFORMATION, {
-          curHumUnit: ((response.data.curHumUnit === "PERCENT") ? '%' : response.data.curHumUnit),
+          curHumUnit: ((response.data.curHumUnit === 'PERCENT') ? '%' : response.data.curHumUnit),
           curHumValue: response.data.curHumValue,
           curOzoneUnit: response.data.curOzoneUnit,
           curOzoneValue: response.data.curOzoneValue,
