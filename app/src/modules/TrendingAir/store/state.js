@@ -45,7 +45,6 @@ export default {
       villageGreenApiUrl: 'https://api.e-enterprise.gov/eep/proxy/service/vg',
     },
   },
-  currentEnviroment: 'DEV',
   currentSelectedLocationInforation: {
     siteid: '',
     locationCity: '',
