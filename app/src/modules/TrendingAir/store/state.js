@@ -33,16 +33,16 @@ export default {
 
   urls: {
     LOCAL: {
-      villageGreenApiUrl: 'http://e-enterprise/eep/proxy/service/vg',
+      villageGreenApiUrl: 'https://e-enterprise/eep/proxy/service/vg',
     },
     DEV: {
-      villageGreenApiUrl: 'http://apidev2.e-enterprise/eep/proxy/service/vg',
+      villageGreenApiUrl: 'https://apidev2.e-enterprise.gov/eep/proxy/service/vg',
     },
     TEST: {
-      villageGreenApiUrl: 'http://apitest.e-enterprise/eep/proxy/service/vg',
+      villageGreenApiUrl: 'https://apitest.e-enterprise.gov/eep/proxy/service/vg',
     },
     PROD: {
-      villageGreenApiUrl: 'http://api.e-enterprise.gov/eep/proxy/service/vg',
+      villageGreenApiUrl: 'https://api.e-enterprise.gov/eep/proxy/service/vg',
     },
   },
   currentEnviroment: 'DEV',
