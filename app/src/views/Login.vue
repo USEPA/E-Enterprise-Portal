@@ -2,10 +2,15 @@
 <template>
     <div>
         <h3>Login Page</h3>
+        <div class="login-btns pt-4">
+            <a class="btn btn-sm btn-outline-secondary" :href="bridgeURL">Login with Exchange Network</a>
+        </div>
     </div>
 </template>
 
 <script>
+    import {mapGetters} from 'vuex';
+
     export default{
         name: 'Login',
         components: {},
@@ -15,6 +20,11 @@
         },
         methods: {
 
+        },
+        computed: {
+            ...mapGetters({
+                bridgeURL: 'getBridgeURL'
+            }),
         },
     }
 </script>
