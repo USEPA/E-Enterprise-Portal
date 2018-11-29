@@ -21,7 +21,7 @@ import types from './types';
 export default {
   ...commonAppStore.mutations,
   [types.CURRENT_SELECTED_LOCATION](state, obj){
-    state.seletcedLocation = obj;
+    state.selectedLocation = obj;
   },
   [types.CURRENT_SELECTED_LOCATION_INFORMATION](state, obj){
     state.currentSelectedLocationInforation = obj;

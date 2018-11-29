@@ -27,7 +27,7 @@ export default {
     'Philadelphia, PA': 24292,
     'Washington, DC': 24293,
   },
-  seletcedLocation: 'Chicago, IL',
+  selectedLocation: 'Chicago, IL',
   urls: {
     LOCAL: {
       villageGreenApiUrl: 'https://e-enterprise/eep/proxy/service/vg',

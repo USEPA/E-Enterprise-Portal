@@ -16,7 +16,7 @@ export default {
     return state.lastWeatherReading;
   },
   getDropDownSelection(state){
-    return state.seletcedLocation;
+    return state.selectedLocation;
   },
   getNewUpdatedLocation(state){
     return state.newUpdatedLocation;
