@@ -27,6 +27,10 @@ export default new Router({
       name: 'workbench',
       component: Workbench,
     },
-
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('./views/Login.vue'),
+    },
   ],
 });

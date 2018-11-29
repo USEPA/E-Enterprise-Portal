@@ -104,7 +104,7 @@
               <img
                 class="lgc-highlight"
                 alt="You can see and update topics that matter to you in our Resources for Local
-          Communities widget also."
+                  Communities widget also."
                 src="../assets/images/my-topics-large.png">
             </div>
             <div class="slide-details col-md-6 align-self-end">
