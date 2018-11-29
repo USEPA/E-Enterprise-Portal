@@ -19,6 +19,9 @@ export default {
     // @TODO: change the Local in the URL TO be taken in from param! example in BWI
     const url = store.state.urls[env].villageGreenApiUrl + '?siteID=' + correspondingSiteId;
 
+    // Commit new seletced location to state before request new information for it
+    store.commit(types.CURRENT_SELECTED_LOCATION, newLocation);
+
     AppAxios.get(url)
       .then((response) => {
         store.commit(types.CURRENT_SELECTED_LOCATION_INFORMATION, {

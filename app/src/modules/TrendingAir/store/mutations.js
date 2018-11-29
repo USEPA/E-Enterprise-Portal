@@ -21,10 +21,7 @@ import types from './types';
 export default {
   ...commonAppStore.mutations,
   [types.CURRENT_SELECTED_LOCATION](state, obj){
-    Vue.set(state.defaultSeletcedLocation, obj.property, obj);
-  },
-  [types.NEW_UPDATED_LOCATION](state, obj){
-    state.newUpdatedLocation = obj;
+    state.selectedLocation = obj;
   },
   [types.CURRENT_SELECTED_LOCATION_INFORMATION](state, obj){
     state.currentSelectedLocationInforation = obj;

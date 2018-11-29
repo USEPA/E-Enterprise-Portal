@@ -2,16 +2,16 @@
     <div>
         <AppWrapper
         :eep-app="eepApp">
-            <!-- Here is where all of the content goes for the trending air app -->
+            <h4>{{selectedValue}}</h4>            
             <p>Updated every minute via  <a v-bind:href = "providerURL" target = "_blank">{{providerName}}</a></p>
             Air Monitoring Station
             <b-form-select
                     id="location-dropdown"
                     ref="locationDropdown"
-                    :value="(newUpdatedLocation != '') ? newUpdatedLocation : locationDropdownDefaultValue"
+                    :options="airMonitoringStations"
+                    :value="selectedValue"
                     v-on:change="reflectChangeForNewLocation"
                     class="mb-3">
-                <option v-for="(station, index) in airMonitoringStations" v-bind:value="station">{{station}}</option>
             </b-form-select>
             <p v-if="currentWeatherReadingAfterDropdownSubmission.currentDateTime != '' &&
             currentWeatherReadingAfterDropdownSubmission.timezone != ''">
@@ -102,7 +102,7 @@
         computed:{
             ...mapGetters({
                 airMonitoringStations: 'TrendingAir/getAirMonitoringStations',
-                locationDropdownDefaultValue: 'TrendingAir/getDefaultDropDownSelection',
+                selectedValue: 'TrendingAir/getDropDownSelection',
                 newUpdatedLocation: 'TrendingAir/getNewUpdatedLocation',
                 lastWeatherReading: 'TrendingAir/getlastWeatherReading',
                 currentWeatherReadingAfterDropdownSubmission: 'TrendingAir/getCurrentSelectedLocationInformation',
@@ -115,10 +115,7 @@
             ]),
             reflectChangeForNewLocation: function (newLocation) {
                 this.reflectLocationChange(newLocation);
-            },
-            getLocationDropdownValue(){
-                return this.$refs.locationDropdown.value;
-            },
+            }
         }
     }
 </script>
@@ -126,4 +123,7 @@
 
 <style scoped
        lang="scss">
+    #app{
+        margin-bottom: 7rem;
+    }
 </style>
