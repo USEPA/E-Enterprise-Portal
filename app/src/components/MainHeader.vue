@@ -17,7 +17,7 @@
                 <div class="col-4-md pr-2">
                     <a
                             class="btn btn-sm btn-outline-secondary"
-                            :href="login">
+                            :href="/login">
                         Login with E-Enterprise Credentials</a>
                 </div>
                 <div class="col-4-md">
