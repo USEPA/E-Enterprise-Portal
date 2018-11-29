@@ -13,11 +13,22 @@
                 </a>
             </div>
             <div class="w-100 d-block d-md-none "></div>
-            <div class="col-4-md d-flex justify-content-end align-self-end align-items-center">
-                <a
-                        class="btn btn-sm btn-outline-secondary"
-                        :href="bridgeURL">
-                    Login with Exchange Network</a>
+            <div class="d-flex justify-content-end align-self-end align-items-center">
+                <div class="col-4-md pr-2">
+                    <!--<a-->
+                            <!--class="btn btn-sm btn-outline-secondary"-->
+                            <!--:href="login">-->
+                        <!--Login with E-Enterprise Credentials</a>-->
+                    <router-link to="/login" class="btn btn-sm btn-outline-secondary">
+                        Login with E-Enterprise Credentials
+                    </router-link>
+                </div>
+                <div class="col-4-md">
+                    <a
+                            class="btn btn-sm btn-outline-secondary"
+                            :href="bridgeURL">
+                        Login with Exchange Network</a>
+                </div>
             </div>
         </div>
     </header>
@@ -43,10 +54,8 @@
 <style scoped
        lang="scss">
     .eep_logo {
-
-    img {
-        max-width: 100%;
-    }
-
+        img {
+            max-width: 100%;
+        }
     }
 </style>
