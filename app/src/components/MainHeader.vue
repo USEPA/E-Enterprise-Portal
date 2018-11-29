@@ -15,7 +15,7 @@
             <div class="w-100 d-block d-md-none "></div>
             <div class="col-4-md d-flex justify-content-end align-self-end align-items-center">
                 <div class="col-4-md">
-                    <router-link to="/login" class="btn btn-sm btn-outline-secondary">
+                    <router-link to="/login" class="btn btn-md btn-outline-secondary">
                         Login
                     </router-link>
                 </div>
