@@ -15,10 +15,13 @@
             <div class="w-100 d-block d-md-none "></div>
             <div class="d-flex justify-content-end align-self-end align-items-center">
                 <div class="col-4-md pr-2">
-                    <a
-                            class="btn btn-sm btn-outline-secondary"
-                            :href="login">
-                        Login with E-Enterprise Credentials</a>
+                    <!--<a-->
+                            <!--class="btn btn-sm btn-outline-secondary"-->
+                            <!--:href="login">-->
+                        <!--Login with E-Enterprise Credentials</a>-->
+                    <router-link to="/login" class="btn btn-sm btn-outline-secondary">
+                        Login with E-Enterprise Credentials
+                    </router-link>
                 </div>
                 <div class="col-4-md">
                     <a
