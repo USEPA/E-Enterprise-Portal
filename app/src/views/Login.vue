@@ -3,7 +3,7 @@
     <div>
         <h3>Login</h3>
         <div class="login-btns pt-4">
-            <a class="btn btn-sm btn-outline-secondary" :href="bridgeURL">Login with Exchange Network</a>
+            <a class="btn btn-sm btn-outline-secondary" :href="bridgeURL">Exchange Network</a>
         </div>
     </div>
 </template>
