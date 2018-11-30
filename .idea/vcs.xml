@@ -2,6 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/drupal/drush/node_export" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/drupal/web/modules/contrib/admin_toolbar" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/drupal/web/modules/contrib/advagg" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/drupal/web/modules/contrib/backup_migrate" vcs="Git" />
@@ -22,6 +23,8 @@
     <mapping directory="$PROJECT_DIR$/drupal/web/modules/contrib/paragraphs" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/drupal/web/modules/contrib/pathauto" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/drupal/web/modules/contrib/redirect" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/drupal/web/modules/contrib/restui" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/drupal/web/modules/contrib/schemata" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/drupal/web/modules/contrib/search_api" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/drupal/web/modules/contrib/simple_sitemap" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/drupal/web/modules/contrib/sqlsrv" vcs="Git" />

@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import { AppAxios, commonAppStore } from '../modules/wadk/WADK';
 import { EventBus } from '../EventBus';
+import types from './types';
 
 export default {
   ...commonAppStore.actions,
@@ -40,5 +41,27 @@ export default {
         value: data,
       });
     });
+  },
+  initializeToken(context) {
+    // Get Token (if exist)
+    const store = context;
+    const queryParams = window.location.search.substr(1).split('&');
+
+    // Parse query for token ie 'move=true'
+    const tokenResult = queryParams.map((paramString) => {
+      if (paramString.search(/^token=/igm) > -1) {
+        const token = paramString.split('=').pop();
+        return token;
+      }
+    });
+    const token = tokenResult.pop();
+
+    // Place in store
+    store.commit(types.SET_JWT_TOKEN, token);
+    // Process the token (decode)
+    store.commit(types.DECODE_JWT_TOKEN, token);
+  },
+  userLogOut(context) {
+    // log out user, set user.authenticate = false;
   },
 };
