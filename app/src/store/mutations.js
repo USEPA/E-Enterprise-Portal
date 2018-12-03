@@ -41,11 +41,12 @@ export default {
       obj,
     );
   },
-  [types.SET_DEEP_PROPERTY](state, obj) {
+  [types.SET_DEEP_PROPERTY](state, payload) {
+    const rootObject = (payload.path) ? _.get(state, payload.path) : state;
     Vue.set(
-      _.get(state, obj.path),
-      obj.property,
-      obj.value || obj.defaultValue,
+      rootObject,
+      payload.property,
+      payload.value || payload.defaultValue,
     );
   },
   [types.SET_JWT_TOKEN](state, token) {
@@ -62,4 +63,18 @@ export default {
       obj,
     );
   },
+  [types.USER_LOG_IN](state) {
+    Vue.set(
+      state.user,
+      'authentication',
+      true,
+    );
+  },
+  [types.USER_LOG_OUT](state) {
+    Vue.set(
+      state.user,
+      'authentication',
+      false,
+    );
+  }
 };

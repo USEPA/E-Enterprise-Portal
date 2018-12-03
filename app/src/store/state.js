@@ -53,10 +53,14 @@ const state = {
       state: '',
     },
     name: {
+      prefix: '',
       first: '',
       last: '',
+      suffix: ''
     },
   },
 };
 
 export default state;
+
+

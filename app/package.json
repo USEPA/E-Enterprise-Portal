@@ -53,7 +53,15 @@
       "@vue/airbnb"
     ],
     "rules": {
-      "no-console": ["error", { "allow": ["warn", "error"] }],
+      "no-console": [
+        "error",
+        {
+          "allow": [
+            "warn",
+            "error"
+          ]
+        }
+      ],
       "function-paren-newline": [
         "error",
         "consistent"

@@ -7,11 +7,18 @@ export default {
   getApp(state) {
     return state.app;
   },
-  /**
-   * This function tests the domain name to help determine the environment
-   * that the app is running under.
-   * @returns {string}
-   */
+  getUserAuthentication(state) {
+    return state.user.authenticated;
+  },
+  getUserFullName(state) {
+    let fullname = '';
+    const userName = state.user.name;
+    const nameParts = [userName.prefix, userName.first, userName.last, userName.suffix];
+    fullname = nameParts
+      .filter((namePart) => (namePart && namePart.length))
+      .join(' ');
+    return fullname;
+  },
   getEnvironment() {
     let env = 'LOCAL';
     const { host } = window.location;
@@ -48,6 +55,11 @@ export default {
     const locationSearchURL = state.urls[ref.getEnvironment].locationSearch;
     return locationSearchURL;
   },
+  /**
+   * This function tests the domain name to help determine the environment
+   * that the app is running under.
+   * @returns {string}
+   */
   getBridgeURL(state, ref) {
     const env = ref.getEnvironment;
     let url = '#';

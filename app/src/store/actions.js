@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { AppAxios, commonAppStore } from '../modules/wadk/WADK';
 import { EventBus } from '../EventBus';
 import types from './types';
+import _ from 'lodash';
 
 export default {
   ...commonAppStore.actions,
@@ -60,8 +61,39 @@ export default {
     store.commit(types.SET_JWT_TOKEN, token);
     // Process the token (decode)
     store.commit(types.DECODE_JWT_TOKEN, token);
+    // @todo confirm user token
+    store.dispatch('processJWTPayload');
+    // if user is legit, log them in (add IF statement)
+    store.commit('USER_LOG_IN');
   },
   userLogOut(context) {
-    // log out user, set user.authenticate = false;
+    const store = context;
+
+    // add additional logout logic here
+    store.commit('USER_LOG_OUT');
+  },
+  processJWTPayload(context) {
+    const store = context;
+    const tokenPayload = store.state.token.decoded.payload;
+    // Sanity Check: confirm payload makes sense (path exists)
+    const exist = _.get(store, tokenPayload.path);
+    if (exist !== undefined) {
+      // Split the path, handle empty string case, handle deep property case
+      const pathParts = tokenPayload.path.split('.');
+      // don't need 'state' part of the path, so we shift it off
+      pathParts.shift();
+      const payloadProperty = pathParts.pop();
+      const payloadPath = pathParts.join('.');
+
+      const payload = {
+        path: payloadPath,
+        property: payloadProperty,
+        value: tokenPayload.value,
+        defaultValue: null,
+      };
+
+      // if deep property
+      store.commit('SET_DEEP_PROPERTY', payload);
+    }
   },
 };

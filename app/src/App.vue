@@ -104,6 +104,7 @@
       });
       // Initialize token
       vm.initializeToken();
+
     },
     computed: {
       ...mapGetters({
@@ -144,6 +145,7 @@
       ]),
     },
   };
+
 </script>
 
 <style lang="scss">
