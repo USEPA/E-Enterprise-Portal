@@ -4,14 +4,15 @@ import types from './types';
 
 export default {
   [types.DECODE_JWT_TOKEN](state, token) {
-    // Decode the "Header, Payload, Signature"
+    // Decode the "Header, Payload, Signature" of the complete JWT token
     const tokenParts = token.split('.');
     const decodedTokenParts = tokenParts.map((part, index) => {
       let decodedString = part;
       if (index < 2) {
         try {
           decodedString = atob(part);
-        } catch (e) {
+        }
+        catch (e) {
           console.warn(e);
         }
       }
@@ -41,6 +42,7 @@ export default {
       obj,
     );
   },
+  // Checks if path is already set, if not, uses lodash 'get' to get path
   [types.SET_DEEP_PROPERTY](state, payload) {
     const rootObject = (payload.path) ? _.get(state, payload.path) : state;
     Vue.set(
