@@ -1,27 +1,45 @@
 <template>
-  <div id='location-wrapper' class='col-md-7 mt-1'>
-    <div class="row">
-      <div class=" col-sm-6">
-           <p id="location-description" class="text-md-right my-2" v-if="finalized_city != '' && finalized_state != '' && finalized_zipcode != ''">
-              {{finalized_city}}, {{finalized_state}} - {{finalized_zipcode}}</p>
+  <div
+    id='location-wrapper'
+    class='col-md-7 mt-1'>
+    <div class="row justify-content-end">
+      <div class="col-sm-12">
+        <div
+          id="location-description"
+          class="text-right mt-2 cursor-pointer"
+          @click="toggleLocationSearchBar"
+          v-if="hasLocation && !isLocationSearchBarEnabled">
+          {{ finalized_city }}, {{ finalized_state }} - {{ finalized_zipcode }}</div>
       </div>
-      <div class="col-sm-6">
+      <div
+        class="col-sm-12"
+        v-if="isLocationSearchBarEnabled">
         <b-input-group id="location-input">
           <b-form-input
-                  type="text"
-                  v-model="location"
-                  placeholder="Enter city, state; or ZIP code"/>
+            type="text"
+            v-model="locationInputText"
+            placeholder="Enter city, state; or ZIP code"/>
           <b-input-group-append>
             <b-button
-                    id="submit-location"
-                    type="submit"
-                    @click="submitLocation">
+              id="submit-geolocation"
+              type="submit"
+              :disabled="!checkForGeolocation()"
+              :title="geolocationTitle"
+              @click="createGeolocationRequest"
+              variant="success">
+              <div class="button-image">
+                <i class="fas fa-globe"></i>
+              </div>
+            </b-button>
+            <b-button
+              id="submit-location"
+              type="submit"
+              @click="submitLocation">
               <div class="button-image">
                 <i class="fas fa-arrow-right"></i>
               </div>
             </b-button>
           </b-input-group-append>
-          </b-form-input>
         </b-input-group>
       </div>
     </div>
@@ -31,24 +49,32 @@
       title="Additional Information Needed For Location">
       <div id="zipcode-dropdown-wrapper">
         <!-- zipcode drop down -->
-        <b-form-select id="location-zipcodes" v-if="zipcodes.length > 1" :options="zipcodes" v-model="finalized_zipcode">
+        <b-form-select
+          id="location-zipcodes"
+          v-if="zipcodes.length > 1"
+          :options="zipcodes"
+          v-model="finalized_zipcode">
           <template slot="first">
             <!-- this slot appears above the options from 'options' prop -->
             <option
-                    :value="null"
-                    disabled>-- Please select an partner --
+              :value="null"
+              disabled>-- Please select an partner --
             </option>
           </template>
         </b-form-select>
       </div>
       <div id="city-dropdown-wrapper">
         <!-- city drop down -->
-        <b-form-select id="location-cities" v-if="cities.length > 1" :options="cities" v-model="finalized_city">
+        <b-form-select
+          id="location-cities"
+          v-if="cities.length > 1"
+          :options="cities"
+          v-model="finalized_city">
           <template slot="first">
             <!-- this slot appears above the options from 'options' prop -->
             <option
-                    :value="null"
-                    disabled>-- Please select an partner --
+              :value="null"
+              disabled>-- Please select an partner --
             </option>
           </template>
         </b-form-select>
@@ -56,12 +82,16 @@
 
       <div id="state-dropdown-wrapper">
         <!-- city drop down -->
-        <b-form-select id="location-states" v-if="states.length > 1" :options="states" v-model="finalized_state">
+        <b-form-select
+          id="location-states"
+          v-if="states.length > 1"
+          :options="states"
+          v-model="finalized_state">
           <template slot="first">
             <!-- this slot appears above the options from 'options' prop -->
             <option
-                    :value="null"
-                    disabled>-- Please select an partner --
+              :value="null"
+              disabled>-- Please select an partner --
             </option>
           </template>
         </b-form-select>
@@ -70,8 +100,11 @@
 
       <!-- NBSP is used to prevent the default modal buttons from rendering -->
       <template
-              slot="footer">&nbsp;
-        <b-button variant="primary" @click="submitLocationModal">Submit Location</b-button>
+        slot="footer">&nbsp;
+        <b-button
+          variant="primary"
+          @click="submitLocationModal">Submit Location
+        </b-button>
       </template>
     </AppModal>
   </div>
@@ -82,7 +115,7 @@
   import { AppModal } from '../modules/wadk/WADK';
   import { EventBus } from '../EventBus';
 
-  const name = 'LocationSearch';
+  // const name = 'LocationSearch';
 
   export default {
     components: {
@@ -90,7 +123,7 @@
     },
     data() {
       return {
-        location: '',
+        locationInputText: '',
         zipcodes: [],
         cities: [],
         states: [],
@@ -103,10 +136,44 @@
       // Custom event listeners
       EventBus.$on('locationSearch::showUserConfirmationModal', this.showUserConfirmationModal);
     },
+    computed: {
+      geolocationTitle() {
+        return (!this.checkForGeolocation()) ? 'Enable Geolocation' : 'Click to use your geolocation';
+      },
+      hasLocation() {
+        const vm = this;
+        const store = vm.$store;
+        const { state, location = state.user.location } = store;
+        let hasLocation = false;
+        if (location && location.state && location.city && location.zipcode) {
+          vm.finalized_city = location.city;
+          vm.finalized_state = location.state;
+          vm.finalized_zipcode = location.zipcode;
+          hasLocation = true;
+          store.commit('TOGGLE_HAS_LOCATION_SEARCH_BAR', false);
+        }
+        return hasLocation;
+      },
+      isLocationSearchBarEnabled() {
+        const vm = this;
+        const { state } = vm.$store;
+        return (!vm.hasLocation || state.ui.hasLocationSearch);
+      },
+      hasGeolocation() {
+        return !!navigator.geolocation;
+      },
+    },
     methods: {
-      ...mapActions(name, ['createLocationRequest']),
+      ...mapActions([
+        'createLocationRequest',
+        'createGeolocationRequest',
+        'toggleLocationSearchBar',
+      ]),
+      checkForGeolocation() {
+        return !!navigator.geolocation;
+      },
       submitLocation() {
-        this.$store.dispatch('createLocationRequest', this.location);
+        this.$store.dispatch('createLocationRequest', this.locationInputText);
       },
       showUserConfirmationModal(payload) {
         // set the variable values to the values in the payload to be binded to the dropdowns
@@ -119,51 +186,49 @@
         const lsModal = vm.$refs.location_search_modal_interactive;
 
         // call modal to pop up if the values that are returned in the payload are > 1
-        if ((this.zipcodes.length > 1 || this.cities.length > 1 || this.states.length > 1 )) {
+        if ((vm.zipcodes.length > 1 || vm.cities.length > 1 || vm.states.length > 1)) {
           vm.$root.$emit(
-                  'bv::show::modal', 'location-search-modal-interactive', lsModal,
+            'bv::show::modal', 'location-search-modal-interactive', lsModal,
           );
         } else {
-          this.finalized_state =this.states[0];
-          this.finalized_city = this.cities[0];
-          this.finalized_zipcode = this.zipcodes[0];
+          [vm.finalized_state] = vm.states;
+          [vm.finalized_city] = vm.cities;
+          [vm.finalized_zipcode] = vm.zipcodes;
           vm.$store.commit('SET_USER_LOCATION', {
-            zipcode: this.finalized_zipcode,
-            city: this.finalized_city,
-            state: this.finalized_state
+            zipcode: vm.finalized_zipcode,
+            city: vm.finalized_city,
+            state: vm.finalized_state,
           });
-          EventBus.$emit('locationService::update');
         }
       },
-      submitLocationModal(){
+      submitLocationModal() {
         // declare the modal instance
         const vm = this;
         const lsModal = vm.$refs.location_search_modal_interactive;
-        if(this.states.length == 1){
-          this.finalized_state = this.states[0];
+        if (this.states.length === 1) {
+          [vm.finalized_state] = vm.states;
         }
-        if(this.cities.length == 1){
-          this.finalized_city = this.cities[0];
+        if (vm.cities.length === 1) {
+          [vm.finalized_city] = vm.cities;
         }
-        if(this.zipcodes.length == 1){
-          this.finalized_zipcode = this.zipcodes[0];
+        if (vm.zipcodes.length === 1) {
+          [vm.finalized_zipcode] = vm.zipcodes;
         }
         vm.$store.commit('SET_USER_LOCATION', {
-          zipcode: this.finalized_zipcode,
-          city: this.finalized_city,
-          state: this.finalized_state
+          zipcode: vm.finalized_zipcode,
+          city: vm.finalized_city,
+          state: vm.finalized_state,
         });
-        EventBus.$emit('locationService::update');
         vm.$root.$emit(
-                'bv::hide::modal', 'location-search-modal-interactive', lsModal,
+          'bv::hide::modal', 'location-search-modal-interactive', lsModal,
         );
-      }
+      },
     },
   };
 </script>
 
 <style>
-  #location-description{
+  #location-description {
     font-size: 75%;
   }
 </style>

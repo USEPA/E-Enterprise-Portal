@@ -25,9 +25,13 @@
       id="nav"
       class="region-navigation pb-2 px-3">
 
-      <div id="main-navigation-container" class="container">
+      <div
+        id="main-navigation-container"
+        class="container">
         <div class="row">
-          <div id="page-selection-wrapper" class="col-md-5 mt-1">
+          <div
+            id="page-selection-wrapper"
+            class="col-md-5 mt-1">
             <router-link to="/">Home</router-link>
             <span class="divider">|</span>
             <router-link to="/about">About</router-link>
@@ -57,7 +61,7 @@
   import { mapGetters } from 'vuex';
   import MainHeader from '@/components/MainHeader.vue';
   import MainFooter from '@/components/MainFooter.vue';
-  import LocationSearch from '@/components/LocationSearch.vue'
+  import LocationSearch from '@/components/LocationSearch.vue';
   import VueProgessBar from 'vue-progressbar';
   import types from './store/types';
 
@@ -142,6 +146,7 @@
   @import '../node_modules/bootstrap-vue/dist/bootstrap-vue.css';
   @import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
   @import './styles/styles.scss';
+
   .region-navigation {
     color: #fff;
     text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
@@ -161,28 +166,34 @@
       }
     }
   }
+
   .divider {
     padding-left: 0.5em;
     padding-right: 0.5em;
   }
+
   .environment-status {
     &:hover {
       opacity: 1.0;
     }
   }
+
   // General slider media queries
   @include media-breakpoint-up(sm) {
     .enviroment-status {
       width: 1.0rem;
+
       span {
         font-size: .7rem;
         height: 1.5rem;
       }
     }
   }
+
   @include media-breakpoint-up(md) {
     .enviroment-status {
       width: 1.5rem;
+
       span {
         font-size: 1.0rem;
       }
