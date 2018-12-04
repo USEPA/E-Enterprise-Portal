@@ -2,6 +2,14 @@ import { AppAxios } from '../modules/wadk/WADK';
 import { EventBus } from '../EventBus';
 
 export default {
+  /**
+   * Creates a request to the EEP API for the location search, either using the
+   * zipcode or city and state. After a results is returned, it will fire the
+   * user modal for confirmation if needed.
+   *
+   * @param context
+   * @param location
+   */
   createLocationRequest(context, location) {
     // Variable declerations
     const store = context;
@@ -10,7 +18,7 @@ export default {
       city: '',
       state: '',
     };
-    let url = store.getters.getLocationSearchURL;
+    let url = store.getters.getURL('locationSearch');
 
     // Input validation for URL formation
     if (/^\d{5}(-\d{4})?$/.test(location)) {
@@ -36,6 +44,11 @@ export default {
       });
     });
   },
+  /**
+   * Creates the EEP2 API request for the location based ont the browsers geolocation
+   * API.
+   * @param context
+   */
   createGeolocationRequest(context) {
     // Make the request to retrieve the correct location information
     const store = context;
@@ -77,6 +90,12 @@ export default {
       console.warn('Geolocation is not supported by this browser.');
     }
   },
+  /**
+   * Used to toggle the value that is watched to determine whether the location
+   * search bar is visable.
+   *
+   * @param context
+   */
   toggleLocationSearchBar(context) {
     const store = context;
     store.commit('TOGGLE_HAS_LOCATION_SEARCH_BAR');

@@ -18,6 +18,7 @@
           <b-form-input
             type="text"
             v-model="locationInputText"
+            @keyup.enter.native="submitLocation"
             placeholder="Enter city, state; or ZIP code"/>
           <b-input-group-append>
             <b-button
@@ -140,6 +141,11 @@
       geolocationTitle() {
         return (!this.checkForGeolocation()) ? 'Enable Geolocation' : 'Click to use your geolocation';
       },
+      /**
+       * Determines if the location has been set yet, and will update the UI
+       *
+       * @returns {boolean}
+       */
       hasLocation() {
         const vm = this;
         const store = vm.$store;
@@ -154,11 +160,22 @@
         }
         return hasLocation;
       },
+      /**
+       * Determins if we should show the location search bar. If the user has not selected an
+       * location, they can use the location search bar to find one. Once the location is set we can
+       * hide the bar until the user has clicked on the location to change it, thus swapping out the
+       * location to show the search bar again.
+       *
+       * @returns {boolean}
+       */
       isLocationSearchBarEnabled() {
-        const vm = this;
-        const { state } = vm.$store;
-        return (!vm.hasLocation || state.ui.hasLocationSearch);
+        return (!this.hasLocation || this.$store.state.ui.hasLocationSearch);
       },
+      /**
+       * Checks whether the browser supports geolocation lool up
+       *
+       * @returns {boolean}
+       */
       hasGeolocation() {
         return !!navigator.geolocation;
       },
@@ -172,9 +189,18 @@
       checkForGeolocation() {
         return !!navigator.geolocation;
       },
+      /**
+       * Submits the location search bar text to the API for lookup.
+       */
       submitLocation() {
         this.$store.dispatch('createLocationRequest', this.locationInputText);
       },
+      /**
+       * This is th modal setup for when more than one location property needs more user input to
+       * determine the correct address returned from the API.
+       *
+       * @param payload
+       */
       showUserConfirmationModal(payload) {
         // set the variable values to the values in the payload to be binded to the dropdowns
         this.zipcodes = payload.value.zipcode;
@@ -201,6 +227,9 @@
           });
         }
       },
+      /**
+       * Submission logic for the modal popup for the additional user input for the location search.
+       */
       submitLocationModal() {
         // declare the modal instance
         const vm = this;

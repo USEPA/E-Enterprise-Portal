@@ -39,16 +39,12 @@ export default {
     return env;
   },
   getLocation(state) {
-    return state.location;
+    return state.user.location;
   },
   getUser(state) {
     return state.user;
   },
   getURL: (state, ref) => urlName => state.urls[ref.getEnvironment][urlName],
-  getLocationSearchURL(state, ref) {
-    const locationSearchURL = state.urls[ref.getEnvironment].locationSearch;
-    return locationSearchURL;
-  },
   getBridgeURL(state, ref) {
     const env = ref.getEnvironment;
     let url = '#';
