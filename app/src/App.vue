@@ -25,9 +25,13 @@
       id="nav"
       class="region-navigation pb-2 px-3">
 
-      <div id="main-navigation-container" class="container">
+      <div
+        id="main-navigation-container"
+        class="container">
         <div class="row">
-          <div id="page-selection-wrapper" class="col-md-5 mt-1">
+          <div
+            id="page-selection-wrapper"
+            class="col-md-5 mt-1">
             <router-link to="/">Home</router-link>
             <span class="divider">|</span>
             <router-link to="/about">About</router-link>
@@ -54,10 +58,10 @@
 
 <script>
   // @ is an alias to /src
-  import { mapGetters } from 'vuex';
+  import { mapGetters, mapActions } from 'vuex';
   import MainHeader from '@/components/MainHeader.vue';
   import MainFooter from '@/components/MainFooter.vue';
-  import LocationSearch from '@/components/LocationSearch.vue'
+  import LocationSearch from '@/components/LocationSearch.vue';
   import VueProgessBar from 'vue-progressbar';
   import types from './store/types';
 
@@ -98,6 +102,9 @@
         //  finish the progress bar
         vm.$Progress.finish();
       });
+      // Initialize token
+      vm.initializeToken();
+
     },
     computed: {
       ...mapGetters({
@@ -132,7 +139,13 @@
         return r;
       },
     },
+    methods: {
+      ...mapActions([
+        'initializeToken',
+      ]),
+    },
   };
+
 </script>
 
 <style lang="scss">

@@ -3,6 +3,38 @@ import _ from 'lodash';
 import types from './types';
 
 export default {
+  [types.DECODE_JWT_TOKEN](state, token) {
+    // Decode the "Header, Payload, Signature" of the complete JWT token
+    const tokenParts = token.split('.');
+    const decodedTokenParts = tokenParts.map((part, index) => {
+      let decodedString = part;
+      if (index < 2) {
+        try {
+          decodedString = atob(part);
+        }
+        catch (e) {
+          console.warn(e);
+        }
+      }
+      return decodedString;
+    });
+    Vue.set(
+      state.token,
+      'decoded',
+      {
+        header: JSON.parse(decodedTokenParts[0]),
+        payload: JSON.parse(decodedTokenParts[1]),
+        signature: decodedTokenParts[2],
+      },
+    );
+    // @todo validate JWT signature and authenticate user
+
+    Vue.set(
+      state.user,
+      'authenticated',
+      true,
+    );
+  },
   [types.SET_APP](state, obj) {
     Vue.set(
       state,
@@ -10,11 +42,20 @@ export default {
       obj,
     );
   },
-  [types.SET_DEEP_PROPERTY](state, obj) {
+  // Checks if path is already set, if not, uses lodash 'get' to get path
+  [types.SET_DEEP_PROPERTY](state, payload) {
+    const rootObject = (payload.path) ? _.get(state, payload.path) : state;
     Vue.set(
-      _.get(state, obj.path),
-      obj.property,
-      obj.value || obj.defaultValue,
+      rootObject,
+      payload.property,
+      payload.value || payload.defaultValue,
+    );
+  },
+  [types.SET_JWT_TOKEN](state, token) {
+    Vue.set(
+      state.token,
+      'raw',
+      token,
     );
   },
   [types.SET_USER_LOCATION](state, obj) {
@@ -24,4 +65,18 @@ export default {
       obj,
     );
   },
+  [types.USER_LOG_IN](state) {
+    Vue.set(
+      state.user,
+      'authentication',
+      true,
+    );
+  },
+  [types.USER_LOG_OUT](state) {
+    Vue.set(
+      state.user,
+      'authentication',
+      false,
+    );
+  }
 };
