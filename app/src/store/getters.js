@@ -7,6 +7,18 @@ export default {
   getApp(state) {
     return state.app;
   },
+  getUserAuthentication(state) {
+    return state.user.authenticated;
+  },
+  getUserFullName(state) {
+    let fullname = '';
+    const userName = state.user.name;
+    const nameParts = [userName.prefix, userName.first, userName.last, userName.suffix];
+    fullname = nameParts
+      .filter((namePart) => (namePart && namePart.length))
+      .join(' ');
+    return fullname;
+  },
   /**
    * This function tests the domain name to help determine the environment
    * that the app is running under.

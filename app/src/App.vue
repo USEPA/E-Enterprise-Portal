@@ -58,7 +58,7 @@
 
 <script>
   // @ is an alias to /src
-  import { mapGetters } from 'vuex';
+  import { mapGetters, mapActions } from 'vuex';
   import MainHeader from '@/components/MainHeader.vue';
   import MainFooter from '@/components/MainFooter.vue';
   import LocationSearch from '@/components/LocationSearch.vue';
@@ -102,6 +102,9 @@
         //  finish the progress bar
         vm.$Progress.finish();
       });
+      // Initialize token
+      vm.initializeToken();
+
     },
     computed: {
       ...mapGetters({
@@ -136,7 +139,13 @@
         return r;
       },
     },
+    methods: {
+      ...mapActions([
+        'initializeToken',
+      ]),
+    },
   };
+
 </script>
 
 <style lang="scss">
