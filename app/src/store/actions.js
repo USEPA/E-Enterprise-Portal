@@ -1,11 +1,17 @@
-import Vue from 'vue';
-import { AppAxios, commonAppStore } from '../modules/wadk/WADK';
+import { AppAxios } from '../modules/wadk/WADK';
 import { EventBus } from '../EventBus';
 import types from './types';
 import _ from 'lodash';
 
 export default {
-  ...commonAppStore.actions,
+  /**
+   * Creates a request to the EEP API for the location search, either using the
+   * zipcode or city and state. After a results is returned, it will fire the
+   * user modal for confirmation if needed.
+   *
+   * @param context
+   * @param location
+   */
   createLocationRequest(context, location) {
     // Variable declerations
     const store = context;
@@ -14,22 +20,19 @@ export default {
       city: '',
       state: '',
     };
-    const app = store.rootGetters.getApp;
-    let url = store.getters.getLocationSearchURL;
+    let url = store.getters.getURL('locationSearch');
 
     // Input validation for URL formation
     if (/^\d{5}(-\d{4})?$/.test(location)) {
-      url += `zipcode=${location}`;
+      url += `?zipcode=${location}`;
       // @todo clean string/trim
       userLocation.zipcode = location.trim();
     } else if (/([A-Za-z]+(?: [A-Za-z]+)*),? ([A-Za-z]{2})/.test(location)
       || /([A-Za-z]+(?: [A-Za-z]+)*),?([A-Za-z]{2})/.test(location)) {
-      const decoupled_location = location.split(',');
-      const city = decoupled_location[0].toUpperCase().trim();
-      const state = decoupled_location[1].toUpperCase().trim();
-      url += `city=${
-        city
-        }&state=${state}`;
+      const decoupledLocation = location.split(',');
+      const city = decoupledLocation[0].toUpperCase().trim();
+      const state = decoupledLocation[1].toUpperCase().trim();
+      url += `?city=${city}&state=${state}`;
       userLocation.city = city.trim();
       userLocation.state = state.trim();
     }
@@ -43,7 +46,65 @@ export default {
       });
     });
   },
-  // Set a function to initialize JWT for user authentication
+  /**
+   * Creates the EEP2 API request for the location based ont the browsers geolocation
+   * API.
+   * @param context
+   */
+  createGeolocationRequest(context) {
+    // Make the request to retrieve the correct location information
+    const store = context;
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        let url = store.getters.getURL('geolocationSearch');
+        url = `${url}?f=pjson&location=${position.coords.longitude},${position.coords.latitude}`;
+        AppAxios.get(url).then((response) => {
+          const { data } = response;
+
+          // Simple sanity check before committing the change to the store
+          if (data.address) {
+            store.commit('SET_USER_LOCATION', {
+              zipcode: data.address.Postal,
+              city: data.address.City,
+              state: data.address.Region,
+            });
+          }
+        }, (error) => {
+          let message = '';
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              message = 'User denied the request for Geolocation.';
+              break;
+            case error.POSITION_UNAVAILABLE:
+              message = 'Location information is unavailable.';
+              break;
+            case error.TIMEOUT:
+              message = 'The request to get user location timed out.';
+              break;
+            default:
+              message = 'An unknown error occurred.';
+          }
+          console.warn(message);
+        });
+      });
+    } else {
+      console.warn('Geolocation is not supported by this browser.');
+    }
+  },
+  /**
+   * Used to toggle the value that is watched to determine whether the location
+   * search bar is visable.
+   *
+   * @param context
+   */
+  toggleLocationSearchBar(context) {
+    const store = context;
+    store.commit('TOGGLE_HAS_LOCATION_SEARCH_BAR');
+  },
+  /**
+   * Set a function to initialize JWT for user authentication
+   */
   initializeToken(context) {
     // Get Token (if exist)
     const store = context;
@@ -73,7 +134,7 @@ export default {
     // add additional logout logic here
     store.commit('USER_LOG_OUT');
   },
-  //Function to prcoess the payload of the JWT token, which contains the user
+  // Function to prcoess the payload of the JWT token, which contains the user
   // info. This will set the state, verify the path exists and is definedm then
   // decode the payload and split into parts for processing
   processJWTPayload(context) {

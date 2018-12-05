@@ -155,6 +155,7 @@
   @import '../node_modules/bootstrap-vue/dist/bootstrap-vue.css';
   @import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
   @import './styles/styles.scss';
+
   .region-navigation {
     color: #fff;
     text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
@@ -174,28 +175,34 @@
       }
     }
   }
+
   .divider {
     padding-left: 0.5em;
     padding-right: 0.5em;
   }
+
   .environment-status {
     &:hover {
       opacity: 1.0;
     }
   }
+
   // General slider media queries
   @include media-breakpoint-up(sm) {
     .enviroment-status {
       width: 1.0rem;
+
       span {
         font-size: .7rem;
         height: 1.5rem;
       }
     }
   }
+
   @include media-breakpoint-up(md) {
     .enviroment-status {
       width: 1.5rem;
+
       span {
         font-size: 1.0rem;
       }

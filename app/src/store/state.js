@@ -20,7 +20,36 @@ const state = {
       issuer: 'https://extauthtest.epacdxnode.net',
       sendBridgeBackTo: 'https://apitest2.e-enterprise.gov/user/authenticate',
       signInMethod: 'wsignin1.0',
-    }
+    },
+  },
+  ui: {
+    hasLocationSearch: true,
+  },
+  urls: {
+    LOCAL: {
+      locationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/location',
+      geolocationSearch: 'http://localhost:8080/eep/proxy/service/geolocation',
+    },
+    DEV: {
+      locationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/location',
+      geolocationSearch: 'http://apidev2.e-enterprise.gov/eep/proxy/service/geolocation',
+    },
+    TEST: {
+      locationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/location',
+      geolocationSearch: 'http://apitest.e-enterprise.gov/eep/proxy/service/geolocation',
+    },
+    PROD: {
+      locationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/location',
+      geolocationSearch: 'http://api.e-enterprise.gov/eep/proxy/service/geolocation',
+    },
+  },
+  user: {
+    id: 0,
+    location: {
+      zipcode: '',
+      city: '',
+      state: '',
+    },
   },
   token: {
     raw: '',

@@ -19,7 +19,7 @@
       <option name="HTML_ATTRIBUTE_WRAP" value="2" />
       <option name="HTML_ALIGN_ATTRIBUTES" value="false" />
     </HTMLCodeStyleSettings>
-    <JSCodeStyleSettings>
+    <JSCodeStyleSettings version="0">
       <option name="SPACE_BEFORE_TYPE_COLON" value="true" />
       <option name="SPACES_WITHIN_OBJECT_LITERAL_BRACES" value="true" />
       <option name="SPACES_WITHIN_IMPORTS" value="true" />
