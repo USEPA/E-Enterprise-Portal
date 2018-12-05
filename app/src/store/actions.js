@@ -119,14 +119,16 @@ export default {
     });
     const token = tokenResult.pop();
 
-    // Place in store
-    store.commit(types.SET_JWT_TOKEN, token);
-    // Process the token (decode)
-    store.commit(types.DECODE_JWT_TOKEN, token);
-    // @todo confirm user token
-    store.dispatch('processJWTPayload');
-    // if user is legit, log them in (add IF statement)
-    store.commit('USER_LOG_IN');
+    if (token) {
+      // Place in store
+      store.commit(types.SET_JWT_TOKEN, token);
+      // Process the token (decode)
+      store.commit(types.DECODE_JWT_TOKEN, token);
+      // @todo confirm user token
+      store.dispatch('processJWTPayload');
+      // if user is legit, log them in (add IF statement)
+      store.commit('USER_LOG_IN');
+    }
   },
   userLogOut(context) {
     const store = context;
