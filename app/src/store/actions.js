@@ -29,7 +29,7 @@ export default {
       const state = decoupled_location[1].toUpperCase().trim();
       url += `city=${
         city
-        }&state=${state}`;
+      }&state=${state}`;
       userLocation.city = city.trim();
       userLocation.state = state.trim();
     }
@@ -73,7 +73,7 @@ export default {
     // add additional logout logic here
     store.commit('USER_LOG_OUT');
   },
-  //Function to prcoess the payload of the JWT token, which contains the user
+  // Function to prcoess the payload of the JWT token, which contains the user
   // info. This will set the state, verify the path exists and is definedm then
   // decode the payload and split into parts for processing
   processJWTPayload(context) {

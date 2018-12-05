@@ -5,35 +5,38 @@ import types from './types';
 export default {
   [types.DECODE_JWT_TOKEN](state, token) {
     // Decode the "Header, Payload, Signature" of the complete JWT token
-    const tokenParts = token.split('.');
-    const decodedTokenParts = tokenParts.map((part, index) => {
-      let decodedString = part;
-      if (index < 2) {
-        try {
-          decodedString = atob(part);
+    if (token) {
+      const tokenParts = token.split('.');
+      const decodedTokenParts = tokenParts.map((part, index) => {
+        let decodedString = part;
+        if (index < 2) {
+          try {
+            decodedString = atob(part);
+          } catch (e) {
+            console.warn(e);
+          }
         }
-        catch (e) {
-          console.warn(e);
-        }
-      }
-      return decodedString;
-    });
-    Vue.set(
-      state.token,
-      'decoded',
-      {
-        header: JSON.parse(decodedTokenParts[0]),
-        payload: JSON.parse(decodedTokenParts[1]),
-        signature: decodedTokenParts[2],
-      },
-    );
-    // @todo validate JWT signature and authenticate user
+        return decodedString;
+      });
+      Vue.set(
+        state.token,
+        'decoded',
+        {
+          header: JSON.parse(decodedTokenParts[0]),
+          payload: JSON.parse(decodedTokenParts[1]),
+          signature: decodedTokenParts[2],
+        },
+      );
+      // @todo validate JWT signature and authenticate user
 
-    Vue.set(
-      state.user,
-      'authenticated',
-      true,
-    );
+      Vue.set(
+        state.user,
+        'authenticated',
+        true,
+      );
+    } else {
+      console.warn('Invalid JWT Passed');
+    }
   },
   [types.SET_APP](state, obj) {
     Vue.set(
@@ -78,5 +81,5 @@ export default {
       'authentication',
       false,
     );
-  }
+  },
 };
