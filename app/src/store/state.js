@@ -28,19 +28,19 @@ const state = {
   urls: {
     LOCAL: {
       locationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/location',
-      geolocationSearch: 'http://localhost:8080/eep/proxy/service/geolocation',
+      geolocationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/geolocation',
     },
     DEV: {
       locationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/location',
-      geolocationSearch: 'http://apidev2.e-enterprise.gov/eep/proxy/service/geolocation',
+      geolocationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/geolocation',
     },
     TEST: {
       locationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/location',
-      geolocationSearch: 'http://apitest.e-enterprise.gov/eep/proxy/service/geolocation',
+      geolocationSearch: 'https://apitest.e-enterprise.gov/eep/proxy/service/geolocation',
     },
     PROD: {
       locationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/location',
-      geolocationSearch: 'http://api.e-enterprise.gov/eep/proxy/service/geolocation',
+      geolocationSearch: 'https://api.e-enterprise.gov/eep/proxy/service/geolocation',
     },
   },
   token: {
