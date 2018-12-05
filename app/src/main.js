@@ -16,6 +16,10 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 
+// Vue configurations (must be set before anything else)
+Vue.config.productionTip = true;
+Vue.config.devtools = true;
+
 const VueProgressBarOptions = {
   color: '#007AC6',
   failedColor: '#874b4b',
@@ -41,10 +45,6 @@ library.add(
 );
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
-
-Vue.config.productionTip = false;
-Vue.config.devtools = true;
-
 Vue.use(BootstrapVue);
 
 export default new Vue({

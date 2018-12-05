@@ -43,34 +43,12 @@ const state = {
       geolocationSearch: 'http://api.e-enterprise.gov/eep/proxy/service/geolocation',
     },
   },
-  user: {
-    id: 0,
-    location: {
-      zipcode: '',
-      city: '',
-      state: '',
-    },
-  },
   token: {
     raw: '',
     decoded: {
       header: null,
       payload: null,
       signature: null,
-    },
-  },
-  urls: {
-    LOCAL: {
-      locationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/location?',
-    },
-    DEV: {
-      locationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/location?',
-    },
-    TEST: {
-      locationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/location?',
-    },
-    PROD: {
-      locationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/location?',
     },
   },
   user: {
@@ -91,5 +69,3 @@ const state = {
 };
 
 export default state;
-
-
