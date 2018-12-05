@@ -20,7 +20,28 @@ const state = {
       issuer: 'https://extauthtest.epacdxnode.net',
       sendBridgeBackTo: 'https://apitest2.e-enterprise.gov/user/authenticate',
       signInMethod: 'wsignin1.0',
-    }
+    },
+  },
+  ui: {
+    hasLocationSearch: true,
+  },
+  urls: {
+    LOCAL: {
+      locationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/location',
+      geolocationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/geolocation',
+    },
+    DEV: {
+      locationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/location',
+      geolocationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/geolocation',
+    },
+    TEST: {
+      locationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/location',
+      geolocationSearch: 'https://apitest.e-enterprise.gov/eep/proxy/service/geolocation',
+    },
+    PROD: {
+      locationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/location',
+      geolocationSearch: 'https://api.e-enterprise.gov/eep/proxy/service/geolocation',
+    },
   },
   token: {
     raw: '',
@@ -28,20 +49,6 @@ const state = {
       header: null,
       payload: null,
       signature: null,
-    },
-  },
-  urls: {
-    LOCAL: {
-      locationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/location?',
-    },
-    DEV: {
-      locationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/location?',
-    },
-    TEST: {
-      locationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/location?',
-    },
-    PROD: {
-      locationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/location?',
     },
   },
   user: {
@@ -62,5 +69,3 @@ const state = {
 };
 
 export default state;
-
-

@@ -36,3 +36,11 @@ Accept: */*
 Cache-Control: no-cache
 
 ###
+
+
+# Geolocation
+GET http://localhost:8080/eep/proxy/service/geolocation?f=pjson&location=-92.0420352,30.217830399999997&XDEBUG_SESSION_START=PHPSTORM&state=DC
+Accept: */*
+Cache-Control: no-cache
+
+###

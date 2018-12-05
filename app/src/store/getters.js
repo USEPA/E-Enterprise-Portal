@@ -51,24 +51,20 @@ export default {
     return env;
   },
   getLocation(state) {
-    return state.location;
+    return state.user.location;
   },
   getUser(state) {
     return state.user;
   },
-  getLocationSearchURL(state, ref) {
-    const locationSearchURL = state.urls[ref.getEnvironment].locationSearch;
-    return locationSearchURL;
-  },
-
+  getURL: (state, ref) => urlName => state.urls[ref.getEnvironment][urlName],
   getBridgeURL(state, ref) {
     const env = ref.getEnvironment;
     let url = '#';
     const bridgeSettings = state.bridgeSettings[env];
     if (bridgeSettings) {
-      url = bridgeSettings.issuer + "?wtrealm=" + encodeURI(bridgeSettings.relyingParty) +
-        '&wreply=' + encodeURI(bridgeSettings.sendBridgeBackTo) + "&whr=urn:ENNAAS&wa=" + bridgeSettings.signInMethod;
+      url = `${bridgeSettings.issuer}?wtrealm=${encodeURI(bridgeSettings.relyingParty)
+      }&wreply=${encodeURI(bridgeSettings.sendBridgeBackTo)}&whr=urn:ENNAAS&wa=${bridgeSettings.signInMethod}`;
     }
     return url;
-  }
+  },
 };

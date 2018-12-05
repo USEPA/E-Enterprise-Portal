@@ -17,7 +17,9 @@
     </div>
     <h2>{{ eepApp.title }}</h2>
     <h6 v-show="!!eepApp.source">
-        Source: <a :href="eepApp.source.link" target="_blank">{{ eepApp.source.text }}</a>
+      Source: <a
+        :href="eepApp.source.link"
+        target="_blank">{{ eepApp.source.text }}</a>
     </h6>
     <div class="app-inner-wrapper">
       <slot></slot>
