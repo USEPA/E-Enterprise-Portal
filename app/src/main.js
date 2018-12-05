@@ -1,4 +1,11 @@
+/* eslint-disable import/first */
 import Vue from 'vue';
+
+// @todo Move config to a environment specific file/export
+// Vue configurations (must be set before anything else)
+Vue.config.productionTip = true;
+Vue.config.devtools = true;
+
 import VueProgressBar from 'vue-progressbar';
 import 'bootstrap';
 import BootstrapVue from 'bootstrap-vue';
@@ -15,10 +22,6 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-
-// Vue configurations (must be set before anything else)
-Vue.config.productionTip = true;
-Vue.config.devtools = true;
 
 const VueProgressBarOptions = {
   color: '#007AC6',
