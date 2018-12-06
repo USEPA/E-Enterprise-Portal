@@ -1,0 +1,32 @@
+{
+  "address": {
+    "Match_addr": "2357-2359 W Congress St, Lafayette, Louisiana, 70506",
+    "LongLabel": "2357-2359 W Congress St, Lafayette, LA, 70506, USA",
+    "ShortLabel": "2357-2359 W Congress St",
+    "Addr_type": "StreetAddress",
+    "Type": "",
+    "PlaceName": "",
+    "AddNum": "2357",
+    "Address": "2357 W Congress St",
+    "Block": "",
+    "Sector": "",
+    "Neighborhood": "",
+    "District": "",
+    "City": "Lafayette",
+    "MetroArea": "",
+    "Subregion": "Lafayette Parish",
+    "Region": "Louisiana",
+    "Territory": "",
+    "Postal": "70506",
+    "PostalExt": "",
+    "CountryCode": "USA"
+  },
+  "location": {
+    "x": -92.042196317481853,
+    "y": 30.218072076222761,
+    "spatialReference": {
+      "wkid": 4326,
+      "latestWkid": 4326
+    }
+  }
+}

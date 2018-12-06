@@ -8,6 +8,7 @@
 
 namespace Drupal\eep_proxy_service\Proxy;
 
+use Drupal\eep_core\Helpers\ArrayHelper;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Client;
@@ -46,26 +47,32 @@ class ProxyService implements ProxyServiceInterface {
   private $filter;
 
   /**
-   * ProxyService constructor.
-   *
-   * @param String $service_machine_name
-   * @param array $headers
-   * @param String $uri
-   * @param \Symfony\Component\HttpFoundation\HeaderBag $request
-   * @param \Drupal\eep_proxy_service\Plugin\ProxyServiceFilterInterface $filter
+   * @var \Drupal\Core\Entity\EntityInterface
    */
-  public function __construct($service_machine_name, $filter, $uri = '', $headers = []) {
-    $this->service_machine_name = $service_machine_name;
-    $this->filter = $filter;
-    $this->uri = $uri;
-    $this->headers = $headers;
-  }
+  private $proxy_service_entity;
 
   /**
    * @return mixed
    */
   public function getHeaders() {
     return $this->headers;
+  }
+
+  /**
+   * ProxyService constructor.
+   *
+   * @param String $service_machine_name
+   * @param \Drupal\eep_proxy_service\Plugin\ProxyServiceFilterInterface $filter
+   * @param \Drupal\Core\Entity\EntityInterface $proxy_service_entity
+   * @param String $uri
+   * @param array $headers
+   */
+  public function __construct($service_machine_name, $filter, $proxy_service_entity, $uri = '', $headers = []) {
+    $this->service_machine_name = $service_machine_name;
+    $this->filter = $filter;
+    $this->uri = $uri;
+    $this->headers = $headers;
+    $this->proxy_service_entity = $proxy_service_entity;
   }
 
   /**
@@ -184,6 +191,45 @@ class ProxyService implements ProxyServiceInterface {
   }
 
 
+  public function responseHeaderOverrides(Response $guzzle_response = NULL) {
+    $response = $guzzle_response;
+    if(empty($guzzle_response)) {
+      $response = $this->response;
+    }
+    $existingHeaders = $response->getHeaders();
+    $headerOverrides = $this->proxy_service_entity->field_response_headers->getValue();
+
+    // For each header in the entity
+    foreach ($headerOverrides as $headerOverride) {
+      $ho = (object) $headerOverride;
+      $existingHeader = ArrayHelper::find_in_keys($ho->first, $existingHeaders);
+      // If we find any matching strings in the existing headers, remove them
+      if(count($existingHeader)) {
+        foreach ($existingHeader as $headerName) {
+          unset($existingHeaders[$headerName]);
+        }
+      }
+      // Set the new value only if the "second" contains a value
+      if(trim($ho->second)) {
+        $existingHeaders[$ho->first][] = $ho->second;
+      }
+    }
+
+    // Rebuild a new response with the modified headers
+    $response = new Response(
+      $response->getStatusCode(),
+      $existingHeaders,
+      $response->getBody(),
+      $response->getProtocolVersion(),
+      $response->getReasonPhrase()
+    );
+
+    if(empty($guzzle_response)) {
+      $this->response = $response;
+    }
+    return $response;
+  }
+
   /**
    * @return mixed|\Psr\Http\Message\ResponseInterface
    * @throws \GuzzleHttp\Exception\GuzzleException
@@ -207,6 +253,8 @@ class ProxyService implements ProxyServiceInterface {
       $guzzle_response = $this->response;
     }
 
+    $guzzle_response = $this->responseHeaderOverrides($guzzle_response);
+
     // Return result
     $HRResponse = new HttpFoundationResponse(
       (String) $guzzle_response->getBody(),
@@ -214,7 +262,7 @@ class ProxyService implements ProxyServiceInterface {
       $guzzle_response->getHeaders()
     );
 
-    // @todo Post repsonse processing
+    // @todo Post response processing
 
     $HRResponse->setProtocolVersion('1.1');
     $HRResponse->send();

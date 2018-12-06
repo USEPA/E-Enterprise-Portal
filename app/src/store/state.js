@@ -28,7 +28,7 @@ const state = {
   urls: {
     LOCAL: {
       locationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/location',
-      geolocationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/geolocation',
+      geolocationSearch: 'http://localhost:8080/eep/proxy/service/geolocation',
     },
     DEV: {
       locationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/location',
@@ -63,7 +63,7 @@ const state = {
       prefix: '',
       first: '',
       last: '',
-      suffix: ''
+      suffix: '',
     },
   },
 };
