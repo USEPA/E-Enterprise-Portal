@@ -2,7 +2,7 @@
 
 namespace Drupal\eep_location_services\Plugin\ProxyServiceFilter;
 
-use Drupal\eep_core\ArrayHelper;
+use Drupal\eep_core\Helpers\ArrayHelper;
 use Drupal\eep_proxy_service\Plugin\ProxyServiceFilterBase;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Stream;

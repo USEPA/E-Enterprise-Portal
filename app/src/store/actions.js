@@ -58,7 +58,7 @@ export default {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         let url = store.getters.getURL('geolocationSearch');
-        url = `${url}?f=pjson&location=${position.coords.longitude},${position.coords.latitude}&XDEBUG_SESSION_START=PHPSTORM`;
+        url = `${url}?f=pjson&location=${position.coords.longitude},${position.coords.latitude}`;
         AppAxios.get(url).then((response) => {
           const { data } = response;
 
