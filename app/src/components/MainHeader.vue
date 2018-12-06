@@ -15,8 +15,8 @@
       <div class="w-100 d-block d-md-none "></div>
       <div class="col-4-md d-flex justify-content-end align-self-end align-items-center">
         <div class="col-4-md">
-          <template v-if="authenticated">
-            <span>Welcome {{username}} </span>
+          <template v-if='authenticated'>
+            <span>Welcome {{ username }} </span>
 
             <b-btn
               variant="outline-secondary"
@@ -26,7 +26,8 @@
             </b-btn>
           </template>
           <template v-else>
-            <router-link to="/login"
+            <router-link
+              to="/login"
               class="btn btn-md btn-outline-secondary">
               Login
             </router-link>
@@ -49,7 +50,7 @@
       ...mapGetters({
         authenticated: 'getUserAuthentication',
         bridgeURL: 'getBridgeURL',
-        username: 'getUserFullName'
+        username: 'getUserFullName',
       }),
     },
     methods: {
