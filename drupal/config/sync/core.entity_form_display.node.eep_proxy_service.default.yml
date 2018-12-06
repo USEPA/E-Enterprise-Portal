@@ -8,6 +8,7 @@ dependencies:
     - field.field.node.eep_proxy_service.field_proxy_service_machine_name
     - field.field.node.eep_proxy_service.field_request_headers
     - field.field.node.eep_proxy_service.field_requeste_timeout
+    - field.field.node.eep_proxy_service.field_response_headers
     - field.field.node.eep_proxy_service.field_service_endpoints
     - node.type.eep_proxy_service
   module:
@@ -81,6 +82,31 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: number
+    region: content
+  field_response_headers:
+    weight: 130
+    settings:
+      first:
+        type: textfield
+        prefix: ''
+        suffix: ''
+        size: 10
+        placeholder: ''
+        label: Ok
+        cols: 10
+        rows: 5
+      second:
+        type: textfield
+        prefix: ''
+        suffix: ''
+        size: 10
+        placeholder: ''
+        label: Ok
+        cols: 10
+        rows: 5
+      inline: false
+    third_party_settings: {  }
+    type: double_field
     region: content
   field_service_endpoints:
     weight: 123
