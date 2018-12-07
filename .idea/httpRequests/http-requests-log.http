@@ -2,6 +2,78 @@ GET http://localhost:8080/eep/proxy/service/geolocation?f=pjson&location=-92.042
 Accept: */*
 Cache-Control: no-cache
 
+<> 2018-12-06T090754.200.json
+
+###
+
+GET http://localhost:8080/eep/proxy/service/location?XDEBUG_SESSION_START=PHPSTORM&state=DC&city=washington
+Accept: */*
+Cache-Control: no-cache
+
+<> 2018-12-06T085705.200.json
+
+###
+
+GET http://localhost:8080/eep/proxy/service/location?XDEBUG_SESSION_START=PHPSTORM&state=DC&city=washington
+Accept: */*
+Cache-Control: no-cache
+
+<> 2018-12-06T085653.500.html
+
+###
+
+GET http://localhost:8080/eep/proxy/service/location?XDEBUG_SESSION_START=PHPSTORM&state=DC&city=washington
+Accept: */*
+Cache-Control: no-cache
+
+<> 2018-12-06T085520.500.html
+
+###
+
+GET http://localhost:8080/eep/proxy/service/location?XDEBUG_SESSION_START=PHPSTORM&state=DC&city=washington
+Accept: */*
+Cache-Control: no-cache
+
+<> 2018-12-06T085341.500.html
+
+###
+
+GET http://localhost:8080/eep/proxy/service/location?XDEBUG_SESSION_START=PHPSTORM&state=DC&city=washington
+Accept: */*
+Cache-Control: no-cache
+
+<> 2018-12-06T085301.500.html
+
+###
+
+GET http://localhost:8080/eep/proxy/service/location?XDEBUG_SESSION_START=PHPSTORM&state=DC&city=washington
+Accept: */*
+Cache-Control: no-cache
+
+<> 2018-12-06T085212.500.html
+
+###
+
+GET http://localhost:8080/eep/proxy/service/location?XDEBUG_SESSION_START=PHPSTORM&state=DC&city=washington
+Accept: */*
+Cache-Control: no-cache
+
+<> 2018-12-06T084802.500.html
+
+###
+
+GET http://localhost:8080/eep/proxy/service/location?XDEBUG_SESSION_START=PHPSTORM&state=DC&city=washington
+Accept: */*
+Cache-Control: no-cache
+
+<> 2018-12-06T081447.500.html
+
+###
+
+GET http://localhost:8080/eep/proxy/service/geolocation?f=pjson&location=-92.0420352,30.217830399999997&XDEBUG_SESSION_START=PHPSTORM
+Accept: */*
+Cache-Control: no-cache
+
 <> 2018-12-06T015323.200.json
 
 ###
@@ -279,76 +351,6 @@ Accept: */*
 Cache-Control: no-cache
 
 <> 2018-11-20T121326.200.html
-
-###
-
-GET http://localhost:8080/eep/proxy/service/geolocation?f=pjson&location=-92.049568,30.317671&XDEBUG_SESSION_START=PHPSTORM
-Accept: */*
-Cache-Control: no-cache
-
-<> 2018-11-20T121204.200.txt
-
-###
-
-GET http://localhost:8080/eep/proxy/service/geolocation?f=pjson&location=-92.049568,30.317671&XDEBUG_SESSION_START=PHPSTORM
-Accept: */*
-Cache-Control: no-cache
-
-<> 2018-11-20T120921.500.html
-
-###
-
-GET http://localhost:8080/eep/proxy/service/geolocation?f=pjson&location=-92.049568,30.317671&XDEBUG_SESSION_START=PHPSTORM
-Accept: */*
-Cache-Control: no-cache
-
-<> 2018-11-20T120124.500.html
-
-###
-
-GET http://localhost:8080/eep/proxy/service/geolocation?f=pjson&location=-92.049568,30.317671&XDEBUG_SESSION_START=PHPSTORM
-Accept: */*
-Cache-Control: no-cache
-
-<> 2018-11-20T120115.500.html
-
-###
-
-GET http://localhost:8080/eep/proxy/service/geolocation?f=pjson&location=-92.049568,30.317671&XDEBUG_SESSION_START=PHPSTORM
-Accept: */*
-Cache-Control: no-cache
-
-<> 2018-11-20T120035.500.html
-
-###
-
-GET http://localhost:8080/eep/proxy/service/geolocation?f=pjson&location=-92.049568,30.317671&XDEBUG_SESSION_START=PHPSTORM
-Accept: */*
-Cache-Control: no-cache
-
-<> 2018-11-20T115939.500.html
-
-###
-
-GET http://localhost:8080/eep/proxy/service/geolocation?f=pjson&location=-92.049568,30.317671&XDEBUG_SESSION_START=PHPSTORM
-Accept: */*
-Cache-Control: no-cache
-
-<> 2018-11-20T115722.500.html
-
-###
-
-GET http://localhost:8080/eep/proxy/service/geolocation?f=pjson&location=-92.049568,30.317671&XDEBUG_SESSION_START=PHPSTORM
-Accept: */*
-Cache-Control: no-cache
-
-<> 2018-11-20T115625.500.html
-
-###
-
-GET http://localhost:8080/eep/proxy/service/geolocation?f=pjson&location=-92.049568,30.317671&XDEBUG_SESSION_START=PHPSTORM
-Accept: */*
-Cache-Control: no-cache
 
 ###
 
