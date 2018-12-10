@@ -21,7 +21,7 @@
                     variant="outline-secondary"
                     class="btn btn-md btn-outline-primary account-auth"
                     @click="userLogOut">
-              <i class="fas fa-lock"></i>
+              <i class="fas fa-lock"></i>&nbsp;
               Logout
             </b-btn>
           </template>
@@ -29,7 +29,7 @@
             <router-link
                     to="/login"
                     class="btn btn-md btn-outline-primary account-auth">
-              <i class="fas fa-lock"></i>
+              <i class="fas fa-lock"></i>&nbsp;
               Login
             </router-link>
           </template>
@@ -77,6 +77,5 @@
   .account-auth {
     background-color: #0071bc;
     color: white;
-
   }
 </style>
