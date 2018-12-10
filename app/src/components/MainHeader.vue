@@ -26,12 +26,20 @@
             </b-btn>
           </template>
           <template v-else>
+            <div class="router-link-wrapper"></div>
             <router-link
                     to="/login"
-                    class="btn btn-sm btn-outline-primary account-auth">
+                    class="btn btn-sm btn-outline-primary account-auth"
+                    ref="loginBtn"
+                    @mouseover.native="startHover"
+                    @mouseleave.native="endHover">
               <i class="fas fa-lock"></i>&nbsp;
               Login
             </router-link>
+            <div class="login-btn-arrow-and-message-wrapper">
+              <div id="login-btn-arrow" class="arrow-down" v-bind:style="displayArrow"></div>
+              <div class="arrow-down-message" v-bind:style="displayMessage"><span id="login-message">{{loginBtnHoverMessage}}</span></div>
+            </div>
           </template>
         </div>
 
@@ -52,15 +60,35 @@
         authenticated: 'getUserAuthentication',
         bridgeURL: 'getBridgeURL',
         username: 'getUserFullName',
+        loginBtnHoverMessage: 'getloginBtnHoverMessage'
       }),
     },
     methods: {
       ...mapActions([
         'userLogOut',
       ]),
+      startHover(){
+        this.displayArrow.display = '';
+        this.displayMessage.display = '';
+
+      },
+      endHover(){
+        this.displayArrow.display = 'none';
+        this.displayMessage.display = 'none';
+
+      },
     },
     data() {
-      return {};
+      return {
+        displayArrow: {
+          display: 'none',
+          position: 'absolute'
+        },
+        displayMessage: {
+          display: 'none',
+          position: 'absolute'
+        },
+      };
     },
   };
 </script>
@@ -77,5 +105,22 @@
   .account-auth {
     background-color: #0071bc;
     color: white;
+    margin-left: 65px;
+    position: relative;
+
+  }
+
+  .arrow-down {
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 7px solid #0071bc;
+    margin-left: 95px;
+  }
+
+  .arrow-down-message {
+    font-size: x-small;
+    margin-top: 5px;
   }
 </style>

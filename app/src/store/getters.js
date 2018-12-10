@@ -67,4 +67,7 @@ export default {
     }
     return url;
   },
+  getloginBtnHoverMessage(state){
+    return state.loginBtnHoverMessage;
+  }
 };
