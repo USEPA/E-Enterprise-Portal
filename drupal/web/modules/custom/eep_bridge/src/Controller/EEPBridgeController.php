@@ -3,8 +3,11 @@
 namespace Drupal\eep_bridge\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\eep_bridge\ADFSConf;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\Core\Url;
+use Drupal\eep_bridge\ADFSUserDetails;
+use Drupal\eep_bridge\ADFSBridge;
 
 
 /**
@@ -42,8 +45,15 @@ class EEPBridgeController extends ControllerBase {
       return;
     }
 
+    $post = $_POST;
+    // Pull UserDetails from Post
+    $userDetails = $this->parse_post_for_user_details($post);
+
+    //check if user details is returned, TODO: remove this code after checking.
+    ksm($userDetails);
+
     return [
-      '#markup' => $this->t("wa_result " . $_POST['wa_result'] . " <br> wa_version " . $_POST['wa_version'])
+      '#markup' => $this->t("wa_result " . $_POST['wresult'])
     ];
   }
 
@@ -51,6 +61,17 @@ class EEPBridgeController extends ControllerBase {
     $response = new RedirectResponse($url->toString());
     $response->send();
     exit;
+  }
+
+  /**
+   * @param $post
+   * @return ADFSUserDetails
+   * Parses post variable into ADFS UserDetails object
+   */
+  function parse_post_for_user_details($post){
+    $adfs = new ADFSBridge();
+    $userDetails = $adfs->getAdfsSignInResponse(ADFSConf::getInstance(), $post['wresult']);
+    return $userDetails;
   }
 
 }
