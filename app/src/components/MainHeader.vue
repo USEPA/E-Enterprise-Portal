@@ -17,18 +17,19 @@
         <div class="col-4-md">
           <template v-if='authenticated'>
             <span>Welcome {{ username }} </span>
-
             <b-btn
-              variant="outline-secondary"
-              class="btn btn-md btn-outline-secondary"
-              @click="userLogOut">
+                    variant="outline-secondary"
+                    class="btn btn-md btn-outline-primary account-auth"
+                    @click="userLogOut">
+              <i class="fas fa-lock"></i>
               Logout
             </b-btn>
           </template>
           <template v-else>
             <router-link
-              to="/login"
-              class="btn btn-md btn-outline-secondary">
+                    to="/login"
+                    class="btn btn-md btn-outline-primary account-auth">
+              <i class="fas fa-lock"></i>
               Login
             </router-link>
           </template>
@@ -68,10 +69,14 @@
 <style scoped
   lang="scss">
   .eep_logo {
-
     img {
       max-width: 100%;
     }
+  }
+
+  .account-auth {
+    background-color: #0071bc;
+    color: white;
 
   }
 </style>
