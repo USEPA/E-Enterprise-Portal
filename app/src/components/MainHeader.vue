@@ -19,7 +19,7 @@
             <span>Welcome {{ username }} </span>
             <b-btn
                     variant="outline-secondary"
-                    class="btn btn-md btn-outline-primary account-auth"
+                    class="btn btn-sm btn-outline-primary account-auth"
                     @click="userLogOut">
               <i class="fas fa-lock"></i>&nbsp;
               Logout
@@ -28,7 +28,7 @@
           <template v-else>
             <router-link
                     to="/login"
-                    class="btn btn-md btn-outline-primary account-auth">
+                    class="btn btn-sm btn-outline-primary account-auth">
               <i class="fas fa-lock"></i>&nbsp;
               Login
             </router-link>
