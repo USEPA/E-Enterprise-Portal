@@ -50,6 +50,7 @@
 
 <script>
   import { mapGetters, mapActions } from 'vuex';
+  import { EventBus } from '../EventBus';
 
   // eslint-disable-next-line
   export default {
@@ -68,14 +69,22 @@
         'userLogOut',
       ]),
       startHover(){
+        const vm = this;
+        const store = vm.$store;
         this.displayArrow.display = '';
         this.displayMessage.display = '';
-
+        store.commit('SET_MARGIN_TOP_NAV', {
+          'margin-top': '10px'
+        });
       },
       endHover(){
+        const vm = this;
+        const store = vm.$store;
         this.displayArrow.display = 'none';
         this.displayMessage.display = 'none';
-
+        store.commit('SET_MARGIN_TOP_NAV', {
+          'margin-top': 0
+        });
       },
     },
     data() {

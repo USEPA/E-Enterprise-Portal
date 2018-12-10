@@ -23,7 +23,7 @@
     <MainHeader/>
     <div
       id="nav"
-      class="region-navigation pb-2 px-3">
+      class="region-navigation pb-2 px-3" v-bind:style="navMargin">
 
       <div
         id="main-navigation-container"
@@ -109,6 +109,7 @@
     computed: {
       ...mapGetters({
         ENV: 'getEnvironment',
+        navMargin: 'getnavMargin',
       }),
       environmentName() {
         let env = 'LOCAL';
@@ -207,9 +208,5 @@
         font-size: 1.0rem;
       }
     }
-  }
-
-  #nav {
-    margin-top: 5px;
   }
 </style>

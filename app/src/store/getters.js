@@ -69,5 +69,8 @@ export default {
   },
   getloginBtnHoverMessage(state){
     return state.loginBtnHoverMessage;
-  }
+  },
+  getnavMargin(state){
+    return state.navMargin;
+  },
 };
