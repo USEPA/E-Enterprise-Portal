@@ -27,7 +27,7 @@
               <div class="col-4-md d-flex  justify-content-end align-self-end align-items-center">
                 <template>
                   <router-link to="/tryit">
-                    <b-button id="try-it" class="btn btn-md" variant="primary" v-b-tooltip.hover title="Want to just try it? No log in needed.">
+                    <b-button id="try-it" class="btn btn-md" variant="primary" :title="tryitTitle">
                       <i class="fas fa-arrow-circle-right"></i>Try It
                     </b-button>
                   </router-link>
@@ -142,6 +142,11 @@
   export default {
     name: 'Home',
     components: {},
+    computed: {
+      tryitTitle() {
+        return 'Want to just try it? No log in needed.';
+      }
+    },
     data() {
       return {
         slide: 0,

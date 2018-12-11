@@ -15,10 +15,10 @@
       <div class="w-100 d-block d-md-none "></div>
 
       <div class="col-4-md d-flex justify-content-lg-end align-self-end align-items-center">
-        <div id="try" class="col-4-md d-flex mr-3 align-self-end align-items-center" style>
+        <div class="col-4-md d-flex mr-3 align-self-end align-items-center" >
           <template>
             <router-link to="/tryit">
-              <b-button id="try-it" class="btn btn-md" variant="primary" v-b-tooltip.hover title="Want to just try it? No log in needed.">
+              <b-button id="try-it" class="btn btn-md" variant="primary"  :title="tryitTitle">
                 <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left"></i>Try It
               </b-button>
             </router-link>
@@ -67,6 +67,9 @@
             bridgeURL: 'getBridgeURL',
             username: 'getUserFullName',
           }),
+          tryitTitle() {
+            return 'Want to just try it? No log in needed.';
+          }
         },
         methods: {
           ...mapActions([
