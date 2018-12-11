@@ -18,25 +18,25 @@
         <div class="container">
           <div class="row">
             <div class="col-md align-self-start">
-              <h2>Customize your information</h2>
-              <p>The E-Enterprise Portal provides an important new means by which
-                users can customize the types of information presented to them,
-                find and select tools and other resources, and conduct
-                transactions with EPA, Tribes, and States.</p>
-              <p>See the video <span aria-hidden="true">&gt;&gt;</span></p>
-            </div>
-            <div class="col-md align-self-end">
-              <b-embed
-                type="iframe"
-                aspect="16by9"
-                src="https://www.youtube.com/embed/iFv0DYnW1-A?rel=0"
-                allowfullscreen
-                frameborder="0"
-              />
+              <h2>Access Your State and EPA Accounts</h2>
+              <p class="col-md-6">
+                Personalize your E-Enterprise experience by logging in with your state or EPA account.
+                You'll have access to valuable content and tools like My Facility Manager, My Reporting, permits, and
+                more.
+                We will continue to add partners in the future.
+              </p>
+              <div class="login-btn-wrapper">
+                <router-link
+                        to="/login"
+                        class="btn btn-sm btn-outline-primary pl-1 account-auth"
+                        ref="loginBtn">
+                  <i class="fas fa-lock"></i>&nbsp;
+                  Login
+                </router-link>
+              </div>
             </div>
           </div>
         </div>
-
       </b-carousel-slide>
 
       <!-- Slide with blank fluid image to maintain slide aspect ratio -->
@@ -252,5 +252,14 @@
         min-height: 22rem;
       }
     }
+  }
+
+  .account-auth {
+    background-color: #0071bc;
+    color: white;
+  }
+
+  .login-btn-wrapper{
+    padding-left: 40%;
   }
 </style>

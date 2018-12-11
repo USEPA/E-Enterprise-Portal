@@ -36,11 +36,9 @@
               <i class="fas fa-lock"></i>&nbsp;
               Login
             </router-link>
-            <div class="login-btn-arrow-and-message-wrapper col-4-md">
-              <div id="login-btn-arrow" class="arrow-down" v-bind:style="displayArrow"></div>
-              <div class="arrow-down-message" v-bind:style="displayMessage">
-                <span id="login-message">{{loginBtnHoverMessage}}</span>
-              </div>
+            <div id="login-btn-arrow" class="arrow-down" v-bind:style="displayArrow"></div>
+            <div class="arrow-down-message col-md-12 mt-1 mb-3" v-bind:style="displayMessage">
+                <span id="login-message" class="float-right">{{loginBtnHoverMessage}}</span>
             </div>
           </template>
         </div>
@@ -110,8 +108,10 @@
     background-color: #0071bc;
     color: white;
     margin-left: 65px;
-    position: relative;
+  }
 
+  .login-btn-arrow-and-message-wrapper {
+    position: relative;
   }
 
   .arrow-down {
@@ -125,7 +125,6 @@
 
   .arrow-down-message {
     font-size: x-small;
-    margin-top: 5px;
-    right: 200px;
+    right: 13%
   }
 </style>
