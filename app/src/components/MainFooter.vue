@@ -5,23 +5,24 @@
       role="alert"
       v-show="['workbench'].indexOf($route.name) > -1">
       <div
-        id="Terms-conditions"
+        id="terms-conditions"
         class="container w-100 d-flex text-dark">
         <div class="row align-self-center w-100">
           <div class="col-12 text-center">
             <span>By using the E-Enterprise Portal, you agree to the </span>
-            <span class="clickable">
+            <span class="text-decoration-underline cursor-pointer">
               <a
                 class="text-dark"
                 href="https://e-enterprise.gov/ee_disclaimer"
-                target="_blank"><u>Terms and Conditions.</u>
+                target="_blank">
+                Terms and Conditions.
               </a>
-              &nbsp;&nbsp;
             </span>
+            &nbsp;&nbsp;
             <span
-              class="clickable"
+              class="text-decoration-underline cursor-pointer"
               data-dismiss="alert">
-              <u>Continue »</u>
+              Continue »
             </span>
           </div>
         </div>
@@ -93,12 +94,9 @@
       z-index: auto;
     }
   }
-  #Terms-conditions {
-    min-height: 70px;
+  #terms-conditions {
+    min-height: 5em;
     max-width: none;
     z-index: 1200;
-  }
-  #Terms-conditions .clickable{
-    cursor: pointer;
   }
 </style>
