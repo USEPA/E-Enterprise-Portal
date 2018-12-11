@@ -13,7 +13,8 @@
             <span class="clickable">
               <a
                 class="text-dark"
-                href="https://e-enterprise.gov/ee_disclaimer" target="_blank"><u>Terms and Conditions.</u>
+                href="https://e-enterprise.gov/ee_disclaimer"
+                target="_blank"><u>Terms and Conditions.</u>
               </a>
               &nbsp;&nbsp;
             </span>
