@@ -62,12 +62,27 @@
         <div class="col-auto text-align-center small">Version 2.0.1</div>
       </div>
     </div>
+    <div
+      class="alert alert-success px-3"
+      role="alert"
+      v-if="['workbench'].indexOf($route.name) > -1">
+      <div class="col-12 text-center p-2">While we do not share user credentials, <strong>we can use a cookie to remember your login preferences.<br > Would you like us to remember which login option you chose next time?</strong>  <a
+        href="https://www.epa.gov/privacy/privacy-and-security-notice#cookies"
+        target="_blank"
+        class="text-dark text-decoration-underline pl-2">See our cookie policy</a>.</div>
+      <div class="col-12 text-right p-2 w-75"><a
+        href="#"
+        data-dismiss="alert"
+        class="text-dark text-decoration-underline pr-2"
+      >No Thanks</a><button class="btn btn-primary">Yes, Please</button></div>
+    </div>
   </footer>
 </template>
 <script>
   export default {
     name: 'MainFooter',
   };
+
 </script>
 
 <style scoped
@@ -83,17 +98,20 @@
       &:hover, &:active {
         text-decoration: underline;
       }
+
     }
+
   }
-  @include media-breakpoint-down(xs) {
-    footer.fixed-bottom {
-      position: relative;
-      right: auto;
-      bottom: auto;
-      left: auto;
-      z-index: auto;
+    @include media-breakpoint-down(xs) {
+      footer.fixed-bottom {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        left: auto;
+        z-index: auto;
+      }
     }
-  }
+
   #terms-conditions {
     min-height: 5em;
     max-width: none;
