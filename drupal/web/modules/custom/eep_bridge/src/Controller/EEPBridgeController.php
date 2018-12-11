@@ -4,12 +4,12 @@ namespace Drupal\eep_bridge\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\eep_bridge\ADFSConf;
-use Drupal\externalauth\Authmap;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\Core\Url;
 use Drupal\eep_bridge\ADFSUserDetails;
 use Drupal\eep_bridge\ADFSBridge;
-use Drupal\externalauth\ExternalAuth;
+use Drupal\eep_bridge\AuthenticatedUser;
+
 
 
 /**
