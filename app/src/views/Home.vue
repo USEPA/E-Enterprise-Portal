@@ -26,7 +26,7 @@
               <p>See the video <span aria-hidden="true">&gt;&gt;</span></p>
               <div class="col-4-md d-flex  justify-content-end align-self-end align-items-center">
                 <template>
-                  <router-link to="/tryit">
+                  <router-link to="/workbench">
                     <b-button id="try-it" class="btn btn-md" variant="primary" :title="tryitTitle">
                       <i class="fas fa-arrow-circle-right"></i>Try It
                     </b-button>
