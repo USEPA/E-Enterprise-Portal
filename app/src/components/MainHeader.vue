@@ -120,5 +120,7 @@
     color: #000;
     position: absolute;
     right: 0;
+    font-size: 1rem;
+    font-family: 'Futura LT BT', 'Poppins', 'Century Gothic', 'Source Sans Pro', Helvetica, Arial, sans-serif
   }
 </style>
