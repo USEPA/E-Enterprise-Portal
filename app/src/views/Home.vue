@@ -28,7 +28,7 @@
               <div class="login-btn-wrapper">
                 <router-link
                         to="/login"
-                        class="btn btn-sm btn-outline-primary pl-1 account-auth"
+                        class="btn btn-md btn-outline-primary pl-1 account-auth"
                         ref="loginBtn">
                   <i class="fas fa-lock"></i>&nbsp;
                   Login
