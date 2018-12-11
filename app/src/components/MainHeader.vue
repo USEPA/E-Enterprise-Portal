@@ -74,18 +74,12 @@
         const store = vm.$store;
         this.displayArrow.display = '';
         this.displayMessage.display = '';
-//        store.commit('SET_MARGIN_TOP_NAV', {
-//          'margin-top': '10px'
-//        });
       },
       endHover(){
         const vm = this;
         const store = vm.$store;
         this.displayArrow.display = 'none';
         this.displayMessage.display = 'none';
-//        store.commit('SET_MARGIN_TOP_NAV', {
-//          'margin-top': 0
-//        });
       },
     },
     data() {
