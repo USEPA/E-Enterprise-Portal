@@ -133,6 +133,11 @@
   export default {
     name: 'Home',
     components: {},
+    computed: {
+      tryitTitle() {
+        return 'Want to just try it? No log in needed.';
+      }
+    },
     data() {
       return {
         slide: 0,
