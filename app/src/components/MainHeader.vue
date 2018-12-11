@@ -36,13 +36,14 @@
               <i class="fas fa-lock"></i>&nbsp;
               Login
             </router-link>
-            <div class="login-btn-arrow-and-message-wrapper">
+            <div class="login-btn-arrow-and-message-wrapper col-4-md">
               <div id="login-btn-arrow" class="arrow-down" v-bind:style="displayArrow"></div>
-              <div class="arrow-down-message" v-bind:style="displayMessage"><span id="login-message">{{loginBtnHoverMessage}}</span></div>
+              <div class="arrow-down-message" v-bind:style="displayMessage">
+                <span id="login-message">{{loginBtnHoverMessage}}</span>
+              </div>
             </div>
           </template>
         </div>
-
       </div>
     </div>
   </header>
@@ -73,18 +74,18 @@
         const store = vm.$store;
         this.displayArrow.display = '';
         this.displayMessage.display = '';
-        store.commit('SET_MARGIN_TOP_NAV', {
-          'margin-top': '10px'
-        });
+//        store.commit('SET_MARGIN_TOP_NAV', {
+//          'margin-top': '10px'
+//        });
       },
       endHover(){
         const vm = this;
         const store = vm.$store;
         this.displayArrow.display = 'none';
         this.displayMessage.display = 'none';
-        store.commit('SET_MARGIN_TOP_NAV', {
-          'margin-top': 0
-        });
+//        store.commit('SET_MARGIN_TOP_NAV', {
+//          'margin-top': 0
+//        });
       },
     },
     data() {
@@ -131,5 +132,6 @@
   .arrow-down-message {
     font-size: x-small;
     margin-top: 5px;
+    right: 200px;
   }
 </style>
