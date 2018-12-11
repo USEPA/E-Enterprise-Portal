@@ -2,45 +2,45 @@
   <header class="py-3 container">
     <div class="d-flex flex-nowrap justify-content-between align-items-center">
       <div class="col-4-md justify-content-start">
-          <a
-            class="eep_logo"
-            href='#/home'
-            title="Home - E-Enterprise for the Environment"
-            rel="home">
-            <img
-              src="../assets/images/eenterprise.svg"
-              alt="Home - E-Enterprise for the Environment">
-          </a>
-        </div>
-        <div class="w-100 d-block d-md-none "></div>
-        <div class="col-md-4 d-flex justify-content-end align-self-end align-items-center">
-          <div class="col-md-12">
-            <template v-if='authenticated'>
-              <span>Welcome {{ username }} </span>
-              <b-btn
-                      variant="outline-secondary"
-                      class="btn btn-sm btn-outline-primary float-right account-auth"
-                      @click="userLogOut">
-                <i class="fas fa-lock"></i>&nbsp;
-                Logout
-              </b-btn>
-            </template>
-            <template v-else>
-              <router-link
-                      to="/login"
-                      class="btn btn-sm btn-outline-primary account-auth"
-                      ref="loginBtn"
-                      @mouseover.native="startHover"
-                      @mouseleave.native="endHover">
-                <i class="fas fa-lock"></i>&nbsp;
-                Login
-              </router-link>
-              <div id="login-btn-arrow" class="arrow-down" v-bind:style="displayArrow"></div>
-              <div v-bind:style="displayMessage">
-                <span id="login-message" class="arrow-down-message">{{loginBtnHoverMessage}}</span>
-              </div>
-            </template>
-          </div>
+        <a
+          class="eep_logo"
+          href='#/home'
+          title="Home - E-Enterprise for the Environment"
+          rel="home">
+          <img
+            src="../assets/images/eenterprise.svg"
+            alt="Home - E-Enterprise for the Environment">
+        </a>
+      </div>
+      <div class="w-100 d-block d-md-none "></div>
+      <div class="col-4-md d-flex justify-content-end align-self-end align-items-center">
+        <div class="col-4-md">
+          <template v-if='authenticated'>
+            <span>Welcome {{ username }} </span>
+            <b-btn
+                    variant="outline-secondary"
+                    class="btn btn-sm btn-outline-primary account-auth"
+                    @click="userLogOut">
+              <i class="fas fa-lock"></i>&nbsp;
+              Logout
+            </b-btn>
+          </template>
+          <template v-else>
+            <div class="router-link-wrapper"></div>
+            <router-link
+                    to="/login"
+                    class="btn btn-sm btn-outline-primary account-auth"
+                    ref="loginBtn"
+                    @mouseover.native="startHover"
+                    @mouseleave.native="endHover">
+              <i class="fas fa-lock"></i>&nbsp;
+              Login
+            </router-link>
+            <div id="login-btn-arrow" class="arrow-down" v-bind:style="displayArrow"></div>
+            <div class="arrow-down-message col-md-12 mt-2 mb-1" v-bind:style="displayMessage">
+                <span id="login-message" class="float-right">{{loginBtnHoverMessage}}</span>
+            </div>
+          </template>
         </div>
       </div>
     </div>
@@ -125,5 +125,6 @@
 
   .arrow-down-message {
     font-size: x-small;
+    right: 12%
   }
 </style>
