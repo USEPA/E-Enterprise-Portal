@@ -263,4 +263,76 @@ class ADFSBridge {
     return $userDetails;
   }
 
+  /**
+   * checkCurrentTime is from simpleSAMLphp Utilities
+   *
+   * Check to verify that the current time is between
+   * the specified start and end boundary
+   *
+   * @param string $start time in SAML2 format
+   * @param string $end time in SAML2 format
+   * @return boolean
+   */
+  function checkCurrentTime($start = NULL, $end = NULL) {
+    $currentTime = time();
+    if (!empty($start)) {
+      $startTime = $this->parseSAML2Time($start);
+      /* Allow for a 10 minute difference in Time */
+      if (($startTime < 0) || (($startTime - 600) > $currentTime)) {
+        return FALSE;
+      }
+    }
+    if (!empty($end)) {
+      $endTime = $this->parseSAML2Time($end);
+      if (($endTime < 0) || ($endTime <= $currentTime)) {
+        return FALSE;
+      }
+    }
+    return TRUE;
+  }
+
+  /**
+   * parseSAML2Time is from simpleSAMLphp Utilities
+   *
+   * This function converts a SAML2 timestamp on the form
+   * yyyy-mm-ddThh:mm:ss(\.s+)?Z to a UNIX timestamp. The sub-second
+   * part is ignored.
+   *
+   * Andreas comments:
+   *  I got this timestamp from Shibboleth 1.3 IdP: 2008-01-17T11:28:03.577Z
+   *  Therefore I added to possibliity to have microseconds to the format.
+   * Added: (\.\\d{1,3})? to the regex.
+   *
+   *
+   * @param string $time The time to convert in SAML2 format
+   * @return string  $time converted to a unix timestamp.
+   */
+  function parseSAML2Time($time) {
+    $matches = array();
+    /* We use a very strict regex to parse the timestamp. */
+    if (preg_match('/^(\\d\\d\\d\\d)-(\\d\\d)-(\\d\\d)' .
+        'T(\\d\\d):(\\d\\d):(\\d\\d)(?:\\.\\d+)?Z$/D',
+        $time, $matches) == 0
+    ) {
+      $exception_msg = 'Invalid SAML2 timestamp passed to' . ' parseSAML2Time: ' . $time;
+      watchdog('eep_bridge', $exception_msg, array(), WATCHDOG_ERROR);
+      throw new Exception($exception_msg);
+    }
+    /* Extract the different components of the time from the
+     * matches in the regex. intval will ignore leading zeroes
+     * in the string.
+     */
+    $year = intval($matches[1]);
+    $month = intval($matches[2]);
+    $day = intval($matches[3]);
+    $hour = intval($matches[4]);
+    $minute = intval($matches[5]);
+    $second = intval($matches[6]);
+    /* We use gmmktime because the timestamp will always be given
+     * in UTC.
+     */
+    $ts = gmmktime($hour, $minute, $second, $month, $day, $year);
+    return $ts;
+  }
+
 }
