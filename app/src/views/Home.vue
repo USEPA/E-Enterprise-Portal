@@ -24,6 +24,15 @@
                 find and select tools and other resources, and conduct
                 transactions with EPA, Tribes, and States.</p>
               <p>See the video <span aria-hidden="true">&gt;&gt;</span></p>
+              <div class="col-4-md d-flex  justify-content-end align-self-end align-items-center">
+                <template>
+                  <router-link to="/tryit">
+                    <b-button id="try-it" class="btn btn-md" variant="primary" :title="tryitTitle">
+                      <i class="fas fa-arrow-circle-right"></i>Try It
+                    </b-button>
+                  </router-link>
+                </template>
+              </div>
             </div>
             <div class="col-md align-self-end">
               <b-embed
@@ -133,6 +142,11 @@
   export default {
     name: 'Home',
     components: {},
+    computed: {
+      tryitTitle() {
+        return 'Want to just try it? No log in needed.';
+      }
+    },
     data() {
       return {
         slide: 0,
