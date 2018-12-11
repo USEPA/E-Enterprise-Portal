@@ -196,15 +196,19 @@
 
     // Slide 1
 
-  #my-reporting-img {
-    width: 284px;
-    height: 202px;
-  }
+    #my-reporting-img {
+      width: 284px;
+      height: 202px;
+      margin-left: 50%;
+      margin-top: -18%
+    }
 
-  #progress-tracker-img {
-    width: 350px;
-    height: 119px;
-  }
+    #progress-tracker-img {
+      width: 350px;
+      height: 119px;
+      float: right;
+
+    }
 
     // Slide 2
     .including_items {
