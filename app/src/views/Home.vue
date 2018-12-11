@@ -36,6 +36,8 @@
               </div>
             </div>
           </div>
+          <!--<img id="my-reporting-img" class="lgc-highlight" src="../assets/images/my_reporting_dev.png" alt="My Reporting">-->
+          <!--<img id="progress-tracker-img" class="lgc-highlight" src="../assets/images/progress_tracker_test.png" alt="Progress Tracker">-->
         </div>
       </b-carousel-slide>
 
@@ -193,6 +195,16 @@
     }
 
     // Slide 1
+
+  #my-reporting-img {
+    width: 284px;
+    height: 202px;
+  }
+
+  #progress-tracker-img {
+    width: 350px;
+    height: 119px;
+  }
 
     // Slide 2
     .including_items {
