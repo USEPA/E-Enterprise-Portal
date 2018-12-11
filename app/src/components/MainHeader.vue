@@ -12,9 +12,9 @@
             alt="Home - E-Enterprise for the Environment">
         </a>
       </div>
-      <div class="w-100 d-block d-md-none "></div>
-      <div class="col-4-md d-flex justify-content-end align-self-end align-items-center">
-        <div class="col-4-md">
+      <div class="w-100 d-block d-md-none"></div>
+      <div class="col-md-3 d-flex justify-content-end align-self-end align-items-center">
+        <div class="login-wrapper col-md-4">
           <template v-if='authenticated'>
             <span>Welcome {{ username }} </span>
             <b-btn
@@ -26,21 +26,18 @@
             </b-btn>
           </template>
           <template v-else>
-            <div class="router-link-wrapper">
+            <div class="login-wrapper">
               <router-link
                       to="/login"
-                      class="btn btn-sm btn-outline-primary account-auth"
-                      ref="loginBtn"
-                      @mouseover.native="startHover"
-                      @mouseleave.native="endHover">
+                      class="btn btn-sm btn-outline-primary loginBtn"
+                      ref="loginBtn">
                 <i class="fas fa-lock"></i>&nbsp;
                 Login
               </router-link>
-            </div>
-
-            <div class="arrow-and-msg-wrapper col-md-6" v-bind:style="displayInfo">
-              <div id="login-btn-arrow" class="arrow-down"></div>
-              <span class="arrow-down-message">{{loginBtnHoverMessage}}</span>
+              <div class="arrow-and-msg-wrapper">
+                <div id="login-btn-arrow" class="ml-4"></div>
+                <span id="arrow-down-message" class="text-nowrap">{{loginBtnHoverMessage}}</span>
+              </div>
             </div>
           </template>
         </div>
@@ -69,19 +66,9 @@
       ...mapActions([
         'userLogOut',
       ]),
-      startHover(){
-        this.displayInfo.display = '';
-      },
-      endHover(){
-        this.displayInfo.display = 'none';
-      },
     },
     data() {
       return {
-        displayInfo: {
-          display: 'none',
-          position: 'absolute',
-        }
       };
     },
   };
@@ -96,16 +83,7 @@
     }
   }
 
-  .account-auth {
-    background-color: #0071bc;
-    color: white;
-  }
-
-  .login-btn-arrow-and-message-wrapper {
-    position: relative;
-  }
-
-  .arrow-down {
+  #login-btn-arrow {
     width: 0;
     height: 0;
     border-left: 7px solid transparent;
@@ -113,8 +91,24 @@
     border-top: 7px solid #0071bc;
   }
 
-  .arrow-down-message {
+  #arrow-down-message {
     font-size: 1rem;
     font-family: 'Futura LT BT', 'Poppins', 'Century Gothic', 'Source Sans Pro', Helvetica, Arial, sans-serif
+  }
+
+  .loginBtn{
+    position: relative;
+    background-color: #0071bc;
+    color: white;
+  }
+
+  .arrow-and-msg-wrapper {
+    display: none;
+      
+  }
+
+  .loginBtn:hover+.arrow-and-msg-wrapper {
+    display: block;
+    position: absolute;
   }
 </style>
