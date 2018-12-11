@@ -203,7 +203,6 @@
   @include media-breakpoint-up(md) {
     .enviroment-status {
       width: 1.5rem;
-
       span {
         font-size: 1.0rem;
       }

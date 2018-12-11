@@ -1,7 +1,7 @@
 <template>
   <header class="py-3 container">
     <div class="d-flex flex-nowrap justify-content-between align-items-center">
-      <div class="col-md-4 justify-content-start">
+      <div class="col-4-md justify-content-start">
         <a
           class="eep_logo"
           href='#/home'
@@ -14,18 +14,6 @@
       </div>
       <div class="w-100 d-block d-md-none "></div>
       <div class="col-4-md d-flex justify-content-end align-self-end align-items-center">
-        <div>
-
-      <div class="col-4-md d-flex justify-content-lg-end align-self-end align-items-center">
-        <div class="col-4-md d-flex mr-3 align-self-end align-items-center" >
-          <template>
-            <router-link to="/tryit">
-              <b-button id="try-it" class="btn btn-md" variant="primary"  :title="tryitTitle">
-                <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left"></i>Try It
-              </b-button>
-            </router-link>
-          </template>
-        </div>
         <div class="col-4-md">
           <template v-if='authenticated'>
             <span>Welcome {{ username }} </span>
@@ -57,47 +45,14 @@
           </template>
         </div>
       </div>
-
     </div>
-
-
-
-
-      </header>
-    </template>
+  </header>
+</template>
 
 <script>
   import { mapGetters, mapActions } from 'vuex';
   import { EventBus } from '../EventBus';
 
-      // eslint-disable-next-line
-      export default {
-        name: 'MainHeader',
-        props: {},
-        computed: {
-          ...mapGetters({
-            authenticated: 'getUserAuthentication',
-            bridgeURL: 'getBridgeURL',
-            username: 'getUserFullName',
-          }),
-          tryitTitle() {
-            return 'Want to just try it? No log in needed.';
-          }
-        },
-        methods: {
-          ...mapActions([
-            'userLogOut',
-          ]),
-          // mouseOver: function(){
-          //   this.active=!this.active;
-          // }
-        },
-        data() {
-          active:false
-          return {};
-        },
-      };
-    </script>
   // eslint-disable-next-line
   export default {
     name: 'MainHeader',
@@ -132,7 +87,7 @@
   };
 </script>
 
-    <!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped
   lang="scss">
   .eep_logo {
@@ -161,12 +116,6 @@
 
   .arrow-down-message {
     font-size: 1rem;
-    font-family: 'Futura LT BT', 'Poppins', 'Century Gothic', 'Source Sans Pro', Helvetica, Arial, sans-serif;
+    font-family: 'Futura LT BT', 'Poppins', 'Century Gothic', 'Source Sans Pro', Helvetica, Arial, sans-serif
   }
-
-  #try {
-
-
-  }
-
 </style>
