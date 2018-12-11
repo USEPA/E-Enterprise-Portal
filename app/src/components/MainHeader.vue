@@ -18,9 +18,9 @@
           <template v-if='authenticated'>
             <span>Welcome {{ username }} </span>
             <b-btn
-                    variant="outline-secondary"
-                    class="btn btn-sm btn-outline-primary account-auth"
-                    @click="userLogOut">
+              variant="outline-secondary"
+              class="btn btn-sm btn-outline-primary account-auth"
+              @click="userLogOut">
               <i class="fas fa-lock"></i>&nbsp;
               Logout
             </b-btn>
@@ -28,19 +28,13 @@
           <template v-else>
             <div class="router-link-wrapper">
               <router-link
-                      to="/login"
-                      class="btn btn-sm btn-outline-primary account-auth"
-                      ref="loginBtn"
-                      @mouseover.native="startHover"
-                      @mouseleave.native="endHover">
+                to="/login"
+                class="btn btn-sm btn-outline-primary account-auth"
+                ref="loginBtn">
                 <i class="fas fa-lock"></i>&nbsp;
                 Login
+                <span class="arrow-down-message small mt-3">{{loginBtnHoverMessage}}</span>
               </router-link>
-            </div>
-
-            <div class="arrow-and-msg-wrapper col-md-6" v-bind:style="displayInfo">
-              <div id="login-btn-arrow" class="arrow-down"></div>
-              <span class="arrow-down-message">{{loginBtnHoverMessage}}</span>
             </div>
           </template>
         </div>
@@ -69,10 +63,10 @@
       ...mapActions([
         'userLogOut',
       ]),
-      startHover(){
+      startHover() {
         this.displayInfo.display = '';
       },
-      endHover(){
+      endHover() {
         this.displayInfo.display = 'none';
       },
     },
@@ -99,22 +93,36 @@
   .account-auth {
     background-color: #0071bc;
     color: white;
+    position: relative;
+
+    &:hover {
+      &:after {
+        content: '';
+        width: 0;
+        height: 0;
+        border-left: 7px solid transparent;
+        border-right: 7px solid transparent;
+        border-top: 7px solid #0071bc;
+        bottom: -7px;
+        left: 50%;
+        transform: translateX(-50%);
+        position: absolute;
+      }
+
+      .arrow-down-message {
+        display: block;
+      }
+    }
   }
 
   .login-btn-arrow-and-message-wrapper {
     position: relative;
   }
 
-  .arrow-down {
-    width: 0;
-    height: 0;
-    border-left: 7px solid transparent;
-    border-right: 7px solid transparent;
-    border-top: 7px solid #0071bc;
-  }
-
   .arrow-down-message {
-    font-size: 1rem;
-    font-family: 'Futura LT BT', 'Poppins', 'Century Gothic', 'Source Sans Pro', Helvetica, Arial, sans-serif
+    display: none;
+    color: #000;
+    position: absolute;
+    right: 0;
   }
 </style>
