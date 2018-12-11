@@ -1,7 +1,7 @@
 <template>
   <header class="py-3 container">
     <div class="d-flex flex-nowrap justify-content-between align-items-center">
-      <div class="col-4-md justify-content-start">
+      <div class="col-md-4 justify-content-start">
         <a
           class="eep_logo"
           href='#/home'
@@ -14,7 +14,7 @@
       </div>
       <div class="w-100 d-block d-md-none "></div>
       <div class="col-4-md d-flex justify-content-end align-self-end align-items-center">
-        <div class="col-4-md">
+        <div>
           <template v-if='authenticated'>
             <span>Welcome {{ username }} </span>
             <b-btn
@@ -26,21 +26,21 @@
             </b-btn>
           </template>
           <template v-else>
-            <div class="router-link-wrapper"></div>
-            <router-link
-                    to="/login"
-                    class="btn btn-sm btn-outline-primary account-auth"
-                    ref="loginBtn"
-                    @mouseover.native="startHover"
-                    @mouseleave.native="endHover">
-              <i class="fas fa-lock"></i>&nbsp;
-              Login
-            </router-link>
+            <div class="router-link-wrapper">
+              <router-link
+                      to="/login"
+                      class="btn btn-sm btn-outline-primary account-auth"
+                      ref="loginBtn"
+                      @mouseover.native="startHover"
+                      @mouseleave.native="endHover">
+                <i class="fas fa-lock"></i>&nbsp;
+                Login
+              </router-link>
+            </div>
+
             <div class="arrow-and-msg-wrapper" v-bind:style="displayInfo">
               <div id="login-btn-arrow" class="arrow-down"></div>
-              <div class="arrow-down-message">
-                <span id="login-message" class="float-right">{{loginBtnHoverMessage}}</span>
-              </div>
+              <span class="arrow-down-message">{{loginBtnHoverMessage}}</span>
             </div>
           </template>
         </div>
@@ -111,9 +111,11 @@
     border-left: 7px solid transparent;
     border-right: 7px solid transparent;
     border-top: 7px solid #0071bc;
+    margin-left: 30px;
   }
 
   .arrow-down-message {
-    font-size: x-small;
+    font-size: 1rem;
+    font-family: 'Futura LT BT', 'Poppins', 'Century Gothic', 'Source Sans Pro', Helvetica, Arial, sans-serif;
   }
 </style>
