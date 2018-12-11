@@ -26,7 +26,7 @@
             </b-btn>
           </template>
           <template v-else>
-            <div class="router-link-wrapper">
+            <div class="router-link-wrapper pt-2">
               <router-link
                 to="/login"
                 class="btn btn-sm btn-outline-primary account-auth"
