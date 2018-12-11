@@ -1,5 +1,33 @@
 <template>
   <footer class="footer fixed-bottom">
+    <div
+      class="alert alert-info"
+      role="alert"
+      v-show="['workbench'].indexOf($route.name) > -1">
+      <div
+        id="terms-conditions"
+        class="container w-100 d-flex text-dark">
+        <div class="row align-self-center w-100">
+          <div class="col-12 text-center">
+            <span>By using the E-Enterprise Portal, you agree to the </span>
+            <span class="text-decoration-underline cursor-pointer">
+              <a
+                class="text-dark"
+                href="https://e-enterprise.gov/ee_disclaimer"
+                target="_blank">
+                Terms and Conditions.
+              </a>
+            </span>
+            &nbsp;&nbsp;
+            <span
+              class="text-decoration-underline cursor-pointer"
+              data-dismiss="alert">
+              Continue »
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="container py-2">
       <div class="row justify-content-center small">
         <div class="col-auto">
@@ -65,5 +93,10 @@
       left: auto;
       z-index: auto;
     }
+  }
+  #terms-conditions {
+    min-height: 5em;
+    max-width: none;
+    z-index: 1200;
   }
 </style>
