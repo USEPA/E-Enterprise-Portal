@@ -38,7 +38,7 @@
               </router-link>
             </div>
 
-            <div class="arrow-and-msg-wrapper" v-bind:style="displayInfo">
+            <div class="arrow-and-msg-wrapper col-md-6" v-bind:style="displayInfo">
               <div id="login-btn-arrow" class="arrow-down"></div>
               <span class="arrow-down-message">{{loginBtnHoverMessage}}</span>
             </div>
@@ -111,7 +111,6 @@
     border-left: 7px solid transparent;
     border-right: 7px solid transparent;
     border-top: 7px solid #0071bc;
-    margin-left: 30px;
   }
 
   .arrow-down-message {
