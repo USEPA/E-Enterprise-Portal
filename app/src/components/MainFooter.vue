@@ -1,24 +1,29 @@
 <template>
   <footer class="footer fixed-bottom">
     <div
-      id="Terms-conditions"
-      class="container w-100 d-flex text-dark">
-      <div class="row align-self-center w-100">
-        <div class="col-12 text-center">
-          <span>By using the E-Enterprise Portal, you agree to the </span>
-          <span class="clickable">
-            <a
-              class="text-dark"
-              href="https://e-enterprise.gov/ee_disclaimer"
-              target="_blank"><u>Terms and Conditions.</u>
-            </a>
-            &nbsp;&nbsp;
-          </span>
-          <span
-            class="clickable"
-            data-dismiss="alert">
-            <u>Continue »</u>
-          </span>
+      class="alert alert-info"
+      role="alert"
+      v-show="['workbench'].indexOf($route.name) > -1">
+      <div
+        id="Terms-conditions"
+        class="container w-100 d-flex text-dark">
+        <div class="row align-self-center w-100">
+          <div class="col-12 text-center">
+            <span>By using the E-Enterprise Portal, you agree to the </span>
+            <span class="clickable">
+              <a
+                class="text-dark"
+                href="https://e-enterprise.gov/ee_disclaimer"
+                target="_blank"><u>Terms and Conditions.</u>
+              </a>
+              &nbsp;&nbsp;
+            </span>
+            <span
+              class="clickable"
+              data-dismiss="alert">
+              <u>Continue »</u>
+            </span>
+          </div>
         </div>
       </div>
     </div>
