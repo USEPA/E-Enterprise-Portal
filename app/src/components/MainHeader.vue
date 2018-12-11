@@ -36,9 +36,11 @@
               <i class="fas fa-lock"></i>&nbsp;
               Login
             </router-link>
-            <div id="login-btn-arrow" class="arrow-down" v-bind:style="displayArrow"></div>
-            <div class="arrow-down-message col-md-12 mt-2 mb-1" v-bind:style="displayMessage">
+            <div class="arrow-and-msg-wrapper" v-bind:style="displayInfo">
+              <div id="login-btn-arrow" class="arrow-down"></div>
+              <div class="arrow-down-message">
                 <span id="login-message" class="float-right">{{loginBtnHoverMessage}}</span>
+              </div>
             </div>
           </template>
         </div>
@@ -68,28 +70,18 @@
         'userLogOut',
       ]),
       startHover(){
-        const vm = this;
-        const store = vm.$store;
-        this.displayArrow.display = '';
-        this.displayMessage.display = '';
+        this.displayInfo.display = '';
       },
       endHover(){
-        const vm = this;
-        const store = vm.$store;
-        this.displayArrow.display = 'none';
-        this.displayMessage.display = 'none';
+        this.displayInfo.display = 'none';
       },
     },
     data() {
       return {
-        displayArrow: {
+        displayInfo: {
           display: 'none',
-          position: 'absolute'
-        },
-        displayMessage: {
-          display: 'none',
-          position: 'absolute'
-        },
+          position: 'absolute',
+        }
       };
     },
   };
@@ -107,7 +99,6 @@
   .account-auth {
     background-color: #0071bc;
     color: white;
-    margin-left: 65px;
   }
 
   .login-btn-arrow-and-message-wrapper {
@@ -120,11 +111,9 @@
     border-left: 7px solid transparent;
     border-right: 7px solid transparent;
     border-top: 7px solid #0071bc;
-    margin-left: 95px;
   }
 
   .arrow-down-message {
     font-size: x-small;
-    right: 12%
   }
 </style>
