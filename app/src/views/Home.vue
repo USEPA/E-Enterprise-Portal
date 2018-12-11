@@ -36,8 +36,8 @@
               </div>
             </div>
           </div>
-          <!--<img id="my-reporting-img" class="lgc-highlight" src="../assets/images/my_reporting_dev.png" alt="My Reporting">-->
-          <!--<img id="progress-tracker-img" class="lgc-highlight" src="../assets/images/progress_tracker_test.png" alt="Progress Tracker">-->
+          <img id="my-reporting-img" src="../assets/images/my_reporting.png" alt="My Reporting">
+          <img id="progress-tracker-img" src="../assets/images/progress_tracker.png" alt="Progress Tracker">
         </div>
       </b-carousel-slide>
 
