@@ -13,7 +13,17 @@
         </a>
       </div>
       <div class="w-100 d-block d-md-none "></div>
-      <div class="col-4-md d-flex justify-content-end align-self-end align-items-center">
+
+      <div class="col-4-md d-flex justify-content-lg-end align-self-end align-items-center">
+        <div class="col-4-md d-flex mr-3 align-self-end align-items-center" >
+          <template>
+            <router-link to="/workbench">
+              <b-button id="try-it" class="btn btn-md" variant="primary"  :title="tryitTitle">
+                <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left"></i>Try It
+              </b-button>
+            </router-link>
+          </template>
+        </div>
         <div class="col-4-md">
           <template v-if='authenticated'>
             <span>Welcome {{ username }} </span>

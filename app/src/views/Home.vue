@@ -39,6 +39,7 @@
             </div>
           </div>
         </div>
+
       </b-carousel-slide>
 
       <!-- Slide with blank fluid image to maintain slide aspect ratio -->
@@ -135,6 +136,11 @@
   export default {
     name: 'Home',
     components: {},
+    computed: {
+      tryitTitle() {
+        return 'Want to just try it? No log in needed.';
+      }
+    },
     data() {
       return {
         slide: 0,
