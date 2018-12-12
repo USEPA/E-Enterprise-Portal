@@ -13,7 +13,7 @@
             <span class="text-decoration-underline cursor-pointer">
               <a
                 class="text-dark"
-                href="https://e-enterprise.gov/ee_disclaimer"
+                href=""
                 target="_blank">
                 Terms and Conditions.
               </a>
