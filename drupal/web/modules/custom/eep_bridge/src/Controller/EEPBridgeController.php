@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\Core\Url;
 use Drupal\eep_bridge\ADFSUserDetails;
 use Drupal\eep_bridge\ADFSBridge;
+use Drupal\eep_bridge\AuthenticatedUser;
+
 
 
 /**
@@ -49,12 +51,38 @@ class EEPBridgeController extends ControllerBase {
     // Pull UserDetails from Post
     $userDetails = $this->parse_post_for_user_details($post);
 
-    //check if user details is returned, TODO: remove this code after checking.
-    ksm($userDetails);
+    $authenticated_user = new AuthenticatedUser($userDetails);
+    // Check if user is already in the system
+    $ext_user = user_load_by_name($authenticated_user->get_name());
 
-    return [
-      '#markup' => $this->t("wa_result " . $_POST['wresult'])
-    ];
+    $entity_storage = \Drupal::entityTypeManager()->getStorage('user');
+    $account_search = $entity_storage->loadByProperties(['name' => $authenticated_user->get_name()]);
+    $account_data = [];
+    if (empty($account_search)) {
+      //if the account does not already exist, create one.
+      $account_data = array_merge(
+        [
+          'name' => $authenticated_user->get_name(),
+          'init' => 'EN:NAAS',                  //TODO: remove hard coded provider and replace with passed variable name.
+          'status' => 1,
+          'access' => (int) $_SERVER['REQUEST_TIME'],
+        ],
+        $account_data
+      );
+      $account = $entity_storage->create($account_data);
+      $account->enforceIsNew();
+      $account->save();
+      user_login_finalize($account);
+    }
+    else{
+      //Account already exists, just login the user
+      $account_search = array_values($account_search);
+      user_login_finalize($account_search[0]);
+    }
+
+    $url = Url::fromUri('internal:/');
+    $this->eep_bridge_goto($url);
+    return;
   }
 
   function eep_bridge_goto($url) {

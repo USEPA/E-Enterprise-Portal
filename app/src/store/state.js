@@ -66,6 +66,10 @@ const state = {
       suffix: '',
     },
   },
+  loginBtnHoverMessage: 'Use an EPA, CDX, or a social media account to login',
+  navMargin: {
+    'margin-top': 0
+  },
 };
 
 export default state;
