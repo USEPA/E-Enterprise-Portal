@@ -77,7 +77,7 @@ class EEPBridgeController extends ControllerBase {
     else{
       //Account already exists, just login the user
       $account_search = array_values($account_search);
-      user_login_finalize($account_search);
+      user_login_finalize($account_search[0]);
     }
 
     $url = Url::fromUri('internal:/');
