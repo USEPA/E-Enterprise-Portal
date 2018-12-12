@@ -194,7 +194,9 @@
       width: 2rem;
     }
 
-  /*Slide 1*/
+  //Slide
+
+  1
 
     #my-reporting-img {
       width: 55%;
