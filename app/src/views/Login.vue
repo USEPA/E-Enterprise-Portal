@@ -2,54 +2,30 @@
 <template>
     <div class="container">
         <h3>Login</h3>
-        <div class=" pt-4">
+        <div class="pt-2">
             <p>Select your preferred login method to access E-Enterprise using one of your existing accounts. Chose a
                 preferred login type and option to get started.</p>
             <!--<a class="btn btn-sm btn-outline-secondary" :href="bridgeURL">Exchange Network</a>-->
         </div>
-        <div class="tabs-wrapper">
-            <ul class="nav nav-tabs" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#epa">
-                        EPA
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#socialmedia">
-                        Social Media
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#state">
-                        State
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#tribal">
-                        Tribal
-                    </a>
-                </li>
-            </ul>
+        <div class="tab-and-content-wrapper">
+            <b-card>
+                <span>Use this account:</span>
+                <b-tabs pills card vertical>
+                    <b-tab class="tab" title="EPA" active>
+                        Tab Contents 1
+                    </b-tab>
+                    <b-tab class="tab" title="Social Media">
+                        Tab Contents 2
+                    </b-tab>
+                    <b-tab class="tab" title="State">
+                        <h6>Use your state account to log in...</h6>
+                    </b-tab>
+                    <b-tab class="tab" title="Tribal">
+                        Tab Contents 4
+                    </b-tab>
+                </b-tabs>
+            </b-card>
         </div>
-        <div class="tab-content">
-            <div id="epa" class="container tab-pane active">
-                <h3>EPA</h3>
-                <p>Some content about EPA.</p>
-            </div>
-            <div id="socialmedia" class="container tab-pane fade">
-                <h3>Social Media</h3>
-                <p>Some content about social media.</p>
-            </div>
-            <div id="state" class="container tab-pane fade">
-                <h3>State</h3>
-                <p>Some content about state.</p>
-            </div>
-            <div id="tribal" class="container tab-pane fade">
-                <h3>Tribal</h3>
-                <p>Some content about tribal.</p>
-            </div>
-        </div>
-
     </div>
 </template>
 
@@ -74,6 +50,27 @@
     }
 </script>
 
-<style scoped
-       lang="scss">
+<!-- do not include scope to modify the bootstrap elements -->
+<style lang="scss">
+
+    .card {
+        border: none;
+    }
+
+    .tabs ul {
+        border-right: 1px solid lightgrey;
+        li {
+            padding: 5px 5px 5px 5px;
+            background-color: #E8E8E8;
+            margin-bottom: 5px;
+            a.active{
+                background-color: #0071bc;
+                color: white;
+            }
+            a{
+                
+            }
+        }
+    }
+
 </style>
