@@ -3,7 +3,7 @@
     <div
       class="alert alert-info"
       role="alert"
-      v-if="['workbench'].indexOf($route.name) > -1 && authenticated === true">
+      v-if="['workbench'].indexOf($route.name) > -1 && authenticated === false">
       <div
         id="terms-conditions"
         class="container w-100 d-flex text-dark">
@@ -62,7 +62,7 @@
     <div
       class="alert alert-success px-3"
       role="alert"
-      v-if="['workbench'].indexOf($route.name) > -1 && authenticated === false">
+      v-if="['workbench'].indexOf($route.name) > -1 && authenticated === true">
       <div class="col-12 text-center p-2">While we do not share user credentials, <strong>we can use a cookie to remember your login preferences.<br > Would you like us to remember which login option you chose next time?</strong>  <a
         href="https://www.epa.gov/privacy/privacy-and-security-notice#cookies"
         target="_blank"
