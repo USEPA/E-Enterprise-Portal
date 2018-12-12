@@ -68,6 +68,9 @@
         username: 'getUserFullName',
         loginBtnHoverMessage: 'getloginBtnHoverMessage'
       }),
+      tryitTitle() {
+        return 'Want to just try it? No log in needed.';
+      },
     },
     methods: {
       ...mapActions([
