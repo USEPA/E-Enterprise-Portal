@@ -18,7 +18,7 @@
         <div class="col-4-md d-flex mr-3 align-self-end align-items-center" >
           <template>
             <router-link to="/workbench">
-              <b-button id="try-it" class="btn btn-md" variant="primary"  :title="tryitTitle">
+              <b-button id="try-it" class="btn btn-sm" variant="primary"  :title="tryitTitle">
                 <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left"></i>Try It
               </b-button>
             </router-link>
@@ -27,79 +27,110 @@
         <div class="col-4-md">
           <template v-if='authenticated'>
             <span>Welcome {{ username }} </span>
-
             <b-btn
               variant="outline-secondary"
-              class="btn btn-md btn-outline-secondary"
+              class="btn btn-sm btn-outline-primary account-auth"
               @click="userLogOut">
+              <i class="fas fa-lock"></i>&nbsp;
               Logout
             </b-btn>
           </template>
           <template v-else>
-            <router-link
-              to="/login"
-              class="btn btn-md btn-outline-secondary">
-              Login
-            </router-link>
+            <div class="router-link-wrapper pt-2">
+              <router-link
+                to="/login"
+                class="btn btn-sm btn-outline-primary account-auth"
+                ref="loginBtn">
+                <i class="fas fa-lock"></i>&nbsp;
+                Login
+                <span class="arrow-down-message small mt-3">{{loginBtnHoverMessage}}</span>
+              </router-link>
+            </div>
           </template>
         </div>
-
       </div>
-
     </div>
+  </header>
+</template>
 
+<script>
+  import { mapGetters, mapActions } from 'vuex';
+  import { EventBus } from '../EventBus';
 
-
-
-      </header>
-    </template>
-
-    <script>
-      import { mapGetters, mapActions } from 'vuex';
-
-      // eslint-disable-next-line
-      export default {
-        name: 'MainHeader',
-        props: {},
-        computed: {
-          ...mapGetters({
-            authenticated: 'getUserAuthentication',
-            bridgeURL: 'getBridgeURL',
-            username: 'getUserFullName',
-          }),
-          tryitTitle() {
-            return 'Want to just try it? No log in needed.';
-          }
-        },
-        methods: {
-          ...mapActions([
-            'userLogOut',
-          ]),
-          // mouseOver: function(){
-          //   this.active=!this.active;
-          // }
-        },
-        data() {
-          active:false
-          return {};
-        },
+  // eslint-disable-next-line
+  export default {
+    name: 'MainHeader',
+    props: {},
+    computed: {
+      ...mapGetters({
+        authenticated: 'getUserAuthentication',
+        bridgeURL: 'getBridgeURL',
+        username: 'getUserFullName',
+        loginBtnHoverMessage: 'getloginBtnHoverMessage'
+      }),
+    },
+    methods: {
+      ...mapActions([
+        'userLogOut',
+      ]),
+      startHover() {
+        this.displayInfo.display = '';
+      },
+      endHover() {
+        this.displayInfo.display = 'none';
+      },
+    },
+    data() {
+      return {
       };
-    </script>
+    },
+  };
+</script>
 
-    <!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped
   lang="scss">
   .eep_logo {
-
     img {
       max-width: 100%;
     }
-
   }
 
-  #try {
+  .account-auth {
+    background-color: #0071bc;
+    color: white;
+    position: relative;
 
+    &:hover {
+      &:after {
+        content: '';
+        width: 0;
+        height: 0;
+        border-left: 7px solid transparent;
+        border-right: 7px solid transparent;
+        border-top: 7px solid #0071bc;
+        bottom: -7px;
+        left: 50%;
+        transform: translateX(-50%);
+        position: absolute;
+      }
 
+      .arrow-down-message {
+        display: block;
+      }
+    }
   }
 
+  .login-btn-arrow-and-message-wrapper {
+    position: relative;
+  }
+
+  .arrow-down-message {
+    display: none;
+    color: #000;
+    position: absolute;
+    right: 0;
+    font-size: 1rem;
+    font-family: 'Futura LT BT', 'Poppins', 'Century Gothic', 'Source Sans Pro', Helvetica, Arial, sans-serif
+  }
 </style>

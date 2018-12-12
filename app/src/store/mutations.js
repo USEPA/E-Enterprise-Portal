@@ -94,4 +94,7 @@ export default {
       false,
     );
   },
+  [types.SET_MARGIN_TOP_NAV](state, obj){
+    state.navMargin = obj;
+  },
 };

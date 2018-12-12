@@ -12,36 +12,30 @@
     >
       <!-- Text slides with image -->
       <b-carousel-slide
-        class="col"
-        img-blank
-        img-height="fixedHeight">
+              class="col"
+              img-blank>
         <div class="container">
-          <div class="row">
-            <div class="col-md align-self-start">
-              <h2>Customize your information</h2>
-              <p>The E-Enterprise Portal provides an important new means by which
-                users can customize the types of information presented to them,
-                find and select tools and other resources, and conduct
-                transactions with EPA, Tribes, and States.</p>
-              <p>See the video <span aria-hidden="true">&gt;&gt;</span></p>
-              <div class="col-4-md d-flex  justify-content-end align-self-end align-items-center">
-                <template>
-                  <router-link to="/workbench">
-                    <b-button id="try-it" class="btn btn-md" variant="primary" :title="tryitTitle">
-                      <i class="fas fa-arrow-circle-right"></i>Try It
-                    </b-button>
-                  </router-link>
-                </template>
-              </div>
+          <div class="row col-md-12">
+            <div class="slide-details col-md-6 align-self-end">
+              <h2>Access Your State and EPA Accounts</h2>
+
+              <p>
+                Personalize your E-Enterprise experience by logging in with your state or EPA account.
+                You'll have access to valuable content and tools like My Facility Manager, My Reporting, permits, and
+                more.
+                We will continue to add partners in the future.
+              </p>
+              <router-link
+                      to="/login"
+                      class="btn btn-md btn-outline-primary pl-1 float-right account-auth"
+                      ref="loginBtn">
+                <i class="fas fa-lock"></i>&nbsp;
+                Login
+              </router-link>
             </div>
-            <div class="col-md align-self-end">
-              <b-embed
-                type="iframe"
-                aspect="16by9"
-                src="https://www.youtube.com/embed/iFv0DYnW1-A?rel=0"
-                allowfullscreen
-                frameborder="0"
-              />
+            <div class="col-md-6">
+              <img id="my-reporting-img" src="../assets/images/my_reporting.png" alt="My Reporting">
+              <img id="progress-tracker-img" src="../assets/images/progress_tracker.png" alt="Progress Tracker">
             </div>
           </div>
         </div>
@@ -206,7 +200,21 @@
       width: 2rem;
     }
 
-    // Slide 1
+  // Slide 1
+
+    #my-reporting-img {
+      width: 55%;
+      height: 62%;
+    }
+
+    #progress-tracker-img {
+      width: 62%;
+      height: 35%;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      margin-right: 7%;
+    }
 
     // Slide 2
     .including_items {
@@ -266,5 +274,14 @@
         min-height: 22rem;
       }
     }
+  }
+
+  .account-auth {
+    background-color: #0071bc;
+    color: white;
+  }
+
+  .login-btn-wrapper{
+    padding-left: 40%;
   }
 </style>
