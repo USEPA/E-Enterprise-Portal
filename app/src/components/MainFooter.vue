@@ -74,7 +74,9 @@
         href="#"
         data-dismiss="alert"
         class="text-dark text-decoration-underline pr-2"
-      >No Thanks</a><button class="btn btn-primary">Yes, Please</button></div>
+      >No Thanks</a><button
+        class="btn btn-primary"
+        data-dismiss="alert">Yes, Please</button></div>
     </div>
   </footer>
 </template>
