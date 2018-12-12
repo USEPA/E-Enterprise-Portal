@@ -12,32 +12,32 @@
     >
       <!-- Text slides with image -->
       <b-carousel-slide
-        class="col"
-        img-blank
-        img-height="fixedHeight">
+              class="col"
+              img-blank>
         <div class="container">
-          <div class="row">
-            <div class="col-md align-self-start">
+          <div class="row col-md-12">
+            <div class="slide-details col-md-6 align-self-end">
               <h2>Access Your State and EPA Accounts</h2>
-              <p class="col-md-6">
+
+              <p>
                 Personalize your E-Enterprise experience by logging in with your state or EPA account.
                 You'll have access to valuable content and tools like My Facility Manager, My Reporting, permits, and
                 more.
                 We will continue to add partners in the future.
               </p>
-              <div class="login-btn-wrapper">
-                <router-link
-                        to="/login"
-                        class="btn btn-md btn-outline-primary pl-1 account-auth"
-                        ref="loginBtn">
-                  <i class="fas fa-lock"></i>&nbsp;
-                  Login
-                </router-link>
-              </div>
+              <router-link
+                      to="/login"
+                      class="btn btn-md btn-outline-primary pl-1 float-right account-auth"
+                      ref="loginBtn">
+                <i class="fas fa-lock"></i>&nbsp;
+                Login
+              </router-link>
+            </div>
+            <div class="col-md-6">
+              <img id="my-reporting-img" src="../assets/images/my_reporting.png" alt="My Reporting">
+              <img id="progress-tracker-img" src="../assets/images/progress_tracker.png" alt="Progress Tracker">
             </div>
           </div>
-          <img id="my-reporting-img" src="../assets/images/my_reporting.png" alt="My Reporting">
-          <img id="progress-tracker-img" src="../assets/images/progress_tracker.png" alt="Progress Tracker">
         </div>
       </b-carousel-slide>
 
@@ -194,20 +194,20 @@
       width: 2rem;
     }
 
-    // Slide 1
+  /*Slide 1*/
 
     #my-reporting-img {
-      width: 284px;
-      height: 202px;
-      margin-left: 50%;
-      margin-top: -18%
+      width: 55%;
+      height: 62%;
     }
 
     #progress-tracker-img {
-      width: 350px;
-      height: 119px;
-      float: right;
-
+      width: 62%;
+      height: 35%;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      margin-right: 7%;
     }
 
     // Slide 2
