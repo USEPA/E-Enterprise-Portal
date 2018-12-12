@@ -10,13 +10,10 @@
         <div class="row align-self-center w-100">
           <div class="col-12 text-center">
             <span>By using the E-Enterprise Portal, you agree to the </span>
-            <span class="text-decoration-underline cursor-pointer">
-              <a
-                class="text-dark"
-                href="https://e-enterprise.gov/ee_disclaimer"
-                target="_blank">
-                Terms and Conditions.
-              </a>
+            <span
+              class="text-decoration-underline cursor-pointer"
+              data-dismiss="alert">
+              Terms and Conditions.
             </span>
             &nbsp;&nbsp;
             <span
