@@ -11,6 +11,39 @@
       @sliding-end="onSlideEnd"
     >
       <!-- Text slides with image -->
+          <b-carousel-slide
+                    class="col"
+                    img-blank>
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-6">
+                    <h2>Customize your information</h2>
+                    <p>
+                    The E-Enterprise Portal provides an important new means by which
+                    users can customize the types of information presented to them,
+                    find and select tools and other resources, and conduct
+                    transactions with EPA, Tribes, and States.
+                </p>
+                    <p>See the video <span aria-hidden="true">&gt;&gt;</span></p>
+                  <router-link to="/workbench">
+                          <b-button id="try-it" class="btn btn-md float-right" variant="primary" :title="tryitTitle"><i class="fas fa-arrow-circle-right"></i>Try It</b-button>
+                     </router-link>                     
+                  </div>
+                  <div class="col-md align-self-end">
+                    <b-embed
+                            type="iframe"
+                            aspect="16by9"
+                            src="https://www.youtube.com/embed/iFv0DYnW1-A?rel=0"
+                            allowfullscreen
+                            frameborder="0"
+                          />
+                  </div>
+                </div>
+              </div>
+
+            </b-carousel-slide>
+
+      <!-- Slide with blank fluid image to maintain slide aspect ratio -->
       <b-carousel-slide
               class="col"
               img-blank>
@@ -40,55 +73,6 @@
           </div>
         </div>
 
-      </b-carousel-slide>
-
-      <!-- Slide with blank fluid image to maintain slide aspect ratio -->
-      <b-carousel-slide
-        class="col"
-        img-blank>
-        <div class="container">
-          <h2>What's Included</h2>
-          <div class="row">
-            <ul class="including_items col-md-6">
-              <li>
-                <img
-                  alt=""
-                  src="../assets/images/environment.png">
-                <div><h5>Environmental Reporting</h5>
-                  <p>New ways to submit information.</p>
-                </div>
-              </li>
-              <li>
-                <img
-                  alt=""
-                  src="../assets/images/settings.png">
-                <div><h5>Developer Community (Future)</h5>
-                  <p>New ways to submit information.</p>
-                </div>
-              </li>
-            </ul>
-            <ul class="including_items col-md-6">
-              <li>
-                <img
-                  alt=""
-                  src="../assets/images/workbench.png">
-                <div>
-                  <h5>Workbench</h5>
-                  <p>Tools, data, and resources to help you.</p>
-                </div>
-              </li>
-              <li>
-                <img
-                  alt=""
-                  src="../assets/images/headline.png">
-                <div><h5>Maps &amp; Dashboard</h5>
-                  <p>Learn more about the environment thru maps and data mashups.</p>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <p class="learn-more">…<a href="/about">and more</a></p>
-        </div>
       </b-carousel-slide>
 
       <!-- Slide with blank fluid image to maintain slide aspect ratio -->
