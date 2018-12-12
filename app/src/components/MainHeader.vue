@@ -18,7 +18,7 @@
         <div class="col-4-md d-flex mr-3 align-self-end align-items-center" >
           <template>
             <router-link to="/workbench">
-              <b-button id="try-it" class="btn btn-md" variant="primary"  :title="tryitTitle">
+              <b-button id="try-it" class="btn btn-sm" variant="primary"  :title="tryitTitle">
                 <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left"></i>Try It
               </b-button>
             </router-link>
