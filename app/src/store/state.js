@@ -70,6 +70,20 @@ const state = {
   navMargin: {
     'margin-top': 0
   },
+  loginPageAccounts: {
+    EPA: {},
+    socialmedia: {},
+    state: {
+      NM: {
+        name: 'New Mexico DEQ',
+        flagPath: 'new_mexico_flag.png'
+      },
+    },
+    tribal: {}
+  },
+
+
+
 };
 
 export default state;

@@ -19,6 +19,9 @@
                     </b-tab>
                     <b-tab class="tab" title="State">
                         <h6>Use your state account to log in...</h6>
+                        <div class="row">
+                            {{allLoginAccounts.state.NM.name}}
+                        </div>
                     </b-tab>
                     <b-tab class="tab" title="Tribal">
                         Tab Contents 4
@@ -44,7 +47,8 @@
         },
         computed: {
             ...mapGetters({
-                bridgeURL: 'getBridgeURL'
+                bridgeURL: 'getBridgeURL',
+                allLoginAccounts: 'getloginPageAccounts'
             }),
         },
     }
@@ -68,7 +72,7 @@
                 color: white;
             }
             a{
-                
+
             }
         }
     }
