@@ -76,7 +76,8 @@ const state = {
     state: {
       NM: {
         name: 'New Mexico DEQ',
-        flagPath: 'https://dev.e-enterprise.gov/sites/all/themes/eenterprise/images/nm-logo.png'
+        imgPath: 'https://dev.e-enterprise.gov/sites/all/themes/eenterprise/images/nm-logo.png',
+        sitePath: 'https://sep.net-t.env.nm.gov/sep-envt/login-form?applicationId=OPEN_ID',
       },
     },
     tribal: {}

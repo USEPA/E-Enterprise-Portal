@@ -20,6 +20,7 @@
                     <b-tab class="tab" title="State">
                         <h6>Use your state account to log in...</h6>
                         <div class="row">
+                            <a v-bind:href="allLoginAccounts.state.NM.sitePath">Link to NM</a>
                         </div>
                     </b-tab>
                     <b-tab class="tab" title="Tribal">
@@ -84,6 +85,15 @@
 
     #tabs-wrapper {
         border-right: 1px solid lightgrey;
+    }
+
+    .state-wrapper{
+        background-color: #888888;
+        color: #ffffff;
+        .state-logo{
+            /*width: 16px;*/
+            /*height: 16px;*/
+        }
     }
 
 
