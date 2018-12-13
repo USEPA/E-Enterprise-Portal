@@ -18,6 +18,8 @@
 
                     </b-tab>
                     <b-tab class="tab" title="State">
+                        <!-- Once we get more states then it can be optimized with using a v-for to loop through -->
+                        <!-- and create each <b-row> and each <b-col> -->
                         <h6>Use your state account to log in...</h6>
                         <b-container fluid class="bv-state-container">
                             <b-row>
@@ -41,13 +43,11 @@
                         </b-container>
                     </b-tab>
                     <b-tab class="tab" title="Tribal">
-                       
+
                     </b-tab>
                 </b-tabs>
             </b-card>
         </div>
-
-
     </div>
 </template>
 
