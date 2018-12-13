@@ -12,10 +12,10 @@
                 <span>Use this account:</span>
                 <b-tabs pills card vertical>
                     <b-tab class="tab" title="EPA" active>
-                        Tab Contents 1
+
                     </b-tab>
                     <b-tab class="tab" title="Social Media">
-                        Tab Contents 2
+
                     </b-tab>
                     <b-tab class="tab" title="State">
                         <h6>Use your state account to log in...</h6>
@@ -41,7 +41,7 @@
                         </b-container>
                     </b-tab>
                     <b-tab class="tab" title="Tribal">
-                        Tab Contents 4
+                       
                     </b-tab>
                 </b-tabs>
             </b-card>
