@@ -19,18 +19,15 @@
                     </b-tab>
                     <b-tab class="tab" title="State">
                         <h6>Use your state account to log in...</h6>
-                        <div class="row">
-                            <div class="col-md-4 state-link-wrapper">
-                                <a v-bind:href="allLoginAccounts.state.NM.sitePath">Link to NM</a>
-                            </div>
-                            <div class="col-md-4 state-link-wrapper">
-                                some text
-                            </div>
-                            <div class="col-md-4 state-link-wrapper">
-                                some more text
-                            </div>
-                        </div>
-
+                        <b-container fluid class="bv-state-container">
+                            <b-row>
+                                <b-col>
+                                    <a v-bind:href="allLoginAccounts.state.NM.sitePath" class="col-md-12">
+                                        <img src="../assets/images/nm-logo.png" alt="NM"><span class="anchor-label">Link to NM</span>
+                                    </a>
+                                </b-col>
+                            </b-row>
+                        </b-container>
                     </b-tab>
                     <b-tab class="tab" title="Tribal">
                         Tab Contents 4
@@ -98,12 +95,24 @@
 
     .state-link-wrapper{
         background-color: #888888;
-        color: #ffffff;
+        a {
+
+            color: #ffffff;
+            text-decoration: none;
+            padding-right: 5px;
+            width: 150px;
+            height: 150px;
+        }
         .state-logo{
-            /*width: 16px;*/
-            /*height: 16px;*/
+            max-width: 50%;
+            max-height: 50%;
         }
     }
+
+    .anchor-label{
+        padding-left: 5px;
+    }
+
 
 
 </style>
