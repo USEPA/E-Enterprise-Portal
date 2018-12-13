@@ -70,6 +70,17 @@ const state = {
   navMargin: {
     'margin-top': 0
   },
+  loginPageAccounts: {
+    EPA: {},
+    socialmedia: {},
+    state: {
+      NM: {
+        name: 'New Mexico DEQ',
+        sitePath: 'https://sep.net-t.env.nm.gov/sep-envt/login-form?applicationId=OPEN_ID',
+      },
+    },
+    tribal: {}
+  },
 };
 
 export default state;
