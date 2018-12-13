@@ -127,7 +127,4 @@
     .anchor-label{
         padding-left: 10px;
     }
-
-
-
 </style>
