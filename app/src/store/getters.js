@@ -73,4 +73,10 @@ export default {
   getnavMargin(state){
     return state.navMargin;
   },
+  getloginPageAccounts(state){
+    return state.loginPageAccounts;
+  },
+  getloginPageMessage(loginMessage){
+    return loginMessage.loginPageMessage;
+  },
 };
