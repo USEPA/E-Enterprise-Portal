@@ -76,7 +76,7 @@ const state = {
     state: {
       NM: {
         name: 'New Mexico DEQ',
-        flagPath: 'new_mexico_flag.png'
+        flagPath: 'https://dev.e-enterprise.gov/sites/all/themes/eenterprise/images/nm-logo.png'
       },
     },
     tribal: {}

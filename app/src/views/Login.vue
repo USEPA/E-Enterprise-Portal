@@ -7,7 +7,7 @@
                 preferred login type and option to get started.</p>
             <!--<a class="btn btn-sm btn-outline-secondary" :href="bridgeURL">Exchange Network</a>-->
         </div>
-        <div class="tab-and-content-wrapper">
+        <div id="tabs-wrapper">
             <b-card>
                 <span>Use this account:</span>
                 <b-tabs pills card vertical>
@@ -20,7 +20,6 @@
                     <b-tab class="tab" title="State">
                         <h6>Use your state account to log in...</h6>
                         <div class="row">
-                            {{allLoginAccounts.state.NM.name}}
                         </div>
                     </b-tab>
                     <b-tab class="tab" title="Tribal">
@@ -29,6 +28,8 @@
                 </b-tabs>
             </b-card>
         </div>
+
+
     </div>
 </template>
 
@@ -56,25 +57,35 @@
 
 <!-- do not include scope to modify the bootstrap elements -->
 <style lang="scss">
-
     .card {
         border: none;
     }
 
     .tabs ul {
         border-right: 1px solid lightgrey;
-        li {
-            padding: 5px 5px 5px 5px;
-            background-color: #E8E8E8;
-            margin-bottom: 5px;
-            a.active{
-                background-color: #0071bc;
-                color: white;
-            }
-            a{
-
-            }
+        background-color: #FFFFFF;
+        li.nav-item {
+            margin-bottom: 10px;
+            -webkit-border-radius: 0;
+            -moz-border-radius: 0;
+            border-radius: 0;
+        }
+        li.nav-item a{
+            background-color: #F1F1F1;
+            color: #094e7a;
+        }
+        li.nav-item a.active {
+            background-color: #094e7a;
+            color: #ffffff;
+            -webkit-border-radius: 0;
+            -moz-border-radius: 0;
+            border-radius: 0;
         }
     }
+
+    #tabs-wrapper {
+        border-right: 1px solid lightgrey;
+    }
+
 
 </style>
