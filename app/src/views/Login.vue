@@ -108,10 +108,6 @@
         }
     }
 
-    #tabs-wrapper {
-        border-right: 1px solid lightgrey;
-    }
-
     .bv-state-container {
         .row{
             margin-top: 20px;
