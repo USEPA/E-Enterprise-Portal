@@ -3,20 +3,17 @@
     <div
       class="alert alert-info"
       role="alert"
-      v-show="['workbench'].indexOf($route.name) > -1">
+      v-if="['workbench'].indexOf($route.name) > -1 && authenticated === false">
       <div
         id="terms-conditions"
         class="container w-100 d-flex text-dark">
         <div class="row align-self-center w-100">
           <div class="col-12 text-center">
             <span>By using the E-Enterprise Portal, you agree to the </span>
-            <span class="text-decoration-underline cursor-pointer">
-              <a
-                class="text-dark"
-                href="https://e-enterprise.gov/ee_disclaimer"
-                target="_blank">
-                Terms and Conditions.
-              </a>
+            <span
+              class="text-decoration-underline cursor-pointer"
+              data-dismiss="alert">
+              Terms and Conditions.
             </span>
             &nbsp;&nbsp;
             <span
@@ -65,7 +62,7 @@
     <div
       class="alert alert-success px-3"
       role="alert"
-      v-if="['workbench'].indexOf($route.name) > -1">
+      v-if="['workbench'].indexOf($route.name) > -1 && authenticated === true">
       <div class="col-12 text-center p-2">While we do not share user credentials, <strong>we can use a cookie to remember your login preferences.<br > Would you like us to remember which login option you chose next time?</strong>  <a
         href="https://www.epa.gov/privacy/privacy-and-security-notice#cookies"
         target="_blank"
@@ -81,8 +78,15 @@
   </footer>
 </template>
 <script>
+  import { mapGetters } from 'vuex';
+
   export default {
     name: 'MainFooter',
+    computed: {
+      ...mapGetters({
+        authenticated: 'getUserAuthentication',
+      }),
+    },
   };
 
 </script>
