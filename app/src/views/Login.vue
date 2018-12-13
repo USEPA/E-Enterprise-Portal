@@ -64,12 +64,6 @@
     .tabs ul {
         border-right: 1px solid lightgrey;
         background-color: #FFFFFF;
-        li.nav-item {
-            margin-bottom: 10px;
-            -webkit-border-radius: 0;
-            -moz-border-radius: 0;
-            border-radius: 0;
-        }
         li.nav-item a{
             background-color: #F1F1F1;
             color: #094e7a;
@@ -77,9 +71,14 @@
         li.nav-item a.active {
             background-color: #094e7a;
             color: #ffffff;
+        }
+
+        li.nav-item a.active, li.nav-item a{
+            margin-bottom: 10px;
             -webkit-border-radius: 0;
             -moz-border-radius: 0;
             border-radius: 0;
+            padding: 20px 100px 20px 10px;
         }
     }
 
