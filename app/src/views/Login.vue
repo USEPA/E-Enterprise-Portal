@@ -98,6 +98,9 @@
             border-radius: 0;
             padding: 20px 100px 20px 10px;
         }
+        .tab{
+            margin-top: -5%;
+        }
     }
 
     #tabs-wrapper {
