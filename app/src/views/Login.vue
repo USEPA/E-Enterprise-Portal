@@ -22,9 +22,20 @@
                         <b-container fluid class="bv-state-container">
                             <b-row>
                                 <b-col>
-                                    <a v-bind:href="allLoginAccounts.state.NM.sitePath" class="col-md-12">
-                                        <img src="../assets/images/nm-logo.png" alt="NM"><span class="anchor-label">Link to NM</span>
-                                    </a>
+                                    <div class="link-wrapper">
+                                        <a v-bind:href="allLoginAccounts.state.NM.sitePath" class="col-md-12">
+                                            <img src="../assets/images/nm-logo.png" alt="NM">
+                                            <span class="anchor-label">
+                                            {{allLoginAccounts.state.NM.name}}
+                                            </span>
+                                        </a>
+                                    </div>
+                                </b-col>
+                                <b-col>
+                                    Place holder for other state
+                                </b-col>
+                                <b-col>
+                                    Place holder for another state
                                 </b-col>
                             </b-row>
                         </b-container>
@@ -93,24 +104,25 @@
         border-right: 1px solid lightgrey;
     }
 
-    .state-link-wrapper{
-        background-color: #888888;
-        a {
-
-            color: #ffffff;
-            text-decoration: none;
-            padding-right: 5px;
-            width: 150px;
-            height: 150px;
+    .bv-state-container {
+        .row{
+            margin-top: 20px;
         }
-        .state-logo{
-            max-width: 50%;
-            max-height: 50%;
+        .link-wrapper {
+            background-color: #888888;
+            padding: 5px 5px 5px 5px;
+            a {
+                color: #ffffff;
+                text-decoration: none;
+                padding-right: 5px;
+                width: 150px;
+                height: 150px;
+            }
         }
     }
 
     .anchor-label{
-        padding-left: 5px;
+        padding-left: 10px;
     }
 
 
