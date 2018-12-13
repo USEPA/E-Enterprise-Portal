@@ -3,7 +3,7 @@
     <div class="container">
         <h3>Login</h3>
         <div class="pt-2">
-            <p class="font-weight-bold">Select your preferred login method to access E-Enterprise using one of your existing accounts. Chose a
+            <p class="font-weight-bold">Select your preferred login method to access E-Enterprise using one of your existing accounts. Choose a
                 preferred login type and option to get started.</p>
             <a class="btn btn-sm btn-outline-secondary" :href="bridgeURL">Exchange Network</a>
         </div>
