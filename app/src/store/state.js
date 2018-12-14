@@ -65,6 +65,7 @@ const state = {
       last: '',
       suffix: '',
     },
+    tAndCCookieDismiss: false,
   },
   loginBtnHoverMessage: 'Use an EPA, CDX, or a social media account to login',
   navMargin: {

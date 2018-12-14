@@ -28,6 +28,7 @@
           <template v-if='authenticated'>
             <span>Welcome {{ username }} </span>
             <b-btn
+              to="/"
               variant="outline-secondary"
               class="btn btn-sm btn-outline-primary account-auth"
               @click="userLogOut">
@@ -40,10 +41,10 @@
               <router-link
                 to="/login"
                 class="btn btn-sm btn-outline-primary account-auth"
-                ref="loginBtn">
+                @click="initializeToken">
                 <i class="fas fa-lock"></i>&nbsp;
                 Login
-                <span class="arrow-down-message small mt-3">{{loginBtnHoverMessage}}</span>
+                <span class="arrow-down-message small mt-3">{{ loginBtnHoverMessage }}</span>
               </router-link>
             </div>
           </template>
@@ -66,7 +67,7 @@
         authenticated: 'getUserAuthentication',
         bridgeURL: 'getBridgeURL',
         username: 'getUserFullName',
-        loginBtnHoverMessage: 'getloginBtnHoverMessage'
+        loginBtnHoverMessage: 'getloginBtnHoverMessage',
       }),
       tryitTitle() {
         return 'Want to just try it? No log in needed.';
@@ -75,7 +76,11 @@
     methods: {
       ...mapActions([
         'userLogOut',
+        'initializeToken',
       ]),
+      dumyLogOut() {
+        this.userLogOut();
+      },
       startHover() {
         this.displayInfo.display = '';
       },
