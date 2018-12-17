@@ -76,18 +76,12 @@ const state = {
     state: {
       NM: {
         name: 'New Mexico DEQ',
-        flagPath: 'new_mexico_flag.png'
+        sitePath: 'https://sep.net-t.env.nm.gov/sep-envt/login-form?applicationId=OPEN_ID',
       },
     },
     tribal: {}
   },
-loginPageMessage:{
-    loginMessage:{
-      epaMessage:{
-        text:'Use your EPA account'
-      }
-    }
-}
+
 
 
 };

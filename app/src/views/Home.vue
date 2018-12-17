@@ -11,64 +11,77 @@
       @sliding-end="onSlideEnd"
     >
       <!-- Text slides with image -->
-          <b-carousel-slide
-                    class="col"
-                    img-blank>
-              <div class="container">
-                <div class="row">
-                  <div class="col-md-6">
-                    <h2>Customize your information</h2>
-                    <p>
-                    The E-Enterprise Portal provides an important new means by which
-                    users can customize the types of information presented to them,
-                    find and select tools and other resources, and conduct
-                    transactions with EPA, Tribes, and States.
-                </p>
-                    <p>See the video <span aria-hidden="true">&gt;&gt;</span></p>
-                  <router-link to="/workbench">
-                          <b-button id="try-it" class="btn btn-md float-right" variant="primary" :title="tryitTitle"><i class="fas fa-arrow-circle-right"></i>Try It</b-button>
-                     </router-link>                     
-                  </div>
-                  <div class="col-md align-self-end">
-                    <b-embed
-                            type="iframe"
-                            aspect="16by9"
-                            src="https://www.youtube.com/embed/iFv0DYnW1-A?rel=0"
-                            allowfullscreen
-                            frameborder="0"
-                          />
-                  </div>
-                </div>
-              </div>
-
-            </b-carousel-slide>
+      <b-carousel-slide
+        class="col"
+        img-blank>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <h2>Customize your information</h2>
+              <p>
+                The E-Enterprise Portal provides an important new means by which
+                users can customize the types of information presented to them,
+                find and select tools and other resources, and conduct
+                transactions with EPA, Tribes, and States.
+              </p>
+              <p>See the video <span aria-hidden="true">&gt;&gt;</span></p>
+              <router-link to="/workbench">
+                <b-button
+                  id="try-it"
+                  class="btn btn-md float-right"
+                  variant="primary"
+                  :title="tryitTitle">
+                  <i class="fas fa-arrow-circle-right"></i>Try It
+                </b-button>
+              </router-link>
+            </div>
+            <div class="col-md align-self-end">
+              <b-embed
+                type="iframe"
+                aspect="16by9"
+                src="https://www.youtube.com/embed/iFv0DYnW1-A?rel=0"
+                allowfullscreen
+                frameborder="0"
+              />
+            </div>
+          </div>
+        </div>
+      </b-carousel-slide>
 
       <!-- Slide with blank fluid image to maintain slide aspect ratio -->
       <b-carousel-slide
-              class="col"
-              img-blank>
+        class="col"
+        img-blank>
         <div class="container">
-          <div class="row col-md-12">
-            <div class="slide-details col-md-6 align-self-end">
+          <div class="row">
+            <div class="slide-details col-md-7">
               <h2>Access Your State and EPA Accounts</h2>
-
               <p>
-                Personalize your E-Enterprise experience by logging in with your state or EPA account.
-                You'll have access to valuable content and tools like My Facility Manager, My Reporting, permits, and
-                more.
+                Personalize your E-Enterprise experience by logging in with your state or EPA
+                account. You'll have access to valuable content and tools like My Facility Manager,
+                My Reporting, permits, and more.
                 We will continue to add partners in the future.
               </p>
               <router-link
-                      to="/login"
-                      class="btn btn-md btn-outline-primary pl-1 float-right account-auth"
-                      ref="loginBtn">
+                to="/login"
+                class="btn btn-md btn-outline-primary pl-1 float-right account-auth"
+                ref="loginBtn">
                 <i class="fas fa-lock"></i>&nbsp;
                 Login
               </router-link>
             </div>
-            <div class="col-md-6">
-              <img id="my-reporting-img" src="../assets/images/my_reporting.png" alt="My Reporting">
-              <img id="progress-tracker-img" src="../assets/images/progress_tracker.png" alt="Progress Tracker">
+            <div class="col-md-5">
+              <img
+                fluid
+                id="my-reporting-img"
+                src="../assets/images/my_reporting.png"
+                alt="My Reporting">
+              <div class="w-100 h-5"></div>
+              <img
+                fluid
+                id="progress-tracker-img"
+                src="../assets/images/progress_tracker.png"
+                alt="Progress Tracker">
             </div>
           </div>
         </div>
@@ -103,8 +116,8 @@
                 of service to community members.
               </p>
             </div>
-            <p class="lgc-calltoaction">Select your location, organization, and role
-              to find resources.</p>
+            <p class="lgc-calltoaction">Select your location, organization, and role to find
+            resources.</p>
           </div>
         </div>
 
@@ -123,7 +136,7 @@
     computed: {
       tryitTitle() {
         return 'Want to just try it? No log in needed.';
-      }
+      },
     },
     data() {
       return {
@@ -186,41 +199,26 @@
 
   // Slide 1
 
+    // Slide 2
+
     #my-reporting-img {
-      width: 55%;
-      height: 62%;
+      max-width: 55%;
+      padding-bottom: 1rem;
     }
 
     #progress-tracker-img {
-      width: 62%;
-      height: 35%;
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      margin-right: 7%;
+      max-width: 62%;
+      float: right;
     }
-
-    // Slide 2
-    .including_items {
-      padding: 0;
-
-      img {
-        width: 2rem;
-        height: 2rem;
-        vertical-align: top;
-      }
-      li {
-        list-style: none;
-
-        &:not(:last-child) {
-          margin-bottom: 1rem;
-        }
-
-        & > div {
-          width: 80%;
-          display: inline-block;
-          margin-left: 5%;
-        }
+    .account-auth {
+      align-self: flex-end;
+    }
+    @media only screen and (min-width: 576px) and (max-width: 767px){
+      #progress-tracker-img {
+        max-width: 40%;
+        position: absolute;
+        right: 0;
+        top: 8.75rem;
       }
     }
 

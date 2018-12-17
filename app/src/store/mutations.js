@@ -94,6 +94,13 @@ export default {
       false,
     );
   },
+  // [types.SET_TAB_MESSAGE](state, tab) {
+  //   Vue.set(
+  //     state.tabmessage,
+  //     'message',
+  //     tab,
+  //   );
+  // },
   [types.SET_MARGIN_TOP_NAV](state, obj){
     state.navMargin = obj;
   },
