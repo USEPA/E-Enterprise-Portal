@@ -20,6 +20,14 @@ export default {
     return fullname;
   },
   /**
+   * gets users TAndCCookie state
+   */
+  getTAndCCookieDismiss() {
+    const cookieState = document.cookie.match('(^|;) ?userTandC=([^;]*)(;|$)');
+    console.log(cookieState);
+    return cookieState;
+  },
+  /**
    * This function tests the domain name to help determine the environment
    * that the app is running under.
    * @returns {string}

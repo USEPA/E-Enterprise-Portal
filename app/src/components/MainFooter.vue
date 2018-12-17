@@ -3,7 +3,8 @@
     <div
       class="alert alert-info"
       role="alert"
-      v-if="['workbench'].indexOf($route.name) > -1 && authenticated === false">
+      v-if="['workbench'].indexOf($route.name) > -1 &&
+        authenticated === false && (tAndCCookieDismiss === false || tAndCCookieDismiss == undefined)">
       <div
         id="terms-conditions"
         class="container w-100 d-flex text-dark">
@@ -12,12 +13,14 @@
             <span>By using the E-Enterprise Portal, you agree to the </span>
             <span
               class="text-decoration-underline cursor-pointer"
+              @click="setTAndCCookie"
               data-dismiss="alert">
               Terms and Conditions.
             </span>
             &nbsp;&nbsp;
             <span
               class="text-decoration-underline cursor-pointer"
+              @click="setTAndCCookie"
               data-dismiss="alert">
               Continue »
             </span>
@@ -78,14 +81,20 @@
   </footer>
 </template>
 <script>
-  import { mapGetters } from 'vuex';
+  import { mapGetters, mapActions } from 'vuex';
 
   export default {
     name: 'MainFooter',
     computed: {
       ...mapGetters({
         authenticated: 'getUserAuthentication',
+        tAndCCookieDismiss: 'getTAndCCookieDismiss',
       }),
+    },
+    methods: {
+      ...mapActions([
+        'setTAndCCookie',
+      ]),
     },
   };
 

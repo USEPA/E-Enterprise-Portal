@@ -94,6 +94,13 @@ export default {
       false,
     );
   },
+  [types.USER_TANDC_COOKIE_DISMISS](state) {
+    Vue.set(
+      state.user,
+      'tAndCCookieDismiss',
+      true,
+    );
+  },
   [types.SET_MARGIN_TOP_NAV](state, obj){
     state.navMargin = obj;
   },

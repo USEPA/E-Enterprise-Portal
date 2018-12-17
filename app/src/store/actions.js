@@ -140,6 +140,7 @@ export default {
   },
   userLogOut(context) {
     const store = context;
+
     // add additional logout logic here
     Vue.cookie.set('userToken', '', { expires: '-99s' });
     store.commit('USER_LOG_OUT');
