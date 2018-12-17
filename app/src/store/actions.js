@@ -133,8 +133,7 @@ export default {
       store.commit('USER_LOG_IN');
       // creates cookie that stores token
       Vue.cookie.set('userToken', token, { expires: '20m' });
-    }
-    else {
+    } else {
       Vue.cookie.set('userToken', '', { expires: '-99s' });
     }
   },
