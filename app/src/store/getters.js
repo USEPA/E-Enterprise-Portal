@@ -92,7 +92,5 @@ export default {
   getloginPageAccounts(state) {
     return state.loginPageAccounts;
   },
-  getloginPageMessage(loginMessage){
-    return loginMessage.loginPageMessage;
-  },
+
 };

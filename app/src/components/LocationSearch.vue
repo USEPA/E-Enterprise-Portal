@@ -139,7 +139,7 @@
     },
     computed: {
       geolocationTitle() {
-        return (!this.checkForGeolocation()) ? 'Enable Geolocation' : '.Click to use your geolocation';
+        return (!this.checkForGeolocation()) ? 'Enable Geolocation' : 'Click to use your geolocation';
       },
       /**
        * Determines if the location has been set yet, and will update the UI

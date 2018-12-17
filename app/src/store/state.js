@@ -83,9 +83,6 @@ const state = {
     },
     tribal: {},
   },
-
-
-
 };
 
 export default state;
