@@ -80,7 +80,12 @@ class EEPBridgeController extends ControllerBase {
       user_login_finalize($account_search[0]);
     }
 
-    $url = Url::fromUri('internal:/');
+    $_SESSION['security_token'] = $userDetails->attributes['securityToken'][0];
+    $_SESSION['username'] = $authenticated_user->get_name();
+    $_SESSION['session_id'] = \Drupal::service('session')->getId();
+
+
+    $url = Url::fromUri('https://dev2.e-enterprise.gov');  //TODO: make this configurable so that it can be changed in non-dev environments.
     $this->eep_bridge_goto($url);
     return;
   }
