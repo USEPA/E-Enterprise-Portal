@@ -15,9 +15,25 @@ export default {
     const userName = state.user.name;
     const nameParts = [userName.prefix, userName.first, userName.last, userName.suffix];
     fullname = nameParts
-      .filter((namePart) => (namePart && namePart.length))
+      .filter(namePart => (namePart && namePart.length))
       .join(' ');
     return fullname;
+  },
+  /**
+   * gets users TAndCCookie state
+   */
+  getTAndCCookieDismiss() {
+    const cookieState = document.cookie.match('(^|;) ?userTandC=([^;]*)(;|$)');
+    console.log(cookieState);
+    return cookieState;
+  },
+  /**
+   * gets users login preference state
+   */
+  getUserPolicyCookieDismiss() {
+    const cookieState = document.cookie.match('(^|;) ?userPolicy=([^;]*)(;|$)');
+    console.log(cookieState);
+    return cookieState;
   },
   /**
    * This function tests the domain name to help determine the environment
@@ -67,13 +83,13 @@ export default {
     }
     return url;
   },
-  getloginBtnHoverMessage(state){
+  getloginBtnHoverMessage(state) {
     return state.loginBtnHoverMessage;
   },
-  getnavMargin(state){
+  getnavMargin(state) {
     return state.navMargin;
   },
-  getloginPageAccounts(state){
+  getloginPageAccounts(state) {
     return state.loginPageAccounts;
   },
   getloginPageMessage(loginMessage){

@@ -65,10 +65,12 @@ const state = {
       last: '',
       suffix: '',
     },
+    tAndCCookieDismiss: false,
+    UserPolicyCookieDismiss: false,
   },
   loginBtnHoverMessage: 'Use an EPA, CDX, or a social media account to login',
   navMargin: {
-    'margin-top': 0
+    'margin-top': 0,
   },
   loginPageAccounts: {
     EPA: {},
@@ -79,7 +81,7 @@ const state = {
         sitePath: 'https://sep.net-t.env.nm.gov/sep-envt/login-form?applicationId=OPEN_ID',
       },
     },
-    tribal: {}
+    tribal: {},
   },
 
 
