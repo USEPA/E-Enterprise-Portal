@@ -4,7 +4,7 @@
       class="alert alert-info"
       role="alert"
       v-if="['workbench'].indexOf($route.name) > -1 &&
-        authenticated === false && (tAndCCookieDismiss === false || tAndCCookieDismiss == undefined)">
+      authenticated === false && (tAndCCookieDismiss === false || tAndCCookieDismiss == undefined)">
       <div
         id="terms-conditions"
         class="container w-100 d-flex text-dark">
@@ -65,18 +65,20 @@
     <div
       class="alert alert-success px-3"
       role="alert"
-      v-if="['workbench'].indexOf($route.name) > -1 && authenticated === true">
+      v-if="['workbench'].indexOf($route.name) > -1 && authenticated === true && (UserPolicyCookieDismiss === false || UserPolicyCookieDismiss == undefined)">
       <div class="col-12 text-center p-2">While we do not share user credentials, <strong>we can use a cookie to remember your login preferences.<br > Would you like us to remember which login option you chose next time?</strong>  <a
         href="https://www.epa.gov/privacy/privacy-and-security-notice#cookies"
         target="_blank"
         class="text-dark text-decoration-underline pl-2">See our cookie policy</a>.</div>
       <div class="col-12 text-right p-2 w-75"><a
         href="#"
+        @click="setUserPolicyCookie"
         data-dismiss="alert"
         class="text-dark text-decoration-underline pr-2"
       >No Thanks</a><button
         class="btn btn-primary"
-        data-dismiss="alert">Yes, Please</button></div>
+        data-dismiss="alert"
+        @click="setUserPolicyCookie">Yes, Please</button></div>
     </div>
   </footer>
 </template>
@@ -89,11 +91,13 @@
       ...mapGetters({
         authenticated: 'getUserAuthentication',
         tAndCCookieDismiss: 'getTAndCCookieDismiss',
+        UserPolicyCookieDismiss: 'getUserPolicyCookieDismiss',
       }),
     },
     methods: {
       ...mapActions([
         'setTAndCCookie',
+        'setUserPolicyCookie',
       ]),
     },
   };
