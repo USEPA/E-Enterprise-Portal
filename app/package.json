@@ -21,6 +21,7 @@
     "lodash": "^4.17.11",
     "open-iconic": "^1.1.1",
     "popper.js": "^1.14.4",
+    "vue-cookie": "^1.1.4",
     "vue-progressbar": "^0.7.5",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
@@ -29,7 +30,7 @@
   "devDependencies": {
     "@vue/cli": "^3.2.1",
     "@vue/cli-plugin-babel": "^3.0.4",
-    "@vue/cli-plugin-e2e-nightwatch": "^3.0.4",
+    "@vue/cli-plugin-e2e-nightwatch": "^3.2.0",
     "@vue/cli-plugin-eslint": "^3.0.4",
     "@vue/cli-plugin-unit-mocha": "^3.0.4",
     "@vue/cli-service": "^3.0.4",
