@@ -73,7 +73,17 @@ const state = {
     'margin-top': 0,
   },
   loginPageAccounts: {
-    EPA: {},
+    EPA: {
+      cdx: {
+        name: 'CDX/Exchange Network',
+      },
+      wam:{
+        name:'EPA LAN / WAM ID'
+      },
+      smartCard:{
+        name:'PIV Smart Card'
+      },
+    },
     socialmedia: {},
     state: {
       NM: {

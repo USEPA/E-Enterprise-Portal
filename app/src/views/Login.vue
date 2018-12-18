@@ -13,6 +13,28 @@
                 <b-tabs pills card vertical>
                     <b-tab  class="tab" title="EPA" active>
                         <h6 class="tabText">Use your EPA account...</h6>
+                        <b-container fluid class="bv-state-container ">
+                            <b-row class="tabContainer">
+                                <b-col>
+                                    <div class="link-wrapper">
+                                        <a  class="col-md-12">
+                                            <img src="../assets/images/exchange-network-x-sm.png" alt="cdx">
+                                            <span class="anchor-label">
+                                            {{allLoginAccounts.EPA.cdx.name}}
+                                            </span>
+                                        </a>
+                                    </div>
+                                </b-col>
+                                <b-col>
+                                    Place holder for other state
+                                </b-col>
+                                <b-col>
+                                    Place holder for another state
+                                </b-col>
+                            </b-row>
+                        </b-container>
+
+
                     </b-tab>
                     <b-tab class="tab" title="Social Media">
                     </b-tab>
