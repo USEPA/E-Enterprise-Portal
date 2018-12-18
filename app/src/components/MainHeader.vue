@@ -22,7 +22,8 @@
                 id="try-it"
                 class="btn btn-sm"
                 variant="primary"
-                :title="tryitTitle">
+                :title="tryitTitle"
+                v-if='!authenticated'>
                 <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left"></i>Try It
               </b-button>
             </router-link>
