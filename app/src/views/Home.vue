@@ -30,7 +30,8 @@
                   id="try-it"
                   class="btn btn-md float-right"
                   variant="primary"
-                  :title="tryitTitle">
+                  :title="tryitTitle"
+                  v-if='!authenticated'>
                   <i class="fas fa-arrow-circle-right"></i>Try It
                 </b-button>
               </router-link>
@@ -65,7 +66,8 @@
               <router-link
                 to="/login"
                 class="btn btn-md btn-outline-primary pl-1 float-right account-auth"
-                ref="loginBtn">
+                ref="loginBtn"
+                v-if='!authenticated'>
                 <i class="fas fa-lock"></i>&nbsp;
                 Login
               </router-link>
@@ -129,11 +131,15 @@
 
 <script>
   // @ is an alias to /src
+  import { mapGetters } from 'vuex';
 
   export default {
     name: 'Home',
     components: {},
     computed: {
+      ...mapGetters({
+        authenticated: 'getUserAuthentication',
+      }),
       tryitTitle() {
         return 'Want to just try it? No log in needed.';
       },
