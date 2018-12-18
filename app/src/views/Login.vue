@@ -17,7 +17,7 @@
                             <b-row class="tabContainer">
                                 <b-col>
                                     <div class="link-wrapper">
-                                        <a  class="col-md-12">
+                                        <a  class="col-md-18">
                                             <img src="../assets/images/exchange-network-x-sm.png" alt="cdx">
                                             <span class="anchor-label">
                                             {{allLoginAccounts.EPA.cdx.name}}
@@ -26,14 +26,30 @@
                                     </div>
                                 </b-col>
                                 <b-col>
-                                    Place holder for other state
+                                    <div class="link-wrapper">
+                                        <a  class="col-md-12">
+                                            <img src="../assets/images/epaicon.png" alt="wam">
+                                            <span class="anchor-label">
+                                            {{allLoginAccounts.EPA.wam.name}}
+                                            </span>
+                                        </a>
+                                    </div>
                                 </b-col>
                                 <b-col>
-                                    Place holder for another state
+                                    <div class="link-wrapper">
+                                        <a  class="col-md-12">
+                                            <img src="../assets/images/piv-smartcard.png" alt="smartCard">
+                                            <span class="anchor-label">
+                                            {{allLoginAccounts.EPA.smartCard.name}}
+                                            </span>
+                                        </a>
+                                    </div>
                                 </b-col>
                             </b-row>
                         </b-container>
-
+<div class="epaMsg">
+    You can <a href="#">create a free CDX account </a> within the Exchange Network. You only need to provide some basic information.
+</div>
 
                     </b-tab>
                     <b-tab class="tab" title="Social Media">
@@ -112,7 +128,9 @@
     .card {
         border: none;
     }
-
+.epaMsg{
+    margin-top: 30px;
+}
     @media only screen and (min-width:473px) {
         .tabText {
             position: relative;
