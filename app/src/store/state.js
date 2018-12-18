@@ -74,7 +74,16 @@ const state = {
   },
   loginPageAccounts: {
     EPA: {},
-    socialmedia: {},
+    socialmedia: {
+      facebook:{
+        name: 'Facebook',
+        sitePath: 'www.facebook.com'
+      },
+      twitter: {
+        name: 'Twitter',
+        sitePath: 'www.twitter.com'
+      }
+    },
     state: {
       NM: {
         name: 'New Mexico DEQ',

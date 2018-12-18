@@ -15,16 +15,37 @@
                         <h6 class="tabText">Use your EPA account...</h6>
                     </b-tab>
                     <b-tab class="tab" title="Social Media">
+                        <h6 class="tabText">Use your social media account to log in...</h6>
+                        <b-contaier fluid class="link-wrapper">
+                            <b-row class="tabContainer">
+                                <b-col>
+                                    <div class=" col-md-6 link-wrapper">
+                                        <a href="www.google.com" class="link">
+                                            <img src="../assets/images/facebook-f.png" alt="facebook">
+                                            <span class="anchor-label">Facebook</span>
+                                        </a>
+                                    </div>
+                                </b-col>
+                                <b-col>
+                                    <div class="col-md-6 link-wrapper">
+                                        <a href="www.google.com" class="link">
+                                            <img src="../assets/images/twitter.svg" alt="twitter">
+                                            <span class="anchor-label">Twitter</span>
+                                        </a>
+                                    </div>
+                                </b-col>
+                            </b-row>
+                        </b-contaier>
                     </b-tab>
                     <b-tab class="tab" title="State">
                         <!-- Once we get more states then it can be optimized with using a v-for to loop through -->
                         <!-- and create each <b-row> and each <b-col> -->
                         <h6 class="tabText">Use your state account to log in...</h6>
-                        <b-container fluid class="bv-state-container ">
+                        <b-container fluid class="bv-state-container">
                             <b-row class="tabContainer">
                                 <b-col>
                                     <div class="link-wrapper">
-                                        <a v-bind:href="allLoginAccounts.state.NM.sitePath" class="col-md-12">
+                                        <a v-bind:href="allLoginAccounts.state.NM.sitePath" class="col-md-12 link">
                                             <img src="../assets/images/nm-logo.png" alt="NM">
                                             <span class="anchor-label">
                                             {{allLoginAccounts.state.NM.name}}
@@ -136,17 +157,21 @@
         border-right: 1px solid lightgrey;
     }
 
-    .bv-state-container {
+    .bv-state-container, .link-wrapper {
         .row{
             margin-top: 20px;
         }
         .link-wrapper {
             background-color: #888888;
             padding: 5px 5px 5px 5px;
-            a {
+            .link {
                 color: #ffffff;
                 text-decoration: none;
                 padding-right: 5px;
+                img{
+                    height: 16px;
+                    width: 16px;
+                }
             }
         }
     }
