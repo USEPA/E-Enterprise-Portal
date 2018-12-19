@@ -24,7 +24,7 @@
                 variant="primary"
                 :title="tryitTitle"
                 v-if='!authenticated'>
-                <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left"></i>Try It
+                <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left"></i>&nbsp;Try It
               </b-button>
             </router-link>
           </template>
