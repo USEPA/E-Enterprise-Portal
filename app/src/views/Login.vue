@@ -23,7 +23,7 @@
                                     <div class="col-md-12 link-wrapper pt-2 pb-2 pl-2">
                                         <a v-bind:href="allLoginAccounts.socialmedia.facebook.sitePath" class="link">
                                             <img src="../assets/images/facebook-f.png" alt="facebook">
-                                            <span class="pl-2">Facebook</span>
+                                            <span class="pl-2">{{allLoginAccounts.socialmedia.facebook.name}}</span>
                                         </a>
                                     </div>
                                 </b-col>
@@ -31,7 +31,7 @@
                                     <div class="col-md-12 link-wrapper pt-2 pb-2 pl-2">
                                         <a v-bind:href="allLoginAccounts.socialmedia.twitter.sitePath" class="link">
                                             <img src="../assets/images/twitter.svg" alt="twitter">
-                                            <span class="pl-2">Twitter</span>
+                                            <span class="pl-2">{{allLoginAccounts.socialmedia.twitter.name}}</span>
                                         </a>
                                     </div>
                                 </b-col>
