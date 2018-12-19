@@ -10,15 +10,15 @@
 
                 <h6 class="tabs-heading">Use this account:</h6>
                 <b-tabs class="epa-tabs" pills card vertical nav-wrapper-class="w-25">
-                    <b-tab   title="EPA" active>
+                    <b-tab  class="" title="EPA" active>
                         <h6 class="tabText">Use your EPA account...</h6>
-                        <b-container fluid class="bv-state-container ">
+                        <b-container class="ml-2" >
                             <b-row class="tabContainer">
                                 <b-col>
-                                    <div class="link-wrapper">
+                                    <div class="link-wrapper pt-2 pb-2 pl-2">
                                         <a  class="col-md-18">
                                             <img src="../assets/images/exchange-network-x-sm.png" alt="cdx">
-                                            <span class="anchor-label">
+                                            <span class="pl-2">
                                             {{allLoginAccounts.EPA.cdx.name}}
                                             </span>
                                         </a>
@@ -26,10 +26,10 @@
                                 </b-col>
                                 <div class="w-100 d-block d-md-none py-1"></div>
                                 <b-col>
-                                    <div class="link-wrapper">
+                                    <div class="link-wrapper pt-2 pb-2 pl-2">
                                         <a  class="col-md-10">
                                             <img src="../assets/images/epaicon.png" alt="wam">
-                                            <span class="anchor-label">
+                                            <span class="pl-2">
                                             {{allLoginAccounts.EPA.wam.name}}
                                             </span>
                                         </a>
@@ -37,10 +37,10 @@
                                 </b-col>
                                 <div class="w-100 d-block d-md-none py-1"></div>
                                 <b-col>
-                                    <div class="link-wrapper">
+                                    <div class="link-wrapper pt-2 pb-2 pl-2">
                                         <a  class="col-md-10">
                                             <img src="../assets/images/piv-smartcard.png" alt="smartCard">
-                                            <span class="anchor-label">
+                                            <span class="pl-2">
                                             {{allLoginAccounts.EPA.smartCard.name}}
                                             </span>
                                          </a>
@@ -151,24 +151,15 @@
 
 <!-- do not include scope to modify the bootstrap elements -->
 <style lang="scss">
-    .card {
-        border: none;
-    }
+
     @media only screen and (min-width:500px) {
         .tabText {
             position:relative;
             top:-2.9rem;
 
         }
-        .container-fluid{
-            position:relative;
-            margin-top:-2.5rem;
-        }
 
     }
-
-
-
 
     .epa-tabs {
         ul{
@@ -188,19 +179,14 @@
                 -webkit-border-radius: 0;
                 -moz-border-radius: 0;
                 border-radius: 0;
-             // padding: 20px 100px 20px 10px;
+                height: 4rem;
+                padding-top:20px;
+
             }
-            .tab{
-                margin-top: -5%;
-            }
+
         }
-        .col-auto{
-            position: relative;
-        }
+
     }
-
-
-
     .link-wrapper {
         background-color: #888888;
         .link {
