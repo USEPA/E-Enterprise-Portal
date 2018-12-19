@@ -8,7 +8,7 @@
             <a class="btn btn-sm btn-outline-secondary" :href="bridgeURL">Exchange Network</a>
         </div>
 
-                <h6 class="tabs-heading">Use this account:</h6>
+                <h6 class="ml-4">Use this account:</h6>
                 <b-tabs class="epa-tabs" pills card vertical nav-wrapper-class="w-25">
                     <b-tab  class="" title="EPA" active>
                         <h6 class="tabText">Use your EPA account...</h6>
@@ -49,7 +49,7 @@
                             </b-row>
                         </b-container>
 <div class="mt-4">
-    You can <a href="#">create a free CDX account </a> within the Exchange Network. You only need to provide some basic information.
+    You can <a href="https://cdx.epa.gov/">create a free CDX account </a> within the Exchange Network. You only need to provide some basic information.
 </div>
 
                     </b-tab>
