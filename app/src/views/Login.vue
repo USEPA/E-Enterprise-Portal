@@ -9,34 +9,61 @@
         </div>
         <div id="tabs-wrapper">
             <b-card>
-                <h6 class="tabs-heading">Use this account:</h6>
+                <h6 class="ml-4">Use this account:</h6>
                 <b-tabs pills card vertical>
                     <b-tab  class="tab" title="EPA" active>
                         <h6 class="tabText">Use your EPA account...</h6>
+
                     </b-tab>
                     <b-tab class="tab" title="Social Media">
+                        <h6 class="tabText">Use your social media account to log in...</h6>
+                        <b-container class="ml-2 pb-1">
+                            <b-row class="tabContainer">
+                                <b-col sm class="pb-1">
+                                    <div class="col-md-12 link-wrapper pt-2 pb-2 pl-2">
+                                        <a v-bind:href="allLoginAccounts.socialmedia.facebook.sitePath" class="link">
+                                            <img src="../assets/images/facebook-f.png" alt="facebook">
+                                            <span class="pl-2">{{allLoginAccounts.socialmedia.facebook.name}}</span>
+                                        </a>
+                                    </div>
+                                </b-col>
+                                <b-col sm class="pb-1">
+                                    <div class="col-md-12 link-wrapper pt-2 pb-2 pl-2">
+                                        <a v-bind:href="allLoginAccounts.socialmedia.twitter.sitePath" class="link">
+                                            <img src="../assets/images/twitter.svg" alt="twitter">
+                                            <span class="pl-2">{{allLoginAccounts.socialmedia.twitter.name}}</span>
+                                        </a>
+                                    </div>
+                                </b-col>
+                                <b-col></b-col>
+                            </b-row>
+                        </b-container>
                     </b-tab>
                     <b-tab class="tab" title="State">
                         <!-- Once we get more states then it can be optimized with using a v-for to loop through -->
                         <!-- and create each <b-row> and each <b-col> -->
                         <h6 class="tabText">Use your state account to log in...</h6>
-                        <b-container fluid class="bv-state-container ">
+                        <b-container class="ml-2">
                             <b-row class="tabContainer">
-                                <b-col>
-                                    <div class="link-wrapper">
-                                        <a v-bind:href="allLoginAccounts.state.NM.sitePath" class="col-md-12">
+                                <b-col sm class="pb-1">
+                                    <div class="link-wrapper pt-2 pb-2 pl-2">
+                                        <a v-bind:href="allLoginAccounts.state.NM.sitePath" class="link">
                                             <img src="../assets/images/nm-logo.png" alt="NM">
-                                            <span class="anchor-label">
+                                            <span class="pl-2">
                                             {{allLoginAccounts.state.NM.name}}
                                             </span>
                                         </a>
                                     </div>
                                 </b-col>
-                                <b-col>
-                                    Place holder for other state
+                                <b-col sm class="pb-1">
+                                    <div class="link-wrapper pt-2 pb-2 pl-2">
+                                        Placeholder
+                                    </div>
                                 </b-col>
-                                <b-col>
-                                    Place holder for another state
+                                <b-col sm class="pb-1">
+                                    <div class="link-wrapper pt-2 pb-2 pl-2">
+                                        Placeholder
+                                    </div>
                                 </b-col>
                             </b-row>
                         </b-container>
@@ -95,9 +122,7 @@
         .tabText {
             position: relative;
             top:-2.70rem;
-
         }
-
     }
     .container-fluid{
         margin-top:-2.5rem;
@@ -136,26 +161,16 @@
         border-right: 1px solid lightgrey;
     }
 
-    .bv-state-container {
-        .row{
-            margin-top: 20px;
+    .link-wrapper {
+        background-color: #888888;
+        .link {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 5px;
         }
-        .link-wrapper {
-            background-color: #888888;
-            padding: 5px 5px 5px 5px;
-            a {
-                color: #ffffff;
-                text-decoration: none;
-                padding-right: 5px;
-            }
+        img {
+            height: 16px;
+            width: 16px;
         }
-    }
-
-    .anchor-label{
-        padding-left: 10px;
-    }
-
-    .tabs-heading{
-        margin-left: 20px;
     }
 </style>
