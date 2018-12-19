@@ -7,11 +7,10 @@
                 preferred login type and option to get started.</p>
             <a class="btn btn-sm btn-outline-secondary" :href="bridgeURL">Exchange Network</a>
         </div>
-        <div id="tabs-wrapper">
-            <b-card>
+
                 <h6 class="tabs-heading">Use this account:</h6>
-                <b-tabs pills card vertical>
-                    <b-tab  class="tab" title="EPA" active>
+                <b-tabs class="epa-tabs" pills card vertical nav-wrapper-class="w-25">
+                    <b-tab   title="EPA" active>
                         <h6 class="tabText">Use your EPA account...</h6>
                         <b-container fluid class="bv-state-container ">
                             <b-row class="tabContainer">
@@ -25,9 +24,10 @@
                                         </a>
                                     </div>
                                 </b-col>
+                                <div class="w-100 d-block d-md-none py-1"></div>
                                 <b-col>
                                     <div class="link-wrapper">
-                                        <a  class="col-md-12">
+                                        <a  class="col-md-10">
                                             <img src="../assets/images/epaicon.png" alt="wam">
                                             <span class="anchor-label">
                                             {{allLoginAccounts.EPA.wam.name}}
@@ -35,19 +35,20 @@
                                         </a>
                                     </div>
                                 </b-col>
+                                <div class="w-100 d-block d-md-none py-1"></div>
                                 <b-col>
                                     <div class="link-wrapper">
-                                        <a  class="col-md-12">
+                                        <a  class="col-md-10">
                                             <img src="../assets/images/piv-smartcard.png" alt="smartCard">
                                             <span class="anchor-label">
                                             {{allLoginAccounts.EPA.smartCard.name}}
                                             </span>
-                                        </a>
+                                         </a>
                                     </div>
                                 </b-col>
                             </b-row>
                         </b-container>
-<div class="epaMsg">
+<div class="mt-4">
     You can <a href="#">create a free CDX account </a> within the Exchange Network. You only need to provide some basic information.
 </div>
 
@@ -71,10 +72,14 @@
                                     </div>
                                 </b-col>
                                 <b-col>
-                                    Place holder for other state
+                                    <div class="link-wrapper">
+                                        Place holder for other state
+                                    </div>
                                 </b-col>
                                 <b-col>
-                                    Place holder for another state
+                                    <div class="link-wrapper">
+                                        Place holder for other state
+                                    </div>
                                 </b-col>
                             </b-row>
                         </b-container>
@@ -83,8 +88,7 @@
 
                     </b-tab>
                 </b-tabs>
-            </b-card>
-        </div>
+
     </div>
 </template>
 
@@ -128,22 +132,23 @@
     .card {
         border: none;
     }
-.epaMsg{
-    margin-top: 30px;
-}
-    @media only screen and (min-width:473px) {
+    @media only screen and (min-width:500px) {
         .tabText {
-            position: relative;
-            top:-2.70rem;
+            position:relative;
+            top:-2.9rem;
 
+        }
+        .container-fluid{
+            position:relative;
+            margin-top:-2.5rem;
         }
 
     }
-    .container-fluid{
-        margin-top:-2.5rem;
-    }
 
-    .tabs {
+
+
+
+    .epa-tabs {
         ul{
             border-right: 1px solid lightgrey;
             background-color: #FFFFFF;
@@ -161,7 +166,7 @@
                 -webkit-border-radius: 0;
                 -moz-border-radius: 0;
                 border-radius: 0;
-                padding: 20px 100px 20px 10px;
+             // padding: 20px 100px 20px 10px;
             }
             .tab{
                 margin-top: -5%;
@@ -172,9 +177,7 @@
         }
     }
 
-    #tabs-wrapper {
-        border-right: 1px solid lightgrey;
-    }
+
 
     .bv-state-container {
         .row{
