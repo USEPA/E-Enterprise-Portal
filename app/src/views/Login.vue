@@ -7,10 +7,10 @@
                 preferred login type and option to get started.</p>
         </div>
 
-                <h6 class="ml-4">Use this account:</h6>
+                <h6 class="ml-4 font-weight-bold">Use this account:</h6>
                 <b-tabs class="epa-tabs" pills card vertical nav-wrapper-class="w-25">
                     <b-tab  class="" title="EPA" active>
-                        <h6 class="tabText">Use your EPA account...</h6>
+                        <h6 class="tabText font-weight-bold">Use your EPA account...</h6>
                         <b-container class="ml-2" >
                             <b-row class="tabContainer">
                                 <b-col sm class="pb-1">
@@ -52,7 +52,7 @@
                         </div>
                     </b-tab>
                     <b-tab class="tab" title="Social Media">
-                        <h6 class="tabText">Use your social media account to log in...</h6>
+                        <h6 class="tabText font-weight-bold">Use your social media account to log in...</h6>
                         <b-container class="ml-2 pb-1">
                             <b-row class="tabContainer">
                                 <b-col sm class="pb-1">
@@ -78,7 +78,7 @@
                     <b-tab class="tab" title="State">
                         <!-- Once we get more states then it can be optimized with using a v-for to loop through -->
                         <!-- and create each <b-row> and each <b-col> -->
-                        <h6 class="tabText">Use your state account to log in...</h6>
+                        <h6 class="tabText font-weight-bold">Use your state account to log in...</h6>
                         <b-container class="ml-2">
                             <b-row class="tabContainer">
                                 <b-col sm class="pb-1">
