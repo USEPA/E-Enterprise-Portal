@@ -5,18 +5,21 @@
         <div class="pt-2">
             <p class=" pt-2 font-weight-bold">Select your preferred login method to access E-Enterprise using one of your existing accounts. Choose a
                 preferred login type and option to get started.</p>
+
         </div>
-        <h6 class="ml-4 font-weight-bold">Use this account:</h6>
-        <b-tabs class="epa-tabs" pills card vertical nav-wrapper-class="w-25">
-            <b-tab  class="" title="EPA" active>
-                <h6 class="tabText font-weight-bold">Use your EPA account...</h6>
-                <b-container class="ml-2" >
-                    <b-row class="tabContainer">
-                        <b-col sm class="pb-1">
-                            <div class="link-wrapper pt-2 pb-2 pl-2">
-                                <a href="/"  class="col-md-18 link">
-                                    <img src="../assets/images/exchange-network-x-sm.png" alt="cdx">
-                                    <span class="pl-2">
+        <div class="pt-3"></div>
+                <h6 class="ml-4 font-weight-bold ">Use this account:</h6>
+                <b-tabs class="epa-tabs" pills card vertical nav-wrapper-class="w-25">
+                    <b-tab  title="EPA" active>
+                        <h6 class="tabText font-weight-bold">Use your EPA account...</h6>
+                        <b-container class="ml-2" >
+                            <b-row class="tabContainer">
+                                <b-col  sm class="pb-1">
+                                    <div class="link-wrapper pt-2 pb-2 pl-2">
+                                        <a  class="col-md-18 link"  v-bind:href="bridgeURL ">
+                                            <img src="../assets/images/exchange-network-x-sm.png" alt="cdx">
+
+                                            <span class="pl-2">
                                             {{allLoginAccounts.EPA.cdx.name}}
                                             </span>
                                 </a>
