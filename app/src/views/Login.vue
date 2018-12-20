@@ -14,7 +14,7 @@
                         <h6 class="tabText font-weight-bold">Use your EPA account...</h6>
                         <b-container class="ml-2" >
                             <b-row class="tabContainer">
-                                <b-col>
+                                <b-col  sm class="pb-1>
                                     <div class="link-wrapper pt-2 pb-2 pl-2">
                                         <a  class="col-md-18 link"  v-bind:href="bridgeURL ">
                                             <img src="../assets/images/exchange-network-x-sm.png" alt="cdx">
