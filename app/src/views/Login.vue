@@ -5,9 +5,9 @@
         <div class="pt-2">
             <p class=" pt-2 font-weight-bold">Select your preferred login method to access E-Enterprise using one of your existing accounts. Choose a
                 preferred login type and option to get started.</p>
-            <a class="btn btn-sm btn-outline-secondary" :href="bridgeURL">Exchange Network</a>
-        </div>
 
+        </div>
+        <div class="pt-3"></div>
                 <h6 class="ml-4">Use this account:</h6>
                 <b-tabs class="epa-tabs" pills card vertical nav-wrapper-class="w-25">
                     <b-tab  class="" title="EPA" active>
@@ -16,8 +16,9 @@
                             <b-row class="tabContainer">
                                 <b-col>
                                     <div class="link-wrapper pt-2 pb-2 pl-2">
-                                        <a  class="col-md-18">
+                                        <a  class="col-md-18 link"  v-bind:href="bridgeURL ">
                                             <img src="../assets/images/exchange-network-x-sm.png" alt="cdx">
+
                                             <span class="pl-2">
                                             {{allLoginAccounts.EPA.cdx.name}}
                                             </span>
