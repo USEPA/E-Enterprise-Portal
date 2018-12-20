@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains node_import_export.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function node_import_export_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the node_import_export module.
+    case 'help.page.node_import_export':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Module to help manage default content') . '</p>';
+      return $output;
+
+    default:
+  }
+}
