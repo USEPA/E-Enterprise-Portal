@@ -2,17 +2,17 @@
   {
     "nid": [
       {
-        "value": "2"
+        "value": "4"
       }
     ],
     "uuid": [
       {
-        "value": "c08fc9b7-b1dd-4c42-a441-4c54606bcb1a"
+        "value": "6bf7b764-04f1-473c-8e97-00f445e35627"
       }
     ],
     "vid": [
       {
-        "value": "10"
+        "value": "16"
       }
     ],
     "langcode": [
@@ -27,7 +27,7 @@
     ],
     "revision_timestamp": [
       {
-        "value": "1544108619"
+        "value": "1544082705"
       }
     ],
     "revision_uid": [
@@ -42,7 +42,7 @@
     ],
     "title": [
       {
-        "value": "Locations Service"
+        "value": "Geolocation"
       }
     ],
     "uid": [
@@ -52,12 +52,12 @@
     ],
     "created": [
       {
-        "value": "1541712063"
+        "value": "1542399659"
       }
     ],
     "changed": [
       {
-        "value": "1544108619"
+        "value": "1544082705"
       }
     ],
     "promote": [
@@ -80,6 +80,11 @@
         "value": "1"
       }
     ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
     "path": [
       {
         "langcode": "en"
@@ -92,17 +97,17 @@
     ],
     "field_proxy_filter": [
       {
-        "value": "location"
+        "value": "generic"
       }
     ],
     "field_proxy_service_machine_name": [
       {
-        "value": "location"
+        "value": "geolocation"
       }
     ],
     "field_request_headers": [
       {
-        "first": "content-type",
+        "first": "Content-Type",
         "second": "application\/json"
       }
     ],
@@ -114,21 +119,45 @@
     "field_response_headers": [
       {
         "first": "Content-Type",
-        "second": "application\/json; charset=utf-8"
+        "second": "application\/json"
       },
       {
         "first": "Transfer-Encoding",
+        "second": ""
+      },
+      {
+        "first": "X-Powered-By",
+        "second": ""
+      },
+      {
+        "first": "ETag",
+        "second": ""
+      },
+      {
+        "first": "Vary",
+        "second": ""
+      },
+      {
+        "first": "X-Cached",
         "second": ""
       }
     ],
     "field_service_endpoints": [
       {
         "first": "LOCAL",
-        "second": "https:\/\/services.arcgis.com\/cJ9YHowT8TU7DUyn\/arcgis\/rest\/services"
+        "second": "http:\/\/geocode.arcgis.com\/arcgis\/rest\/services\/World\/GeocodeServer\/reverseGeocode"
       },
       {
         "first": "DEV",
-        "second": "https:\/\/services.arcgis.com\/cJ9YHowT8TU7DUyn\/arcgis\/rest\/services"
+        "second": "http:\/\/geocode.arcgis.com\/arcgis\/rest\/services\/World\/GeocodeServer\/reverseGeocode"
+      },
+      {
+        "first": "TEST",
+        "second": "http:\/\/geocode.arcgis.com\/arcgis\/rest\/services\/World\/GeocodeServer\/reverseGeocode"
+      },
+      {
+        "first": "PROD",
+        "second": "http:\/\/geocode.arcgis.com\/arcgis\/rest\/services\/World\/GeocodeServer\/reverseGeocode"
       }
     ]
   }

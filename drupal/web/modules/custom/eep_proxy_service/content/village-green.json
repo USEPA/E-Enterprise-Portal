@@ -2,17 +2,17 @@
   {
     "nid": [
       {
-        "value": "2"
+        "value": "4"
       }
     ],
     "uuid": [
       {
-        "value": "c08fc9b7-b1dd-4c42-a441-4c54606bcb1a"
+        "value": "3a3ea270-62b7-4280-949a-73fb39e54e9a"
       }
     ],
     "vid": [
       {
-        "value": "10"
+        "value": "4"
       }
     ],
     "langcode": [
@@ -27,7 +27,7 @@
     ],
     "revision_timestamp": [
       {
-        "value": "1544108619"
+        "value": "1542747741"
       }
     ],
     "revision_uid": [
@@ -42,7 +42,7 @@
     ],
     "title": [
       {
-        "value": "Locations Service"
+        "value": "Village Green"
       }
     ],
     "uid": [
@@ -52,12 +52,12 @@
     ],
     "created": [
       {
-        "value": "1541712063"
+        "value": "1542747703"
       }
     ],
     "changed": [
       {
-        "value": "1544108619"
+        "value": "1542747741"
       }
     ],
     "promote": [
@@ -80,6 +80,11 @@
         "value": "1"
       }
     ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
     "path": [
       {
         "langcode": "en"
@@ -92,18 +97,12 @@
     ],
     "field_proxy_filter": [
       {
-        "value": "location"
+        "value": "generic"
       }
     ],
     "field_proxy_service_machine_name": [
       {
-        "value": "location"
-      }
-    ],
-    "field_request_headers": [
-      {
-        "first": "content-type",
-        "second": "application\/json"
+        "value": "vg"
       }
     ],
     "field_requeste_timeout": [
@@ -111,24 +110,10 @@
         "value": "60"
       }
     ],
-    "field_response_headers": [
-      {
-        "first": "Content-Type",
-        "second": "application\/json; charset=utf-8"
-      },
-      {
-        "first": "Transfer-Encoding",
-        "second": ""
-      }
-    ],
     "field_service_endpoints": [
       {
         "first": "LOCAL",
-        "second": "https:\/\/services.arcgis.com\/cJ9YHowT8TU7DUyn\/arcgis\/rest\/services"
-      },
-      {
-        "first": "DEV",
-        "second": "https:\/\/services.arcgis.com\/cJ9YHowT8TU7DUyn\/arcgis\/rest\/services"
+        "second": "https:\/\/villagegreen.airnowtech.org\/welcome\/getDataForCurrentMinuteWelcomePage?"
       }
     ]
   }

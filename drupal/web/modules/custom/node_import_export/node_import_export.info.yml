@@ -1,0 +1,5 @@
+name: 'Node Import-Export'
+type: module
+description: 'Module to help manage default content'
+core: 8.x
+package: 'Custom'
