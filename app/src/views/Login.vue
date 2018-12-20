@@ -5,112 +5,108 @@
         <div class="pt-2">
             <p class=" pt-2 font-weight-bold">Select your preferred login method to access E-Enterprise using one of your existing accounts. Choose a
                 preferred login type and option to get started.</p>
-            <a class="btn btn-sm btn-outline-secondary" :href="bridgeURL">Exchange Network</a>
         </div>
-
-                <h6 class="ml-4">Use this account:</h6>
-                <b-tabs class="epa-tabs" pills card vertical nav-wrapper-class="w-25">
-                    <b-tab  class="" title="EPA" active>
-                        <h6 class="tabText">Use your EPA account...</h6>
-                        <b-container class="ml-2" >
-                            <b-row class="tabContainer">
-                                <b-col>
-                                    <div class="link-wrapper pt-2 pb-2 pl-2">
-                                        <a  class="col-md-18">
-                                            <img src="../assets/images/exchange-network-x-sm.png" alt="cdx">
-                                            <span class="pl-2">
+        <h6 class="ml-4 font-weight-bold">Use this account:</h6>
+        <b-tabs class="epa-tabs" pills card vertical nav-wrapper-class="w-25">
+            <b-tab  class="" title="EPA" active>
+                <h6 class="tabText font-weight-bold">Use your EPA account...</h6>
+                <b-container class="ml-2" >
+                    <b-row class="tabContainer">
+                        <b-col sm class="pb-1">
+                            <div class="link-wrapper pt-2 pb-2 pl-2">
+                                <a href="/"  class="col-md-18 link">
+                                    <img src="../assets/images/exchange-network-x-sm.png" alt="cdx">
+                                    <span class="pl-2">
                                             {{allLoginAccounts.EPA.cdx.name}}
                                             </span>
-                                        </a>
-                                    </div>
-                                </b-col>
-                                <div class="w-100 d-block d-md-none py-1"></div>
-                                <b-col>
-                                    <div class="link-wrapper pt-2 pb-2 pl-2">
-                                        <a  class="col-md-10">
-                                            <img src="../assets/images/epaicon.png" alt="wam">
-                                            <span class="pl-2">
+                                </a>
+                            </div>
+                        </b-col>
+                        <div class="w-100 d-block d-md-none py-1"></div>
+                        <b-col sm class="pb-1">
+                            <div class="link-wrapper pt-2 pb-2 pl-2">
+                                <a href="/" class="link">
+                                    <img src="../assets/images/epaicon.png" alt="wam">
+                                    <span class="pl-2">
                                             {{allLoginAccounts.EPA.wam.name}}
                                             </span>
-                                        </a>
-                                    </div>
-                                </b-col>
-                                <div class="w-100 d-block d-md-none py-1"></div>
-                                <b-col>
-                                    <div class="link-wrapper pt-2 pb-2 pl-2">
-                                        <a  class="col-md-10">
-                                            <img src="../assets/images/piv-smartcard.png" alt="smartCard">
-                                            <span class="pl-2">
+                                </a>
+                            </div>
+                        </b-col>
+                        <div class="w-100 d-block d-md-none py-1"></div>
+                        <b-col sm class="pb-1">
+                            <div class="link-wrapper pt-2 pb-2 pl-2">
+                                <a href="/"  class="link">
+                                    <img src="../assets/images/piv-smartcard.png" alt="smartCard">
+                                    <span class="pl-2">
                                             {{allLoginAccounts.EPA.smartCard.name}}
                                             </span>
-                                         </a>
-                                    </div>
-                                </b-col>
-                            </b-row>
-                        </b-container>
-<div class="mt-4">
-    You can <a href="https://cdx.epa.gov/">create a free CDX account </a> within the Exchange Network. You only need to provide some basic information.
-</div>
-
-                    </b-tab>
-                    <b-tab class="tab" title="Social Media">
-                        <h6 class="tabText">Use your social media account to log in...</h6>
-                        <b-container class="ml-2 pb-1">
-                            <b-row class="tabContainer">
-                                <b-col sm class="pb-1">
-                                    <div class="col-md-12 link-wrapper pt-2 pb-2 pl-2">
-                                        <a v-bind:href="allLoginAccounts.socialmedia.facebook.sitePath" class="link">
-                                            <img src="../assets/images/facebook-f.png" alt="facebook">
-                                            <span class="pl-2">{{allLoginAccounts.socialmedia.facebook.name}}</span>
-                                        </a>
-                                    </div>
-                                </b-col>
-                                <b-col sm class="pb-1">
-                                    <div class="col-md-12 link-wrapper pt-2 pb-2 pl-2">
-                                        <a v-bind:href="allLoginAccounts.socialmedia.twitter.sitePath" class="link">
-                                            <img src="../assets/images/twitter.svg" alt="twitter">
-                                            <span class="pl-2">{{allLoginAccounts.socialmedia.twitter.name}}</span>
-                                        </a>
-                                    </div>
-                                </b-col>
-                                <b-col></b-col>
-                            </b-row>
-                        </b-container>
-                    </b-tab>
-                    <b-tab class="tab" title="State">
-                        <!-- Once we get more states then it can be optimized with using a v-for to loop through -->
-                        <!-- and create each <b-row> and each <b-col> -->
-                        <h6 class="tabText">Use your state account to log in...</h6>
-                        <b-container class="ml-2">
-                            <b-row class="tabContainer">
-                                <b-col sm class="pb-1">
-                                    <div class="link-wrapper pt-2 pb-2 pl-2">
-                                        <a v-bind:href="allLoginAccounts.state.NM.sitePath" class="link">
-                                            <img src="../assets/images/nm-logo.png" alt="NM">
-                                            <span class="pl-2">
+                                </a>
+                            </div>
+                        </b-col>
+                    </b-row>
+                </b-container>
+                <div class="mt-4">
+                    You can <a href="https://cdx.epa.gov/">create a free CDX account </a> within the Exchange Network. You only need to provide some basic information.
+                </div>
+            </b-tab>
+            <b-tab class="tab" title="Social Media">
+                <h6 class="tabText font-weight-bold">Use your social media account to log in...</h6>
+                <b-container class="ml-2 pb-1">
+                    <b-row class="tabContainer">
+                        <b-col sm class="pb-1">
+                            <div class="col-md-12 link-wrapper pt-2 pb-2 pl-2">
+                                <a v-bind:href="allLoginAccounts.socialmedia.facebook.sitePath" class="link">
+                                    <img src="../assets/images/facebook-f.png" alt="facebook">
+                                    <span class="pl-2">{{allLoginAccounts.socialmedia.facebook.name}}</span>
+                                </a>
+                            </div>
+                        </b-col>
+                        <b-col sm class="pb-1">
+                            <div class="col-md-12 link-wrapper pt-2 pb-2 pl-2">
+                                <a v-bind:href="allLoginAccounts.socialmedia.twitter.sitePath" class="link">
+                                    <img src="../assets/images/twitter.svg" alt="twitter">
+                                    <span class="pl-2">{{allLoginAccounts.socialmedia.twitter.name}}</span>
+                                </a>
+                            </div>
+                        </b-col>
+                        <b-col></b-col>
+                    </b-row>
+                </b-container>
+            </b-tab>
+            <b-tab class="tab" title="State">
+                <!-- Once we get more states then it can be optimized with using a v-for to loop through -->
+                <!-- and create each <b-row> and each <b-col> -->
+                <h6 class="tabText font-weight-bold">Use your state account to log in...</h6>
+                <b-container class="ml-2">
+                    <b-row class="tabContainer">
+                        <b-col sm class="pb-1">
+                            <div class="link-wrapper pt-2 pb-2 pl-2">
+                                <a v-bind:href="allLoginAccounts.state.NM.sitePath" class="link">
+                                    <img src="../assets/images/nm-logo.png" alt="NM">
+                                    <span class="pl-2">
                                             {{allLoginAccounts.state.NM.name}}
                                             </span>
-                                        </a>
-                                    </div>
-                                </b-col>
-                                <b-col sm class="pb-1">
-                                    <div class="link-wrapper pt-2 pb-2 pl-2">
-                                        Placeholder
-                                    </div>
-                                </b-col>
-                                <b-col sm class="pb-1">
-                                    <div class="link-wrapper pt-2 pb-2 pl-2">
-                                        Placeholder
-                                    </div>
-                                </b-col>
-                            </b-row>
-                        </b-container>
-                    </b-tab>
-                    <b-tab class="tab" title="Tribal">
+                                </a>
+                            </div>
+                        </b-col>
+                        <b-col sm class="pb-1">
+                            <div class="link-wrapper pt-2 pb-2 pl-2">
+                                Placeholder
+                            </div>
+                        </b-col>
+                        <b-col sm class="pb-1">
+                            <div class="link-wrapper pt-2 pb-2 pl-2">
+                                Placeholder
+                            </div>
+                        </b-col>
+                    </b-row>
+                </b-container>
+            </b-tab>
+            <b-tab class="tab" title="Tribal">
 
-                    </b-tab>
-                </b-tabs>
-
+            </b-tab>
+        </b-tabs>
     </div>
 </template>
 
