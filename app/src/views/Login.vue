@@ -10,7 +10,7 @@
         <div class="pt-3"></div>
                 <h6 class="ml-4 font-weight-bold ">Use this account:</h6>
                 <b-tabs class="epa-tabs" pills card vertical nav-wrapper-class="w-25">
-                    <b-tab  class="" title="EPA" active>
+                    <b-tab  title="EPA" active>
                         <h6 class="tabText font-weight-bold">Use your EPA account...</h6>
                         <b-container class="ml-2" >
                             <b-row class="tabContainer">
