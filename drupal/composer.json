@@ -76,7 +76,7 @@
       "load.environment.php"
     ]
   },
-  "scripts": {
+  "post-deployment-update": {
     "pre-install-cmd": [
       "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
     ],

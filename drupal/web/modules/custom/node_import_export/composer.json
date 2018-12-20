@@ -1,0 +1,14 @@
+{
+  "name": "drupal/node_import_export",
+  "type": "drupal-module",
+  "description": "Module to help manage default content",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/node_import_export",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/node_import_export",
+    "source": "http://cgit.drupalcode.org/node_import_export"
+  },
+  "require": { }
+}
