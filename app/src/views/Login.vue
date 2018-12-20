@@ -5,7 +5,6 @@
         <div class="pt-2">
             <p class=" pt-2 font-weight-bold">Select your preferred login method to access E-Enterprise using one of your existing accounts. Choose a
                 preferred login type and option to get started.</p>
-            <a class="btn btn-sm btn-outline-secondary" :href="bridgeURL">Exchange Network</a>
         </div>
 
                 <h6 class="ml-4">Use this account:</h6>
@@ -14,9 +13,9 @@
                         <h6 class="tabText">Use your EPA account...</h6>
                         <b-container class="ml-2" >
                             <b-row class="tabContainer">
-                                <b-col>
+                                <b-col sm class="pb-1">
                                     <div class="link-wrapper pt-2 pb-2 pl-2">
-                                        <a  class="col-md-18">
+                                        <a href="/"  class="col-md-18 link">
                                             <img src="../assets/images/exchange-network-x-sm.png" alt="cdx">
                                             <span class="pl-2">
                                             {{allLoginAccounts.EPA.cdx.name}}
@@ -25,9 +24,9 @@
                                     </div>
                                 </b-col>
                                 <div class="w-100 d-block d-md-none py-1"></div>
-                                <b-col>
+                                <b-col sm class="pb-1">
                                     <div class="link-wrapper pt-2 pb-2 pl-2">
-                                        <a  class="col-md-10">
+                                        <a href="/" class="link">
                                             <img src="../assets/images/epaicon.png" alt="wam">
                                             <span class="pl-2">
                                             {{allLoginAccounts.EPA.wam.name}}
@@ -36,9 +35,9 @@
                                     </div>
                                 </b-col>
                                 <div class="w-100 d-block d-md-none py-1"></div>
-                                <b-col>
+                                <b-col sm class="pb-1">
                                     <div class="link-wrapper pt-2 pb-2 pl-2">
-                                        <a  class="col-md-10">
+                                        <a href="/"  class="link">
                                             <img src="../assets/images/piv-smartcard.png" alt="smartCard">
                                             <span class="pl-2">
                                             {{allLoginAccounts.EPA.smartCard.name}}
@@ -48,10 +47,9 @@
                                 </b-col>
                             </b-row>
                         </b-container>
-<div class="mt-4">
-    You can <a href="https://cdx.epa.gov/">create a free CDX account </a> within the Exchange Network. You only need to provide some basic information.
-</div>
-
+                        <div class="mt-4">
+                            You can <a href="https://cdx.epa.gov/">create a free CDX account </a> within the Exchange Network. You only need to provide some basic information.
+                        </div>
                     </b-tab>
                     <b-tab class="tab" title="Social Media">
                         <h6 class="tabText">Use your social media account to log in...</h6>
