@@ -30,6 +30,7 @@ module:
   double_field: 0
   dynamic_page_cache: 0
   editor: 0
+  eep_bridge: 0
   eep_core: 0
   eep_location_services: 0
   eep_proxy_service: 0
@@ -43,11 +44,17 @@ module:
   help: 0
   history: 0
   image: 0
+  jwt: 0
+  jwt_auth_consumer: 0
+  jwt_auth_issuer: 0
+  key: 0
+  kint: 0
   layout_discovery: 0
   link: 0
   menu_ui: 0
   node: 0
   node_export: 0
+  node_import_export: 0
   openapi: 0
   openapi_ui: 0
   openapi_ui_swagger: 0
