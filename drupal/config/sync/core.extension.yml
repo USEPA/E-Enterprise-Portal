@@ -48,6 +48,7 @@ module:
   menu_ui: 0
   node: 0
   node_export: 0
+  node_import_export: 0
   openapi: 0
   openapi_ui: 0
   openapi_ui_swagger: 0
