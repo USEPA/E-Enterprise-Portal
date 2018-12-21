@@ -87,7 +87,7 @@
                     id: 'trending-air',
                     title: 'Trending Air',
                     source: {
-                        text: 'US Enviromental Protection Agency',
+                        text: 'US Environmental Protection Agency',
                         link: 'https://www.epa.gov/',
                     },
                     html: {
