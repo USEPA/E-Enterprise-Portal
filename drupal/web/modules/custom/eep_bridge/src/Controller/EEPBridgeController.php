@@ -9,7 +9,8 @@ use Drupal\Core\Url;
 use Drupal\eep_bridge\ADFSUserDetails;
 use Drupal\eep_bridge\ADFSBridge;
 use Drupal\eep_bridge\AuthenticatedUser;
-
+use Drupal\jwt\Authentication\Provider\JwtAuth;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 
 /**
@@ -17,11 +18,18 @@ use Drupal\eep_bridge\AuthenticatedUser;
  */
 class EEPBridgeController extends ControllerBase {
 
+  private $auth;
+
   /**
+   * {@inheritdoc}
+   *
    * EEPBridgeController constructor.
+   * @param \Drupal\jwt\Authentication\Provider\JwtAuth $auth
+   *   The JWT auth service.
    */
-  /*public function __construct() {
-  }*/
+  public function __construct(JwtAuth $auth) {
+    $this->auth = $auth;
+  }
 
   public function eep_authenticate(){
     $account = \Drupal::currentUser();
@@ -80,12 +88,16 @@ class EEPBridgeController extends ControllerBase {
       user_login_finalize($account_search[0]);
     }
 
-    $_SESSION['security_token'] = $userDetails->attributes['securityToken'][0];
-    $_SESSION['username'] = $authenticated_user->get_name();
-    $_SESSION['session_id'] = \Drupal::service('session')->getId();
 
+    $jwt_token = $this->auth->generateToken();
+    if ($jwt_token === FALSE) {
+      $error_msg = "Error. Please set a key in the JWT admin page.";
+      watchdog('eep_bridge', $error_msg, array(), WATCHDOG_ERROR);
+    }
 
-    $url = Url::fromUri('https://dev2.e-enterprise.gov');  //TODO: make this configurable so that it can be changed in non-dev environments.
+    $user_name = base64_encode($authenticated_user->get_name());
+
+    $url = Url::fromUri('https://dev2.e-enterprise.gov?token='.$jwt_token.'&data='.$user_name);  //TODO: make this configurable so that it can be changed in non-dev environments.
     $this->eep_bridge_goto($url);
     return;
   }
@@ -105,6 +117,11 @@ class EEPBridgeController extends ControllerBase {
     $adfs = new ADFSBridge();
     $userDetails = $adfs->getAdfsSignInResponse(ADFSConf::getInstance(), $post['wresult']);
     return $userDetails;
+  }
+
+  public static function create(ContainerInterface $container) {
+    $auth = $container->get('jwt.authentication.jwt');
+    return new static($auth);
   }
 
 }
