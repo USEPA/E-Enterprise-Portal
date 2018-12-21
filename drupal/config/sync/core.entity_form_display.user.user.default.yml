@@ -3,9 +3,11 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.user.user.field_favorite_links
     - field.field.user.user.user_picture
     - image.style.thumbnail
   module:
+    - double_field
     - image
     - path
     - user
@@ -21,6 +23,31 @@ content:
     region: content
   contact:
     weight: 5
+    region: content
+  field_favorite_links:
+    weight: 31
+    settings:
+      first:
+        type: textfield
+        prefix: ''
+        suffix: ''
+        size: 10
+        placeholder: ''
+        label: Ok
+        cols: 10
+        rows: 5
+      second:
+        type: textfield
+        prefix: ''
+        suffix: ''
+        size: 10
+        placeholder: ''
+        label: Ok
+        cols: 10
+        rows: 5
+      inline: false
+    third_party_settings: {  }
+    type: double_field
     region: content
   language:
     weight: 0

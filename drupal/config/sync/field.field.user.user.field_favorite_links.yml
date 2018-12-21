@@ -1,0 +1,37 @@
+uuid: 3e28bd0b-f30a-4698-89ea-197bcbcbfdc5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_favorite_links
+  module:
+    - double_field
+    - user
+id: user.user.field_favorite_links
+field_name: field_favorite_links
+entity_type: user
+bundle: user
+label: 'Favorite Links'
+description: 'This is the user''s favorite links.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  first:
+    required: true
+    list: false
+    allowed_values: {  }
+    max: null
+    min: null
+    on_label: 'On'
+    off_label: 'Off'
+  second:
+    required: true
+    list: false
+    allowed_values: {  }
+    max: null
+    min: null
+    on_label: 'On'
+    off_label: 'Off'
+field_type: double_field
