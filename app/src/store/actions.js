@@ -112,7 +112,7 @@ export default {
   initializeToken(context) {
     // Get Token (if exist)
     const store = context;
-    const queryParams = window.location.search.substr(1).split('&');
+       const queryParams = window.location.search.substr(1).split('&');
 
     // Parse query for token ie 'move=true'
     const tokenResult = queryParams.map((paramString) => {

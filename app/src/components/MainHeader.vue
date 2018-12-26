@@ -45,8 +45,7 @@
             <div class="router-link-wrapper pt-2">
               <router-link
                 to="/login"
-                class="btn btn-sm btn-outline-primary account-auth-login"
-                @click="initializeToken">
+                class="btn btn-sm btn-outline-primary account-auth-login">
                 <i class="fas fa-lock"></i>&nbsp;
                 Login
                 <span class="arrow-down-message small mt-3">{{ loginBtnHoverMessage }}</span>

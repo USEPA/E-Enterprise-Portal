@@ -87,7 +87,8 @@
                             <div class="link-wrapper pt-2 pb-2 pl-2">
                                 <a v-bind:href="allLoginAccounts.state.NM.sitePath" class="link">
                                     <img src="../assets/images/nm-logo.png" alt="NM">
-                                    <span class="pl-2">
+                                    <span class="pl-2"
+                                          @click="processLogin">
                                             {{allLoginAccounts.state.NM.name}}
                                             </span>
                                 </a>
