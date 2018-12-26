@@ -134,15 +134,9 @@
             }
             this.initializeToken();
           },
-          processLogin(){
-            console.log("processing login");
-          },
         },
         beforeMount() {
           this.setDummyToken();
-        },
-        mounted(){
-          this.processLogin();
         },
         computed: {
             ...mapGetters({

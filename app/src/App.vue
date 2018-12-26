@@ -73,6 +73,12 @@
       VueProgessBar,
       LocationSearch,
     },
+    beforeMount(){
+      if (window.location.href.indexOf("data") > -1 && window.location.href.indexOf("token")) {
+        console.log("before mount executes");
+
+      }
+    },
     mounted() {
       //  [App.vue specific] When App.vue is finish loading finish the progress bar
       this.$Progress.finish();
