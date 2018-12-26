@@ -5,11 +5,11 @@
             <h3>User Information</h3>
             <div class="first-name-container">
                 <div>First Name</div>
-                <b-form-input id="first-name-input" type="text"></b-form-input>
+                <b-form-input id="first-name-input" type="text" disabled></b-form-input>
             </div>
             <div class="email-container pt-3">
                 <div>Email</div>
-                <b-form-input id="email-input" type="text"></b-form-input>
+                <b-form-input id="email-input" type="text" disabled></b-form-input>
             </div>
         </div>
     </div>
