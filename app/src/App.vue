@@ -81,12 +81,18 @@
         // Put inside the if statement for performance reasons
         const vm = this;
         const store = vm.$store;
+        var vars = {};
 
-        const url_params = this.getURLParams(main_url);
+
+        // Got this function from https://html-online.com/articles/get-url-parameters-javascript/
+
+        var parts = main_url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+          vars[key] = value;
+        });
 
         // find the URL params
-        const data = url_params["data"];
-        const token = url_params["token"];
+        const data = vars["data"];
+        const token = vars["token"];
 
         store.commit(types.SET_USERNAME, atob(data).split("_")[0]);
       }
@@ -162,14 +168,6 @@
       ...mapActions([
         'initializeToken',
       ]),
-      // Got this function from https://html-online.com/articles/get-url-parameters-javascript/
-      getUrlParams() {
-        var vars = {};
-        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
-          vars[key] = value;
-        });
-        return vars;
-      },
     },
   };
 
