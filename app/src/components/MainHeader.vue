@@ -30,8 +30,18 @@
           </template>
         </div>
         <div class="col-4-md">
+          <span>Welcome {{ username }} </span>
           <template v-if='authenticated'>
-            <span>Welcome {{ username }} </span>
+            <!-- button to view user profile -->
+            <router-link to="/user" class="pr-2 pl-2">
+              <b-button
+                      id="user-profile"
+                      class="btn btn-sm"
+                      variant="primary"
+                      :title="tryitTitle"
+                      v-if='authenticated'>User Profile
+              </b-button>
+            </router-link>
             <b-btn
               to="/"
               variant="outline-secondary"
