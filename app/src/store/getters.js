@@ -92,4 +92,7 @@ export default {
   getloginPageAccounts(state) {
     return state.loginPageAccounts;
   },
+  getUsername(state){
+    return state.user.userName;
+  },
 };

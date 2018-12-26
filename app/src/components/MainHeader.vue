@@ -45,8 +45,7 @@
             <div class="router-link-wrapper pt-2">
               <router-link
                 to="/login"
-                class="btn btn-sm btn-outline-primary account-auth"
-                @click="initializeToken">
+                class="btn btn-sm btn-outline-primary account-auth-login">
                 <i class="fas fa-lock"></i>&nbsp;
                 Login
                 <span class="arrow-down-message small mt-3">{{ loginBtnHoverMessage }}</span>
@@ -71,7 +70,7 @@
       ...mapGetters({
         authenticated: 'getUserAuthentication',
         bridgeURL: 'getBridgeURL',
-        username: 'getUserFullName',
+        username: 'getUsername',
         loginBtnHoverMessage: 'getloginBtnHoverMessage',
       }),
       tryitTitle() {
@@ -109,7 +108,16 @@
     }
   }
 
-  .account-auth {
+  .arrow-down-message {
+    display: none;
+    color: #000;
+    position: absolute;
+    right: 0;
+    font-size: 1rem;
+    font-family: 'Futura LT BT', 'Poppins', 'Century Gothic', 'Source Sans Pro', Helvetica, Arial, sans-serif
+  }
+
+  .account-auth-login {
     background-color: #0071bc;
     color: white;
     position: relative;
@@ -134,16 +142,5 @@
     }
   }
 
-  .login-btn-arrow-and-message-wrapper {
-    position: relative;
-  }
 
-  .arrow-down-message {
-    display: none;
-    color: #000;
-    position: absolute;
-    right: 0;
-    font-size: 1rem;
-    font-family: 'Futura LT BT', 'Poppins', 'Century Gothic', 'Source Sans Pro', Helvetica, Arial, sans-serif
-  }
 </style>

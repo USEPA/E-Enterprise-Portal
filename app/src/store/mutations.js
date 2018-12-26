@@ -111,4 +111,9 @@ export default {
   [types.SET_MARGIN_TOP_NAV](state, obj) {
     state.navMargin = obj;
   },
+  [types.SET_USERNAME](state, obj){
+    Vue.set(state.user,
+      'userName',
+      obj);
+  }
 };
