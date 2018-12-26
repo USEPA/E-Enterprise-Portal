@@ -11,16 +11,12 @@
                 <div>Email</div>
                 <b-form-input id="email-input" type="text"></b-form-input>
             </div>
-
-
         </div>
     </div>
 </template>
 
 <script>
-
 </script>
 
 <style lang="scss" scoped>
-
 </style>
