@@ -91,14 +91,12 @@
         });
 
         // find the URL params
-        const data = atob(decodeURIComponent(vars["data"]).replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''));
+        const data = vars["data"];
         const token = vars["token"];
-
-        console.log(data + ": " + token);
 
         // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
 
-        const username = decodeURIComponent(window.atob(data));
+        const username = atob(decodeURIComponent(data).replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''));
 
         store.commit(types.SET_USERNAME, username.split("_")[0]);
       }
