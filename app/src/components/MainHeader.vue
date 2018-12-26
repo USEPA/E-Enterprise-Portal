@@ -70,7 +70,7 @@
       ...mapGetters({
         authenticated: 'getUserAuthentication',
         bridgeURL: 'getBridgeURL',
-        username: 'getUserFullName',
+        username: 'getUsername',
         loginBtnHoverMessage: 'getloginBtnHoverMessage',
       }),
       tryitTitle() {

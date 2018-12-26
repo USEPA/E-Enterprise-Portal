@@ -75,10 +75,20 @@
     },
     beforeMount(){
       console.log(window.location.href);
-      if (window.location.href.indexOf("data") > -1 && window.location.href.indexOf("token") > -1) {
+      const main_url = window.location.href;
+      if (main_url.indexOf("data") > -1 && main_url.indexOf("token") > -1) {
+        // Declare the store
+        // Put inside the if statement for performance reasons
         const vm = this;
         const store = vm.$store;
-        console.log("Had both data and token");
+
+        const url_params = this.getURLParams(main_url);
+
+        // find the URL params
+        const data = url_params["data"];
+        const token = url_params["token"];
+
+        store.commit(types.SET_USERNAME, atob(data).split("_")[0]);
       }
     },
     mounted() {
@@ -152,6 +162,14 @@
       ...mapActions([
         'initializeToken',
       ]),
+      // Got this function from https://html-online.com/articles/get-url-parameters-javascript/
+      getUrlParams() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+          vars[key] = value;
+        });
+        return vars;
+      },
     },
   };
 
