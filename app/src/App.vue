@@ -91,8 +91,10 @@
         });
 
         // find the URL params
-        const data = vars["data"];
+        const data = atob(decodeURIComponent(vars["data"]).replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''));
         const token = vars["token"];
+
+        console.log(data + ": " + token);
 
         // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
 
