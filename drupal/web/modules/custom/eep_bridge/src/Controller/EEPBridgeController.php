@@ -97,10 +97,7 @@ class EEPBridgeController extends ControllerBase {
 
     $user_name = base64_encode($authenticated_user->get_name());
 
-    //$url = Url::fromUri('https://dev2.e-enterprise.gov?token='.$jwt_token.'&data='.$user_name);  //TODO: make this configurable so that it can be changed in non-dev environments.
-    $url = Url::fromUri('internal:/workbench?token='.$jwt_token.'&data='.$user_name);
-
-
+    $url = Url::fromUri('https://dev2.e-enterprise.gov?token='.$jwt_token.'&data='.$user_name);  //TODO: make this configurable so that it can be changed in non-dev environments.
     $this->eep_bridge_goto($url);
     return;
   }

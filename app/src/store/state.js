@@ -54,6 +54,7 @@ const state = {
   user: {
     authenticated: false,
     id: 0,
+    userName: '',
     location: {
       zipcode: '',
       city: '',

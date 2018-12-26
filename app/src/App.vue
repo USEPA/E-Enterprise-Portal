@@ -74,9 +74,11 @@
       LocationSearch,
     },
     beforeMount(){
-      if (window.location.href.indexOf("data") > -1 && window.location.href.indexOf("token")) {
-        console.log("before mount executes");
-
+      console.log(window.location.href);
+      if (window.location.href.indexOf("data") > -1 && window.location.href.indexOf("token") > -1) {
+        const vm = this;
+        const store = vm.$store;
+        console.log("Had both data and token");
       }
     },
     mounted() {
