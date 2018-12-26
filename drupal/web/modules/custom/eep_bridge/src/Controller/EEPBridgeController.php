@@ -32,25 +32,10 @@ class EEPBridgeController extends ControllerBase {
   }
 
   public function eep_authenticate(){
-    $account = \Drupal::currentUser();
-
-    // Check that user is not logged in
-    if ($account->id() != 0){
-      $url = Url::fromUri('internal:/workbench');
-      $this->eep_bridge_goto($url);
-      return;
-    }
 
     if (!isset($_POST['wa'])) {
       $message = "Expected context parameter is not set";
-      \Drupal::messenger()->addError($message);
-      $url = Url::fromUri('internal:/workbench');
-      $this->eep_bridge_goto($url);
-      return;
-    }
-
-    if ($_POST['wa'] != 'wsignin1.0') {
-      $url = Url::fromUri('internal:/workbench');
+      $url = Url::fromUri('https://dev2.e-enterprise.gov?data='.$message);  //TODO: make this configurable so that it can be changed in non-dev environments.
       $this->eep_bridge_goto($url);
       return;
     }
