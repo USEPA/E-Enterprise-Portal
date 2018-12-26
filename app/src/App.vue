@@ -94,7 +94,9 @@
         const data = vars["data"];
         const token = vars["token"];
 
-        store.commit(types.SET_USERNAME, atob(data).split("_")[0]);
+        const username = atob(data);
+
+        store.commit(types.SET_USERNAME, username.split("_")[0]);
       }
     },
     mounted() {
