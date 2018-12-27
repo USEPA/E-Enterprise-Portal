@@ -80,7 +80,6 @@
     methods: {
       ...mapActions([
         'userLogOut',
-        'initializeToken',
       ]),
       dumyLogOut() {
         this.userLogOut();
