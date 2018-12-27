@@ -132,6 +132,12 @@
         //  continue to next page
         next();
       });
+
+      // Add listener to detect on window close
+      window.addEventListener('beforeunload', function (event) {
+         alert('leaving', this.$route);
+      }, false);
+
       //  hook the progress bar to finish after we've finished moving router-view
       vm.$router.afterEach(() => {
         //  finish the progress bar
