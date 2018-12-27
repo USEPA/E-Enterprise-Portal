@@ -23,14 +23,14 @@
                 class="btn btn-sm"
                 variant="primary"
                 :title="tryitTitle"
-                v-if='!authenticated'>
+                v-if='!isLoggedIn'>
                 <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left"></i>&nbsp;Try It
               </b-button>
             </router-link>
           </template>
         </div>
         <div class="col-4-md">
-          <template v-if='authenticated'>
+          <template v-if='isLoggedIn'>
             <span>Welcome {{ username }} </span>
             <b-btn
               to="/"
@@ -68,7 +68,7 @@
     props: {},
     computed: {
       ...mapGetters({
-        authenticated: 'getUserAuthentication',
+        isLoggedIn: 'getisLoggedIn',
         bridgeURL: 'getBridgeURL',
         username: 'getUsername',
         loginBtnHoverMessage: 'getloginBtnHoverMessage',
