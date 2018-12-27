@@ -155,9 +155,7 @@
         .tabText {
             position:relative;
             top:-2.9rem;
-
         }
-
     }
 
     .epa-tabs {

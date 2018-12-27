@@ -142,7 +142,7 @@ export default {
 
     // add additional logout logic here
     Vue.cookie.set('userToken', '', { expires: '-99s' });
-    Vue.cookie.delete('userLoggedIn');
+    Vue.cookie.set('userLoggedIn', false, {expires: '-99s'});
     store.commit('USER_LOG_OUT');
     location.reload();
   },
