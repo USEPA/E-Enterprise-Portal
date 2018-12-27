@@ -136,7 +136,7 @@
           },
         },
         beforeMount() {
-          this.setDummyToken();
+          //this.setDummyToken();
         },
         computed: {
             ...mapGetters({
