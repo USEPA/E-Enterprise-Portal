@@ -85,12 +85,6 @@
       dumyLogOut() {
         this.userLogOut();
       },
-      startHover() {
-        this.displayInfo.display = '';
-      },
-      endHover() {
-        this.displayInfo.display = 'none';
-      },
     },
     data() {
       return {

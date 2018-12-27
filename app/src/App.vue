@@ -96,6 +96,9 @@
         const username = atob(decodeURIComponent(data).replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''));
         store.commit(types.SET_USERNAME, username.split("_")[0]);
 
+        // Set the cookie for the user that is logged in
+        this.$cookie.set('userLoggedIn', username + ': ' + token, { expires: '20m'});
+
         // Redirect to the workbench
         this.$router.push("/workbench");
       }
