@@ -117,6 +117,13 @@
       vm.$store.commit(types.SET_APP, vm);
       //  [App.vue specific] When App.vue is first loaded start the progress bar
       vm.$Progress.start();
+
+      // Add event listener for the window close
+      window.addEventListener('beforeunload', () => {
+          this.$cookie.set('userLoggedIn', false, {expires: '-99s'});
+          vm.$store.commit('USER_LOG_OUT');
+      }, false);
+
       //  hook the progress bar to start before we move router-view
       vm.$router.beforeEach((
         to, from, next,
@@ -140,9 +147,6 @@
       });
 
 
-    },
-    beforeDestroy(){
-       this.$cookie.delete('userLoggedIn');
     },
     computed: {
       ...mapGetters({
