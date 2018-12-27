@@ -74,7 +74,6 @@
       LocationSearch,
     },
     beforeMount(){
-      console.log(window.location.href);
       const main_url = window.location.href;
       if (main_url.indexOf("data") > -1 && main_url.indexOf("token") > -1) {
         // Declare the store
@@ -84,8 +83,7 @@
         var vars = {};
 
 
-        // Got this function from https://html-online.com/articles/get-url-parameters-javascript/
-
+        // Got this functionality from https://html-online.com/articles/get-url-parameters-javascript/
         var parts = main_url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
           vars[key] = value;
         });
@@ -95,10 +93,11 @@
         const token = vars["token"];
 
         // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
-
         const username = atob(decodeURIComponent(data).replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''));
-
         store.commit(types.SET_USERNAME, username.split("_")[0]);
+
+        // Redirect to the workbench
+        this.$router.push("/workbench");
       }
     },
     mounted() {
