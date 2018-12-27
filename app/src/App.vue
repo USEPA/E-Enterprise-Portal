@@ -132,6 +132,7 @@
         //  continue to next page
         next();
       });
+
       //  hook the progress bar to finish after we've finished moving router-view
       vm.$router.afterEach(() => {
         //  finish the progress bar
@@ -139,6 +140,9 @@
       });
 
 
+    },
+    beforeDestroy(){
+       this.$cookie.delete('userLoggedIn');
     },
     computed: {
       ...mapGetters({
