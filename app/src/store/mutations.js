@@ -83,14 +83,14 @@ export default {
   [types.USER_LOG_IN](state) {
     Vue.set(
       state.user,
-      'authentication',
+      'isLoggedIn',
       true,
     );
   },
   [types.USER_LOG_OUT](state) {
     Vue.set(
       state.user,
-      'authentication',
+      'isLoggedIn',
       false,
     );
   },
