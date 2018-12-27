@@ -96,6 +96,9 @@
         // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
         const username = atob(decodeURIComponent(data).replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''));
         store.commit(types.SET_USERNAME, username.split("_")[0]);
+
+        // Redirect to the workbench
+        this.$router.push("/workbench");
       }
     },
     mounted() {
