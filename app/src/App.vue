@@ -74,7 +74,6 @@
       LocationSearch,
     },
     beforeMount(){
-      console.log(window.location.href);
       const main_url = window.location.href;
       if (main_url.indexOf("data") > -1 && main_url.indexOf("token") > -1) {
         // Declare the store
