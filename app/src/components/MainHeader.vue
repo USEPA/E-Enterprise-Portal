@@ -68,7 +68,7 @@
     props: {},
     computed: {
       ...mapGetters({
-        isLoggedIn: 'getisLoggedIn',
+        isLoggedIn: 'getIsLoggedIn',
         bridgeURL: 'getBridgeURL',
         username: 'getUsername',
         loginBtnHoverMessage: 'getloginBtnHoverMessage',

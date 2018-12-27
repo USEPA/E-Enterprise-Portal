@@ -100,6 +100,8 @@
         if(!this.getCookie("userLoggedIn")){
           store.commit('USER_LOG_IN');
 
+          console.log("hit here");
+
           // Set the cookie for the user that is logged in
           this.$cookie.set('userLoggedIn', true, {expires: '20m'});
         }

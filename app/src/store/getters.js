@@ -7,7 +7,7 @@ export default {
   getApp(state) {
     return state.app;
   },
-  getisLoggedIn(state) {
+  getIsLoggedIn(state) {
     return state.user.isLoggedIn;
   },
   getUserFullName(state) {
