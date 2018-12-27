@@ -97,8 +97,11 @@
         store.commit(types.SET_USERNAME, username.split("_")[0]);
 
         // This sets the user being logged in
+        console.log(this.getCookie("userLoggedIn"));
         if(!this.getCookie("userLoggedIn")){
           store.commit('USER_LOG_IN');
+
+          console.log("hit here");
 
           // Set the cookie for the user that is logged in
           this.$cookie.set('userLoggedIn', true, {expires: '20m'});
