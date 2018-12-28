@@ -122,7 +122,7 @@
       window.addEventListener('onbeforeunload', () => {
         if (vm.$cookie.get('userLoggedIn')) {
           vm.$store.commit('USER_LOG_IN');
-          this.$cookie.set('userLoggedIn', true, {expires: '20m'});
+          //this.$cookie.set('userLoggedIn', true, {expires: '20m'});
         }
       }, false);
 
