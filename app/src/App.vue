@@ -120,12 +120,10 @@
 
       // Add event listener for the window close
       window.addEventListener('onbeforeunload', () => {
-        var cookie = this.$cookie.get('userLoggedIn');
+        console.log("hit onbeforeunload");
+        var cookie = vm.$cookie.get('userLoggedIn');
         if (cookie != null || cookie != undefined || cookie != "") {
           console.log("cookie exist");
-
-        }else{
-          console.log("refresh");
           vm.$store.commit('USER_LOG_IN');
           this.$cookie.set('userLoggedIn', true, {expires: '20m'});
         }
