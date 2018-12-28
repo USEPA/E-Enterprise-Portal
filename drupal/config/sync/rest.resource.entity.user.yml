@@ -1,4 +1,4 @@
-uuid: 5e84b33f-9f13-41ae-a589-b460a4b50770
+uuid: 7a3b3c31-7f52-49ea-aa14-ec8d78e2f631
 langcode: en
 status: true
 dependencies:
@@ -6,13 +6,11 @@ dependencies:
     - basic_auth
     - hal
     - jwt
-    - node
+    - schemata
     - serialization
     - user
-_core:
-  default_config_hash: t_jfECmZhJqBOJuSOFn87EOi_TWi-_fRYTuJgd19vgg
-id: entity.node
-plugin_id: 'entity:node'
+id: entity.user
+plugin_id: 'entity:user'
 granularity: resource
 configuration:
   methods:
@@ -22,7 +20,9 @@ configuration:
     - PATCH
   formats:
     - hal_json
+    - schema_json
     - json
+    - xml
   authentication:
     - basic_auth
     - jwt_auth

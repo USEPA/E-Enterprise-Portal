@@ -137,9 +137,6 @@
     name: 'Home',
     components: {},
     computed: {
-      ...mapGetters({
-        authenticated: 'getUserAuthentication',
-      }),
       tryitTitle() {
         return 'Want to just try it? No log in needed.';
       },

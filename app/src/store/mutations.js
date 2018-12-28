@@ -83,14 +83,14 @@ export default {
   [types.USER_LOG_IN](state) {
     Vue.set(
       state.user,
-      'authentication',
+      'isLoggedIn',
       true,
     );
   },
   [types.USER_LOG_OUT](state) {
     Vue.set(
       state.user,
-      'authentication',
+      'isLoggedIn',
       false,
     );
   },
@@ -111,4 +111,9 @@ export default {
   [types.SET_MARGIN_TOP_NAV](state, obj) {
     state.navMargin = obj;
   },
+  [types.SET_USERNAME](state, obj){
+    Vue.set(state.user,
+      'userName',
+      obj);
+  }
 };

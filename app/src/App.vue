@@ -73,6 +73,41 @@
       VueProgessBar,
       LocationSearch,
     },
+    beforeMount(){
+      const main_url = window.location.href;
+      if (main_url.indexOf("data") > -1 && main_url.indexOf("token") > -1) {
+        // Declare the store
+        // Put inside the if statement for performance reasons
+        const vm = this;
+        const store = vm.$store;
+        var vars = {};
+
+
+        // Got this functionality from https://html-online.com/articles/get-url-parameters-javascript/
+        var parts = main_url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+          vars[key] = value;
+        });
+
+        // find the URL params
+        const data = vars["data"];
+        const token = vars["token"];
+
+        // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
+        const username = atob(decodeURIComponent(data).replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''));
+        store.commit(types.SET_USERNAME, username.split("_")[0]);
+
+        // This sets the user being logged in
+        if(!this.$cookie.get("userLoggedIn")){
+          store.commit('USER_LOG_IN');
+
+          // Set the cookie for the user that is logged in
+          this.$cookie.set('userLoggedIn', true, {expires: '20m'});
+        }
+
+        // Redirect to the workbench
+        this.$router.push("/workbench");
+      }
+    },
     mounted() {
       //  [App.vue specific] When App.vue is finish loading finish the progress bar
       this.$Progress.finish();
@@ -82,6 +117,13 @@
       vm.$store.commit(types.SET_APP, vm);
       //  [App.vue specific] When App.vue is first loaded start the progress bar
       vm.$Progress.start();
+
+      // Add event listener for the window close
+      window.addEventListener('beforeunload', () => {
+          this.$cookie.set('userLoggedIn', false, {expires: '-99s'});
+          vm.$store.commit('USER_LOG_OUT');
+      }, false);
+
       //  hook the progress bar to start before we move router-view
       vm.$router.beforeEach((
         to, from, next,
@@ -97,13 +139,13 @@
         //  continue to next page
         next();
       });
+
       //  hook the progress bar to finish after we've finished moving router-view
       vm.$router.afterEach(() => {
         //  finish the progress bar
         vm.$Progress.finish();
       });
-      // Initialize token
-      vm.initializeToken();
+
 
     },
     computed: {
@@ -141,9 +183,7 @@
       },
     },
     methods: {
-      ...mapActions([
-        'initializeToken',
-      ]),
+
     },
   };
 

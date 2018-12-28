@@ -23,14 +23,14 @@
                 class="btn btn-sm"
                 variant="primary"
                 :title="tryitTitle"
-                v-if='!authenticated'>
+                v-if='!isLoggedIn'>
                 <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left"></i>&nbsp;Try It
               </b-button>
             </router-link>
           </template>
         </div>
         <div class="col-4-md">
-          <template v-if='authenticated'>
+          <template v-if='isLoggedIn'>
             <span>Welcome {{ username }} </span>
             <!-- button to view user profile -->
             <router-link to="/user" class="pr-2 pl-2">
@@ -55,8 +55,7 @@
             <div class="router-link-wrapper pt-2">
               <router-link
                 to="/login"
-                class="btn btn-sm btn-outline-primary account-auth"
-                @click="initializeToken">
+                class="btn btn-sm btn-outline-primary account-auth-login">
                 <i class="fas fa-lock"></i>&nbsp;
                 Login
                 <span class="arrow-down-message small mt-3">{{ loginBtnHoverMessage }}</span>
@@ -79,9 +78,9 @@
     props: {},
     computed: {
       ...mapGetters({
-        authenticated: 'getUserAuthentication',
+        isLoggedIn: 'getIsLoggedIn',
         bridgeURL: 'getBridgeURL',
-        username: 'getUserFullName',
+        username: 'getUsername',
         loginBtnHoverMessage: 'getloginBtnHoverMessage',
       }),
       tryitTitle() {
@@ -91,16 +90,9 @@
     methods: {
       ...mapActions([
         'userLogOut',
-        'initializeToken',
       ]),
       dumyLogOut() {
         this.userLogOut();
-      },
-      startHover() {
-        this.displayInfo.display = '';
-      },
-      endHover() {
-        this.displayInfo.display = 'none';
       },
     },
     data() {
@@ -119,7 +111,16 @@
     }
   }
 
-  .account-auth {
+  .arrow-down-message {
+    display: none;
+    color: #000;
+    position: absolute;
+    right: 0;
+    font-size: 1rem;
+    font-family: 'Futura LT BT', 'Poppins', 'Century Gothic', 'Source Sans Pro', Helvetica, Arial, sans-serif
+  }
+
+  .account-auth-login {
     background-color: #0071bc;
     color: white;
     position: relative;
@@ -144,16 +145,5 @@
     }
   }
 
-  .login-btn-arrow-and-message-wrapper {
-    position: relative;
-  }
 
-  .arrow-down-message {
-    display: none;
-    color: #000;
-    position: absolute;
-    right: 0;
-    font-size: 1rem;
-    font-family: 'Futura LT BT', 'Poppins', 'Century Gothic', 'Source Sans Pro', Helvetica, Arial, sans-serif
-  }
 </style>

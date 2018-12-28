@@ -1,0 +1,41 @@
+uuid: a7e927c7-fcbe-4ffc-8e5b-8512c8159914
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.eep2_footer.field_footer_link_name
+    - node.type.eep2_footer
+  module:
+    - double_field
+    - user
+id: node.eep2_footer.default
+targetEntityType: node
+bundle: eep2_footer
+mode: default
+content:
+  field_footer_link_name:
+    weight: 102
+    label: above
+    settings:
+      inline: true
+      first:
+        hidden: false
+        prefix: ''
+        suffix: ''
+        link: false
+        format_type: medium
+      second:
+        hidden: false
+        prefix: ''
+        suffix: ''
+        link: false
+        format_type: medium
+    third_party_settings: {  }
+    type: double_field_unformatted_list
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden: {  }

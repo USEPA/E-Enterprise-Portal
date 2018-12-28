@@ -34,6 +34,7 @@
     "drupal/double_field": "3.2",
     "drupal/entity_browser": "^1.5",
     "drupal/entity_reference_revisions": "^1.5",
+    "drupal/jwt": "^1.0@alpha",
     "drupal/node_export": "1.x-dev",
     "drupal/openapi": "^1.0@beta",
     "drupal/openapi_ui": "^1.0@RC",

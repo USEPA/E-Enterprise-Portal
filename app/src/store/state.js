@@ -52,8 +52,9 @@ const state = {
     },
   },
   user: {
-    authenticated: false,
+    isLoggedIn: null,
     id: 0,
+    userName: '',
     location: {
       zipcode: '',
       city: '',

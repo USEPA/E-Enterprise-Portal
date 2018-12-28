@@ -7,8 +7,8 @@ export default {
   getApp(state) {
     return state.app;
   },
-  getUserAuthentication(state) {
-    return state.user.authenticated;
+  getIsLoggedIn(state) {
+    return state.user.isLoggedIn;
   },
   getUserFullName(state) {
     let fullname = '';
@@ -91,5 +91,8 @@ export default {
   },
   getloginPageAccounts(state) {
     return state.loginPageAccounts;
+  },
+  getUsername(state){
+    return state.user.userName;
   },
 };
