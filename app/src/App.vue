@@ -119,7 +119,7 @@
       vm.$Progress.start();
 
       // Add event listener for the window close
-      window.addEventListener('onbeforeunload', () => {
+      window.addEventListener('load', () => {
           this.$cookie.set('userLoggedIn', false, {expires: '-99s'});
           vm.$store.commit('USER_LOG_OUT');
       }, false);
