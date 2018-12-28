@@ -12,11 +12,11 @@
                 <b-tabs class="epa-tabs" pills card vertical nav-wrapper-class="w-25">
                     <b-tab  title="EPA" active>
                         <h6 class="tabText font-weight-bold">Use your EPA account...</h6>
-                        <b-container class="ml-2" >
-                            <b-row class="tabContainer">
-                                <b-col  sm class="pb-1">
+                        <b-container class="bv-example-row ml-2" >
+                            <b-row class="tabContainer  align-h=between">
+                                <b-col  class="pb-1 col-md-auto">
                                     <div class="link-wrapper pt-2 pb-2 pl-2">
-                                        <a  class="col-md-18 link"  v-bind:href="bridgeURL ">
+                                        <a  class=" link"  v-bind:href="bridgeURL ">
                                             <img src="../assets/images/exchange-network-x-sm.png" alt="cdx">
 
                                             <span class="pl-2">
@@ -26,7 +26,7 @@
                             </div>
                         </b-col>
                         <div class="w-100 d-block d-md-none py-1"></div>
-                        <b-col sm class="pb-1">
+                        <b-col class="pb-1 col-md-auto">
                             <div class="link-wrapper pt-2 pb-2 pl-2">
                                 <a href="/" class="link">
                                     <img src="../assets/images/epaicon.png" alt="wam">
@@ -37,7 +37,7 @@
                             </div>
                         </b-col>
                         <div class="w-100 d-block d-md-none py-1"></div>
-                        <b-col sm class="pb-1">
+                        <b-col class="pb-1 col-md-auto">
                             <div class="link-wrapper pt-2 pb-2 pl-2">
                                 <a href="/"  class="link">
                                     <img src="../assets/images/piv-smartcard.png" alt="smartCard">
