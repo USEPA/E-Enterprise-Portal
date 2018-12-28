@@ -15,11 +15,14 @@
         </div>
       </div>
     </div>
-    <h2>{{ eepApp.title }}</h2>
+    <h2 v-for="item in title.slice(0,1)" v-if="eepApp.title =='Be Well Informed'">{{ item.title }}</h2>
+    <h2 v-for="item in title.slice(1,2)" v-if="eepApp.title =='Trending Air'">{{ item.title }}</h2>
+    <h2 v-for="item in title.slice(2,3)" v-if="eepApp.title =='Favorite Links'">{{ item.title }}</h2>
+    <h2 v-for="item in title.slice(3,4)" v-if="eepApp.title =='My Reporting'">{{ item.title }}</h2>
     <h6 v-show="!!eepApp.source">
       Source: <a
-        :href="eepApp.source.link"
-        target="_blank">{{ eepApp.source.text }}</a>
+      :href="eepApp.source.link"
+      target="_blank">{{ eepApp.source.text }}</a>
     </h6>
     <div class="app-inner-wrapper">
       <slot></slot>
@@ -28,11 +31,13 @@
 </template>
 
 <script>
+  import AppAxios from '../utils/AppAxios.js';
+
   export default {
     name: 'AppWrapper',
     data() {
       return {
-        title: 'Test Title',
+        title: '',
       };
     },
     props: {
@@ -41,7 +46,13 @@
         required: true,
       },
     },
+    mounted () {
+      AppAxios
+        .get('/sample_data/workbenchapptitles.json')
+        .then(response => (this.title = response.data))
+    },
   };
+
 </script>
 
 <style scoped>
