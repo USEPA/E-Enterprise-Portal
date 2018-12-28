@@ -121,10 +121,15 @@
       // Add event listener for the window close
       window.addEventListener('load', function () {
         var cookie = vm.$cookie.get('userLoggedIn');
-        if (cookie && cookie != null) {
+        if (cookie) {
           vm.$store.commit('USER_LOG_IN');
-          this.$cookie.set('userLoggedIn', true, {expires: '20m'});
+          vm.$cookie.set('userLoggedIn', true, {expires: '20m'});
         }
+      }, false);
+
+      window.addEventListener('beforeunload', function () {
+        vm.$store.commit('USER_LOG_OUT');
+        this.$cookie.set('userLoggedIn', false, {expires: '-99s'});
       }, false);
 
       //  hook the progress bar to start before we move router-view
@@ -148,7 +153,6 @@
         //  finish the progress bar
         vm.$Progress.finish();
       });
-
 
     },
     computed: {
