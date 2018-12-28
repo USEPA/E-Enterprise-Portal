@@ -31,7 +31,7 @@
         </div>
         <div class="col-4-md">
           <template v-if='isLoggedIn'>
-            <span>Welcome {{ username }} </span>
+            <span>Welcome {{ username }}</span>
             <b-btn
               to="/"
               variant="outline-secondary"
