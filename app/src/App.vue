@@ -120,6 +120,7 @@
 
       // Add event listener for the window close
       window.addEventListener('onbeforeunload', () => {
+        console.log("hit onbeforeunload");
         var cookie = vm.$cookie.get('userLoggedIn');
         if (cookie != null || cookie != undefined || cookie != "") {
           console.log("cookie exist");
