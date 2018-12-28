@@ -120,7 +120,8 @@
 
       // Add event listener for the window close
       window.addEventListener('load', function () {
-        if (vm.$cookie.get('userLoggedIn')) {
+        var cookie = vm.$cookie.get('userLoggedIn');
+        if (cookie && cookie != null) {
           vm.$store.commit('USER_LOG_IN');
           this.$cookie.set('userLoggedIn', true, {expires: '20m'});
         }
