@@ -119,8 +119,14 @@
       vm.$Progress.start();
 
       // Add event listener for the window close
-      window.addEventListener('onbeforeunload', function(){
-        alert("on before unload");
+      window.addEventListener('load', function () {
+        alert("page loaded");
+//        if (document.cookie.indexOf('userLoggedIn') != -1) {
+//          vm.$store.commit('USER_LOG_IN');
+//          this.$cookie.set('userLoggedIn', true, {expires: '20m'});
+//
+//        }
+
 //        if (vm.$cookie.get('userLoggedIn')) {
 //          vm.$store.commit('USER_LOG_IN');
 //          this.$cookie.set('userLoggedIn', true, {expires: '20m'});
