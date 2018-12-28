@@ -10,7 +10,7 @@
 </template>
 
 <script>
-  import AppAxios from '../wadk/WADK';
+  import AppAxios from 'axios';
     import { mapActions, mapGetters } from 'vuex';
     import { AppWrapper, AppModal, AppPlaceholderContent } from '../wadk/WADK';
     import storeModule from './store/index';
@@ -55,7 +55,7 @@
               ]
             }
         },
-      mounted () {
+        mounted () {
         AppAxios
           .get('/sample_data/favoritelinks.json')
           .then(response => (this.info = response.data))
