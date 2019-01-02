@@ -30,36 +30,37 @@
     </div>
     <div class="container py-2">
       <div class="row justify-content-center small">
-        <div class="col-auto">
+        <div class="col-auto" v-for="item in info.slice(0,1)" >
           <a
-            href="http://www2.epa.gov/e-enterprise/about-e-enterprise-environment"
+            :href="item.link"
             target="_blank"
             class="">E-Enterprise Home</a>
         </div>
-        <div class="col-auto">
+        <div class="col-auto" v-for="item in info.slice(1,2)" >
           <a
-            href="http://www2.epa.gov/home/privacy-and-security-notice"
+            :href="item.link"
             target="_blank"
             class="">Privacy and Security Notice</a>
         </div>
-        <div class="col-auto">
+        <div class="col-auto" v-for="item in info.slice(2,3)" >
           <a
-            href="http://www2.epa.gov/accessibility"
+            :href="item.link"
             target="_blank"
             class="">Accessibility</a>
         </div>
-        <div class="col-auto">
+        <div class="col-auto" v-for="item in info.slice(3,4)" >
           <a
-            href="https://github.com/USEPA/E-Enterprise-Portal/"
-            class="github"
-            target="_blank">GitHub</a>
+            :href="item.link"
+            target="_blank"
+            class="">
+            GitHub</a>
         </div>
       </div>
       <div class="row">
         <div class="col wd-100"></div>
       </div>
-      <div class="row justify-content-center small">
-        <div class="col-auto text-align-center small">Version 2.0.1</div>
+      <div class="row justify-content-center small" >
+        <div class="col-auto text-align-center small" v-for="item in info.slice(4,5)">Version {{item.number}}</div>
       </div>
     </div>
     <div
@@ -83,7 +84,11 @@
   </footer>
 </template>
 <script>
+  import AppAxios from 'axios';
   import { mapGetters, mapActions } from 'vuex';
+
+
+
 
   export default {
     name: 'MainFooter',
@@ -99,6 +104,22 @@
         'setTAndCCookie',
         'setUserPolicyCookie',
       ]),
+    },
+    data(){
+      return {
+
+        info: [
+          { name: '', },
+          { link: '', },
+
+
+        ]
+      }
+    },
+    mounted () {
+      AppAxios
+        .get('/sample_data/footer.json')
+        .then(response => (this.info = response.data))
     },
   };
 

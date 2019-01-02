@@ -1,22 +1,23 @@
 [
   {
     "name": "E-Enterprise Home",
-    "sitePath": "http://www2.epa.gov/e-enterprise/about-e-enterprise-environment"
+    "link": "http://www2.epa.gov/e-enterprise/about-e-enterprise-environment"
   },
   {
     "name": "Privacy and Security Notice",
-    "sitePath": "https://www.epa.gov/privacy/privacy-and-security-notice"
+    "link": "https://www.epa.gov/privacy/privacy-and-security-notice"
   },
-  {
-    "name": "Privacy and Security Notice",
-    "sitePath": "https://www.epa.gov/privacy/privacy-and-security-notice"
-  },
+
   {
     "name": "Accessibility",
-    "sitePath": "https://www.epa.gov/accessibility"
+    "link": "https://www.epa.gov/accessibility"
   },
   {
     "name": "GitHub",
-    "sitePath": "https://github.com/USEPA/E-Enterprise-Portal"
-  }
+    "link": "https://github.com/USEPA/E-Enterprise-Portal"
+  },
+  {
+  "name": "Version",
+  "number":"2.0.1"
+}
 ]
