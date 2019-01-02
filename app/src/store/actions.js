@@ -151,4 +151,8 @@ export default {
     Vue.cookie.set('userPolicy', true, { expires: '1Y' });
     store.commit('USER_POLICY_COOKIE_DISMISS');
   },
+  setUserObject(context, userObject) {
+    const store = context;
+    store.commit('SET_USER_OBJECT', userObject);
+  },
 };

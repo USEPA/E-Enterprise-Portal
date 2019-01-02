@@ -95,4 +95,7 @@ export default {
   getUsername(state){
     return state.user.userName;
   },
+  getUserObject(state) {
+    return state.user.userObject;
+  }
 };

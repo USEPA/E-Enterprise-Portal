@@ -115,5 +115,10 @@ export default {
     Vue.set(state.user,
       'userName',
       obj);
-  }
+  },
+  [types.SET_USER_OBJECT](state, obj){
+    Vue.set(state.user,
+      'userObject',
+      obj);
+  },
 };
