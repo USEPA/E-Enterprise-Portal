@@ -155,4 +155,8 @@ export default {
     const store = context;
     store.commit('SET_USER_OBJECT', userObject);
   },
+  setUserObjectFavLinks(context, userObjectFavLinks) {
+    const store = context;
+    store.commit('SET_USER_OBJECT_FAVLINKS', userObjectFavLinks);
+  },
 };
