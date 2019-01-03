@@ -1,0 +1,6 @@
+eep_bridge.eep_bridge_environment_form:
+  title: 'E-Enterprise Bridge Authentication settings'
+  route_name: 'eep_bridge.eep_bridge_environment_form'
+  description: 'Configure host name and other authentication settings'
+  parent: system.admin_config_system
+  weight: 99
