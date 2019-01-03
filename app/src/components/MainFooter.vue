@@ -34,26 +34,26 @@
           <a
             :href="item.second"
             target="_blank"
-            class="">E-Enterprise Home</a>
+            class="">{{item.first}}</a>
         </div>
         <div class="col-auto" v-for="item in info.slice(1,2)" >
           <a
             :href="item.second"
             target="_blank"
-            class="">Privacy and Security Notice</a>
+            class="">{{item.first}}</a>
         </div>
         <div class="col-auto" v-for="item in info.slice(2,3)" >
           <a
             :href="item.second"
             target="_blank"
-            class="">Accessibility</a>
+            class="">{{item.first}}</a>
         </div>
         <div class="col-auto" v-for="item in info.slice(3,4)" >
           <a
             :href="item.second"
             target="_blank"
             class="">
-            GitHub</a>
+            {{item.first}}</a>
         </div>
       </div>
       <div class="row">
