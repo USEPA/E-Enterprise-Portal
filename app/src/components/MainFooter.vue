@@ -126,11 +126,8 @@
       AppAxios
         .get('http://e-enterprise/api/footer')
         .then(response => {
-          console.log('GET => success');
           this.info = response.data[0].field_footer_link_name;
           this.info1 = response.data[0].field_version;
-          console.log(this.info1);
-
         });
 
     },
