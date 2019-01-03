@@ -33,9 +33,12 @@ class EEPBridgeController extends ControllerBase {
 
   public function eep_authenticate(){
 
+    $config = $this->config('eep_bridge.environment_settings');
+    $environment_name = $config->get('eep_bridge_environment_name');
+
     if (!isset($_POST['wa'])) {
       $message = "Expected context parameter is not set";
-      $url = Url::fromUri('https://dev2.e-enterprise.gov?data='.$message);  //TODO: make this configurable so that it can be changed in non-dev environments.
+      $url = Url::fromUri($environment_name.'?data='.$message);
       $this->eep_bridge_goto($url);
       return;
     }
@@ -81,8 +84,9 @@ class EEPBridgeController extends ControllerBase {
     }
 
     $user_name = base64_encode($authenticated_user->get_name());
+    $email = base64_encode($userDetails->attributes['email'][0]);
 
-    $url = Url::fromUri('https://dev2.e-enterprise.gov?token='.$jwt_token.'&data='.$user_name);  //TODO: make this configurable so that it can be changed in non-dev environments.
+    $url = Url::fromUri($environment_name.'?token='.$jwt_token.'&data='.$user_name.'&email='.$email);
     $this->eep_bridge_goto($url);
     return;
   }

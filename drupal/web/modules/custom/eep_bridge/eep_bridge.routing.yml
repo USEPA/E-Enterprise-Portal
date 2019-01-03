@@ -5,3 +5,13 @@ eep_bridge.bridge:
     _title: 'E-Enterprise Bridge Authentication'
   requirements:
     _permission: 'access content'
+eep_bridge.eep_bridge_environment_form:
+  path: '/admin/config/system/eep_bridge_auth_settings'
+  defaults:
+    _form: '\Drupal\eep_bridge\Form\AuthenticationConfigForm'
+    _title: 'E-Enterprise Bridge Authentication settings'
+  description: 'Configure host name and other authentication settings.'
+  requirements:
+    _permission: 'access content'
+  options:
+    _admin_route: TRUE
