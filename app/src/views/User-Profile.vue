@@ -58,12 +58,13 @@
     computed: {
       ...mapGetters({
         userObj: 'getUserObject',
+        apiURL: 'getEnvironmentApiURL',
       }),
     },
     methods: {
       ...mapActions([
         'setUserObject',
-        'setUserObjectFavLinks'
+        'setUserObjectFavLinks',
       ]),
       // function that displays successful response
       generateSuccessHTMLOutput(response){
@@ -94,19 +95,19 @@
         GETResultElement.innerHTML = '';
 
         //gets drupal user object
-        AppAxios.get('http://e-enterprise/api/user/'+userID, {
+        AppAxios.get(vm.apiURL + '/api/user/' + userID, {
           headers: {
             'crossDomain': true,
             'cache-control': 'no-cache',
             'Content-Type': 'application/hal+json',
           },
         })
-          .then((response) => {
+          .then(response => {
             console.log('GET => success');
             GETResultElement.innerHTML = vm.generateSuccessHTMLOutput(response);
             vm.setUserObject(response.data[0]);
           })
-          .catch((error) =>{
+          .catch(error =>{
             console.log('GET => failure');
             GETResultElement.innerHTML = vm.generateErrorHTMLOutput(error);
           });
@@ -121,18 +122,11 @@
         let objToDelete = vm.userObj.field_favorite_links.find(fav => {
           return fav.first === DELETEfavoriteLinkName
         });
-        /*console.log(objToDelete);*/
-        let updatedFavLinks = vm.userObj.field_favorite_links.filter(fav => fav != objToDelete);
-/*
-        console.log(updatedFavLinks);
-*/
+        let updatedFavLinks = vm.userObj.field_favorite_links.filter(fav => fav !== objToDelete);
         vm.setUserObjectFavLinks(updatedFavLinks);
-/*
-        console.log(vm.userObj.field_favorite_links);
-*/
 
-        //deletes favorite link from drupal user object
-        AppAxios.patch('http://e-enterprise/user/'+userID+'?_format=json', {
+        // removes favorite link from drupal user object
+        AppAxios.patch(vm.apiURL + '/user/' + userID + '?_format=json', {
             field_favorite_links: updatedFavLinks,
           },
           {
@@ -146,11 +140,11 @@
               password: 'api4epa',
             },
           })
-          .then((response) => {
+          .then(response => {
             console.log('DELETE => success');
             DELETEResultElement.innerHTML = vm.generateSuccessHTMLOutput(response);
           })
-          .catch((error) =>{
+          .catch(error =>{
             console.log('DELETE => failure');
             console.log(error.response.data);
             DELETEResultElement.innerHTML = vm.generateErrorHTMLOutput(error);
@@ -161,7 +155,7 @@
         const PATCHResultElement = document.getElementById('patchResult');
         const vm = this;
         PATCHResultElement.innerHTML = '';
-        // GET request to save current favorite links, otherwise PATCH will overwrite
+        // save current favorite links, otherwise PATCH will overwrite
         const favLinks = vm.userObj.field_favorite_links;
         console.log(favLinks);
         favLinks
@@ -169,11 +163,9 @@
             { "first": favoriteLinkName, "second": favoriteLinkURL }
           );
         vm.setUserObjectFavLinks(favLinks);
-/*
-        console.log(JSON.stringify(vm.userObj.field_favorite_links, null, '\t'));
-*/
-        //updates favorite links drupal user object
-        AppAxios.patch('http://e-enterprise/user/'+userID+'?_format=json', {
+
+        // updates favorite links drupal user object
+        AppAxios.patch(vm.apiURL + '/user/' + userID + '?_format=json', {
             field_favorite_links: vm.userObj.field_favorite_links,
         },
         {
@@ -187,11 +179,11 @@
             password: 'api4epa',
           },
         })
-          .then((response) => {
+          .then(response => {
             console.log('PATCH => success');
             PATCHResultElement.innerHTML = vm.generateSuccessHTMLOutput(response);
           })
-          .catch((error) =>{
+          .catch(error =>{
             console.log('PATCH => failure');
             console.log(error.response.data);
             PATCHResultElement.innerHTML = vm.generateErrorHTMLOutput(error);
