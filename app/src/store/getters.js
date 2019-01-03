@@ -95,4 +95,21 @@ export default {
   getUsername(state){
     return state.user.userName;
   },
+  getUserObject(state) {
+    return state.user.userObject;
+  },
+  getEnvironmentApiURL(state, ref){
+    let r = ref.getEnvironment;
+    let environmentApiURL = 'https://apidev2.e-enterprise.gov';
+    if (r === 'LOCAL') {
+      environmentApiURL = 'http://e-enterprise';
+    }
+    else if (r === 'DEV') {
+      environmentApiURL = 'https://apidev2.e-enterprise.gov';
+    }
+    else if (r === 'TEST') {
+      environmentApiURL = 'https://apitest2.e-enterprise.gov';
+    }
+    return environmentApiURL;
+  },
 };
