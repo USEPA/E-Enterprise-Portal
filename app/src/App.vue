@@ -187,7 +187,6 @@
         let r = 'Local';
         r = (env === 'DEV') ? 'Development' : r;
         r = (env === 'TEST') ? 'Test' : r;
-
         return r;
       },
     },
