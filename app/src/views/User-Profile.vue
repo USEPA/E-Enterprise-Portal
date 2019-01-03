@@ -166,7 +166,6 @@
             );
         }
         else {
-          console.log(vm.userObj);
           vm.userObj.field_favorite_links = [
             {
             "first": favoriteLinkName,
