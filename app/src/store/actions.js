@@ -1,11 +1,7 @@
-import _ from 'lodash';
-import VueCookie from 'vue-cookie';
-import Vue from 'vue';
 import { AppAxios } from '../modules/wadk/WADK';
 import { EventBus } from '../EventBus';
 import types from './types';
-
-Vue.use(VueCookie);
+import _ from 'lodash';
 
 export default {
   /**
@@ -51,8 +47,8 @@ export default {
     });
   },
   /**
-   * Creates the EEP2 API request for the location based ont the browsers
-   * geolocation API.
+   * Creates the EEP2 API request for the location based ont the browsers geolocation
+   * API.
    * @param context
    */
   createGeolocationRequest(context) {
@@ -106,16 +102,42 @@ export default {
     const store = context;
     store.commit('TOGGLE_HAS_LOCATION_SEARCH_BAR');
   },
+  /**
+   * Set a function to initialize JWT for user authentication
+   */
+  initializeToken(context) {
+    // Get Token (if exist)
+    const store = context;
+    const queryParams = window.location.search.substr(1).split('&');
+
+    // Parse query for token ie 'move=true'
+    const tokenResult = queryParams.map((paramString) => {
+      if (paramString.search(/^token=/igm) > -1) {
+        const token = paramString.split('=').pop();
+        return token;
+      }
+    });
+    const token = tokenResult.pop();
+
+    if (token) {
+      // Place in store
+      store.commit(types.SET_JWT_TOKEN, token);
+      // Process the token (decode)
+      store.commit(types.DECODE_JWT_TOKEN, token);
+      // @todo confirm user token
+      store.dispatch('processJWTPayload');
+      // if user is legit, log them in (add IF statement)
+      store.commit('USER_LOG_IN');
+    }
+  },
   userLogOut(context) {
     const store = context;
 
     // add additional logout logic here
-    Vue.cookie.set('userLoggedIn', false, {expires: '-99s'});
     store.commit('USER_LOG_OUT');
-    location.reload();
   },
-  // Function to process the payload of the JWT token, which contains the user
-  // info. This will set the state, verify the path exists and is defined then
+  // Function to prcoess the payload of the JWT token, which contains the user
+  // info. This will set the state, verify the path exists and is definedm then
   // decode the payload and split into parts for processing
   processJWTPayload(context) {
     const store = context;
@@ -140,15 +162,5 @@ export default {
       // if deep property
       store.commit('SET_DEEP_PROPERTY', payload);
     }
-  },
-  setTAndCCookie(context) {
-    const store = context;
-    Vue.cookie.set('userTandC', true, { expires: '1Y' });
-    store.commit('USER_TANDC_COOKIE_DISMISS');
-  },
-  setUserPolicyCookie(context) {
-    const store = context;
-    Vue.cookie.set('userPolicy', true, { expires: '1Y' });
-    store.commit('USER_POLICY_COOKIE_DISMISS');
   },
 };
