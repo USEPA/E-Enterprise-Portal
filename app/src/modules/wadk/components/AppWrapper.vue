@@ -49,7 +49,7 @@
     },
     mounted () {
       AppAxios
-        .get('http://e-enterprise/api/workbenchapps')
+        .get('https://apidev2.e-enterprise.gov/api/workbenchapps')
         .then(response => (this.title = (response.data)))
     },
   };
