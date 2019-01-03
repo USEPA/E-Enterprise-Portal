@@ -23,13 +23,13 @@
     <br>
     <b-btn @click="performDrupalUserFavLinkDELETERequest(DELETEfavoriteLinkName, userID)">Click to DELETE Request</b-btn>
     <hr>
-    State Check: <div id='stateCheck'>{{ userObj }}</div>
+    <h3>userObject in State: </h3><div id='stateCheck'>{{ userObj }}</div>
     <hr>
-    GET Result: <div id='getResult'></div>
+    <h3>GET Result: </h3><div id='getResult'></div>
     <hr>
-    PATCH Result: <div id='patchResult'></div>
+    <h3>PATCH Result: </h3><div id='patchResult'></div>
     <hr>
-    DELETE Result: <div id='deleteResult'></div>
+    <h3>DELETE Result: </h3><div id='deleteResult'></div>
     <br>
     <br>
     <br>
@@ -73,8 +73,7 @@
           '<h5>Headers:</h5>' +
           '<pre>' + JSON.stringify(response.headers, null, '\t') + '</pre>' +
           '<h5>Data:</h5>' +
-          '<pre>' + JSON.stringify(response.data, null, '\t') + '</pre>' +
-          '<pre>' + JSON.stringify(response.data[0].field_favorite_links, null, '\t') + '</pre>';
+          '<pre>' + JSON.stringify(response.data, null, '\t') + '</pre>'
       },
       // function that displays errorful response
       generateErrorHTMLOutput(error){
@@ -116,32 +115,44 @@
       performDrupalUserFavLinkDELETERequest(DELETEfavoriteLinkName, userID){
         const DELETEResultElement = document.getElementById('deleteResult');
         const vm = this;
-        const GETfavLinks = vm.userObj.field_favorite_links;
-        console.log(GETfavLinks);
+        const favLinks = vm.userObj.field_favorite_links;
+        console.log(favLinks);
         DELETEResultElement.innerHTML = '';
+        let objToDelete = vm.userObj.field_favorite_links.find(fav => {
+          return fav.first === DELETEfavoriteLinkName
+        });
+        /*console.log(objToDelete);*/
+        let updatedFavLinks = vm.userObj.field_favorite_links.filter(fav => fav != objToDelete);
+/*
+        console.log(updatedFavLinks);
+*/
+        vm.setUserObjectFavLinks(updatedFavLinks);
+/*
+        console.log(vm.userObj.field_favorite_links);
+*/
 
-        //gets drupal user object
-        AppAxios.delete('http://e-enterprise/user/'+userID+'?_format=json', {
-          headers: {
-            'crossDomain': true,
-            'cache-control': 'no-cache',
-            'Content-Type': 'application/hal+json',
+        //deletes favorite link from drupal user object
+        AppAxios.patch('http://e-enterprise/user/'+userID+'?_format=json', {
+            field_favorite_links: updatedFavLinks,
           },
-          body: {
-            field_favorite_links: {first: DELETEfavoriteLinkName}
-          },
-          withCredentials: true,
-          auth: {
-            username: 'cgi-old-admin',
-            password: 'c9iee43pa',
-          },
-        })
+          {
+            headers: {
+              'crossDomain': true,
+              'cache-control': 'no-cache',
+              'Content-Type': 'application/json',
+            },
+            auth: {
+              username: 'api_user',
+              password: 'api4epa',
+            },
+          })
           .then((response) => {
             console.log('DELETE => success');
             DELETEResultElement.innerHTML = vm.generateSuccessHTMLOutput(response);
           })
           .catch((error) =>{
             console.log('DELETE => failure');
+            console.log(error.response.data);
             DELETEResultElement.innerHTML = vm.generateErrorHTMLOutput(error);
           });
       },
@@ -151,37 +162,29 @@
         const vm = this;
         PATCHResultElement.innerHTML = '';
         // GET request to save current favorite links, otherwise PATCH will overwrite
-        const GETfavLinks = vm.userObj.field_favorite_links;
-        console.log(GETfavLinks);
-        GETfavLinks
+        const favLinks = vm.userObj.field_favorite_links;
+        console.log(favLinks);
+        favLinks
           .push(
             { "first": favoriteLinkName, "second": favoriteLinkURL }
           );
-        vm.setUserObjectFavLinks(GETfavLinks);
-        console.log(vm.userObj.field_favorite_links);
-        //updates drupal user object
-        AppAxios.patch('http://e-enterprise/user/'+userID+'?_format=hal_json', {
+        vm.setUserObjectFavLinks(favLinks);
+/*
+        console.log(JSON.stringify(vm.userObj.field_favorite_links, null, '\t'));
+*/
+        //updates favorite links drupal user object
+        AppAxios.patch('http://e-enterprise/user/'+userID+'?_format=json', {
+            field_favorite_links: vm.userObj.field_favorite_links,
+        },
+        {
           headers: {
-            'X-Requested-With': 'XMLHttpRequest',
             'crossDomain': true,
             'cache-control': 'no-cache',
-            'Content-Type': 'application/hal+json',
+            'Content-Type': 'application/json',
           },
-          data: {
-            "_links": {
-              "self": {
-                "href": "http://e-enterprise/user/1?_format=hal_json"
-              },
-              "type": {
-                "href": "http://e-enterprise/rest/type/user/user"
-              }
-            },
-            "field_favorite_links": vm.userObj.field_favorite_links,
-          },
-          withCredentials: true,
           auth: {
-            username: 'cgi-old-admin',
-            password: 'c9iee43pa',
+            username: 'api_user',
+            password: 'api4epa',
           },
         })
           .then((response) => {

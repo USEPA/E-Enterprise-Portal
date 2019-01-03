@@ -5,7 +5,6 @@ dependencies:
   module:
     - basic_auth
     - hal
-    - jwt
     - schemata
     - serialization
     - user
@@ -25,5 +24,3 @@ configuration:
     - xml
   authentication:
     - basic_auth
-    - jwt_auth
-    - cookie

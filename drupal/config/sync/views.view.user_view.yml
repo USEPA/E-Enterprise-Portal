@@ -25,7 +25,7 @@ display:
       access:
         type: perm
         options:
-          perm: 'access user profiles'
+          perm: 'access content'
       cache:
         type: tag
         options: {  }
@@ -209,6 +209,7 @@ display:
       row:
         type: data_entity
         options: {  }
+      auth: {  }
     cache_metadata:
       max-age: -1
       contexts:
