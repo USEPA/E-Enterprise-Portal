@@ -154,16 +154,28 @@
       performDrupalUserFavLinkPATCHRequest(favoriteLinkName, favoriteLinkURL, userID){
         const PATCHResultElement = document.getElementById('patchResult');
         const vm = this;
+        let favLinks ='';
         PATCHResultElement.innerHTML = '';
-        // save current favorite links, otherwise PATCH will overwrite
-        const favLinks = vm.userObj.field_favorite_links;
-        console.log(favLinks);
-        favLinks
-          .push(
-            { "first": favoriteLinkName, "second": favoriteLinkURL }
-          );
-        vm.setUserObjectFavLinks(favLinks);
+        /* checks if favLinks exists and adds if needed
+        *  save current favorite links, otherwise PATCH will overwrite
+        **/
+        if (vm.userObj.field_favorite_links){
+          vm.userObj.field_favorite_links
+            .push(
+              { "first": favoriteLinkName, "second": favoriteLinkURL }
+            );
+        }
+        else {
+          vm.userObj.field_favorite_links = [
+            {
+            "first": favoriteLinkName,
+            "second": favoriteLinkURL
+            }
+          ];
+        }
+        favLinks = vm.userObj.field_favorite_links;
 
+        vm.setUserObjectFavLinks(favLinks);
         // updates favorite links drupal user object
         AppAxios.patch(vm.apiURL + '/user/' + userID + '?_format=json', {
             field_favorite_links: vm.userObj.field_favorite_links,
