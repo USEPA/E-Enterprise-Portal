@@ -121,7 +121,7 @@ export default {
       'userObject',
       obj);
   },
-  [types.SET_USER_OBJECT_FAVLINKS](state, obj) {
+  [types.SET_USER_OBJECT_FAV_LINKS](state, obj) {
     Vue.set(state.user.userObject,
       'field_favorite_links',
       obj);

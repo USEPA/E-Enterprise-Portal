@@ -162,6 +162,7 @@
         ENV: 'getEnvironment',
         navMargin: 'getnavMargin',
       }),
+      // @todo clean up variable names here
       environmentName() {
         let env = 'LOCAL';
         const { host } = window.location;
@@ -187,7 +188,6 @@
         let r = 'Local';
         r = (env === 'DEV') ? 'Development' : r;
         r = (env === 'TEST') ? 'Test' : r;
-
         return r;
       },
     },
