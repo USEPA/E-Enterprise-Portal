@@ -140,8 +140,8 @@ display:
           expose:
             operator: ''
           group: 1
-        type:
-          id: type
+        type_1:
+          id: type_1
           table: node_field_data
           field: type
           relationship: none
@@ -228,9 +228,9 @@ display:
       style:
         type: serializer
         options:
-          grouping: {  }
           uses_fields: false
-          formats: {  }
+          formats:
+            hal_json: hal_json
       row:
         type: data_entity
         options: {  }

@@ -60,7 +60,7 @@
         <div class="col wd-100"></div>
       </div>
       <div class="row justify-content-center small" >
-        <div class="col-auto text-align-center small" > {{this.info1.first}}{{this.info1.second}}</div>
+        <div class="col-auto text-align-center small" > {{this.info1[0].first}} {{this.info1[0].second}}</div>
       </div>
     </div>
     <div
@@ -105,7 +105,7 @@
         'setUserPolicyCookie',
       ]),
     },
-    data(){
+    data() {
       return {
 
         info: [
@@ -114,7 +114,7 @@
 
 
         ],
-        info1:[
+        info1: [
           { first: '', },
           { second: '', },
 
@@ -122,15 +122,19 @@
         ]
       }
     },
-    mounted () {
+    mounted() {
       AppAxios
         .get('http://e-enterprise/api/footer')
-        .then(response => (this.info = response.data[0].field_footer_link_name))
-        .then(response => (this.info1 = response.data[0].field_version))
-      console.log(this.info1);
+        .then(response => {
+          console.log('GET => success');
+          this.info = response.data[0].field_footer_link_name;
+          this.info1 = response.data[0].field_version;
+          console.log(this.info1);
+
+        });
 
     },
-  };
+  }
 
 </script>
 

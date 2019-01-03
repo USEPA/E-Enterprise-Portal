@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.eep2_footer.field_footer_link_name
+    - field.field.node.eep2_footer.field_version
     - node.type.eep2_footer
   module:
     - double_field
@@ -20,6 +21,31 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_footer_link_name:
+    weight: 121
+    settings:
+      first:
+        type: textfield
+        prefix: ''
+        suffix: ''
+        size: 10
+        placeholder: ''
+        label: Ok
+        cols: 10
+        rows: 5
+      second:
+        type: textfield
+        prefix: ''
+        suffix: ''
+        size: 10
+        placeholder: ''
+        label: Ok
+        cols: 10
+        rows: 5
+      inline: false
+    third_party_settings: {  }
+    type: double_field
+    region: content
+  field_version:
     weight: 122
     settings:
       first:
