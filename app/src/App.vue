@@ -104,9 +104,9 @@
           this.$cookie.set('userLoggedIn', true, {expires: '20m'});
           this.$cookie.set('loggedInUserInfo', username+";"+token ,{expires: '20m'});
         }
-        else {
+        /*else {
           this.$cookie.set('userLoggedIn', true, {expires: '-99999m'});
-        }
+        }*/
 
         // Redirect to the workbench
         this.$router.push("/workbench");
