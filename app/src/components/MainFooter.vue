@@ -30,37 +30,18 @@
     </div>
     <div class="container py-2">
       <div class="row justify-content-center small">
-        <div class="col-auto" v-for="item in info.slice(0,1)" >
+        <div class="col-auto" v-for="item in info" >
           <a
-            :href="item.link"
+            :href="item.second"
             target="_blank"
-            class="">E-Enterprise Home</a>
-        </div>
-        <div class="col-auto" v-for="item in info.slice(1,2)" >
-          <a
-            :href="item.link"
-            target="_blank"
-            class="">Privacy and Security Notice</a>
-        </div>
-        <div class="col-auto" v-for="item in info.slice(2,3)" >
-          <a
-            :href="item.link"
-            target="_blank"
-            class="">Accessibility</a>
-        </div>
-        <div class="col-auto" v-for="item in info.slice(3,4)" >
-          <a
-            :href="item.link"
-            target="_blank"
-            class="">
-            GitHub</a>
+            class="">{{item.first}}</a>
         </div>
       </div>
       <div class="row">
         <div class="col wd-100"></div>
       </div>
       <div class="row justify-content-center small" >
-        <div class="col-auto text-align-center small" v-for="item in info.slice(4,5)">Version {{item.number}}</div>
+        <div class="col-auto text-align-center small" > {{this.info1[0].first}} {{this.info1[0].second}}</div>
       </div>
     </div>
     <div
@@ -105,23 +86,33 @@
         'setUserPolicyCookie',
       ]),
     },
-    data(){
+    data() {
       return {
 
         info: [
-          { name: '', },
-          { link: '', },
+          { first: '', },
+          { second: '', },
+
+
+        ],
+        info1: [
+          { first: '', },
+          { second: '', },
 
 
         ]
       }
     },
-    mounted () {
+    mounted() {
       AppAxios
-        .get('/sample_data/footer.json')
-        .then(response => (this.info = response.data))
+        .get('https://apidev2.e-enterprise.gov/api/footer')
+        .then(response => {
+          this.info = response.data[0].field_footer_link_name;
+          this.info1 = response.data[0].field_version;
+        });
+
     },
-  };
+  }
 
 </script>
 

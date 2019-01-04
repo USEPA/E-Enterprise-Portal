@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.eep2_footer.field_footer_link_name
+    - field.field.node.eep2_footer.field_version
     - node.type.eep2_footer
   module:
     - double_field
@@ -14,6 +15,26 @@ bundle: eep2_footer
 mode: default
 content:
   field_footer_link_name:
+    weight: 101
+    label: above
+    settings:
+      inline: true
+      first:
+        hidden: false
+        prefix: ''
+        suffix: ''
+        link: false
+        format_type: medium
+      second:
+        hidden: false
+        prefix: ''
+        suffix: ''
+        link: false
+        format_type: medium
+    third_party_settings: {  }
+    type: double_field_unformatted_list
+    region: content
+  field_version:
     weight: 102
     label: above
     settings:

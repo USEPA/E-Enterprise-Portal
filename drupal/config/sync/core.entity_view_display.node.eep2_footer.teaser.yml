@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
-    - field.field.node.eep2_footer.field_footer_link_name
     - node.type.eep2_footer
   module:
     - user
@@ -18,5 +17,4 @@ content:
     settings: {  }
     third_party_settings: {  }
     region: content
-hidden:
-  field_footer_link_name: true
+hidden: {  }
