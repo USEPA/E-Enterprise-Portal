@@ -105,7 +105,7 @@
     },
     mounted() {
       AppAxios
-        .get('http://e-enterprise/api/footer')
+        .get('https://apidev2.e-enterprise.gov/api/footer')
         .then(response => {
           this.info = response.data[0].field_footer_link_name;
           this.info1 = response.data[0].field_version;
