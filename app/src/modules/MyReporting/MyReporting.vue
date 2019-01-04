@@ -1,17 +1,20 @@
-<!-- Go through this folder and rename all of the occurances to be specific to the app that you are building -->
 <template>
     <div>
-        <AppWrapper
+        <AppWrapper class="pb-5"
         :eep-app="eepApp">
             <div
-              v-html="eepApp.html.mainCard">
+              v-html="eepApp.html.mainCard" class="pb-2">
             </div>
+            <div v-for="item in program">{{ item.second }}<hr/></div>
+
+
         </AppWrapper>
     </div>
+
 </template>
 
 <script>
-
+  import AppAxios from 'axios';
     import { mapActions, mapGetters } from 'vuex';
     import { AppWrapper, AppModal, AppPlaceholderContent } from '../wadk/WADK';
     import storeModule from './store/index';
@@ -44,14 +47,21 @@
                     },
                     html: {
                         mainCard:
-                          '<p>Description Goes here</p>'
+                          '<h4>Program Service Name</h4>'
 
                   ,
                     },
                 },
+              program: [
+                { first: '', },
+                { second: '', },
+              ]
             }
         },
-        mounted(){
+      mounted () {
+        AppAxios
+          .get('https://apidev2.e-enterprise.gov/api/cdxprogramtitles')
+          .then(response => (this.program = response.data[0].field_cdx_program_name))
 
         },
         computed:{
