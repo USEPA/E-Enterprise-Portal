@@ -5,7 +5,7 @@
             <div
               v-html="eepApp.html.mainCard" class="pb-2">
             </div>
-            <div v-for="item in program">{{ item.title }}<hr/></div>
+            <div v-for="item in program">{{ item.second }}<hr/></div>
 
 
         </AppWrapper>
@@ -53,15 +53,15 @@
                     },
                 },
               program: [
-                { id: '', },
-                { title: '', },
+                { first: '', },
+                { second: '', },
               ]
             }
         },
       mounted () {
         AppAxios
-          .get('/sample_data/cdxprogramtitles.json')
-          .then(response => (this.program = response.data))
+          .get('https://apidev2.e-enterprise.gov/api/cdxprogramtitles')
+          .then(response => (this.program = response.data[0].field_cdx_program_name))
 
         },
         computed:{
