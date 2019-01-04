@@ -30,30 +30,11 @@
     </div>
     <div class="container py-2">
       <div class="row justify-content-center small">
-        <div class="col-auto" v-for="item in info.slice(0,1)" >
+        <div class="col-auto" v-for="item in info" >
           <a
             :href="item.second"
             target="_blank"
             class="">{{item.first}}</a>
-        </div>
-        <div class="col-auto" v-for="item in info.slice(1,2)" >
-          <a
-            :href="item.second"
-            target="_blank"
-            class="">{{item.first}}</a>
-        </div>
-        <div class="col-auto" v-for="item in info.slice(2,3)" >
-          <a
-            :href="item.second"
-            target="_blank"
-            class="">{{item.first}}</a>
-        </div>
-        <div class="col-auto" v-for="item in info.slice(3,4)" >
-          <a
-            :href="item.second"
-            target="_blank"
-            class="">
-            {{item.first}}</a>
         </div>
       </div>
       <div class="row">
