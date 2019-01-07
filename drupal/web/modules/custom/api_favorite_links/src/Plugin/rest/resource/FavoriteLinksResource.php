@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mculpepp
- * Date: 1/7/2019
- * Time: 8:17 AM
- */
 
 namespace Drupal\api_favorite_links\Plugin\rest\resource;
 
@@ -31,7 +25,7 @@ class FavoriteLinksResource extends ResourceBase {
    */
   public function get() {
 
-    $user = User::load(1);
+    $user = User::load(uid);
     $response = $user->get('field_favorite_links')->getValue();
     return new ResourceResponse($response);
   }
