@@ -17,6 +17,4 @@ content:
     settings: {  }
     third_party_settings: {  }
     region: content
-hidden:
-  field_footer_link_name: true
-  field_version: true
+hidden: {  }
