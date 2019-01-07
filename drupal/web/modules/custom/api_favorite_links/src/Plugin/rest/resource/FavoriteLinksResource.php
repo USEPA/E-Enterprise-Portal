@@ -25,7 +25,7 @@ class FavoriteLinksResource extends ResourceBase {
    */
   public function get() {
 
-    $user = User::load(uid);
+    $user = User::load(\Drupal::currentUser()->id());
     $response = $user->get('field_favorite_links')->getValue();
     return new ResourceResponse($response);
   }
