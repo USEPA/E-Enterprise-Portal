@@ -173,7 +173,7 @@ export default {
       headers: store.GETHeaders,
     })
       .then(response => {
-        if(!response.data){
+        if(response.data){
           const responseTitle = response.data.title[0].value;
           const responseBody = response.data.body[0].value;
           GETResultElement.innerHTML = '<h1>' + responseTitle + '</h1>' +
@@ -184,7 +184,7 @@ export default {
         }
       })
       .catch(error =>{
-        if(!error.response) {
+        if(error.response) {
           const errorHeaders = error.response.headers;
           const errorData = error.response.data;
           GETResultElement.innerHTML = '<h1>' + errorHeaders + '</h1>' +
