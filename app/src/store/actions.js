@@ -164,7 +164,7 @@ export default {
 
     const GETResultElement = document.getElementById(elementId);
 
-    //gets drupal object
+    // gets drupal object
     AppAxios.get( directoryPath, {
       headers: {
         'crossDomain': true,
