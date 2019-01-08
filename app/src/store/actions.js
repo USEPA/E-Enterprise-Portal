@@ -165,12 +165,12 @@ export default {
    * Input params are an array [ , ]
   */
   performDrupalAPIGETRequest(context, [URLPath, elementId]){
-
+    const store = context;
     const GETResultElement = document.getElementById(elementId);
 
     // gets drupal object
     AppAxios.get( URLPath, {
-      headers: context.GETHeaders,
+      headers: store.GETHeaders,
     })
       .then(response => {
         const responseTitle = response.data.title[0].value;
