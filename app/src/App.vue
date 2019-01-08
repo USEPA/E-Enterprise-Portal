@@ -97,7 +97,7 @@
         store.commit(types.SET_USERNAME, username);
 
         // This sets the user being logged in
-        if(!this.$cookie.get("userLoggedIn")){
+        if(this.$cookie.get("userLoggedIn")){
           store.commit('USER_LOG_IN');
 
           // Set the cookie for the user that is logged in
