@@ -159,13 +159,17 @@ export default {
     const store = context;
     store.commit('SET_USER_OBJECT_FAV_LINKS', userObjectFavLinks);
   },
-  // API GET request function
-  performDrupalAPIGETRequest(context, [directoryPath, elementId]){
+  /*
+   * API GET request function
+   * Accepts URL path to the API and the element you're displaying data in.
+   * Input params are an array [ , ]
+  */
+  performDrupalAPIGETRequest(context, [URLPath, elementId]){
 
     const GETResultElement = document.getElementById(elementId);
 
     // gets drupal object
-    AppAxios.get( directoryPath, {
+    AppAxios.get( URLPath, {
       headers: {
         'crossDomain': true,
         'cache-control': 'no-cache',
