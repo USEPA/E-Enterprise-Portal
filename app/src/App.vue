@@ -97,12 +97,12 @@
         store.commit(types.SET_USERNAME, username);
 
         // This sets the user being logged in
-        if(this.$cookie.get("userLoggedIn")){
-          store.commit('USER_LOG_IN');
-
-          // Set the cookie for the user that is logged in
+        if(!this.$cookie.get("userLoggedIn")){
           this.$cookie.set('userLoggedIn', true, {expires: '20m'});
         }
+
+        // Log the user in
+        store.commit('USER_LOG_IN');
 
         // Redirect to the workbench
         this.$router.push("/workbench");
