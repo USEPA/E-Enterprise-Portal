@@ -170,11 +170,7 @@ export default {
 
     // gets drupal object
     AppAxios.get( URLPath, {
-      headers: {
-        'crossDomain': true,
-        'cache-control': 'no-cache',
-        'Content-Type': 'application/hal+json',
-      },
+      headers: context.GETHeaders,
     })
       .then(response => {
         const responseTitle = response.data.title[0].value;
