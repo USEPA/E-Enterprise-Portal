@@ -93,8 +93,8 @@
         const token = vars["token"];
 
         // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
-        store.commit(types.SET_USERNAME, atob(decodeURIComponent(data)
-                .replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '')));
+        let username = atob(decodeURIComponent(data).replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''));
+        store.commit(types.SET_USERNAME, username);
 
         // This sets the user being logged in
         if(!this.$cookie.get("userLoggedIn")){
