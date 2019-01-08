@@ -88,7 +88,7 @@
           vars[key] = value;
         });
 
-        // find the URL params
+        // find the URL params for each one
         const data = vars["data"];
         const token = vars["token"];
 
