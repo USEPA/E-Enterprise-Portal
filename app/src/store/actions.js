@@ -159,11 +159,11 @@ export default {
     const store = context;
     store.commit('SET_USER_OBJECT_FAV_LINKS', userObjectFavLinks);
   },
-  /*
+  /**
    * API GET request function
    * Accepts URL path to the API and the element you're displaying data in.
    * Input params are an array [ , ]
-  */
+   */
   performDrupalAPIGETRequest(context, [URLPath, elementId]){
     const store = context;
     const GETResultElement = document.getElementById(elementId);
