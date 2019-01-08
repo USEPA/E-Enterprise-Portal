@@ -15,11 +15,11 @@
     },
     methods: {
       ...mapActions([
-        'performDrupalAPIGETRequest',
+        'drupalAPIGETRequest',
       ]),
     },
     mounted() {
-      this.performDrupalAPIGETRequest([this.apiURL + '/api_faqs?_format=json', 'FAQs']);
+      this.drupalAPIGETRequest([this.apiURL + '/api_faqs?_format=json', 'FAQs']);
     },
   }
 </script>
