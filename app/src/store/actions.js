@@ -173,16 +173,26 @@ export default {
       headers: store.GETHeaders,
     })
       .then(response => {
-        const responseTitle = response.data.title[0].value;
-        const responseBody = response.data.body[0].value;
-        GETResultElement.innerHTML = '<h1>' + responseTitle + '</h1>' +
-          '\n' + responseBody;
+        if(!response.data){
+          const responseTitle = response.data.title[0].value;
+          const responseBody = response.data.body[0].value;
+          GETResultElement.innerHTML = '<h1>' + responseTitle + '</h1>' +
+            '\n' + responseBody;
+        }
+        else {
+          console.warn('abnormal response type')
+        }
       })
       .catch(error =>{
-        const errorHeaders = error.response.headers;
-        const errorData = error.response.data;
-        GETResultElement.innerHTML = '<h1>' + errorHeaders + '</h1>' +
-          '\n' + errorData;
+        if(!error.response) {
+          const errorHeaders = error.response.headers;
+          const errorData = error.response.data;
+          GETResultElement.innerHTML = '<h1>' + errorHeaders + '</h1>' +
+            '\n' + errorData;
+        }
+        else {
+          console.warn('abnormal error response type')
+        }
       });
   },
 };
