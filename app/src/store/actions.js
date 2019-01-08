@@ -176,7 +176,7 @@ export default {
         GETResultElement.innerHTML = '<h1>' + response.data.title[0].value + '</h1>' + '\n' + response.data.body[0].value;
       })
       .catch(error =>{
-        GETResultElement.innerHTML = '<h1>' + error.data.title[0].value + '</h1>' + '\n' + error.data.body[0].value;
+        GETResultElement.innerHTML = '<h1>' + error.response.headers + '</h1>' + '\n' + error.response.data;
       });
   },
 };
