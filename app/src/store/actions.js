@@ -159,4 +159,24 @@ export default {
     const store = context;
     store.commit('SET_USER_OBJECT_FAV_LINKS', userObjectFavLinks);
   },
+  // API GET request function
+  performDrupalAPIGETRequest(context, [directoryPath, elementId]){
+
+    const GETResultElement = document.getElementById(elementId);
+
+    //gets drupal object
+    AppAxios.get( directoryPath, {
+      headers: {
+        'crossDomain': true,
+        'cache-control': 'no-cache',
+        'Content-Type': 'application/hal+json',
+      },
+    })
+      .then(response => {
+        GETResultElement.innerHTML = '<h1>' + response.data.title[0].value + '</h1>' + '\n' + response.data.body[0].value;
+      })
+      .catch(error =>{
+        GETResultElement.innerHTML = '<h1>' + error.data.title[0].value + '</h1>' + '\n' + error.data.body[0].value;
+      });
+  },
 };
