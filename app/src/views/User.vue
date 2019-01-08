@@ -23,7 +23,6 @@
     export default {
         name: moduleName,
         components: {
-            AppWrapper,
         },
         beforeCreate(){
 
