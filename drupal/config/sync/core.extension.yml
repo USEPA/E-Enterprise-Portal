@@ -3,6 +3,7 @@ module:
   admin_toolbar: 0
   admin_toolbar_tools: 0
   advagg: 0
+  api_favorite_links: 0
   automated_cron: 0
   backup_migrate: 0
   basic_auth: 0

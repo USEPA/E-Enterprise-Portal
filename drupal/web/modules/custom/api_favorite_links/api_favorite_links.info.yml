@@ -1,0 +1,5 @@
+name: Favorite_Links REST API
+description: GETS Favorite Links of user
+package: Custom
+type: module
+core: 8.x
