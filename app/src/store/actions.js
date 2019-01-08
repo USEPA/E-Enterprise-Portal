@@ -164,7 +164,7 @@ export default {
    * Accepts URL path to the API and the element you're displaying data in.
    * Input params are an array [ , ]
    */
-  drupalAPIGETRequest(context, [URLPath, elementId]){
+  drupalAPIGET(context, [URLPath, elementId]){
     const store = context;
     const GETResultElement = document.getElementById(elementId);
 
