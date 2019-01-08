@@ -15,21 +15,28 @@
     Favorite Link URL: <input v-model.url="favoriteLinkURL" type="url">
     <br>
     <br>
-    <b-btn @click="performDrupalUserFavLinkPATCHRequest(favoriteLinkName, favoriteLinkURL, userID)">Click to PATCH Request</b-btn>
+    <b-btn @click="performDrupalUserFavLinkPATCHRequest(favoriteLinkName, favoriteLinkURL, userID)">Click to PATCH
+      Request
+    </b-btn>
     <hr>
     <h3>DELETE</h3>
     Favorite Link Name: <input v-model.text="DELETEfavoriteLinkName" type="text">
     <br>
     <br>
-    <b-btn @click="performDrupalUserFavLinkDELETERequest(DELETEfavoriteLinkName, userID)">Click to DELETE Request</b-btn>
+    <b-btn @click="performDrupalUserFavLinkDELETERequest(DELETEfavoriteLinkName, userID)">Click to DELETE Request
+    </b-btn>
     <hr>
-    <h3>userObject in State: </h3><div id='stateCheck'>{{ userObj }}</div>
+    <h3>userObject in State: </h3>
+    <div id='stateCheck'>{{ userObj }}</div>
     <hr>
-    <h3>GET Result: </h3><div id='getResult'></div>
+    <h3>GET Result: </h3>
+    <div id='getResult'></div>
     <hr>
-    <h3>PATCH Result: </h3><div id='patchResult'></div>
+    <h3>PATCH Result: </h3>
+    <div id='patchResult'></div>
     <hr>
-    <h3>DELETE Result: </h3><div id='deleteResult'></div>
+    <h3>DELETE Result: </h3>
+    <div id='deleteResult'></div>
     <br>
     <br>
     <br>
