@@ -102,7 +102,6 @@
 
           // Set the cookie for the user that is logged in
           this.$cookie.set('userLoggedIn', true, {expires: '20m'});
-          this.$cookie.set('loggedInUserInfo', username+";"+token ,{expires: '20m'});
         }
 
         // Redirect to the workbench
