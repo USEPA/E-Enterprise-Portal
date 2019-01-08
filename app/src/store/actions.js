@@ -177,10 +177,14 @@ export default {
       },
     })
       .then(response => {
-        GETResultElement.innerHTML = '<h1>' + response.data.title[0].value + '</h1>' + '\n' + response.data.body[0].value;
+        const responseTitle = response.data.title[0].value;
+        const responseBody = response.data.body[0].value;
+        GETResultElement.innerHTML = '<h1>' + responseTitle + '</h1>' + '\n' + responseBody;
       })
       .catch(error =>{
-        GETResultElement.innerHTML = '<h1>' + error.response.headers + '</h1>' + '\n' + error.response.data;
+        const errorHeaders = error.response.headers;
+        const errorData = error.response.data;
+        GETResultElement.innerHTML = '<h1>' + errorHeaders + '</h1>' + '\n' + errorData;
       });
   },
 };
