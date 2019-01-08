@@ -88,21 +88,20 @@
           vars[key] = value;
         });
 
-        // find the URL params
+        // find the URL params for each one
         const data = vars["data"];
         const token = vars["token"];
 
         // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
-        store.commit(types.SET_USERNAME, atob(decodeURIComponent(data)
-                .replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '')));
+        let username = atob(decodeURIComponent(data).replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''));
+        store.commit(types.SET_USERNAME, username);
 
         // This sets the user being logged in
-        if(!this.$cookie.get("userLoggedIn")){
+        if(this.$cookie.get("userLoggedIn")){
           store.commit('USER_LOG_IN');
 
           // Set the cookie for the user that is logged in
           this.$cookie.set('userLoggedIn', true, {expires: '20m'});
-          this.$cookie.set('loggedInUserInfo', username+";"+token ,{expires: '20m'});
         }
 
         // Redirect to the workbench
