@@ -4,7 +4,6 @@
 
 <script>
 
-  import AppAxios from '../modules/wadk/utils/AppAxios.js';
   import { mapGetters, mapActions} from 'vuex';
 
   export default {
