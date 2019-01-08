@@ -52,7 +52,7 @@ const state = {
     },
   },
   user: {
-    isLoggedIn: null,
+    isLoggedIn: false,
     id: 0,
     userName: '',
     location: {
