@@ -165,6 +165,7 @@
     mounted() {
       //  [App.vue specific] When App.vue is finish loading finish the progress bar
       this.$Progress.finish();
+      console.log(this.basicPages);
     },
     created() {
       const vm = this;
