@@ -30,9 +30,12 @@
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/doctrine/cache" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/doctrine/collections" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/doctrine/common" />
+      <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/doctrine/event-manager" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/doctrine/inflector" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/doctrine/instantiator" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/doctrine/lexer" />
+      <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/doctrine/persistence" />
+      <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/doctrine/reflection" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/drupal-composer/drupal-scaffold" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/drupal/coder" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/drupal/console" />
@@ -46,7 +49,6 @@
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/ezyang/htmlpurifier" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/fabpot/goutte" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/firebase/php-jwt" />
-      <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/g1a/composer-test-scenarios" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/grasmash/expander" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/grasmash/yaml-expander" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/guzzlehttp/guzzle" />
@@ -82,6 +84,7 @@
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/psr/http-message" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/psr/log" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/psy/psysh" />
+      <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/ralouphie/getallheaders" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/sebastian/code-unit-reverse-lookup" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/sebastian/comparator" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/sebastian/diff" />
