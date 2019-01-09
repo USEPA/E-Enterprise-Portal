@@ -24,7 +24,6 @@ export default {
    */
   getTAndCCookieDismiss() {
     const cookieState = document.cookie.match('(^|;) ?userTandC=([^;]*)(;|$)');
-    console.log(cookieState);
     return cookieState;
   },
   /**
