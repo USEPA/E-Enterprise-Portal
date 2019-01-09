@@ -199,6 +199,8 @@ export default {
     // Set URN in the state so that the URN in the bridge URL getter is set
     store.commit('SET_BRIDGE_URN', urn);
 
+    console.log(store.getters.getBridgeURL);
+
     // Redirect to the bridge login for a given urn
     window.location = store.getters.getBridgeURL;
 
