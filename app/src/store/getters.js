@@ -111,4 +111,7 @@ export default {
     }
     return environmentApiURL;
   },
+  getBasicPages(state){
+    return state.basicPages;
+  },
 };

@@ -129,4 +129,9 @@ export default {
   [types.SET_BRIDGE_URN](state, obj){
 
   },
+  [types.SET_BASIC_PAGES](state, obj) {
+    Vue.set(state.basicPages,
+      'pagesArray',
+      obj);
+  },
 };
