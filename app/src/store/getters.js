@@ -114,7 +114,7 @@ export default {
   getBasicPages(state){
     return state.basicPages;
   },
-  getGETHeaders(state){
-    return state.GETHeaders;
+  getCurrentUrn(state){
+    return state.currentBridgeUrn;
   },
 };

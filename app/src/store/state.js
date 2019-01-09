@@ -3,6 +3,7 @@
 const state = {
   app: null,
   basicPages: {},
+  currentBridgeUrn: '',
   bridgeSettings: {
     LOCAL: {
       relyingParty: 'https://apidev2.e-enterprise.gov/',
