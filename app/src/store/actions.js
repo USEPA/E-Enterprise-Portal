@@ -172,9 +172,8 @@ export default {
     })
       .then(response => {
         if(response.data){
-          const responseToObject = response.data;
-          console.log(responseToObject);
-          store.commit('SET_BASIC_PAGES', responseToObject);
+          console.log(response.data);
+          store.commit('SET_BASIC_PAGES', response.data);
         }
         else {
           console.warn('abnormal response type');
