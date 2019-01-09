@@ -126,12 +126,12 @@ export default {
       'field_favorite_links',
       obj);
   },
+  [types.SET_BASIC_PAGES](state, obj) {
+      Vue.set(state.basicPages,
+          'pagesArray',
+      obj);
+  },
   [types.SET_BRIDGE_URN](state, obj){
 
-  },
-  [types.SET_BASIC_PAGES](state, obj) {
-    Vue.set(state.basicPages,
-      'pagesArray',
-      obj);
   },
 };

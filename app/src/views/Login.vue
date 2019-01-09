@@ -17,19 +17,12 @@
                     <b-row class="tabContainer  align-h=between">
                         <b-col class="pb-1 col-md-auto">
                             <div class="link-wrapper pt-2 pb-2 pl-2">
-                                <!--<a class="link"  v-bind:href="bridgeURL" ref="ENNAAS">-->
-                                <!--<img src="../assets/images/exchange-network-x-sm.png" alt="cdx">-->
-
-                                <!--<span class="pl-2">-->
-                                <!--{{allLoginAccounts.EPA.cdx.name}}-->
-                                <!--</span>-->
-                                <!--</a>-->
-                                <a class="link" @click="navigateToBridge('ENNAAS')">
+                                <a class="link" href="javascript:void(0);" @click="navigateToBridge('ENNAAS')">
                                     <img src="../assets/images/exchange-network-x-sm.png" alt="cdx">
 
                                     <span class="pl-2">
-                                            {{allLoginAccounts.EPA.cdx.name}}
-                                            </span>
+                                    {{allLoginAccounts.EPA.cdx.name}}
+                                    </span>
                                 </a>
                             </div>
                         </b-col>
@@ -68,8 +61,7 @@
                     <b-row class="tabContainer">
                         <b-col sm class="pb-1">
                             <div class="col-md-12 link-wrapper pt-2 pb-2 pl-2">
-                                <a v-bind:href="allLoginAccounts.socialmedia.facebook.sitePath" class="link"
-                                   ref="Facebook">
+                                <a class="link" href="javascript:void(0);" @click="navigateToBridge('Facebook')">
                                     <img src="../assets/images/facebook-f.png" alt="facebook">
                                     <span class="pl-2">{{allLoginAccounts.socialmedia.facebook.name}}</span>
                                 </a>
