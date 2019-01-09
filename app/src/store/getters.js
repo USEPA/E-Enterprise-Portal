@@ -78,7 +78,7 @@ export default {
     const bridgeSettings = state.bridgeSettings[env];
     if (bridgeSettings) {
       url = `${bridgeSettings.issuer}?wtrealm=${encodeURI(bridgeSettings.relyingParty)
-      }&wreply=${encodeURI(bridgeSettings.sendBridgeBackTo)}&whr=urn:${bridgeSettings.urn}&wa=${bridgeSettings.signInMethod}`;
+      }&wreply=${encodeURI(bridgeSettings.sendBridgeBackTo)}&whr=urn:${state.currentBridgeUrn}&wa=${bridgeSettings.signInMethod}`;
     }
     return url;
   },
