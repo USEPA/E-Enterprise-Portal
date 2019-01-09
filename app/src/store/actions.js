@@ -191,4 +191,16 @@ export default {
         }
       });
   },
+  navigateToBridge(context, urn){
+
+    // Declare store
+    const store = context;
+
+    // Set URN in the state so that the URN in the bridge URL getter is set
+    store.commit('SET_BRIDGE_URN', urn);
+
+    // Redirect to the bridge login for a given urn
+    window.location = store.getters.getBridgeURL;
+
+  },
 };

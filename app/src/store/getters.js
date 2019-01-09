@@ -39,7 +39,7 @@ export default {
    * that the app is running under.
    * @returns {string}
    */
-  getEnvironment() {
+  getEnvironment(){
     let env = 'LOCAL';
     const { host } = window.location;
     let m;
@@ -78,7 +78,7 @@ export default {
     const bridgeSettings = state.bridgeSettings[env];
     if (bridgeSettings) {
       url = `${bridgeSettings.issuer}?wtrealm=${encodeURI(bridgeSettings.relyingParty)
-      }&wreply=${encodeURI(bridgeSettings.sendBridgeBackTo)}&whr=urn:ENNAAS&wa=${bridgeSettings.signInMethod}`;
+      }&wreply=${encodeURI(bridgeSettings.sendBridgeBackTo)}&whr=urn:${state.currentBridgeUrn}&wa=${bridgeSettings.signInMethod}`;
     }
     return url;
   },
@@ -113,5 +113,8 @@ export default {
   },
   getBasicPages(state){
     return state.basicPages;
+  },
+  getCurrentUrn(state){
+    return state.currentBridgeUrn;
   },
 };
