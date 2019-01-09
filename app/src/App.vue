@@ -73,10 +73,50 @@
       VueProgessBar,
       LocationSearch,
     },
+    computed: {
+      ...mapGetters({
+        ENV: 'getEnvironment',
+        navMargin: 'getnavMargin',
+        basicPages: 'getBasicPages',
+      }),
+      // @todo clean up variable names here
+      environmentName() {
+        let env = 'LOCAL';
+        const { host } = window.location;
+        let m;
+
+        const regex = {
+          LOCAL: /(localhost|local|^e-enterprise$)/gm,
+          DEV: /dev\d?\.e-enterprise/gm,
+          TEST: /test\d?\.e-enterprise/gm,
+          PROD: /^e-enterprise\.gov/gm,
+        };
+
+        Object.keys(regex).forEach((envName) => {
+          // eslint-disable-next-line no-cond-assign
+          while ((m = regex[envName].exec(host)) !== null) {
+            // This is necessary to avoid infinite loops with zero-width matches
+            if (m.length) {
+              env = envName;
+            }
+          }
+        });
+
+        let r = 'Local';
+        r = (env === 'DEV') ? 'Development' : r;
+        r = (env === 'TEST') ? 'Test' : r;
+        return r;
+      },
+    },
+    methods: {
+      ...mapActions([
+        'drupalBasicPagesToState'
+      ]),
+    },
     beforeMount(){
       // Declare the main url that the page is currently on
       const main_url = window.location.href;
-//      const cookie = this.$cookie.get("userLoggedIn");
+      //      const cookie = this.$cookie.get("userLoggedIn");
 
       // Declare the store
       const vm = this;
@@ -90,7 +130,7 @@
         // Extracts the URL params
         // Got this functionality from https://html-online.com/articles/get-url-parameters-javascript/
         var parts = main_url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
-            vars[key] = value;
+          vars[key] = value;
         });
 
         // find the URL params for each one
@@ -109,17 +149,18 @@
 
         // Log user in
         store.commit('USER_LOG_IN');
+        // Redirect to the workbench
+        this.$router.push("/workbench");
       }else{
         if(this.$cookie.get('userLoggedIn')){
-            // Log user in and set user name
-            store.commit('USER_LOG_IN');
-            store.commit(types.SET_USERNAME, this.$cookie.get('loggedInUserName'));
+          // Log user in and set user name
+          store.commit('USER_LOG_IN');
+          store.commit(types.SET_USERNAME, this.$cookie.get('loggedInUserName'));
+          // Redirect to the workbench
+          this.$router.push("/workbench");
         }
       }
-      
-      // Redirect to the workbench
-      this.$router.push("/workbench");
-
+      vm.drupalBasicPagesToState();
     },
     mounted() {
       //  [App.vue specific] When App.vue is finish loading finish the progress bar
@@ -167,44 +208,6 @@
         //  finish the progress bar
         vm.$Progress.finish();
       });
-
-    },
-    computed: {
-      ...mapGetters({
-        ENV: 'getEnvironment',
-        navMargin: 'getnavMargin',
-      }),
-      // @todo clean up variable names here
-      environmentName() {
-        let env = 'LOCAL';
-        const { host } = window.location;
-        let m;
-
-        const regex = {
-          LOCAL: /(localhost|local|^e-enterprise$)/gm,
-          DEV: /dev\d?\.e-enterprise/gm,
-          TEST: /test\d?\.e-enterprise/gm,
-          PROD: /^e-enterprise\.gov/gm,
-        };
-
-        Object.keys(regex).forEach((envName) => {
-          // eslint-disable-next-line no-cond-assign
-          while ((m = regex[envName].exec(host)) !== null) {
-            // This is necessary to avoid infinite loops with zero-width matches
-            if (m.length) {
-              env = envName;
-            }
-          }
-        });
-
-        let r = 'Local';
-        r = (env === 'DEV') ? 'Development' : r;
-        r = (env === 'TEST') ? 'Test' : r;
-        return r;
-      },
-    },
-    methods: {
-
     },
   };
 

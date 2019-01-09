@@ -75,7 +75,7 @@
     name: 'MainFooter',
     computed: {
       ...mapGetters({
-        authenticated: 'getUserAuthentication',
+        authenticated: 'getIsLoggedIn',
         tAndCCookieDismiss: 'getTAndCCookieDismiss',
         UserPolicyCookieDismiss: 'getUserPolicyCookieDismiss',
       }),
@@ -101,7 +101,7 @@
 
 
         ]
-      }
+      };
     },
     mounted() {
       AppAxios
@@ -110,9 +110,8 @@
           this.info = response.data[0].field_footer_link_name;
           this.info1 = response.data[0].field_version;
         });
-
     },
-  }
+  };
 
 </script>
 
