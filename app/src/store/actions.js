@@ -159,4 +159,8 @@ export default {
     const store = context;
     store.commit('SET_USER_OBJECT_FAV_LINKS', userObjectFavLinks);
   },
+  navigateToBridge(context, urn){
+    const store = context;
+    console.log(urn);
+  },
 };

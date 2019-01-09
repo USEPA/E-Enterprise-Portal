@@ -24,7 +24,7 @@
                                 <!--{{allLoginAccounts.EPA.cdx.name}}-->
                                 <!--</span>-->
                                 <!--</a>-->
-                                <a class="link" @click="navigateToBridge" ref="ENNAAS">
+                                <a class="link" @click="navigateToBridge('ENNAAS')">
                                     <img src="../assets/images/exchange-network-x-sm.png" alt="cdx">
 
                                     <span class="pl-2">
