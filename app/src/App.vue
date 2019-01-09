@@ -116,7 +116,7 @@
     beforeMount(){
       // Declare the main url that the page is currently on
       const main_url = window.location.href;
-      //      const cookie = this.$cookie.get("userLoggedIn");
+      // const cookie = this.$cookie.get("userLoggedIn");
 
       // Declare the store
       const vm = this;
