@@ -139,6 +139,7 @@
       <path value="$PROJECT_DIR$/drupal/vendor/whitehat101/apr1-md5" />
       <path value="$PROJECT_DIR$/drupal/vendor/simplesamlphp/saml2" />
       <path value="$PROJECT_DIR$/drupal/vendor/simplesamlphp/simplesamlphp" />
+      <path value="$PROJECT_DIR$/drupal/vendor/firebase/php-jwt" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7" />

@@ -45,6 +45,7 @@
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/egulias/email-validator" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/ezyang/htmlpurifier" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/fabpot/goutte" />
+      <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/firebase/php-jwt" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/g1a/composer-test-scenarios" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/grasmash/expander" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/grasmash/yaml-expander" />
