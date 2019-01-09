@@ -134,9 +134,9 @@
             return {};
         },
         methods: {
-            ...mapActions({
+            ...mapActions([
                 'navigateToBridge',
-            }),
+            ]),
         },
         computed: {
             ...mapGetters({
