@@ -159,10 +159,6 @@ export default {
     const store = context;
     store.commit('SET_USER_OBJECT_FAV_LINKS', userObjectFavLinks);
   },
-  navigateToBridge(context, urn){
-    const store = context;
-    console.log(urn);
-  },
   /**
    * API GET request function
    * Stores basic pages from Drupal in state
@@ -194,5 +190,16 @@ export default {
           console.warn('abnormal error response type');
         }
       });
+  },
+  navigateToBridge(context, urn){
+    const store = context;
+
+    // Set the urn in the state
+    store.commit('SET_BRIDGE_URN', urn);
+
+
+    // Redirect to the bridge login for a given urn
+    window.location = store.getters.getBridgeURL();
+      
   },
 };

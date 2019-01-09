@@ -131,7 +131,9 @@ export default {
           'pagesArray',
       obj);
   },
-  [types.SET_BRIDGE_URN](state, obj){
-
+  [types.SET_BRIDGE_URN](state, obj, env){
+      Vue.set(state.bridgeSettings[env],
+          'urn',
+          obj);
   },
 };
