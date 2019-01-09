@@ -31,4 +31,5 @@ hidden:
   field_proxy_service_machine_name: true
   field_request_headers: true
   field_requeste_timeout: true
+  field_response_headers: true
   field_service_endpoints: true
