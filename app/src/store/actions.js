@@ -165,15 +165,13 @@ export default {
    */
   drupalBasicPagesToState(context){
     const store = context;
-
     // gets drupal object
-    AppAxios.get( 'http://e-enterprise/api/basic_pages?_format=json', {
-      headers: store.GETHeaders,
+    AppAxios.get( store.getters.getEnvironmentApiURL + '/api/basic_pages?_format=json', {
+      headers: store.getters.getGETHeaders,
     })
       .then(response => {
         if(response.data){
-          const responseToObject = response.data;
-          store.commit('SET_BASIC_PAGES', responseToObject);
+          store.commit('SET_BASIC_PAGES', response.data);
         }
         else {
           console.warn('abnormal response type');

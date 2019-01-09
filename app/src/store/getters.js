@@ -39,7 +39,7 @@ export default {
    * that the app is running under.
    * @returns {string}
    */
-  getEnvironment(){
+  getEnvironment() {
     let env = 'LOCAL';
     const { host } = window.location;
     let m;

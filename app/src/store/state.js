@@ -106,6 +106,11 @@ const state = {
     },
     tribal: {},
   },
+  GETHeaders: {
+      'crossDomain': true,
+      'cache-control': 'no-cache',
+      'Content-Type': 'application/hal+json',
+  },
 };
 
 export default state;
