@@ -197,9 +197,8 @@ export default {
     // Set the urn in the state
     store.commit('SET_BRIDGE_URN', urn);
 
-
     // Redirect to the bridge login for a given urn
     window.location = store.getters.getBridgeURL();
-      
+
   },
 };
