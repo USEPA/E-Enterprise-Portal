@@ -2,6 +2,7 @@
 
 const state = {
   app: null,
+  basicPages: {},
   bridgeSettings: {
     LOCAL: {
       relyingParty: 'https://apidev2.e-enterprise.gov/',
@@ -52,7 +53,7 @@ const state = {
     },
   },
   user: {
-    isLoggedIn: null,
+    isLoggedIn: false,
     id: 0,
     userName: '',
     location: {
