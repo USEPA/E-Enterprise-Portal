@@ -194,11 +194,14 @@ export default {
   navigateToBridge(context, urn){
     const store = context;
 
-    // Set the urn in the state
-    store.commit('SET_BRIDGE_URN', urn);
+  //   // Set the urn in the state
+     store.commit('SET_BRIDGE_URN', urn);
 
-    // Redirect to the bridge login for a given urn
-    window.location = store.getters.getBridgeURL();
 
+    console.log(store.getters.getEnvironment());
+
+  //   // // Redirect to the bridge login for a given urn
+  //   // window.location = store.getters.getBridgeURL();
+  //
   },
 };

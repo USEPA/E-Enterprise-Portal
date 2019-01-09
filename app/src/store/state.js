@@ -3,27 +3,25 @@
 const state = {
   app: null,
   basicPages: {},
+  currentBridgeUrn: '',
   bridgeSettings: {
     LOCAL: {
       relyingParty: 'https://apidev2.e-enterprise.gov/',
       issuer: 'https://extauthdev.epacdxnode.net',
       sendBridgeBackTo: 'https://apidev2.e-enterprise.gov/user/authenticate',
       signInMethod: 'wsignin1.0',
-      urn: '',
     },
     DEV: {
       relyingParty: 'https://apidev2.e-enterprise.gov/',
       issuer: 'https://extauthdev.epacdxnode.net',
       sendBridgeBackTo: 'https://apidev2.e-enterprise.gov/user/authenticate',
       signInMethod: 'wsignin1.0',
-      urn: '',
     },
     TEST: {
       relyingParty: 'https://apitest2.e-enterprise.gov/',
       issuer: 'https://extauthtest.epacdxnode.net',
       sendBridgeBackTo: 'https://apitest2.e-enterprise.gov/user/authenticate',
       signInMethod: 'wsignin1.0',
-      urn: '',
     },
   },
   ui: {
