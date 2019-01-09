@@ -3,23 +3,31 @@
     <div class="container">
         <h3>Login</h3>
         <div class="pt-2">
-            <p class=" pt-2 font-weight-bold">Select your preferred login method to access E-Enterprise using one of your existing accounts. Choose a
+            <p class=" pt-2 font-weight-bold">Select your preferred login method to access E-Enterprise using one of
+                your existing accounts. Choose a
                 preferred login type and option to get started.</p>
 
         </div>
         <div class="pt-3"></div>
-                <h6 class="ml-4 font-weight-bold ">Use this account:</h6>
-                <b-tabs class="epa-tabs" pills card vertical nav-wrapper-class="w-25">
-                    <b-tab  title="EPA" active>
-                        <h6 class="tabText font-weight-bold">Use your EPA account...</h6>
-                        <b-container class="bv-example-row ml-2" >
-                            <b-row class="tabContainer  align-h=between">
-                                <b-col  class="pb-1 col-md-auto">
-                                    <div class="link-wrapper pt-2 pb-2 pl-2">
-                                        <a  class="link"  v-bind:href="bridgeURL" ref="ENNAAS">
-                                            <img src="../assets/images/exchange-network-x-sm.png" alt="cdx">
+        <h6 class="ml-4 font-weight-bold ">Use this account:</h6>
+        <b-tabs class="epa-tabs" pills card vertical nav-wrapper-class="w-25">
+            <b-tab title="EPA" active>
+                <h6 class="tabText font-weight-bold">Use your EPA account...</h6>
+                <b-container class="bv-example-row ml-2">
+                    <b-row class="tabContainer  align-h=between">
+                        <b-col class="pb-1 col-md-auto">
+                            <div class="link-wrapper pt-2 pb-2 pl-2">
+                                <!--<a class="link"  v-bind:href="bridgeURL" ref="ENNAAS">-->
+                                <!--<img src="../assets/images/exchange-network-x-sm.png" alt="cdx">-->
 
-                                            <span class="pl-2">
+                                <!--<span class="pl-2">-->
+                                <!--{{allLoginAccounts.EPA.cdx.name}}-->
+                                <!--</span>-->
+                                <!--</a>-->
+                                <a class="link" @click="navigateToBridge" ref="ENNAAS">
+                                    <img src="../assets/images/exchange-network-x-sm.png" alt="cdx">
+
+                                    <span class="pl-2">
                                             {{allLoginAccounts.EPA.cdx.name}}
                                             </span>
                                 </a>
@@ -28,7 +36,7 @@
                         <div class="w-100 d-block d-md-none py-1"></div>
                         <b-col class="pb-1 col-md-auto">
                             <div class="link-wrapper pt-2 pb-2 pl-2">
-                                <a href="/" class="link" ref="WAMNAAS">
+                                <a href="bridgeURL" class="link" ref="WAMNAAS">
                                     <img src="../assets/images/epaicon.png" alt="wam">
                                     <span class="pl-2">
                                             {{allLoginAccounts.EPA.wam.name}}
@@ -39,7 +47,7 @@
                         <div class="w-100 d-block d-md-none py-1"></div>
                         <b-col class="pb-1 col-md-auto">
                             <div class="link-wrapper pt-2 pb-2 pl-2">
-                                <a href="/"  class="link" ref="SmartCardAuth">
+                                <a href="/" class="link" ref="SmartCardAuth">
                                     <img src="../assets/images/piv-smartcard.png" alt="smartCard">
                                     <span class="pl-2">
                                             {{allLoginAccounts.EPA.smartCard.name}}
@@ -50,7 +58,8 @@
                     </b-row>
                 </b-container>
                 <div class="mt-4">
-                    You can <a href="https://cdx.epa.gov/">create a free CDX account </a> within the Exchange Network. You only need to provide some basic information.
+                    You can <a href="https://cdx.epa.gov/">create a free CDX account </a> within the Exchange Network.
+                    You only need to provide some basic information.
                 </div>
             </b-tab>
             <b-tab class="tab" title="Social Media">
@@ -59,7 +68,8 @@
                     <b-row class="tabContainer">
                         <b-col sm class="pb-1">
                             <div class="col-md-12 link-wrapper pt-2 pb-2 pl-2">
-                                <a v-bind:href="allLoginAccounts.socialmedia.facebook.sitePath" class="link" ref="Facebook">
+                                <a v-bind:href="allLoginAccounts.socialmedia.facebook.sitePath" class="link"
+                                   ref="Facebook">
                                     <img src="../assets/images/facebook-f.png" alt="facebook">
                                     <span class="pl-2">{{allLoginAccounts.socialmedia.facebook.name}}</span>
                                 </a>
@@ -67,7 +77,8 @@
                         </b-col>
                         <b-col sm class="pb-1">
                             <div class="col-md-12 link-wrapper pt-2 pb-2 pl-2">
-                                <a v-bind:href="allLoginAccounts.socialmedia.twitter.sitePath" class="link" ref="Twitter">
+                                <a v-bind:href="allLoginAccounts.socialmedia.twitter.sitePath" class="link"
+                                   ref="Twitter">
                                     <img src="../assets/images/twitter.svg" alt="twitter">
                                     <span class="pl-2">{{allLoginAccounts.socialmedia.twitter.name}}</span>
                                 </a>
@@ -114,22 +125,23 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex';
+    import {mapGetters, mapActions} from 'vuex';
 
     export default{
         name: 'Login',
         components: {},
         data() {
-            return {
-            };
+            return {};
         },
         methods: {
-
+            ...mapActions({
+                'navigateToBridge',
+            }),
         },
         computed: {
             ...mapGetters({
-              bridgeURL: 'getBridgeURL',
-              allLoginAccounts: 'getloginPageAccounts'
+                bridgeURL: 'getBridgeURL',
+                allLoginAccounts: 'getloginPageAccounts'
             }),
         },
     };
@@ -138,49 +150,55 @@
 <!-- do not include scope to modify the bootstrap elements -->
 <style lang="scss">
 
-    @media only screen and (min-width:500px) {
+    @media only screen and (min-width: 500px) {
         .tabText {
-            position:relative;
-            top:-2.9rem;
+            position: relative;
+            top: -2.9rem;
         }
     }
 
     .epa-tabs {
-        ul{
-            border-right: 1px solid lightgrey;
-            background-color: #FFFFFF;
-            li.nav-item a{
-                background-color: #F1F1F1;
-                color: #094e7a;
-            }
-            li.nav-item a.active {
-                background-color: #094e7a;
-                color: #ffffff;
-            }
 
-            li.nav-item a.active, li.nav-item a{
-                margin-bottom: 10px;
-                -webkit-border-radius: 0;
-                -moz-border-radius: 0;
-                border-radius: 0;
-                height: 4rem;
-                padding-top:20px;
+    ul {
+        border-right: 1px solid lightgrey;
+        background-color: #FFFFFF;
 
-            }
+    li.nav-item a {
+        background-color: #F1F1F1;
+        color: #094e7a;
+    }
 
-        }
+    li.nav-item a.active {
+        background-color: #094e7a;
+        color: #ffffff;
+    }
+
+    li.nav-item a.active, li.nav-item a {
+        margin-bottom: 10px;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        border-radius: 0;
+        height: 4rem;
+        padding-top: 20px;
+
+    }
+
+    }
 
     }
     .link-wrapper {
         background-color: #888888;
-        .link {
-            color: #ffffff;
-            text-decoration: none;
-            padding: 5px;
-        }
-        img {
-            height: 16px;
-            width: 16px;
-        }
+
+    .link {
+        color: #ffffff;
+        text-decoration: none;
+        padding: 5px;
+    }
+
+    img {
+        height: 16px;
+        width: 16px;
+    }
+
     }
 </style>
