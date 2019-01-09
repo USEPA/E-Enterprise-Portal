@@ -165,14 +165,12 @@ export default {
    */
   drupalBasicPagesToState(context){
     const store = context;
-    console.log(store.getters.getGETHeaders);
     // gets drupal object
     AppAxios.get( store.getters.getEnvironmentApiURL + '/api/basic_pages?_format=json', {
       headers: store.getters.getGETHeaders,
     })
       .then(response => {
         if(response.data){
-          console.log(response.data);
           store.commit('SET_BASIC_PAGES', response.data);
         }
         else {
