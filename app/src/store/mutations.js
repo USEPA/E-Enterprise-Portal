@@ -126,4 +126,9 @@ export default {
       'field_favorite_links',
       obj);
   },
+  [types.SET_BASIC_PAGES](state, obj) {
+    Vue.set(state.basicPages,
+      'pagesArray',
+      obj);
+  },
 };

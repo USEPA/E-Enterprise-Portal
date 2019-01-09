@@ -159,4 +159,36 @@ export default {
     const store = context;
     store.commit('SET_USER_OBJECT_FAV_LINKS', userObjectFavLinks);
   },
+  /**
+   * API GET request function
+   * Stores basic pages from Drupal in state
+   */
+  drupalBasicPagesToState(context){
+    const store = context;
+
+    // gets drupal object
+    AppAxios.get( 'http://e-enterprise/api/basic_pages?_format=json', {
+      headers: store.GETHeaders,
+    })
+      .then(response => {
+        if(response.data){
+          const responseToObject = response.data;
+          store.commit('SET_BASIC_PAGES', responseToObject);
+        }
+        else {
+          console.warn('abnormal response type');
+        }
+      })
+      .catch(error =>{
+        if(error.response) {
+          const errorHeaders = error.response.headers;
+          const errorData = error.response.data;
+          console.warn('Headers: ' + errorHeaders +
+          '\n' + 'Message: ' + errorData);
+        }
+        else {
+          console.warn('abnormal error response type');
+        }
+      });
+  },
 };
