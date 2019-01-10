@@ -1,0 +1,16 @@
+uuid: 68783e03-5dd5-424c-a30c-59d4d290e452
+langcode: en
+status: true
+dependencies: {  }
+id: prod_split
+label: 'Prod Split'
+description: ''
+folder: prod
+module: {  }
+theme: {  }
+blacklist:
+  - eep_bridge.environment_settings
+graylist: {  }
+graylist_dependents: true
+graylist_skip_equal: true
+weight: 0
