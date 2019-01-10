@@ -2,6 +2,8 @@
 
 const state = {
   app: null,
+  basicPages: {},
+  currentBridgeUrn: '',
   bridgeSettings: {
     LOCAL: {
       relyingParty: 'https://apidev2.e-enterprise.gov/',
@@ -52,7 +54,7 @@ const state = {
     },
   },
   user: {
-    isLoggedIn: null,
+    isLoggedIn: false,
     id: 0,
     userName: '',
     location: {
@@ -105,9 +107,9 @@ const state = {
     tribal: {},
   },
   GETHeaders: {
-    'crossDomain': true,
-    'cache-control': 'no-cache',
-    'Content-Type': 'application/hal+json'
+      'crossDomain': true,
+      'cache-control': 'no-cache',
+      'Content-Type': 'application/hal+json',
   },
 };
 

@@ -17,6 +17,7 @@
     <mapping directory="$PROJECT_DIR$/drupal/web/modules/contrib/entity_reference_revisions" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/drupal/web/modules/contrib/field_group" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/drupal/web/modules/contrib/google_analytics" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/drupal/web/modules/contrib/node_export" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/drupal/web/modules/contrib/page_manager" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/drupal/web/modules/contrib/panelizer" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/drupal/web/modules/contrib/panels" vcs="Git" />
