@@ -110,12 +110,12 @@
     },
     methods: {
       ...mapActions([
-        'drupalBasicPagesToState'
+        'EEPBasicPagesToState'
       ]),
     },
     beforeCreate(){
       const vm = this;
-      vm.$store.dispatch('drupalBasicPagesToState');
+      vm.$store.dispatch('EEPBasicPagesToState');
     },
     created() {
       const vm = this;
