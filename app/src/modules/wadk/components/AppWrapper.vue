@@ -69,12 +69,12 @@
 
 </script>
 
-<style>
+<style scoped>
+  @import '../styles/bootstrap-widget-dropdown.scss';
   .app-window-icon {
     padding: 0.5em;
   }
-
-  .widget-dropdown {
+.widget-dropdown {
     background-image:url('../images/widget-menu.svg');
     background-repeat:no-repeat;
     background-position:center center;
@@ -85,28 +85,4 @@
     background-size: 1.3rem 1.325rem;
   }
 
-  .widget-menu {
-    background-color: #0071c2;
-    width:2.2rem;
-    height:2.2rem;
-    border-radius:50%;
-  }
-
-  .dropdown .dropdown-menu .dropdown-item {
-    color:#fff;
-  }
-
-  .dropdown .dropdown-menu {
-    background-color: #0071c2;
-    border-radius: 10%;
-  }
-  .dropdown .dropdown-divider {
-    margin:0.5rem;
-    border-top: 1px dashed #e9ecef;
-  }
-  .dropdown .dropdown-item:hover, .dropdown .dropdown-item:focus {
-    color: #fff;
-    text-decoration: none;
-    background-color: #0A5B95;
-  }
 </style>
