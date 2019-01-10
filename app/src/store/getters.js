@@ -31,7 +31,6 @@ export default {
    */
   getUserPolicyCookieDismiss() {
     const cookieState = document.cookie.match('(^|;) ?userPolicy=([^;]*)(;|$)');
-    console.log(cookieState);
     return cookieState;
   },
   /**

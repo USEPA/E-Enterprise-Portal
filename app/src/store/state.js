@@ -2,7 +2,9 @@
 
 const state = {
   app: null,
-  basicPages: {},
+  basicPages: {
+    pagesArray: [],
+  },
   currentBridgeUrn: '',
   bridgeSettings: {
     LOCAL: {
