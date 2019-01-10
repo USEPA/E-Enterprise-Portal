@@ -109,9 +109,7 @@
       },
     },
     methods: {
-      ...mapActions([
-        'EEPBasicPagesToState'
-      ]),
+      
     },
     beforeCreate(){
       const vm = this;
