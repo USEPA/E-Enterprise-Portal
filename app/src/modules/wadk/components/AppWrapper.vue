@@ -23,7 +23,6 @@
         <div class="col-2  d-flex justify-content-lg-end align-self-end align-items-center">
           <div class="col-4-md d-flex mr-3 align-self-end align-items-center">
             <b-dropdown id="divider" variant="link" right class="widget-dropdown" no-caret>
-
               <b-dropdown-item-button>Settings</b-dropdown-item-button>
               <b-dropdown-item-button>Move</b-dropdown-item-button>
               <b-dropdown-divider></b-dropdown-divider>
