@@ -20,8 +20,8 @@
       target="_blank">{{ eepApp.source.text }}</a>
     </h6>
       </div>
-        <div class="col-2 text-right">
-          <div>
+        <div class="col-2  d-flex justify-content-lg-end align-self-end align-items-center">
+          <div class="col-4-md d-flex mr-3 align-self-end align-items-center">
             <b-dropdown id="divider" variant="link" right class="widget-dropdown" no-caret>
 
               <b-dropdown-item-button>Settings</b-dropdown-item-button>
@@ -33,7 +33,10 @@
               <b-dropdown-item-button>Contact</b-dropdown-item-button>
             </b-dropdown>
           </div>
-
+          <b-button
+          class="widget-expand col-4-md d-flex mr-3 align-self-end align-items-center"
+          @click="maximizeWidget()">
+</b-button>
         </div>
       </div>
     <div class="app-inner-wrapper">
@@ -65,6 +68,12 @@
         .get('https://apidev2.e-enterprise.gov/api/workbenchapps')
         .then(response => (this.title = (response.data)))
     },
+      methods: {
+      maximizeWidget(){
+      return console.log("hi");
+      }
+
+      }
   };
 
 </script>
@@ -84,5 +93,15 @@
     border-radius:50%;
     background-size: 1.3rem 1.325rem;
   }
+  .widget-expand {
+      background-image:url('../images/widget-expand.svg');
+      background-repeat:no-repeat;
+      background-position:center center;
+      background-color:#0071c2;
+      width:2.2rem;
+      height:2.2rem;
+      border-radius:50%;
+      background-size: 1.3rem 1.325rem;
+    }
 
 </style>
