@@ -115,10 +115,7 @@
     },
     beforeCreate(){
       const vm = this;
-      vm.$store.dispatch('drupalBasicPagesToState')
-        .then(setTimeout(() => {
-          console.log(this.basicPages.pagesArray)
-        }, 2000));
+      vm.$store.dispatch('drupalBasicPagesToState');
     },
     created() {
       const vm = this;
@@ -213,7 +210,6 @@
     mounted() {
       //  [App.vue specific] When App.vue is finish loading finish the progress bar
       this.$Progress.finish();
-      console.log(this.basicPages);
     },
   };
 

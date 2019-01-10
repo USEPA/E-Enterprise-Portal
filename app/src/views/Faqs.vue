@@ -30,7 +30,6 @@
       // @TODO need to find a way to resolve this via promises
       setTimeout(() => {
         const filteredArray = this.basicPages.pagesArray.filter(filterByUuid);
-        console.log(filteredArray);
         document.getElementById('FAQs').innerHTML = filteredArray[0].body[0].value;
       }, 200);
     },
