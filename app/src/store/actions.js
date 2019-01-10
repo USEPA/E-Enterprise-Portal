@@ -202,13 +202,12 @@ export default {
 
   },
   /**
-   * API GET request function
+   * General API GET request function
    * Accepts URL path to the API and the element you're displaying data in.
    * Input params are an array [ , ]
    */
-  drupalAPIGET(context, [URLPath, elementId]){
+  drupalAPIGET(context, URLPath){
     const store = context;
-    const GETResultElement = document.getElementById(elementId);
 
     // gets drupal object
     AppAxios.get( URLPath, {
@@ -216,10 +215,7 @@ export default {
     })
       .then(response => {
         if(response.data){
-          const responseTitle = response.data.title[0].value;
-          const responseBody = response.data.body[0].value;
-          GETResultElement.innerHTML = '<h1>' + responseTitle + '</h1>' +
-            '\n' + responseBody;
+          return response;
         }
         else {
           console.warn('abnormal response type')
@@ -227,10 +223,7 @@ export default {
       })
       .catch(error =>{
         if(error.response) {
-          const errorHeaders = error.response.headers;
-          const errorData = error.response.data;
-          GETResultElement.innerHTML = '<h1>' + errorHeaders + '</h1>' +
-            '\n' + errorData;
+          console.log(error);
         }
         else {
           console.warn('abnormal error response type')

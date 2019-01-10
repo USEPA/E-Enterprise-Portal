@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer fixed-bottom">
+  <footer class="footer">
     <div
       class="alert alert-info"
       role="alert"

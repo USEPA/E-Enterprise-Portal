@@ -113,6 +113,56 @@
         'drupalBasicPagesToState'
       ]),
     },
+    beforeCreate(){
+      const vm = this;
+      vm.$store.dispatch('drupalBasicPagesToState')
+        .then(setTimeout(() => {
+          console.log(this.basicPages.pagesArray)
+        }, 2000));
+    },
+    created() {
+      const vm = this;
+      vm.$store.commit(types.SET_APP, vm);
+      //  [App.vue specific] When App.vue is first loaded start the progress bar
+      vm.$Progress.start();
+
+//      // Add event listener for the window load
+//      window.addEventListener('load', function () {
+//        var cookie = vm.$cookie.get('userLoggedIn');
+//        if (cookie) {
+//          vm.$cookie.set('userLoggedIn', true, {expires: '20m'});
+//          vm.$store.commit('USER_LOG_IN');
+//        }
+//      }, false);
+//
+//      // Add event listener for the window refresh
+//      window.addEventListener('beforeunload', function () {
+//        this.$cookie.set('userLoggedIn', false, {expires: '-99s'});
+//        vm.$store.commit('USER_LOG_OUT');
+//      }, false);
+
+      //  hook the progress bar to start before we move router-view
+      vm.$router.beforeEach((
+        to, from, next,
+      ) => {
+        //  does the page we want to go to have a meta.progress object
+        if (to.meta.progress !== undefined) {
+          const meta = to.meta.progress;
+          // parse meta tags
+          vm.$Progress.parseMeta(meta);
+        }
+        //  start the progress bar
+        vm.$Progress.start();
+        //  continue to next page
+        next();
+      });
+
+      //  hook the progress bar to finish after we've finished moving router-view
+      vm.$router.afterEach(() => {
+        //  finish the progress bar
+        vm.$Progress.finish();
+      });
+    },
     beforeMount(){
       // Declare the main url that the page is currently on
       const main_url = window.location.href;
@@ -159,55 +209,11 @@
           this.$router.push("/workbench");
         }
       }
-      vm.drupalBasicPagesToState();
     },
     mounted() {
       //  [App.vue specific] When App.vue is finish loading finish the progress bar
       this.$Progress.finish();
       console.log(this.basicPages);
-    },
-    created() {
-      const vm = this;
-      vm.$store.commit(types.SET_APP, vm);
-      //  [App.vue specific] When App.vue is first loaded start the progress bar
-      vm.$Progress.start();
-
-//      // Add event listener for the window load
-//      window.addEventListener('load', function () {
-//        var cookie = vm.$cookie.get('userLoggedIn');
-//        if (cookie) {
-//          vm.$cookie.set('userLoggedIn', true, {expires: '20m'});
-//          vm.$store.commit('USER_LOG_IN');
-//        }
-//      }, false);
-//
-//      // Add event listener for the window refresh
-//      window.addEventListener('beforeunload', function () {
-//        this.$cookie.set('userLoggedIn', false, {expires: '-99s'});
-//        vm.$store.commit('USER_LOG_OUT');
-//      }, false);
-
-      //  hook the progress bar to start before we move router-view
-      vm.$router.beforeEach((
-        to, from, next,
-      ) => {
-        //  does the page we want to go to have a meta.progress object
-        if (to.meta.progress !== undefined) {
-          const meta = to.meta.progress;
-          // parse meta tags
-          vm.$Progress.parseMeta(meta);
-        }
-        //  start the progress bar
-        vm.$Progress.start();
-        //  continue to next page
-        next();
-      });
-
-      //  hook the progress bar to finish after we've finished moving router-view
-      vm.$router.afterEach(() => {
-        //  finish the progress bar
-        vm.$Progress.finish();
-      });
     },
   };
 
