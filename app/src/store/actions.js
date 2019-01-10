@@ -201,19 +201,16 @@ export default {
     window.location = store.getters.getBridgeURL;
 
   },
-  filterPageArrayByUuid(context, item) {
-    return item.uuid[0].value === context.currentPageUuid;
-  },
   /**
    * General API GET request function
    * Accepts URL path to the API and the element you're displaying data in.
    * Input params are an array [ , ]
    */
-  EEPAPIGET(context, URLPath){
+  EEPAPIGET(context, URL){
     const store = context;
 
     // gets drupal object
-    AppAxios.get( URLPath, {
+    AppAxios.get( URL, {
       headers: store.GETHeaders,
     })
       .then(response => {

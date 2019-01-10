@@ -54,9 +54,12 @@
       }),
     },
     methods: {
-      ...mapActions([
-        'filterPageArrayByUuid',
-      ]),
+      /**
+       * Filters Page Array based on current page's Uuid
+       */
+      filterPageArrayByUuid( item) {
+        return item.uuid[0].value === this.currentPageUuid;
+      },
     },
     data() {
       return {
