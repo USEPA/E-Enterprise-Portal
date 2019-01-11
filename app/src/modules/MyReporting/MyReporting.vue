@@ -47,7 +47,7 @@
                     },
                     html: {
                         mainCard:
-                          '<h4>Program Service Name</h4>'
+                          '<p>Report directly to your CDX data flows.</p>'
 
                   ,
                     },
