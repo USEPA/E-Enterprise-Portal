@@ -20,7 +20,5 @@ body {
     background-color: $white;
   }
 }
-
-#app > .container {
-  padding-bottom: 3.2rem;
-}
+@import "workbench-grid";
+@import "workbench-application";

@@ -1,5 +1,4 @@
 import types from './types';
-import { AppAxios, commonAppStore } from '../../wadk/WADK';
 import { EventBus } from '../../../EventBus';
 
 /**
@@ -8,7 +7,6 @@ import { EventBus } from '../../../EventBus';
  * mutators.  Async tasks should be created here.
  */
 export default {
-  ...commonAppStore.actions,
   sampleAction(context) {
     const store = context;
     const { state } = store;

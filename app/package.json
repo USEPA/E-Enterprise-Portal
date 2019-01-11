@@ -22,6 +22,7 @@
     "open-iconic": "^1.1.1",
     "popper.js": "^1.14.6",
     "vue-cookie": "^1.1.4",
+    "vue-grid-layout": "^2.3.3",
     "vue-progressbar": "^0.7.5",
     "vue-router": "^3.0.2",
     "vuex": "^3.0.1",

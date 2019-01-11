@@ -6,7 +6,4 @@
  *  @SEE https://vuex.vuejs.org/guide/mutations.html
  */
 
-export default {
-  NAMESPACE: 'ModuleTemplate/',
-  SAMPLE_MUTATION: 'SAMPLE_MUTATION',
-};
+export default {};
