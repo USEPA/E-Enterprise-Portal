@@ -48,10 +48,11 @@ Vue.use(Router);
         name: 'faqs',
         component: () => import('./views/Faqs.vue'),
       },
+      // add appropriate else for basic pages below
     ],
 });
 
- // sets nav guard to mutate current page uuid based on route name
+ // sets nav guard that mutates current page uuid in state based on route name
 router.beforeEach((to, from, next) => {
   let uuid = '';
   if(to.name === 'faqs'){
