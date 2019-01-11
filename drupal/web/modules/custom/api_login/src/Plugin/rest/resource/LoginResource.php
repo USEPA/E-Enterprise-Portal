@@ -33,7 +33,7 @@ class LoginResource extends ResourceBase {
         // modify here
 
         $response = "This works";
-        
+
         return new ResourceResponse($response);
     }
 
