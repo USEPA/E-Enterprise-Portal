@@ -29,7 +29,7 @@
                         <div class="w-100 d-block d-md-none py-1"></div>
                         <b-col class="pb-1 col-md-auto">
                             <div class="link-wrapper pt-2 pb-2 pl-2">
-                                <a href="bridgeURL" class="link" ref="WAMNAAS">
+                                <a href="bridgeURL" class="link">
                                     <img src="../assets/images/epaicon.png" alt="wam">
                                     <span class="pl-2">
                                             {{allLoginAccounts.EPA.wam.name}}
