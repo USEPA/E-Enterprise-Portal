@@ -8,6 +8,7 @@
         <!--
           @todo Need to update buttons and methods for AppWrapper
           Maximize, minimize, dropdown menu, etc.
+          background-image:url('../images/widget-expand.svg');
         -->
       <div  class="col-10 text-left">
     <h2 v-for="item in title.slice(2,3)" v-if="eepApp.title =='Be Well Informed'">{{item.title[0].value}}</h2>
@@ -20,10 +21,9 @@
       target="_blank">{{ eepApp.source.text }}</a>
     </h6>
       </div>
-        <div class="col-2 text-right">
-          <div>
-            <b-dropdown id="divider" variant="link" right class="widget-dropdown" no-caret>
-
+        <div class="col-2  d-flex justify-content-lg-end align-self-end align-items-center">
+          <div class="col-4-md d-flex mr-3 align-self-end align-items-center">
+            <b-dropdown id="divider" variant="link" right class="widget-dropdown widget-button" no-caret>
               <b-dropdown-item-button>Settings</b-dropdown-item-button>
               <b-dropdown-item-button>Move</b-dropdown-item-button>
               <b-dropdown-divider></b-dropdown-divider>
@@ -33,7 +33,10 @@
               <b-dropdown-item-button>Contact</b-dropdown-item-button>
             </b-dropdown>
           </div>
-
+          <b-button
+               class="widget-expand widget-button col-4-md d-flex mr-3 align-self-end align-items-center"
+               @click="maximizeWidget()">
+          </b-button>
         </div>
       </div>
     <div class="app-inner-wrapper">
@@ -65,6 +68,11 @@
         .get('https://apidev2.e-enterprise.gov/api/workbenchapps')
         .then(response => (this.title = (response.data)))
     },
+     methods: {
+      maximizeWidget(){
+        return console.log("hi");
+      }
+    }
   };
 
 </script>
@@ -74,8 +82,13 @@
   .app-window-icon {
     padding: 0.5em;
   }
-.widget-dropdown {
+  .widget-dropdown {
     background-image:url('../images/widget-menu.svg');
+  }
+  .widget-expand {
+    background-image:url('../images/widget-expand.svg');
+  }
+  .widget-button {
     background-repeat:no-repeat;
     background-position:center center;
     background-color:#0071c2;
