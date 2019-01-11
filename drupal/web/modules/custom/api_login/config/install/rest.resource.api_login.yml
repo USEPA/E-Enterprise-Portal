@@ -1,0 +1,11 @@
+id: api_login
+plugin_id: api_login
+granularity: method
+configuration:
+  GET:
+    supported_formats:
+      - json
+    supported_auth:
+      - basic_auth
+      - jwt_auth
+      - cookie
