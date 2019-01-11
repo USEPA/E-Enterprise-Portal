@@ -38,9 +38,8 @@
 
 <script>
 
-  import { mapGetters, mapActions} from 'vuex';
+  import { mapGetters } from 'vuex';
   import { AppPlaceholderContent } from '../modules/wadk/WADK';
-
 
   export default {
     name: "faqs",
@@ -59,7 +58,7 @@
         return item.uuid[0].value === this.currentPageUuid;
       }
     },
-  }
+  };
 </script>
 
 <style scoped>
