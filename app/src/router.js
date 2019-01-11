@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Workbench from './views/Workbench.vue';
-import state from './store.js';
 
 Vue.use(Router);
 
