@@ -1,13 +1,12 @@
 <template>
-  <div id="FAQs-container">
+  <div id="basic-page-container">
     <div
-      v-if="basicPages.pagesArray[0]"
-      v-html="basicPages.pagesArray
-        .filter(filterPageArrayByUuid)[0].body[0].value"
-      id="FAQs">
+      v-if="basicPages[0]"
+      v-html="page.body[0].value"
+      id="basic-page">
     </div>
     <AppPlaceholderContent
-      v-if="!basicPages.pagesArray[0]"
+      v-if="!basicPages[0]"
       :repeatitions="3">
       <div
         v-for="i in 3"
@@ -38,32 +37,32 @@
 
 <script>
 
-  import { mapGetters, mapActions} from 'vuex';
+  import { mapGetters } from 'vuex';
   import { AppPlaceholderContent } from '../modules/wadk/WADK';
 
-
   export default {
-    name: "faqs",
+    name: "basic-page",
     components: {
       AppPlaceholderContent,
     },
+    props: {
+      urlAlias: {
+        type: String,
+        required: true,
+      },
+    },
     computed: {
       ...mapGetters({
-        apiURL: 'getEnvironmentApiURL',
-        basicPages: 'getBasicPages',
+        basicPages: 'getBasicPagesArray',
       }),
+      page () {
+        return this.basicPages.find(page => page.path[0].alias.replace(/\\|\//g,'') === this.urlAlias);
+      },
     },
-    methods: {
-      ...mapActions([
-        'filterPageArrayByUuid',
-      ]),
-    },
-    data() {
-      return {
-        currentPageUuid: '3bd1261a-e049-408e-9da7-966c572b045b',
-      };
-    },
-  }
+    mounted() {
+      console.log(this.basicPages.find(page => page.path[0].alias.replace(/\\|\//g,'') === this.urlAlias));
+    }
+  };
 </script>
 
 <style scoped>

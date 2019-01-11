@@ -110,8 +110,8 @@ export default {
     }
     return environmentApiURL;
   },
-  getBasicPages(state){
-    return state.basicPages;
+  getBasicPagesArray(state){
+    return state.basicPages.pagesArray;
   },
   getCurrentUrn(state){
     return state.currentBridgeUrn;
