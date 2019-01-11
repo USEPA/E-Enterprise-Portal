@@ -134,4 +134,7 @@ export default {
   [types.SET_BRIDGE_URN](state, obj){
       state.currentBridgeUrn = obj;
   },
+  [types.SET_CURRENT_PAGE_UUID](state, str){
+    state.basicPages.currentPageUuid = str;
+  },
 };

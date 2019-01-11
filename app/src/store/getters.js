@@ -116,4 +116,7 @@ export default {
   getCurrentUrn(state){
     return state.currentBridgeUrn;
   },
+  getCurrentPageUuid(state){
+    return state.basicPages.currentPageUuid;
+  }
 };

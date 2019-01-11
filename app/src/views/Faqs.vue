@@ -51,20 +51,13 @@
       ...mapGetters({
         apiURL: 'getEnvironmentApiURL',
         basicPages: 'getBasicPages',
+        currentPageUuid: 'getCurrentPageUuid',
       }),
     },
     methods: {
-      /**
-       * Filters Page Array based on current page's Uuid
-       */
-      filterPageArrayByUuid( item) {
+      filterPageArrayByUuid(item) {
         return item.uuid[0].value === this.currentPageUuid;
-      },
-    },
-    data() {
-      return {
-        currentPageUuid: '3bd1261a-e049-408e-9da7-966c572b045b',
-      };
+      }
     },
   }
 </script>

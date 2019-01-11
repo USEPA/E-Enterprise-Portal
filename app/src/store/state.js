@@ -3,6 +3,7 @@
 const state = {
   app: null,
   basicPages: {
+    currentPageUuid: '',
     pagesArray: [],
   },
   currentBridgeUrn: '',
