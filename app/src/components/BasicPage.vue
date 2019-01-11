@@ -1,5 +1,6 @@
 <template>
   <div id="basic-page-container">
+    <h1 v-if="basicPages[0]">{{page.title[0].value}}</h1>
     <div
       v-if="basicPages[0]"
       v-html="page.body[0].value"
