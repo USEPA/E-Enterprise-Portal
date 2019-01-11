@@ -110,18 +110,10 @@ export default {
     }
     return environmentApiURL;
   },
-  getBasicPages(state){
-    return state.basicPages;
+  getBasicPagesArray(state){
+    return state.basicPages.pagesArray;
   },
   getCurrentUrn(state){
     return state.currentBridgeUrn;
   },
-    getFilteredBasicPages(state) {
-    if (state.basicPages.pagesArray[0]) {
-      return state.basicPages.pagesArray.
-      filter((item)=> {
-        return item.uuid[0].value === state.basicPages.currentPageUuid;
-      })[0].body[0].value;
-    }
-  }
 };

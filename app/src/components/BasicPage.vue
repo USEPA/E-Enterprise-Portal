@@ -1,12 +1,12 @@
 <template>
-  <div id="FAQs-container">
+  <div id="basic-page-container">
     <div
-      v-if="basicPages.pagesArray[0]"
-      v-html="filteredBasicPages"
-      id="FAQs">
+      v-if="basicPages[0]"
+      v-html="page.body[0].value"
+      id="basic-page">
     </div>
     <AppPlaceholderContent
-      v-if="!basicPages.pagesArray[0]"
+      v-if="!basicPages[0]"
       :repeatitions="3">
       <div
         v-for="i in 3"
@@ -41,17 +41,27 @@
   import { AppPlaceholderContent } from '../modules/wadk/WADK';
 
   export default {
-    name: "faqs",
+    name: "basic-page",
     components: {
       AppPlaceholderContent,
     },
+    props: {
+      urlAlias: {
+        type: String,
+        required: true,
+      },
+    },
     computed: {
       ...mapGetters({
-        apiURL: 'getEnvironmentApiURL',
-        basicPages: 'getBasicPages',
-        filteredBasicPages: 'getFilteredBasicPages',
+        basicPages: 'getBasicPagesArray',
       }),
+      page () {
+        return this.basicPages.find(page => page.path[0].alias.replace(/\\|\//g,'') === this.urlAlias);
+      },
     },
+    mounted() {
+      console.log(this.basicPages.find(page => page.path[0].alias.replace(/\\|\//g,'') === this.urlAlias));
+    }
   };
 </script>
 
