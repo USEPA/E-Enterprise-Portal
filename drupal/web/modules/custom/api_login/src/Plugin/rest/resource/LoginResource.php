@@ -32,6 +32,8 @@ class LoginResource extends ResourceBase {
     public function get() {
         // modify here
 
+        $response = "This works";
+        
         return new ResourceResponse($response);
     }
 
