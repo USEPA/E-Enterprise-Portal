@@ -7,12 +7,7 @@
 
 export default {
   // @todo Remove POC "user" and add meaningful intial state values
-  user: {
-    id: 0,
-    roles: [
-      'admin',
-      'logged in',
-      'authenitcated',
-    ],
+  sampleProperty: {
+    name: 'Sample Property',
   },
 };

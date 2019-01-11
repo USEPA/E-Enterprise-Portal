@@ -1,7 +1,3 @@
-import Vue from 'vue';
-import { commonAppStore } from '../../wadk/WADK';
-import types from './types';
-
 /**
  * Methods added here are available to the workbench applications. There
  * are no returned values. Changes should be atomic when possible.
@@ -18,16 +14,4 @@ import types from './types';
  *  @SEE https://vuex.vuejs.org/guide/mutations.html
  */
 
-export default {
-  ...commonAppStore.mutations,
-  [types.SAMPLE_MUTATION](state, obj) {
-    // synchronise changes to the state of the store
-
-    // Example of how to change properties on the state object
-    Vue.set(
-      state, // <- state value to change
-      'name', // <- the name of the property on the object the line above
-      obj.value, // <- new value to set on that property
-    );
-  },
-};
+export default {};
