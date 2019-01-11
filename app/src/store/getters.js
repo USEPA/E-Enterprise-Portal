@@ -116,7 +116,12 @@ export default {
   getCurrentUrn(state){
     return state.currentBridgeUrn;
   },
-  getCurrentPageUuid(state){
-    return state.basicPages.currentPageUuid;
+    getFilteredBasicPages(state) {
+    if (state.basicPages.pagesArray[0]) {
+      return state.basicPages.pagesArray.
+      filter((item)=> {
+        return item.uuid[0].value === state.basicPages.currentPageUuid;
+      })[0].body[0].value;
+    }
   }
 };

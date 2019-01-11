@@ -2,8 +2,7 @@
   <div id="FAQs-container">
     <div
       v-if="basicPages.pagesArray[0]"
-      v-html="basicPages.pagesArray
-        .filter(filterPageArrayByUuid)[0].body[0].value"
+      v-html="filteredBasicPages"
       id="FAQs">
     </div>
     <AppPlaceholderContent
@@ -50,13 +49,8 @@
       ...mapGetters({
         apiURL: 'getEnvironmentApiURL',
         basicPages: 'getBasicPages',
-        currentPageUuid: 'getCurrentPageUuid',
+        filteredBasicPages: 'getFilteredBasicPages',
       }),
-    },
-    methods: {
-      filterPageArrayByUuid(item) {
-        return item.uuid[0].value === this.currentPageUuid;
-      }
     },
   };
 </script>
