@@ -43,7 +43,7 @@
 
       </div>
     </div>
-    <div class="container">
+    <div class="container px-0 pb-5">
       <div
         id="main-content"
         class="no-gutters py-2">
@@ -109,62 +109,11 @@
       },
     },
     methods: {
-      ...mapActions([
-        'drupalBasicPagesToState'
-      ]),
+      
     },
-    beforeMount(){
-      // Declare the main url that the page is currently on
-      const main_url = window.location.href;
-      // const cookie = this.$cookie.get("userLoggedIn");
-
-      // Declare the store
+    beforeCreate(){
       const vm = this;
-      const store = vm.$store;
-
-      if (main_url.indexOf("data") > -1 && main_url.indexOf("token") > -1) {
-
-        // Declare variables
-        var vars = {};
-
-        // Extracts the URL params
-        // Got this functionality from https://html-online.com/articles/get-url-parameters-javascript/
-        var parts = main_url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
-          vars[key] = value;
-        });
-
-        // find the URL params for each one
-        const data = vars["data"];
-        const token = vars["token"];
-
-        // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
-        let username = atob(decodeURIComponent(data).replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''));
-
-        // Save username to store and put in the cookie
-        this.$cookie.set('loggedInUserName', username, {expires: '20m'});
-        store.commit(types.SET_USERNAME, username);
-
-        // Set another cookie saying they logged in
-        this.$cookie.set('userLoggedIn', true, {expires: '20m'});
-
-        // Log user in
-        store.commit('USER_LOG_IN');
-        // Redirect to the workbench
-        this.$router.push("/workbench");
-      }else{
-        if(this.$cookie.get('userLoggedIn')){
-          // Log user in and set user name
-          store.commit('USER_LOG_IN');
-          store.commit(types.SET_USERNAME, this.$cookie.get('loggedInUserName'));
-          // Redirect to the workbench
-          this.$router.push("/workbench");
-        }
-      }
-      vm.drupalBasicPagesToState();
-    },
-    mounted() {
-      //  [App.vue specific] When App.vue is finish loading finish the progress bar
-      this.$Progress.finish();
+      vm.$store.dispatch('EEPBasicPagesToState');
     },
     created() {
       const vm = this;
@@ -208,6 +157,57 @@
         //  finish the progress bar
         vm.$Progress.finish();
       });
+    },
+    beforeMount(){
+      // Declare the main url that the page is currently on
+      const main_url = window.location.href;
+
+      // Declare the store
+      const vm = this;
+      const store = vm.$store;
+
+      if (main_url.indexOf("data") > -1 && main_url.indexOf("token") > -1) {
+
+        // Declare variables
+        var vars = {};
+
+        // Extracts the URL params
+        // Got this functionality from https://html-online.com/articles/get-url-parameters-javascript/
+        var parts = main_url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+          vars[key] = value;
+        });
+
+        // find the URL params for each one
+        const data = vars["data"];
+        const token = vars["token"];
+
+        // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
+        let username = atob(decodeURIComponent(data).replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''));
+
+        // Save username to store and put in the cookie
+        this.$cookie.set('loggedInUserName', username, {expires: '20m'});
+        store.commit(types.SET_USERNAME, username);
+
+        // Set another cookie saying they logged in
+        this.$cookie.set('userLoggedIn', true, {expires: '20m'});
+
+        // Log user in
+        store.commit('USER_LOG_IN');
+        // Redirect to the workbench
+        this.$router.push("/workbench");
+      }else{
+        if(this.$cookie.get('userLoggedIn')){
+          // Log user in and set user name
+          store.commit('USER_LOG_IN');
+          store.commit(types.SET_USERNAME, this.$cookie.get('loggedInUserName'));
+          // Redirect to the workbench
+          this.$router.push("/workbench");
+        }
+      }
+    },
+    mounted() {
+      //  [App.vue specific] When App.vue is finish loading finish the progress bar
+      this.$Progress.finish();
     },
   };
 

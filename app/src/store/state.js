@@ -2,7 +2,10 @@
 
 const state = {
   app: null,
-  basicPages: {},
+  basicPages: {
+    pagesArray: [],
+  },
+  currentBridgeUrn: '',
   bridgeSettings: {
     LOCAL: {
       relyingParty: 'https://apidev2.e-enterprise.gov/',
@@ -104,6 +107,11 @@ const state = {
       },
     },
     tribal: {},
+  },
+  GETHeaders: {
+      'crossDomain': true,
+      'cache-control': 'no-cache',
+      'Content-Type': 'application/hal+json',
   },
 };
 

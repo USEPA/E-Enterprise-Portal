@@ -1,0 +1,16 @@
+uuid: 74d97794-e38f-491f-890a-84e85c3ad6ea
+langcode: en
+status: true
+dependencies: {  }
+id: dev_split
+label: 'Dev Split'
+description: ''
+folder: dev
+module: {  }
+theme: {  }
+blacklist:
+  - eep_bridge.environment_settings
+graylist: {  }
+graylist_dependents: true
+graylist_skip_equal: true
+weight: 0

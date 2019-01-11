@@ -159,4 +159,75 @@ export default {
     const store = context;
     store.commit('SET_USER_OBJECT_FAV_LINKS', userObjectFavLinks);
   },
+  /**
+   * API GET request function
+   * Stores basic pages from Drupal in state
+   */
+  EEPBasicPagesToState(context){
+    const store = context;
+    // gets drupal object
+    AppAxios.get( store.getters.getEnvironmentApiURL + '/api/basic_pages?_format=json', {
+      headers: store.getters.getGETHeaders,
+    })
+      .then(response => {
+        if(response.data){
+          store.commit('SET_BASIC_PAGES', response.data);
+        }
+        else {
+          console.warn('abnormal response type');
+        }
+      })
+      .catch(error =>{
+        if(error.response) {
+          const errorHeaders = error.response.headers;
+          const errorData = error.response.data;
+          console.warn('Headers: ' + errorHeaders +
+          '\n' + 'Message: ' + errorData);
+        }
+        else {
+          console.warn('abnormal error response type');
+        }
+      });
+  },
+  navigateToBridge(context, urn){
+
+    // Declare store
+    const store = context;
+
+    // Set URN in the state so that the URN in the bridge URL getter is set
+    store.commit('SET_BRIDGE_URN', urn);
+
+    // Redirect to the bridge login for a given urn
+    window.location = store.getters.getBridgeURL;
+
+  },
+  /**
+   * General API GET request function
+   * Accepts URL path to the API and the element you're displaying data in.
+   * Input params are an array [ , ]
+   */
+  EEPAPIGET(context, URL){
+    const store = context;
+
+    // gets drupal object
+    AppAxios.get( URL, {
+      headers: store.GETHeaders,
+    })
+      .then(response => {
+        if(response.data){
+          return response;
+        }
+        else {
+          console.warn('abnormal response type')
+        }
+      })
+      .catch(error =>{
+        if(error.response) {
+          console.log(error);
+        }
+        else {
+          console.warn('abnormal error response type')
+        }
+      });
+  },
 };
