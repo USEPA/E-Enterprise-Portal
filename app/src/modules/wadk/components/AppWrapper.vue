@@ -68,12 +68,11 @@
         .get('https://apidev2.e-enterprise.gov/api/workbenchapps')
         .then(response => (this.title = (response.data)))
     },
-      methods: {
+     methods: {
       maximizeWidget(){
-      return console.log("hi");
+        return console.log("hi");
       }
-
-      }
+    }
   };
 
 </script>
@@ -83,20 +82,20 @@
   .app-window-icon {
     padding: 0.5em;
   }
-.widget-dropdown {
+  .widget-dropdown {
     background-image:url('../images/widget-menu.svg');
-   }
+  }
   .widget-expand {
     background-image:url('../images/widget-expand.svg');
   }
   .widget-button {
-          background-repeat:no-repeat;
-          background-position:center center;
-          background-color:#0071c2;
-          width:2.2rem;
-          height:2.2rem;
-          border-radius:50%;
-          background-size: 1.3rem 1.325rem;
+    background-repeat:no-repeat;
+    background-position:center center;
+    background-color:#0071c2;
+    width:2.2rem;
+    height:2.2rem;
+    border-radius:50%;
+    background-size: 1.3rem 1.325rem;
   }
 
 </style>
