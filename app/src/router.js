@@ -42,5 +42,11 @@ export default new Router({
       name: 'user-profile',
       component: () => import('./views/User-Profile.vue'),
     },
+    {
+      path: '/:urlAlias',
+      name: 'basic-page',
+      props: true,
+      component: () => import('@/components/BasicPage.vue'),
+    },
   ],
 });

@@ -163,7 +163,7 @@ export default {
    * API GET request function
    * Stores basic pages from Drupal in state
    */
-  drupalBasicPagesToState(context){
+  EEPBasicPagesToState(context){
     const store = context;
     // gets drupal object
     AppAxios.get( store.getters.getEnvironmentApiURL + '/api/basic_pages?_format=json', {
@@ -200,5 +200,34 @@ export default {
     // Redirect to the bridge login for a given urn
     window.location = store.getters.getBridgeURL;
 
+  },
+  /**
+   * General API GET request function
+   * Accepts URL path to the API and the element you're displaying data in.
+   * Input params are an array [ , ]
+   */
+  EEPAPIGET(context, URL){
+    const store = context;
+
+    // gets drupal object
+    AppAxios.get( URL, {
+      headers: store.GETHeaders,
+    })
+      .then(response => {
+        if(response.data){
+          return response;
+        }
+        else {
+          console.warn('abnormal response type')
+        }
+      })
+      .catch(error =>{
+        if(error.response) {
+          console.log(error);
+        }
+        else {
+          console.warn('abnormal error response type')
+        }
+      });
   },
 };
