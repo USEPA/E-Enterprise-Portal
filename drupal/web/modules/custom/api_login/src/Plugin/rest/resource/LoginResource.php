@@ -60,7 +60,7 @@ class LoginResource extends ResourceBase
         // Declare variables
         $associated_term = "";
 
-        // @TODO remove this query from inside the loop
+        // @TODO Remove this query from inside the loop
         // Query Drupal to get all terms for given vocabulary
         $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree('authentication_catagory');
 
