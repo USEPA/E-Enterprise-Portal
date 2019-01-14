@@ -31,7 +31,7 @@ class LoginResource extends ResourceBase {
      */
     public function get() {
         //Declare variables
-        $node_titles = [];
+
 
         // Query drupal to grab all of the content type node ids
         $node_ids = \Drupal::entityQuery('node')
@@ -47,7 +47,7 @@ class LoginResource extends ResourceBase {
 
         }
 
-        return new ResourceResponse(['message' => json_encode($nodes)]);
+        return new ResourceResponse(['message' => $nodes]);
     }
 
 }
