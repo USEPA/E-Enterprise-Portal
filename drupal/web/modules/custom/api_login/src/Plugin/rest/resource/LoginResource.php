@@ -45,7 +45,7 @@ class LoginResource extends ResourceBase
 
         // Loop through the nodes to format the json out properly
         foreach ($nodes as $node) {
-            var_dump($node['values']['field_authentication_category']);
+            print_r($node);
             echo("<br><br><br><br><br>");
 
         }
