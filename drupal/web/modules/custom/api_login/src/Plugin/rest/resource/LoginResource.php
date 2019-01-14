@@ -30,9 +30,15 @@ class LoginResource extends ResourceBase {
      * @return \Drupal\rest\LoginResource
      */
     public function get() {
-        // modify here
+        // query to grab all of the content type node ids from drupal
+        $node_ids = \Drupal::entityQuery('node')
+        ->condition('status', 1)
+        ->condition('type', 'authentication_option')
+        ->execute();
 
-        $response = "This works";
+        $nodes = \Drupal\node\Entity\Node::loadMultiple($node_ids);
+
+        $response = ['message' => print_r($nodes)];
 
         return new ResourceResponse($response);
     }
