@@ -44,12 +44,10 @@ class LoginResource extends ResourceBase {
 
         // Loop through the nodes to format the json out properly
         foreach ($nodes as $node){
-            print_r($node->content['body']['#value']);
+            $node_titles[] = $node->content['body']['#value'];
         }
 
-        $response = ['message' => $nodes];
-
-        return new ResourceResponse($response);
+        return new ResourceResponse($node_titles);
     }
 
 }
