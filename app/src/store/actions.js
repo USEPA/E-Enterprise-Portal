@@ -163,17 +163,15 @@ export default {
    * API GET request function
    * Stores basic pages from Drupal in state
    */
-  drupalBasicPagesToState(context){
+  EEPBasicPagesToState(context){
     const store = context;
-
     // gets drupal object
-    AppAxios.get( 'http://e-enterprise/api/basic_pages?_format=json', {
-      headers: store.GETHeaders,
+    AppAxios.get( store.getters.getEnvironmentApiURL + '/api/basic_pages?_format=json', {
+      headers: store.getters.getGETHeaders,
     })
       .then(response => {
         if(response.data){
-          const responseToObject = response.data;
-          store.commit('SET_BASIC_PAGES', responseToObject);
+          store.commit('SET_BASIC_PAGES', response.data);
         }
         else {
           console.warn('abnormal response type');
@@ -190,17 +188,46 @@ export default {
           console.warn('abnormal error response type');
         }
       });
-  }, navigateToBridge(context, urn){
+  },
+  navigateToBridge(context, urn){
 
-        // Declare store
-        const store = context;
+    // Declare store
+    const store = context;
 
-        // Set URN in the state so that the URN in the bridge URL getter is set
-        store.commit('SET_BRIDGE_URN', urn);
+    // Set URN in the state so that the URN in the bridge URL getter is set
+    store.commit('SET_BRIDGE_URN', urn);
 
-        // Redirect to the bridge login for a given urn
-        window.location = store.getters.getBridgeURL;
+    // Redirect to the bridge login for a given urn
+    window.location = store.getters.getBridgeURL;
 
-    },
+  },
+  /**
+   * General API GET request function
+   * Accepts URL path to the API and the element you're displaying data in.
+   * Input params are an array [ , ]
+   */
+  EEPAPIGET(context, URL){
+    const store = context;
+
+    // gets drupal object
+    AppAxios.get( URL, {
+      headers: store.GETHeaders,
+    })
+      .then(response => {
+        if(response.data){
+          return response;
+        }
+        else {
+          console.warn('abnormal response type')
+        }
+      })
+      .catch(error =>{
+        if(error.response) {
+          console.log(error);
+        }
+        else {
+          console.warn('abnormal error response type')
+        }
+      });
+  },
 };
-
