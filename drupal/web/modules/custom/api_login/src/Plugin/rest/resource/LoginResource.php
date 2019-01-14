@@ -38,7 +38,7 @@ class LoginResource extends ResourceBase {
 
         $nodes = \Drupal\node\Entity\Node::loadMultiple($node_ids);
 
-        $response = ['message' => print_r($nodes)];
+        $response = ['message' => $nodes];
 
         return new ResourceResponse($response);
     }
