@@ -30,7 +30,8 @@ class LoginResource extends ResourceBase
      * Responds to entity GET requests.
      * @return \Drupal\rest\LoginResource
      */
-    public function get(){
+    public function get()
+    {
         //Declare variables
         $formatted_node_array = [];
 
@@ -45,10 +46,17 @@ class LoginResource extends ResourceBase
 
         // Loop through the nodes to format the json out properly
         foreach ($nodes as $node) {
-            $formatted_node_array[] = $node->title;
+            $formatted_node_array[] = [
+                'title' => $node->get('title')->getValue(),
+                'image_path' => $node->get('field_image_path')->getValue(),
+                'urn' => $node->get('field_urn')->getValue,
+                'tax_category' => 'EPA'
+            ];
         }
 
-        return new ResourceResponse($formatted_node_array);
+        //print_r($nodes);
+
+        return new ResourceResponse(['message' => $formatted_node_array]);
     }
 
 }
