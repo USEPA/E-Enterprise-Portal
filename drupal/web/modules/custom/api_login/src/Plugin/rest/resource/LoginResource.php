@@ -43,31 +43,31 @@ class LoginResource extends ResourceBase
         // Fetch all of the nodes by the node ids
         $nodes = \Drupal\node\Entity\Node::loadMultiple($node_ids);
 
+
         // Loop through the nodes to format the json out properly
         foreach ($nodes as $node) {
             $formatted_node_array[] = [
-                'title' => $node->get('title')->getValue(),
-                'image_path' => $node->get('field_image_path')->getValue(),
-                'urn' => $node->get('field_urn')->getValue(),
-                'tax_category' => $this->get_taxonomy_for_given_id($node->get('field_authentication_category')->getValue())
+                'title' => $node->title,
+                'image_path' => $node->field_image_path,
+                'urn' => $node->field_urn,
+                'tax_category' => $this->get_taxonomy_for_given_id($node->field_authentication_category[0]->get('target_id')->getValue()),
             ];
         }
-
         return new ResourceResponse(['message' => $formatted_node_array]);
     }
 
-    private function get_taxonomy_for_given_id($auth_category_id){
+    private function get_taxonomy_for_given_id($node_tax_id){
         // Declare variables
         $associated_term = "";
 
+        // @TODO remove this query from inside the loop
         // Query Drupal to get all terms for given vocabulary
         $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree('authentication_catagory');
 
         // Loop through all terms to find the right name for the given id
         foreach ($terms as $term){
-            if($term->tid === $auth_category_id){
+            if($term->tid == $node_tax_id){
                 $associated_term = $term->name;
-                break;
             }
         }
         return $associated_term;
