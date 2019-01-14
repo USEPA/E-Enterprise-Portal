@@ -32,8 +32,7 @@ class LoginResource extends ResourceBase
      */
     public function get(){
         //Declare variables
-
-        $counter = 1;
+        $formatted_node_array = [];
 
         // Query drupal to grab all of the content type node ids
         $node_ids = \Drupal::entityQuery('node')
@@ -45,17 +44,11 @@ class LoginResource extends ResourceBase
         $nodes = \Drupal\node\Entity\Node::loadMultiple($node_ids);
 
         // Loop through the nodes to format the json out properly
-//        foreach ($nodes as $node) {
-//            print_r($node);
-//            echo("<br><br><br><br><br>");
-//            $counter++;
-//
-//        }
+        foreach ($nodes as $node) {
+            $formatted_node_array[] = $node->title;
+        }
 
-        var_dump(nodes);
-
-
-        return new ResourceResponse(['message' => "this is the message"]);
+        return new ResourceResponse($formatted_node_array);
     }
 
 }
