@@ -3,9 +3,9 @@
 <div class="container">
         <h3>Profile</h3>
 <b-card>
-<b-tabs class="profile-tabs" >
- <b-tab title="Account" active>
-<b-container class="bv-example-row ml-2">
+    <b-tabs class="profile-tabs" >
+        <b-tab title="Account" active>
+            <b-container class="bv-example-row ml-2">
     <div class="user-info-container col-md-12" >
         <div class="information-container col-md-4">
         <div></div>
@@ -22,10 +22,10 @@
         </div>
         <p>All unsaved data will be lost upon navigating away from the Profile page</p>
     </div>
-    </b-container>
-    </b-tab>
+            </b-container>
+        </b-tab>
     </b-tabs>
-    </b-card>
+</b-card>
       </div>
 </template>
 
