@@ -23,31 +23,35 @@ use Drupal\rest\ResourceResponse;
  *   }
  * )
  */
-class LoginResource extends ResourceBase {
+class LoginResource extends ResourceBase
+{
 
     /**
      * Responds to entity GET requests.
      * @return \Drupal\rest\LoginResource
      */
-    public function get() {
+    public function get(){
         //Declare variables
 
 
         // Query drupal to grab all of the content type node ids
         $node_ids = \Drupal::entityQuery('node')
-        ->condition('status', 1)
-        ->condition('type', 'authentication_option')
-        ->execute();
+            ->condition('status', 1)
+            ->condition('type', 'authentication_option')
+            ->execute();
 
         // Fetch all of the nodes by the node ids
         $nodes = \Drupal\node\Entity\Node::loadMultiple($node_ids);
 
         // Loop through the nodes to format the json out properly
-        foreach ($nodes as $node){
+        foreach ($nodes as $node) {
+            var_dump($node['values']['field_authentication_category']);
+            echo("<br><br><br><br><br>");
 
         }
 
-        return new ResourceResponse(['message' => $nodes]);
+
+        return new ResourceResponse(['message' => "this is the message"]);
     }
 
 }
