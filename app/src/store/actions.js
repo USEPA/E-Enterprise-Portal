@@ -235,7 +235,9 @@ export default {
 
     // Ajax call to retrieve all of the Login information from /api/api_login?_format=json
     AppAxios.get( store.getters.getEnvironmentApiURL + '/api/api_login?_format=json', {
-        headers: store.getters.getGETHeaders,
+        headers: {
+            'cache-control': 'no-cache'
+        }
     }).then(response => {
         // Save all of the login data to the state
         console.log(response.data);
