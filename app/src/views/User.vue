@@ -1,6 +1,6 @@
 <!--this view is so that users can find their information and view it and in the future, edit it-->
 <template>
-<div class="container">
+<div class="container" v-if="!isLoggedIn">
         <h3>Profile</h3>
 <b-card>
     <b-tabs class="profile-tabs" >
@@ -10,20 +10,20 @@
         <div class="information-container col-md-4">
         <div></div>
             <h3>User Information</h3>
-            <div class="first-name-container">
-                <div>First Name</div>
+            <div class="user-name-container">
+                <div>User Name</div>
                 <b-form-input id="first-name-input" v-model="name" type="text" disabled></b-form-input>
             </div>
             <div class="email-container pt-3">
                 <div>Email</div>
                 <b-form-input id="email-input" v-model="email" type="text" disabled></b-form-input>
-
-            </div>
+             </div>
         </div>
-        <p>All unsaved data will be lost upon navigating away from the Profile page</p>
+
     </div>
             </b-container>
         </b-tab>
+          <p>All unsaved data will be lost upon navigating away from the Profile page</p>
     </b-tabs>
 </b-card>
       </div>
@@ -49,8 +49,7 @@
         },
         data(){
             return{
-                name: 'John',
-                email: 'john@john.com',
+               
 
             }
         },
