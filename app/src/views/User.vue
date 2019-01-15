@@ -1,6 +1,6 @@
 <!--this view is so that users can find their information and view it and in the future, edit it-->
 <template>
-<div class="container" v-if="!isLoggedIn">
+<div class="container" v-if="isLoggedIn">
         <h3>Profile</h3>
 <b-card>
     <b-tabs class="profile-tabs" >
@@ -12,7 +12,7 @@
             <h3>User Information</h3>
             <div class="user-name-container">
                 <div>User Name</div>
-                <b-form-input id="first-name-input" v-model="name" type="text" disabled></b-form-input>
+                <b-form-input id="first-name-input" v-model="name" type="text" disabled>{{username}}</b-form-input>
             </div>
             <div class="email-container pt-3">
                 <div>Email</div>
