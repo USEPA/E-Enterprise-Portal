@@ -43,13 +43,18 @@
           </template>
           <template v-else>
             <div class="router-link-wrapper pt-2">
-              <router-link
-                to="/login"
-                class="btn btn-sm btn-outline-primary account-auth-login">
-                <i class="fas fa-lock"></i>&nbsp;
-                Login
-                <span class="arrow-down-message small mt-3">{{ loginBtnHoverMessage }}</span>
-              </router-link>
+              <!--<router-link-->
+                <!--to="/login"-->
+                <!--class="btn btn-sm btn-outline-primary account-auth-login">-->
+                <!--<i class="fas fa-lock"></i>&nbsp;-->
+                <!--Login-->
+                <!--<span class="arrow-down-message small mt-3">{{ loginBtnHoverMessage }}</span>-->
+              <!--</router-link>-->
+                <a href="javascript:void(0);" @click="handleLogin" class="btn btn-sm btn-outline-primary account-auth-login">
+                    <i class="fas fa-lock"></i>&nbsp;
+                    Login
+                    <span class="arrow-down-message small mt-3">{{ loginBtnHoverMessage }}</span>
+                </a>
             </div>
           </template>
         </div>
@@ -80,6 +85,7 @@
     methods: {
       ...mapActions([
         'userLogOut',
+        'handleLogin'
       ]),
       dumyLogOut() {
         this.userLogOut();

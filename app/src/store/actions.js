@@ -230,4 +230,8 @@ export default {
         }
       });
   },
+  handleLogin(context){
+    const store = context;
+    console.log("login was handled");
+  },
 };
