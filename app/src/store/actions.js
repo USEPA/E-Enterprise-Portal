@@ -235,20 +235,25 @@ export default {
 
     // Ajax call to retrieve all of the Login information from /api/api_login?_format=json
     AppAxios.get( store.getters.getEnvironmentApiURL + '/api/api_login?_format=json', {
-        headers: {
-            'cache-control': 'no-cache'
+        headers: store.getters.getGETHeaders,
+        auth: {
+            username: 'cgi-admin',
+            password: 'c9iee43pa'
         }
     }).then(response => {
         // Save all of the login data to the state
         console.log(response.data);
     }).catch(error =>{
         if(error.response) {
-            // const errorHeaders = error.response.headers;
-            // const errorData = error.response.data;
-            // console.warn('Headers: ' + errorHeaders +
-            //     '\n' + 'Message: ' + errorData);
-            console.log(error.response);
+            const errorHeaders = error.response.headers;
+            const errorData = error.response.data;
+            console.warn('Headers: ' + errorHeaders +
+                '\n' + 'Message: ' + errorData);
+
         }
     });
+
+    store.$router.push('/login');
+
   },
 };
