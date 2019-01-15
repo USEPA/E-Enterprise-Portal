@@ -30,8 +30,7 @@ class LoginResource extends ResourceBase
      * Responds to entity GET requests.
      * @return \Drupal\rest\LoginResource
      */
-    public function get()
-    {
+    public function get(){
         //Declare variables
         $formatted_node_array = [];
 
@@ -61,8 +60,7 @@ class LoginResource extends ResourceBase
         return new ResourceResponse(['message' => $formatted_node_array]);
     }
 
-    private function get_taxonomy_for_given_id($terms, $node_tax_id)
-    {
+    private function get_taxonomy_for_given_id($terms, $node_tax_id){
         // Declare variables
         $associated_term = "";
 
