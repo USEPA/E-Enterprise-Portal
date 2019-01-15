@@ -238,7 +238,7 @@ export default {
         headers: store.getters.getGETHeaders,
     }).then(response => {
         // Save all of the login data to the state
-        console.log(response.data)
+        console.log(response.data);
     }).catch(error =>{
         if(error.response) {
             const errorHeaders = error.response.headers;
