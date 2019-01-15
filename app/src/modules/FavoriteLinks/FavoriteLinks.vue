@@ -47,6 +47,7 @@
                     ' <p>Here you can view your favorite links</p>'
 
                 },
+                isExpandable:true
               },
               info: [
                 { id: '', },

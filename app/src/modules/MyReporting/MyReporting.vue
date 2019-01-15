@@ -126,6 +126,7 @@
 
             ,
           },
+          isExpandable:true
         },
         program: [
           { first: '', },
