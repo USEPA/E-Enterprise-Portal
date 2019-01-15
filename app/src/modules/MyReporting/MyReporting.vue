@@ -42,25 +42,21 @@
           id="nav-epa"
           role="tabpanel"
           aria-labelledby="nav-epa-tab">
-
         </div>
         <div class="tab-pane fade"
           id="nav-state"
           role="tabpanel"
           aria-labelledby="nav-state-tab">
-
         </div>
         <div class="tab-pane fade"
           id="nav-local"
           role="tabpanel"
           aria-labelledby="nav-local-tab">
-
         </div>
         <div class="tab-pane fade"
           id="nav-tribal"
           role="tabpanel"
           aria-labelledby="nav-tribal-tab">
-
         </div>
       </div>
       <div>
@@ -88,11 +84,8 @@
       <div v-for="item in program">{{ item.second }}
         <hr/>
       </div>
-
-
     </AppWrapper>
   </div>
-
 </template>
 
 <script>
