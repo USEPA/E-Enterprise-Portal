@@ -241,10 +241,11 @@ export default {
         console.log(response.data);
     }).catch(error =>{
         if(error.response) {
-            const errorHeaders = error.response.headers;
-            const errorData = error.response.data;
-            console.warn('Headers: ' + errorHeaders +
-                '\n' + 'Message: ' + errorData);
+            // const errorHeaders = error.response.headers;
+            // const errorData = error.response.data;
+            // console.warn('Headers: ' + errorHeaders +
+            //     '\n' + 'Message: ' + errorData);
+            console.log(error.response);
         }
     });
   },
