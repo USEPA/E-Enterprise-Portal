@@ -30,7 +30,7 @@ class LoginResource extends ResourceBase
      * Responds to entity GET requests.
      * @return \Drupal\rest\LoginResource
      */
-    public function get()    {
+    public function get(){
         //Declare variables
         $formatted_node_array = [];
 
@@ -43,30 +43,30 @@ class LoginResource extends ResourceBase
         // Fetch all of the nodes by the node ids
         $nodes = \Drupal\node\Entity\Node::loadMultiple($node_ids);
 
+        // Query Drupal to get all terms for given vocabulary
+        $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree('authentication_category');
+
 
         // Loop through the nodes to format the json out properly
         foreach ($nodes as $node) {
+            $target_id = $node->field_authentication_category[0]->get('target_id')->getValue();
             $formatted_node_array[] = [
                 'title' => $node->title,
                 'image_path' => $node->field_image_path,
                 'urn' => $node->field_urn,
-                'tax_category' => $this->get_taxonomy_for_given_id($node->field_authentication_category[0]->get('target_id')->getValue()),
+                'tax_category' => $this->get_taxonomy_for_given_id($terms, $target_id),
             ];
         }
         return new ResourceResponse(['message' => $formatted_node_array]);
     }
 
-    private function get_taxonomy_for_given_id($node_tax_id){
+    private function get_taxonomy_for_given_id($terms, $node_tax_id){
         // Declare variables
         $associated_term = "";
 
-        // @TODO Remove this query from inside the loop
-        // Query Drupal to get all terms for given vocabulary
-        $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree('authentication_catagory');
-
         // Loop through all terms to find the right name for the given id
-        foreach ($terms as $term){
-            if($term->tid == $node_tax_id){
+        foreach ($terms as $term) {
+            if ($term->tid == $node_tax_id) {
                 $associated_term = $term->name;
             }
         }
