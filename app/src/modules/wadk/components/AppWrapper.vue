@@ -21,8 +21,8 @@
       target="_blank">{{ eepApp.source.text }}</a>
     </h6>
       </div>
-        <div class="col-2  d-flex justify-content-lg-end align-self-end align-items-center">
-          <div class="col-4-md d-flex mr-3 align-self-end align-items-center">
+        <div class="col-2  d-flex justify-content-lg-end">
+          <div class="col-4-md d-flex mr-1">
             <b-dropdown id="divider" variant="link" right class="widget-dropdown widget-button" no-caret>
               <b-dropdown-item-button>Settings</b-dropdown-item-button>
               <b-dropdown-item-button>Move</b-dropdown-item-button>
@@ -34,7 +34,7 @@
             </b-dropdown>
           </div>
           <b-button
-               class="widget-expand widget-button col-4-md d-flex mr-3 align-self-end align-items-center"
+               class="widget-expand widget-button col-4-md d-flex mr-1"
                @click="maximizeWidget()">
           </b-button>
         </div>
@@ -87,6 +87,7 @@
   }
   .widget-expand {
     background-image:url('../images/widget-expand.svg');
+    padding: 0.375rem 1rem;
   }
   .widget-button {
     background-repeat:no-repeat;
