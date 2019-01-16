@@ -118,7 +118,7 @@
 
 <script>
   import AppAxios from 'axios';
-  import { AppWrapper, AppModal, AppPlaceholderContent } from '../wadk/WADK';
+  import { AppWrapper, AppPlaceholderContent } from '../wadk/WADK';
   import storeModule from './store/index';
   import { EventBus } from '../../EventBus';
 
