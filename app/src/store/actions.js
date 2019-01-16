@@ -233,8 +233,8 @@ export default {
   handleLogin(context){
     const store = context;
 
-    // Ajax call to retrieve all of the Login information from /api/api_login?_format=json
-    AppAxios.get( store.getters.getEnvironmentApiURL + '/api/api_login?_format=json', {
+    // Ajax call to retrieve all of the Login information from /api/login_page?_format=json
+    AppAxios.get( store.getters.getEnvironmentApiURL + '/api/login_page?_format=json', {
         headers: store.getters.getGETHeaders,
     }).then(response => {
         // Save all of the login data to the state
@@ -246,7 +246,6 @@ export default {
             const errorData = error.response.data;
             console.warn('Headers: ' + errorHeaders +
                 '\n' + 'Message: ' + errorData);
-
         }
     });
 
