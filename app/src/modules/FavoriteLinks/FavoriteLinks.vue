@@ -252,12 +252,8 @@
             this.$root.$emit('bv::hide::modal', 'editModalInfo');
           },
           applyEditModal(objTitle, objLink){
-            /*let objToPatch = this.favLinksArray.find(fav => {
-              return fav.first === objTitle && fav.second === objLink
-            });*/
             for (let i = 0; i < this.favLinksArray.length; i++) {
-
-              if (this.favLinksArray[i].first === objTitle && this.favLinksArray[i].second === objLink) {
+              if (this.favLinksArray[i]['first'] === objTitle && this.favLinksArray[i]['second'] === objLink) {
                 this.editModalIndex = i;
                 console.log(this.editModalIndex);
               }
@@ -270,12 +266,6 @@
 
             console.log(this.favLinksArray);
 
-            /*this.favLinksArray = this.favLinksArray.concat(
-              {
-                "first": this.addModalInfo.first,
-                "second": this.addModalInfo.second,
-              }
-            );
             AppAxios.patch('http://e-enterprise/user/1?_format=json', {
                 field_favorite_links: this.favLinksArray,
               },
@@ -292,11 +282,12 @@
               })
               .then(response => {
                 console.log('PATCH => success');
+                console.log(response);
               })
               .catch(error =>{
                 console.log('PATCH => failure');
                 console.log(error.response.data);
-              });*/
+              });
           },
           onFiltered (filteredItems) {
             // Trigger pagination to update the number of buttons/pages due to filtering
