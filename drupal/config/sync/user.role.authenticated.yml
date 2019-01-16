@@ -1,4 +1,4 @@
-uuid: 7c20772f-b966-4957-aa7c-ae02bb885eb9
+uuid: cb31cf20-cbaa-4a80-b5ce-e8fc7f97e1ef
 langcode: en
 status: true
 dependencies: {  }
@@ -13,6 +13,7 @@ permissions:
   - 'access content'
   - 'access shortcuts'
   - 'post comments'
+  - 'restful get api_login_resource'
   - 'search content'
   - 'skip comment approval'
   - 'use text format basic_html'

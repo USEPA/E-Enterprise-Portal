@@ -1,2 +1,0 @@
-blacklisted_headers: host
-blacklisted_return_headers: 'transfer-encoding vary etag x-encoded-content-encoding x-powered-by'

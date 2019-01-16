@@ -1,5 +1,5 @@
 name: 'E-Enterprise Portal'
-mail: admin@localhost
+mail: admin@e-enterprise
 slogan: ''
 page:
   403: ''
@@ -11,4 +11,4 @@ langcode: en
 default_langcode: en
 _core:
   default_config_hash: e9opyp0gMBz7F0sadKvgKovxKUs0o-uJ4mVSp_pehxI
-uuid: 202fd22e-6e46-4cbf-b373-26237144634c
+uuid: 09931d01-5068-4fd8-8a93-d65769b47100
