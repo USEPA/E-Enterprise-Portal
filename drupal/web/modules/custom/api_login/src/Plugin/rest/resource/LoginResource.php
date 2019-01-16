@@ -19,7 +19,7 @@ use Drupal\rest\ResourceResponse;
  *   id = "api_login_resource",
  *   label = @Translation("Login Resource"),
  *   uri_paths = {
- *     "canonical" = "/api/api_login"
+ *     "canonical" = "/api/login_page"
  *   }
  * )
  */
