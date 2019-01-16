@@ -13,7 +13,7 @@
       <div  class="col-10 text-left">
     <h2 v-for="item in title.slice(2,3)" v-if="eepApp.title =='Be Well Informed'">{{item.title[0].value}}</h2>
     <h2 v-for="item in title.slice(1,2)" v-if="eepApp.title =='Trending Air'">{{item.title[0].value}}</h2>
-    <h2 v-for="item in title.slice(3,4)" v-if="eepApp.title =='Favorite Links'">{{ item.title[0].value}}</h2>
+    <h2 v-for="item in title.slice(3,4)" v-if="eepApp.title =='Favorite Links'"><b-img class="title-logo" :src="require('../../../assets/images/bookmark.svg')"></b-img>{{ item.title[0].value}}</h2>
     <h2 v-for="item in title.slice(0,1)" v-if="eepApp.title =='My Reporting'">{{ item.title[0].value }}</h2>
     <h6 v-show="!!eepApp.source">
       Source: <a
@@ -98,5 +98,9 @@
     border-radius:50%;
     background-size: 1.3rem 1.325rem;
   }
-
+  .title-logo {
+    margin-right: .3rem;
+    max-width: 2.7rem;
+    max-height: 2.7rem;
+  }
 </style>
