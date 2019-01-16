@@ -30,8 +30,7 @@ class LoginResource extends ResourceBase
      * Responds to entity GET requests.
      * @return \Drupal\rest\LoginResource
      */
-    public function get()
-    {
+    public function get(){
         //Declare variables
         $formatted_node_array = [];
 
@@ -47,22 +46,21 @@ class LoginResource extends ResourceBase
         // Query Drupal to get all terms for given vocabulary
         $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree('authentication_category');
 
+
         // Loop through the nodes to format the json out properly
         foreach ($nodes as $node) {
             $target_id = $node->field_authentication_category[0]->get('target_id')->getValue();
-            $taxonomy_name = $this->get_taxonomy_for_given_id($terms, $target_id);
             $formatted_node_array[] = [
                 'title' => $node->title,
                 'image_path' => $node->field_image_path,
                 'urn' => $node->field_urn,
-                'tax_category_name' => $taxonomy_name
+                'tax_category' => $this->get_taxonomy_for_given_id($terms, $target_id),
             ];
         }
         return new ResourceResponse(['message' => $formatted_node_array]);
     }
 
-    private function get_taxonomy_for_given_id($terms, $node_tax_id)
-    {
+    private function get_taxonomy_for_given_id($terms, $node_tax_id){
         // Declare variables
         $associated_term = "";
 
@@ -72,10 +70,6 @@ class LoginResource extends ResourceBase
                 $associated_term = $term->name;
             }
         }
-
-//        return array(
-//            'term_name' => $associated_term
-//        );
         return $associated_term;
     }
 
