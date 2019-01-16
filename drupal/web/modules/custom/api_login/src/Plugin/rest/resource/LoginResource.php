@@ -55,7 +55,7 @@ class LoginResource extends ResourceBase
                 'title' => $node->title,
                 'image_path' => $node->field_image_path,
                 'urn' => $node->field_urn,
-                'tax_category_name' => $taxonomy_obj->term_name
+                'tax_category_name' => $taxonomy_obj['term_name']
                 //'tax_category_weight' => $taxonomy_obj->term_weight
             ];
         }
@@ -74,11 +74,9 @@ class LoginResource extends ResourceBase
             }
         }
 
-        return [
+        return array(
             'term_name' => $associated_term
-//            'term_weight' =>
-        ];
-
+        );
     }
 
 }
