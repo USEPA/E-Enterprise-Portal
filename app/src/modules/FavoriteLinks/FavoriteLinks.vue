@@ -218,13 +218,14 @@
             this.$root.$emit('bv::hide::modal', 'addModalInfo');
           },
           applyAddModal(){
-            console.log(this.addModalInfo.first);
+            // stores changes in local state
             this.favLinksArray = this.favLinksArray.concat(
               {
                 "first": this.addModalInfo.first,
                 "second": this.addModalInfo.second,
               }
             );
+            // pushes changes to backend
             AppAxios.patch('http://e-enterprise/user/1?_format=json', {
                 field_favorite_links: this.favLinksArray,
               },
@@ -239,12 +240,11 @@
                   password: 'api4epa',
                 },
               })
-              .then(response => {
+              .then(() => {
                 console.log('PATCH => success');
               })
-              .catch(error =>{
+              .catch(() =>{
                 console.log('PATCH => failure');
-                console.log(error.response.data);
               });
           },
           // EDIT
@@ -262,17 +262,12 @@
             for (let i = 0; i < this.favLinksArray.length; i++) {
               if (this.favLinksArray[i]['first'] === objTitle && this.favLinksArray[i]['second'] === objLink) {
                 this.editModalIndex = i;
-                console.log(this.editModalIndex);
               }
             }
-            console.log(this.editModalIndex);
-            console.log(this.favLinksArray[this.editModalIndex]);
-
+            // stores changes in local state
             this.favLinksArray[this.editModalIndex]['first'] = this.editModalInfo.first;
             this.favLinksArray[this.editModalIndex]['second'] = this.editModalInfo.second;
-
-            console.log(this.favLinksArray);
-
+            // pushes changes to backend
             AppAxios.patch('http://e-enterprise/user/1?_format=json', {
                 field_favorite_links: this.favLinksArray,
               },
@@ -287,13 +282,11 @@
                   password: 'api4epa',
                 },
               })
-                .then(response => {
+                .then(() => {
                   console.log('PATCH => success');
-                  console.log(response);
                 })
-                .catch(error =>{
+                .catch(() =>{
                   console.log('PATCH => failure');
-                  console.log(error.response.data);
                 });
           },
           // DELETE
@@ -316,13 +309,11 @@
                   password: 'api4epa',
                 },
               })
-                .then(response => {
+                .then(() => {
                   console.log('PATCH => success');
-                  console.log(response);
                 })
-                .catch(error =>{
+                .catch(() =>{
                   console.log('PATCH => failure');
-                  console.log(error.response.data);
                 });
           },
           onFiltered (filteredItems) {
