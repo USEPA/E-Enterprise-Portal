@@ -50,13 +50,12 @@ class LoginResource extends ResourceBase
         // Loop through the nodes to format the json out properly
         foreach ($nodes as $node) {
             $target_id = $node->field_authentication_category[0]->get('target_id')->getValue();
-            $taxonomy_obj = $this->get_taxonomy_for_given_id($terms, $target_id);
+            $taxonomy_name = $this->get_taxonomy_for_given_id($terms, $target_id);
             $formatted_node_array[] = [
                 'title' => $node->title,
                 'image_path' => $node->field_image_path,
                 'urn' => $node->field_urn,
-                'tax_category_name' => $taxonomy_obj['term_name']
-                //'tax_category_weight' => $taxonomy_obj->term_weight
+                'tax_category_name' => $taxonomy_name
             ];
         }
         return new ResourceResponse(['message' => $formatted_node_array]);
@@ -74,9 +73,10 @@ class LoginResource extends ResourceBase
             }
         }
 
-        return array(
-            'term_name' => $associated_term
-        );
+//        return array(
+//            'term_name' => $associated_term
+//        );
+        return $associated_term;
     }
 
 }
