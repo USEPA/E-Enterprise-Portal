@@ -68,7 +68,7 @@ class AuthenticatedUser {
     }
     else if ($this->authentication_method === "ENNAAS") {
       $this->authentication_domain = "Exchange_Network";
-      $eportal_uname = $username . "_Via_" . $this->authentication_method;
+      $eportal_uname = $username . "_Via_" . $this->authentication_domain;
       $this->public_user = FALSE;
     }
     else {
