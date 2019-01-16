@@ -64,15 +64,17 @@
           </b-modal>
 
           <!-- edit modal -->
-          <b-modal id="editModalInfo" @hide="resetModal" :title="editModalInfo.title">
+          <b-modal id="editModalInfo" @hide="applyEditModal(editModalInfo.first, editModalInfo.second)" hide-footer :title="editModalInfo.title">
             <b-row>
               <b-col md="12" class="my-1">Title</b-col>
-              <b-col md="12" class="my-1"><b-input v-model="editModalInfo.first">{{ editModalInfo.first }}</b-input></b-col>
+              <b-col md="12" class="my-1"><b-input v-model="editModalInfo.first"></b-input></b-col>
             </b-row>
             <b-row>
               <b-col md="12" class="my-1">Website Address (URL)</b-col>
-              <b-col md="12" class="my-1"><b-input v-model="editModalInfo.second">{{ editModalInfo.second }}</b-input></b-col>
+              <b-col md="12" class="my-1"><b-input v-model="editModalInfo.second"></b-input></b-col>
             </b-row>
+            <b-btn class="mt-3" @click="closeEditModal">save</b-btn>
+
           </b-modal>
 
           <b-row class="text-center">
@@ -174,6 +176,7 @@
             sortDirection: 'asc',
             filter: null,
             editModalInfo: { title: '', first: '', second: '' },
+            editModalIndex: null,
             addModalInfo: { title: '', first: 'Link Name Here', second: 'URL Here' },
           }
         },
@@ -199,20 +202,10 @@
         methods: {
           ...mapActions(moduleName, [
           ]),
-
-          openEditModal(item, index, button) {
-            this.editModalInfo.title = `Edit Favorite`;
-            this.editModalInfo.first = item.first;
-            this.editModalInfo.second = item.second;
-            this.$root.$emit('bv::show::modal', 'editModalInfo', button);
-          },
+          // ADD
           openAddModal(item, index, button) {
             this.addModalInfo.title = `Add Favorite`;
             this.$root.$emit('bv::show::modal', 'addModalInfo', button);
-          },
-          resetModal(index) {
-            this.favLinksArray['${index}'].first = item.first;
-            this.favLinksArray['${index}'].second = item.second;
           },
           closeAddModal(){
             this.$root.$emit('bv::hide::modal', 'addModalInfo');
@@ -246,6 +239,64 @@
                 console.log('PATCH => failure');
                 console.log(error.response.data);
               });
+          },
+          // EDIT
+          openEditModal(item, index, button) {
+            this.editModalInfo.title = `Edit Favorite`;
+            this.editModalIndex = index;
+            this.editModalInfo.first = item.first;
+            this.editModalInfo.second = item.second;
+            this.$root.$emit('bv::show::modal', 'editModalInfo', button);
+          },
+          closeEditModal() {
+            this.$root.$emit('bv::hide::modal', 'editModalInfo');
+          },
+          applyEditModal(objTitle, objLink){
+            /*let objToPatch = this.favLinksArray.find(fav => {
+              return fav.first === objTitle && fav.second === objLink
+            });*/
+            for (let i = 0; i < this.favLinksArray.length; i++) {
+
+              if (this.favLinksArray[i].first === objTitle && this.favLinksArray[i].second === objLink) {
+                this.editModalIndex = i;
+                console.log(this.editModalIndex);
+              }
+            }
+            console.log(this.editModalIndex);
+            console.log(this.favLinksArray[this.editModalIndex]);
+
+            this.favLinksArray[this.editModalIndex]['first'] = this.editModalInfo.first;
+            this.favLinksArray[this.editModalIndex]['second'] = this.editModalInfo.second;
+
+            console.log(this.favLinksArray);
+
+            /*this.favLinksArray = this.favLinksArray.concat(
+              {
+                "first": this.addModalInfo.first,
+                "second": this.addModalInfo.second,
+              }
+            );
+            AppAxios.patch('http://e-enterprise/user/1?_format=json', {
+                field_favorite_links: this.favLinksArray,
+              },
+              {
+                headers: {
+                  'crossDomain': true,
+                  'cache-control': 'no-cache',
+                  'Content-Type': 'application/json',
+                },
+                auth: {
+                  username: 'api_user',
+                  password: 'api4epa',
+                },
+              })
+              .then(response => {
+                console.log('PATCH => success');
+              })
+              .catch(error =>{
+                console.log('PATCH => failure');
+                console.log(error.response.data);
+              });*/
           },
           onFiltered (filteredItems) {
             // Trigger pagination to update the number of buttons/pages due to filtering
