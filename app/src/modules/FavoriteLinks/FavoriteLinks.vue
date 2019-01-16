@@ -226,6 +226,7 @@
               }
             );
             // pushes changes to backend
+            // @TODO update request link to be based on uid pulled from jwt_token
             AppAxios.patch('http://e-enterprise/user/1?_format=json', {
                 field_favorite_links: this.favLinksArray,
               },
@@ -235,6 +236,7 @@
                   'cache-control': 'no-cache',
                   'Content-Type': 'application/json',
                 },
+                // @TODO set auth up to pass/accept jwt_token
                 auth: {
                   username: 'api_user',
                   password: 'api4epa',
@@ -268,6 +270,7 @@
             this.favLinksArray[this.editModalIndex]['first'] = this.editModalInfo.first;
             this.favLinksArray[this.editModalIndex]['second'] = this.editModalInfo.second;
             // pushes changes to backend
+            // @TODO update request link to be based on uid pulled from jwt_token
             AppAxios.patch('http://e-enterprise/user/1?_format=json', {
                 field_favorite_links: this.favLinksArray,
               },
@@ -277,6 +280,7 @@
                   'cache-control': 'no-cache',
                   'Content-Type': 'application/json',
                 },
+                // @TODO set auth up to pass/accept jwt_token
                 auth: {
                   username: 'api_user',
                   password: 'api4epa',
@@ -291,10 +295,10 @@
           },
           // DELETE
           deleteFavLink(item, index) {
-            console.log(this.favLinksArray);
+            // stores changes in local state
             this.favLinksArray.splice(index,1);
-            console.log(this.favLinksArray);
-
+            // pushes changes to backend
+            // @TODO update request link to be based on uid pulled from jwt_token
             AppAxios.patch('http://e-enterprise/user/1?_format=json', {
                 field_favorite_links: this.favLinksArray,
               },
@@ -304,6 +308,7 @@
                   'cache-control': 'no-cache',
                   'Content-Type': 'application/json',
                 },
+                // @TODO set auth up to pass/accept jwt_token
                 auth: {
                   username: 'api_user',
                   password: 'api4epa',
