@@ -10,44 +10,59 @@
           Maximize, minimize, dropdown menu, etc.
           background-image:url('../images/widget-expand.svg');
         -->
-      <div  class="col-10 text-left">
-    <h2 v-for="item in title.slice(2,3)" v-if="eepApp.title =='Be Well Informed'">{{item.title[0].value}}</h2>
-    <h2 v-for="item in title.slice(1,2)" v-if="eepApp.title =='Trending Air'">{{item.title[0].value}}</h2>
-    <h2 v-for="item in title.slice(3,4)" v-if="eepApp.title =='Favorite Links'"><b-img class="title-logo" :src="require('../../../assets/images/bookmark.svg')"></b-img>{{ item.title[0].value}}</h2>
-    <h2 v-for="item in title.slice(0,1)" v-if="eepApp.title =='My Reporting'">{{ item.title[0].value }}</h2>
-    <h6 v-show="!!eepApp.source">
-      Source: <a
-      :href="eepApp.source.link"
-      target="_blank">{{ eepApp.source.text }}</a>
-    </h6>
-      </div>
+        <div class="col-10 text-left">
+          <h2
+            v-for="item in title.slice(2,3)"
+            v-if="eepApp.title =='Be Well Informed'">{{ item.title[0].value }}</h2>
+          <h2
+            v-for="item in title.slice(1,2)"
+            v-if="eepApp.title =='Trending Air'">{{ item.title[0].value }}</h2>
+          <h2
+            v-for="item in title.slice(3,4)"
+            v-if="eepApp.title =='Favorite Links'"><b-img
+              class="title-logo"
+              :src="require('../../../assets/images/bookmark.svg')"/>{{ item.title[0].value }}</h2>
+          <h2
+            v-for="item in title.slice(0,1)"
+            v-if="eepApp.title =='My Reporting'">{{ item.title[0].value }}</h2>
+          <h6 v-show="!!eepApp.source">
+            Source: <a
+              :href="eepApp.source.link"
+              target="_blank">{{ eepApp.source.text }}</a>
+          </h6>
+        </div>
         <div class="col-2  d-flex justify-content-lg-end">
           <div class="col-4-md d-flex mr-1">
-            <b-dropdown id="divider" variant="link" right class="widget-dropdown widget-button" no-caret>
+            <b-dropdown
+              id="divider"
+              variant="link"
+              right
+              class="widget-dropdown widget-button"
+              no-caret>
               <b-dropdown-item-button>Settings</b-dropdown-item-button>
               <b-dropdown-item-button>Move</b-dropdown-item-button>
-              <b-dropdown-divider></b-dropdown-divider>
+              <b-dropdown-divider/>
               <b-dropdown-item-button>Description</b-dropdown-item-button>
               <b-dropdown-item-button>Source</b-dropdown-item-button>
               <b-dropdown-item-button>Help</b-dropdown-item-button>
               <b-dropdown-item-button>Contact</b-dropdown-item-button>
             </b-dropdown>
           </div>
-          <b-button v-if='eepApp.isExpandable'
-               class="widget-expand widget-button col-4-md d-flex mr-l"
-               @click="maximizeWidget()">
-          </b-button>
+          <b-button
+            v-if='eepApp.isExpandable'
+            class="widget-expand widget-button col-4-md d-flex mr-l"
+            @click="maximizeWidget()"/>
         </div>
       </div>
-    <div class="app-inner-wrapper">
-      <slot></slot>
+      <div class="app-inner-wrapper">
+        <slot></slot>
+      </div>
     </div>
-  </div>
   </div>
 </template>
 
 <script>
-  import AppAxios from '../utils/AppAxios.js';
+  import AppAxios from '../utils/AppAxios';
 
   export default {
     name: 'AppWrapper',
@@ -63,16 +78,18 @@
         required: true,
       },
     },
-    mounted () {
+    mounted() {
       AppAxios
         .get('https://apidev2.e-enterprise.gov/api/workbenchapps')
-        .then(response => (this.title = (response.data)))
+        .then((response) => {
+          this.title = (response.data);
+        });
     },
      methods: {
-      maximizeWidget(){
-        return console.log("hi");
-      }
-    }
+      maximizeWidget() {
+        console.log('hi');
+      },
+    },
   };
 
 </script>
