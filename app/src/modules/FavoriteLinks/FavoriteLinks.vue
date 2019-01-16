@@ -39,12 +39,14 @@
             @filtered="onFiltered"
           >
 
-            <template slot="first" slot-scope="data"><a :href="data.item.second">{{data.item.first}}</a></template>
+            <template slot="first" slot-scope="data">
+              <span class="fa fa-heart filled" aria-hidden="true"></span>
+              <a :href="data.item.second" class="pl-2">{{data.item.first}}</a>
+            </template>
 
-            <template slot="actions" slot-scope="row">
-              <b-button size="sm" @click="openEditModal(row.item, row.index, $event.target)" class="mr-1">
-                edit
-              </b-button>
+            <template slot="actions" slot-scope="row" >
+              <b-button size="sm" @click="deleteFavLink(row.item, row.index)" class="delete-favorite-btn mr-1"></b-button>
+              <b-button size="sm" @click="openEditModal(row.item, row.index, $event.target)" class="edit-favorite-btn mr-1"></b-button>
             </template>
 
           </b-table>
@@ -166,7 +168,7 @@
             fields: [
               { key: 'first', label: 'Link', sortable: true, sortDirection: 'desc' },
               { key: 'widget', label: 'Widget', sortable: true, sortDirection: 'desc' },
-              { key: 'actions', label: 'Actions', sortable: true, sortDirection: 'desc' },
+              { key: 'actions', label: 'Actions', sortable: true, sortDirection: 'desc', 'class': 'text-right' },
             ],
             currentPage: 1,
             perPage: 5,
@@ -195,8 +197,13 @@
               .filter(f => f.sortable)
               .map(f => { return { text: f.label, value: f.key } });
           },
-          totalRows() {
-            return this.favLinksArray.length;
+          totalRows: {
+            get: function () {
+              return this.favLinksArray.length;
+            },
+            set: function () {
+              return this.favLinksArray.length;
+            }
           }
         },
         methods: {
@@ -280,14 +287,43 @@
                   password: 'api4epa',
                 },
               })
-              .then(response => {
-                console.log('PATCH => success');
-                console.log(response);
+                .then(response => {
+                  console.log('PATCH => success');
+                  console.log(response);
+                })
+                .catch(error =>{
+                  console.log('PATCH => failure');
+                  console.log(error.response.data);
+                });
+          },
+          // DELETE
+          deleteFavLink(item, index) {
+            console.log(this.favLinksArray);
+            this.favLinksArray.splice(index,1);
+            console.log(this.favLinksArray);
+
+            AppAxios.patch('http://e-enterprise/user/1?_format=json', {
+                field_favorite_links: this.favLinksArray,
+              },
+              {
+                headers: {
+                  'crossDomain': true,
+                  'cache-control': 'no-cache',
+                  'Content-Type': 'application/json',
+                },
+                auth: {
+                  username: 'api_user',
+                  password: 'api4epa',
+                },
               })
-              .catch(error =>{
-                console.log('PATCH => failure');
-                console.log(error.response.data);
-              });
+                .then(response => {
+                  console.log('PATCH => success');
+                  console.log(response);
+                })
+                .catch(error =>{
+                  console.log('PATCH => failure');
+                  console.log(error.response.data);
+                });
           },
           onFiltered (filteredItems) {
             // Trigger pagination to update the number of buttons/pages due to filtering
@@ -321,5 +357,40 @@
     border-radius:50%;
     background-size: 1.3rem 1.325rem;
     background-image:url('../../assets/images/favorites-add.svg');
+  }
+  .edit-favorite-btn {
+    background-repeat:no-repeat;
+    background-position:center center;
+    background-color:#0071c2;
+    width:2.2rem;
+    height:2.2rem;
+    border-radius:50%;
+    background-size: 1.3rem 1.325rem;
+    background-image:url('../../assets/images/favorites-edit.svg');
+  }
+  .delete-favorite-btn {
+    background-repeat:no-repeat;
+    background-position:center center;
+    background-color:#0071c2;
+    width:2.2rem;
+    height:2.2rem;
+    border-radius:50%;
+    background-size: 1.3rem 1.325rem;
+    background-image:url('../../assets/images/favorites-empty.svg');
+  }
+  .fa-heart::before{
+    display: none;
+  }
+  .fa-heart {
+    background: transparent url('../../assets/images/heart-filled.svg') no-repeat 50% 50%;
+    background-size: 1.2rem,contain;
+    width: 1.2rem;
+    height: 1.2rem;
+    display: inline-block;
+    vertical-align: bottom;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
   }
 </style>
