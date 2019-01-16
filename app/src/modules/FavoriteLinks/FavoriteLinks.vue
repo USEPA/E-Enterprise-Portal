@@ -118,6 +118,7 @@
 
 <script>
   import AppAxios from 'axios';
+  import { mapGetters } from 'vuex';
   import { AppWrapper, AppPlaceholderContent } from '../wadk/WADK';
   import storeModule from './store/index';
   import { EventBus } from '../../EventBus';
@@ -125,200 +126,225 @@
   const moduleName = 'FavoriteLinks';
 
   export default {
-        name: moduleName,
-        components: {
-          AppWrapper,
-          AppPlaceholderContent,
+    name: moduleName,
+    components: {
+      AppWrapper,
+      AppPlaceholderContent,
+    },
+    data() {
+      return {
+        eepApp: {
+          id: 'favorite-links',
+          title: 'Favorite Links',
+          source: {
+            text: 'US Environmental Protection Agency',
+            link: 'https://www.epa.gov',
+          },
+          html: {
+            mainCard:
+              ' <p>Save links you find in E-Enterprise to return to them later.</p>'
+          },
         },
-        beforeCreate(){
-          AppAxios.get('http://e-enterprise/api/user/1?_format=json', {
-            headers: this.$store.GETHeaders,
+        favLinksArray: [],
+        fields: [
+          { key: 'first', label: 'Link', sortable: true, sortDirection: 'desc' },
+          { key: 'widget', label: 'Widget', sortable: true, sortDirection: 'desc' },
+          { key: 'actions', label: 'Actions', sortable: true, sortDirection: 'desc', 'class': 'text-right' },
+        ],
+        currentPage: 1,
+        perPage: 5,
+        pageOptions: [ 5, 10, 15 ],
+        sortBy: null,
+        sortDesc: false,
+        sortDirection: 'asc',
+        filter: null,
+        editModalInfo: { title: '', first: '', second: '' },
+        editModalIndex: null,
+        addModalInfo: { title: '', first: 'Link Name Here', second: 'URL Here' },
+        totalRows: null,
+      }
+    },
+    computed:{
+      ...mapGetters({
+        apiURL: 'getEnvironmentApiURL',
+      }),
+    },
+    methods: {
+      // ADD
+      openAddModal(item, index, button) {
+        this.addModalInfo.title = `Add Favorite`;
+        this.$root.$emit('bv::show::modal', 'addModalInfo', button);
+      },
+      closeAddModal(){
+        this.$root.$emit('bv::hide::modal', 'addModalInfo');
+      },
+      applyAddModal(){
+        // stores changes in local state
+        this.favLinksArray = this.favLinksArray.concat(
+          {
+            "first": this.addModalInfo.first,
+            "second": this.addModalInfo.second,
+          }
+        );
+        // pushes changes to backend
+        // @TODO update request link to be based on uid pulled from jwt_token
+        AppAxios.patch(this.apiURL + '/user/1?_format=json', {
+            field_favorite_links: this.favLinksArray,
+          },
+          {
+            headers: {
+              'crossDomain': true,
+              'cache-control': 'no-cache',
+              'Content-Type': 'application/json',
+            },
+            // @TODO set auth up to pass/accept jwt_token
             auth: {
               username: 'api_user',
               password: 'api4epa',
-            }
+            },
           })
-            .then(response => {
-              this.favLinksArray = response.data[0].field_favorite_links;
-            })
-        },
-        created(){
-            const store = this.$store;
-            if (!(store && store.state && store.state[moduleName])) {
-                store.registerModule(moduleName, storeModule);
-            }
-
-        },
-        data() {
-          return {
-            eepApp: {
-              id: 'favorite-links',
-              title: 'Favorite Links',
-              source: {
-                text: 'US Environmental Protection Agency',
-                link: 'https://www.epa.gov',
-              },
-              html: {
-                mainCard:
-                  ' <p>Save links you find in E-Enterprise to return to them later.</p>'
-              },
-            },
-            favLinksArray: [],
-            fields: [
-              { key: 'first', label: 'Link', sortable: true, sortDirection: 'desc' },
-              { key: 'widget', label: 'Widget', sortable: true, sortDirection: 'desc' },
-              { key: 'actions', label: 'Actions', sortable: true, sortDirection: 'desc', 'class': 'text-right' },
-            ],
-            currentPage: 1,
-            perPage: 5,
-            pageOptions: [ 5, 10, 15 ],
-            sortBy: null,
-            sortDesc: false,
-            sortDirection: 'asc',
-            filter: null,
-            editModalInfo: { title: '', first: '', second: '' },
-            editModalIndex: null,
-            addModalInfo: { title: '', first: 'Link Name Here', second: 'URL Here' },
-          }
-        },
-        mounted () {
-
+          .then(() => {
+            console.log('PATCH => success');
+          })
+          .catch(() =>{
+            console.log('PATCH => failure');
+          });
       },
-        computed:{
-          sortOptions () {
-            // Create an options list from our fields
-            return this.fields
-              .filter(f => f.sortable)
-              .map(f => { return { text: f.label, value: f.key } });
-          },
-          totalRows: {
-            get: function () {
-              return this.favLinksArray.length;
-            },
-            set: function () {
-              return this.favLinksArray.length;
-            }
-          }
-        },
-        methods: {
-          // ADD
-          openAddModal(item, index, button) {
-            this.addModalInfo.title = `Add Favorite`;
-            this.$root.$emit('bv::show::modal', 'addModalInfo', button);
-          },
-          closeAddModal(){
-            this.$root.$emit('bv::hide::modal', 'addModalInfo');
-          },
-          applyAddModal(){
-            // stores changes in local state
-            this.favLinksArray = this.favLinksArray.concat(
-              {
-                "first": this.addModalInfo.first,
-                "second": this.addModalInfo.second,
-              }
-            );
-            // pushes changes to backend
-            // @TODO update request link to be based on uid pulled from jwt_token
-            AppAxios.patch('http://e-enterprise/user/1?_format=json', {
-                field_favorite_links: this.favLinksArray,
-              },
-              {
-                headers: {
-                  'crossDomain': true,
-                  'cache-control': 'no-cache',
-                  'Content-Type': 'application/json',
-                },
-                // @TODO set auth up to pass/accept jwt_token
-                auth: {
-                  username: 'api_user',
-                  password: 'api4epa',
-                },
-              })
-              .then(() => {
-                console.log('PATCH => success');
-              })
-              .catch(() =>{
-                console.log('PATCH => failure');
-              });
-          },
-          // EDIT
-          openEditModal(item, index, button) {
-            this.editModalInfo.title = `Edit Favorite`;
-            this.editModalIndex = index;
-            this.editModalInfo.first = item.first;
-            this.editModalInfo.second = item.second;
-            this.$root.$emit('bv::show::modal', 'editModalInfo', button);
-          },
-          closeEditModal() {
-            this.$root.$emit('bv::hide::modal', 'editModalInfo');
-          },
-          applyEditModal(objTitle, objLink){
-            for (let i = 0; i < this.favLinksArray.length; i++) {
-              if (this.favLinksArray[i]['first'] === objTitle && this.favLinksArray[i]['second'] === objLink) {
-                this.editModalIndex = i;
-              }
-            }
-            // stores changes in local state
-            this.favLinksArray[this.editModalIndex]['first'] = this.editModalInfo.first;
-            this.favLinksArray[this.editModalIndex]['second'] = this.editModalInfo.second;
-            // pushes changes to backend
-            // @TODO update request link to be based on uid pulled from jwt_token
-            AppAxios.patch('http://e-enterprise/user/1?_format=json', {
-                field_favorite_links: this.favLinksArray,
-              },
-              {
-                headers: {
-                  'crossDomain': true,
-                  'cache-control': 'no-cache',
-                  'Content-Type': 'application/json',
-                },
-                // @TODO set auth up to pass/accept jwt_token
-                auth: {
-                  username: 'api_user',
-                  password: 'api4epa',
-                },
-              })
-                .then(() => {
-                  console.log('PATCH => success');
-                })
-                .catch(() =>{
-                  console.log('PATCH => failure');
-                });
-          },
-          // DELETE
-          deleteFavLink(item, index) {
-            // stores changes in local state
-            this.favLinksArray.splice(index,1);
-            // pushes changes to backend
-            // @TODO update request link to be based on uid pulled from jwt_token
-            AppAxios.patch('http://e-enterprise/user/1?_format=json', {
-                field_favorite_links: this.favLinksArray,
-              },
-              {
-                headers: {
-                  'crossDomain': true,
-                  'cache-control': 'no-cache',
-                  'Content-Type': 'application/json',
-                },
-                // @TODO set auth up to pass/accept jwt_token
-                auth: {
-                  username: 'api_user',
-                  password: 'api4epa',
-                },
-              })
-                .then(() => {
-                  console.log('PATCH => success');
-                })
-                .catch(() =>{
-                  console.log('PATCH => failure');
-                });
-          },
-          onFiltered (filteredItems) {
-            // Trigger pagination to update the number of buttons/pages due to filtering
-            this.totalRows = filteredItems.length;
-            this.currentPage = 1;
+      // EDIT
+      openEditModal(item, index, button) {
+        this.editModalInfo.title = `Edit Favorite`;
+        this.editModalIndex = index;
+        this.editModalInfo.first = item.first;
+        this.editModalInfo.second = item.second;
+        this.$root.$emit('bv::show::modal', 'editModalInfo', button);
+      },
+      closeEditModal() {
+        this.$root.$emit('bv::hide::modal', 'editModalInfo');
+      },
+      applyEditModal(objTitle, objLink){
+        for (let i = 0; i < this.favLinksArray.length; i++) {
+          if (this.favLinksArray[i]['first'] === objTitle && this.favLinksArray[i]['second'] === objLink) {
+            this.editModalIndex = i;
           }
         }
+        // stores changes in local state
+        this.favLinksArray[this.editModalIndex]['first'] = this.editModalInfo.first;
+        this.favLinksArray[this.editModalIndex]['second'] = this.editModalInfo.second;
+        // pushes changes to backend
+        // @TODO update request link to be based on uid pulled from jwt_token
+        AppAxios.patch(this.apiURL + '/user/1?_format=json', {
+            field_favorite_links: this.favLinksArray,
+          },
+          {
+            headers: {
+              'crossDomain': true,
+              'cache-control': 'no-cache',
+              'Content-Type': 'application/json',
+            },
+            // @TODO set auth up to pass/accept jwt_token
+            auth: {
+              username: 'api_user',
+              password: 'api4epa',
+            },
+          })
+          .then(() => {
+            console.log('PATCH => success');
+          })
+          .catch(() =>{
+            console.log('PATCH => failure');
+          });
+      },
+      // DELETE
+      deleteFavLink(item, index) {
+        // stores changes in local state
+        this.favLinksArray.splice(index,1);
+        // pushes changes to backend
+        // @TODO update request link to be based on uid pulled from jwt_token
+        AppAxios.patch(this.apiURL + '/user/1?_format=json', {
+            field_favorite_links: this.favLinksArray,
+          },
+          {
+            headers: {
+              'crossDomain': true,
+              'cache-control': 'no-cache',
+              'Content-Type': 'application/json',
+            },
+            // @TODO set auth up to pass/accept jwt_token
+            auth: {
+              username: 'api_user',
+              password: 'api4epa',
+            },
+          })
+          .then(() => {
+            console.log('PATCH => success');
+          })
+          .catch(() =>{
+            console.log('PATCH => failure');
+          });
+      },
+      onFiltered (filteredItems) {
+        // Trigger pagination to update the number of buttons/pages due to filtering
+        this.totalRows = filteredItems.length;
+        this.currentPage = 1;
+      },
+      getEnvironment() {
+        let env = 'LOCAL';
+        const { host } = window.location;
+        let m;
+
+        const regex = {
+          LOCAL: /(localhost|local|^e-enterprise$)/gm,
+          DEV: /dev\d?\.e-enterprise/gm,
+          TEST: /test\d?\.e-enterprise/gm,
+          PROD: /^e-enterprise\.gov/gm,
+        };
+
+        Object.keys(regex).forEach((envName) => {
+          m = regex[envName].exec(host);
+          if (m !== null) {
+            // This is necessary to avoid infinite loops with zero-width matches
+            if (m.length) {
+              env = envName;
+            }
+          }
+        });
+
+        let environment = env;
+        let environmentApiURL = 'https://apidev2.e-enterprise.gov';
+        if (environment === 'LOCAL') {
+          environmentApiURL = 'http://e-enterprise';
+        } else if (environment === 'DEV') {
+          environmentApiURL = 'https://apidev2.e-enterprise.gov';
+        } else if (environment === 'TEST') {
+          environmentApiURL = 'https://apitest2.e-enterprise.gov';
+        }
+        console.log(environmentApiURL);
+        return environmentApiURL;
+      },
+    },
+    beforeCreate(){
+
+    },
+    created(){
+      const store = this.$store;
+      if (!(store && store.state && store.state[moduleName])) {
+        store.registerModule(moduleName, storeModule);
+      }
+    },
+    mounted(){
+        AppAxios.get(this.apiURL + '/api/user/1?_format=json', {
+          headers: this.$store.GETHeaders,
+          auth: {
+            username: 'api_user',
+            password: 'api4epa',
+          }
+        })
+        .then(response => {
+          this.favLinksArray = response.data[0].field_favorite_links;
+          this.totalRows = this.favLinksArray.length;
+        })
+    },
+
     }
 </script>
 
