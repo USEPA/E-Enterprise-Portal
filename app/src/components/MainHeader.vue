@@ -40,6 +40,14 @@
               <i class="fas fa-lock"></i>&nbsp;
               Logout
             </b-btn>
+            <router-link to="/User">
+               <b-button
+                id="my-account"
+                class="btn btn-sm ml-2"
+                variant="primary">
+                My account
+               </b-button>
+            </router-link>
           </template>
           <template v-else>
             <div class="router-link-wrapper pt-2">
