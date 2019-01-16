@@ -118,7 +118,6 @@
 
 <script>
   import AppAxios from 'axios';
-  import { mapActions, mapGetters } from 'vuex';
   import { AppWrapper, AppModal, AppPlaceholderContent } from '../wadk/WADK';
   import storeModule from './store/index';
   import { EventBus } from '../../EventBus';
@@ -186,11 +185,6 @@
 
       },
         computed:{
-          ...mapGetters({
-            authenticated: 'getUserAuthentication',
-            bridgeURL: 'getBridgeURL',
-            username: 'getUserFullName',
-          }),
           sortOptions () {
             // Create an options list from our fields
             return this.fields
@@ -207,8 +201,6 @@
           }
         },
         methods: {
-          ...mapActions(moduleName, [
-          ]),
           // ADD
           openAddModal(item, index, button) {
             this.addModalInfo.title = `Add Favorite`;
