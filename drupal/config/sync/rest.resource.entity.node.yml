@@ -1,0 +1,29 @@
+uuid: 5e84b33f-9f13-41ae-a589-b460a4b50770
+langcode: en
+status: true
+dependencies:
+  module:
+    - basic_auth
+    - hal
+    - jwt
+    - node
+    - serialization
+    - user
+_core:
+  default_config_hash: t_jfECmZhJqBOJuSOFn87EOi_TWi-_fRYTuJgd19vgg
+id: entity.node
+plugin_id: 'entity:node'
+granularity: resource
+configuration:
+  methods:
+    - GET
+    - POST
+    - DELETE
+    - PATCH
+  formats:
+    - hal_json
+    - json
+  authentication:
+    - basic_auth
+    - jwt_auth
+    - cookie

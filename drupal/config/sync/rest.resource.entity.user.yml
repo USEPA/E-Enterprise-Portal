@@ -1,0 +1,29 @@
+uuid: 7a3b3c31-7f52-49ea-aa14-ec8d78e2f631
+langcode: en
+status: true
+dependencies:
+  module:
+    - basic_auth
+    - hal
+    - jwt
+    - schemata
+    - serialization
+    - user
+id: entity.user
+plugin_id: 'entity:user'
+granularity: resource
+configuration:
+  methods:
+    - GET
+    - POST
+    - DELETE
+    - PATCH
+  formats:
+    - hal_json
+    - schema_json
+    - json
+    - xml
+  authentication:
+    - basic_auth
+    - jwt_auth
+    - cookie
