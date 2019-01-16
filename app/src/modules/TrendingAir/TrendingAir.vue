@@ -93,6 +93,7 @@
                     html: {
                         mainCard: '',
                     },
+                    isExpandable:true
                 },
                 description: 'This is the description. Please enter no more than 200 characters',
                 providerName: 'Village Green',

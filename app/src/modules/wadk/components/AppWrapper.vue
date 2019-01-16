@@ -33,8 +33,8 @@
               <b-dropdown-item-button>Contact</b-dropdown-item-button>
             </b-dropdown>
           </div>
-          <b-button
-               class="widget-expand widget-button col-4-md d-flex mr-1"
+          <b-button v-if='eepApp.isExpandable'
+               class="widget-expand widget-button col-4-md d-flex mr-l"
                @click="maximizeWidget()">
           </b-button>
         </div>

@@ -59,7 +59,7 @@
           aria-labelledby="nav-tribal-tab">
         </div>
       </div>
-      <div>
+      <div id="my-reporting">
         <ul class="inline-cdx-links">
           <li class="my-cdx-login"><a class="my-cdx-web-handoff-link"
             data-handoff-type="login"
@@ -126,6 +126,7 @@
 
             ,
           },
+          isExpandable:true
         },
         program: [
           { first: '', },
@@ -156,6 +157,11 @@
   lang="scss">
   #app {
     margin-bottom: 7rem;
+  }
+
+  #my-reporting .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    color: #000;
+    font-weight:bold;
   }
   .inline-cdx-links {
     display: flex;
