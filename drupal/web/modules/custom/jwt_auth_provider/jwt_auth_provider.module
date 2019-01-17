@@ -16,7 +16,7 @@ function jwt_auth_provider_help($route_name, RouteMatchInterface $route_match) {
     case 'help.page.jwt_auth_provider':
       $output = '';
       $output .= '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t('My Awesome Module') . '</p>';
+      $output .= '<p>' . t('Provides Authentication provider of JWT') . '</p>';
       return $output;
 
     default:

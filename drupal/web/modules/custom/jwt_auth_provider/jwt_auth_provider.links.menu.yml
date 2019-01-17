@@ -1,0 +1,7 @@
+jwt_auth_provider.jwt_auth_provider_configs:
+  title: 'JWTAuthProviderConfigs'
+  route_name: jwt_auth_provider.jwt_auth_provider_configs
+  description: 'Configure JWT settings'
+  parent: system.admin_config_system
+  weight: 99
+

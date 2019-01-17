@@ -1,5 +1,5 @@
 name: 'jwt_auth_provider'
 type: module
-description: 'authentication provider for php_jwt'
+description: 'Provides Authentication provider of JWT'
 core: 8.x
-package: 'jwt_auth_provider'
+package: 'EEP'
