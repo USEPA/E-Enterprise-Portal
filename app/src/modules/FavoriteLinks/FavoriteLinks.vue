@@ -142,7 +142,7 @@
           },
           html: {
             mainCard:
-              ' <p>Save links you find in E-Enterprise to return to them later.</p>'
+              'Save links you find in E-Enterprise to return to them later.'
           },
         },
         favLinksArray: [],
@@ -158,9 +158,9 @@
         sortDesc: false,
         sortDirection: 'asc',
         filter: null,
-        editModalInfo: { title: '', first: '', second: '' },
+        editModalInfo: { title: 'Edit Favorite', first: '', second: '' },
         editModalIndex: null,
-        addModalInfo: { title: '', first: 'Link Name Here', second: 'URL Here' },
+        addModalInfo: { title: 'Add Favorite', first: '', second: '' },
         totalRows: null,
       }
     },
@@ -172,7 +172,6 @@
     methods: {
       // ADD
       openAddModal(item, index, button) {
-        this.addModalInfo.title = `Add Favorite`;
         this.$root.$emit('bv::show::modal', 'addModalInfo', button);
       },
       closeAddModal(){
@@ -212,7 +211,6 @@
       },
       // EDIT
       openEditModal(item, index, button) {
-        this.editModalInfo.title = `Edit Favorite`;
         this.editModalIndex = index;
         this.editModalInfo.first = item.first;
         this.editModalInfo.second = item.second;
