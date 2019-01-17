@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class LoginController extends ControllerBase {
 
     public function handleLoginCreation(){
-        return new JsonResponse();
+        return new JsonResponse("test");
     }
 
 }
