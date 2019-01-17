@@ -12,6 +12,9 @@ use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+
+
+
 /**
  * Controller routines for test_api routes.
  */
@@ -20,7 +23,7 @@ class EEPMyReportingController extends ControllerBase {
   /**
    * Callback for `my-api/get.json` API method.
    */
-  public function get_example( Request $request ) {
+  public function get_example(Request $request ) {
 
     $response['data'] = '';
     $response['method'] = 'GET';
