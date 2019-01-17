@@ -1,0 +1,21 @@
+uuid: b4ff170a-4bc4-40fa-8777-bfa0d9fdccc7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_sources
+    - node.type.eep_workbench_application
+_core:
+  default_config_hash: uGG7lzR2m7pCtxtVFP_TCblahxZqZGkDPaUQUpdcUvo
+id: node.eep_workbench_application.field_sources
+field_name: field_sources
+entity_type: node
+bundle: eep_workbench_application
+label: Sources
+description: 'Details the locations of the where the workbench application is derived. These should be URLs to those sources.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

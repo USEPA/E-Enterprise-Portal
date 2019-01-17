@@ -1,0 +1,37 @@
+uuid: 93ad111d-5a70-4849-b2a5-7110c6e62dbd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_cdx_program_name
+    - node.type.eep_my_reporting
+  module:
+    - double_field
+id: node.eep_my_reporting.field_cdx_program_name
+field_name: field_cdx_program_name
+entity_type: node
+bundle: eep_my_reporting
+label: 'CDX Program Name'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  first:
+    min: null
+    max: null
+    list: false
+    allowed_values: {  }
+    required: true
+    on_label: 'On'
+    off_label: 'Off'
+  second:
+    min: null
+    max: null
+    list: false
+    allowed_values: {  }
+    required: true
+    on_label: 'On'
+    off_label: 'Off'
+field_type: double_field

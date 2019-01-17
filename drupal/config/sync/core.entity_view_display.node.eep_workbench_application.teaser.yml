@@ -1,0 +1,32 @@
+uuid: dc92e117-56df-4138-a362-8df9b1971ed1
+langcode: en
+status: false
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.eep_workbench_application.field_app_html_content
+    - field.field.node.eep_workbench_application.field_default_grid_size
+    - field.field.node.eep_workbench_application.field_html_content
+    - field.field.node.eep_workbench_application.field_sources
+    - field.field.node.eep_workbench_application.field_title
+    - node.type.eep_workbench_application
+  module:
+    - user
+_core:
+  default_config_hash: Vb3aruoYYpgVqdmoEGGeLeUQCyWMFbyiYl8vpDKBSvY
+id: node.eep_workbench_application.teaser
+targetEntityType: node
+bundle: eep_workbench_application
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_app_html_content: true
+  field_default_grid_size: true
+  field_html_content: true
+  field_sources: true
+  field_title: true

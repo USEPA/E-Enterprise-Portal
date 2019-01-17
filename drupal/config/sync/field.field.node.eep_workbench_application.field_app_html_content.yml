@@ -1,0 +1,39 @@
+uuid: 811c88ba-f3ed-4681-8d37-d995ec58e75c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_app_html_content
+    - node.type.eep_workbench_application
+  module:
+    - double_field
+_core:
+  default_config_hash: IRjJKQkA4ZUQ1kRrQhCPWbH_Ng3XtCrikEzT9esjA14
+id: node.eep_workbench_application.field_app_html_content
+field_name: field_app_html_content
+entity_type: node
+bundle: eep_workbench_application
+label: 'App Content'
+description: "The first value is the key.\r\nThe second value is a HTML content"
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  first:
+    required: true
+    list: false
+    allowed_values: {  }
+    max: null
+    min: null
+    on_label: 'On'
+    off_label: 'Off'
+  second:
+    required: true
+    list: false
+    allowed_values: {  }
+    max: null
+    min: null
+    on_label: 'On'
+    off_label: 'Off'
+field_type: double_field

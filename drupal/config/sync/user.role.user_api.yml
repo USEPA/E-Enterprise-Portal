@@ -1,0 +1,12 @@
+uuid: ebd1ca85-1112-441c-a45b-81d4b2fc0ac5
+langcode: en
+status: true
+dependencies: {  }
+id: user_api
+label: 'User API'
+weight: 3
+is_admin: null
+permissions:
+  - 'access user profiles'
+  - 'administer account settings'
+  - 'administer users'
