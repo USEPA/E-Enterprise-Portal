@@ -148,7 +148,9 @@
         favLinksArray: [],
         fields: [
           { key: 'first', label: 'Link', sortable: true, sortDirection: 'desc' },
+          /* Column for widgets uncomment when implementing
           { key: 'widget', label: 'Widget', sortable: true, sortDirection: 'desc' },
+          */
           { key: 'actions', label: 'Actions', sortable: true, sortDirection: 'desc', 'class': 'text-right' },
         ],
         currentPage: 1,
