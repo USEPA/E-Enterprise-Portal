@@ -1,0 +1,5 @@
+name: 'jwt_auth_provider'
+type: module
+description: 'authentication provider for php_jwt'
+core: 8.x
+package: 'jwt_auth_provider'
