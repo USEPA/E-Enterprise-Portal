@@ -19,7 +19,7 @@ use Drupal\rest\ResourceResponse;
  *   id = "api_login_resource",
  *   label = @Translation("Login Resource"),
  *   uri_paths = {
- *     "canonical" = "/api/api_login"
+ *     "canonical" = "/api/login_page"
  *   }
  * )
  */
@@ -50,27 +50,33 @@ class LoginResource extends ResourceBase
         // Loop through the nodes to format the json out properly
         foreach ($nodes as $node) {
             $target_id = $node->field_authentication_category[0]->get('target_id')->getValue();
-            $formatted_node_array[] = [
-                'title' => $node->title,
-                'image_path' => $node->field_image_path,
-                'urn' => $node->field_urn,
-                'tax_category' => $this->get_taxonomy_for_given_id($terms, $target_id),
-            ];
+            $taxonomy_obj = $this->get_taxonomy_for_given_id($terms, $target_id);
+            if (isset($taxonomy_obj)) {
+                $formatted_node_array[] = [
+                    'title' => $node->title,
+                    'image_path' => $node->field_image_path,
+                    'urn' => $node->field_urn,
+                    'tab_order' => $node->field_tab_order,
+                    'taxonomy_category' => $taxonomy_obj->name,
+                    'taxonomy_weight' => $taxonomy_obj->weight
+                ];
+            }
         }
         return new ResourceResponse(['message' => $formatted_node_array]);
     }
 
     private function get_taxonomy_for_given_id($terms, $node_tax_id){
         // Declare variables
-        $associated_term = "";
+        $found_term = false;
 
         // Loop through all terms to find the right name for the given id
         foreach ($terms as $term) {
             if ($term->tid == $node_tax_id) {
-                $associated_term = $term->name;
+                $found_term = $term;
+                break;
             }
         }
-        return $associated_term;
+        return $found_term;
     }
 
 }
