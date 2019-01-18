@@ -59,13 +59,14 @@ class EEPBridgeController extends ControllerBase {
         }
         $account = \Drupal::currentUser();
         $jwt_handler = new JWTHandler();
-        $jwt_handler->setUIDForJWT($account->id());
+        $uid = $account->id();
+        $jwt_handler->setUIDForJWT($uid);
         $jwt_token =  $jwt_handler->generateToken();
         if ($jwt_token === FALSE) {
             $error_msg = "Error. Please set a key in the JWT admin page.";
             watchdog('eep_bridge', $error_msg, array(), WATCHDOG_ERROR);
         }
-        $url = Url::fromUri('http://localhost:8082' . '?token=' . $jwt_token);
+        $url = Url::fromUri('http://localhost:8082' . '?uid=' . $uid . '&token=' . $jwt_token);
         $this->eep_bridge_goto($url);
         return;
     }

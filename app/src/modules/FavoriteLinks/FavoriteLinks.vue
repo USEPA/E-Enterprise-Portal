@@ -1,7 +1,6 @@
 <template ref="favoriteLinks">
     <div id="favLinks">
         <AppWrapper
-                v-if="(favLinksArray.length > 0 && eepApp.title)"
                 :eep-app="eepApp">
             <div v-html="eepApp.html.mainCard"></div>
             <b-row>
@@ -26,6 +25,7 @@
                     </b-form-group>
                 </b-col>
             </b-row>
+            <!--datatable-->
             <b-table
                     hover
                     :items="favLinksArray"
@@ -39,7 +39,6 @@
                     @filtered="onFiltered"
             >
                 <template slot="first" slot-scope="data">
-                    <span class="fa fa-heart filled" aria-hidden="true"></span>
                     <a :href="data.item.second" class="pl-2">{{data.item.first}}</a>
                 </template>
                 <template slot="actions" slot-scope="row" >
@@ -71,39 +70,15 @@
                 </b-row>
                 <b-btn class="mt-3" @click="closeEditModal">save</b-btn>
             </b-modal>
+            <!--if No Favorites-->
+            <div v-if="(favLinksArray.length === 0)">{{ noFavs }}</div>
+            <!--pagination-->
             <b-row class="text-center">
                 <b-col md="12" class="my-1">
                     <b-pagination align="center" :total-rows="totalRows" :per-page="perPage" v-model="currentPage" class="my-0" />
                 </b-col>
             </b-row>
         </AppWrapper>
-        <AppPlaceholderContent
-                v-if="!(favLinksArray.length > 0)"
-                :repeatitions="3">
-            <div
-                    v-for="i in 3"
-                    :key="i"
-                    class="row my-5">
-                <h5 class="col-md-12 pulse"></h5>
-                <div
-                        v-for="j in 3"
-                        :key="`${j}-left`"
-                        class="col-md-6">
-                    <div class="row m-2">
-                        <div class="col-12 pulse"></div>
-                    </div>
-                </div>
-                <div
-                        v-for="j in 3"
-                        :key="`${j}-right`"
-                        class="col-md-6">
-                    <div class="row m-2">
-                        <div class="col-12 pulse"></div>
-                    </div>
-                </div>
-            </div>
-            <hr>
-        </AppPlaceholderContent>
     </div>
 </template>
 <script>
@@ -132,8 +107,9 @@
                         mainCard:
                                 'Save links you find in E-Enterprise to return to them later.'
                     },
+                    isExpandable:true,
                 },
-                favLinksArray: [],
+                favLinksArray: [{first: 'Loading your Favorites...'}],
                 fields: [
                     { key: 'first', label: 'Link', sortable: true, sortDirection: 'desc' },
                     /* Column for widgets uncomment when implementing
@@ -152,6 +128,7 @@
                 editModalIndex: null,
                 addModalInfo: { title: 'Add Favorite', first: '', second: '' },
                 totalRows: null,
+                noFavs: 'No Favorites...',
             }
         },
         computed:{
@@ -168,7 +145,6 @@
             this.$root.$emit('bv::hide::modal', 'addModalInfo');
         },
         applyAddModal(){
-            const authToken = this.$cookie.get('Token');
             // stores changes in local state
             this.favLinksArray = this.favLinksArray.concat(
                     {
@@ -186,7 +162,11 @@
                             'crossDomain': true,
                             'cache-control': 'no-cache',
                             'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + authToken,
+                        },
+                        // @TODO set auth up to pass/accept jwt_token
+                        auth: {
+                            username: 'api_user',
+                            password: 'api4epa',
                         },
                     })
                     .then(() => {
@@ -207,7 +187,6 @@
             this.$root.$emit('bv::hide::modal', 'editModalInfo');
         },
         applyEditModal(objTitle, objLink){
-            const authToken = this.$cookie.get('Token');
             for (let i = 0; i < this.favLinksArray.length; i++) {
                 if (this.favLinksArray[i]['first'] === objTitle && this.favLinksArray[i]['second'] === objLink) {
                     this.editModalIndex = i;
@@ -226,7 +205,11 @@
                             'crossDomain': true,
                             'cache-control': 'no-cache',
                             'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + authToken,
+                        },
+                        // @TODO set auth up to pass/accept jwt_token
+                        auth: {
+                            username: 'api_user',
+                            password: 'api4epa',
                         },
                     })
                     .then(() => {
@@ -238,7 +221,6 @@
         },
         // DELETE
         deleteFavLink(item, index) {
-            const authToken = this.$cookie.get('Token');
             // stores changes in local state
             this.favLinksArray.splice(index,1);
             // pushes changes to backend
@@ -251,7 +233,11 @@
                             'crossDomain': true,
                             'cache-control': 'no-cache',
                             'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + authToken,
+                        },
+                        // @TODO set auth up to pass/accept jwt_token
+                        auth: {
+                            username: 'api_user',
+                            password: 'api4epa',
                         },
                     })
                     .then(() => {
@@ -266,39 +252,6 @@
             this.totalRows = filteredItems.length;
             this.currentPage = 1;
         },
-        getEnvironment() {
-            let env = 'LOCAL';
-            const { host } = window.location;
-            let m;
-            const regex = {
-                LOCAL: /(localhost|local|^e-enterprise$)/gm,
-                DEV: /dev\d?\.e-enterprise/gm,
-                TEST: /test\d?\.e-enterprise/gm,
-                PROD: /^e-enterprise\.gov/gm,
-            };
-            Object.keys(regex).forEach((envName) => {
-                m = regex[envName].exec(host);
-            if (m !== null) {
-                // This is necessary to avoid infinite loops with zero-width matches
-                if (m.length) {
-                    env = envName;
-                }
-            }
-        });
-            let environment = env;
-            let environmentApiURL = 'https://apidev2.e-enterprise.gov';
-            if (environment === 'LOCAL') {
-                environmentApiURL = 'http://e-enterprise';
-            } else if (environment === 'DEV') {
-                environmentApiURL = 'https://apidev2.e-enterprise.gov';
-            } else if (environment === 'TEST') {
-                environmentApiURL = 'https://apitest2.e-enterprise.gov';
-            }
-            console.log(environmentApiURL);
-            return environmentApiURL;
-        },
-    },
-    beforeCreate(){
     },
     created(){
         const store = this.$store;
@@ -307,17 +260,15 @@
         }
     },
     mounted(){
-        const authToken = this.$cookie.get('Token');
         AppAxios.get(this.apiURL + '/user/1?_format=json', {
-            headers: {
-                'crossDomain': true,
-                'cache-control': 'no-cache',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + authToken,
-            },
+            headers: this.$store.GETHeaders,
+            auth: {
+                username: 'api_user',
+                password: 'api4epa',
+            }
         })
                 .then(response => {
-            this.favLinksArray = response.data[0].field_favorite_links;
+            this.favLinksArray = response.data.field_favorite_links;
         this.totalRows = this.favLinksArray.length;
     })
     },
@@ -366,20 +317,5 @@
         border-radius:50%;
         background-size: 1.3rem 1.325rem;
         background-image:url('../../assets/images/favorites-empty.svg');
-    }
-    .fa-heart::before{
-        display: none;
-    }
-    .fa-heart {
-        background: transparent url('../../assets/images/heart-filled.svg') no-repeat 50% 50%;
-        background-size: 1.2rem,contain;
-        width: 1.2rem;
-        height: 1.2rem;
-        display: inline-block;
-        vertical-align: bottom;
-        font: normal normal normal 14px/1 FontAwesome;
-        font-size: inherit;
-        text-rendering: auto;
-        -webkit-font-smoothing: antialiased;
     }
 </style>

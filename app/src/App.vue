@@ -140,7 +140,7 @@
     // Declare the store
     const vm = this;
     const store = vm.$store;
-    if (main_url.indexOf("token") > -1) {
+    if (main_url.indexOf("token") > -1 && main_url.indexOf("uid") > -1) {
       // Declare variables
       let vars = {};
       // Extracts the URL params
@@ -150,11 +150,13 @@
       });
       // find the URL params for each one
       const token = vars["token"];
+      const uid = vars["uid"];
       // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
       // Set another cookie saying they logged in
       this.$cookie.set('userLoggedIn', true, {expires: '20m'});
       // set user token in cookie
       this.$cookie.set('Token', token, {expires: '20m'});
+      this.$cookie.set('uid', uid, {expires: '20m'});
       // Log user in
       store.commit('USER_LOG_IN');
       // Redirect to the workbench
