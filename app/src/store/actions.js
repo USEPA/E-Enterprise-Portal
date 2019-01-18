@@ -234,6 +234,8 @@ export default {
   handleLogin(context){
     const store = context;
 
+    // Do ajax call to get the correct terms for the Authentication Category Taxonomy
+
     // Ajax call to retrieve all of the Login information from /api/login_page?_format=json
     AppAxios.get( store.getters.getEnvironmentApiURL + '/api/authentication-options', {
         headers: store.getters.getGETHeaders,
