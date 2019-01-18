@@ -1,11 +1,12 @@
 import _ from 'lodash';
 import VueCookie from 'vue-cookie';
+import VueRouter from 'vue-router';
 import Vue from 'vue';
 import { AppAxios } from '../modules/wadk/WADK';
 import { EventBus } from '../EventBus';
 import types from './types';
 
-Vue.use(VueCookie);
+Vue.use(VueCookie, VueRouter);
 
 export default {
   /**
@@ -233,13 +234,18 @@ export default {
   handleLogin(context){
     const store = context;
 
-
     // Ajax call to retrieve all of the Login information from /api/login_page?_format=json
     AppAxios.get( store.getters.getEnvironmentApiURL + '/api/authentication-options', {
         headers: store.getters.getGETHeaders,
     }).then(response => {
+
         // Save all of the login data to the state
         console.log(response.data);
+
+        if(response.status == 200){
+            // redirect to the /login view
+            store.router.push('login');
+        }
 
     }).catch(error =>{
         if(error.response) {
@@ -249,11 +255,5 @@ export default {
                 '\n' + 'Message: ' + errorData);
         }
     });
-
-    // redirect to the /login view
-    store.router.push('/login');
-
-
-
   },
 };
