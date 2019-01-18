@@ -56,11 +56,13 @@
 <script>
   // @ is an alias to /src
   import { mapGetters, mapActions } from 'vuex';
+  import AppAxios from 'axios';
   import MainHeader from '@/components/MainHeader.vue';
   import MainFooter from '@/components/MainFooter.vue';
   import LocationSearch from '@/components/LocationSearch.vue';
   import VueProgessBar from 'vue-progressbar';
   import types from './store/types';
+
   export default {
     name: 'App',
     components: {
@@ -157,18 +159,30 @@
       // set user token in cookie
       this.$cookie.set('Token', token, {expires: '20m'});
       this.$cookie.set('uid', uid, {expires: '20m'});
+      store.commit(types.SET_UID, uid);
       // Log user in
       store.commit('USER_LOG_IN');
-      // Redirect to the workbench
-      /*
-       this.$router.push("/workbench");
-       */
     }else{
       if(this.$cookie.get('userLoggedIn')){
         // Log user in and set user name
         store.commit('USER_LOG_IN');
+        store.commit(types.SET_UID, this.$cookie.get('uid'));
       }
     }
+    if (this.$cookie.get('userLoggedIn')) {
+      console.log('here App.vue');
+      AppAxios.get('http://e-enterprise/user/' + this.$cookie.get('uid') + '?_format=json', {
+        headers: {
+          'crossDomain': true,
+          'cache-control': 'no-cache',
+          'Content-Type': 'application/json',
+          'Authorization': "Bearer " + this.$cookie.get('Token'),
+        },
+      }).then(response => {
+        store.commit('SET_USER_OBJECT', response.data);
+    })
+    }
+
   },
   mounted() {
     //  [App.vue specific] When App.vue is finish loading finish the progress bar

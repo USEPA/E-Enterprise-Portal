@@ -43,12 +43,19 @@ class JWTAuthProvider implements AuthenticationProviderInterface {
     }
 
     private function requestContainsJWTHeader(Request $request) {
-        return true;
+        $jwt = $this->returnJWTFromRequest($request);
+        return is_string($jwt);
     }
 
     private function returnJWTFromRequest(Request $request) {
-        $this->jwt_handler->setUIDForJWT(1);
-        return $this->jwt_handler->generateToken();}
+        $jwt = null;
+        $basic_token = $request->headers->get('authorization');
+        $basic_token_parts = explode(' ', $basic_token);
+        if (!isset($basic_token_parts[1]) && is_string($basic_token_parts[1])) {
+            $jwt = $basic_token_parts[1];
+        }
+        return $jwt;
+    }
 
     /**
      * {@inheritdoc}
