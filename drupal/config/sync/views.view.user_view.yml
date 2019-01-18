@@ -5,6 +5,7 @@ dependencies:
   module:
     - hal
     - rest
+    - schemata
     - serialization
     - user
 id: user_view
@@ -206,10 +207,14 @@ display:
           uses_fields: false
           formats:
             hal_json: hal_json
+            schema_json: schema_json
+            json: json
+            xml: xml
       row:
         type: data_entity
         options: {  }
-      auth: {  }
+      auth:
+        - basic_auth
     cache_metadata:
       max-age: -1
       contexts:

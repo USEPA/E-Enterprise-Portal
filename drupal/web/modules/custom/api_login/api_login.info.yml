@@ -1,5 +1,0 @@
-name: Login API
-description: Retrieves the login data for the login view
-package: Custom
-type: module
-core: 8.x
