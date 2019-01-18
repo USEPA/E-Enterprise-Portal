@@ -110,7 +110,6 @@
                 </b-container>
             </b-tab>
             <b-tab class="tab" title="Tribal">
-
             </b-tab>
         </b-tabs>
     </div>
