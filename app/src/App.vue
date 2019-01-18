@@ -113,20 +113,6 @@
     vm.$store.commit(types.SET_APP, vm);
     //  [App.vue specific] When App.vue is first loaded start the progress bar
     vm.$Progress.start();
-//      // Add event listener for the window load
-//      window.addEventListener('load', function () {
-//        var cookie = vm.$cookie.get('userLoggedIn');
-//        if (cookie) {
-//          vm.$cookie.set('userLoggedIn', true, {expires: '20m'});
-//          vm.$store.commit('USER_LOG_IN');
-//        }
-//      }, false);
-//
-//      // Add event listener for the window refresh
-//      window.addEventListener('beforeunload', function () {
-//        this.$cookie.set('userLoggedIn', false, {expires: '-99s'});
-//        vm.$store.commit('USER_LOG_OUT');
-//      }, false);
     //  hook the progress bar to start before we move router-view
     vm.$router.beforeEach((
             to, from, next,
@@ -154,16 +140,7 @@
     // Declare the store
     const vm = this;
     const store = vm.$store;
-    // Fudges login
-    /*const username = 'Mike C';
-     this.$cookie.set('loggedInUserName', username, {expires: '20m'});
-     store.commit(types.SET_USERNAME, username);
-     // Set another cookie saying they logged in
-     this.$cookie.set('userLoggedIn', true, {expires: '20m'});
-     // Log user in
-     store.commit('USER_LOG_IN');
-     */
-    if (main_url.indexOf("data") > -1 && main_url.indexOf("token") > -1) {
+    if (main_url.indexOf("token") > -1) {
       // Declare variables
       let vars = {};
       // Extracts the URL params
@@ -172,13 +149,8 @@
         vars[key] = value;
       });
       // find the URL params for each one
-      const data = vars["data"];
       const token = vars["token"];
       // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
-      let username = atob(decodeURIComponent(data).replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''));
-      // Save username to store and put in the cookie
-      this.$cookie.set('loggedInUserName', username, {expires: '20m'});
-      store.commit(types.SET_USERNAME, username);
       // Set another cookie saying they logged in
       this.$cookie.set('userLoggedIn', true, {expires: '20m'});
       // set user token in cookie
@@ -193,11 +165,6 @@
       if(this.$cookie.get('userLoggedIn')){
         // Log user in and set user name
         store.commit('USER_LOG_IN');
-        store.commit(types.SET_USERNAME, this.$cookie.get('loggedInUserName'));
-        // Redirect to the workbench
-        /*
-         this.$router.push("/workbench");
-         */
       }
     }
   },
