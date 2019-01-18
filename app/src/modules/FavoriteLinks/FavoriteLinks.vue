@@ -267,6 +267,9 @@
         this.currentPage = 1;
       },
     },
+    beforeCreate(){
+
+    },
     created(){
       const store = this.$store;
       if (!(store && store.state && store.state[moduleName])) {
