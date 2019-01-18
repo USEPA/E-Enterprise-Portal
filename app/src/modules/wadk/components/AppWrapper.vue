@@ -13,7 +13,7 @@
       <div  class="col-10 text-left">
     <h2 v-for="item in title.slice(2,3)" v-if="eepApp.title =='Be Well Informed'">{{item.title[0].value}}</h2>
     <h2 v-for="item in title.slice(1,2)" v-if="eepApp.title =='Trending Air'">{{item.title[0].value}}</h2>
-    <h2 v-for="item in title.slice(3,4)" v-if="eepApp.title =='Favorite Links'"><b-img class="title-logo" :src="require('../../../assets/images/bookmark.svg')"></b-img>{{ item.title[0].value}}</h2>
+    <h2 v-for="item in title.slice(3,4)" v-if="eepApp.title =='Favorite Links'">{{ item.title[0].value}}</h2>
     <h2 v-for="item in title.slice(0,1)" v-if="eepApp.title =='My Reporting'">{{ item.title[0].value }}</h2>
     <h6 v-show="!!eepApp.source">
       Source: <a
@@ -21,8 +21,8 @@
       target="_blank">{{ eepApp.source.text }}</a>
     </h6>
       </div>
-        <div class="col-2  d-flex justify-content-lg-end">
-          <div class="col-4-md d-flex mr-1">
+        <div class="col-2  d-flex justify-content-lg-end align-self-end align-items-center">
+          <div class="col-4-md d-flex mr-3 align-self-end align-items-center">
             <b-dropdown id="divider" variant="link" right class="widget-dropdown widget-button" no-caret>
               <b-dropdown-item-button>Settings</b-dropdown-item-button>
               <b-dropdown-item-button>Move</b-dropdown-item-button>
@@ -33,8 +33,8 @@
               <b-dropdown-item-button>Contact</b-dropdown-item-button>
             </b-dropdown>
           </div>
-          <b-button v-if='eepApp.isExpandable'
-               class="widget-expand widget-button col-4-md d-flex mr-l"
+          <b-button
+               class="widget-expand widget-button col-4-md d-flex mr-3 align-self-end align-items-center"
                @click="maximizeWidget()">
           </b-button>
         </div>
@@ -87,7 +87,6 @@
   }
   .widget-expand {
     background-image:url('../images/widget-expand.svg');
-    padding: 0.375rem 1rem;
   }
   .widget-button {
     background-repeat:no-repeat;
@@ -98,9 +97,5 @@
     border-radius:50%;
     background-size: 1.3rem 1.325rem;
   }
-  .title-logo {
-    margin-right: .3rem;
-    max-width: 2.7rem;
-    max-height: 2.7rem;
-  }
+
 </style>

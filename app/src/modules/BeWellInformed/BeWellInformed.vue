@@ -280,7 +280,6 @@
               '    target="_blank">New Hampshire’s Be <em>Well</em> Informed Guide</a>\n' +
               '</p>',
           },
-          isExpandable:true
         },
         tabIndex: 0,
         hasResults: false,

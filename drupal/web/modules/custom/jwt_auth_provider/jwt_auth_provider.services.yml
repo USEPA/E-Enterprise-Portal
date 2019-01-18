@@ -3,4 +3,4 @@ services:
     class: Drupal\jwt_auth_provider\Authentication\Provider\JWTAuthProvider
     arguments: ['@config.factory', '@entity.manager']
     tags:
-      - { name: authentication_provider, priority: 100 }
+      - {provider_id: 'jwt_auth_provider', name: authentication_provider, priority: 100 }
