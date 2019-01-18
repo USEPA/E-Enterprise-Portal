@@ -6,7 +6,7 @@
  * Time: 9:42 PM
  */
 
-namespace Drupal\jwt_auth_provider;
+namespace Drupal\jwt_handler;
 use \Firebase\JWT\JWT;
 
 

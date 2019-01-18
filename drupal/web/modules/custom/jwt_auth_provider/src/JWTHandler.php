@@ -13,13 +13,17 @@ use \Firebase\JWT\JWT;
 class JWTHandler {
 
   private $jwtSecret;
+  private  $uid = -1;
 
   public function __construct() {
     $this->jwtSecret = 'testSecret';
   }
 
   function generateToken() {
-    $account = \Drupal::currentUser();
+    if ($this->uid < 0) {
+      $account = \Drupal::currentUser();
+      $this->uid = $account->id();
+    }
     // Create token payload as a JSON string
     $token = array(
       "iss" => "http://example.org",
@@ -27,8 +31,9 @@ class JWTHandler {
       "iat" => time(),
       "nbf" => time(),
       "exp" => time() + 20 * 1000,
-      'user_id' => $account->id(),
+      'user_id' => $this->uid,
     );
+
 
     /**
      * IMPORTANT:
@@ -38,6 +43,10 @@ class JWTHandler {
      */
     $jwt = JWT::encode($token, $this->jwtSecret);
     return $jwt;
+  }
+
+  function setUIDForJWT($uid) {
+    $this->uid = $uid;
   }
 
   function decodeToken($inputJWT) {
