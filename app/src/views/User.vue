@@ -15,8 +15,8 @@
                 <b-form-input id="first-name-input" v-model="username" type="text" disabled></b-form-input>
             </div>
             <div class="email-container pt-3">
-                <div>Email</div>
-                <b-form-input id="email-input" v-model="email" type="text" disabled></b-form-input>
+                <div>Email Address</div>
+                <b-form-input id="email-input" v-model="mail" type="text" disabled></b-form-input>
              </div>
         </div>
 
