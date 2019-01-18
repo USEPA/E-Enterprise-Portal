@@ -335,7 +335,7 @@
     h2::before {
         height:50px;
         width: 50px;
-        content: url('../../assets/images/bookmark.svg');
+        /*content: url('../../assets/images/bookmark.svg');*/
     }
     .add-favorite-btn {
         background-repeat:no-repeat;
@@ -345,7 +345,7 @@
         height:2.2rem;
         border-radius:50%;
         background-size: 1.3rem 1.325rem;
-        background-image:url('../../assets/images/favorites-add.svg');
+        /*background-image:url('../../assets/images/favorites-add.svg');*/
     }
     .edit-favorite-btn {
         background-repeat:no-repeat;
@@ -355,7 +355,7 @@
         height:2.2rem;
         border-radius:50%;
         background-size: 1.3rem 1.325rem;
-        background-image:url('../../assets/images/favorites-edit.svg');
+        /*background-image:url('../../assets/images/favorites-edit.svg');*/
     }
     .delete-favorite-btn {
         background-repeat:no-repeat;
@@ -365,7 +365,7 @@
         height:2.2rem;
         border-radius:50%;
         background-size: 1.3rem 1.325rem;
-        background-image:url('../../assets/images/favorites-empty.svg');
+        /*background-image:url('../../assets/images/favorites-empty.svg');*/
     }
     .fa-heart::before{
         display: none;
