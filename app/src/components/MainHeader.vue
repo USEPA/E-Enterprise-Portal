@@ -43,7 +43,7 @@
           </template>
           <template v-else>
             <div class="router-link-wrapper pt-2">
-                <a href="javascript:void(0);" @click="handleLogin" class="btn btn-sm btn-outline-primary account-auth-login">
+                <a href="javascript:void(0);" @click="handleLoginCreationandRedirection" class="btn btn-sm btn-outline-primary account-auth-login">
                     <i class="fas fa-lock"></i>&nbsp;
                     Login
                     <span class="arrow-down-message small mt-3">{{ loginBtnHoverMessage }}</span>
@@ -77,11 +77,21 @@
     },
     methods: {
       ...mapActions([
-        'userLogOut',
-        'handleLogin'
+        'userLogOut'
       ]),
       dumyLogOut() {
         this.userLogOut();
+      },
+      handleLoginCreationandRedirection(){
+
+          // Had to use dispatch because anyway that we call the router inside of the actions.js
+          // file the redirection would never happen correctly
+          this.$store.dispatch('handleLogin');
+
+          if(!this.$store.getters.error){
+              this.$router.push('/login')
+          }
+
       },
     },
     data() {

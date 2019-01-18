@@ -242,11 +242,6 @@ export default {
         // Save all of the login data to the state
         console.log(response.data);
 
-        if(response.status == 200){
-            // redirect to the /login view
-            store.router.push('login');
-        }
-
     }).catch(error =>{
         if(error.response) {
             const errorHeaders = error.response.headers;
