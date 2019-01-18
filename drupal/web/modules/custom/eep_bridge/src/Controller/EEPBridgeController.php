@@ -65,7 +65,7 @@ class EEPBridgeController extends ControllerBase {
             $error_msg = "Error. Please set a key in the JWT admin page.";
             watchdog('eep_bridge', $error_msg, array(), WATCHDOG_ERROR);
         }
-        $url = Url::fromUri($environment_name . '?token=' . $jwt_token);
+        $url = Url::fromUri('http://localhost:8082' . '?token=' . $jwt_token);
         $this->eep_bridge_goto($url);
         return;
     }

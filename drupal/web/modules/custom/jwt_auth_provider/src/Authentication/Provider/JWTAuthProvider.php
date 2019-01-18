@@ -28,6 +28,12 @@ use Drupal\jwt_auth_provider\JWTHandler;
 
 class JWTAuthProvider implements AuthenticationProviderInterface {
 
+    private $jwt_handler;
+
+    function __construct() {
+        $this->jwt_handler = new JWTHandler();
+    }
+
     private function isUserPath(Request $request) {
         $path = $request->getPathInfo();
         $path_segments = explode('/', $path);
@@ -36,11 +42,19 @@ class JWTAuthProvider implements AuthenticationProviderInterface {
         return $requested_resource === 'user' && is_numeric($requested_uid);
     }
 
+    private function requestContainsJWTHeader(Request $request) {
+        return true;
+    }
+
+    private function returnJWTFromRequest(Request $request) {
+        $this->jwt_handler->setUIDForJWT(1);
+        return $this->jwt_handler->generateToken();}
+
     /**
      * {@inheritdoc}
      */
     public function applies(Request $request) {
-        return $this->isUserPath($request);
+        return $this->isUserPath($request) && $this->requestContainsJWTHeader($request);
     }
 
     /**
@@ -48,11 +62,8 @@ class JWTAuthProvider implements AuthenticationProviderInterface {
      */
     public function authenticate(Request $request) {
         $auth_return = null;
-        $jwt_handler = new JWTHandler();
-        $jwt_handler->setUIDForJWT(1);
-        $jwt = $jwt_handler->generateToken();
-
-        $decodedJWT = $jwt_handler->decodeToken($jwt);
+        $jwt = $this->returnJWTFromRequest($request);   
+        $decodedJWT = $this->jwt_handler->decodeToken($jwt);
         $uid = $decodedJWT->user_id;
         $path = $request->getPathInfo();
         $path_segments = explode('/', $path);
