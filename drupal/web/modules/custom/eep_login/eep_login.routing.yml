@@ -1,7 +1,0 @@
-eep_my_reporting.get:
-path: '/api/createLogin'
-  defaults: { _controller: '\Drupal\eep_login\Controller\LoginController::createLoginOptions' }
-  methods:  [GET]
-  requirements:
-    _access: 'TRUE'
-
