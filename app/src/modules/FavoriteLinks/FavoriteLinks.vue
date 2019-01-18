@@ -1,7 +1,6 @@
 <template ref="favoriteLinks">
     <div id="favLinks">
         <AppWrapper
-          v-if="(favLinksArray.length > 0 && eepApp.title)"
         :eep-app="eepApp">
           <div v-html="eepApp.html.mainCard"></div>
           <b-row>
@@ -26,6 +25,8 @@
               </b-form-group>
             </b-col>
           </b-row>
+
+          <!--datatable-->
           <b-table
             hover
             :items="favLinksArray"
@@ -40,7 +41,6 @@
           >
 
             <template slot="first" slot-scope="data">
-              <span class="fa fa-heart filled" aria-hidden="true"></span>
               <a :href="data.item.second" class="pl-2">{{data.item.first}}</a>
             </template>
 
@@ -79,6 +79,10 @@
 
           </b-modal>
 
+          <!--if No Favorites-->
+          <div v-if="(favLinksArray.length === 0)">{{ noFavs }}</div>
+
+          <!--pagination-->
           <b-row class="text-center">
             <b-col md="12" class="my-1">
               <b-pagination align="center" :total-rows="totalRows" :per-page="perPage" v-model="currentPage" class="my-0" />
@@ -86,33 +90,6 @@
           </b-row>
 
         </AppWrapper>
-      <AppPlaceholderContent
-        v-if="!(favLinksArray.length > 0)"
-        :repeatitions="3">
-        <div
-          v-for="i in 3"
-          :key="i"
-          class="row my-5">
-          <h5 class="col-md-12 pulse"></h5>
-          <div
-            v-for="j in 3"
-            :key="`${j}-left`"
-            class="col-md-6">
-            <div class="row m-2">
-              <div class="col-12 pulse"></div>
-            </div>
-          </div>
-          <div
-            v-for="j in 3"
-            :key="`${j}-right`"
-            class="col-md-6">
-            <div class="row m-2">
-              <div class="col-12 pulse"></div>
-            </div>
-          </div>
-        </div>
-        <hr>
-      </AppPlaceholderContent>
     </div>
 </template>
 
@@ -144,8 +121,9 @@
             mainCard:
               'Save links you find in E-Enterprise to return to them later.'
           },
+          isExpandable:true,
         },
-        favLinksArray: [],
+        favLinksArray: [{first: 'Loading your Favorites...'}],
         fields: [
           { key: 'first', label: 'Link', sortable: true, sortDirection: 'desc' },
           /* Column for widgets uncomment when implementing
@@ -164,6 +142,7 @@
         editModalIndex: null,
         addModalInfo: { title: 'Add Favorite', first: '', second: '' },
         totalRows: null,
+        noFavs: 'No Favorites...',
       }
     },
     computed:{
@@ -287,40 +266,6 @@
         this.totalRows = filteredItems.length;
         this.currentPage = 1;
       },
-      getEnvironment() {
-        let env = 'LOCAL';
-        const { host } = window.location;
-        let m;
-
-        const regex = {
-          LOCAL: /(localhost|local|^e-enterprise$)/gm,
-          DEV: /dev\d?\.e-enterprise/gm,
-          TEST: /test\d?\.e-enterprise/gm,
-          PROD: /^e-enterprise\.gov/gm,
-        };
-
-        Object.keys(regex).forEach((envName) => {
-          m = regex[envName].exec(host);
-          if (m !== null) {
-            // This is necessary to avoid infinite loops with zero-width matches
-            if (m.length) {
-              env = envName;
-            }
-          }
-        });
-
-        let environment = env;
-        let environmentApiURL = 'https://apidev2.e-enterprise.gov';
-        if (environment === 'LOCAL') {
-          environmentApiURL = 'http://e-enterprise';
-        } else if (environment === 'DEV') {
-          environmentApiURL = 'https://apidev2.e-enterprise.gov';
-        } else if (environment === 'TEST') {
-          environmentApiURL = 'https://apitest2.e-enterprise.gov';
-        }
-        console.log(environmentApiURL);
-        return environmentApiURL;
-      },
     },
     beforeCreate(){
 
@@ -332,7 +277,7 @@
       }
     },
     mounted(){
-        AppAxios.get(this.apiURL + '/api/user/1?_format=json', {
+        AppAxios.get(this.apiURL + '/user/1?_format=json', {
           headers: this.$store.GETHeaders,
           auth: {
             username: 'api_user',
@@ -340,7 +285,7 @@
           }
         })
         .then(response => {
-          this.favLinksArray = response.data[0].field_favorite_links;
+          this.favLinksArray = response.data.field_favorite_links;
           this.totalRows = this.favLinksArray.length;
         })
     },
@@ -391,20 +336,5 @@
     border-radius:50%;
     background-size: 1.3rem 1.325rem;
     background-image:url('../../assets/images/favorites-empty.svg');
-  }
-  .fa-heart::before{
-    display: none;
-  }
-  .fa-heart {
-    background: transparent url('../../assets/images/heart-filled.svg') no-repeat 50% 50%;
-    background-size: 1.2rem,contain;
-    width: 1.2rem;
-    height: 1.2rem;
-    display: inline-block;
-    vertical-align: bottom;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
   }
 </style>
