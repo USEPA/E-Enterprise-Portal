@@ -251,22 +251,25 @@ export default {
         // Ajax call to retrieve all of the Login information from /api/login_page?_format=json
         AppAxios.get(store.getters.getEnvironmentApiURL +'/api/authentication-category-options', {
             headers: store.getters.getGETHeaders,
-        }).then(response => {
+        }).then(response_inner => {
 
             // Loop through response and match each taxonomy up with each tab
-            response.data.forEach((resp_item) => {
-                let target_id = resp_item.field_authentication_category[0].target_id;
-                let associated_taxonomy_term = tax_terms.find(x => x.tid[0].value === target_id).name[0].value;
+            response_inner.data.forEach((resp_item) => {
+                let associated_taxonomy_term = tax_terms.find(x => x.tid[0].value ===
+                    resp_item.field_authentication_category[0].target_id).name[0].value;
 
                 // Trim out white spaces to match names up with state variable
-                associated_taxonomy_term = (/^\s+$/.test(associated_taxonomy_term)) ? : associated_taxonomy_term;
+                associated_taxonomy_term = (/\s+/.test(associated_taxonomy_term)) ?
+                    associated_taxonomy_term.replace(/\s+/, "")  : associated_taxonomy_term;
 
-
+                //build array
             });
 
         }).catch(error =>{
             console.log(error.response);
         });
+
+        console.log(response.data);
     }).catch(error => {
         console.log(error.response);
     });
