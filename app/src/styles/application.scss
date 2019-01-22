@@ -1,0 +1,16 @@
+html {
+  min-height: 100%;
+  background-color: $gray-300;
+}
+body {
+  min-height: 100vh;
+}
+#app {
+  display: block;
+  min-height: 100vh;
+  background-color: $white;
+
+  & > header, & > container {
+    background-color: $white;
+  }
+}

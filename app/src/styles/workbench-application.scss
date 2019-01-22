@@ -1,0 +1,37 @@
+// Workbench Application (wapp) - AKA widget
+// (Small) Wapp - This is considered the default size
+.wapp {
+  font-size: 1em;
+
+  .wapp-title {
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size: 1.2rem;
+    font-size: 1rem;
+    padding: 0.2rem 0;
+  }
+  .wapp-source-wrapper {
+
+  }
+}
+
+// Medium Wapp
+.wapp-small {
+  .wapp-title {
+  }
+}
+
+// Medium Wapp
+.wapp-medium {
+  .wapp-title {
+    font-size: 1.3rem;
+    padding: 0.2rem 0;
+  }
+}
+
+// Large Wapp
+.wapp-large {
+  .wapp-title {
+    font-size: 1.3rem;
+  }
+}
