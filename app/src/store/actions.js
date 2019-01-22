@@ -252,12 +252,22 @@ export default {
                 let associated_taxonomy_weight = response.data.find(x => x.tid[0].value ===
                 resp_item.field_authentication_category[0].target_id).weight[0].value;
 
-                console.log(associated_taxonomy_weight);
-
-
-
-                //build array
+                // save each option to the formatted array variable to pass to mutation
+                formatted_option_array.push({
+                    'weight': associated_taxonomy_weight,
+                    'tab_order': resp_item.field_tab_order[0].value,
+                    'data': resp_item});
             });
+
+            formatted_option_array.sort(function (a, b) {
+                if(a.tab_order === b.tab_order){
+                    return a.weight - b.weight;
+
+                }
+                return a.tab_order > b.tab_order ? 1 : -1;
+            });
+
+            console.log(formatted_option_array);
 
         }).catch(error =>{
             console.log(error.response);
