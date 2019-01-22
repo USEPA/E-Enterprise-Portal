@@ -134,7 +134,4 @@ export default {
   [types.SET_BRIDGE_URN](state, obj){
       state.currentBridgeUrn = obj;
   },
-  [types.SET_TAXONOMY_DATA](state, obj){
-      state.taxonomy_data = obj;
-  },
 };

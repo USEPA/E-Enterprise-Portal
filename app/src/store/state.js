@@ -125,7 +125,6 @@ const state = {
         'cache-control': 'no-cache',
         'Content-Type': 'application/hal+json',
     },
-    taxonomy_data: {},
 };
 
 export default state;

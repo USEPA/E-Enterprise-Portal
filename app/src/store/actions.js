@@ -234,23 +234,18 @@ export default {
   handleLogin(context){
     // Declare function variables
     const store = context;
-
+    let tax_terms = {};
 
     // Do ajax call to get the correct terms for the Authentication Category Taxonomy
     AppAxios.get(store.getters.getEnvironmentApiURL + '/api/authentication_category_taxonomy_terms',{
         headers: store.getters.getGETHeaders,
     }).then(response => {
-        // Declare variables
-        this.data = response.data;
-        let tax_terms = {};
 
         // Loop through all of the tax terms and format new object to save to the store
-        this.data.forEach((item) =>{
+        response.data.forEach((item) =>{
             tax_terms[item.tid[0].value] = item.name[0].value;
         });
 
-        // Commit all taxonomy terms to the store
-        store.commit('SET_TAXONOMY_DATA', tax_terms);
     }).catch(error => {
         if(error.response) {
             const errorHeaders = error.response.headers;
@@ -260,24 +255,21 @@ export default {
         }
     });
 
-
-    console.log();
-
     // Ajax call to retrieve all of the Login information from /api/login_page?_format=json
-    // AppAxios.get(store.getters.getEnvironmentApiURL +'/api/authentication-category-options', {
-    //     headers: store.getters.getGETHeaders,
-    // }).then(response => {
-    //
-    //     // Save all of the login data to the state
-    //     console.log(response.data);
-    //
-    // }).catch(error =>{
-    //     if(error.response) {
-    //         const errorHeaders = error.response.headers;
-    //         const errorData = error.response.data;
-    //         console.warn('Headers: ' + errorHeaders +
-    //             '\n' + 'Message: ' + errorData);
-    //     }
-    // });
+    AppAxios.get(store.getters.getEnvironmentApiURL +'/api/authentication-category-options', {
+        headers: store.getters.getGETHeaders,
+    }).then(response => {
+
+        // Save all of the login data to the state
+        console.log(response.data);
+
+    }).catch(error =>{
+        if(error.response) {
+            const errorHeaders = error.response.headers;
+            const errorData = error.response.data;
+            console.warn('Headers: ' + errorHeaders +
+                '\n' + 'Message: ' + errorData);
+        }
+    });
   },
 };
