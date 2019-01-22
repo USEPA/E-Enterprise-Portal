@@ -13,17 +13,28 @@
       <!-- Text slides with image -->
       <b-carousel-slide
         class="col"
-        img-blank
-        img-height="fixedHeight">
+        img-blank>
         <div class="container">
           <div class="row">
-            <div class="col-md align-self-start">
+            <div class="col-md-6">
               <h2>Customize your information</h2>
-              <p>The E-Enterprise Portal provides an important new means by which
+              <p>
+                The E-Enterprise Portal provides an important new means by which
                 users can customize the types of information presented to them,
                 find and select tools and other resources, and conduct
-                transactions with EPA, Tribes, and States.</p>
+                transactions with EPA, Tribes, and States.
+              </p>
               <p>See the video <span aria-hidden="true">&gt;&gt;</span></p>
+              <router-link to="/workbench">
+                <b-button
+                  id="try-it"
+                  class="btn btn-md float-right"
+                  variant="primary"
+                  :title="tryitTitle"
+                  v-if='!authenticated'>
+                  <i class="fas fa-arrow-circle-right"></i>Try It
+                </b-button>
+              </router-link>
             </div>
             <div class="col-md align-self-end">
               <b-embed
@@ -36,7 +47,6 @@
             </div>
           </div>
         </div>
-
       </b-carousel-slide>
 
       <!-- Slide with blank fluid image to maintain slide aspect ratio -->
@@ -44,48 +54,40 @@
         class="col"
         img-blank>
         <div class="container">
-          <h2>What's Included</h2>
           <div class="row">
-            <ul class="including_items col-md-6">
-              <li>
-                <img
-                  alt=""
-                  src="../assets/images/environment.png">
-                <div><h5>Environmental Reporting</h5>
-                  <p>New ways to submit information.</p>
-                </div>
-              </li>
-              <li>
-                <img
-                  alt=""
-                  src="../assets/images/settings.png">
-                <div><h5>Developer Community (Future)</h5>
-                  <p>New ways to submit information.</p>
-                </div>
-              </li>
-            </ul>
-            <ul class="including_items col-md-6">
-              <li>
-                <img
-                  alt=""
-                  src="../assets/images/workbench.png">
-                <div>
-                  <h5>Workbench</h5>
-                  <p>Tools, data, and resources to help you.</p>
-                </div>
-              </li>
-              <li>
-                <img
-                  alt=""
-                  src="../assets/images/headline.png">
-                <div><h5>Maps &amp; Dashboard</h5>
-                  <p>Learn more about the environment thru maps and data mashups.</p>
-                </div>
-              </li>
-            </ul>
+            <div class="slide-details col-md-7">
+              <h2>Access Your State and EPA Accounts</h2>
+              <p>
+                Personalize your E-Enterprise experience by logging in with your state or EPA
+                account. You'll have access to valuable content and tools like My Facility Manager,
+                My Reporting, permits, and more.
+                We will continue to add partners in the future.
+              </p>
+              <router-link
+                to="/login"
+                class="btn btn-md btn-outline-primary pl-1 float-right account-auth"
+                ref="loginBtn"
+                v-if='!authenticated'>
+                <i class="fas fa-lock"></i>&nbsp;
+                Login
+              </router-link>
+            </div>
+            <div class="col-md-5">
+              <img
+                fluid
+                id="my-reporting-img"
+                src="../assets/images/my_reporting.png"
+                alt="My Reporting">
+              <div class="w-100 h-5"></div>
+              <img
+                fluid
+                id="progress-tracker-img"
+                src="../assets/images/progress_tracker.png"
+                alt="Progress Tracker">
+            </div>
           </div>
-          <p class="learn-more">…<a href="/about">and more</a></p>
         </div>
+
       </b-carousel-slide>
 
       <!-- Slide with blank fluid image to maintain slide aspect ratio -->
@@ -104,7 +106,7 @@
               <img
                 class="lgc-highlight"
                 alt="You can see and update topics that matter to you in our Resources for Local
-          Communities widget also."
+                  Communities widget also."
                 src="../assets/images/my-topics-large.png">
             </div>
             <div class="slide-details col-md-6 align-self-end">
@@ -116,8 +118,8 @@
                 of service to community members.
               </p>
             </div>
-            <p class="lgc-calltoaction">Select your location, organization, and role
-              to find resources.</p>
+            <p class="lgc-calltoaction">Select your location, organization, and role to find
+            resources.</p>
           </div>
         </div>
 
@@ -129,10 +131,19 @@
 
 <script>
   // @ is an alias to /src
+  import { mapGetters } from 'vuex';
 
   export default {
     name: 'Home',
     components: {},
+    computed: {
+      ...mapGetters({
+        authenticated: 'getIsLoggedIn',
+      }),
+      tryitTitle() {
+        return 'Want to just try it? No log in needed.';
+      },
+    },
     data() {
       return {
         slide: 0,
@@ -192,29 +203,28 @@
       width: 2rem;
     }
 
-    // Slide 1
+  // Slide 1
 
     // Slide 2
-    .including_items {
-      padding: 0;
 
-      img {
-        width: 2rem;
-        height: 2rem;
-        vertical-align: top;
-      }
-      li {
-        list-style: none;
+    #my-reporting-img {
+      max-width: 55%;
+      padding-bottom: 1rem;
+    }
 
-        &:not(:last-child) {
-          margin-bottom: 1rem;
-        }
-
-        & > div {
-          width: 80%;
-          display: inline-block;
-          margin-left: 5%;
-        }
+    #progress-tracker-img {
+      max-width: 62%;
+      float: right;
+    }
+    .account-auth {
+      align-self: flex-end;
+    }
+    @media only screen and (min-width: 576px) and (max-width: 767px){
+      #progress-tracker-img {
+        max-width: 40%;
+        position: absolute;
+        right: 0;
+        top: 8.75rem;
       }
     }
 
@@ -252,5 +262,14 @@
         min-height: 22rem;
       }
     }
+  }
+
+  .account-auth {
+    background-color: #0071bc;
+    color: white;
+  }
+
+  .login-btn-wrapper{
+    padding-left: 40%;
   }
 </style>

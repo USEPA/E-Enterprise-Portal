@@ -121,7 +121,6 @@
       <path value="$PROJECT_DIR$/drupal/vendor/ezyang/htmlpurifier" />
       <path value="$PROJECT_DIR$/drupal/vendor/sunra/php-simple-html-dom-parser" />
       <path value="$PROJECT_DIR$/drupal/vendor/behat/mink" />
-      <path value="$PROJECT_DIR$/drupal/vendor/g1a/composer-test-scenarios" />
       <path value="$PROJECT_DIR$/drupal/vendor/drupal/coder" />
       <path value="$PROJECT_DIR$/drupal/vendor/symfony/browser-kit" />
       <path value="$PROJECT_DIR$/drupal/vendor/chi-teck/drupal-code-generator" />
@@ -131,12 +130,25 @@
       <path value="$PROJECT_DIR$/drupal/vendor/consolidation/robo" />
       <path value="$PROJECT_DIR$/drupal/vendor/grasmash/expander" />
       <path value="$PROJECT_DIR$/drupal/vendor/mnsami/composer-custom-directory-installer" />
+      <path value="$PROJECT_DIR$/drupal/vendor/twig/extensions" />
+      <path value="$PROJECT_DIR$/drupal/vendor/gettext/languages" />
+      <path value="$PROJECT_DIR$/drupal/vendor/gettext/gettext" />
+      <path value="$PROJECT_DIR$/drupal/vendor/jaimeperez/twig-configurable-i18n" />
+      <path value="$PROJECT_DIR$/drupal/vendor/robrichards/xmlseclibs" />
+      <path value="$PROJECT_DIR$/drupal/vendor/whitehat101/apr1-md5" />
+      <path value="$PROJECT_DIR$/drupal/vendor/simplesamlphp/saml2" />
+      <path value="$PROJECT_DIR$/drupal/vendor/simplesamlphp/simplesamlphp" />
+      <path value="$PROJECT_DIR$/drupal/vendor/firebase/php-jwt" />
+      <path value="$PROJECT_DIR$/drupal/vendor/doctrine/reflection" />
+      <path value="$PROJECT_DIR$/drupal/vendor/doctrine/event-manager" />
+      <path value="$PROJECT_DIR$/drupal/vendor/doctrine/persistence" />
+      <path value="$PROJECT_DIR$/drupal/vendor/ralouphie/getallheaders" />
     </include_path>
   </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="7" />
   <component name="PhpUnit">
     <phpunit_settings>
       <PhpUnitSettings load_method="CUSTOM_LOADER" bootstrap_file_path="$PROJECT_DIR$/drupal/web/core/tests/bootstrap.php" custom_loader_path="$PROJECT_DIR$/drupal/vendor/autoload.php" phpunit_phar_path="" use_bootstrap_file="true" />
     </phpunit_settings>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="7" />
 </project>

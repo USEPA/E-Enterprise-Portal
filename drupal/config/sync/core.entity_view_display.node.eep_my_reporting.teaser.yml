@@ -1,0 +1,22 @@
+uuid: 69d83a5b-a793-4b33-b393-56e30dbc98c1
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.eep_my_reporting.field_cdx_program_name
+    - node.type.eep_my_reporting
+  module:
+    - user
+id: node.eep_my_reporting.teaser
+targetEntityType: node
+bundle: eep_my_reporting
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_cdx_program_name: true

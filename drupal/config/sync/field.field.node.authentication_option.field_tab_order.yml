@@ -1,0 +1,23 @@
+uuid: 47f514be-024a-4c27-8f7b-7387754f6580
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tab_order
+    - node.type.authentication_option
+id: node.authentication_option.field_tab_order
+field_name: field_tab_order
+entity_type: node
+bundle: authentication_option
+label: 'Tab Order'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

@@ -1,0 +1,120 @@
+[
+  {
+    "nid": [
+      {
+        "value": "4"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "3a3ea270-62b7-4280-949a-73fb39e54e9a"
+      }
+    ],
+    "vid": [
+      {
+        "value": "4"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "eep_proxy_service"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1542747741"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "status": [
+      {
+        "value": "0"
+      }
+    ],
+    "title": [
+      {
+        "value": "Village Green"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1542747703"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1542747741"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "field_cache_max_age": [
+      {
+        "value": "86400"
+      }
+    ],
+    "field_proxy_filter": [
+      {
+        "value": "generic"
+      }
+    ],
+    "field_proxy_service_machine_name": [
+      {
+        "value": "vg"
+      }
+    ],
+    "field_requeste_timeout": [
+      {
+        "value": "60"
+      }
+    ],
+    "field_service_endpoints": [
+      {
+        "first": "LOCAL",
+        "second": "https:\/\/villagegreen.airnowtech.org\/welcome\/getDataForCurrentMinuteWelcomePage?"
+      }
+    ]
+  }
+]

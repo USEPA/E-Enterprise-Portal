@@ -137,18 +137,6 @@ abstract class ProxyServiceFilterBase extends PluginBase implements ProxyService
    */
   public function postfetch() {
     // Override with any additional logic after fetch
-    $headers = $this->response->getHeaders();
-    if(isset($headers['Transfer-Encoding'])) {
-      unset($headers['Transfer-Encoding']);
-
-      $this->response = new Response(
-        $this->response->getStatusCode(),
-        $headers,
-        $this->response->getBody(),
-        $this->response->getProtocolVersion(),
-        $this->response->getReasonPhrase()
-      );
-    }
 
     return $this->response;
   }

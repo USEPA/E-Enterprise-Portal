@@ -2,6 +2,7 @@
 
 namespace Drupal\eep_location_services\Plugin\ProxyServiceFilter;
 
+use Drupal\eep_core\Helpers\ArrayHelper;
 use Drupal\eep_proxy_service\Plugin\ProxyServiceFilterBase;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Stream;
@@ -56,10 +57,10 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
         $city_state = explode(', ', $feature->attributes->NAME_LABEL);
         $city = $city_state[0];
         $state = $city_state[1];
-        if (!$this->str_in_array($city, $this->payload['city'])) {
+        if (!ArrayHelper::in_array($city, $this->payload['city'])) {
           $this->payload['city'][] = ucwords(trim($city));
         }
-        if (!$this->str_in_array($state, $this->payload['state'])) {
+        if (!ArrayHelper::in_array($state, $this->payload['state'])) {
           $this->payload['state'][] = strtoupper(trim($state));
         }
       }
@@ -73,7 +74,7 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
       foreach ($this->payload['gpo_city_state_to_zip_code']->features as $feature) {
         $zip = $feature->attributes->ZCTA;
         // Check for existing matches, and add if it is a new unique value
-        if (!$this->str_in_array($zip, $this->payload['zipcode'])) {
+        if (!ArrayHelper::in_array($zip, $this->payload['zipcode'])) {
           $this->payload['zipcode'][] = $zip;
         }
       }
@@ -297,21 +298,5 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
     }
 
     return $response;
-  }
-
-  /**
-   * replacement for in_array() when the search comparison doesn not need to be
-   * case sensitive.
-   *
-   * @param $needle
-   * @param array $haystack
-   * @param string $flags
-   *
-   * @return bool
-   */
-  public static function str_in_array($needle, $haystack = [], $flags = 'i') {
-    $needle = preg_replace('/\s+/i', '\\\\s', $needle);
-    $regex_needle = "/$needle/$flags";
-    return (bool) preg_grep($regex_needle, $haystack);
   }
 }

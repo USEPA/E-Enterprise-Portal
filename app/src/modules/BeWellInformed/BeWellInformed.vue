@@ -18,8 +18,8 @@
           <template slot="first">
             <!-- this slot appears above the options from 'options' prop -->
             <option
-              :value="null"
-              disabled>-- Please select an partner --
+                    :value="null"
+                    disabled>-- Please select an partner --
             </option>
           </template>
         </b-form-select>
@@ -221,10 +221,10 @@
   import { EventBus } from '../../EventBus';
   import WaterAnalysisResult from './components/WaterAnalysisResult.vue';
 
-  const name = 'BeWellInformed';
+  const moduleName = 'BeWellInformed';
 
   export default {
-    name: 'BeWellInformed',
+    name: moduleName,
     components: {
       WaterAnalysisResult,
       AppWrapper,
@@ -238,10 +238,11 @@
     },
     created() {
       const store = this.$store;
-      if (!(store && store.state && store.state[name])) {
-        store.registerModule(name, storeModule);
+      if (!(store && store.state && store.state[moduleName])) {
+        store.registerModule(moduleName, storeModule);
       }
       this.fetchPartners();
+
 
       // Custom event listeners
       EventBus.$on('bwi::showWaterAnalysisResults', this.showWaterAnalysisResults);
@@ -279,6 +280,7 @@
               '    target="_blank">New Hampshire’s Be <em>Well</em> Informed Guide</a>\n' +
               '</p>',
           },
+          isExpandable:true
         },
         tabIndex: 0,
         hasResults: false,
@@ -305,7 +307,7 @@
       },
     },
     methods: {
-      ...mapActions(name, [
+      ...mapActions(moduleName, [
         'createWaterAnalysisRequest',
         'setSelectedPartner',
         'fetchPartners',

@@ -44,7 +44,6 @@ Function Make-Blacklist() {
     return $output
 }
 
-
 Function Make-Path-Absolute() {
     param ([string]$relativePath)
     # Resolve-Path ()

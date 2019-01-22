@@ -1,0 +1,19 @@
+uuid: 44db6014-bf4e-4eb2-ba21-6dd40722f80a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_urn
+    - node.type.authentication_option
+id: node.authentication_option.field_urn
+field_name: field_urn
+entity_type: node
+bundle: authentication_option
+label: URN
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

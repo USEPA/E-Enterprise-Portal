@@ -6,8 +6,8 @@ css:
 dns_prefetch: false
 path:
   convert:
-    absolute_to_protocol_relative: true
-    absolute: false
+    absolute_to_protocol_relative: false
+    absolute: true
     force_https: false
 cache_level: 2
 cron_frequency: 86400

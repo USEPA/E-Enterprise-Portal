@@ -1,18 +1,17 @@
 <template>
   <div class="workbench">
     <!-- @TODO - Dynamically load workbench apps -->
-    <BeWellInformed/>
+    <Grid/>
   </div>
 </template>
 
 <script>
   // @ is an alias to /src
-  import BeWellInformed from '@/modules/BeWellInformed/BeWellInformed.vue';
-
+  import Grid from '@/modules/Grid/Grid.vue';
   export default {
     name: 'Workbench',
     components: {
-      BeWellInformed,
+      Grid,
     },
   };
 </script>

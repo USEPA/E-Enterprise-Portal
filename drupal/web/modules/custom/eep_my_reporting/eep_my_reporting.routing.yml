@@ -1,0 +1,7 @@
+eep_my_reporting.get:
+path: '/api/cdxprogramtitles'
+  defaults: { _controller: '\Drupal\test_api\Controller\EEPMyReportingController::get_example' }
+  methods:  [GET]
+  requirements:
+    _access: 'TRUE'
+

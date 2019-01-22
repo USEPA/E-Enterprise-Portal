@@ -1,4 +1,11 @@
+/* eslint-disable import/first */
 import Vue from 'vue';
+
+// @todo Move config to a environment specific file/export
+// Vue configurations (must be set before anything else)
+Vue.config.productionTip = true;
+Vue.config.devtools = true;
+
 import VueProgressBar from 'vue-progressbar';
 import 'bootstrap';
 import BootstrapVue from 'bootstrap-vue';
@@ -41,10 +48,6 @@ library.add(
 );
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
-
-Vue.config.productionTip = false;
-Vue.config.devtools = true;
-
 Vue.use(BootstrapVue);
 
 export default new Vue({

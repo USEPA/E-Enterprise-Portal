@@ -1,166 +1,133 @@
-{
-    "_links": {
-        "self": {
-            "href": "http:\/\/default\/node\/2?_format=hal_json"
-        },
-        "type": {
-            "href": "http:\/\/drupal.org\/rest\/type\/node\/eep_proxy_service"
-        },
-        "http:\/\/drupal.org\/rest\/relation\/node\/eep_proxy_service\/revision_uid": [
-            {
-                "href": "http:\/\/default\/user\/1?_format=hal_json"
-            }
-        ],
-        "http:\/\/drupal.org\/rest\/relation\/node\/eep_proxy_service\/uid": [
-            {
-                "href": "http:\/\/default\/user\/1?_format=hal_json",
-                "lang": "en"
-            }
-        ]
-    },
+[
+  {
     "nid": [
-        {
-            "value": 2
-        }
+      {
+        "value": "1"
+      }
     ],
     "uuid": [
-        {
-            "value": "4d9ada1d-f5c0-44ca-b9eb-19861138d56a"
-        }
+      {
+        "value": "22dc268c-71f2-465f-889d-7be13394fd9c"
+      }
     ],
     "vid": [
-        {
-            "value": 4
-        }
+      {
+        "value": "16"
+      }
     ],
     "langcode": [
-        {
-            "value": "en",
-            "lang": "en"
-        }
+      {
+        "value": "en"
+      }
     ],
     "type": [
-        {
-            "target_id": "eep_proxy_service"
-        }
+      {
+        "target_id": "eep_proxy_service"
+      }
     ],
     "revision_timestamp": [
-        {
-            "value": "2018-11-06T15:02:26+00:00",
-            "format": "Y-m-d\\TH:i:sP"
-        }
+      {
+        "value": "1545234256"
+      }
     ],
-    "_embedded": {
-        "http:\/\/drupal.org\/rest\/relation\/node\/eep_proxy_service\/revision_uid": [
-            {
-                "_links": {
-                    "self": {
-                        "href": "http:\/\/default\/user\/1?_format=hal_json"
-                    },
-                    "type": {
-                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
-                    }
-                },
-                "uuid": [
-                    {
-                        "value": "877ec4a6-2317-4f53-abb8-74e1914ef93b"
-                    }
-                ]
-            }
-        ],
-        "http:\/\/drupal.org\/rest\/relation\/node\/eep_proxy_service\/uid": [
-            {
-                "_links": {
-                    "self": {
-                        "href": "http:\/\/default\/user\/1?_format=hal_json"
-                    },
-                    "type": {
-                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
-                    }
-                },
-                "uuid": [
-                    {
-                        "value": "877ec4a6-2317-4f53-abb8-74e1914ef93b"
-                    }
-                ],
-                "lang": "en"
-            }
-        ]
-    },
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
     "status": [
-        {
-            "value": true,
-            "lang": "en"
-        }
+      {
+        "value": "0"
+      }
     ],
     "title": [
-        {
-            "value": "BWI Service",
-            "lang": "en"
-        }
+      {
+        "value": "Be Well Informed Service"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
     ],
     "created": [
-        {
-            "value": "2018-11-05T22:03:10+00:00",
-            "lang": "en",
-            "format": "Y-m-d\\TH:i:sP"
-        }
+      {
+        "value": "1541711939"
+      }
     ],
     "changed": [
-        {
-            "value": "2018-11-06T15:02:26+00:00",
-            "lang": "en",
-            "format": "Y-m-d\\TH:i:sP"
-        }
+      {
+        "value": "1541712034"
+      }
     ],
     "promote": [
-        {
-            "value": true,
-            "lang": "en"
-        }
+      {
+        "value": "0"
+      }
     ],
     "sticky": [
-        {
-            "value": false,
-            "lang": "en"
-        }
+      {
+        "value": "0"
+      }
     ],
     "default_langcode": [
-        {
-            "value": true,
-            "lang": "en"
-        }
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
     ],
     "revision_translation_affected": [
-        {
-            "value": true,
-            "lang": "en"
-        }
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
     ],
     "field_cache_max_age": [
-        {
-            "value": 86400
-        }
+      {
+        "value": "86400"
+      }
     ],
     "field_proxy_filter": [
-        {
-            "value": "generic"
-        }
+      {
+        "value": "generic"
+      }
     ],
     "field_proxy_service_machine_name": [
-        {
-            "value": "bwi"
-        }
+      {
+        "value": "bwi"
+      },
+      {
+        "value": "be-well-informed"
+      }
+    ],
+    "field_request_headers": [
+      {
+        "first": "content-type",
+        "second": "application\/json"
+      }
     ],
     "field_requeste_timeout": [
-        {
-            "value": 60
-        }
+      {
+        "value": "60"
+      }
     ],
     "field_service_endpoints": [
-        {
-            "first": "LOCAL",
-            "second": "https:\/\/dev.e-enterprise.gov\/TestRest\/bwievaluation"
-        }
+      {
+        "first": "LOCAL",
+        "second": "https:\/\/dev.e-enterprise.gov\/TestRest\/bwievaluation"
+      },
+      {
+        "first": "DEV",
+        "second": "https:\/\/dev.e-enterprise.gov\/TestRest\/bwievaluation"
+      }
     ]
-}
+  }
+]

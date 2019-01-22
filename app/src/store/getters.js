@@ -7,6 +7,32 @@ export default {
   getApp(state) {
     return state.app;
   },
+  getIsLoggedIn(state) {
+    return state.user.isLoggedIn;
+  },
+  getUserFullName(state) {
+    let fullname = '';
+    const userName = state.user.name;
+    const nameParts = [userName.prefix, userName.first, userName.last, userName.suffix];
+    fullname = nameParts
+      .filter(namePart => (namePart && namePart.length))
+      .join(' ');
+    return fullname;
+  },
+  /**
+   * gets users TAndCCookie state
+   */
+  getTAndCCookieDismiss() {
+    const cookieState = document.cookie.match('(^|;) ?userTandC=([^;]*)(;|$)');
+    return cookieState;
+  },
+  /**
+   * gets users login preference state
+   */
+  getUserPolicyCookieDismiss() {
+    const cookieState = document.cookie.match('(^|;) ?userPolicy=([^;]*)(;|$)');
+    return cookieState;
+  },
   /**
    * This function tests the domain name to help determine the environment
    * that the app is running under.
@@ -39,23 +65,56 @@ export default {
     return env;
   },
   getLocation(state) {
-    return state.location;
+    return state.user.location;
   },
-  getUser(state){
+  getUser(state) {
     return state.user;
   },
-  getLocationSearchURL(state, ref){
-    const locationSearchURL = state.urls[ref.getEnvironment].locationSearch;
-    return locationSearchURL;
-  },
+  getURL: (state, ref) => urlName => state.urls[ref.getEnvironment][urlName],
   getBridgeURL(state, ref) {
     const env = ref.getEnvironment;
     let url = '#';
     const bridgeSettings = state.bridgeSettings[env];
     if (bridgeSettings) {
-      url = bridgeSettings.issuer + "?wtrealm=" + encodeURI(bridgeSettings.relyingParty) +
-        '&wreply=' + encodeURI(bridgeSettings.sendBridgeBackTo) + "&whr=urn:ENNAAS&wa=" + bridgeSettings.signInMethod;
+      url = `${bridgeSettings.issuer}?wtrealm=${encodeURI(bridgeSettings.relyingParty) 
+      }&wreply=${encodeURI(bridgeSettings.sendBridgeBackTo)}&whr=urn:${state.currentBridgeUrn
+      }&wa=${bridgeSettings.signInMethod}`;
     }
     return url;
-  }
+  },
+  getloginBtnHoverMessage(state) {
+    return state.loginBtnHoverMessage;
+  },
+  getnavMargin(state) {
+    return state.navMargin;
+  },
+  getloginPageAccounts(state) {
+    return state.loginPageAccounts;
+  },
+  getUsername(state){
+    return state.user.userName;
+  },
+  getUserObject(state) {
+    return state.user.userObject;
+  },
+  getEnvironmentApiURL(state, ref){
+    let environment = ref.getEnvironment;
+    let environmentApiURL = 'https://apidev2.e-enterprise.gov';
+    if (environment === 'LOCAL') {
+      environmentApiURL = 'http://e-enterprise';
+    }
+    else if (environment === 'DEV') {
+      environmentApiURL = 'https://apidev2.e-enterprise.gov';
+    }
+    else if (environment === 'TEST') {
+      environmentApiURL = 'https://apitest2.e-enterprise.gov';
+    }
+    return environmentApiURL;
+  },
+  getBasicPagesArray(state){
+    return state.basicPages.pagesArray;
+  },
+  getCurrentUrn(state){
+    return state.currentBridgeUrn;
+  },
 };

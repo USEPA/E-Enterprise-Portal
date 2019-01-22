@@ -1,0 +1,41 @@
+uuid: eb6cf5f1-9f23-435c-9463-3e186bb09679
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.eep_my_reporting.field_cdx_program_name
+    - node.type.eep_my_reporting
+  module:
+    - double_field
+    - user
+id: node.eep_my_reporting.default
+targetEntityType: node
+bundle: eep_my_reporting
+mode: default
+content:
+  field_cdx_program_name:
+    weight: 102
+    label: above
+    settings:
+      inline: true
+      first:
+        hidden: false
+        prefix: ''
+        suffix: ''
+        link: false
+        format_type: medium
+      second:
+        hidden: false
+        prefix: ''
+        suffix: ''
+        link: false
+        format_type: medium
+    third_party_settings: {  }
+    type: double_field_unformatted_list
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden: {  }

@@ -110,7 +110,7 @@ class ProxyServiceController extends ControllerBase {
       throw new Exception($e->getMessage());
     }
 
-    $proxy = new ProxyService($service_machine_name, $filter, $uri);
+    $proxy = new ProxyService($service_machine_name, $filter, $entity, $uri);
 
     $proxy->parseHttpFoundationRequest($current_request);
 

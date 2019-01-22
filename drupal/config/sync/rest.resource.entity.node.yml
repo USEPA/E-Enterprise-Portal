@@ -5,7 +5,10 @@ dependencies:
   module:
     - basic_auth
     - hal
+    - jwt
     - node
+    - serialization
+    - user
 _core:
   default_config_hash: t_jfECmZhJqBOJuSOFn87EOi_TWi-_fRYTuJgd19vgg
 id: entity.node
@@ -15,9 +18,12 @@ configuration:
   methods:
     - GET
     - POST
-    - PATCH
     - DELETE
+    - PATCH
   formats:
     - hal_json
+    - json
   authentication:
     - basic_auth
+    - jwt_auth
+    - cookie

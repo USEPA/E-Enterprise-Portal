@@ -1,0 +1,11 @@
+id: api_favorite_links
+plugin_id: api_favorite_links
+granularity: method
+configuration:
+  GET:
+    supported_formats:
+      - json
+    supported_auth:
+      - basic_auth
+      - jwt_auth
+      - cookie

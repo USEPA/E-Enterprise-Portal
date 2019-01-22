@@ -8,31 +8,53 @@
         <!--
           @todo Need to update buttons and methods for AppWrapper
           Maximize, minimize, dropdown menu, etc.
+          background-image:url('../images/widget-expand.svg');
         -->
-        <div class="col-sm-2 col-lg-1 text-right">
-          <span class="app-window-icon oi oi-fullscreen-enter"></span>
-          <span class="app-window-icon oi oi-question-mark"></span>
+      <div  class="col-10 text-left">
+    <h2 v-for="item in title.slice(2,3)" v-if="eepApp.title =='Be Well Informed'">{{item.title[0].value}}</h2>
+    <h2 v-for="item in title.slice(1,2)" v-if="eepApp.title =='Trending Air'">{{item.title[0].value}}</h2>
+    <h2 v-for="item in title.slice(3,4)" v-if="eepApp.title =='Favorite Links'"><b-img class="title-logo" :src="require('../../../assets/images/bookmark.svg')"></b-img>{{ item.title[0].value}}</h2>
+    <h2 v-for="item in title.slice(0,1)" v-if="eepApp.title =='My Reporting'"><b-img class="title-logo" :src="require('../../../assets/images/state-government.svg')"></b-img>{{ item.title[0].value }}</h2>
+    <h6 v-show="!!eepApp.source">
+      Source: <a
+      :href="eepApp.source.link"
+      target="_blank">{{ eepApp.source.text }}</a>
+    </h6>
+      </div>
+        <div class="col-2  d-flex justify-content-lg-end">
+          <div class="col-4-md d-flex mr-1">
+            <b-dropdown id="divider" variant="link" right class="widget-dropdown widget-button" no-caret>
+              <b-dropdown-item-button>Settings</b-dropdown-item-button>
+              <b-dropdown-item-button>Move</b-dropdown-item-button>
+              <b-dropdown-divider></b-dropdown-divider>
+              <b-dropdown-item-button>Description</b-dropdown-item-button>
+              <b-dropdown-item-button>Source</b-dropdown-item-button>
+              <b-dropdown-item-button>Help</b-dropdown-item-button>
+              <b-dropdown-item-button>Contact</b-dropdown-item-button>
+            </b-dropdown>
+          </div>
+          <b-button v-if='eepApp.isExpandable'
+               class="widget-expand widget-button col-4-md d-flex mr-l"
+               @click="maximizeWidget()">
+          </b-button>
         </div>
       </div>
-    </div>
-    <h2>{{ eepApp.title }}</h2>
-    <h6 v-show="!!eepApp.source">
-      <a
-        :href="eepApp.source.link"
-        target="_blank">Source : {{ eepApp.source.text }}</a>
-    </h6>
     <div class="app-inner-wrapper">
       <slot></slot>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
+  import AppAxios from '../utils/AppAxios.js';
+
   export default {
     name: 'AppWrapper',
     data() {
       return {
-        title: 'Test Title',
+        title: '',
+        value: '',
       };
     },
     props: {
@@ -41,11 +63,45 @@
         required: true,
       },
     },
+    mounted () {
+      AppAxios
+        .get('https://apidev2.e-enterprise.gov/api/workbenchapps')
+        .then(response => (this.title = (response.data)))
+    },
+     methods: {
+      maximizeWidget(){
+        return console.log("hi");
+      }
+    }
   };
+
 </script>
 
 <style scoped>
+  @import '../styles/bootstrap-widget-dropdown.scss';
   .app-window-icon {
     padding: 0.5em;
+  }
+  .widget-dropdown {
+    background-image:url('../images/widget-menu.svg');
+    padding: 0.375rem 1rem;
+  }
+  .widget-expand {
+    background-image:url('../images/widget-expand.svg');
+    padding: 0.375rem 1rem;
+  }
+  .widget-button {
+    background-repeat:no-repeat;
+    background-position:center center;
+    background-color:#0071c2;
+    width:2.2rem;
+    height:2.2rem;
+    border-radius:50%;
+    background-size: 1.3rem 1.325rem;
+  }
+  .title-logo {
+    margin-right: .3rem;
+    max-width: 2.7rem;
+    max-height: 2.7rem;
   }
 </style>
