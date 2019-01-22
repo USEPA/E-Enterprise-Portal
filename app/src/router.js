@@ -20,6 +20,7 @@ function getCookie(cname) {
   }
   return '';
 }
+const authRequired = ['/warning-notice'];
 
 export default new Router({
   mode: 'history',
@@ -56,11 +57,10 @@ export default new Router({
       props: true,
       component: () => import('@/components/BasicPage.vue'),
       beforeEnter: (to, from, next) => {
-        if (to.path === '/warning-notice') {
-          console.log(getCookie('userLoggedIn'));
+        if (authRequired.indexOf(to.path) > -1) {
           const cookieValue = getCookie('userLoggedIn');
-          console.log(cookieValue);
-          if (cookieValue === 'true') {
+          const cookieConverted = (cookieValue === 'true');
+          if (cookieConverted) {
             next();
           } else {
             next('/login');
