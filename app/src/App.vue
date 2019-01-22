@@ -193,15 +193,11 @@
 
         // Log user in
         store.commit('USER_LOG_IN');
-        // Redirect to the workbench
-        this.$router.push("/workbench");
-      }else{
-        if(this.$cookie.get('userLoggedIn')){
+      } else {
+        if (this.$cookie.get('userLoggedIn')) {
           // Log user in and set user name
           store.commit('USER_LOG_IN');
           store.commit(types.SET_USERNAME, this.$cookie.get('loggedInUserName'));
-          // Redirect to the workbench
-          this.$router.push("/workbench");
         }
       }
     },
