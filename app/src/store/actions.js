@@ -240,16 +240,17 @@ export default {
     }).then(response => {
         // Declare variables
         this.data = response.data;
-        let tax_terms = {};
-        // Set the response to the VUEX store so the other ajax call can access it
+        let tax_terms = [];
+
+        // Loop through all of the tax terms and format new object to save to the store
         this.data.forEach((item) =>{
-            console.log(item.tid[0].value);
+            const item_id = item.tid[0].value;
+            const new_obj = {item_id: item.name[0].value};
+            tax_terms.push(new_obj);
         });
 
-
-        // store.commit('SET_TAXONOMY_DATA', {
-        //
-        // });
+        // Commit all taxonomy terms to the store
+        store.commit('SET_TAXONOMY_DATA', tax_terms);
     }).catch(error => {
         if(error.response) {
             const errorHeaders = error.response.headers;
@@ -258,6 +259,8 @@ export default {
                 '\n' + 'Message: ' + errorData);
         }
     });
+
+    console.log(store.getters.getTaxonomyData);
 
     // Ajax call to retrieve all of the Login information from /api/login_page?_format=json
     // AppAxios.get(store.getters.getEnvironmentApiURL +'/api/authentication-category-options', {
