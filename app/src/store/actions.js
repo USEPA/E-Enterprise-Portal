@@ -234,34 +234,36 @@ export default {
   handleLogin(context){
     const store = context;
 
-    console.log(store.getters.getEnvironmentApiURL + '/api/authentication_category_taxonomy_terms');
     // Do ajax call to get the correct terms for the Authentication Category Taxonomy
-    AppAxios.get(store.getters.getEnvironmentApiURL + '/api/authentication-category-taxonomy-terms',{
+    AppAxios.get(store.getters.getEnvironmentApiURL + '/api/authentication_category_taxonomy_terms',{
         headers: store.getters.getGETHeaders,
     }).then(response => {
         console.log(response.data);
 
     }).catch(error => {
         if(error.response) {
-            console.log(error.response);
+            const errorHeaders = error.response.headers;
+            const errorData = error.response.data;
+            console.warn('Headers: ' + errorHeaders +
+                '\n' + 'Message: ' + errorData);
         }
     });
 
     // // Ajax call to retrieve all of the Login information from /api/login_page?_format=json
-    // AppAxios.get('/api/authentication-options', {
-    //     headers: store.getters.getGETHeaders,
-    // }).then(response => {
-    //
-    //     // Save all of the login data to the state
-    //     console.log(response.data);
-    //
-    // }).catch(error =>{
-    //     if(error.response) {
-    //         const errorHeaders = error.response.headers;
-    //         const errorData = error.response.data;
-    //         console.warn('Headers: ' + errorHeaders +
-    //             '\n' + 'Message: ' + errorData);
-    //     }
-    // });
+    AppAxios.get(store.getters.getEnvironmentApiURL +'/api/authentication-category-options', {
+        headers: store.getters.getGETHeaders,
+    }).then(response => {
+
+        // Save all of the login data to the state
+        console.log(response.data);
+
+    }).catch(error =>{
+        if(error.response) {
+            const errorHeaders = error.response.headers;
+            const errorData = error.response.data;
+            console.warn('Headers: ' + errorHeaders +
+                '\n' + 'Message: ' + errorData);
+        }
+    });
   },
 };
