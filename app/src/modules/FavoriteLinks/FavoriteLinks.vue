@@ -152,18 +152,6 @@
         },
         data() {
           return {
-            eepApp: {
-              id: 'favorite-links',
-              title: 'Favorite Links',
-              source: {
-                text: 'US Environmental Protection Agency',
-                link: 'https://www.epa.gov',
-              },
-              html: {
-                mainCard:
-                  ' <p>Save links you find in E-Enterprise to return to them later.</p>'
-              },
-            },
             favLinksArray: [],
             fields: [
               { key: 'first', label: 'Link', sortable: true, sortDirection: 'desc' },
@@ -330,8 +318,14 @@
             this.totalRows = filteredItems.length;
             this.currentPage = 1;
           }
-        }
-    }
+        },
+      props: {
+        eepApp: {
+          type: Object,
+          required: true,
+        },
+      },
+    };
 </script>
 
 <style scoped

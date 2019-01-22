@@ -4,9 +4,9 @@
  * mutators.  Async tasks should be created here.
  */
 
-import {AppAxios, commonAppStore} from '../../wadk/WADK';
+import { AppAxios, commonAppStore } from '../../wadk/WADK';
 import types from './types';
-import {EventBus} from '../../../EventBus';
+// import {EventBus} from '../../../EventBus';
 
 export default {
   ...commonAppStore.actions,
@@ -22,7 +22,7 @@ export default {
     // Commit new seletced location to state before request new information for it
     store.commit(types.CURRENT_SELECTED_LOCATION, newLocation);
 
-    AppAxios.get(url)
+   /* AppAxios.get(url)
       .then((response) => {
         store.commit(types.CURRENT_SELECTED_LOCATION_INFORMATION, {
           curHumUnit: ((response.data.curHumUnit === 'PERCENT') ? '%' : response.data.curHumUnit),
@@ -40,7 +40,7 @@ export default {
           currentDateTimeUTCMillis: response.data.currentDateTimeUTCMillis,
           timezone: response.data.timezone,
         });
-      });
+      });*/
   },
   updateLocationOnInputBoxChange(context){
     const store = context;

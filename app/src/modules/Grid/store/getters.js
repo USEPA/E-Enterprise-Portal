@@ -9,4 +9,14 @@ export default {
   getLayout(state) {
     return state.layout;
   },
+  isLayoutReady(state) {
+    let ready = false;
+    if (state.layout.length) {
+      ready = true;
+    }
+    return ready;
+  },
+  getSampleLayout(state) {
+    return state.sampleLayout;
+  },
 };
