@@ -91,14 +91,12 @@
       },
       handleLoginCreationandRedirection(){
 
-          // Had to use dispatch because anyway that we call the router inside of the actions.js
-          // file the redirection would never happen correctly
-          this.$store.dispatch('handleLogin');
+        // Had to use dispatch because anyway that we call the router inside of the actions.js
+        // file the redirection would never happen correctly
+        this.$store.dispatch('handleLogin');
 
-          if(!this.$store.getters.error){
-              this.$router.push('/login')
-          }
-
+        // Redirect to the /login view
+        this.$router.push('/login');
       },
     },
     data() {

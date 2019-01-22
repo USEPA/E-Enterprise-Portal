@@ -240,15 +240,7 @@ export default {
         headers: store.getters.getGETHeaders,
     }).then(response => {
         // Declare variables
-        let tax_terms = [];
-
         let formatted_option_array = [];
-
-        // Loop through all of the tax terms and format new object to save to the store
-        response.data.forEach((item) =>{
-            // tax_terms[item.tid[0].value] = item.name[0].value;
-            tax_terms.push(item);
-        });
 
         // Ajax call to retrieve all of the Login information from /api/authentication-category-options
         AppAxios.get(store.getters.getEnvironmentApiURL +'/api/authentication-category-options', {
@@ -257,12 +249,10 @@ export default {
 
             // Loop through response and match each taxonomy up with each authentication option
             response_inner.data.forEach((resp_item) => {
-                let associated_taxonomy_weight = tax_terms.find(x => x.tid[0].value ===
+                let associated_taxonomy_weight = response.data.find(x => x.tid[0].value ===
                     resp_item.field_authentication_category[0].target_id).weight[0].value;
 
-
-
-
+                console.log(associated_taxonomy_weight);
 
                 //build array
             });
