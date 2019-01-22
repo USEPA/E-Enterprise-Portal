@@ -1,6 +1,6 @@
 <!--this view is so that users can find their information and view it and in the future, edit it-->
 <template>
-<div class="container" v-if="!isLoggedIn">
+<div class="container" >
         <h3>Profile</h3>
 <b-card>
     <b-tabs class="profile-tabs" >
@@ -11,12 +11,12 @@
         <div></div>
             <h3>User Information</h3>
             <div class="user-name-container">
-                <div>User Name</div>
-                <b-form-input id="first-name-input" v-model="name" type="text" disabled></b-form-input>
+                <div>User Name </div>
+                <b-form-input id="first-name-input" v-model="username" type="text" disabled></b-form-input>
             </div>
             <div class="email-container pt-3">
-                <div>Email</div>
-                <b-form-input id="email-input" v-model="email" type="text" disabled></b-form-input>
+                <div>Email Address</div>
+                <b-form-input id="email-input" v-model="mail" type="text" disabled></b-form-input>
              </div>
         </div>
 
@@ -49,7 +49,7 @@
         },
         data(){
             return{
-               
+
 
             }
         },
@@ -58,6 +58,7 @@
             ...mapGetters({
                 // map getters go here
                 isLoggedIn: 'getIsLoggedIn',
+                username: 'getUsername',
             }),
         },
         methods: {

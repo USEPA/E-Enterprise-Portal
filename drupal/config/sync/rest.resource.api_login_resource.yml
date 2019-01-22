@@ -1,0 +1,27 @@
+uuid: f3f9200a-0245-486b-b434-2e1dcdf731c1
+langcode: en
+status: true
+dependencies:
+  module:
+    - api_login
+    - basic_auth
+    - hal
+    - jwt
+    - schemata
+    - serialization
+    - user
+id: api_login_resource
+plugin_id: api_login_resource
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - hal_json
+    - schema_json
+    - json
+    - xml
+  authentication:
+    - basic_auth
+    - jwt_auth
+    - cookie

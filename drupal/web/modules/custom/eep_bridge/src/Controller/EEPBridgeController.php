@@ -59,7 +59,7 @@ class EEPBridgeController extends ControllerBase {
       $account_data = array_merge(
         [
           'name' => $authenticated_user->get_name(),
-          'init' => 'EN:NAAS',                  //TODO: remove hard coded provider and replace with passed variable name.
+          'init' => $authenticated_user->get_authentication_domain(),
           'status' => 1,
           'access' => (int) $_SERVER['REQUEST_TIME'],
         ],

@@ -4,6 +4,7 @@ module:
   admin_toolbar_tools: 0
   advagg: 0
   api_favorite_links: 0
+  api_login: 0
   automated_cron: 0
   backup_migrate: 0
   basic_auth: 0
@@ -17,7 +18,6 @@ module:
   config: 0
   config_actions: 0
   config_filter: 0
-  config_split: 0
   config_update: 0
   contact: 0
   contextual: 0
