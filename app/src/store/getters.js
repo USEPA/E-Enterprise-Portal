@@ -117,4 +117,7 @@ export default {
   getCurrentUrn(state){
     return state.currentBridgeUrn;
   },
+  getTaxonomyData(state){
+    return state.taxonomy_data;
+  },
 };

@@ -238,8 +238,18 @@ export default {
     AppAxios.get(store.getters.getEnvironmentApiURL + '/api/authentication_category_taxonomy_terms',{
         headers: store.getters.getGETHeaders,
     }).then(response => {
-        console.log(response.data);
+        // Declare variables
+        this.data = response.data;
+        let tax_terms = {};
+        // Set the response to the VUEX store so the other ajax call can access it
+        this.data.forEach((item) =>{
+            console.log(item.tid[0].value);
+        });
 
+
+        // store.commit('SET_TAXONOMY_DATA', {
+        //
+        // });
     }).catch(error => {
         if(error.response) {
             const errorHeaders = error.response.headers;
@@ -249,21 +259,21 @@ export default {
         }
     });
 
-    // // Ajax call to retrieve all of the Login information from /api/login_page?_format=json
-    AppAxios.get(store.getters.getEnvironmentApiURL +'/api/authentication-category-options', {
-        headers: store.getters.getGETHeaders,
-    }).then(response => {
-
-        // Save all of the login data to the state
-        console.log(response.data);
-
-    }).catch(error =>{
-        if(error.response) {
-            const errorHeaders = error.response.headers;
-            const errorData = error.response.data;
-            console.warn('Headers: ' + errorHeaders +
-                '\n' + 'Message: ' + errorData);
-        }
-    });
+    // Ajax call to retrieve all of the Login information from /api/login_page?_format=json
+    // AppAxios.get(store.getters.getEnvironmentApiURL +'/api/authentication-category-options', {
+    //     headers: store.getters.getGETHeaders,
+    // }).then(response => {
+    //
+    //     // Save all of the login data to the state
+    //     console.log(response.data);
+    //
+    // }).catch(error =>{
+    //     if(error.response) {
+    //         const errorHeaders = error.response.headers;
+    //         const errorData = error.response.data;
+    //         console.warn('Headers: ' + errorHeaders +
+    //             '\n' + 'Message: ' + errorData);
+    //     }
+    // });
   },
 };
