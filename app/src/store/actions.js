@@ -234,12 +234,13 @@ export default {
   handleLogin(context){
     // Declare function variables
     const store = context;
-    let tax_terms = [];
 
     // Do ajax call to get the correct terms for the Authentication Category Taxonomy
     AppAxios.get(store.getters.getEnvironmentApiURL + '/api/authentication_category_taxonomy_terms',{
         headers: store.getters.getGETHeaders,
     }).then(response => {
+        // Declare variables
+        let tax_terms = [];
 
         // Loop through all of the tax terms and format new object to save to the store
         response.data.forEach((item) =>{
@@ -247,42 +248,27 @@ export default {
             tax_terms.push(item);
         });
 
-    }).catch(error => {
-        if(error.response) {
-            const errorHeaders = error.response.headers;
-            const errorData = error.response.data;
-            console.warn('Headers: ' + errorHeaders +
-                '\n' + 'Message: ' + errorData);
-        }
-    });
+        // Ajax call to retrieve all of the Login information from /api/login_page?_format=json
+        AppAxios.get(store.getters.getEnvironmentApiURL +'/api/authentication-category-options', {
+            headers: store.getters.getGETHeaders,
+        }).then(response => {
 
-    // Ajax call to retrieve all of the Login information from /api/login_page?_format=json
-    AppAxios.get(store.getters.getEnvironmentApiURL +'/api/authentication-category-options', {
-        headers: store.getters.getGETHeaders,
-    }).then(response => {
+            // Loop through response and match each taxonomy up with each tab
+            response.data.forEach((resp_item) => {
+                let target_id = resp_item.field_authentication_category[0].target_id;
+                let associated_taxonomy_term = tax_terms.find(x => x.tid[0].value === target_id).name[0].value;
 
-        // Loop through response and match each taxonomy up with each tab
-        response.data.forEach((resp_item) => {
-            let target_id = resp_item.field_authentication_category[0].target_id;
-
-            console.log(tax_terms);
+                // Trim out white spaces to match names up with state variable
+                associated_taxonomy_term = (/^\s+$/.test(associated_taxonomy_term)) ? : associated_taxonomy_term;
 
 
+            });
 
-
-
-
-
-
+        }).catch(error =>{
+            console.log(error.response);
         });
-
-    }).catch(error =>{
-        if(error.response) {
-            const errorHeaders = error.response.headers;
-            const errorData = error.response.data;
-            console.warn('Headers: ' + errorHeaders +
-                '\n' + 'Message: ' + errorData);
-        }
+    }).catch(error => {
+        console.log(error.response);
     });
   },
 };
