@@ -242,6 +242,8 @@ export default {
         // Declare variables
         let tax_terms = [];
 
+
+
         // Loop through all of the tax terms and format new object to save to the store
         response.data.forEach((item) =>{
             // tax_terms[item.tid[0].value] = item.name[0].value;
@@ -263,6 +265,7 @@ export default {
                     associated_taxonomy_term.replace(/\s+/, "")  : associated_taxonomy_term;
 
                 //build array
+
             });
 
         }).catch(error =>{

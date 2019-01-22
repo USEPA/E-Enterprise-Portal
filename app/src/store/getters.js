@@ -117,4 +117,7 @@ export default {
   getCurrentUrn(state){
     return state.currentBridgeUrn;
   },
+  getLoginViewAccounts(state){
+      return state.loginViewAccounts;
+  }
 };
