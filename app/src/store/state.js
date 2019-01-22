@@ -115,10 +115,10 @@ const state = {
     //     tribal: {},
     // },
     loginViewAccounts: {
-        epa: [],
-        socialMedia: [],
-        state: [],
-        tribal: []
+        EPA: [],
+        SocialMedia: [],
+        State: [],
+        Tribal: []
     },
     GETHeaders: {
         'crossDomain': true,

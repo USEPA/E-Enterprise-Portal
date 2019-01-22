@@ -234,7 +234,7 @@ export default {
   handleLogin(context){
     // Declare function variables
     const store = context;
-    let tax_terms = {};
+    let tax_terms = [];
 
     // Do ajax call to get the correct terms for the Authentication Category Taxonomy
     AppAxios.get(store.getters.getEnvironmentApiURL + '/api/authentication_category_taxonomy_terms',{
@@ -243,7 +243,8 @@ export default {
 
         // Loop through all of the tax terms and format new object to save to the store
         response.data.forEach((item) =>{
-            tax_terms[item.tid[0].value] = item.name[0].value;
+            // tax_terms[item.tid[0].value] = item.name[0].value;
+            tax_terms.push(item);
         });
 
     }).catch(error => {
@@ -260,8 +261,20 @@ export default {
         headers: store.getters.getGETHeaders,
     }).then(response => {
 
-        // Save all of the login data to the state
-        console.log(response.data);
+        // Loop through response and match each taxonomy up with each tab
+        response.data.forEach((resp_item) => {
+            let target_id = resp_item.field_authentication_category[0].target_id;
+
+            console.log(tax_terms);
+
+
+
+
+
+
+
+
+        });
 
     }).catch(error =>{
         if(error.response) {
