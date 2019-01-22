@@ -10,19 +10,21 @@ import types from './types';
 
 export default {
   ...commonAppStore.actions,
-  reflectLocationChange(context, newLocation){
+  reflectLocationChange(context, newLocation) {
     const rootStore = this;
     const store = context;
     const correspondingSiteId = store.state.airMonitoringStationsWithSiteIDs[newLocation];
     const env = rootStore.getters.getEnvironment;
 
-    // @TODO: change the Local in the URL TO be taken in from param! example in BWI
+    // @TODO: change the Local in the URL TO be taken in from param! example in
+    // BWI
     const url = store.state.urls[env].villageGreenApiUrl + '?siteID=' + correspondingSiteId;
 
-    // Commit new seletced location to state before request new information for it
+    // Commit new seletced location to state before request new information for
+    // it
     store.commit(types.CURRENT_SELECTED_LOCATION, newLocation);
 
-   /* AppAxios.get(url)
+    AppAxios.get(url)
       .then((response) => {
         store.commit(types.CURRENT_SELECTED_LOCATION_INFORMATION, {
           curHumUnit: ((response.data.curHumUnit === 'PERCENT') ? '%' : response.data.curHumUnit),
@@ -40,9 +42,9 @@ export default {
           currentDateTimeUTCMillis: response.data.currentDateTimeUTCMillis,
           timezone: response.data.timezone,
         });
-      });*/
+      });
   },
-  updateLocationOnInputBoxChange(context){
+  updateLocationOnInputBoxChange(context) {
     const store = context;
     const rootStore = this;
 
