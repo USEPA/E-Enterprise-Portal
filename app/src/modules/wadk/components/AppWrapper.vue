@@ -91,7 +91,6 @@
         const vm = this;
         const size = vm.getSize;
         let style = '';
-        console.warn('dynamic image');
         // Using CSS to gracefully fail if the image doesn't exist
         let padding = '1.8rem';
         if (size !== 'small') {
