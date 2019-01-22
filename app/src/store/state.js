@@ -78,17 +78,11 @@ const state = {
     navMargin: {
         'margin-top': 0,
     },
-    loginPageAccounts:{
-        epa: [],
-        socialmedia: [],
-
-
-    },
     loginViewAccounts: {
         0: [],
         1: [],
         2: [],
-        3: []
+        3: [],
     },
     GETHeaders: {
         'crossDomain': true,
