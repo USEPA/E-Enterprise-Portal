@@ -1,24 +1,17 @@
+// BS basic configuration
 @import "bootstrap-mixins-cheatsheet";
 @import "utility";
 @import "form";
 @import "navigation";
+
+// BS style override
+@import "bootstrap-widget-dropdown";
+
+// Atomic Classes
 @import "cursor";
 @import "text-decoration";
-html {
-  min-height: 100%;
-  background-color: $gray-300;
-}
-body {
-  min-height: 100vh;
-}
-#app {
-  display: block;
-  min-height: 100vh;
-  background-color: $white;
 
-  & > header, & > container {
-    background-color: $white;
-  }
-}
+// Applications Styles
+@import "application";
 @import "workbench-grid";
 @import "workbench-application";

@@ -6,4 +6,7 @@
  *  @SEE https://vuex.vuejs.org/guide/mutations.html
  */
 
-export default {};
+export default {
+  NAMESPACE: 'Grid/',
+  SET_LAYOUT: 'SET_LAYOUT',
+};

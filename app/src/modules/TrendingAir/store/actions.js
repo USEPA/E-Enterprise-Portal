@@ -4,22 +4,24 @@
  * mutators.  Async tasks should be created here.
  */
 
-import {AppAxios, commonAppStore} from '../../wadk/WADK';
+import { AppAxios, commonAppStore } from '../../wadk/WADK';
 import types from './types';
-import {EventBus} from '../../../EventBus';
+// import {EventBus} from '../../../EventBus';
 
 export default {
   ...commonAppStore.actions,
-  reflectLocationChange(context, newLocation){
+  reflectLocationChange(context, newLocation) {
     const rootStore = this;
     const store = context;
     const correspondingSiteId = store.state.airMonitoringStationsWithSiteIDs[newLocation];
     const env = rootStore.getters.getEnvironment;
 
-    // @TODO: change the Local in the URL TO be taken in from param! example in BWI
+    // @TODO: change the Local in the URL TO be taken in from param! example in
+    // BWI
     const url = store.state.urls[env].villageGreenApiUrl + '?siteID=' + correspondingSiteId;
 
-    // Commit new seletced location to state before request new information for it
+    // Commit new seletced location to state before request new information for
+    // it
     store.commit(types.CURRENT_SELECTED_LOCATION, newLocation);
 
     AppAxios.get(url)
@@ -42,7 +44,7 @@ export default {
         });
       });
   },
-  updateLocationOnInputBoxChange(context){
+  updateLocationOnInputBoxChange(context) {
     const store = context;
     const rootStore = this;
 

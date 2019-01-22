@@ -119,7 +119,6 @@
       <path value="$PROJECT_DIR$/drupal/vendor/caxy/php-htmldiff" />
       <path value="$PROJECT_DIR$/drupal/vendor/fabpot/goutte" />
       <path value="$PROJECT_DIR$/drupal/vendor/ezyang/htmlpurifier" />
-      <path value="$PROJECT_DIR$/drupal/vendor/sunra/php-simple-html-dom-parser" />
       <path value="$PROJECT_DIR$/drupal/vendor/behat/mink" />
       <path value="$PROJECT_DIR$/drupal/vendor/drupal/coder" />
       <path value="$PROJECT_DIR$/drupal/vendor/symfony/browser-kit" />
@@ -143,9 +142,26 @@
       <path value="$PROJECT_DIR$/drupal/vendor/doctrine/event-manager" />
       <path value="$PROJECT_DIR$/drupal/vendor/doctrine/persistence" />
       <path value="$PROJECT_DIR$/drupal/vendor/ralouphie/getallheaders" />
+      <path value="$PROJECT_DIR$/drupal/vendor/kub-at/php-simple-html-dom-parser" />
     </include_path>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="7" />
+  <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />
+  <component name="PhpRuntimeConfiguration">
+    <extensions>
+      <extension name="Parle" enabled="true" />
+      <extension name="ZendCache" enabled="true" />
+      <extension name="event" enabled="true" />
+      <extension name="mapscript" enabled="true" />
+      <extension name="msgpack" enabled="true" />
+      <extension name="rdkafka" enabled="true" />
+      <extension name="solr" enabled="true" />
+      <extension name="sync" enabled="true" />
+      <extension name="uopz" enabled="true" />
+      <extension name="xcache" enabled="true" />
+      <extension name="yaf" enabled="true" />
+      <extension name="yar" enabled="true" />
+    </extensions>
+  </component>
   <component name="PhpUnit">
     <phpunit_settings>
       <PhpUnitSettings load_method="CUSTOM_LOADER" bootstrap_file_path="$PROJECT_DIR$/drupal/web/core/tests/bootstrap.php" custom_loader_path="$PROJECT_DIR$/drupal/vendor/autoload.php" phpunit_phar_path="" use_bootstrap_file="true" />
