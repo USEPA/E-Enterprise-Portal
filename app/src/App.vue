@@ -63,6 +63,8 @@
   import VueProgessBar from 'vue-progressbar';
   import types from './store/types';
 
+
+
   export default {
     name: 'App',
     components: {
@@ -170,13 +172,14 @@
       }
     }
     if (this.$cookie.get('userLoggedIn')) {
-      console.log('here App.vue');
       AppAxios.get('http://e-enterprise/user/' + this.$cookie.get('uid') + '?_format=json', {
         headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Request-Method': '*',
+          'Accept': '*/*',
           'crossDomain': true,
           'cache-control': 'no-cache',
-          'Content-Type': 'application/json',
-          'Authorization': "Bearer " + this.$cookie.get('Token'),
+          'Authorization': "JWT " + this.$cookie.get('Token'),
         },
       }).then(response => {
         store.commit('SET_USER_OBJECT', response.data);

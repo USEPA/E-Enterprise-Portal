@@ -51,7 +51,7 @@ class JWTAuthProvider implements AuthenticationProviderInterface {
         $jwt = null;
         $basic_token = $request->headers->get('authorization');
         $basic_token_parts = explode(' ', $basic_token);
-        if (!isset($basic_token_parts[1]) && is_string($basic_token_parts[1])) {
+        if (isset($basic_token_parts[1]) && is_string($basic_token_parts[1])) {
             $jwt = $basic_token_parts[1];
         }
         return $jwt;
@@ -76,7 +76,7 @@ class JWTAuthProvider implements AuthenticationProviderInterface {
         $path_segments = explode('/', $path);
         if ($this->isUserPath($request)) {
             $requested_uid = $path_segments[2];
-            if ((int)$requested_uid === $uid) {
+            if ((int)$requested_uid === (int)$uid) {
                 $auth_return = \Drupal::entityTypeManager()->getStorage('user')->load($uid);
             }
         }
