@@ -10,7 +10,7 @@
         :max-row="4"
         :row-height="210"
         :is-draggable="true"
-        :is-resizable="true"
+        :is-resizable="false"
         :is-mirrored="false"
         :vertical-compact="true"
         :margin="[10, 10]"
@@ -84,9 +84,17 @@
     },
     computed: {
        ...mapGetters({
-        layout: `${moduleName}/getLayout`,
+        getLayout: `${moduleName}/getLayout`,
         isLayoutReady: `${moduleName}/isLayoutReady`,
       }),
+      layout: {
+        get() {
+          return this.getLayout;
+        },
+        set(newValue) {
+          return this.setGridLayout(newValue);
+        },
+      },
     },
     methods: {
       ...mapActions(moduleName, [

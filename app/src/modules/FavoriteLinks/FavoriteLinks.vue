@@ -165,19 +165,6 @@
     },
     data() {
       return {
-        eepApp: {
-          id: 'favorite-links',
-          title: 'Favorite Links',
-          source: {
-            text: 'US Environmental Protection Agency',
-            link: 'https://www.epa.gov',
-          },
-          html: {
-            mainCard:
-              'Save links you find in E-Enterprise to return to them later.'
-          },
-          isExpandable: true,
-        },
         favLinksArray: [{ first: 'Loading your Favorites...' }],
         fields: [
           { key: 'first', label: 'Link', sortable: true, sortDirection: 'desc' },

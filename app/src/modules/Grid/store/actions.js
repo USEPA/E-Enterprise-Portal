@@ -7,6 +7,11 @@ import types from './types';
  * mutators.  Async tasks should be created here.
  */
 export default {
+  setGridLayout(context, newValue) {
+    const store = context;
+    store.commit(types.SET_LAYOUT, newValue);
+    return newValue;
+  },
   initializeLayout(context) {
     const store = context;
     const layout = store.getters.getSampleLayout;

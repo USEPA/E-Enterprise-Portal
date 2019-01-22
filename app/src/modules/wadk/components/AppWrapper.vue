@@ -36,7 +36,7 @@
         </div>
       </div>
       <div class="w-100 source-wrapper">
-        <h
+        <h6
           class="small"
           v-show="!!eepApp.source" >
           Source:&nbsp;
@@ -51,7 +51,7 @@
                   v-if="eepApp.source.length !== index + 1" >
               </span>
           </template>
-        </h>
+        </h6>
       </div>
       <div class="app-inner-wrapper">
         <slot/>
