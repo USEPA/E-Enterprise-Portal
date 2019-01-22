@@ -242,8 +242,6 @@ export default {
         // Declare variables
         let tax_terms = [];
 
-
-
         // Loop through all of the tax terms and format new object to save to the store
         response.data.forEach((item) =>{
             // tax_terms[item.tid[0].value] = item.name[0].value;
@@ -257,22 +255,17 @@ export default {
 
             // Loop through response and match each taxonomy up with each tab
             response_inner.data.forEach((resp_item) => {
-                let associated_taxonomy_term = tax_terms.find(x => x.tid[0].value ===
-                    resp_item.field_authentication_category[0].target_id).name[0].value;
+                let associated_taxonomy_weight = tax_terms.find(x => x.tid[0].value ===
+                    resp_item.field_authentication_category[0].target_id).weight[0].value;
 
-                // Trim out white spaces to match names up with state variable
-                associated_taxonomy_term = (/\s+/.test(associated_taxonomy_term)) ?
-                    associated_taxonomy_term.replace(/\s+/, "")  : associated_taxonomy_term;
+                associated_taxonomy_weight;
 
                 //build array
-
             });
 
         }).catch(error =>{
             console.log(error.response);
         });
-
-        console.log(response.data);
     }).catch(error => {
         console.log(error.response);
     });

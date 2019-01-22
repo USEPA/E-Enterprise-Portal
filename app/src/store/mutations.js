@@ -135,6 +135,6 @@ export default {
       state.currentBridgeUrn = obj;
   },
   [types.SET_LOGIN_VIEW_ACCOUNT](state, obj){
-
+      state.loginViewAccounts.
   },
 };
