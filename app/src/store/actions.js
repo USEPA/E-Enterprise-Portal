@@ -235,6 +235,19 @@ export default {
     const store = context;
 
     // Do ajax call to get the correct terms for the Authentication Category Taxonomy
+    AppAxios.get(store.getters.getEnvironmentApiURL + '/api/authentication-category-taxonomy-terms',{
+        headers: store.getters.getGETHeaders,
+    }).then(response => {
+        console.log(response.data);
+
+    }).catch(error => {
+        if(error.response) {
+            const errorHeaders = error.response.headers;
+            const errorData = error.response.data;
+            console.warn('Headers: ' + errorHeaders +
+                '\n' + 'Message: ' + errorData);
+        }
+    });
 
     // Ajax call to retrieve all of the Login information from /api/login_page?_format=json
     AppAxios.get( store.getters.getEnvironmentApiURL + '/api/authentication-options', {
