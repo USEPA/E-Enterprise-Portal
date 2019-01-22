@@ -232,7 +232,9 @@ export default {
       });
   },
   handleLogin(context){
+    // Declare function variables
     const store = context;
+
 
     // Do ajax call to get the correct terms for the Authentication Category Taxonomy
     AppAxios.get(store.getters.getEnvironmentApiURL + '/api/authentication_category_taxonomy_terms',{
@@ -240,13 +242,11 @@ export default {
     }).then(response => {
         // Declare variables
         this.data = response.data;
-        let tax_terms = [];
+        let tax_terms = {};
 
         // Loop through all of the tax terms and format new object to save to the store
         this.data.forEach((item) =>{
-            const item_id = item.tid[0].value;
-            const new_obj = {item_id: item.name[0].value};
-            tax_terms.push(new_obj);
+            tax_terms[item.tid[0].value] = item.name[0].value;
         });
 
         // Commit all taxonomy terms to the store
@@ -260,7 +260,8 @@ export default {
         }
     });
 
-    console.log(store.getters.getTaxonomyData);
+
+    console.log();
 
     // Ajax call to retrieve all of the Login information from /api/login_page?_format=json
     // AppAxios.get(store.getters.getEnvironmentApiURL +'/api/authentication-category-options', {
