@@ -250,9 +250,11 @@ export default {
             // Loop through response and match each taxonomy up with each authentication option
             response_inner.data.forEach((resp_item) => {
                 let associated_taxonomy_weight = response.data.find(x => x.tid[0].value ===
-                    resp_item.field_authentication_category[0].target_id).weight[0].value;
+                resp_item.field_authentication_category[0].target_id).weight[0].value;
 
                 console.log(associated_taxonomy_weight);
+
+
 
                 //build array
             });

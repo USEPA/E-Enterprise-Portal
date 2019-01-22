@@ -79,10 +79,10 @@ const state = {
         'margin-top': 0,
     },
     loginViewAccounts: {
-        0: [],
-        1: [],
-        2: [],
-        3: [],
+        0: {},
+        1: {},
+        2: {},
+        3: {},
     },
     GETHeaders: {
         'crossDomain': true,
