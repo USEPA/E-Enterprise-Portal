@@ -20,11 +20,11 @@
           v-for="(wapp, index) in layout"
           :min-w="275"
           :is-resizable="false"
-          :x="wapp.eepApp.grid.x"
-          :y="wapp.eepApp.grid.y"
-          :w="wapp.eepApp.grid.w"
-          :h="wapp.eepApp.grid.h"
-          :i="index"
+          :x="wapp.x"
+          :y="wapp.y"
+          :w="wapp.w"
+          :h="wapp.h"
+          :i="wapp.i"
           :key="index">
           <component
             :is="wapp.componentName"
@@ -65,6 +65,8 @@
       MyReporting,
     },
     beforeCreate() {
+      const vm = this;
+      const store = this.$store;
     },
     created() {
       const vm = this;

@@ -16,12 +16,13 @@ export default {
     const store = context;
     const layout = store.getters.getSampleLayout;
 
-    const updatedLayout = layout.map((wapp) => {
+    const updatedLayout = layout.map((wapp, i) => {
       const tmp = wapp;
       tmp.x = wapp.eepApp.grid.x;
       tmp.y = wapp.eepApp.grid.y;
       tmp.w = wapp.eepApp.grid.w;
       tmp.h = wapp.eepApp.grid.h;
+      tmp.i = i;
       return tmp;
     });
     store.commit(types.SET_LAYOUT, updatedLayout);
