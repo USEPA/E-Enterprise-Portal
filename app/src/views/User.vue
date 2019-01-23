@@ -43,8 +43,9 @@
                 <div class=" pt-3 d-flex">
                   <p>Add your locations of interest to see environmental information relevant to
                   those areas.
-                    <span class="font-weight-bold"> Click the ☆ icon next to a location to make it
-                    your default location.</span>
+                    <span class="font-weight-bold"> Click the </span><i class="far fa-star"/>
+                    <span class="font-weight-bold"> icon next to a location to make it your default
+                    location.</span>
                   </p>
                 </div>
                 <div class=" pt-3 d-flex">
@@ -61,7 +62,16 @@
                     <b-form-input
                       class="col-6 ml-3"
                       value="Durham, North Carolina"/>
-                    <div class="col-6 cursor-pointer"><h4>☆</h4></div>
+                    <div class="col-6 cursor-pointer">
+                      <i
+                        @click="starClick"
+                        v-if="starred"
+                        class="fas fa-star"/>
+                      <i
+                        @click="starClick"
+                        v-if="!starred"
+                        class="far fa-star"/>
+                    </div>
                   </b-input-group>
                 </div>
               </div>
@@ -148,6 +158,7 @@
       return {
         mail: 'bob@example.com',
         locations: [{ }],
+        starred: false,
         UserDeleteModalInfo: { title: 'Delete User' },
       };
     },
@@ -165,6 +176,9 @@
       ]),
       hideUserDeleteModal() {
         this.$refs.UserDeleteModal.hide();
+      },
+      starClick() {
+        this.starred = !this.starred;
       },
       DeleteEEPUserProfile() {
         console.log('DELETE PROFILE');
