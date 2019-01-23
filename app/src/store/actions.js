@@ -263,21 +263,7 @@ export default {
                 return a.weight - b.weight || a.tab_order - b.tab_order;
             });
 
-            // Split arrays up by weight
-            var filtered_array_by_weight = [];
-            var temp_authentication_option_array = [];
-
-            for(var i = 1; i < formatted_option_array.length; i++){
-                if(formatted_option_array[i - 1].weight != formatted_option_array[i].weight){
-                    temp_authentication_option_array = [];
-                    temp_authentication_option_array.push(formatted_option_array[i]);
-                    filtered_array_by_weight.push(temp_authentication_option_array);
-                }else{
-                    temp_authentication_option_array.push(formatted_option_array[i]);
-                }
-            }
-
-            store.commit('SET_LOGIN_VIEW_ACCOUNTS', filtered_array_by_weight);
+            store.commit('SET_LOGIN_VIEW_ACCOUNTS', formatted_option_array);
         }).catch(error =>{
             console.log(error.response);
         });
