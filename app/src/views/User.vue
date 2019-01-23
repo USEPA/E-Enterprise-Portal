@@ -43,8 +43,9 @@
                 <div class=" pt-3 d-flex">
                   <p>Add your locations of interest to see environmental information relevant to
                   those areas.
-                    <span class="font-weight-bold"> Click the ☆ icon next to a location to make it
-                    your default location.</span>
+                    <span class="font-weight-bold"> Click the </span><i class="far fa-star"/>
+                    <span class="font-weight-bold"> icon next to a location to make it your default
+                    location.</span>
                   </p>
                 </div>
                 <div class=" pt-3 d-flex">
@@ -61,7 +62,12 @@
                     <b-form-input
                       class="col-6 ml-3"
                       value="Durham, North Carolina"/>
-                    <div class="col-6 cursor-pointer"><h4>☆</h4></div>
+                    <div class="col-6 cursor-pointer">
+                      <i
+                        ref="click-star"
+                        @click="starClick"
+                        class="fas fa-star"/>
+                    </div>
                   </b-input-group>
                 </div>
               </div>
@@ -165,6 +171,15 @@
       ]),
       hideUserDeleteModal() {
         this.$refs.UserDeleteModal.hide();
+      },
+      starClick() {
+        if (this.$refs['click-star'].classList.contains('fas')) {
+          this.$refs['click-star'].classList.remove('fas');
+          this.$refs['click-star'].classList.add('far');
+        } else {
+          this.$refs['click-star'].classList.remove('far');
+          this.$refs['click-star'].classList.add('fas');
+        }
       },
       DeleteEEPUserProfile() {
         console.log('DELETE PROFILE');
