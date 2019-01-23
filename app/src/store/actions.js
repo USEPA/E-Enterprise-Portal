@@ -4,6 +4,7 @@ import Vue from 'vue';
 import { AppAxios } from '../modules/wadk/WADK';
 import { EventBus } from '../EventBus';
 import types from './types';
+import router from '../router';
 
 Vue.use(VueCookie);
 
@@ -223,11 +224,56 @@ export default {
       })
       .catch(error =>{
         if(error.response) {
-          console.log(error);
+          console.error(error);
         }
         else {
           console.warn('abnormal error response type')
         }
       });
+  },
+  handleLogin(context){
+    // Declare function variables
+    const store = context;
+
+    // Do ajax call to get the correct terms for the Authentication Category Taxonomy
+    AppAxios.get(store.getters.getEnvironmentApiURL + '/api/authentication_category_taxonomy_terms',{
+        headers: store.getters.getGETHeaders,
+    }).then(response => {
+        // Declare variables
+        let formatted_option_array = [];
+
+        // Ajax call to retrieve all of the Login information from /api/authentication-category-options
+        AppAxios.get(store.getters.getEnvironmentApiURL +'/api/authentication-category-options', {
+            headers: store.getters.getGETHeaders,
+        }).then(response_inner => {
+
+            // Loop through response and match each taxonomy up with each authentication option
+            response_inner.data.forEach((resp_item) => {
+                let associated_taxonomy_weight = response.data.find(x => x.tid[0].value ===
+                resp_item.field_authentication_category[0].target_id).weight[0].value;
+
+                // save each option to the formatted array variable to pass to mutation
+                formatted_option_array.push({
+                    'weight': associated_taxonomy_weight,
+                    'tab_order': resp_item.field_tab_order[0].value,
+                    'data': resp_item});
+            });
+
+            formatted_option_array.sort(function (a, b) {
+                return a.weight - b.weight || a.tab_order - b.tab_order;
+            });
+
+            // Commit formatted array to the store
+            store.commit('SET_LOGIN_VIEW_ACCOUNTS', formatted_option_array);
+
+            // Redirect to login view
+            router.push('/login');
+
+        }).catch(error =>{
+            console.error(error.response);
+        });
+    }).catch(error => {
+        console.error(error.response);
+    });
   },
 };

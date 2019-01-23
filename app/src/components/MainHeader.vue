@@ -30,35 +30,33 @@
             </template>
         </div>
         <div class="col-4-md">
-            <template v-if='isLoggedIn'>
-                <span>Welcome {{ username }}</span>
-                <b-btn
-                        to="/"
-                        variant="outline-secondary"
-                        class="btn btn-sm btn-outline-primary account-auth"
-                        @click="userLogOut">
+          <template v-if='isLoggedIn'>
+            <span>Welcome {{ username }}</span>
+            <b-btn
+              to="/"
+              variant="outline-secondary"
+              class="btn btn-sm btn-outline-primary account-auth"
+              @click="userLogOut">
+              <i class="fas fa-lock"></i>&nbsp;
+              Logout
+            </b-btn>
+           <b-button
+                to="/User"
+                id="my-account"
+                class="btn btn-sm ml-2"
+                variant="primary">
+                My account
+           </b-button>
+        </template>
+          <template v-else>
+            <div class="router-link-wrapper pt-2">
+                <a href="javascript:void(0);" @click="handleLogin" class="btn btn-sm btn-outline-primary account-auth-login">
                     <i class="fas fa-lock"></i>&nbsp;
-                    Logout
-                </b-btn>
-                <b-button
-                        to="/User"
-                        id="my-account"
-                        class="btn btn-sm ml-2"
-                        variant="primary">
-                    My account
-                </b-button>
-            </template>
-            <template v-else>
-                <div class="router-link-wrapper pt-2">
-                    <router-link
-                            to="/login"
-                            class="btn btn-sm btn-outline-primary account-auth-login">
-                        <i class="fas fa-lock"></i>&nbsp;
-                        Login
-                        <span class="arrow-down-message small mt-3">{{ loginBtnHoverMessage }}</span>
-                    </router-link>
-                </div>
-            </template>
+                    Login
+                    <span class="arrow-down-message small mt-3">{{ loginBtnHoverMessage }}</span>
+                </a>
+            </div>
+          </template>
         </div>
     </div>
 </div>
@@ -69,41 +67,35 @@
 import {mapGetters, mapActions} from 'vuex';
 import {EventBus} from '../EventBus';
 
-// eslint-disable-next-line
-export default {
-name: 'MainHeader',
-props: {},
-computed: {
-        ...mapGetters({
-            isLoggedIn: 'getIsLoggedIn',
-            bridgeURL: 'getBridgeURL',
-            username: 'getUsername',
-            loginBtnHoverMessage: 'getloginBtnHoverMessage',
-        }),
-tryitTitle() {
-    return 'Want to just try it? No log in needed.';
-},
-}
-,
-methods: {
-...
-mapActions([
-    'userLogOut',
-]),
-        dumyLogOut()
-{
-    this.userLogOut();
-}
-,
-}
-,
-data()
-{
-return {};
-}
-,
-}
-;
+  // eslint-disable-next-line
+  export default {
+    name: 'MainHeader',
+    props: {},
+    computed: {
+      ...mapGetters({
+        isLoggedIn: 'getIsLoggedIn',
+        bridgeURL: 'getBridgeURL',
+        username: 'getUsername',
+        loginBtnHoverMessage: 'getloginBtnHoverMessage',
+      }),
+      tryitTitle() {
+        return 'Want to just try it? No log in needed.';
+      },
+    },
+    methods: {
+      ...mapActions([
+        'userLogOut',
+        'handleLogin',
+      ]),
+      dumyLogOut() {
+        this.userLogOut();
+      },
+    },
+    data() {
+      return {
+      };
+    },
+  };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
