@@ -78,7 +78,7 @@ class EEPBridgeController extends ControllerBase {
     $jwt_token = $this->auth->generateToken();
     if ($jwt_token === FALSE) {
       $error_msg = "Error. Please set a key in the JWT admin page.";
-      \Drupal::logger('my_module')->error($error_msg);
+      \Drupal::logger('eep_bridge')->error($error_msg);
     }
 
     $url = Url::fromUri($environment_name . '?token='.$jwt_token.'&uid=' . $uid);
