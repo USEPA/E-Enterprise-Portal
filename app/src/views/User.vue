@@ -64,13 +64,9 @@
                       value="Durham, North Carolina"/>
                     <div class="col-6 cursor-pointer">
                       <i
+                        ref="click-star"
                         @click="starClick"
-                        v-if="starred"
                         class="fas fa-star"/>
-                      <i
-                        @click="starClick"
-                        v-if="!starred"
-                        class="far fa-star"/>
                     </div>
                   </b-input-group>
                 </div>
@@ -158,7 +154,6 @@
       return {
         mail: 'bob@example.com',
         locations: [{ }],
-        starred: false,
         UserDeleteModalInfo: { title: 'Delete User' },
       };
     },
@@ -178,7 +173,13 @@
         this.$refs.UserDeleteModal.hide();
       },
       starClick() {
-        this.starred = !this.starred;
+        if (this.$refs['click-star'].classList.contains('fas')) {
+          this.$refs['click-star'].classList.remove('fas');
+          this.$refs['click-star'].classList.add('far');
+        } else {
+          this.$refs['click-star'].classList.remove('far');
+          this.$refs['click-star'].classList.add('fas');
+        }
       },
       DeleteEEPUserProfile() {
         console.log('DELETE PROFILE');
