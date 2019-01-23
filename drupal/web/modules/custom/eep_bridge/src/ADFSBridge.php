@@ -315,7 +315,7 @@ class ADFSBridge {
         $time, $matches) == 0
     ) {
       $exception_msg = 'Invalid SAML2 timestamp passed to' . ' parseSAML2Time: ' . $time;
-      watchdog('eep_bridge', $exception_msg, array(), WATCHDOG_ERROR);
+      \Drupal::logger('eep_bridge')->error($exception_msg);
       throw new Exception($exception_msg);
     }
     /* Extract the different components of the time from the

@@ -5,6 +5,23 @@ import Workbench from './views/Workbench.vue';
 
 Vue.use(Router);
 
+function getCookie(cname) {
+  const name = cname + '=';
+  const decodedCookie = decodeURIComponent(document.cookie);
+  const ca = decodedCookie.split(';');
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) === ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) === 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return '';
+}
+const authRequired = ['/warning-notice'];
+
 export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
@@ -26,7 +43,7 @@ export default new Router({
     },
     {
       path: '/user',
-        name: 'user',
+      name: 'user',
       component: () => import('./views/User.vue'),
     },
     {
@@ -39,6 +56,19 @@ export default new Router({
       name: 'basic-page',
       props: true,
       component: () => import('@/components/BasicPage.vue'),
+      beforeEnter: (to, from, next) => {
+        if (authRequired.indexOf(to.path) > -1) {
+          const cookieValue = getCookie('userLoggedIn');
+          const cookieConverted = (cookieValue === 'true');
+          if (cookieConverted) {
+            next();
+          } else {
+            next('/login');
+          }
+        } else {
+          next();
+        }
+      },
     },
   ],
 });

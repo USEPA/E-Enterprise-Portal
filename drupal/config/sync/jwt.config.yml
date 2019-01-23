@@ -1,5 +1,2 @@
-jwt: null
-_core:
-  default_config_hash: VnJRkQumCIpCyjYAJevVI3NEg_EMkh2AyvPbn8pbGP4
 algorithm: HS512
-key_id: ee_jwt_key
+key_id: jwt
