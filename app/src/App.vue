@@ -1,9 +1,9 @@
 <template>
   <div
-          id="app">
+    id="app">
     <div
-            class="environment-status bg-warning text-white"
-            v-if="(ENV !='PROD')">
+      class="environment-status bg-warning text-white"
+      v-if="(ENV !='PROD')">
       <div class="container">
         <div class="row">
           <div class="col-12 text-center text-white">
@@ -22,15 +22,16 @@
     </div>
     <MainHeader/>
     <div
-            id="nav"
-            class="region-navigation pb-2 px-3" v-bind:style="navMargin">
+      id="nav"
+      class="region-navigation pb-2 px-3" v-bind:style="navMargin">
+
       <div
-              id="main-navigation-container"
-              class="container">
+        id="main-navigation-container"
+        class="container">
         <div class="row">
           <div
-                  id="page-selection-wrapper"
-                  class="col-md-5 mt-1">
+            id="page-selection-wrapper"
+            class="col-md-5 mt-1">
             <router-link to="/">Home</router-link>
             <span class="divider">|</span>
             <router-link to="/about">About</router-link>
@@ -39,12 +40,13 @@
           </div>
           <LocationSearch/>
         </div>
+
       </div>
     </div>
     <div class="container px-0 pb-5">
       <div
-              id="main-content"
-              class="no-gutters py-2">
+        id="main-content"
+        class="no-gutters py-2">
         <router-view/>
       </div>
     </div>
@@ -53,6 +55,7 @@
     <vue-progress-bar/>
   </div>
 </template>
+
 <script>
   // @ is an alias to /src
   import { mapGetters, mapActions } from 'vuex';
@@ -62,8 +65,6 @@
   import LocationSearch from '@/components/LocationSearch.vue';
   import VueProgessBar from 'vue-progressbar';
   import types from './store/types';
-
-
 
   export default {
     name: 'App',
@@ -192,7 +193,9 @@
     this.$Progress.finish();
   },
   };
+
 </script>
+
 <style lang="scss">
   /*// @TODO - Move non scoped styles to the appropiate sass file*/
   @import './styles/bootstrap-variable-overrides.scss';
@@ -200,50 +203,58 @@
   @import '../node_modules/bootstrap-vue/dist/bootstrap-vue.css';
   @import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
   @import './styles/styles.scss';
+
   .region-navigation {
     color: #fff;
     text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
     background-color: #0071bc;
-  // background-color: #007bff;
     height: auto;
     font-size: 1.5rem;
-  a {
-  @extend small;
-    color: #fff;
-    text-shadow: none;
-    text-decoration: none;
-  &:hover {
-     text-decoration: underline;
-   }
+
+    a {
+      @extend small;
+      color: #fff;
+      text-shadow: none;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
-  }
+
   .divider {
     padding-left: 0.5em;
     padding-right: 0.5em;
   }
+
   .environment-status {
-  &:hover {
-     opacity: 1.0;
-   }
+    &:hover {
+      opacity: 1.0;
+    }
   }
+
   // General slider media queries
   @include media-breakpoint-up(sm) {
     .enviroment-status {
       width: 1.0rem;
-    span {
-      font-size: .7rem;
-      height: 1.5rem;
+
+      span {
+        font-size: .7rem;
+        height: 1.5rem;
+      }
     }
   }
-  }
+
   @include media-breakpoint-up(md) {
     .enviroment-status {
       width: 1.5rem;
-    span {
-      font-size: 1.0rem;
+      span {
+        font-size: 1.0rem;
+      }
     }
   }
-  }
+
   #nav{
     margin-top: 20px !important;
   }

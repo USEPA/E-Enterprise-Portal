@@ -23,6 +23,30 @@
     </div>
             </b-container>
         </b-tab>
+
+                <b-tab title="Interest" active>
+                    <b-container class="bv-example-row ml-2">
+            <div class="interest-container " >
+                <div class="int-container ">
+                <div ></div>
+                    <h3>Interests</h3>
+                    <div class=" pt-3 d-flex">
+                    <div><h6>Organization</h6>
+                      <b-dropdown id="org_ddown1" text="Business" variant="outline-secondary" class="col-4-md organisation  mr-3" >
+
+                      </b-dropdown>
+                    </div>
+                    <div text="Role"><h6> Role</h6>
+                      <b-dropdown id="role_ddown2" text="Budget and operations"  variant="outline-secondary" class="col-4-md role mr-3">
+
+                      </b-dropdown>
+                    </div>
+                    </div>
+                </div>
+
+            </div>
+                    </b-container>
+                </b-tab>
           <p>All unsaved data will be lost upon navigating away from the Profile page</p>
     </b-tabs>
 </b-card>
@@ -69,5 +93,5 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 </style>

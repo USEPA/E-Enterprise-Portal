@@ -1,5 +1,5 @@
 import types from './types';
-import { EventBus } from '../../../EventBus';
+// import { EventBus } from '../../../EventBus';
 
 /**
  * Methods added here are available to all workbench applications.  Methods
@@ -7,10 +7,24 @@ import { EventBus } from '../../../EventBus';
  * mutators.  Async tasks should be created here.
  */
 export default {
-  sampleAction(context) {
+  setGridLayout(context, newValue) {
     const store = context;
-    const { state } = store;
+    store.commit(types.SET_LAYOUT, newValue);
+    return newValue;
+  },
+  initializeLayout(context) {
+    const store = context;
+    const layout = store.getters.getSampleLayout;
 
-    store.commit(types.SAMPLE_MUTATION, state);
+    const updatedLayout = layout.map((wapp, i) => {
+      const tmp = wapp;
+      tmp.x = wapp.eepApp.grid.x;
+      tmp.y = wapp.eepApp.grid.y;
+      tmp.w = wapp.eepApp.grid.w;
+      tmp.h = wapp.eepApp.grid.h;
+      tmp.i = i;
+      return tmp;
+    });
+    store.commit(types.SET_LAYOUT, updatedLayout);
   },
 };

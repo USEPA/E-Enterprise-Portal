@@ -151,21 +151,6 @@
     },
     data() {
       return {
-        eepApp: {
-          id: 'my-reporting',
-          title: 'My Reporting',
-          source: {
-            text: 'US Environmental Protection Agency',
-            link: 'https://www.epa.gov/',
-          },
-          html: {
-            mainCard:
-              '<p>Report directly to your CDX data flows.</p>'
-
-            ,
-          },
-          isExpandable:true
-        },
         program: [
           { first: '', },
           { second: '', },
@@ -220,7 +205,13 @@
         this.totalRows = filteredItems.length
         this.currentPage = 1
       }
-    }
+    },
+    props: {
+      eepApp: {
+        type: Object,
+        required: true,
+      },
+    },
   }
 </script>
 
