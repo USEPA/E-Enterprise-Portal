@@ -85,7 +85,7 @@ import {EventBus} from '../EventBus';
     methods: {
       ...mapActions([
         'userLogOut',
-        'handleLogin'
+        'handleLogin',
       ]),
       dumyLogOut() {
         this.userLogOut();
