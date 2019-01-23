@@ -1,5 +1,0 @@
-name: 'jwt_handler'
-type: module
-description: 'Handles creation and decoding of JWTs'
-core: 8.x
-package: 'EEP'

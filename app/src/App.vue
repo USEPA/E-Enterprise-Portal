@@ -172,18 +172,18 @@
       }
     }
     if (this.$cookie.get('userLoggedIn')) {
-      AppAxios.get('http://e-enterprise/user/' + this.$cookie.get('uid') + '?_format=json', {
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Request-Method': '*',
-          'Accept': '*/*',
-          'crossDomain': true,
-          'cache-control': 'no-cache',
-          'Authorization': "JWT " + this.$cookie.get('Token'),
-        },
-      }).then(response => {
+
+      AppAxios.get('https://apidev2.e-enterprise.gov/user/' + this.$cookie.get('uid') + '?_format=json',
+            {
+                headers: {
+                  'Authorization': "Bearer " + this.$cookie.get('Token'),
+                }
+              }).then(response => {
         store.commit('SET_USER_OBJECT', response.data);
-    })
+    }).catch((error) => {
+        console.warn(error)
+    });
+
     }
 
   },

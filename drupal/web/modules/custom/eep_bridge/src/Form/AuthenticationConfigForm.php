@@ -41,12 +41,6 @@ class AuthenticationConfigForm extends ConfigFormBase{
       '#description' => $this->t('E.g: https://dev2.e-enterprise.gov'),
       '#default_value' => $config->get('eep_bridge_environment_name'),
     ];
-
-    $form['jwt_secret'] = [
-        '#type' => 'password',
-        '#title' => $this->t('JWT Secret'),
-        '#default_value' => $config->get('jwt_secret'),
-    ];
     return parent::buildForm($form, $form_state);
   }
 

@@ -1,5 +1,0 @@
-name: 'jwt_auth_provider'
-type: module
-description: 'Provides Authentication provider of JWT'
-core: 8.x
-package: 'EEP'
