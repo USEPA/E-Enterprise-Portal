@@ -224,7 +224,7 @@ export default {
       })
       .catch(error =>{
         if(error.response) {
-          console.log(error);
+          console.error(error);
         }
         else {
           console.warn('abnormal error response type')
@@ -270,10 +270,10 @@ export default {
             router.push('/login');
 
         }).catch(error =>{
-            console.log(error.response);
+            console.error(error.response);
         });
     }).catch(error => {
-        console.log(error.response);
+        console.error(error.response);
     });
   },
 };
