@@ -32,7 +32,6 @@ class EEPBridgeController extends ControllerBase {
   }
 
   public function eep_authenticate(){
-
     $config = $this->config('eep_bridge.environment_settings');
     $environment_name = $config->get('eep_bridge_environment_name');
 
@@ -75,18 +74,14 @@ class EEPBridgeController extends ControllerBase {
       $account_search = array_values($account_search);
       user_login_finalize($account_search[0]);
     }
-
-
+    $uid = \Drupal::currentUser()->id();
     $jwt_token = $this->auth->generateToken();
     if ($jwt_token === FALSE) {
       $error_msg = "Error. Please set a key in the JWT admin page.";
       watchdog('eep_bridge', $error_msg, array(), WATCHDOG_ERROR);
     }
 
-    $user_name = base64_encode($authenticated_user->get_name());
-    $email = base64_encode($userDetails->attributes['email'][0]);
-
-    $url = Url::fromUri($environment_name.'?token='.$jwt_token.'&data='.$user_name.'&email='.$email);
+    $url = Url::fromUri($environment_name . '?token='.$jwt_token.'&uid=' . $uid);
     $this->eep_bridge_goto($url);
     return;
   }

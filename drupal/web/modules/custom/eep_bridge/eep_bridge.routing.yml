@@ -1,5 +1,5 @@
 eep_bridge.bridge:
-  path: '/user/authenticate'
+  path: '/authenticate/user'
   defaults:
     _controller: '\Drupal\eep_bridge\Controller\EEPBridgeController::eep_authenticate'
     _title: 'E-Enterprise Bridge Authentication'
