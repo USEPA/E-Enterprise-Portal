@@ -100,8 +100,7 @@
         computed: {
             ...mapGetters({
                 bridgeURL: 'getBridgeURL',
-                loginViewAccounts: 'getLoginViewAccounts'
-
+                loginViewAccounts: 'getLoginViewAccounts',
             }),
         },
     };
