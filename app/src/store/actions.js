@@ -263,8 +263,7 @@ export default {
                 return a.weight - b.weight || a.tab_order - b.tab_order;
             });
 
-
-
+            store.commit('SET_LOGIN_VIEW_ACCOUNTS', formatted_option_array);
         }).catch(error =>{
             console.log(error.response);
         });

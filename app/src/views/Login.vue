@@ -14,41 +14,37 @@
             <b-tab title="EPA" active>
                 <h6 class="tabText font-weight-bold">Use your EPA account...</h6>
                 <b-container class="bv-example-row ml-2">
-                    <b-row class="tabContainer align-h=between">
-                        <b-col class="pb-1 col-md-auto">
-                            <!--<div class="link-wrapper pt-2 pb-2 pl-2">-->
-                                <!--<a class="link" href="javascript:void(0);" @click="navigateToBridge('ENNAAS')">-->
-                                    <!--<img src="../assets/images/exchange-network-x-sm.png" alt="cdx">-->
+                    <div v-for="(account, index) in loginViewAccounts">
+                        <!-- v-if -->
+                        <div v-if="index % 3 == 0 && account.weight == 0">
+                            <b-row class="tabContainer align-h=between">
+                                <b-col class="pb-1 col-md-auto">
+                                    <div class="link-wrapper pt-2 pb-2 pl-2">
+                                        <a class="link" href="javascript:void(0);" @click="navigateToBridge('ENNAAS')">
+                                            <img src="../assets/images/exchange-network-x-sm.png" alt="cdx">
+                                            <span class="pl-2">{{account[0].data.title[0].value}}</span>
+                                        </a>
+                                    </div>
+                                </b-col>
+                                <div class="w-100 d-block d-md-none py-1"></div>
+                            </b-row>
+                        </div>
 
-                                    <!--<span class="pl-2">-->
-                                    <!--{{allLoginAccounts.EPA.cdx.name}}-->
-                                    <!--</span>-->
-                                <!--</a>-->
-                            <!--</div>-->
-                        </b-col>
-                        <div class="w-100 d-block d-md-none py-1"></div>
-                        <b-col class="pb-1 col-md-auto">
-                            <!--<div class="link-wrapper pt-2 pb-2 pl-2">-->
-                                <!--<a href="bridgeURL" class="link">-->
-                                    <!--<img src="../assets/images/epaicon.png" alt="wam">-->
-                                    <!--<span class="pl-2">-->
-                                            <!--{{allLoginAccounts.EPA.wam.name}}-->
-                                            <!--</span>-->
-                                <!--</a>-->
-                            <!--</div>-->
-                        </b-col>
-                        <div class="w-100 d-block d-md-none py-1"></div>
-                        <b-col class="pb-1 col-md-auto">
-                            <!--<div class="link-wrapper pt-2 pb-2 pl-2">-->
-                                <!--<a href="/" class="link" ref="SmartCardAuth">-->
-                                    <!--<img src="../assets/images/piv-smartcard.png" alt="smartCard">-->
-                                    <!--<span class="pl-2">-->
-                                            <!--{{allLoginAccounts.EPA.smartCard.name}}-->
-                                            <!--</span>-->
-                                <!--</a>-->
-                            <!--</div>-->
-                        </b-col>
-                    </b-row>
+
+                        <!-- v-else -->
+                        <!--<b-col class="pb-1 col-md-auto">-->
+                        <!--<div class="link-wrapper pt-2 pb-2 pl-2">-->
+                        <!--<a class="link" href="javascript:void(0);" @click="navigateToBridge('ENNAAS')">-->
+                        <!--<img src="../assets/images/exchange-network-x-sm.png" alt="cdx">-->
+
+                        <!--<span class="pl-2">-->
+                        <!--{{allLoginAccounts.EPA.cdx.name}}-->
+                        <!--</span>-->
+                        <!--</a>-->
+                        <!--</div>-->
+                        <!--</b-col>-->
+                        <!--<div class="w-100 d-block d-md-none py-1"></div>-->
+                    </div>
                 </b-container>
                 <div class="mt-4">
                     You can <a href="https://cdx.epa.gov/">create a free CDX account </a> within the Exchange Network.
@@ -132,7 +128,8 @@
         computed: {
             ...mapGetters({
                 bridgeURL: 'getBridgeURL',
-                allLoginAccounts: 'getLoginPageAccounts'
+                loginViewAccounts: 'getLoginViewAccounts'
+
             }),
         },
     };
