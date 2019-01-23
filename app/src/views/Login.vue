@@ -61,26 +61,6 @@
                 <h6 class="tabText font-weight-bold">Use your state account to log in...</h6>
                 <b-container class="ml-2">
                     <b-row class="tabContainer">
-                        <!--<b-col sm class="pb-1">-->
-                            <!--&lt;!&ndash;<div class="link-wrapper pt-2 pb-2 pl-2">&ndash;&gt;-->
-                                <!--&lt;!&ndash;<a v-bind:href="allLoginAccounts.state.NM.sitePath" class="link" ref="NMIdP">&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<img src="../assets/images/nm-logo.png" alt="NM">&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<span class="pl-2">&ndash;&gt;-->
-                                            <!--&lt;!&ndash;{{allLoginAccounts.state.NM.name}}&ndash;&gt;-->
-                                            <!--&lt;!&ndash;</span>&ndash;&gt;-->
-                                <!--&lt;!&ndash;</a>&ndash;&gt;-->
-                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                        <!--</b-col>-->
-                        <!--<b-col sm class="pb-1">-->
-                            <!--&lt;!&ndash;<div class="link-wrapper pt-2 pb-2 pl-2">&ndash;&gt;-->
-                                <!--&lt;!&ndash;Placeholder&ndash;&gt;-->
-                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                        <!--</b-col>-->
-                        <!--<b-col sm class="pb-1">-->
-                            <!--&lt;!&ndash;<div class="link-wrapper pt-2 pb-2 pl-2">&ndash;&gt;-->
-                                <!--&lt;!&ndash;Placeholder&ndash;&gt;-->
-                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                        <!--</b-col>-->
                         <div v-for="(account, index) in loginViewAccounts" >
                             <!-- v-if -->
                             <b-col class="pb-1 col-md-auto"  v-if="account.weight == 2">
