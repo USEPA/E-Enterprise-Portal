@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="reportingrow">
     <AppWrapper class="pb-5"
       :eep-app="eepApp">
       <div
@@ -77,7 +77,7 @@
 
               <b-col md="6" class="my-1">
                 <b-form-group horizontal label="Rows" class="mb-0">
-                  <b-form-select :options="pageOptions" v-model="perPage" />
+                  <b-form-select :options="lengthMenu" v-model="perPage" />
                 </b-form-group>
               </b-col>
             </b-row>
@@ -92,9 +92,27 @@
               @filtered="onFiltered"
             >
 
-            <b-table hover :items="items">
+            <b-table>
+              <template slot="name" slot-scope="data">
+                {{data.value}}
+              </template>
+              <template slot="role" slot-scope="data">
+                <a href="https://www.epa.gov">
+                  {{data.value}}
+                </a>
+              </template>
+              <template slot="status" slot-scope="data">
+                <a href="https://www.epa.gov">
+                  {{data.value}}
+                </a>
+              </template>
             </b-table>
             </b-table>
+            <b-row>
+              <b-col md="6" class="my-1">
+                <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="currentPage" class="my-0" />
+              </b-col>
+            </b-row>
           </b-container>
           </template>
         </div>
@@ -128,11 +146,13 @@
   const moduleName = 'MyReporting';
 
   const items = [
-    { program_service_name: '111d: SPeCS for 111d', role: 'Certifier', status: 'Active' },
+    { program_service_name: '111d: SPeCS for 111d', role: 'URL', status: 'Active' },
     { program_service_name: 'ACRES: Assessment Cleanup and Redevelopment Exchange System', role: 'Certifier', status: 'Active' },
     { program_service_name: 'AutoReg: Automating CDX Registration Workflow Via the Web', role: 'Certifier', status: 'Active' },
     { program_service_name: 'BIOSOLIDS: NeT - EPA Biosolids Program (Read Only)', role: 'Certifier', status: 'Active' }
   ]
+
+
 
 
   export default {
@@ -140,6 +160,7 @@
     components: {
       AppWrapper,
     },
+
     beforeCreate() {
 
     },
@@ -162,10 +183,9 @@
           { key: 'status', label: 'Status' },
         ],
         currentPage: 1,
-        all: -1,
         perPage: 5,
         totalRows: items.length,
-        pageOptions: [ 5, 10, 25, 50],
+        lengthMenu: [5, 10, 25, 50],
         filter: null,
         modalInfo: { title: '', content: '' }
       }
@@ -219,6 +239,10 @@
   lang="scss">
   #app {
     margin-bottom: 7rem;
+  }
+  #reportingrow {
+    overflow-y: scroll;
+    max-height: 100%;
   }
 
   #my-reporting .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
