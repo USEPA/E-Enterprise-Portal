@@ -260,14 +260,10 @@ export default {
             });
 
             formatted_option_array.sort(function (a, b) {
-                if(a.tab_order === b.tab_order){
-                    return a.weight - b.weight;
-
-                }
-                return a.tab_order > b.tab_order ? 1 : -1;
+                return a.weight - b.weight || a.tab_order - b.tab_order;
             });
 
-            console.log(formatted_option_array);
+
 
         }).catch(error =>{
             console.log(error.response);
