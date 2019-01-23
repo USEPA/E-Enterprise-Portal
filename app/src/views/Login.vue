@@ -14,42 +14,22 @@
             <b-tab title="EPA" active>
                 <h6 class="tabText font-weight-bold">Use your EPA account...</h6>
                 <b-container class="bv-example-row ml-2">
-                    <b-row class="tabContainer  align-h=between">
-                        <b-col class="pb-1 col-md-auto">
-                            <div class="link-wrapper pt-2 pb-2 pl-2">
-                                <a class="link" href="javascript:void(0);" @click="navigateToBridge('ENNAAS')">
-                                    <img src="../assets/images/exchange-network-x-sm.png" alt="cdx">
-
-                                    <span class="pl-2">
-                                    {{allLoginAccounts.EPA.cdx.name}}
-                                    </span>
-                                </a>
-                            </div>
-                        </b-col>
-                        <div class="w-100 d-block d-md-none py-1"></div>
-                        <b-col class="pb-1 col-md-auto">
-                            <div class="link-wrapper pt-2 pb-2 pl-2">
-                                <a href="bridgeURL" class="link" ref="WAMNAAS">
-                                    <img src="../assets/images/epaicon.png" alt="wam">
-                                    <span class="pl-2">
-                                            {{allLoginAccounts.EPA.wam.name}}
-                                            </span>
-                                </a>
-                            </div>
-                        </b-col>
-                        <div class="w-100 d-block d-md-none py-1"></div>
-                        <b-col class="pb-1 col-md-auto">
-                            <div class="link-wrapper pt-2 pb-2 pl-2">
-                                <a href="/" class="link" ref="SmartCardAuth">
-                                    <img src="../assets/images/piv-smartcard.png" alt="smartCard">
-                                    <span class="pl-2">
-                                            {{allLoginAccounts.EPA.smartCard.name}}
-                                            </span>
-                                </a>
-                            </div>
-                        </b-col>
+                    <b-row class="tabContainer align-h=between">
+                        <div v-for="(account, index) in loginViewAccounts" >
+                            <!-- v-if -->
+                            <b-col class="pb-1 col-md-auto"  v-if="account.weight == 0">
+                                <div class="link-wrapper pt-2 pb-2 pl-2">
+                                    <a class="link" href="javascript:void(0);"
+                                       @click="navigateToBridge(account.data.field_urn[0].value)">
+                                        <img src="account.data.field_urn[0].value" alt="not found">
+                                        <span class="pl-2">{{account.data.title[0].value}}</span>
+                                    </a>
+                                </div>
+                            </b-col>
+                            <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
+                        </div>
                     </b-row>
-                </b-container>
+                   </b-container>
                 <div class="mt-4">
                     You can <a href="https://cdx.epa.gov/">create a free CDX account </a> within the Exchange Network.
                     You only need to provide some basic information.
@@ -59,24 +39,19 @@
                 <h6 class="tabText font-weight-bold">Use your social media account to log in...</h6>
                 <b-container class="ml-2 pb-1">
                     <b-row class="tabContainer">
-                        <b-col sm class="pb-1">
-                            <div class="col-md-12 link-wrapper pt-2 pb-2 pl-2">
-                                <a class="link" href="javascript:void(0);" @click="navigateToBridge('Facebook')">
-                                    <img src="../assets/images/facebook-f.png" alt="facebook">
-                                    <span class="pl-2">{{allLoginAccounts.socialmedia.facebook.name}}</span>
-                                </a>
-                            </div>
-                        </b-col>
-                        <b-col sm class="pb-1">
-                            <div class="col-md-12 link-wrapper pt-2 pb-2 pl-2">
-                                <a v-bind:href="allLoginAccounts.socialmedia.twitter.sitePath" class="link"
-                                   ref="Twitter">
-                                    <img src="../assets/images/twitter.svg" alt="twitter">
-                                    <span class="pl-2">{{allLoginAccounts.socialmedia.twitter.name}}</span>
-                                </a>
-                            </div>
-                        </b-col>
-                        <b-col></b-col>
+                        <div v-for="(account, index) in loginViewAccounts" >
+                            <!-- v-if -->
+                            <b-col class="pb-1 col-md-auto"  v-if="account.weight == 1">
+                                <div class="link-wrapper pt-2 pb-2 pl-2">
+                                    <a class="link" href="javascript:void(0);"
+                                       @click="navigateToBridge(account.data.field_urn[0].value)">
+                                        <img src="account.data.field_urn[0].value" alt="not found">
+                                        <span class="pl-2">{{account.data.title[0].value}}</span>
+                                    </a>
+                                </div>
+                            </b-col>
+                            <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
+                        </div>
                     </b-row>
                 </b-container>
             </b-tab>
@@ -86,31 +61,23 @@
                 <h6 class="tabText font-weight-bold">Use your state account to log in...</h6>
                 <b-container class="ml-2">
                     <b-row class="tabContainer">
-                        <b-col sm class="pb-1">
-                            <div class="link-wrapper pt-2 pb-2 pl-2">
-                                <a v-bind:href="allLoginAccounts.state.NM.sitePath" class="link" ref="NMIdP">
-                                    <img src="../assets/images/nm-logo.png" alt="NM">
-                                    <span class="pl-2">
-                                            {{allLoginAccounts.state.NM.name}}
-                                            </span>
-                                </a>
-                            </div>
-                        </b-col>
-                        <b-col sm class="pb-1">
-                            <div class="link-wrapper pt-2 pb-2 pl-2">
-                                Placeholder
-                            </div>
-                        </b-col>
-                        <b-col sm class="pb-1">
-                            <div class="link-wrapper pt-2 pb-2 pl-2">
-                                Placeholder
-                            </div>
-                        </b-col>
+                        <div v-for="(account, index) in loginViewAccounts" >
+                            <!-- v-if -->
+                            <b-col class="pb-1 col-md-auto"  v-if="account.weight == 2">
+                                <div class="link-wrapper pt-2 pb-2 pl-2">
+                                    <a class="link" href="javascript:void(0);"
+                                       @click="navigateToBridge(account.data.field_urn[0].value)">
+                                        <img src="account.data.field_urn[0].value" alt="not found">
+                                        <span class="pl-2">{{account.data.title[0].value}}</span>
+                                    </a>
+                                </div>
+                            </b-col>
+                            <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
+                        </div>
                     </b-row>
                 </b-container>
             </b-tab>
             <b-tab class="tab" title="Tribal">
-
             </b-tab>
         </b-tabs>
     </div>
@@ -133,7 +100,7 @@
         computed: {
             ...mapGetters({
                 bridgeURL: 'getBridgeURL',
-                allLoginAccounts: 'getloginPageAccounts'
+                loginViewAccounts: 'getLoginViewAccounts',
             }),
         },
     };
