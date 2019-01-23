@@ -134,6 +134,7 @@
         // map getters go here
         isLoggedIn: 'getIsLoggedIn',
         username: 'getUsername',
+        mail: 'getUserEmail',
       }),
     },
     methods: {

@@ -10,15 +10,6 @@ export default {
   getIsLoggedIn(state) {
     return state.user.isLoggedIn;
   },
-  getUserFullName(state) {
-    let fullname = '';
-    const userName = state.user.name;
-    const nameParts = [userName.prefix, userName.first, userName.last, userName.suffix];
-    fullname = nameParts
-      .filter(namePart => (namePart && namePart.length))
-      .join(' ');
-    return fullname;
-  },
   /**
    * gets users TAndCCookie state
    */
@@ -92,7 +83,18 @@ export default {
     return state.loginPageAccounts;
   },
   getUsername(state) {
-    return state.user.userName;
+    var name = '';
+    if (state.user.userObject.name) {
+      name = state.user.userObject.name[0].value;
+    }
+    return  name;
+  },
+  getUserEmail(state) {
+    var email = '';
+    if (state.user.userObject.mail) {
+      email = state.user.userObject.mail[0].value;
+    }
+    return  email;
   },
   getUserObject(state) {
     return state.user.userObject;
