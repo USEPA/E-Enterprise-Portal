@@ -5,7 +5,7 @@ import Vue from 'vue';
 import { AppAxios } from '../modules/wadk/WADK';
 import { EventBus } from '../EventBus';
 import types from './types';
-import {vm} from '@/main';
+import router from './router';
 
 Vue.use(VueCookie, VueRouter);
 
@@ -268,7 +268,8 @@ export default {
             store.commit('SET_LOGIN_VIEW_ACCOUNTS', formatted_option_array);
 
             // Redirect to login view
-            vm.$router.push({name: '/login'});
+            router.push('/login');
+
         }).catch(error =>{
             console.log(error.response);
         });
