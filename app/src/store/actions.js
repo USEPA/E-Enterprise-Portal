@@ -5,7 +5,7 @@ import Vue from 'vue';
 import { AppAxios } from '../modules/wadk/WADK';
 import { EventBus } from '../EventBus';
 import types from './types';
-import router from './router';
+import router from '../router';
 
 Vue.use(VueCookie, VueRouter);
 
