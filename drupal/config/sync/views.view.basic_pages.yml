@@ -5,6 +5,7 @@ dependencies:
   config:
     - node.type.page
   module:
+    - hal
     - node
     - rest
     - serialization
@@ -193,9 +194,10 @@ display:
       style:
         type: serializer
         options:
-          grouping: {  }
           uses_fields: false
-          formats: {  }
+          formats:
+            hal_json: hal_json
+            json: json
       row:
         type: data_entity
         options: {  }
