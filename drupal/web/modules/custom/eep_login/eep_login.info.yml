@@ -1,5 +1,0 @@
-name: 'EEP Login Creation'
-type: module
-description: 'Provides the backend for the creation of login links for the bridge.'
-core: 8.x
-package: 'EEP'

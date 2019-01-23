@@ -1,6 +1,0 @@
-eep_login.get:
-path: '/api/login_page'
-  defaults: { _controller: '\Drupal\eep_login\Controller\LoginController::handleLoginCreation' }
-  methods:  [GET]
-  requirements:
-    _access: 'TRUE'
