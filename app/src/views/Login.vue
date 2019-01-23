@@ -26,7 +26,7 @@
                                     </a>
                                 </div>
                             </b-col>
-                            <div class="w-100 d-block d-md-none py-1"></div>
+                            <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
                         </div>
                     </b-row>
                    </b-container>
@@ -39,24 +39,19 @@
                 <h6 class="tabText font-weight-bold">Use your social media account to log in...</h6>
                 <b-container class="ml-2 pb-1">
                     <b-row class="tabContainer">
-                        <b-col sm class="pb-1">
-                            <!--<div class="col-md-12 link-wrapper pt-2 pb-2 pl-2">-->
-                                <!--<a class="link" href="javascript:void(0);" @click="navigateToBridge('Facebook')">-->
-                                    <!--<img src="../assets/images/facebook-f.png" alt="facebook">-->
-                                    <!--<span class="pl-2">{{allLoginAccounts.socialmedia.facebook.name}}</span>-->
-                                <!--</a>-->
-                            <!--</div>-->
-                        </b-col>
-                        <b-col sm class="pb-1">
-                            <!--<div class="col-md-12 link-wrapper pt-2 pb-2 pl-2">-->
-                                <!--<a v-bind:href="allLoginAccounts.socialmedia.twitter.sitePath" class="link"-->
-                                   <!--ref="Twitter">-->
-                                    <!--<img src="../assets/images/twitter.svg" alt="twitter">-->
-                                    <!--<span class="pl-2">{{allLoginAccounts.socialmedia.twitter.name}}</span>-->
-                                <!--</a>-->
-                            <!--</div>-->
-                        </b-col>
-                        <b-col></b-col>
+                        <div v-for="(account, index) in loginViewAccounts" >
+                            <!-- v-if -->
+                            <b-col class="pb-1 col-md-auto"  v-if="account.weight == 1">
+                                <div class="link-wrapper pt-2 pb-2 pl-2">
+                                    <a class="link" href="javascript:void(0);"
+                                       @click="navigateToBridge(account.data.field_urn[0].value)">
+                                        <img src="account.data.field_urn[0].value" alt="not found">
+                                        <span class="pl-2">{{account.data.title[0].value}}</span>
+                                    </a>
+                                </div>
+                            </b-col>
+                            <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
+                        </div>
                     </b-row>
                 </b-container>
             </b-tab>
@@ -66,26 +61,19 @@
                 <h6 class="tabText font-weight-bold">Use your state account to log in...</h6>
                 <b-container class="ml-2">
                     <b-row class="tabContainer">
-                        <b-col sm class="pb-1">
-                            <!--<div class="link-wrapper pt-2 pb-2 pl-2">-->
-                                <!--<a v-bind:href="allLoginAccounts.state.NM.sitePath" class="link" ref="NMIdP">-->
-                                    <!--<img src="../assets/images/nm-logo.png" alt="NM">-->
-                                    <!--<span class="pl-2">-->
-                                            <!--{{allLoginAccounts.state.NM.name}}-->
-                                            <!--</span>-->
-                                <!--</a>-->
-                            <!--</div>-->
-                        </b-col>
-                        <b-col sm class="pb-1">
-                            <!--<div class="link-wrapper pt-2 pb-2 pl-2">-->
-                                <!--Placeholder-->
-                            <!--</div>-->
-                        </b-col>
-                        <b-col sm class="pb-1">
-                            <!--<div class="link-wrapper pt-2 pb-2 pl-2">-->
-                                <!--Placeholder-->
-                            <!--</div>-->
-                        </b-col>
+                        <div v-for="(account, index) in loginViewAccounts" >
+                            <!-- v-if -->
+                            <b-col class="pb-1 col-md-auto"  v-if="account.weight == 2">
+                                <div class="link-wrapper pt-2 pb-2 pl-2">
+                                    <a class="link" href="javascript:void(0);"
+                                       @click="navigateToBridge(account.data.field_urn[0].value)">
+                                        <img src="account.data.field_urn[0].value" alt="not found">
+                                        <span class="pl-2">{{account.data.title[0].value}}</span>
+                                    </a>
+                                </div>
+                            </b-col>
+                            <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
+                        </div>
                     </b-row>
                 </b-container>
             </b-tab>
