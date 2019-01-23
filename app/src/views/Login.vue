@@ -14,38 +14,22 @@
             <b-tab title="EPA" active>
                 <h6 class="tabText font-weight-bold">Use your EPA account...</h6>
                 <b-container class="bv-example-row ml-2">
-                    <div v-for="(account, index) in loginViewAccounts">
-                        <!-- v-if -->
-                        <div v-if="index % 3 == 0 && account.weight == 0">
-                            <b-row class="tabContainer align-h=between">
-                                <b-col class="pb-1 col-md-auto">
-                                    <div class="link-wrapper pt-2 pb-2 pl-2">
-                                        <a class="link" href="javascript:void(0);" @click="navigateToBridge('ENNAAS')">
-                                            <img src="../assets/images/exchange-network-x-sm.png" alt="cdx">
-                                            <span class="pl-2">{{account[0].data.title[0].value}}</span>
-                                        </a>
-                                    </div>
-                                </b-col>
-                                <div class="w-100 d-block d-md-none py-1"></div>
-                            </b-row>
+                    <b-row class="tabContainer align-h=between">
+                        <div v-for="(account, index) in loginViewAccounts" >
+                            <!-- v-if -->
+                            <b-col class="pb-1 col-md-auto"  v-if="account.weight == 0">
+                                <div class="link-wrapper pt-2 pb-2 pl-2">
+                                    <a class="link" href="javascript:void(0);"
+                                       @click="navigateToBridge(account.data.field_urn[0].value)">
+                                        <img src="account.data.field_urn[0].value" alt="not found">
+                                        <span class="pl-2">{{account.data.title[0].value}}</span>
+                                    </a>
+                                </div>
+                            </b-col>
+                            <div class="w-100 d-block d-md-none py-1"></div>
                         </div>
-
-
-                        <!-- v-else -->
-                        <!--<b-col class="pb-1 col-md-auto">-->
-                        <!--<div class="link-wrapper pt-2 pb-2 pl-2">-->
-                        <!--<a class="link" href="javascript:void(0);" @click="navigateToBridge('ENNAAS')">-->
-                        <!--<img src="../assets/images/exchange-network-x-sm.png" alt="cdx">-->
-
-                        <!--<span class="pl-2">-->
-                        <!--{{allLoginAccounts.EPA.cdx.name}}-->
-                        <!--</span>-->
-                        <!--</a>-->
-                        <!--</div>-->
-                        <!--</b-col>-->
-                        <!--<div class="w-100 d-block d-md-none py-1"></div>-->
-                    </div>
-                </b-container>
+                    </b-row>
+                   </b-container>
                 <div class="mt-4">
                     You can <a href="https://cdx.epa.gov/">create a free CDX account </a> within the Exchange Network.
                     You only need to provide some basic information.

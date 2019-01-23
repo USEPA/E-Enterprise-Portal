@@ -263,6 +263,18 @@ export default {
                 return a.weight - b.weight || a.tab_order - b.tab_order;
             });
 
+            var filtered_array_by_weight = [];
+
+            for(var i = 1; i < formatted_option_array.length; i++){
+                if((formatted_option_array[i].weight != formatted_option_array[i - 1].weight)){
+
+                }
+            }
+
+
+
+
+
             store.commit('SET_LOGIN_VIEW_ACCOUNTS', formatted_option_array);
         }).catch(error =>{
             console.log(error.response);

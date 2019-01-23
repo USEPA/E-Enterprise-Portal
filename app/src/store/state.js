@@ -78,7 +78,12 @@ const state = {
     navMargin: {
         'margin-top': 0,
     },
-    loginViewAccounts: [],
+    loginViewAccounts: {
+        0: [],
+        1: [],
+        2: [],
+        3: []
+    },
     GETHeaders: {
         'crossDomain': true,
         'cache-control': 'no-cache',
