@@ -148,7 +148,7 @@
       return {
         mail: 'bob@example.com',
         locations: [{ }],
-        UserDeleteModalInfo: { title: 'Delete User', first: '', second: '' },
+        UserDeleteModalInfo: { title: 'Delete User' },
       };
     },
 
