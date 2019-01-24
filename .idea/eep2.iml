@@ -201,6 +201,7 @@
           <root url="file://$MODULE_DIR$/drupal/vendor/jakub-onderka/php-console-highlighter" />
           <root url="file://$MODULE_DIR$/drupal/vendor/jcalderonzumba/gastonjs" />
           <root url="file://$MODULE_DIR$/drupal/vendor/jcalderonzumba/mink-phantomjs-driver" />
+          <root url="file://$MODULE_DIR$/drupal/vendor/kub-at/php-simple-html-dom-parser" />
           <root url="file://$MODULE_DIR$/drupal/vendor/league/container" />
           <root url="file://$MODULE_DIR$/drupal/vendor/masterminds/html5" />
           <root url="file://$MODULE_DIR$/drupal/vendor/mikey179/vfsStream" />
@@ -335,6 +336,7 @@
           <root url="file://$MODULE_DIR$/drupal/vendor/jakub-onderka/php-console-highlighter" />
           <root url="file://$MODULE_DIR$/drupal/vendor/jcalderonzumba/gastonjs" />
           <root url="file://$MODULE_DIR$/drupal/vendor/jcalderonzumba/mink-phantomjs-driver" />
+          <root url="file://$MODULE_DIR$/drupal/vendor/kub-at/php-simple-html-dom-parser" />
           <root url="file://$MODULE_DIR$/drupal/vendor/league/container" />
           <root url="file://$MODULE_DIR$/drupal/vendor/masterminds/html5" />
           <root url="file://$MODULE_DIR$/drupal/vendor/mikey179/vfsStream" />

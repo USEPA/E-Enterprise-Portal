@@ -79,7 +79,7 @@ export default {
   getnavMargin(state) {
     return state.navMargin;
   },
-  getloginPageAccounts(state) {
+  getLoginPageAccounts(state) {
     return state.loginPageAccounts;
   },
   getUsername(state) {
@@ -109,4 +109,7 @@ export default {
   getCurrentUrn(state) {
     return state.currentBridgeUrn;
   },
+  getLoginViewAccounts(state){
+      return state.loginViewAccounts;
+  }
 };

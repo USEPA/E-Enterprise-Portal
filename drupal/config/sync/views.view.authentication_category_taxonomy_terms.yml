@@ -1,22 +1,21 @@
-uuid: c552aba0-f5b5-49f2-a380-a22a543c69b1
+uuid: 86fa1e64-a19d-411a-9441-4ed82b8aa870
 langcode: en
 status: true
 dependencies:
   config:
-    - node.type.page
+    - taxonomy.vocabulary.authentication_category
   module:
-    - hal
-    - node
     - rest
     - serialization
+    - taxonomy
     - user
-id: basic_pages
-label: 'Basic Pages'
+id: authentication_category_taxonomy_terms
+label: 'Authentication Category Taxonomy Terms'
 module: views
-description: ''
+description: 'this view will be for the taxonomy terms that describe each of the login options '
 tag: ''
-base_table: node_field_data
-base_field: nid
+base_table: taxonomy_term_field_data
+base_field: tid
 core: 8.x
 display:
   default:
@@ -30,7 +29,7 @@ display:
         options:
           perm: 'access content'
       cache:
-        type: tag
+        type: none
         options: {  }
       query:
         type: views_query
@@ -78,12 +77,12 @@ display:
           hide_empty: false
           default_field_elements: true
       fields:
-        title:
-          id: title
-          table: node_field_data
-          field: title
-          entity_type: node
-          entity_field: title
+        name:
+          id: name
+          table: taxonomy_term_field_data
+          field: name
+          entity_type: taxonomy_term
+          entity_field: name
           label: ''
           alter:
             alter_text: false
@@ -96,9 +95,10 @@ display:
             html: false
           hide_empty: false
           empty_zero: false
+          type: string
           settings:
             link_to_entity: true
-          plugin_id: field
+          plugin_id: term_name
           relationship: none
           group_type: group
           admin_label: ''
@@ -114,7 +114,6 @@ display:
           empty: ''
           hide_alter_empty: true
           click_sort_column: value
-          type: string
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -125,43 +124,56 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+          convert_spaces: false
       filters:
         status:
-          value: '1'
-          table: node_field_data
-          field: status
-          plugin_id: boolean
-          entity_type: node
-          entity_field: status
           id: status
-          expose:
-            operator: ''
-          group: 1
-        type:
-          id: type
-          table: node_field_data
-          field: type
-          value:
-            page: page
-          entity_type: node
-          entity_field: type
-          plugin_id: bundle
-      sorts:
-        created:
-          id: created
-          table: node_field_data
-          field: created
-          order: DESC
-          entity_type: node
-          entity_field: created
-          plugin_id: date
+          table: taxonomy_term_field_data
+          field: status
           relationship: none
           group_type: group
           admin_label: ''
+          operator: '='
+          value: '1'
+          group: 1
           exposed: false
           expose:
+            operator_id: ''
             label: ''
-          granularity: second
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          plugin_id: boolean
+          entity_type: taxonomy_term
+          entity_field: status
+        vid:
+          id: vid
+          table: taxonomy_term_field_data
+          field: vid
+          value:
+            authentication_category: authentication_category
+          entity_type: taxonomy_term
+          entity_field: vid
+          plugin_id: bundle
+      sorts: {  }
       header: {  }
       footer: {  }
       empty: {  }
@@ -175,7 +187,6 @@ display:
         - 'languages:language_interface'
         - request_format
         - url.query_args
-        - 'user.node_grants:view'
         - user.permissions
       tags: {  }
   rest_export_1:
@@ -185,7 +196,7 @@ display:
     position: 1
     display_options:
       display_extenders: {  }
-      path: api/basic_pages
+      path: api/authentication_category_taxonomy_terms
       pager:
         type: some
         options:
@@ -196,7 +207,6 @@ display:
         options:
           uses_fields: false
           formats:
-            hal_json: hal_json
             json: json
       row:
         type: data_entity
@@ -207,6 +217,5 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - request_format
-        - 'user.node_grants:view'
         - user.permissions
       tags: {  }

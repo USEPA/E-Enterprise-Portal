@@ -43,8 +43,9 @@
                 <div class=" pt-3 d-flex">
                   <p>Add your locations of interest to see environmental information relevant to
                   those areas.
-                    <span class="font-weight-bold"> Click the ☆ icon next to a location to make it
-                    your default location.</span>
+                    <span class="font-weight-bold"> Click the </span><i class="far fa-star"/>
+                    <span class="font-weight-bold"> icon next to a location to make it your default
+                    location.</span>
                   </p>
                 </div>
                 <div class=" pt-3 d-flex">
@@ -60,9 +61,13 @@
                     </label>
                     <b-form-input
                       class="col-6 ml-3"
-                      value="Durham, North Carolina">
-                    </b-form-input>
-                    <div class="col-6 cursor-pointer"><h4>☆</h4></div>
+                      value="Durham, North Carolina"/>
+                    <div class="col-6 cursor-pointer">
+                      <i
+                        ref="click-star"
+                        @click="starClick"
+                        class="fas fa-star"/>
+                    </div>
                   </b-input-group>
                 </div>
               </div>
@@ -100,8 +105,36 @@
 
         <p class="ml-4 mt-4">All unsaved data will be lost upon navigating
         away from the Profile page.</p>
+        <b-btn
+          v-b-modal.UserDeleteModalInfo
+          variant="outline-primary">Delete Profile</b-btn>
       </b-tabs>
     </b-card>
+
+    <b-modal
+      hide-footer
+      id="UserDeleteModalInfo"
+      ref="UserDeleteModal"
+      :title="UserDeleteModalInfo.title">
+      <b-row>
+        <b-col
+          md="12"
+          class="my-1">This will delete your entire profile, including any selected preferences,
+          from the E-Enterprise Platform and will log you out from the system. Are you sure that
+          you want to do this?
+        </b-col>
+      </b-row>
+      <b-btn
+        class="mt-3 ml-2 float-right"
+        @click="DeleteEEPUserProfile"
+        variant="outline-primary">Delete Profile
+      </b-btn>
+      <b-btn
+        class="mt-3 float-right"
+        @click="hideUserDeleteModal">Back
+      </b-btn>
+
+    </b-modal>
   </div>
 </template>
 
@@ -117,15 +150,11 @@
     beforeCreate() {
 
     },
-    created() {
-      const store = this.$store;
-      if (!(store && store.state && store.state[moduleName])) {
-        store.registerModule(moduleName, storeModule);
-      }
-    },
     data() {
       return {
+        mail: 'bob@example.com',
         locations: [{ }],
+        UserDeleteModalInfo: { title: 'Delete User' },
       };
     },
 
@@ -141,6 +170,21 @@
       ...mapActions(moduleName, [
         // map actions go here
       ]),
+      hideUserDeleteModal() {
+        this.$refs.UserDeleteModal.hide();
+      },
+      starClick() {
+        if (this.$refs['click-star'].classList.contains('fas')) {
+          this.$refs['click-star'].classList.remove('fas');
+          this.$refs['click-star'].classList.add('far');
+        } else {
+          this.$refs['click-star'].classList.remove('far');
+          this.$refs['click-star'].classList.add('fas');
+        }
+      },
+      DeleteEEPUserProfile() {
+        console.log('DELETE PROFILE');
+      },
     },
   };
 </script>

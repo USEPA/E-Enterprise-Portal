@@ -2,38 +2,40 @@
   <div id="favLinks">
     <AppWrapper
       :eep-app="eepApp">
-      <div v-html="eepApp.html.mainCard"></div>
+      <div v-html="eepApp.html.mainCard"/>
       <b-row>
-        <b-col md="12"
+        <b-col
+          md="5"
           class="my-1">
-          <b-btn @click="openAddModal"
-            class="add-favorite-btn"></b-btn>
-          <p class="d-inline-block pl-2">Add a Favorite</p>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col md="7"
-          class="my-1">
-          <b-form-group horizontal
+          <b-form-group
+            horizontal
             label="Filter"
             class="mb-0">
             <b-input-group>
-              <b-form-input v-model="filter"
+              <b-form-input
+                v-model="filter"
                 placeholder="Type to Search"/>
-              <b-input-group-append>
-                <b-btn :disabled="!filter"
-                  @click="filter = ''">Clear
-                </b-btn>
-              </b-input-group-append>
             </b-input-group>
           </b-form-group>
         </b-col>
-        <b-col md="5"
+        <b-col
+          md="4"
           class="my-1">
-          <b-form-group horizontal
+          <b-btn
+            @click="openAddModal"
+            class="add-favorite-btn"/>
+          <div class="d-inline-block pl-1">Add a Favorite</div>
+        </b-col>
+        <b-col
+          md="3"
+          class="my-1 pr-4 pl-0">
+          <b-form-group
+            horizontal
             label="Rows"
             class="mb-0">
-            <b-form-select :options="pageOptions"
+            <b-form-select
+              class="ml-2"
+              :options="pageOptions"
               v-model="perPage"/>
           </b-form-group>
         </b-col>
@@ -53,77 +55,94 @@
         @filtered="onFiltered"
       >
 
-        <template slot="first"
+        <template
+          slot="first"
           slot-scope="data">
-          <a :href="data.item.second"
-            class="pl-2">{{data.item.first}}</a>
+          <a
+            :href="data.item.second"
+            class="pl-2">{{ data.item.first }}</a>
         </template>
 
-        <template slot="actions"
+        <template
+          slot="actions"
           slot-scope="row">
-          <b-button size="sm"
+          <b-button
+            size="sm"
             @click="deleteFavLink(row.item, row.index)"
-            class="delete-favorite-btn mr-1"></b-button>
-          <b-button size="sm"
+            class="delete-favorite-btn mr-1"/>
+          <b-button
+            size="sm"
             @click="openEditModal(row.item, row.index, $event.target)"
-            class="edit-favorite-btn mr-1"></b-button>
+            class="edit-favorite-btn mr-1"/>
         </template>
 
       </b-table>
 
       <!-- add modal -->
-      <b-modal id="addModalInfo"
+      <b-modal
+        id="addModalInfo"
         @hide="applyAddModal"
         hide-footer
         :title="addModalInfo.title">
         <b-row>
-          <b-col md="12"
+          <b-col
+            md="12"
             class="my-1">Title
           </b-col>
-          <b-col md="12"
+          <b-col
+            md="12"
             class="my-1">
-            <b-input v-model="addModalInfo.first"></b-input>
+            <b-input v-model="addModalInfo.first"/>
           </b-col>
         </b-row>
         <b-row>
-          <b-col md="12"
+          <b-col
+            md="12"
             class="my-1">Website Address (URL)
           </b-col>
-          <b-col md="12"
+          <b-col
+            md="12"
             class="my-1">
-            <b-input v-model="addModalInfo.second"></b-input>
+            <b-input v-model="addModalInfo.second"/>
           </b-col>
         </b-row>
-        <b-btn class="mt-3"
+        <b-btn
+          class="mt-3"
           @click="closeAddModal">save
         </b-btn>
 
       </b-modal>
 
       <!-- edit modal -->
-      <b-modal id="editModalInfo"
+      <b-modal
+        id="editModalInfo"
         @hide="applyEditModal(editModalInfo.first, editModalInfo.second)"
         hide-footer
         :title="editModalInfo.title">
         <b-row>
-          <b-col md="12"
+          <b-col
+            md="12"
             class="my-1">Title
           </b-col>
-          <b-col md="12"
+          <b-col
+            md="12"
             class="my-1">
-            <b-input v-model="editModalInfo.first"></b-input>
+            <b-input v-model="editModalInfo.first"/>
           </b-col>
         </b-row>
         <b-row>
-          <b-col md="12"
+          <b-col
+            md="12"
             class="my-1">Website Address (URL)
           </b-col>
-          <b-col md="12"
+          <b-col
+            md="12"
             class="my-1">
-            <b-input v-model="editModalInfo.second"></b-input>
+            <b-input v-model="editModalInfo.second"/>
           </b-col>
         </b-row>
-        <b-btn class="mt-3"
+        <b-btn
+          class="mt-3"
           @click="closeEditModal">save
         </b-btn>
 
@@ -134,9 +153,11 @@
 
       <!--pagination-->
       <b-row class="text-center">
-        <b-col md="12"
+        <b-col
+          md="12"
           class="my-1">
-          <b-pagination align="center"
+          <b-pagination
+            align="center"
             :total-rows="totalRows"
             :per-page="perPage"
             v-model="currentPage"
@@ -167,7 +188,12 @@
       return {
         favLinksArray: [{ first: 'Loading your Favorites...' }],
         fields: [
-          { key: 'first', label: 'Link', sortable: true, sortDirection: 'desc' },
+          {
+            key: 'first',
+            label: 'Link',
+            sortable: true,
+            sortDirection: 'desc',
+          },
           /* Column for widgets uncomment when implementing
           { key: 'widget', label: 'Widget', sortable: true, sortDirection: 'desc' },
           */
@@ -176,7 +202,7 @@
             label: 'Actions',
             sortable: true,
             sortDirection: 'desc',
-            'class': 'text-right'
+            class: 'text-right',
           },
         ],
         currentPage: 1,
@@ -191,12 +217,13 @@
         addModalInfo: { title: 'Add Favorite', first: '', second: '' },
         totalRows: null,
         noFavs: 'No Favorites...',
-      }
+      };
     },
     computed: {
       ...mapGetters({
         apiURL: 'getEnvironmentApiURL',
       }),
+      uid() { return this.getCookie('uid'); },
     },
     methods: {
       // ADD
@@ -210,18 +237,18 @@
         // stores changes in local state
         this.favLinksArray = this.favLinksArray.concat(
           {
-            "first": this.addModalInfo.first,
-            "second": this.addModalInfo.second,
-          }
+            first: this.addModalInfo.first,
+            second: this.addModalInfo.second,
+          },
         );
         // pushes changes to backend
         // @TODO update request link to be based on uid pulled from jwt_token
-        AppAxios.patch(this.apiURL + '/user/1?_format=json', {
+        AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
             field_favorite_links: this.favLinksArray,
           },
           {
             headers: {
-              'crossDomain': true,
+              crossDomain: true,
               'cache-control': 'no-cache',
               'Content-Type': 'application/json',
             },
@@ -250,21 +277,21 @@
       },
       applyEditModal(objTitle, objLink) {
         for (let i = 0; i < this.favLinksArray.length; i++) {
-          if (this.favLinksArray[i]['first'] === objTitle && this.favLinksArray[i]['second'] === objLink) {
+          if (this.favLinksArray[i].first === objTitle && this.favLinksArray[i].second === objLink) {
             this.editModalIndex = i;
           }
         }
         // stores changes in local state
-        this.favLinksArray[this.editModalIndex]['first'] = this.editModalInfo.first;
-        this.favLinksArray[this.editModalIndex]['second'] = this.editModalInfo.second;
+        this.favLinksArray[this.editModalIndex].first = this.editModalInfo.first;
+        this.favLinksArray[this.editModalIndex].second = this.editModalInfo.second;
         // pushes changes to backend
         // @TODO update request link to be based on uid pulled from jwt_token
-        AppAxios.patch(this.apiURL + '/user/1?_format=json', {
+        AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
             field_favorite_links: this.favLinksArray,
           },
           {
             headers: {
-              'crossDomain': true,
+              crossDomain: true,
               'cache-control': 'no-cache',
               'Content-Type': 'application/json',
             },
@@ -287,12 +314,12 @@
         this.favLinksArray.splice(index, 1);
         // pushes changes to backend
         // @TODO update request link to be based on uid pulled from jwt_token
-        AppAxios.patch(this.apiURL + '/user/1?_format=json', {
+        AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
             field_favorite_links: this.favLinksArray,
           },
           {
             headers: {
-              'crossDomain': true,
+              crossDomain: true,
               'cache-control': 'no-cache',
               'Content-Type': 'application/json',
             },
@@ -314,6 +341,21 @@
         this.totalRows = filteredItems.length;
         this.currentPage = 1;
       },
+      getCookie(cname) {
+        const name = cname + '=';
+        const decodedCookie = decodeURIComponent(document.cookie);
+        const ca = decodedCookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) === ' ') {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) === 0) {
+            return c.substring(name.length, c.length);
+          }
+        }
+        return '';
+      },
     },
     beforeCreate() {
 
@@ -325,17 +367,17 @@
       }
     },
     mounted() {
-      AppAxios.get(this.apiURL + '/user/1?_format=json', {
+      AppAxios.get(`${this.apiURL}/user/${this.uid}?_format=json`, {
         headers: this.$store.GETHeaders,
         auth: {
           username: 'api_user',
           password: 'api4epa',
-        }
+        },
       })
-        .then(response => {
+        .then((response) => {
           this.favLinksArray = response.data.field_favorite_links;
           this.totalRows = this.favLinksArray.length;
-        })
+        });
     },
     props: {
       eepApp: {
@@ -343,7 +385,7 @@
         required: true,
       },
     },
-  }
+  };
 </script>
 
 <style scoped
