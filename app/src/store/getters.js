@@ -8,7 +8,7 @@ export default {
     return state.app;
   },
   getIsLoggedIn(state) {
-    return state.user.isLoggedIn;
+    return !!state.app.$cookie.get('Token')
   },
   /**
    * gets users TAndCCookie state
@@ -83,18 +83,10 @@ export default {
     return state.loginPageAccounts;
   },
   getUsername(state) {
-    var name = '';
-    if (state.user.userObject.name) {
-      name = state.user.userObject.name[0].value;
-    }
-    return  name;
+    return  state.user.name;
   },
   getUserEmail(state) {
-    var email = '';
-    if (state.user.userObject.mail) {
-      email = state.user.userObject.mail[0].value;
-    }
-    return  email;
+    return  state.user.mail;
   },
   getUserObject(state) {
     return state.user.userObject;
