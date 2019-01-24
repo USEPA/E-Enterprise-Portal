@@ -189,7 +189,10 @@
         favLinksArray: [{ first: 'Loading your Favorites...' }],
         fields: [
           {
-            key: 'first', label: 'Link', sortable: true, sortDirection: 'desc',
+            key: 'first',
+            label: 'Link',
+            sortable: true,
+            sortDirection: 'desc',
           },
           /* Column for widgets uncomment when implementing
           { key: 'widget', label: 'Widget', sortable: true, sortDirection: 'desc' },
