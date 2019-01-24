@@ -189,8 +189,8 @@
         favLinksArray: [{ first: 'Loading your Favorites...' }],
         fields: [
           {
- key: 'first', label: 'Link', sortable: true, sortDirection: 'desc',
-},
+            key: 'first', label: 'Link', sortable: true, sortDirection: 'desc',
+          },
           /* Column for widgets uncomment when implementing
           { key: 'widget', label: 'Widget', sortable: true, sortDirection: 'desc' },
           */
@@ -240,7 +240,7 @@
         );
         // pushes changes to backend
         // @TODO update request link to be based on uid pulled from jwt_token
-        AppAxios.patch(`${this.apiURL}/user/1?_format=json`, {
+        AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
             field_favorite_links: this.favLinksArray,
           },
           {
@@ -283,7 +283,7 @@
         this.favLinksArray[this.editModalIndex].second = this.editModalInfo.second;
         // pushes changes to backend
         // @TODO update request link to be based on uid pulled from jwt_token
-        AppAxios.patch(`${this.apiURL}/user/1?_format=json`, {
+        AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
             field_favorite_links: this.favLinksArray,
           },
           {
@@ -311,7 +311,7 @@
         this.favLinksArray.splice(index, 1);
         // pushes changes to backend
         // @TODO update request link to be based on uid pulled from jwt_token
-        AppAxios.patch(`${this.apiURL}/user/1?_format=json`, {
+        AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
             field_favorite_links: this.favLinksArray,
           },
           {
