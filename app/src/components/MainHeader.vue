@@ -23,7 +23,7 @@
               <div
                 id="tryit-arrow"
                 ref="tryit-arrow"
-                class="display-none"
+                class="d-none"
               />
               <b-button
                 id="try-it"
@@ -102,12 +102,12 @@ import { EventBus } from '../EventBus';
         'handleLogin',
       ]),
       removeTryItArrow() {
-        this.$refs['tryit-arrow'].classList.remove('display-block');
-        this.$refs['tryit-arrow'].classList.add('display-none');
+        this.$refs['tryit-arrow'].classList.remove('d-block');
+        this.$refs['tryit-arrow'].classList.add('d-none');
       },
       addTryItArrow() {
-        this.$refs['tryit-arrow'].classList.remove('display-none');
-        this.$refs['tryit-arrow'].classList.add('display-block');
+        this.$refs['tryit-arrow'].classList.remove('d-none');
+        this.$refs['tryit-arrow'].classList.add('d-block');
       },
       dumyLogOut() {
         this.userLogOut();
