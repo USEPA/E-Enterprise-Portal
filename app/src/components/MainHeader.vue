@@ -59,7 +59,7 @@
           <template v-else>
             <div class="router-link-wrapper pt-2">
               <a
-                href="javascript:void(0);"
+                href=""
                 @click="handleLogin"
                 class="btn btn-sm btn-outline-primary account-auth-login">
                 <i class="fas fa-lock pr-1"/>
