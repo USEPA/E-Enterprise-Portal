@@ -258,4 +258,17 @@
   #nav{
     margin-top: 20px !important;
   }
+
+  .tooltip {
+    .tooltip-inner {
+      position: relative;
+      left: -7rem;
+      background-color: transparent;
+      color: #212529;
+      max-width: 400px;
+    }
+    .arrow:before {
+      border-bottom-color: transparent !important;
+    }
+  }
 </style>
