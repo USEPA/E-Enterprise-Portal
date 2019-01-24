@@ -59,6 +59,7 @@ const state = {
         id: 0,
         name: '',
         mail: '',
+        favorite_links: [],
         location: {
             zipcode: '',
             city: '',
