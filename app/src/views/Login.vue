@@ -21,7 +21,7 @@
                                 <div class="link-wrapper pt-2 pb-2 pl-2">
                                     <a class="link" href="javascript:void(0);"
                                        @click="navigateToBridge(account.data.field_urn[0].value)">
-                                        <img src="account.data.field_option_image[0].url" alt="not found">
+                                        <img :src="account.data.field_option_image[0].url" alt="not found">
                                         <span class="pl-2">{{account.data.title[0].value}}</span>
                                     </a>
                                 </div>
@@ -45,7 +45,7 @@
                                 <div class="link-wrapper pt-2 pb-2 pl-2">
                                     <a class="link" href="javascript:void(0);"
                                        @click="navigateToBridge(account.data.field_urn[0].value)">
-                                        <img src="account.data.field_option_image[0].url" alt="not found">
+                                        <img :src="account.data.field_option_image[0].url" alt="not found">
                                         <span class="pl-2">{{account.data.title[0].value}}</span>
                                     </a>
                                 </div>
@@ -67,7 +67,7 @@
                                 <div class="link-wrapper pt-2 pb-2 pl-2">
                                     <a class="link" href="javascript:void(0);"
                                        @click="navigateToBridge(account.data.field_urn[0].value)">
-                                        <img src="account.data.field_option_image[0].url" alt="not found">
+                                        <img :src="account.data.field_option_image[0].url" alt="not found">
                                         <span class="pl-2">{{account.data.title[0].value}}</span>
                                     </a>
                                 </div>
