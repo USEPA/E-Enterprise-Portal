@@ -36,7 +36,7 @@ const sample = [
           '    target="_blank">New Hampshire’s Be <em>Well</em> Informed Guide</a>\n' +
           '</p>',
       },
-      isExpandable: true,
+      isExpandable: false,
       grid: {
         x: 0,
         y: 0,
