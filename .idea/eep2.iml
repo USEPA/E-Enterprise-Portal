@@ -30,9 +30,12 @@
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/doctrine/cache" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/doctrine/collections" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/doctrine/common" />
+      <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/doctrine/event-manager" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/doctrine/inflector" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/doctrine/instantiator" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/doctrine/lexer" />
+      <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/doctrine/persistence" />
+      <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/doctrine/reflection" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/drupal-composer/drupal-scaffold" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/drupal/coder" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/drupal/console" />
@@ -103,7 +106,6 @@
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/squizlabs/php_codesniffer" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/stack/builder" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/stecman/symfony-console-completion" />
-      <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/sunra/php-simple-html-dom-parser" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/swagger-api/swagger-ui" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/symfony-cmf/routing" />
       <excludeFolder url="file://$MODULE_DIR$/drupal/vendor/symfony/browser-kit" />
@@ -178,9 +180,12 @@
           <root url="file://$MODULE_DIR$/drupal/vendor/doctrine/cache" />
           <root url="file://$MODULE_DIR$/drupal/vendor/doctrine/collections" />
           <root url="file://$MODULE_DIR$/drupal/vendor/doctrine/common" />
+          <root url="file://$MODULE_DIR$/drupal/vendor/doctrine/event-manager" />
           <root url="file://$MODULE_DIR$/drupal/vendor/doctrine/inflector" />
           <root url="file://$MODULE_DIR$/drupal/vendor/doctrine/instantiator" />
           <root url="file://$MODULE_DIR$/drupal/vendor/doctrine/lexer" />
+          <root url="file://$MODULE_DIR$/drupal/vendor/doctrine/persistence" />
+          <root url="file://$MODULE_DIR$/drupal/vendor/doctrine/reflection" />
           <root url="file://$MODULE_DIR$/drupal/vendor/drupal-composer/drupal-scaffold" />
           <root url="file://$MODULE_DIR$/drupal/vendor/drupal/coder" />
           <root url="file://$MODULE_DIR$/drupal/vendor/drupal/console" />
@@ -251,7 +256,6 @@
           <root url="file://$MODULE_DIR$/drupal/vendor/squizlabs/php_codesniffer" />
           <root url="file://$MODULE_DIR$/drupal/vendor/stack/builder" />
           <root url="file://$MODULE_DIR$/drupal/vendor/stecman/symfony-console-completion" />
-          <root url="file://$MODULE_DIR$/drupal/vendor/sunra/php-simple-html-dom-parser" />
           <root url="file://$MODULE_DIR$/drupal/vendor/symfony-cmf/routing" />
           <root url="file://$MODULE_DIR$/drupal/vendor/symfony/browser-kit" />
           <root url="file://$MODULE_DIR$/drupal/vendor/symfony/class-loader" />
@@ -319,9 +323,12 @@
           <root url="file://$MODULE_DIR$/drupal/vendor/doctrine/cache" />
           <root url="file://$MODULE_DIR$/drupal/vendor/doctrine/collections" />
           <root url="file://$MODULE_DIR$/drupal/vendor/doctrine/common" />
+          <root url="file://$MODULE_DIR$/drupal/vendor/doctrine/event-manager" />
           <root url="file://$MODULE_DIR$/drupal/vendor/doctrine/inflector" />
           <root url="file://$MODULE_DIR$/drupal/vendor/doctrine/instantiator" />
           <root url="file://$MODULE_DIR$/drupal/vendor/doctrine/lexer" />
+          <root url="file://$MODULE_DIR$/drupal/vendor/doctrine/persistence" />
+          <root url="file://$MODULE_DIR$/drupal/vendor/doctrine/reflection" />
           <root url="file://$MODULE_DIR$/drupal/vendor/drupal-composer/drupal-scaffold" />
           <root url="file://$MODULE_DIR$/drupal/vendor/drupal/coder" />
           <root url="file://$MODULE_DIR$/drupal/vendor/drupal/console" />
@@ -392,7 +399,6 @@
           <root url="file://$MODULE_DIR$/drupal/vendor/squizlabs/php_codesniffer" />
           <root url="file://$MODULE_DIR$/drupal/vendor/stack/builder" />
           <root url="file://$MODULE_DIR$/drupal/vendor/stecman/symfony-console-completion" />
-          <root url="file://$MODULE_DIR$/drupal/vendor/sunra/php-simple-html-dom-parser" />
           <root url="file://$MODULE_DIR$/drupal/vendor/symfony-cmf/routing" />
           <root url="file://$MODULE_DIR$/drupal/vendor/symfony/browser-kit" />
           <root url="file://$MODULE_DIR$/drupal/vendor/symfony/class-loader" />
