@@ -84,6 +84,7 @@
                 </b-container>
             </b-tab>
             <b-tab class="tab" title="Tribal">
+
             </b-tab>
         </b-tabs>
     </div>
@@ -124,46 +125,48 @@
 
     .epa-tabs {
 
-        ul {
-            border-right: 1px solid lightgrey;
-            background-color: #FFFFFF;
-        }
+    ul {
+        border-right: 1px solid lightgrey;
+        background-color: #FFFFFF;
 
-        li.nav-item a {
-            background-color: #F1F1F1;
-            color: #094e7a;
-        }
-
-        li.nav-item a.active {
-            background-color: #094e7a;
-            color: #ffffff;
-        }
-
-        li.nav-item a.active, li.nav-item a {
-            margin-bottom: 10px;
-            -webkit-border-radius: 0;
-            -moz-border-radius: 0;
-            border-radius: 0;
-            height: 4rem;
-            padding-top: 20px;
-
-        }
+    li.nav-item a {
+        background-color: #F1F1F1;
+        color: #094e7a;
     }
 
+    li.nav-item a.active {
+        background-color: #094e7a;
+        color: #ffffff;
+    }
+
+    li.nav-item a.active, li.nav-item a {
+        margin-bottom: 10px;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        border-radius: 0;
+        height: 4rem;
+        padding-top: 20px;
+
+    }
+
+    }
+
+    }
     .link-wrapper {
         background-color: #888888;
         align-items: center;
         padding: 15px;
 
-        .link {
-            color: #ffffff;
-            text-decoration: none;
-            padding: 5px;
-        }
+    .link {
+        color: #ffffff;
+        text-decoration: none;
+        padding: 5px;
+    }
 
-        img {
-            height: 16px;
-            width: 16px;
-        }
+    img {
+        height: 16px;
+        width: 16px;
+    }
+
     }
 </style>

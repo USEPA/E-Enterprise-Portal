@@ -8,7 +8,7 @@ export default {
     return state.app;
   },
   getIsLoggedIn(state) {
-    return !!state.app.$cookie.get('Token');
+    return state.user.isLoggedIn;
   },
   getUserFullName(state) {
     let fullname = '';
@@ -76,9 +76,9 @@ export default {
     let url = '#';
     const bridgeSettings = state.bridgeSettings[env];
     if (bridgeSettings) {
-      url = `${bridgeSettings.issuer}?wtrealm=${encodeURI(bridgeSettings.relyingParty)
-        }&wreply=${encodeURI(bridgeSettings.sendBridgeBackTo)}&whr=urn:${state.currentBridgeUrn
-        }&wa=${bridgeSettings.signInMethod}`;
+      url = `${bridgeSettings.issuer}?wtrealm=${encodeURI(bridgeSettings.relyingParty) 
+      }&wreply=${encodeURI(bridgeSettings.sendBridgeBackTo)}&whr=urn:${state.currentBridgeUrn
+      }&wa=${bridgeSettings.signInMethod}`;
     }
     return url;
   },
@@ -88,31 +88,33 @@ export default {
   getnavMargin(state) {
     return state.navMargin;
   },
-  getLoginPageAccounts(state) {
+  getloginPageAccounts(state) {
     return state.loginPageAccounts;
   },
-  getUsername(state) {
+  getUsername(state){
     return state.user.userName;
   },
   getUserObject(state) {
     return state.user.userObject;
   },
-  getEnvironmentApiURL(state, ref) {
-    const environment = ref.getEnvironment;
+  getEnvironmentApiURL(state, ref){
+    let environment = ref.getEnvironment;
     let environmentApiURL = 'https://apidev2.e-enterprise.gov';
     if (environment === 'LOCAL') {
       environmentApiURL = 'http://e-enterprise';
-    } else if (environment === 'DEV') {
+    }
+    else if (environment === 'DEV') {
       environmentApiURL = 'https://apidev2.e-enterprise.gov';
-    } else if (environment === 'TEST') {
+    }
+    else if (environment === 'TEST') {
       environmentApiURL = 'https://apitest2.e-enterprise.gov';
     }
     return environmentApiURL;
   },
-  getBasicPagesArray(state) {
+  getBasicPagesArray(state){
     return state.basicPages.pagesArray;
   },
-  getCurrentUrn(state) {
+  getCurrentUrn(state){
     return state.currentBridgeUrn;
   },
   getLoginViewAccounts(state){
