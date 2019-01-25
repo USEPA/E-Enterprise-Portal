@@ -91,8 +91,11 @@ export default {
   getLoginPageAccounts(state) {
     return state.loginPageAccounts;
   },
-  getUsername(state){
-    return state.user.userName;
+  getUsername(state) {
+    return state.user.name;
+  },
+  getUserEmail(state) {
+    return state.user.mail;
   },
   getUserObject(state) {
     return state.user.userObject;
