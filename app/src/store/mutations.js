@@ -123,13 +123,13 @@ export default {
 
     Vue.set(state.user,
       'name',
-      name);
+       name);
     Vue.set(state.user,
        'mail',
-       mail);
+        mail);
     Vue.set(state.user,
        'favorite_links',
-       favorite_links);
+        favorite_links);
   },
   [types.SET_USER_OBJECT_FAV_LINKS](state, obj) {
     Vue.set(state.user.userObject,
