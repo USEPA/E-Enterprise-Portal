@@ -161,6 +161,7 @@
         background-color: #AEB0B6;
         align-items: center;
         padding: 15px;
+        cursor: pointer;
 
         &:hover{
             background-color: #094E7A;
