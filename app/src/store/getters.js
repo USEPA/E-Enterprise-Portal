@@ -11,13 +11,13 @@ export default {
     return !!state.app.$cookie.get('Token');
   },
   getUserFullName(state) {
-      let fullname = '';
-      const userName = state.user.name;
-      const nameParts = [userName.prefix, userName.first, userName.last, userName.suffix];
-      fullname = nameParts
-          .filter(namePart => (namePart && namePart.length))
-          .join(' ');
-      return fullname;
+    let fullname = '';
+    const userName = state.user.name;
+    const nameParts = [userName.prefix, userName.first, userName.last, userName.suffix];
+    fullname = nameParts
+        .filter(namePart => (namePart && namePart.length))
+        .join(' ');
+    return fullname;
   },
   /**
    * gets users TAndCCookie state
