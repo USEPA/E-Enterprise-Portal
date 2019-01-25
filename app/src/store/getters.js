@@ -8,7 +8,7 @@ export default {
     return state.app;
   },
   getIsLoggedIn(state) {
-    return state.user.isLoggedIn;
+    return !!state.app.$cookie.get('Token');
   },
   getUserFullName(state) {
     let fullname = '';
