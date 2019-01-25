@@ -108,11 +108,8 @@ export default {
     store.commit('TOGGLE_HAS_LOCATION_SEARCH_BAR');
   },
   userLogOut(context) {
-    const store = context;
-
     // add additional logout logic here
-    Vue.cookie.set('userLoggedIn', false, {expires: '-99s'});
-    store.commit('USER_LOG_OUT');
+    Vue.cookie.set('Token', false, {expires: '-99s'});
     location.reload();
   },
   // Function to process the payload of the JWT token, which contains the user

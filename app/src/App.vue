@@ -166,7 +166,7 @@
       // Log user in
       store.commit('USER_LOG_IN');
     }else{
-      if(this.$cookie.get('userLoggedIn')){
+      if(this.$cookie.get('Token')){
         // Log user in and set user name
         store.commit('USER_LOG_IN');
         store.commit(types.SET_UID, this.$cookie.get('uid'));

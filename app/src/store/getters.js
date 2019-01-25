@@ -8,16 +8,7 @@ export default {
     return state.app;
   },
   getIsLoggedIn(state) {
-    return state.user.isLoggedIn;
-  },
-  getUserFullName(state) {
-    let fullname = '';
-    const userName = state.user.name;
-    const nameParts = [userName.prefix, userName.first, userName.last, userName.suffix];
-    fullname = nameParts
-      .filter(namePart => (namePart && namePart.length))
-      .join(' ');
-    return fullname;
+    return !!state.app.$cookie.get('Token')
   },
   /**
    * gets users TAndCCookie state
@@ -92,7 +83,10 @@ export default {
     return state.loginPageAccounts;
   },
   getUsername(state) {
-    return state.user.userName;
+    return  state.user.name;
+  },
+  getUserEmail(state) {
+    return  state.user.mail;
   },
   getUserObject(state) {
     return state.user.userObject;
