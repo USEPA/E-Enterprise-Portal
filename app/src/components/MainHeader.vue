@@ -12,7 +12,7 @@
             alt="Home - E-Enterprise for the Environment">
         </a>
       </div>
-      <div class="w-100 d-block d-md-none "></div>
+        <div class="w-100 d-block d-md-none "/>
 
       <div class="col-4-md d-flex justify-content-lg-end align-self-end align-items-center">
         <div class="col-4-md d-flex mr-3 align-self-end align-items-center" >
