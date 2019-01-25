@@ -98,10 +98,10 @@ export default {
     state.navMargin = obj;
   },
   [types.SET_USER_OBJECT](state, obj) {
+
     var name = obj.name[0].value;
     var mail = obj.mail[0].value;
     var favorite_links = obj.field_favorite_links;
-
     Vue.set(state.user,
       'name',
        name);
