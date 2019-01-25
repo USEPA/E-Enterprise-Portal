@@ -17,7 +17,7 @@
                     <b-row class="tabContainer align-h=between">
                         <div v-for="(account, index) in loginViewAccounts" >
                             <!-- v-if -->
-                            <b-col class="pb-1 col-md-auto"  v-if="account.weight == 0">
+                            <b-col class="pb-1 col-md-auto w-100"  v-if="account.weight == 0">
                                 <div class="link-wrapper pt-2 pb-2 pl-2">
                                     <a class="link" href="javascript:void(0);"
                                        @click="navigateToBridge(account.data.field_urn[0].value)">
@@ -41,7 +41,7 @@
                     <b-row class="tabContainer">
                         <div v-for="(account, index) in loginViewAccounts" >
                             <!-- v-if -->
-                            <b-col class="pb-1 col-md-auto"  v-if="account.weight == 1">
+                            <b-col class="pb-1 col-md-auto w-100"  v-if="account.weight == 1">
                                 <div class="link-wrapper pt-2 pb-2 pl-2">
                                     <a class="link" href="javascript:void(0);"
                                        @click="navigateToBridge(account.data.field_urn[0].value)">
@@ -63,7 +63,7 @@
                     <b-row class="tabContainer">
                         <div v-for="(account, index) in loginViewAccounts" >
                             <!-- v-if -->
-                            <b-col class="pb-1 col-md-auto"  v-if="account.weight == 2">
+                            <b-col class="pb-1 col-md-auto w-100"  v-if="account.weight == 2">
                                 <div class="link-wrapper pt-2 pb-2 pl-2">
                                     <a class="link" href="javascript:void(0);"
                                        @click="navigateToBridge(account.data.field_urn[0].value)">
@@ -148,16 +148,17 @@
     .link-wrapper {
         background-color: #888888;
 
-    .link {
-        color: #ffffff;
-        text-decoration: none;
-        padding: 5px;
-    }
 
-    img {
-        height: 16px;
-        width: 16px;
-    }
+        .link {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 5px;
+        }
+
+        img {
+            height: 16px;
+            width: 16px;
+        }
 
     }
 </style>
