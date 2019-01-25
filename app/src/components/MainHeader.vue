@@ -29,7 +29,7 @@
                 </router-link>
             </template>
         </div>
-        <div class="col-4-md" id="log-in-container">
+        <div class="col-4-md">
           <template v-if='isLoggedIn'>
             <span>Welcome {{ username }}</span>
             <b-btn
@@ -58,21 +58,6 @@
             </div>
           </template>
         </div>
-        <b-tooltip
-          target="try-it"
-          class="tryit-tooltip"
-          placement="bottom">
-          Want to just try it? No log in needed.
-        </b-tooltip>
-        <b-tooltip
-          target="log-in"
-          class="login-tooltip"
-          placement="bottom">
-          Use an EPA, CDX, or a social media account to login
-        </b-tooltip>
-      </div>
-    </div>
-  </header>
     </div>
 </div>
 </header>
@@ -102,14 +87,6 @@ import {EventBus} from '../EventBus';
         'userLogOut',
         'handleLogin',
       ]),
-      removeTryItArrow() {
-        this.$refs['tryit-arrow'].classList.remove('d-block');
-        this.$refs['tryit-arrow'].classList.add('d-none');
-      },
-      addTryItArrow() {
-        this.$refs['tryit-arrow'].classList.remove('d-none');
-        this.$refs['tryit-arrow'].classList.add('d-block');
-      },
       dumyLogOut() {
         this.userLogOut();
       },
@@ -124,89 +101,44 @@ import {EventBus} from '../EventBus';
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped
 lang="scss">
-  #try-it-container {
-    position: relative;
-  }
-  #try-it {
-    position: relative;
-  }
-  #log-in-container {
-    position: relative;
-  }
-  #log-in {
-    position: relative;
-  }
-  #tryit-arrow {
-    top: 100%;
-    left: 50%;
-    border: .7rem solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-    border-color: rgba(0, 98, 160, 0);
-    border-top-color: #0062a0;
-    margin-left: -.7rem;
-  }
-  #login-arrow {
-    top: 100%;
-    left: 50%;
-    border: .7rem solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-    border-color: rgba(0, 98, 160, 0);
-    border-top-color: #007ac6;
-    margin-left: -.7rem;
-  }
-  .eep_logo {
 .eep_logo {
-
-img {
-max-width: 100%;
-}
-
+    img {
+        max-width: 100%;
+    }
 }
 
 .arrow-down-message {
-display: none;
-color: #000;
-position: absolute;
-right: 0;
-font-size: 1rem;
-font-family: 'Futura LT BT', 'Poppins', 'Century Gothic', 'Source Sans Pro', Helvetica, Arial, sans-serif
+    display: none;
+    color: #000;
+    position: absolute;
+    right: 0;
+    font-size: 1rem;
+    font-family: 'Futura LT BT', 'Poppins', 'Century Gothic', 'Source Sans Pro', Helvetica, Arial, sans-serif
 }
 
 .account-auth-login {
-background-color: #0071bc;
-color: white;
-position: relative;
+    background-color: #0071bc;
+    color: white;
+    position: relative;
+    &:hover {
+        &:after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-top: 7px solid #0071bc;
+            bottom: -7px;
+            left: 50%;
+            transform: translateX(-50%);
+            position: absolute;
+        }
 
-&
-:hover {
+        .arrow-down-message {
+            display: block;
+        }
 
-&
-:after {
-content: '';
-width: 0;
-height: 0;
-border-left: 7px solid transparent;
-border-right: 7px solid transparent;
-border-top: 7px solid #0071bc;
-bottom: -7px;
-left: 50%;
-transform: translateX(-50%);
-position: absolute;
-}
-
-.arrow-down-message {
-display: block;
-}
-
-}
+    }
 }
 
 
