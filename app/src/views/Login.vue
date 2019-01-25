@@ -132,6 +132,11 @@
     li.nav-item a {
         background-color: #F1F1F1;
         color: #094e7a;
+
+        &:hover{
+             background-color: #094e7a;
+             color: #ffffff;
+         }
     }
 
     li.nav-item a.active {
@@ -153,9 +158,13 @@
 
     }
     .link-wrapper {
-        background-color: #888888;
+        background-color: #AEB0B6;
         align-items: center;
         padding: 15px;
+
+        &:hover{
+            background-color: #094E7A;
+         }
 
     .link {
         color: #ffffff;
