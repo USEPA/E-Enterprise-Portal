@@ -16,8 +16,8 @@
 
       <div class="col-4-md d-flex justify-content-lg-end align-self-end align-items-center">
           <div
-                  id="try-it-container"
-                  class="col-4-md d-flex mr-3 align-self-end align-items-center">
+            id="try-it-container"
+            class="col-4-md d-flex mr-3 align-self-end align-items-center">
           <template>
             <router-link to="/workbench">
               <b-button
