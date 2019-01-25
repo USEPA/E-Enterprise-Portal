@@ -108,8 +108,6 @@ export default {
     store.commit('TOGGLE_HAS_LOCATION_SEARCH_BAR');
   },
   userLogOut(context) {
-    const store = context;
-
     // add additional logout logic here
     Vue.cookie.set('Token', false, {expires: '-99s'});
     location.reload();
