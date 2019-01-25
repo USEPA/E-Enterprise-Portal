@@ -148,6 +148,7 @@
 
 
 
+
   export default {
     name: moduleName,
     components: {
@@ -183,7 +184,13 @@
         currentPage: 1,
         perPage: 5,
         totalRows: items.length,
-        pageOptions: [5,10,25,50, -1],
+        pageOptions: [
+          { value: 5, text: '5' },
+          { value: 10, text: '10' },
+          { value: 25, text: '25' },
+          { value: 50, text: '50' },
+          { value: -1, text: 'All' },
+        ],
         filter: null,
         modalInfo: { title: '', content: '' }
       }
@@ -223,6 +230,7 @@
         this.currentPage = 1
       }
     },
+
     props: {
       eepApp: {
         type: Object,
