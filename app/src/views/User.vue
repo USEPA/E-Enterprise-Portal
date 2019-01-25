@@ -152,7 +152,7 @@
     },
     data() {
       return {
-        mail: 'bob@example.com',
+
         locations: [{ }],
         UserDeleteModalInfo: { title: 'Delete User' },
       };
