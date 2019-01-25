@@ -40,21 +40,21 @@
         <ul class="inline-cdx-links">
           <li class="my-cdx-login"><a class="my-cdx-web-handoff-link"
             data-handoff-type="login"
-            href="#">My CDX</a></li>
+            href="https://dev.epacdx.net">My CDX</a></li>
           <li class="my-cdx-inbox"><a class="my-cdx-web-handoff-link"
             data-handoff-type="inbox"
-            href="#">Inbox</a></li>
+            href="https://dev.epacdx.net">Inbox</a></li>
           <li class="my-cdx-alerts"><a class="my-cdx-web-handoff-link"
             data-handoff-type="alerts"
-            href="#">News and Alerts</a>
+            href="https://dev.epacdx.net">News and Alerts</a>
           </li>
           <li class="my-cdx-profile"><a class="my-cdx-web-handoff-link"
             data-handoff-type="profile"
-            href="#">My Profile</a>
+            href="https://dev.epacdx.net">My Profile</a>
           </li>
           <li class="my-cdx-submission"><a class="my-cdx-web-handoff-link"
             data-handoff-type="submission"
-            href="#">Submission
+            href="https://dev.epacdx.net">Submission
             History</a></li>
         </ul>
       </div>
@@ -77,36 +77,34 @@
 
               <b-col md="6" class="my-1">
                 <b-form-group horizontal label="Rows" class="mb-0">
-                  <b-form-select :options="lengthMenu" v-model="perPage" />
+                  <b-form-select :options="pageOptions" v-model="perPage" />
                 </b-form-group>
               </b-col>
             </b-row>
 
             <b-table show-empty
               stacked="md"
-              :items="items"
               :fields="fields"
+              :items="program"
               :current-page="currentPage"
               :per-page="perPage"
               :filter="filter"
               @filtered="onFiltered"
             >
-
-            <b-table>
-              <template slot="name" slot-scope="data">
-                {{data.value}}
+              <template slot="first" slot-scope="data" v-for="item in program">
+                {{item.first}}
               </template>
-              <template slot="role" slot-scope="data">
-                <a href="https://www.epa.gov">
-                  {{data.value}}
+              <template slot="second" slot-scope="data"  v-for="item in program">
+                <a :href="item.second">
+                  {{item.first}}
                 </a>
               </template>
-              <template slot="status" slot-scope="data">
-                <a href="https://www.epa.gov">
-                  {{data.value}}
-                </a>
+              <template slot="status" slot-scope="row">
+                <b-button
+                  size="sm"
+                  @click=""
+                  class="status-icon"/>
               </template>
-            </b-table>
             </b-table>
             <b-row>
               <b-col md="6" class="my-1">
@@ -144,14 +142,9 @@
   import { EventBus } from '../../EventBus';
 
   const moduleName = 'MyReporting';
-
   const items = [
-    { program_service_name: '111d: SPeCS for 111d', role: 'URL', status: 'Active' },
-    { program_service_name: 'ACRES: Assessment Cleanup and Redevelopment Exchange System', role: 'Certifier', status: 'Active' },
-    { program_service_name: 'AutoReg: Automating CDX Registration Workflow Via the Web', role: 'Certifier', status: 'Active' },
-    { program_service_name: 'BIOSOLIDS: NeT - EPA Biosolids Program (Read Only)', role: 'Certifier', status: 'Active' }
-  ]
-
+    {program_service_name: '', role: '', status: '',}
+  ];
 
 
 
@@ -175,26 +168,30 @@
         program: [
           { first: '', },
           { second: '', },
+          { status: '',}
+
         ],
-        items: items,
+         program1: [
+          { first: '',},
+          { second: '',},
+        ],
         fields: [
-          { key: 'program_service_name', label: 'Program service name' },
-          { key: 'role', label: 'Role' },
-          { key: 'status', label: 'Status' },
+          { key: 'first', label: 'Program service name',},
+          { key: 'second', label: 'Role',},
+          { key: 'status', label: 'Status',},
         ],
         currentPage: 1,
         perPage: 5,
         totalRows: items.length,
-        lengthMenu: [5, 10, 25, 50],
+        pageOptions: [5,10,25,50, -1],
         filter: null,
         modalInfo: { title: '', content: '' }
       }
     },
     mounted() {
       AppAxios
-        .get('https://apidev2.e-enterprise.gov/api/cdxprogramtitles')
+        .get('https://apidev2.e-enterprise.gov/api/cdxdataflows')
         .then(response => (this.program = response.data[0].field_cdx_program_name))
-
     },
     computed: {
       ...mapGetters({
@@ -295,4 +292,14 @@
     background-image: url('/images/mr-history.svg');
   }
   .my-cdx-web-handoff-link {font-size: .8rem;}
+  .status-icon {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color:#fff;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    border: none;
+    background-size: 1.3rem 1.325rem;
+    background-image: url('../../assets/images/check-circle-solid.svg');}
 </style>
