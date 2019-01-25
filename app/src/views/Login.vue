@@ -14,7 +14,7 @@
             <b-tab title="EPA" active>
                 <h6 class="tabText font-weight-bold">Use your EPA account...</h6>
                 <b-container class="bv-example-row ml-2">
-                    <b-row class="tabContainer align-h=between">
+                    <b-row class="bv-example-row ml-2">
                         <div v-for="(account, index) in loginViewAccounts" >
                             <!-- v-if -->
                             <div v-if="account.weight == 0">
@@ -40,7 +40,7 @@
             <b-tab class="tab" title="Social Media">
                 <h6 class="tabText font-weight-bold">Use your social media account to log in...</h6>
                 <b-container class="bv-example-row ml-2">
-                    <b-row class="tabContainer align-h=between">
+                    <b-row class="bv-example-row ml-2">
                         <div v-for="(account, index) in loginViewAccounts" >
                             <!-- v-if -->
                             <div v-if="account.weight == 1">
@@ -64,7 +64,7 @@
                 <!-- and create each <b-row> and each <b-col> -->
                 <h6 class="tabText font-weight-bold">Use your state account to log in...</h6>
                 <b-container class="bv-example-row ml-2">
-                    <b-row class="tabContainer align-h=between">
+                    <b-row class="bv-example-row ml-2">
                         <div v-for="(account, index) in loginViewAccounts" >
                             <!-- v-if -->
                             <div v-if="account.weight == 2">
