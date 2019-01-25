@@ -56,19 +56,14 @@ const state = {
     },
   },
   user: {
-    isLoggedIn: false,
     id: 0,
-    userName: '',
+    name: '',
+    mail: '',
+    favorite_links: [],
     location: {
       zipcode: '',
       city: '',
       state: '',
-    },
-    name: {
-      prefix: '',
-      first: '',
-      last: '',
-      suffix: '',
     },
     tAndCCookieDismiss: false,
     UserPolicyCookieDismiss: false,
