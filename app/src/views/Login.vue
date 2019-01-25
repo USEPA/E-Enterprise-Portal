@@ -17,7 +17,7 @@
                     <b-row class="tabContainer align-h=between">
                         <div v-for="(account, index) in loginViewAccounts" >
                             <!-- v-if -->
-                            <div v-if="account.weight == 0">
+                            <template v-if="account.weight == 0">
                                 <b-col class="pb-1 col-md-auto">
                                     <div class="link-wrapper">
                                         <a class="link" href="javascript:void(0);"
@@ -28,7 +28,7 @@
                                     </div>
                                 </b-col>
                                 <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
-                            </div>
+                            </template>
                         </div>
                     </b-row>
                 </b-container>
@@ -43,7 +43,7 @@
                     <b-row class="tabContainer align-h=between">
                         <div v-for="(account, index) in loginViewAccounts" >
                             <!-- v-if -->
-                            <div v-if="account.weight == 1">
+                            <template v-if="account.weight == 1">
                                 <b-col class="pb-1 col-md-auto">
                                     <div class="link-wrapper">
                                         <a class="link" href="javascript:void(0);"
@@ -54,7 +54,7 @@
                                     </div>
                                 </b-col>
                                 <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
-                            </div>
+                            </template>
                         </div>
                     </b-row>
                 </b-container>
@@ -67,7 +67,7 @@
                     <b-row class="tabContainer align-h=between">
                         <div v-for="(account, index) in loginViewAccounts" >
                             <!-- v-if -->
-                            <div v-if="account.weight == 2">
+                            <template v-if="account.weight == 2">
                                 <b-col class="pb-1 col-md-auto">
                                     <div class="link-wrapper">
                                         <a class="link" href="javascript:void(0);"
@@ -78,7 +78,7 @@
                                     </div>
                                 </b-col>
                                 <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
-                            </div>
+                            </template>
                         </div>
                     </b-row>
                 </b-container>
