@@ -19,7 +19,7 @@
                             <!-- v-if -->
                             <div v-if="account.weight == 0">
                                 <b-col class="pb-1 col-md-auto">
-                                    <div class="link-wrapper pt-2 pb-2 pl-2">
+                                    <div class="link-wrapper">
                                         <a class="link" href="javascript:void(0);"
                                            @click="navigateToBridge(account.data.field_urn[0].value)">
                                             <img :src="account.data.field_option_image[0].url" alt="not found">
@@ -45,7 +45,7 @@
                             <!-- v-if -->
                             <div v-if="account.weight == 1">
                                 <b-col class="pb-1 col-md-auto">
-                                    <div class="link-wrapper pt-2 pb-2 pl-2">
+                                    <div class="link-wrapper">
                                         <a class="link" href="javascript:void(0);"
                                            @click="navigateToBridge(account.data.field_urn[0].value)">
                                             <img :src="account.data.field_option_image[0].url" alt="not found">
@@ -69,7 +69,7 @@
                             <!-- v-if -->
                             <div v-if="account.weight == 2">
                                 <b-col class="pb-1 col-md-auto">
-                                    <div class="link-wrapper pt-2 pb-2 pl-2">
+                                    <div class="link-wrapper">
                                         <a class="link" href="javascript:void(0);"
                                            @click="navigateToBridge(account.data.field_urn[0].value)">
                                             <img :src="account.data.field_option_image[0].url" alt="not found">
@@ -153,6 +153,7 @@
     .link-wrapper {
         background-color: #888888;
         align-items: center;
+        padding: 15px;
 
         .link {
             color: #ffffff;
