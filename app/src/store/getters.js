@@ -100,7 +100,7 @@ export default {
   getUserObject(state) {
     return state.user.userObject;
   },
-  getEnvironmentApiURL(state, ref){
+  getEnvironmentApiURL(state, ref) {
     const environment = ref.getEnvironment;
     let environmentApiURL = 'https://apidev2.e-enterprise.gov';
     if (environment === 'LOCAL') {
