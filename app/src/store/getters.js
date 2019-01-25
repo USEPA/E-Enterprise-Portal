@@ -8,7 +8,8 @@ export default {
     return state.app;
   },
   getIsLoggedIn(state) {
-    return !!state.app.$cookie.get('Token');
+    const logInCookie = document.cookie.match('(^|;) ?Token=([^;]*)(;|$)');
+    return !!logInCookie;
   },
   /**
    * gets users TAndCCookie state
