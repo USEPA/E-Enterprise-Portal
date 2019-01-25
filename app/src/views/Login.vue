@@ -17,19 +17,21 @@
                     <b-row class="tabContainer align-h=between">
                         <div v-for="(account, index) in loginViewAccounts" >
                             <!-- v-if -->
-                            <b-col class="pb-1 col-md-auto w-100"  v-if="account.weight == 0">
-                                <div class="link-wrapper pt-2 pb-2 pl-2">
-                                    <a class="link" href="javascript:void(0);"
-                                       @click="navigateToBridge(account.data.field_urn[0].value)">
-                                        <img :src="account.data.field_option_image[0].url" alt="not found">
-                                        <span class="pl-2">{{account.data.title[0].value}}</span>
-                                    </a>
-                                </div>
-                            </b-col>
-                            <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
+                            <div v-if="account.weight == 0">
+                                <b-col class="pb-1 col-md-auto">
+                                    <div class="link-wrapper pt-2 pb-2 pl-2">
+                                        <a class="link" href="javascript:void(0);"
+                                           @click="navigateToBridge(account.data.field_urn[0].value)">
+                                            <img :src="account.data.field_option_image[0].url" alt="not found">
+                                            <span class="pl-2">{{account.data.title[0].value}}</span>
+                                        </a>
+                                    </div>
+                                </b-col>
+                                <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
+                            </div>
                         </div>
                     </b-row>
-                   </b-container>
+                </b-container>
                 <div class="mt-4">
                     You can <a href="https://cdx.epa.gov/">create a free CDX account </a> within the Exchange Network.
                     You only need to provide some basic information.
@@ -37,20 +39,22 @@
             </b-tab>
             <b-tab class="tab" title="Social Media">
                 <h6 class="tabText font-weight-bold">Use your social media account to log in...</h6>
-                <b-container class="ml-2 pb-1">
-                    <b-row class="tabContainer">
+                <b-container class="bv-example-row ml-2">
+                    <b-row class="tabContainer align-h=between">
                         <div v-for="(account, index) in loginViewAccounts" >
                             <!-- v-if -->
-                            <b-col class="pb-1 col-md-auto w-100"  v-if="account.weight == 1">
-                                <div class="link-wrapper pt-2 pb-2 pl-2">
-                                    <a class="link" href="javascript:void(0);"
-                                       @click="navigateToBridge(account.data.field_urn[0].value)">
-                                        <img :src="account.data.field_option_image[0].url" alt="not found">
-                                        <span class="pl-2">{{account.data.title[0].value}}</span>
-                                    </a>
-                                </div>
-                            </b-col>
-                            <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
+                            <div v-if="account.weight == 1">
+                                <b-col class="pb-1 col-md-auto">
+                                    <div class="link-wrapper pt-2 pb-2 pl-2">
+                                        <a class="link" href="javascript:void(0);"
+                                           @click="navigateToBridge(account.data.field_urn[0].value)">
+                                            <img :src="account.data.field_option_image[0].url" alt="not found">
+                                            <span class="pl-2">{{account.data.title[0].value}}</span>
+                                        </a>
+                                    </div>
+                                </b-col>
+                                <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
+                            </div>
                         </div>
                     </b-row>
                 </b-container>
@@ -59,20 +63,22 @@
                 <!-- Once we get more states then it can be optimized with using a v-for to loop through -->
                 <!-- and create each <b-row> and each <b-col> -->
                 <h6 class="tabText font-weight-bold">Use your state account to log in...</h6>
-                <b-container class="ml-2">
-                    <b-row class="tabContainer">
+                <b-container class="bv-example-row ml-2">
+                    <b-row class="tabContainer align-h=between">
                         <div v-for="(account, index) in loginViewAccounts" >
                             <!-- v-if -->
-                            <b-col class="pb-1 col-md-auto w-100"  v-if="account.weight == 2">
-                                <div class="link-wrapper pt-2 pb-2 pl-2">
-                                    <a class="link" href="javascript:void(0);"
-                                       @click="navigateToBridge(account.data.field_urn[0].value)">
-                                        <img :src="account.data.field_option_image[0].url" alt="not found">
-                                        <span class="pl-2">{{account.data.title[0].value}}</span>
-                                    </a>
-                                </div>
-                            </b-col>
-                            <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
+                            <div v-if="account.weight == 2">
+                                <b-col class="pb-1 col-md-auto">
+                                    <div class="link-wrapper pt-2 pb-2 pl-2">
+                                        <a class="link" href="javascript:void(0);"
+                                           @click="navigateToBridge(account.data.field_urn[0].value)">
+                                            <img :src="account.data.field_option_image[0].url" alt="not found">
+                                            <span class="pl-2">{{account.data.title[0].value}}</span>
+                                        </a>
+                                    </div>
+                                </b-col>
+                                <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
+                            </div>
                         </div>
                     </b-row>
                 </b-container>
@@ -118,36 +124,35 @@
 
     .epa-tabs {
 
-    ul {
-        border-right: 1px solid lightgrey;
-        background-color: #FFFFFF;
+        ul {
+            border-right: 1px solid lightgrey;
+            background-color: #FFFFFF;
+        }
 
-    li.nav-item a {
-        background-color: #F1F1F1;
-        color: #094e7a;
+        li.nav-item a {
+            background-color: #F1F1F1;
+            color: #094e7a;
+        }
+
+        li.nav-item a.active {
+            background-color: #094e7a;
+            color: #ffffff;
+        }
+
+        li.nav-item a.active, li.nav-item a {
+            margin-bottom: 10px;
+            -webkit-border-radius: 0;
+            -moz-border-radius: 0;
+            border-radius: 0;
+            height: 4rem;
+            padding-top: 20px;
+
+        }
     }
 
-    li.nav-item a.active {
-        background-color: #094e7a;
-        color: #ffffff;
-    }
-
-    li.nav-item a.active, li.nav-item a {
-        margin-bottom: 10px;
-        -webkit-border-radius: 0;
-        -moz-border-radius: 0;
-        border-radius: 0;
-        height: 4rem;
-        padding-top: 20px;
-
-    }
-
-    }
-
-    }
     .link-wrapper {
         background-color: #888888;
-
+        align-items: center;
 
         .link {
             color: #ffffff;
@@ -159,6 +164,5 @@
             height: 16px;
             width: 16px;
         }
-
     }
 </style>
