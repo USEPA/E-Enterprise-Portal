@@ -20,6 +20,11 @@
           class="col-4-md d-flex mr-3 align-self-end align-items-center">
           <template>
             <router-link to="/workbench">
+              <div
+                id="tryit-arrow"
+                ref="tryit-arrow"
+                class="d-none"
+              />
               <b-button
                 id="try-it"
                 class="btn btn-sm"
