@@ -31,7 +31,6 @@
                 variant="primary"
                 @mouseover="addTryItArrow"
                 @mouseleave="removeTryItArrow"
-                :title="tryitTitle"
                 v-if='!isLoggedIn'>
                 <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left pr-1"/>Try It
               </b-button>
