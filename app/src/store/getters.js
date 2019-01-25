@@ -8,7 +8,8 @@ export default {
     return state.app;
   },
   getIsLoggedIn(state) {
-    return !!state.app.$cookie.get('Token')
+    const logInCookie = document.cookie.match('(^|;) ?Token=([^;]*)(;|$)');
+    return !!logInCookie;
   },
   /**
    * gets users TAndCCookie state
@@ -67,7 +68,7 @@ export default {
     let url = '#';
     const bridgeSettings = state.bridgeSettings[env];
     if (bridgeSettings) {
-      url = `${bridgeSettings.issuer}?wtrealm=${encodeURI(bridgeSettings.relyingParty)
+      url = `${bridgeSettings.issuer}?wtrealm=${encodeURI(bridgeSettings.relyingParty) 
         }&wreply=${encodeURI(bridgeSettings.sendBridgeBackTo)}&whr=urn:${state.currentBridgeUrn
         }&wa=${bridgeSettings.signInMethod}`;
     }
@@ -83,10 +84,10 @@ export default {
     return state.loginPageAccounts;
   },
   getUsername(state) {
-    return  state.user.name;
+    return state.user.name;
   },
   getUserEmail(state) {
-    return  state.user.mail;
+    return state.user.mail;
   },
   getUserObject(state) {
     return state.user.userObject;

@@ -49,52 +49,52 @@
               Logout
             </b-btn>
             <b-button
-              to="/User"
-              id="my-account"
-              class="btn btn-sm ml-2"
-              variant="primary">
-              My account
+                 to="/User"
+                 id="my-account"
+                 class="btn btn-sm ml-2"
+                 variant="primary">
+                 My account
             </b-button>
           </template>
           <template v-else>
-            <div
-              id="login-arrow"
-              ref="login-arrow"
-              class="d-none"
-            />
-            <div class="router-link-wrapper pt-2" id="log-in">
-              <a
-                href=""
-                @mouseover="addLogInArrow"
-                @mouseleave="removeLogInArrow"
-                @click="handleLogin"
-                class="btn btn-sm btn-outline-primary account-auth-login">
-                <i class="fas fa-lock pr-1"/>
-                Login
-              </a>
+              <div
+                id="login-arrow"
+                ref="login-arrow"
+                class="d-none"
+              />
+              <div class="router-link-wrapper pt-2" id="log-in">
+                  <a
+                      href="javascript:void(0);"
+                      @mouseover="addLogInArrow"
+                      @mouseleave="removeLogInArrow"
+                      @click="handleLogin"
+                      class="btn btn-sm btn-outline-primary account-auth-login">
+                    <i class="fas fa-lock pr-1"/>
+                    Login
+                  </a>
             </div>
           </template>
         </div>
-        <b-tooltip
-          target="try-it"
-          class="tryit-tooltip"
-          placement="bottom">
-          Want to just try it? No log in needed.
-        </b-tooltip>
-        <b-tooltip
-          target="log-in"
-          class="login-tooltip"
-          placement="bottom">
-          Use an EPA, CDX, or a social media account to login
-        </b-tooltip>
+          <b-tooltip
+                  target="try-it"
+                  class="tryit-tooltip"
+                  placement="bottom">
+              Want to just try it? No log in needed.
+          </b-tooltip>
+          <b-tooltip
+                  target="log-in"
+                  class="login-tooltip"
+                  placement="bottom">
+              Use an EPA, CDX, or a social media account to login
+          </b-tooltip>
       </div>
     </div>
   </header>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import { EventBus } from '../EventBus';
+    import { mapGetters, mapActions } from 'vuex';
+    import { EventBus } from '../EventBus';
 
   // eslint-disable-next-line
   export default {
@@ -114,20 +114,20 @@ import { EventBus } from '../EventBus';
         'handleLogin',
       ]),
       removeTryItArrow() {
-        this.$refs['tryit-arrow'].classList.remove('d-block');
-        this.$refs['tryit-arrow'].classList.add('d-none');
+          this.$refs['tryit-arrow'].classList.remove('d-block');
+          this.$refs['tryit-arrow'].classList.add('d-none');
       },
       addTryItArrow() {
-        this.$refs['tryit-arrow'].classList.remove('d-none');
-        this.$refs['tryit-arrow'].classList.add('d-block');
+          this.$refs['tryit-arrow'].classList.remove('d-none');
+          this.$refs['tryit-arrow'].classList.add('d-block');
       },
       removeLogInArrow() {
-        this.$refs['login-arrow'].classList.remove('d-block');
-        this.$refs['login-arrow'].classList.add('d-none');
+          this.$refs['login-arrow'].classList.remove('d-block');
+          this.$refs['login-arrow'].classList.add('d-none');
       },
       addLogInArrow() {
-        this.$refs['login-arrow'].classList.remove('d-none');
-        this.$refs['login-arrow'].classList.add('d-block');
+          this.$refs['login-arrow'].classList.remove('d-none');
+          this.$refs['login-arrow'].classList.add('d-block');
       },
       dumyLogOut() {
         this.userLogOut();
@@ -142,51 +142,50 @@ import { EventBus } from '../EventBus';
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped
-lang="scss">
-  #try-it-container {
-    position: relative;
-  }
-  #try-it {
-    position: relative;
-  }
-  #log-in-container {
-    position: relative;
-  }
-  #log-in {
-    position: relative;
-  }
-  #tryit-arrow {
-    top: 100%;
-    left: 50%;
-    border: .7rem solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-    border-color: rgba(0, 98, 160, 0);
-    border-top-color: #0062a0;
-    margin-left: -.7rem;
-  }
-  #login-arrow {
-    top: 100%;
-    left: 50%;
-    border: .7rem solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-    border-color: rgba(0, 98, 160, 0);
-    border-top-color: #007ac6;
-    margin-left: -.7rem;
-  }
-  .eep_logo {
+  lang="scss">
+    #try-it-container {
+        position: relative;
+    }
+    #try-it {
+        position: relative;
+    }
+    #log-in-container {
+        position: relative;
+    }
+    #log-in {
+        position: relative;
+    }
+    #tryit-arrow {
+        top: 100%;
+        left: 50%;
+        border: .7rem solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-color: rgba(0, 98, 160, 0);
+        border-top-color: #0062a0;
+        margin-left: -.7rem;
+    }
+    #login-arrow {
+        top: 100%;
+        left: 50%;
+        border: .7rem solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-color: rgba(0, 98, 160, 0);
+        border-top-color: #007ac6;
+        margin-left: -.7rem;
+    }
 
+  .eep_logo {
     img {
       max-width: 100%;
     }
-
   }
 
   .arrow-down-message {
@@ -203,10 +202,8 @@ lang="scss">
     color: white;
     position: relative;
 
-    &
-    :hover {
-      &
-      :after {
+    &:hover {
+      &:after {
         content: '';
         width: 0;
         height: 0;
@@ -218,10 +215,10 @@ lang="scss">
         transform: translateX(-50%);
         position: absolute;
       }
+
       .arrow-down-message {
         display: block;
       }
-
     }
   }
 

@@ -17,19 +17,21 @@
                     <b-row class="tabContainer align-h=between">
                         <div v-for="(account, index) in loginViewAccounts" >
                             <!-- v-if -->
-                            <b-col class="pb-1 col-md-auto"  v-if="account.weight == 0">
-                                <div class="link-wrapper pt-2 pb-2 pl-2">
-                                    <a class="link" href="javascript:void(0);"
-                                       @click="navigateToBridge(account.data.field_urn[0].value)">
-                                        <img :src="account.data.field_option_image[0].url" alt="not found">
-                                        <span class="pl-2">{{account.data.title[0].value}}</span>
-                                    </a>
-                                </div>
-                            </b-col>
-                            <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
+                            <template v-if="account.weight == 0">
+                                <b-col class="pb-1 col-md-auto">
+                                    <div class="link-wrapper">
+                                        <a class="link" href="javascript:void(0);"
+                                           @click="navigateToBridge(account.data.field_urn[0].value)">
+                                            <img :src="account.data.field_option_image[0].url" alt="not found">
+                                            <span class="pl-2">{{account.data.title[0].value}}</span>
+                                        </a>
+                                    </div>
+                                </b-col>
+                                <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
+                            </template>
                         </div>
                     </b-row>
-                   </b-container>
+                </b-container>
                 <div class="mt-4">
                     You can <a href="https://cdx.epa.gov/">create a free CDX account </a> within the Exchange Network.
                     You only need to provide some basic information.
@@ -37,20 +39,22 @@
             </b-tab>
             <b-tab class="tab" title="Social Media">
                 <h6 class="tabText font-weight-bold">Use your social media account to log in...</h6>
-                <b-container class="ml-2 pb-1">
-                    <b-row class="tabContainer">
+                <b-container class="bv-example-row ml-2">
+                    <b-row class="tabContainer align-h=between">
                         <div v-for="(account, index) in loginViewAccounts" >
                             <!-- v-if -->
-                            <b-col class="pb-1 col-md-auto"  v-if="account.weight == 1">
-                                <div class="link-wrapper pt-2 pb-2 pl-2">
-                                    <a class="link" href="javascript:void(0);"
-                                       @click="navigateToBridge(account.data.field_urn[0].value)">
-                                        <img :src="account.data.field_option_image[0].url" alt="not found">
-                                        <span class="pl-2">{{account.data.title[0].value}}</span>
-                                    </a>
-                                </div>
-                            </b-col>
-                            <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
+                            <template v-if="account.weight == 1">
+                                <b-col class="pb-1 col-md-auto">
+                                    <div class="link-wrapper">
+                                        <a class="link" href="javascript:void(0);"
+                                           @click="navigateToBridge(account.data.field_urn[0].value)">
+                                            <img :src="account.data.field_option_image[0].url" alt="not found">
+                                            <span class="pl-2">{{account.data.title[0].value}}</span>
+                                        </a>
+                                    </div>
+                                </b-col>
+                                <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
+                            </template>
                         </div>
                     </b-row>
                 </b-container>
@@ -59,25 +63,28 @@
                 <!-- Once we get more states then it can be optimized with using a v-for to loop through -->
                 <!-- and create each <b-row> and each <b-col> -->
                 <h6 class="tabText font-weight-bold">Use your state account to log in...</h6>
-                <b-container class="ml-2">
-                    <b-row class="tabContainer">
+                <b-container class="bv-example-row ml-2">
+                    <b-row class="tabContainer align-h=between">
                         <div v-for="(account, index) in loginViewAccounts" >
                             <!-- v-if -->
-                            <b-col class="pb-1 col-md-auto"  v-if="account.weight == 2">
-                                <div class="link-wrapper pt-2 pb-2 pl-2">
-                                    <a class="link" href="javascript:void(0);"
-                                       @click="navigateToBridge(account.data.field_urn[0].value)">
-                                        <img :src="account.data.field_option_image[0].url" alt="not found">
-                                        <span class="pl-2">{{account.data.title[0].value}}</span>
-                                    </a>
-                                </div>
-                            </b-col>
-                            <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
+                            <template v-if="account.weight == 2">
+                                <b-col class="pb-1 col-md-auto">
+                                    <div class="link-wrapper">
+                                        <a class="link" href="javascript:void(0);"
+                                           @click="navigateToBridge(account.data.field_urn[0].value)">
+                                            <img :src="account.data.field_option_image[0].url" alt="not found">
+                                            <span class="pl-2">{{account.data.title[0].value}}</span>
+                                        </a>
+                                    </div>
+                                </b-col>
+                                <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
+                            </template>
                         </div>
                     </b-row>
                 </b-container>
             </b-tab>
             <b-tab class="tab" title="Tribal">
+
             </b-tab>
         </b-tabs>
     </div>
@@ -125,6 +132,11 @@
     li.nav-item a {
         background-color: #F1F1F1;
         color: #094e7a;
+
+        &:hover{
+             background-color: #094e7a;
+             color: #ffffff;
+         }
     }
 
     li.nav-item a.active {
@@ -146,7 +158,14 @@
 
     }
     .link-wrapper {
-        background-color: #888888;
+        background-color: #AEB0B6;
+        align-items: center;
+        padding: 15px;
+        cursor: pointer;
+
+        &:hover{
+            background-color: #094E7A;
+         }
 
     .link {
         color: #ffffff;

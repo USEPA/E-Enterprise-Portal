@@ -98,18 +98,18 @@ export default {
     state.navMargin = obj;
   },
   [types.SET_USER_OBJECT](state, obj) {
-  
+
     var name = obj.name[0].value;
     var mail = obj.mail[0].value;
     var favorite_links = obj.field_favorite_links;
     Vue.set(state.user,
       'name',
-      name);
-    Vue.set(state.user, 
-      'mail',
-      mail);
+       name);
     Vue.set(state.user,
-        'favorite_links',
+       'mail',
+        mail);
+    Vue.set(state.user,
+       'favorite_links',
         favorite_links);
   },
   [types.SET_USER_OBJECT_FAV_LINKS](state, obj) {
@@ -129,6 +129,6 @@ export default {
       state.loginViewAccounts = obj;
   },
   [types.SET_UID](state, int){
-    state.user.id = int;
+      state.user.id = int;
   },
 };
