@@ -117,9 +117,19 @@ export default {
       obj);
   },
   [types.SET_USER_OBJECT](state, obj) {
+    var name = obj.name[0].value;
+    var mail = obj.mail[0].value;
+    var favorite_links = obj.field_favorite_links;
+
     Vue.set(state.user,
-      'userObject',
-      obj);
+      'name',
+      name);
+    Vue.set(state.user,
+       'mail',
+       mail);
+    Vue.set(state.user,
+       'favorite_links',
+       favorite_links);
   },
   [types.SET_USER_OBJECT_FAV_LINKS](state, obj) {
     Vue.set(state.user.userObject,
