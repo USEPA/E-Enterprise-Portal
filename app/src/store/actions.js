@@ -110,6 +110,7 @@ export default {
   userLogOut(context) {
     // add additional logout logic here
     Vue.cookie.set('Token', false, {expires: '-99s'});
+    Vue.cookie.set('uid', false, {expires: '-99s'});
     location.reload();
   },
   // Function to process the payload of the JWT token, which contains the user
