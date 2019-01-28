@@ -13,9 +13,9 @@
         <b-tabs class="epa-tabs" pills card vertical nav-wrapper-class="w-25">
             <b-tab title="EPA" active>
                 <h6 class="tabText font-weight-bold">Use your EPA account...</h6>
-                <b-container class="bv-example-row ml-2">
-                    <b-row class="tabContainer align-h=between">
-                        <div v-for="(account, index) in loginViewAccounts" >
+                <b-container class="ml-2">
+                    <b-row class="tabContainer">
+                        <div v-for="(account, index) in loginViewAccounts">
                             <!-- v-if -->
                             <template v-if="account.weight == 0">
                                 <b-col class="pb-1 col-md-auto">
@@ -39,8 +39,8 @@
             </b-tab>
             <b-tab class="tab" title="Social Media">
                 <h6 class="tabText font-weight-bold">Use your social media account to log in...</h6>
-                <b-container class="bv-example-row ml-2">
-                    <b-row class="tabContainer align-h=between">
+                <b-container class="ml-2">
+                    <b-row class="tabContainer">
                         <div v-for="(account, index) in loginViewAccounts" >
                             <!-- v-if -->
                             <template v-if="account.weight == 1">
@@ -63,13 +63,13 @@
                 <!-- Once we get more states then it can be optimized with using a v-for to loop through -->
                 <!-- and create each <b-row> and each <b-col> -->
                 <h6 class="tabText font-weight-bold">Use your state account to log in...</h6>
-                <b-container class="bv-example-row ml-2">
-                    <b-row class="tabContainer align-h=between">
+                <b-container class="ml-2">
+                    <b-row class="tabContainer">
                         <div v-for="(account, index) in loginViewAccounts" >
                             <!-- v-if -->
                             <template v-if="account.weight == 2">
                                 <b-col class="pb-1 col-md-auto">
-                                    <div class="link-wrapper">
+                                    <div class="link-wrapper state">
                                         <a class="link" href="javascript:void(0);"
                                            @click="navigateToBridge(account.data.field_urn[0].value)">
                                             <img :src="account.data.field_option_image[0].url" alt="not found">
@@ -159,24 +159,24 @@
     }
     .link-wrapper {
         background-color: #AEB0B6;
-        align-items: center;
-        padding: 15px;
         cursor: pointer;
+        width: 232px;
+        padding: 15px;
 
         &:hover{
             background-color: #094E7A;
          }
 
-    .link {
-        color: #ffffff;
-        text-decoration: none;
-        padding: 5px;
+        .link {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        img {
+            height: 24px;
+            width: 24px;
+        }
     }
 
-    img {
-        height: 16px;
-        width: 16px;
-    }
 
-    }
 </style>
