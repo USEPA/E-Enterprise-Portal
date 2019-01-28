@@ -207,7 +207,7 @@
         ],
         currentPage: 1,
         perPage: 5,
-        pageOptions: [5, 10, 15],
+        pageOptions: [5, 10, 15, 20],
         sortBy: null,
         sortDesc: false,
         sortDirection: 'asc',
@@ -242,7 +242,6 @@
           },
         );
         // pushes changes to backend
-        // @TODO update request link to be based on uid pulled from jwt_token
         AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
             field_favorite_links: this.favLinksArray,
           },
@@ -285,7 +284,6 @@
         this.favLinksArray[this.editModalIndex].first = this.editModalInfo.first;
         this.favLinksArray[this.editModalIndex].second = this.editModalInfo.second;
         // pushes changes to backend
-        // @TODO update request link to be based on uid pulled from jwt_token
         AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
             field_favorite_links: this.favLinksArray,
           },
@@ -313,7 +311,6 @@
         // stores changes in local state
         this.favLinksArray.splice(index, 1);
         // pushes changes to backend
-        // @TODO update request link to be based on uid pulled from jwt_token
         AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
             field_favorite_links: this.favLinksArray,
           },
