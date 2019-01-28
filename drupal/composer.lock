@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a923125846f573027e43d4e99bdf5fa7",
+    "content-hash": "cc259b4060da81573465f7d737af7fe0",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -4624,6 +4624,69 @@
             }
         },
         {
+            "name": "drupal/structure_sync",
+            "version": "1.16.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/structure_sync",
+                "reference": "8.x-1.16"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/structure_sync-8.x-1.16.zip",
+                "reference": "8.x-1.16",
+                "shasum": "b700c424503fa2d7285e972b1042ca6917ec0888"
+            },
+            "require": {
+                "drupal/core": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.16",
+                    "datestamp": "1546851780",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "fidodido06",
+                    "homepage": "https://www.drupal.org/user/1494332"
+                },
+                {
+                    "name": "legolasbo",
+                    "homepage": "https://www.drupal.org/user/2480548"
+                },
+                {
+                    "name": "pdenooijer",
+                    "homepage": "https://www.drupal.org/user/3175437"
+                },
+                {
+                    "name": "timKruijsen",
+                    "homepage": "https://www.drupal.org/user/3513437"
+                },
+                {
+                    "name": "vinlaurens",
+                    "homepage": "https://www.drupal.org/user/2945689"
+                }
+            ],
+            "description": "Tool for syncing structural data that is stored as content.",
+            "homepage": "https://www.drupal.org/project/structure_sync",
+            "support": {
+                "source": "http://cgit.drupalcode.org/structure_sync"
+            }
+        },
+        {
             "name": "drupal/supercache",
             "version": "1.3.0",
             "source": {
@@ -4678,17 +4741,17 @@
         },
         {
             "name": "drupal/svg_image",
-            "version": "1.8.0",
+            "version": "1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/svg_image",
-                "reference": "8.x-1.8"
+                "reference": "8.x-1.9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/svg_image-8.x-1.8.zip",
-                "reference": "8.x-1.8",
-                "shasum": "d1378ab1552dcc386e0b3ee65c3a441ee0407f8f"
+                "url": "https://ftp.drupal.org/files/projects/svg_image-8.x-1.9.zip",
+                "reference": "8.x-1.9",
+                "shasum": "7b193de6ec7b7fc3626f170d0f5f8fccaa2f26bf"
             },
             "require": {
                 "drupal/core": "*"
@@ -4699,8 +4762,8 @@
                     "dev-1.x": "1.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-1.8",
-                    "datestamp": "1516678385",
+                    "version": "8.x-1.9",
+                    "datestamp": "1548492180",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -6768,16 +6831,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v3.20.4",
+            "version": "v3.20.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "738bddcf25caff63e5e5051881cfaea6859b6545"
+                "reference": "f69624bbedb3b95eb1ef4b89d963dd3e9d99d8ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/738bddcf25caff63e5e5051881cfaea6859b6545",
-                "reference": "738bddcf25caff63e5e5051881cfaea6859b6545",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/f69624bbedb3b95eb1ef4b89d963dd3e9d99d8ba",
+                "reference": "f69624bbedb3b95eb1ef4b89d963dd3e9d99d8ba",
                 "shasum": ""
             },
             "type": "library",
@@ -6821,7 +6884,7 @@
                 "swagger",
                 "ui"
             ],
-            "time": "2018-12-22T16:13:20+00:00"
+            "time": "2019-01-12T07:08:55+00:00"
         },
         {
             "name": "symfony-cmf/routing",
