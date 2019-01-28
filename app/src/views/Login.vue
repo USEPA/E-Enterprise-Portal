@@ -69,7 +69,7 @@
                             <!-- v-if -->
                             <template v-if="account.weight == 2">
                                 <b-col class="pb-1 col-md-auto">
-                                    <div class="link-wrapper">
+                                    <div class="link-wrapper state">
                                         <a class="link" href="javascript:void(0);"
                                            @click="navigateToBridge(account.data.field_urn[0].value)">
                                             <img :src="account.data.field_option_image[0].url" alt="not found">
@@ -170,13 +170,11 @@
         .link {
             color: #ffffff;
             text-decoration: none;
-            display : block;
-            text-align : center;
         }
 
         img {
-            height: 16px;
-            width: 16px;
+            height: 24px;
+            width: 24px;
         }
     }
 
