@@ -167,22 +167,17 @@
             background-color: #094E7A;
          }
 
-    .link {
-        color: #ffffff;
-        text-decoration: none;
-        display : block;
-        text-align : center;
-    }
+        .link {
+            color: #ffffff;
+            text-decoration: none;
+            display : block;
+            text-align : center;
+        }
 
-    img {
-        height: 16px;
-        width: 16px;
-    }
-
-    }
-
-    .active-option{
-        width: 50px;
+        img {
+            height: 16px;
+            width: 16px;
+        }
     }
 
 
