@@ -64,6 +64,8 @@
         </template>
 
         <template
+          v-if='favLinksArray[0].first != `Not logged in or no user ID found!` &&
+          favLinksArray[0].first != `Loading your Favorites...`'
           slot="actions"
           slot-scope="row">
           <b-button
@@ -339,7 +341,7 @@
         this.currentPage = 1;
       },
       getCookie(cname) {
-        const name = cname + '=';
+        const name = `${cname}=`;
         const decodedCookie = decodeURIComponent(document.cookie);
         const ca = decodedCookie.split(';');
         for (let i = 0; i < ca.length; i++) {
@@ -364,17 +366,21 @@
       }
     },
     mounted() {
-      AppAxios.get(`${this.apiURL}/user/${this.uid}?_format=json`, {
-        headers: this.$store.GETHeaders,
-        auth: {
-          username: 'api_user',
-          password: 'api4epa',
-        },
-      })
-        .then((response) => {
-          this.favLinksArray = response.data.field_favorite_links;
-          this.totalRows = this.favLinksArray.length;
-        });
+      if (this.uid) {
+        AppAxios.get(`${this.apiURL}/user/${this.uid}?_format=json`, {
+          headers: this.$store.GETHeaders,
+          auth: {
+            username: 'api_user',
+            password: 'api4epa',
+          },
+        })
+          .then((response) => {
+            this.favLinksArray = response.data.field_favorite_links;
+            this.totalRows = this.favLinksArray.length;
+          });
+      } else {
+        this.favLinksArray[0].first = 'Not logged in or no user ID found!';
+      }
     },
     props: {
       eepApp: {
