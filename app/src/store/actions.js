@@ -265,9 +265,6 @@ export default {
             // Commit formatted array to the store
             store.commit('SET_LOGIN_VIEW_ACCOUNTS', formatted_option_array);
 
-            // Redirect to login view
-            router.push('/login');
-
         }).catch(error =>{
             console.error(error.response);
         });
