@@ -111,7 +111,6 @@
     methods: {
       ...mapActions([
         'userLogOut',
-        'handleLogin',
       ]),
       removeTryItArrow() {
           this.$refs['tryit-arrow'].classList.remove('d-block');
@@ -131,6 +130,9 @@
       },
       dumyLogOut() {
         this.userLogOut();
+      },
+      handleLogin(){
+          this.$router.push('/login');
       },
     },
     data() {
