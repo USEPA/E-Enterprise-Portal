@@ -2,8 +2,8 @@
 <template>
     <div class="container">
         <h3>Login</h3>
-        <div class="pt-2">
-            <p class=" pt-2 font-weight-bold">Select your preferred login method to access E-Enterprise using one of
+        <div class="pt-2 caption-wrapper">
+            <p class="pt-2 font-weight-bold">Select your preferred login method to access E-Enterprise using one of
                 your existing accounts. Choose a
                 preferred login type and option to get started.</p>
 
@@ -180,6 +180,10 @@
             height: 24px;
             width: 24px;
         }
+    }
+
+    .caption-wrapper > p{
+        max-width: 100% !important;
     }
 
 
