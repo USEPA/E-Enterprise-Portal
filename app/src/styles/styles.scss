@@ -1,3 +1,7 @@
+// USWDS
+@import 'uswds-override';
+@import '../../node_modules/uswds/dist/scss/uswds.scss';
+
 // BS basic configuration
 @import "bootstrap-mixins-cheatsheet";
 @import "utility";
@@ -16,3 +20,5 @@
 @import "application";
 @import "workbench-grid";
 @import "workbench-application";
+
+

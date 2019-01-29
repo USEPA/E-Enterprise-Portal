@@ -21,6 +21,7 @@
     "lodash": "^4.17.11",
     "open-iconic": "^1.1.1",
     "popper.js": "^1.14.6",
+    "uswds": "^2.0.0-beta.4",
     "vue": "^2.5.22",
     "vue-cookie": "^1.1.4",
     "vue-grid-layout": "^2.3.3",
