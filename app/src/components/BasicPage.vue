@@ -67,8 +67,6 @@
 
 <style scoped
   lang="scss">
-  #for-partners {
-  }
   h2 + p,
   h2 + table,
   p + pre
