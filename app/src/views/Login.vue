@@ -104,9 +104,6 @@
                 'navigateToBridge',
             ]),
         },
-        beforeCreate(){
-            this.$store.dispatch('handleLogin');
-        },
         computed: {
             ...mapGetters({
                 bridgeURL: 'getBridgeURL',
@@ -135,6 +132,7 @@
     li.nav-item a {
         background-color: #F1F1F1;
         color: #094e7a;
+        text-decoration: none;
 
         &:hover{
              background-color: #094e7a;
