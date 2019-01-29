@@ -203,6 +203,7 @@
     background-color: #0071bc;
     color: white;
     position: relative;
+    text-decoration: none;
 
     &:hover {
       &:after {
