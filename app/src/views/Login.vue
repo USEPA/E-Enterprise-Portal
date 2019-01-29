@@ -104,7 +104,7 @@
                 'navigateToBridge',
             ]),
         },
-        beforeMount(){
+        beforeCreate(){
             this.$store.dispatch('handleLogin');
         },
         computed: {
