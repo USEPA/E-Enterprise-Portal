@@ -104,6 +104,9 @@
                 'navigateToBridge',
             ]),
         },
+        beforeCreate(){
+            this.$store.dispatch('handleLogin');
+        },
         computed: {
             ...mapGetters({
                 bridgeURL: 'getBridgeURL',
