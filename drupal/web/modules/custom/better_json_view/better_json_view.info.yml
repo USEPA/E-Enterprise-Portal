@@ -1,0 +1,7 @@
+name: 'Better JSON View'
+type: module
+description: 'Used to convert fields to json output. It is useful when exporting for REST api exports.'
+core: 8.x
+package: 'Web services'
+dependencies:
+  - drupal:rest

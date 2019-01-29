@@ -5,7 +5,7 @@
 # * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
 # * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
 
-POST http://localhost:8080/eep/proxy/service/bwi?XDEBUG_SESSION_START=PHPSTORM
+POST http://e-enterprise/eep/proxy/service/bwi?XDEBUG_SESSION_START=PHPSTORM
 Accept: */*
 Cache-Control: no-cache
 Content-Type: application/json
@@ -30,13 +30,13 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:8080/eep/proxy/service/bwi?XDEBUG_SESSION_START=PHPSTORM
+GET http://e-enterprise/eep/proxy/service/bwi?XDEBUG_SESSION_START=PHPSTORM
 Accept: */*
 Cache-Control: no-cache
 
 ###
 
-GET http://localhost:8080/eep/proxy/service/get_test?XDEBUG_SESSION_START=PHPSTORM
+GET http://e-enterprise/eep/proxy/service/get_test?XDEBUG_SESSION_START=PHPSTORM
 Accept: */*
 Cache-Control: no-cache
 

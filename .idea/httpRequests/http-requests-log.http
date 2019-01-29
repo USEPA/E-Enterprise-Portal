@@ -1,3 +1,109 @@
+POST http://e-enterprise/eep/proxy/service/bwi?XDEBUG_SESSION_START=PHPSTORM
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{
+    "StateCode": "NH",
+    "RoutineContaminants": {
+        "As": {
+            "Symbol": "As",
+            "Name": "Arsenic",
+            "Value": "4444",
+            "Unit": "mg/L"
+        },
+        "Cl": {
+            "Symbol": "Cl",
+            "Name": "Chloride",
+            "Value": "4444",
+            "Unit": "mg/L"
+        }
+    }
+}
+
+<> 2019-01-23T103114.200.json
+
+###
+
+POST http://e-enterprise/eep/proxy/service/bwi?XDEBUG_SESSION_START=PHPSTORM
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{
+    "StateCode": "NH",
+    "RoutineContaminants": {
+        "As": {
+            "Symbol": "As",
+            "Name": "Arsenic",
+            "Value": "4444",
+            "Unit": "mg/L"
+        },
+        "Cl": {
+            "Symbol": "Cl",
+            "Name": "Chloride",
+            "Value": "4444",
+            "Unit": "mg/L"
+        }
+    }
+}
+
+<> 2019-01-23T073015.200.json
+
+###
+
+POST http://e-enterprise/eep/proxy/service/bwi?XDEBUG_SESSION_START=PHPSTORM
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{
+    "StateCode": "NH",
+    "RoutineContaminants": {
+        "As": {
+            "Symbol": "As",
+            "Name": "Arsenic",
+            "Value": "4444",
+            "Unit": "mg/L"
+        },
+        "Cl": {
+            "Symbol": "Cl",
+            "Name": "Chloride",
+            "Value": "4444",
+            "Unit": "mg/L"
+        }
+    }
+}
+
+<> 2019-01-23T072040.200.json
+
+###
+
+POST http://localhost:8080/eep/proxy/service/bwi?XDEBUG_SESSION_START=PHPSTORM
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{
+    "StateCode": "NH",
+    "RoutineContaminants": {
+        "As": {
+            "Symbol": "As",
+            "Name": "Arsenic",
+            "Value": "4444",
+            "Unit": "mg/L"
+        },
+        "Cl": {
+            "Symbol": "Cl",
+            "Name": "Chloride",
+            "Value": "4444",
+            "Unit": "mg/L"
+        }
+    }
+}
+
+###
+
 GET http://localhost:8080/eep/proxy/service/geolocation?f=pjson&location=-92.0420352,30.217830399999997&XDEBUG_SESSION_START=PHPSTORM
 Accept: */*
 Cache-Control: no-cache
@@ -321,36 +427,6 @@ Accept: */*
 Cache-Control: no-cache
 
 <> 2018-11-20T121657.200.txt
-
-###
-
-GET http://localhost:8080/eep/proxy/service/geolocation?f=pjson&location=-92.049568,30.317671&XDEBUG_SESSION_START=PHPSTORM
-Accept: */*
-Cache-Control: no-cache
-
-###
-
-GET http://localhost:8080/eep/proxy/service/geolocation?f=pjson&location=-92.049568,30.317671&XDEBUG_SESSION_START=PHPSTORM
-Accept: */*
-Cache-Control: no-cache
-
-<> 2018-11-20T121548.200.html
-
-###
-
-GET http://localhost:8080/eep/proxy/service/geolocation?f=pjson&location=-92.049568,30.317671&XDEBUG_SESSION_START=PHPSTORM
-Accept: */*
-Cache-Control: no-cache
-
-<> 2018-11-20T121441.200.html
-
-###
-
-GET http://localhost:8080/eep/proxy/service/geolocation?f=pjson&location=-92.049568,30.317671&XDEBUG_SESSION_START=PHPSTORM
-Accept: */*
-Cache-Control: no-cache
-
-<> 2018-11-20T121326.200.html
 
 ###
 

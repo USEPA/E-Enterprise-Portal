@@ -16,6 +16,7 @@ $default_content_paths = [
   'modules/custom/eep_proxy_service/content/location-service.json',
   'modules/custom/eep_proxy_service/content/geolocation.json',
   'modules/custom/eep_proxy_service/content/village-green.json',
+  'profiles/e_enterprise_portal/content/faqs-page.json',
 ];
 
 foreach ($default_content_paths as $path) {
