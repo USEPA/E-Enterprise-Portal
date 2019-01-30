@@ -147,6 +147,7 @@
     const store = vm.$store;
 
     // Make request to the /authenticate route for the logged in user to grab the headers
+    // Found this example from https://stackoverflow.com/questions/220231/accessing-the-web-pages-http-headers-in-javascript
     var request = new XMLHttpRequest();
     request.open('HEAD', 'https://apidev2.e-enterprise.gov/authenticate/user', false);
     request.send(null);
@@ -171,7 +172,7 @@
         // Log user in and set user name
         store.commit('USER_LOG_IN');
         store.commit(types.SET_UID, this.$cookie.get('uid'));
-    }   
+    }
 
     if (this.$cookie.get('userLoggedIn')) {
 
