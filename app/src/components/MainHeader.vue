@@ -68,7 +68,8 @@
               <button
                 @mouseover="addLogInArrow"
                 @mouseleave="removeLogInArrow"
-                class="usa-button">
+                class="usa-button"
+                @click="handleLogin">
                 <i class="fas fa-lock pr-1"/>
                 Login
               </button>
