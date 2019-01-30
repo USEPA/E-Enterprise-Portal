@@ -172,10 +172,11 @@
         store.commit(types.SET_UID, this.$cookie.get('uid'));
       }
     }
+
     if (this.$cookie.get('userLoggedIn')) {
-      AppAxios.get(`${this.$store.getters.getEnvironmentApiURL}/user/${this.$cookie.get('uid')}?_format=json`, {
-          headers: { Authorization: `Bearer ${this.$cookie.get('Token')}` },
-      }).then((response) => {
+        AppAxios.get(`${this.$store.getters.getEnvironmentApiURL}/user/${this.$cookie.get('uid')}?_format=json`, {
+            headers: { Authorization: `Bearer ${this.$cookie.get('Token')}` },
+        }).then((response) => {
           store.commit('SET_USER_OBJECT', response.data);
       }).catch((error) => {
           console.warn(error)
