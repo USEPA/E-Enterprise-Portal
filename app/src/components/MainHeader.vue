@@ -37,7 +37,9 @@
             </router-link>
           </template>
         </div>
-        <div class="col-4-md" id="log-in-container">
+        <div
+          class="col-4-md"
+          id="log-in-container">
           <template v-if='isLoggedIn'>
             <span>Welcome {{ username }}</span>
             <b-btn
@@ -49,44 +51,48 @@
               Logout
             </b-btn>
             <b-button
-                 to="/User"
-                 id="my-account"
-                 class="btn btn-sm ml-2"
-                 variant="primary">
-                 My account
+              to="/User"
+              id="my-account"
+              class="btn btn-sm ml-2"
+              variant="primary">
+              My account
             </b-button>
           </template>
           <template v-else>
-              <div
-                id="login-arrow"
-                ref="login-arrow"
-                class="d-none"
-              />
-              <div class="router-link-wrapper pt-2" id="log-in">
-                  <a
-                      href="javascript:void(0);"
-                      @mouseover="addLogInArrow"
-                      @mouseleave="removeLogInArrow"
-                      @click="handleLogin"
-                      class="btn btn-sm btn-outline-primary account-auth-login">
-                    <i class="fas fa-lock pr-1"/>
-                    Login
-                  </a>
+            <div
+              id="login-arrow"
+              ref="login-arrow"
+              class="d-none"
+            />
+            <div
+              class="router-link-wrapper pt-2"
+              id="log-in">
+              <a
+                href="javascript:void(0);"
+                @mouseover="addLogInArrow"
+                @mouseleave="removeLogInArrow"
+                @click="handleLogin"
+                class="btn btn-sm btn-outline-primary account-auth-login">
+                <i class="fas fa-lock pr-1"/>
+                Login
+              </a>
             </div>
           </template>
         </div>
-          <b-tooltip
-                  target="try-it"
-                  class="tryit-tooltip"
-                  placement="bottom">
-              Want to just try it? No log in needed.
-          </b-tooltip>
-          <b-tooltip
-                  target="log-in"
-                  class="login-tooltip"
-                  placement="bottom">
-              Use an EPA, CDX, or a social media account to login
-          </b-tooltip>
+        <b-tooltip
+          v-if="!isLoggedIn"
+          target="try-it"
+          class="tryit-tooltip"
+          placement="bottom">
+          Want to just try it? No log in needed.
+        </b-tooltip>
+        <b-tooltip
+          v-if="!isLoggedIn"
+          target="log-in"
+          class="login-tooltip"
+          placement="bottom">
+          Use an EPA, CDX, or a social media account to login
+        </b-tooltip>
       </div>
     </div>
   </header>
@@ -131,7 +137,7 @@
       dumyLogOut() {
         this.userLogOut();
       },
-      handleLogin(){
+      handleLogin() {
           this.$router.push('/login');
       },
     },
