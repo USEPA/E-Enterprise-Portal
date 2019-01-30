@@ -27,13 +27,33 @@
           :i="wapp.i"
           :key="index">
           <component
-            :is="wapp.componentName"
+            :is="wapp.eepApp.field_vue_component_name"
             :eep-app="wapp.eepApp"/>
         </grid-item>
       </grid-layout>
     </template>
     <template v-if="!isLayoutReady">
-      <AppPlaceholderContent/>
+      <AppPlaceholderContent>
+        <div class="row">
+          <div class="col-lg-3 col-6 square pulse"></div>
+          <div class="col-lg-3 col-6 square pulse"></div>
+          <div class="col-lg-3 col-6 square pulse"></div>
+          <div class="col-lg-3 col-6 square pulse"></div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="row">
+              <div class="col-12 rectangle pulse"></div>
+              <div class="col-12 rectangle pulse"></div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <div class="col-12 square pulse"></div>
+            </div>
+          </div>
+        </div>
+      </AppPlaceholderContent>
     </template>
   </div>
 </template>

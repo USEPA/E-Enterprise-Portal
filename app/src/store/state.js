@@ -29,22 +29,11 @@ const state = {
   ui: {
     hasLocationSearch: true,
   },
-  urls: {
-    LOCAL: {
-      locationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/location',
-      geolocationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/geolocation',
-    },
-    DEV: {
-      locationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/location',
-      geolocationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/geolocation',
-    },
-    TEST: {
-      locationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/location',
-      geolocationSearch: 'https://apitest.e-enterprise.gov/eep/proxy/service/geolocation',
-    },
-    PROD: {
-      locationSearch: 'https://apidev2.e-enterprise.gov/eep/proxy/service/location',
-      geolocationSearch: 'https://api.e-enterprise.gov/eep/proxy/service/geolocation',
+  api: {
+    urls: {
+      locationSearch: 'eep/proxy/service/location',
+      geolocationSearch: 'eep/proxy/service/geolocation',
+      workbenchApplications: 'api/view/workbench-applications',
     },
   },
   token: {
@@ -58,7 +47,7 @@ const state = {
   user: {
     id: 0,
     name: '',
-    mail: '',
+    mail: 'No email set',
     favorite_links: [],
     location: {
       zipcode: '',

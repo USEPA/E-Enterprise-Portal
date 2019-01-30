@@ -56,13 +56,13 @@ export default {
     // env = 'DEV';
     return env;
   },
-  getLocation(state) {
-    return state.user.location;
-  },
   getUser(state) {
     return state.user;
   },
-  getURL: (state, ref) => urlName => state.urls[ref.getEnvironment][urlName],
+  getApiUrl: (state, ref) => (urlName) => {
+    const envApiUrl = ref.getEnvironmentApiURL;
+    return `${envApiUrl}/${state.api.urls[urlName]}`;
+  },
   getBridgeURL(state, ref) {
     const env = ref.getEnvironment;
     let url = '#';
@@ -106,9 +106,6 @@ export default {
   },
   getBasicPagesArray(state) {
     return state.basicPages.pagesArray;
-  },
-  getCurrentUrn(state) {
-    return state.currentBridgeUrn;
   },
   getLoginViewAccounts(state){
       return state.loginViewAccounts;

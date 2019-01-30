@@ -1,0 +1,21 @@
+uuid: a5bb855b-53e0-4803-a378-df1c65635707
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_description
+    - node.type.eep_workbench_application
+  module:
+    - text
+id: node.eep_workbench_application.field_description
+field_name: field_description
+entity_type: node
+bundle: eep_workbench_application
+label: Description
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long
