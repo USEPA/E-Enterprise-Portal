@@ -1,0 +1,20 @@
+button_value: 'Save & Edit'
+button_weight: '-1'
+dropbutton: 1
+hide_default_save: 0
+unpublish: 0
+unpublish_new_only: 0
+_core:
+  default_config_hash: oQZEEa6YecXPaDLQamDtBIPnSB-OUvoRLlq9vY4OlwQ
+hide_default_publish: 0
+hide_default_preview: 0
+hide_default_delete: 0
+node_types:
+  article: 0
+  authentication_option: 0
+  eep_app_content: 0
+  eep_my_reporting: 0
+  eep_proxy_service: 0
+  eep_workbench_application: 0
+  eep2_footer: 0
+  page: 0
