@@ -225,5 +225,9 @@
     }
   }
 
+  #log-in > a{
+      text-decoration: none;
+  }
+
 
 </style>
