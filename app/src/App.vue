@@ -146,8 +146,6 @@
     const vm = this;
     const store = vm.$store;
 
-    // @TODO: find if there is a way to retrieve the token and uid from the header in the request response
-
     if (main_url.indexOf("token") > -1 && main_url.indexOf("uid") > -1) {
       // Declare variables
       let vars = {};
