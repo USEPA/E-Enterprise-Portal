@@ -80,7 +80,7 @@ class EEPBridgeController extends ControllerBase {
       $error_msg = "Error. Please set a key in the JWT admin page.";
       \Drupal::logger('eep_bridge')->error($error_msg);
     }
-
+    // @TODO: remove $jwt_token and $uid from url params and change all affected features
     $url = Url::fromUri($environment_name . '?token='.$jwt_token.'&uid=' . $uid);
     $this->eep_bridge_goto($url, $jwt_token, $uid);
     return;
