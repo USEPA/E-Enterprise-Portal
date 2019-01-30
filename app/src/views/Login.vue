@@ -186,5 +186,9 @@
         max-width: 100%;
     }
 
+    #log-in > a{
+        text-decoration: none;
+    }
+
 
 </style>
