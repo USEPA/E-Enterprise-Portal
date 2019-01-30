@@ -28,6 +28,7 @@
     "drupal/config_update": "^1.5",
     "drupal/console": "^1.0.2",
     "drupal/content_access": "^1.0@alpha",
+    "drupal/content_sync": "^2.0",
     "drupal/core": "8.6.2",
     "drupal/ctools": "^3.0",
     "drupal/default_content": "^1.0@alpha",

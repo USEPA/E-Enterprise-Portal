@@ -37,8 +37,8 @@ $cwd = getcwd();
 $newline = "\n\r";
 
 // Other Actions
-echo "Stared";
+echo "Started: ";
 
 require_once EEP_PROFILE_DIR . '/import-content.php';
 
-echo "Finished";
+echo " :Finished";

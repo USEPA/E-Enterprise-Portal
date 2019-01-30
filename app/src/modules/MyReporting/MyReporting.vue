@@ -1,34 +1,39 @@
 <template>
   <div id="reportingrow">
-    <AppWrapper class="pb-5"
+    <AppWrapper
+      class="pb-5"
       :eep-app="eepApp">
       <div
-        v-html="eepApp.html.mainCard"
-        class="pb-2">
-      </div>
+        v-html="eepApp.field_html_content.mainCard"
+        class="pb-2"/>
       <nav>
-        <div class="nav nav-tabs nav-fill"
+        <div
+          class="nav nav-tabs nav-fill"
           id="nav-tab"
           role="tablist">
-          <a class="nav-item nav-link active"
+          <a
+            class="nav-item nav-link active"
             data-toggle="tab"
             href="#nav-epa"
             role="tab"
             aria-controls="nav-epa"
             aria-selected="true">US EPA</a>
-          <a class="nav-item nav-link"
+          <a
+            class="nav-item nav-link"
             data-toggle="tab"
             href="#nav-state"
             role="tab"
             aria-controls="nav-state"
             aria-selected="false">State</a>
-          <a class="nav-item nav-link"
+          <a
+            class="nav-item nav-link"
             data-toggle="tab"
             href="#nav-tribal"
             role="tab"
             aria-controls="nav-tribal"
             aria-selected="false">Tribal</a>
-          <a class="nav-item nav-link"
+          <a
+            class="nav-item nav-link"
             data-toggle="tab"
             href="#nav-local"
             role="tab"
@@ -38,51 +43,73 @@
       </nav>
       <div id="my-reporting">
         <ul class="inline-cdx-links">
-          <li class="my-cdx-login"><a class="my-cdx-web-handoff-link"
+          <li class="my-cdx-login"><a
+            class="my-cdx-web-handoff-link"
             data-handoff-type="login"
             href="https://dev.epacdx.net">My CDX</a></li>
-          <li class="my-cdx-inbox"><a class="my-cdx-web-handoff-link"
+          <li class="my-cdx-inbox"><a
+            class="my-cdx-web-handoff-link"
             data-handoff-type="inbox"
             href="https://dev.epacdx.net">Inbox</a></li>
-          <li class="my-cdx-alerts"><a class="my-cdx-web-handoff-link"
+          <li class="my-cdx-alerts"><a
+            class="my-cdx-web-handoff-link"
             data-handoff-type="alerts"
             href="https://dev.epacdx.net">News and Alerts</a>
           </li>
-          <li class="my-cdx-profile"><a class="my-cdx-web-handoff-link"
+          <li class="my-cdx-profile"><a
+            class="my-cdx-web-handoff-link"
             data-handoff-type="profile"
             href="https://dev.epacdx.net">My Profile</a>
           </li>
-          <li class="my-cdx-submission"><a class="my-cdx-web-handoff-link"
+          <li class="my-cdx-submission"><a
+            class="my-cdx-web-handoff-link"
             data-handoff-type="submission"
             href="https://dev.epacdx.net">Submission
             History</a></li>
         </ul>
       </div>
-      <div class="tab-content"
+      <div
+        class="tab-content"
         id="nav-tabContent">
-        <div class="tab-pane fade show active"
+        <div
+          class="tab-pane fade show active"
           id="nav-epa"
           role="tabpanel"
           aria-labelledby="nav-epa-tab">
           <template> <b-container fluid>
             <!-- User Interface controls -->
             <b-row>
-              <b-col md="6" class="my-1">
-                <b-form-group horizontal label="Filter" class="mb-0">
+              <b-col
+                md="6"
+                class="my-1">
+                <b-form-group
+                  horizontal
+                  label="Filter"
+                  class="mb-0">
                   <b-input-group>
-                    <b-form-input v-model="filter" placeholder="" />
+                    <b-form-input
+                      v-model="filter"
+                      placeholder="" />
                   </b-input-group>
                 </b-form-group>
               </b-col>
 
-              <b-col md="6" class="my-1">
-                <b-form-group horizontal label="Rows" class="mb-0">
-                  <b-form-select :options="pageOptions" v-model="perPage" />
+              <b-col
+                md="6"
+                class="my-1">
+                <b-form-group
+                  horizontal
+                  label="Rows"
+                  class="mb-0">
+                  <b-form-select
+                    :options="pageOptions"
+                    v-model="perPage" />
                 </b-form-group>
               </b-col>
             </b-row>
 
-            <b-table show-empty
+            <b-table
+              show-empty
               stacked="md"
               :fields="fields"
               :items="program"
@@ -91,15 +118,23 @@
               :filter="filter"
               @filtered="onFiltered"
             >
-              <template slot="first" slot-scope="data" v-for="item in program">
-                {{item.first}}
+              <template
+                slot="first"
+                slot-scope="data"
+                v-for="item in program">
+                {{ item.first }}
               </template>
-              <template slot="second" slot-scope="data"  v-for="item in program">
+              <template
+                slot="second"
+                slot-scope="data"
+                v-for="item in program">
                 <a :href="item.second">
-                  {{item.first}}
+                  {{ item.first }}
                 </a>
               </template>
-              <template slot="status" slot-scope="row">
+              <template
+                slot="status"
+                slot-scope="row">
                 <b-button
                   size="sm"
                   @click=""
@@ -107,28 +142,34 @@
               </template>
             </b-table>
             <b-row>
-              <b-col md="6" class="my-1">
-                <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="currentPage" class="my-0" />
+              <b-col
+                md="6"
+                class="my-1">
+                <b-pagination
+                  :total-rows="totalRows"
+                  :per-page="perPage"
+                  v-model="currentPage"
+                  class="my-0" />
               </b-col>
             </b-row>
           </b-container>
           </template>
         </div>
-        <div class="tab-pane fade"
+        <div
+          class="tab-pane fade"
           id="nav-state"
           role="tabpanel"
-          aria-labelledby="nav-state-tab">
-        </div>
-        <div class="tab-pane fade"
+          aria-labelledby="nav-state-tab"/>
+        <div
+          class="tab-pane fade"
           id="nav-local"
           role="tabpanel"
-          aria-labelledby="nav-local-tab">
-        </div>
-        <div class="tab-pane fade"
+          aria-labelledby="nav-local-tab"/>
+        <div
+          class="tab-pane fade"
           id="nav-tribal"
           role="tabpanel"
-          aria-labelledby="nav-tribal-tab">
-        </div>
+          aria-labelledby="nav-tribal-tab"/>
       </div>
     </AppWrapper>
   </div>
@@ -143,10 +184,8 @@
 
   const moduleName = 'MyReporting';
   const items = [
-    {program_service_name: '', role: '', status: '',}
+    { program_service_name: '', role: '', status: '' },
   ];
-
-
 
 
   export default {
@@ -167,19 +206,19 @@
     data() {
       return {
         program: [
-          { first: '', },
-          { second: '', },
-          { status: '',}
+          { first: '' },
+          { second: '' },
+          { status: '' },
 
         ],
          program1: [
-          { first: '',},
-          { second: '',},
+          { first: '' },
+          { second: '' },
         ],
         fields: [
-          { key: 'first', label: 'Program service name',},
-          { key: 'second', label: 'Role',},
-          { key: 'status', label: 'Status',},
+          { key: 'first', label: 'Program service name' },
+          { key: 'second', label: 'Role' },
+          { key: 'status', label: 'Status' },
         ],
         currentPage: 1,
         perPage: 5,
@@ -192,43 +231,43 @@
           { value: -1, text: 'All' },
         ],
         filter: null,
-        modalInfo: { title: '', content: '' }
-      }
+        modalInfo: { title: '', content: '' },
+      };
     },
     mounted() {
       AppAxios
         .get('https://apidev2.e-enterprise.gov/api/cdxdataflows')
-        .then(response => (this.program = response.data[0].field_cdx_program_name))
+        .then(response => (this.program = response.data[0].field_cdx_program_name));
     },
     computed: {
       ...mapGetters({
         // map getters go here
       }),
-      sortOptions () {
+      sortOptions() {
         // Create an options list from our fields
         return this.fields
           .filter(f => f.sortable)
-          .map(f => { return { text: f.label, value: f.key } })
-      }
+          .map(f => ({ text: f.label, value: f.key }));
+      },
     },
     methods: {
       ...mapActions(moduleName, [
         // map actions go here
       ]),
-      info (item, index, button) {
-        this.modalInfo.title = `Row index: ${index}`
-        this.modalInfo.content = JSON.stringify(item, null, 2)
-        this.$root.$emit('bv::show::modal', 'modalInfo', button)
+      info(item, index, button) {
+        this.modalInfo.title = `Row index: ${index}`;
+        this.modalInfo.content = JSON.stringify(item, null, 2);
+        this.$root.$emit('bv::show::modal', 'modalInfo', button);
       },
-      resetModal () {
-        this.modalInfo.title = ''
-        this.modalInfo.content = ''
+      resetModal() {
+        this.modalInfo.title = '';
+        this.modalInfo.content = '';
       },
-      onFiltered (filteredItems) {
+      onFiltered(filteredItems) {
         // Trigger pagination to update the number of buttons/pages due to filtering
-        this.totalRows = filteredItems.length
-        this.currentPage = 1
-      }
+        this.totalRows = filteredItems.length;
+        this.currentPage = 1;
+      },
     },
 
     props: {
@@ -237,7 +276,7 @@
         required: true,
       },
     },
-  }
+  };
 </script>
 
 <style scoped

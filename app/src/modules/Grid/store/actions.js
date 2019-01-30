@@ -32,12 +32,12 @@ export default {
         tmp.eepApp.id = wapp.title.toLowerCase().replace(/[`~!@#$%^&*()_|+=?;:'",.<>\{\}\[\]\\\/]/gi, '-');
 
         // Setup the sources
-        tmp.eepApp.sources = [];
+        tmp.eepApp.source = [];
         const keys = Object.keys(wapp.field_sources);
         keys.forEach((key) => {
-          tmp.eepApp.sources.push({
+          tmp.eepApp.source.push({
             text: key,
-            source: wapp.field_sources[keys[0]],
+            link: wapp.field_sources[keys[0]],
           });
         });
 

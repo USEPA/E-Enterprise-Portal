@@ -16,7 +16,4 @@ export default {
     }
     return ready;
   },
-  getSampleLayout(state) {
-    return state.sampleLayout;
-  },
 };
