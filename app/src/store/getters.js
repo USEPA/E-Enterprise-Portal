@@ -8,16 +8,8 @@ export default {
     return state.app;
   },
   getIsLoggedIn(state) {
-    return state.user.isLoggedIn;
-  },
-  getUserFullName(state) {
-    let fullname = '';
-    const userName = state.user.name;
-    const nameParts = [userName.prefix, userName.first, userName.last, userName.suffix];
-    fullname = nameParts
-      .filter(namePart => (namePart && namePart.length))
-      .join(' ');
-    return fullname;
+    const logInCookie = document.cookie.match('(^|;) ?Token=([^;]*)(;|$)');
+    return !!logInCookie;
   },
   /**
    * gets users TAndCCookie state
@@ -76,7 +68,7 @@ export default {
     let url = '#';
     const bridgeSettings = state.bridgeSettings[env];
     if (bridgeSettings) {
-      url = `${bridgeSettings.issuer}?wtrealm=${encodeURI(bridgeSettings.relyingParty)
+      url = `${bridgeSettings.issuer}?wtrealm=${encodeURI(bridgeSettings.relyingParty) 
         }&wreply=${encodeURI(bridgeSettings.sendBridgeBackTo)}&whr=urn:${state.currentBridgeUrn
         }&wa=${bridgeSettings.signInMethod}`;
     }
@@ -88,11 +80,14 @@ export default {
   getnavMargin(state) {
     return state.navMargin;
   },
-  getloginPageAccounts(state) {
+  getLoginPageAccounts(state) {
     return state.loginPageAccounts;
   },
   getUsername(state) {
-    return state.user.userName;
+    return state.user.name;
+  },
+  getUserEmail(state) {
+    return state.user.mail;
   },
   getUserObject(state) {
     return state.user.userObject;
@@ -112,4 +107,7 @@ export default {
   getBasicPagesArray(state) {
     return state.basicPages.pagesArray;
   },
+  getLoginViewAccounts(state){
+      return state.loginViewAccounts;
+  }
 };

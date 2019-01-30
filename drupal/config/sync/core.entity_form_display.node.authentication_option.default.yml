@@ -4,11 +4,13 @@ status: true
 dependencies:
   config:
     - field.field.node.authentication_option.field_authentication_category
-    - field.field.node.authentication_option.field_image_path
+    - field.field.node.authentication_option.field_option_image
     - field.field.node.authentication_option.field_tab_order
     - field.field.node.authentication_option.field_urn
+    - image.style.thumbnail
     - node.type.authentication_option
   module:
+    - image
     - path
 id: node.authentication_option.default
 targetEntityType: node
@@ -30,13 +32,13 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete
     region: content
-  field_image_path:
-    weight: 121
+  field_option_image:
+    weight: 125
     settings:
-      size: 60
-      placeholder: ''
+      progress_indicator: throbber
+      preview_image_style: thumbnail
     third_party_settings: {  }
-    type: string_textfield
+    type: image_image
     region: content
   field_tab_order:
     weight: 124

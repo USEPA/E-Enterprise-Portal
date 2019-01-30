@@ -80,20 +80,6 @@ export default {
     );
     EventBus.$emit('locationService::update');
   },
-  [types.USER_LOG_IN](state) {
-    Vue.set(
-      state.user,
-      'isLoggedIn',
-      true,
-    );
-  },
-  [types.USER_LOG_OUT](state) {
-    Vue.set(
-      state.user,
-      'isLoggedIn',
-      false,
-    );
-  },
   [types.USER_TANDC_COOKIE_DISMISS](state) {
     Vue.set(
       state.user,
@@ -111,15 +97,20 @@ export default {
   [types.SET_MARGIN_TOP_NAV](state, obj) {
     state.navMargin = obj;
   },
-  [types.SET_USERNAME](state, obj) {
-    Vue.set(state.user,
-      'userName',
-      obj);
-  },
   [types.SET_USER_OBJECT](state, obj) {
+
+    var name = obj.name[0].value;
+    var mail = obj.mail[0].value;
+    var favorite_links = obj.field_favorite_links;
     Vue.set(state.user,
-      'userObject',
-      obj);
+      'name',
+       name);
+    Vue.set(state.user,
+       'mail',
+        mail);
+    Vue.set(state.user,
+       'favorite_links',
+        favorite_links);
   },
   [types.SET_USER_OBJECT_FAV_LINKS](state, obj) {
     Vue.set(state.user.userObject,
@@ -133,5 +124,11 @@ export default {
   },
   [types.SET_BRIDGE_URN](state, obj){
       state.currentBridgeUrn = obj;
+  },
+  [types.SET_LOGIN_VIEW_ACCOUNTS](state, obj, ){
+      state.loginViewAccounts = obj;
+  },
+  [types.SET_UID](state, int){
+      state.user.id = int;
   },
 };

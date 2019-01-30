@@ -2,7 +2,7 @@
   <div
     :id="eepApp.id"
     :class="`wapp app-outer-wrapper wapp-${getSize}`">
-    <div class="app-window-icon-wrapper container px-2">
+    <div class="container px-2">
       <div class="justify-content-end">
         <!--
           @todo Need to update buttons and methods for AppWrapper
@@ -53,7 +53,7 @@
           </template>
         </h6>
       </div>
-      <div class="app-inner-wrapper">
+      <div class="wapp-inner-wrapper">
         <slot/>
       </div>
     </div>

@@ -59,6 +59,7 @@
 <script>
   // @ is an alias to /src
   import { mapGetters, mapActions } from 'vuex';
+  import AppAxios from 'axios';
   import MainHeader from '@/components/MainHeader.vue';
   import MainFooter from '@/components/MainFooter.vue';
   import LocationSearch from '@/components/LocationSearch.vue';
@@ -74,141 +75,123 @@
       LocationSearch,
     },
     computed: {
-      ...mapGetters({
-        ENV: 'getEnvironment',
-        navMargin: 'getnavMargin',
-        basicPages: 'getBasicPages',
-      }),
-      // @todo clean up variable names here
-      environmentName() {
-        let env = 'LOCAL';
-        const { host } = window.location;
-        let m;
-
-        const regex = {
-          LOCAL: /(localhost|local|^e-enterprise$)/gm,
-          DEV: /dev\d?\.e-enterprise/gm,
-          TEST: /test\d?\.e-enterprise/gm,
-          PROD: /^e-enterprise\.gov/gm,
-        };
-
-        Object.keys(regex).forEach((envName) => {
-          // eslint-disable-next-line no-cond-assign
-          while ((m = regex[envName].exec(host)) !== null) {
-            // This is necessary to avoid infinite loops with zero-width matches
-            if (m.length) {
-              env = envName;
-            }
-          }
-        });
-
-        let r = 'Local';
-        r = (env === 'DEV') ? 'Development' : r;
-        r = (env === 'TEST') ? 'Test' : r;
-        return r;
-      },
-    },
-    methods: {
-      
-    },
-    beforeCreate(){
-      const vm = this;
-      vm.$store.dispatch('EEPBasicPagesToState');
-    },
-    created() {
-      const vm = this;
-      vm.$store.commit(types.SET_APP, vm);
-      //  [App.vue specific] When App.vue is first loaded start the progress bar
-      vm.$Progress.start();
-
-//      // Add event listener for the window load
-//      window.addEventListener('load', function () {
-//        var cookie = vm.$cookie.get('userLoggedIn');
-//        if (cookie) {
-//          vm.$cookie.set('userLoggedIn', true, {expires: '20m'});
-//          vm.$store.commit('USER_LOG_IN');
-//        }
-//      }, false);
-//
-//      // Add event listener for the window refresh
-//      window.addEventListener('beforeunload', function () {
-//        this.$cookie.set('userLoggedIn', false, {expires: '-99s'});
-//        vm.$store.commit('USER_LOG_OUT');
-//      }, false);
-
-      //  hook the progress bar to start before we move router-view
-      vm.$router.beforeEach((
-        to, from, next,
-      ) => {
-        //  does the page we want to go to have a meta.progress object
-        if (to.meta.progress !== undefined) {
-          const meta = to.meta.progress;
-          // parse meta tags
-          vm.$Progress.parseMeta(meta);
-        }
-        //  start the progress bar
-        vm.$Progress.start();
-        //  continue to next page
-        next();
-      });
-
-      //  hook the progress bar to finish after we've finished moving router-view
-      vm.$router.afterEach(() => {
-        //  finish the progress bar
-        vm.$Progress.finish();
-      });
-    },
-    beforeMount(){
-      // Declare the main url that the page is currently on
-      const main_url = window.location.href;
-
-      // Declare the store
-      const vm = this;
-      const store = vm.$store;
-
-      if (main_url.indexOf("data") > -1 && main_url.indexOf("token") > -1) {
-
-        // Declare variables
-        var vars = {};
-
-        // Extracts the URL params
-        // Got this functionality from https://html-online.com/articles/get-url-parameters-javascript/
-        var parts = main_url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
-          vars[key] = value;
-        });
-
-        // find the URL params for each one
-        const data = vars["data"];
-        const token = vars["token"];
-
-        // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
-        let username = atob(decodeURIComponent(data).replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''));
-
-        // Save username to store and put in the cookie
-        this.$cookie.set('loggedInUserName', username, {expires: '20m'});
-        store.commit(types.SET_USERNAME, username);
-
-        // Set another cookie saying they logged in
-        this.$cookie.set('userLoggedIn', true, {expires: '20m'});
-
-        // Log user in
-        store.commit('USER_LOG_IN');
-        // Redirect to the workbench
-        this.$router.push("/workbench");
-      }else{
-        if(this.$cookie.get('userLoggedIn')){
-          // Log user in and set user name
-          store.commit('USER_LOG_IN');
-          store.commit(types.SET_USERNAME, this.$cookie.get('loggedInUserName'));
-          // Redirect to the workbench
-          this.$router.push("/workbench");
+            ...mapGetters({
+              ENV: 'getEnvironment',
+              navMargin: 'getnavMargin',
+              basicPages: 'getBasicPages',
+            }),
+    // @todo clean up variable names here
+    environmentName() {
+      let env = 'LOCAL';
+      const { host } = window.location;
+      let m;
+      const regex = {
+        LOCAL: /(localhost|local|^e-enterprise$)/gm,
+        DEV: /dev\d?\.e-enterprise/gm,
+        TEST: /test\d?\.e-enterprise/gm,
+        PROD: /^e-enterprise\.gov/gm,
+      };
+      Object.keys(regex).forEach((envName) => {
+        // eslint-disable-next-line no-cond-assign
+        while ((m = regex[envName].exec(host)) !== null) {
+        // This is necessary to avoid infinite loops with zero-width matches
+        if (m.length) {
+          env = envName;
         }
       }
+    });
+      let r = 'Local';
+      r = (env === 'DEV') ? 'Development' : r;
+      r = (env === 'TEST') ? 'Test' : r;
+      return r;
     },
-    mounted() {
-      //  [App.vue specific] When App.vue is finish loading finish the progress bar
-      this.$Progress.finish();
-    },
+  },
+  methods: {
+
+  },
+  beforeCreate(){
+    const vm = this;
+    vm.$store.dispatch('EEPBasicPagesToState');
+  },
+  created() {
+    const vm = this;
+    vm.$store.commit(types.SET_APP, vm);
+    //  [App.vue specific] When App.vue is first loaded start the progress bar
+    vm.$Progress.start();
+    //  hook the progress bar to start before we move router-view
+    vm.$router.beforeEach((
+            to, from, next,
+    ) => {
+      //  does the page we want to go to have a meta.progress object
+      if (to.meta.progress !== undefined) {
+      const meta = to.meta.progress;
+      // parse meta tags
+      vm.$Progress.parseMeta(meta);
+    }
+    //  start the progress bar
+    vm.$Progress.start();
+    //  continue to next page
+    next();
+  });
+    //  hook the progress bar to finish after we've finished moving router-view
+    vm.$router.afterEach(() => {
+      //  finish the progress bar
+      vm.$Progress.finish();
+  });
+  },
+  beforeMount(){
+    // Declare the main url that the page is currently on
+    const main_url = window.location.href;
+    // Declare the store
+    const vm = this;
+    const store = vm.$store;
+    if (main_url.indexOf("token") > -1 && main_url.indexOf("uid") > -1) {
+      // Declare variables
+      let vars = {};
+      // Extracts the URL params
+      // Got this functionality from https://html-online.com/articles/get-url-parameters-javascript/
+      let parts = main_url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+        vars[key] = value;
+      });
+      // find the URL params for each one
+      const token = vars["token"];
+      const uid = vars["uid"];
+      // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
+      // Set another cookie saying they logged in
+      this.$cookie.set('userLoggedIn', true, {expires: '20m'});
+      // set user token in cookie
+      this.$cookie.set('Token', token, {expires: '20m'});
+      this.$cookie.set('uid', uid, {expires: '20m'});
+      store.commit(types.SET_UID, uid);
+      // Log user in
+      store.commit('USER_LOG_IN');
+    }else{
+      if(this.$cookie.get('Token')){
+        // Log user in and set user name
+        store.commit('USER_LOG_IN');
+        store.commit(types.SET_UID, this.$cookie.get('uid'));
+      }
+    }
+    if (this.$cookie.get('userLoggedIn')) {
+
+      AppAxios.get('https://apidev2.e-enterprise.gov/user/' + this.$cookie.get('uid') + '?_format=json',
+            {
+                headers: {
+                  'Authorization': "Bearer " + this.$cookie.get('Token'),
+                }
+              }).then(response => {
+        store.commit('SET_USER_OBJECT', response.data);
+    }).catch((error) => {
+        console.warn(error)
+    });
+
+    }
+
+  },
+  mounted() {
+    //  [App.vue specific] When App.vue is finish loading finish the progress bar
+    this.$Progress.finish();
+  },
   };
 
 </script>
@@ -225,7 +208,6 @@
     color: #fff;
     text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
     background-color: #0071bc;
-    // background-color: #007bff;
     height: auto;
     font-size: 1.5rem;
 

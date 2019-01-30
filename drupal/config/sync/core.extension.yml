@@ -19,6 +19,7 @@ module:
   config: 0
   config_actions: 0
   config_filter: 0
+  config_split: 0
   config_update: 0
   contact: 0
   content_access: 0
@@ -80,6 +81,8 @@ module:
   search: 0
   serialization: 0
   shortcut: 0
+  structure_sync: 0
+  svg_image: 0
   system: 0
   taxonomy: 0
   text: 0
