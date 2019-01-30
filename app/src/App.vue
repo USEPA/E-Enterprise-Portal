@@ -140,25 +140,25 @@
   });
   },
   beforeMount(){
-    // Declare the main url that the page is currently on
-    const main_url = window.location.href;
     // Declare the store
     const vm = this;
     const store = vm.$store;
 
-    if(!this.$cookie.get('userLoggedIn')){
-        // Log user in and set user name
-        store.commit('USER_LOG_IN');
-        store.commit(types.SET_UID, this.$cookie.get('uid'));
+    console.log(document.cookie);
 
-        AppAxios.get(`${this.$store.getters.getEnvironmentApiURL}/user/${this.$cookie.get('uid')}?_format=json`, {
-            headers: { Authorization: `Bearer ${this.$cookie.get('token')}` },
-        }).then((response) => {
-            store.commit('SET_USER_OBJECT', response.data);
-        }).catch((error) => {
-            console.warn(error)
-        });
-    }
+//    if(!this.$cookie.get('userLoggedIn')){
+//        // Log user in and set user name
+//        store.commit('USER_LOG_IN');
+//        store.commit(types.SET_UID, this.$cookie.get('uid'));
+//
+//        AppAxios.get(`${this.$store.getters.getEnvironmentApiURL}/user/${this.$cookie.get('uid')}?_format=json`, {
+//            headers: { Authorization: `Bearer ${this.$cookie.get('token')}` },
+//        }).then((response) => {
+//            store.commit('SET_USER_OBJECT', response.data);
+//        }).catch((error) => {
+//            console.warn(error)
+//        });
+//    }
   },
   mounted() {
     //  [App.vue specific] When App.vue is finish loading finish the progress bar
