@@ -82,15 +82,16 @@ class EEPBridgeController extends ControllerBase {
       \Drupal::logger('eep_bridge')->error($error_msg);
     }
     // @TODO: remove $jwt_token and $uid from url params and change all affected features
-    $url = Url::fromUri($environment_name . '?token='.$jwt_token.'&uid=' . $uid);
+    $url = Url::fromUri($environment_name);
     $this->eep_bridge_goto($url, $jwt_token, $uid);
     return;
   }
 
   function eep_bridge_goto($url, $jwt_token, $uid) {
     $response = new RedirectResponse($url->toString());
-    $response->headers->setCookie(new Cookie('jwt_token', $jwt_token));
+    $response->headers->setCookie(new Cookie('userLoggedIn',true));
     $response->headers->setCookie(new Cookie('uid', $uid));
+    $response->headers->setCookie(new Cookie('token', $jwt_token));
     $response->send();
     exit;
   }
