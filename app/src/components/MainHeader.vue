@@ -21,19 +21,18 @@
           <template>
             <router-link to="/workbench">
               <div
-                id="tryit-arrow"
                 ref="tryit-arrow"
-                class="d-none"
+                class="d-none button-down-arrow"
               />
-              <b-button
+              <button
                 id="try-it"
-                class="btn btn-sm"
+                class="usa-button"
                 variant="primary"
                 @mouseover="addTryItArrow"
                 @mouseleave="removeTryItArrow"
                 v-if='!isLoggedIn'>
                 <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left pr-1"/>Try It
-              </b-button>
+              </button>
             </router-link>
           </template>
         </div>
@@ -42,40 +41,37 @@
           id="log-in-container">
           <template v-if='isLoggedIn'>
             <span>Welcome {{ username }}</span>
-            <b-btn
+            <button
               to="/"
               variant="outline-secondary"
-              class="btn btn-sm btn-outline-primary account-auth"
+              class="usa-button"
               @click="userLogOut">
               <i class="fas fa-lock pr-1"/>
               Logout
-            </b-btn>
-            <b-button
+            </button>
+            <button
               to="/User"
               id="my-account"
-              class="btn btn-sm ml-2"
+              class="usa-button ml-2"
               variant="primary">
               My account
-            </b-button>
+            </button>
           </template>
           <template v-else>
             <div
-              id="login-arrow"
               ref="login-arrow"
-              class="d-none"
+              class="d-none button-down-arrow"
             />
             <div
               class="router-link-wrapper pt-2"
               id="log-in">
-              <a
-                href="javascript:void(0);"
+              <button
                 @mouseover="addLogInArrow"
                 @mouseleave="removeLogInArrow"
-                @click="handleLogin"
-                class="btn btn-sm btn-outline-primary account-auth-login">
+                class="usa-button">
                 <i class="fas fa-lock pr-1"/>
                 Login
-              </a>
+              </button>
             </div>
           </template>
         </div>
@@ -163,76 +159,24 @@
     #log-in {
         position: relative;
     }
-    #tryit-arrow {
-        top: 100%;
-        left: 50%;
-        border: .7rem solid transparent;
-        content: " ";
-        height: 0;
-        width: 0;
-        position: absolute;
-        pointer-events: none;
-        border-color: rgba(0, 98, 160, 0);
-        border-top-color: #0062a0;
-        margin-left: -.7rem;
-    }
-    #login-arrow {
-        top: 100%;
-        left: 50%;
-        border: .7rem solid transparent;
-        content: " ";
-        height: 0;
-        width: 0;
-        position: absolute;
-        pointer-events: none;
-        border-color: rgba(0, 98, 160, 0);
-        border-top-color: #007ac6;
-        margin-left: -.7rem;
+    .button-down-arrow {
+      top: 100%;
+      left: 50%;
+      border: .7rem solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+      border-color: rgba(0, 98, 160, 0);
+      border-top-color: #1a4480;
+      margin-left: -.7rem;
     }
 
   .eep_logo {
     img {
       max-width: 100%;
     }
-  }
-
-  .arrow-down-message {
-    display: none;
-    color: #000;
-    position: absolute;
-    right: 0;
-    font-size: 1rem;
-    font-family: 'Futura LT BT', 'Poppins', 'Century Gothic', 'Source Sans Pro', Helvetica, Arial, sans-serif
-  }
-
-  .account-auth-login {
-    background-color: #0071bc;
-    color: white;
-    position: relative;
-    text-decoration: none;
-
-    &:hover {
-      &:after {
-        content: '';
-        width: 0;
-        height: 0;
-        border-left: 7px solid transparent;
-        border-right: 7px solid transparent;
-        border-top: 7px solid #0071bc;
-        bottom: -7px;
-        left: 50%;
-        transform: translateX(-50%);
-        position: absolute;
-      }
-
-      .arrow-down-message {
-        display: block;
-      }
-    }
-  }
-
-  #log-in > a{
-      text-decoration: none;
   }
 
 
