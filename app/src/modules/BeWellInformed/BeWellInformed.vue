@@ -28,7 +28,7 @@
         <div
           id="bwi-widget-state-content"
           class="py-2"
-          v-html="eepApp.html.mainCard">
+          v-html="eepApp.field_html_content.mainCard">
         </div>
         <b-btn
           variant="primary"

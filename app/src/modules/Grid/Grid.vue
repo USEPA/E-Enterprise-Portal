@@ -27,7 +27,7 @@
           :i="wapp.i"
           :key="index">
           <component
-            :is="wapp.componentName"
+            :is="wapp.eepApp.field_vue_component_name"
             :eep-app="wapp.eepApp"/>
         </grid-item>
       </grid-layout>

@@ -24,7 +24,7 @@ export default {
       city: '',
       state: '',
     };
-    let url = store.getters.getURL('locationSearch');
+    let url = store.getters.getApiUrl('locationSearch');
 
     // Input validation for URL formation
     if (/^\d{5}(-\d{4})?$/.test(location)) {
@@ -61,7 +61,7 @@ export default {
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        let url = store.getters.getURL('geolocationSearch');
+        let url = store.getters.getApiUrl('geolocationSearch');
         url = `${url}?f=pjson&location=${position.coords.longitude},${position.coords.latitude}`;
         AppAxios.get(url).then((response) => {
           const { data } = response;
