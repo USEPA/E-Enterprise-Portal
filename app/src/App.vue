@@ -174,19 +174,17 @@
     }
     if (this.$cookie.get('userLoggedIn')) {
 
-      AppAxios.get('https://apidev2.e-enterprise.gov/user/' + this.$cookie.get('uid') + '?_format=json',
-            {
-                headers: {
-                  'Authorization': "Bearer " + this.$cookie.get('Token'),
-                }
-              }).then(response => {
+      AppAxios.get('https://apidev2.e-enterprise.gov/user/' + this.$cookie.get('uid') + '?_format=json', {
+        headers: {'Authorization': "Bearer " + this.$cookie.get('Token')}
+      }).then(response => {
+
+        // Commit the user object to the store
         store.commit('SET_USER_OBJECT', response.data);
-    }).catch((error) => {
-        console.warn(error)
-    });
 
+      }).catch((error) => {
+        console.warn(error);
+      });
     }
-
   },
   mounted() {
     //  [App.vue specific] When App.vue is finish loading finish the progress bar
