@@ -1,0 +1,14 @@
+uuid: d1941357-dc22-4db7-a4b6-46640a28e63f
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.bwi_test
+  module:
+    - user
+id: user_remove_role_action.bwi_test
+label: 'Remove the bwi_test role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: bwi_test

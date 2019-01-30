@@ -1,19 +1,27 @@
-uuid: eff8c4b1-c275-4233-bd07-c1d905cc20f8
+uuid: 0ab92b34-d34b-4d5c-8577-9957369f875d
 langcode: en
 status: true
 dependencies:
   module:
     - node
-_core:
-  default_config_hash: u1Ep08OLKKFGb38k2LX7ekBPBTOZLCfK2XLjpY-4s-I
+    - options
 id: node.field_default_grid_size
 field_name: field_default_grid_size
 entity_type: node
-type: integer
+type: list_string
 settings:
-  unsigned: false
-  size: normal
-module: core
+  allowed_values:
+    -
+      value: small
+      label: Small
+    -
+      value: medium
+      label: Medium
+    -
+      value: large
+      label: Large
+  allowed_values_function: ''
+module: options
 locked: false
 cardinality: 1
 translatable: true

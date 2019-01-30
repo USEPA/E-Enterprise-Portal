@@ -2,7 +2,7 @@
   <div id="favLinks">
     <AppWrapper
       :eep-app="eepApp">
-      <div v-html="eepApp.html.mainCard"/>
+      <div v-html="eepApp.field_html_content.mainCard"/>
       <b-row>
         <b-col
           md="5"

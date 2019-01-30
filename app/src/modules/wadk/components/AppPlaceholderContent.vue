@@ -69,4 +69,36 @@
       background-color: rgba(165, 165, 165, 0.1)
     }
   }
+
+  .square:before,
+  .rectangle:before {
+     content: '';
+     width: 0;
+   }
+
+  .square:before,
+  .rectangle:before {
+    white-space: normal;
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 100%;
+  }
+
+  .square:before {
+    padding-top: 100%;
+    /* makes expand to a square */
+  }
+
+  .rectangle:before {
+    padding-top: 50%;
+    /* makes expand to a square */
+  }
+
+  .square,
+  .rectangle {
+    &[class^="col"] {
+      box-shadow: inset 0 0 0 5px white;
+      padding: 0;
+    }
+  }
 </style>
