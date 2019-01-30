@@ -145,6 +145,9 @@
     // Declare the store
     const vm = this;
     const store = vm.$store;
+
+    // GRAB INFORMATION FROM HEADER
+
     if (main_url.indexOf("token") > -1 && main_url.indexOf("uid") > -1) {
       // Declare variables
       let vars = {};
