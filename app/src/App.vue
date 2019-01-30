@@ -145,41 +145,40 @@
     // Declare the store
     const vm = this;
     const store = vm.$store;
-
-    // Make request to the /authenticate route for the logged in user to grab the headers
-    // Found this example from https://stackoverflow.com/questions/220231/accessing-the-web-pages-http-headers-in-javascript
-    let request = new XMLHttpRequest();
-    request.open('HEAD', 'https://apidev2.e-enterprise.gov/authenticate/user', false);
-    request.send(null);
-
-    // Extract headers from the request response
-    const headers = request.getAllResponseHeaders();
-
-    console.log(headers);
-
-    // Set another cookie saying they logged in
-    this.$cookie.set('userLoggedIn', true, {expires: '20m'});
-    // set user token in cookie
-    this.$cookie.set('Token', token, {expires: '20m'});
-    this.$cookie.set('uid', uid, {expires: '20m'});
-    store.commit(types.SET_UID, uid);
-    // Log user in
-    store.commit('USER_LOG_IN');
-
-    if(this.$cookie.get('Token')){
+    if (main_url.indexOf("token") > -1 && main_url.indexOf("uid") > -1) {
+      // Declare variables
+      let vars = {};
+      // Extracts the URL params
+      // Got this functionality from https://html-online.com/articles/get-url-parameters-javascript/
+      let parts = main_url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+        vars[key] = value;
+      });
+      // find the URL params for each one
+      const token = vars["token"];
+      const uid = vars["uid"];
+      // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
+      // Set another cookie saying they logged in
+      this.$cookie.set('userLoggedIn', true, {expires: '20m'});
+      // set user token in cookie
+      this.$cookie.set('Token', token, {expires: '20m'});
+      this.$cookie.set('uid', uid, {expires: '20m'});
+      store.commit(types.SET_UID, uid);
+      // Log user in
+      store.commit('USER_LOG_IN');
+    }else{
+      if(this.$cookie.get('userLoggedIn')){
         // Log user in and set user name
         store.commit('USER_LOG_IN');
         store.commit(types.SET_UID, this.$cookie.get('uid'));
+      }
     }
-
     if (this.$cookie.get('userLoggedIn')) {
       AppAxios.get(`${this.$store.getters.getEnvironmentApiURL}/user/${this.$cookie.get('uid')}?_format=json`, {
-        headers: { Authorization: `Bearer ${this.$cookie.get('Token')}` },
+          headers: { Authorization: `Bearer ${this.$cookie.get('Token')}` },
       }).then((response) => {
-        // Commit the user object to the store
-        store.commit('SET_USER_OBJECT', response.data);
+          store.commit('SET_USER_OBJECT', response.data);
       }).catch((error) => {
-        console.warn(error);
+          console.warn(error)
       });
     }
   },
