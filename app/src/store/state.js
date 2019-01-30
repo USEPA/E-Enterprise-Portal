@@ -47,7 +47,7 @@ const state = {
   user: {
     id: 0,
     name: '',
-    mail: '',
+    mail: 'No email set',
     favorite_links: [],
     location: {
       zipcode: '',
