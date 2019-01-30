@@ -148,7 +148,7 @@
 
     // Make request to the /authenticate route for the logged in user to grab the headers
     // Found this example from https://stackoverflow.com/questions/220231/accessing-the-web-pages-http-headers-in-javascript
-    var request = new XMLHttpRequest();
+    let request = new XMLHttpRequest();
     request.open('HEAD', 'https://apidev2.e-enterprise.gov/authenticate/user', false);
     request.send(null);
 
@@ -157,8 +157,6 @@
 
     console.log(headers);
 
-
-    // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
     // Set another cookie saying they logged in
     this.$cookie.set('userLoggedIn', true, {expires: '20m'});
     // set user token in cookie
