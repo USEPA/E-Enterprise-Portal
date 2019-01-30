@@ -81,7 +81,7 @@ class EEPBridgeController extends ControllerBase {
       \Drupal::logger('eep_bridge')->error($error_msg);
     }
 
-    $url = Url::fromUri($environment_name . '?token='.$jwt_token.'&uid=' . $uid);
+    $url = Url::fromUri($environment_name);
     $this->eep_bridge_goto($url, $jwt_token, $uid);
     return;
   }
