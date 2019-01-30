@@ -90,7 +90,7 @@ class EEPBridgeController extends ControllerBase {
   function eep_bridge_goto($url, $jwt_token, $uid) {
     $response = new RedirectResponse($url->toString());
     $response->headers->setCookie(new Cookie('jwt_token', $jwt_token));
-    $response->headers->setCookie(new Cookie('foo', $uid));
+    $response->headers->setCookie(new Cookie('uid', $uid));
     $response->send();
     exit;
   }
