@@ -185,4 +185,5 @@
     .caption-wrapper > p{
         max-width: 100%;
     }
+
 </style>
