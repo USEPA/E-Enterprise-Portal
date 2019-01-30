@@ -153,7 +153,7 @@
     request.send(null);
 
     // Extract headers from the request response
-    var headers = request.getAllResponseHeaders();
+    const headers = request.getAllResponseHeaders();
 
     console.log(headers);
 
