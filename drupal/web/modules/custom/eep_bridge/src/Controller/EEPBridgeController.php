@@ -4,6 +4,7 @@ namespace Drupal\eep_bridge\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\eep_bridge\ADFSConf;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\Core\Url;
 use Drupal\eep_bridge\ADFSUserDetails;
@@ -88,8 +89,8 @@ class EEPBridgeController extends ControllerBase {
 
   function eep_bridge_goto($url, $jwt_token, $uid) {
     $response = new RedirectResponse($url->toString());
-    $response->headers->setCookie('jwt_token', $jwt_token);
-    $response->headers->setCookie('uid', $uid);
+    $response->headers->setCookie(new Cookie('jwt_token', $jwt_token));
+    $response->headers->setCookie(new Cookie('uid', $uid));
     $response->send();
     exit;
   }
