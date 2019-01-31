@@ -4,4 +4,13 @@ path: '/api/cdxprogramtitles'
   methods:  [GET]
   requirements:
     _access: 'TRUE'
-
+eep_my_reporting.eep_naas_administration_form:
+  path: '/admin/config/system/eep_my_reporting_settings'
+  defaults:
+    _form: '\Drupal\eep_my_reporting\Form\AuthenticationConfigForm'
+    _title: 'E-Enterprise My Reporting Authentication settings'
+  description: 'Configure administration details.'
+  requirements:
+    _permission: 'access content'
+  options:
+    _admin_route: TRUE
