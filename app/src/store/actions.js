@@ -137,7 +137,6 @@ export default {
         value: tokenPayload.value,
         defaultValue: null,
       };
-
       // if deep property
       store.commit('SET_DEEP_PROPERTY', payload);
     }
@@ -272,9 +271,5 @@ export default {
     }).catch(error => {
         console.error(error.response);
     });
-  },
-  checkForTokenExpiration(context){
-      const store = context;
-
   },
 };
