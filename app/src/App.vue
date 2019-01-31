@@ -110,9 +110,9 @@
         },
       },
       methods: {
-           ...mapActions(moduleName, {
-                                     
-           }),
+         ...mapActions(moduleName, {
+             'checkForTokenExpiration',
+         }),
 
       },
       beforeCreate(){
@@ -146,7 +146,7 @@
           });
 
           // Set up listener to listen for the expiration of the cookie
-          EventBus.$on('App::tokenExpiration', this.afterTokenExpiration);
+//          EventBus.$on('App::tokenExpiration', this.afterTokenExpiration);
       },
       beforeMount(){
           // Declare the main url that the page is currently on
