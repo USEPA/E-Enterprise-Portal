@@ -14,6 +14,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Drupal\eep_my_reporting\SOAPHandler;
 use Drupal\eep_my_reporting\CDXRegisterMyCdxService;
 
+//Temp
+use Drupal\user\Entity\User;
+
 
 /**
  * Controller routines for test_api routes.
@@ -32,8 +35,17 @@ class EEPMyReportingController extends ControllerBase {
     return $this->currentUser;
   }
 
+  private function tempLoginUser() {
+    $user = User::load(1);
+    user_login_finalize($user);
+    $uid = \Drupal::currentUser()->id();
+
+  }
 
   function getCDXUserName() {
+    // Force Login User - Drupal Code
+    // Call JWT Token Creation
+    //
     return 'greenolive';
   }
 
@@ -41,6 +53,7 @@ class EEPMyReportingController extends ControllerBase {
    * Fetch My CDX data from SOAP service
    */
   function fetch_my_cdx_links() {
+    $this->tempLoginUser();
     $cdx_username = $this->getCDXUserName();
     $cdx_register_service = new CDXRegisterMyCdxService();
     $token = $cdx_register_service->return_token();
