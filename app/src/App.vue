@@ -169,16 +169,16 @@
               // Log user in
               store.commit('USER_LOG_IN');
 
-              // After the user is logged in then start checking to see if the cookie has expired and if it has then log them out
-              setInterval(function () {
-                  console.log("hit set interval");
-                  if(!this.$cookie.get('userLoggedIn')){
-
-                  }else{
-
-                  }
-
-              }, 30000)
+//              // After the user is logged in then start checking to see if the cookie has expired and if it has then log them out
+//              setInterval(function () {
+//                  console.log("hit set interval");
+//                  if(!this.$cookie.get('userLoggedIn')){
+//
+//                  }else{
+//
+//                  }
+//
+//              }, 30000);
 
           }else{
               if(this.$cookie.get('userLoggedIn')){
