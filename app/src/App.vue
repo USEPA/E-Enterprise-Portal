@@ -56,11 +56,6 @@
     <AppModal
         id="cookie-extension-modal"
         title="Would you like to extend your session?">
-
-
-
-
-
     </AppModal>
   </div>
 </template>
