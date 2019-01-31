@@ -250,11 +250,12 @@
     },
     mounted() {
       AppAxios
-        .get('https://apidev2.e-enterprise.gov/api/cdxdataflows')
+        .get(this.apiURL + '/api/cdxdataflows')
         .then(response => (this.program = response.data[0].field_cdx_program_name));
     },
     computed: {
       ...mapGetters({
+        apiURL: 'getEnvironmentApiURL',
         // map getters go here
       }),
       sortOptions() {

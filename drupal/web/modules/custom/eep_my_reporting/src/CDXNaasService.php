@@ -1,5 +1,10 @@
 <?php
 
+namespace Drupal\eep_my_reporting;
+
+use Drupal\eep_my_reporting\SOAPHandler;
+
+
 class CDXNaasService {
   protected $params;
   protected $client;
@@ -19,7 +24,8 @@ class CDXNaasService {
    * @return bool
    */
   protected function call_service_method($method_name) {
-    $soap_service_object = callSOAPWithParams($this->client,
+    $soap_handler = new SOAPHandler();
+    $soap_service_object = $soap_handler->callSOAPWithParams($this->client,
       $method_name,
       $this->params,
       get_class($this));
