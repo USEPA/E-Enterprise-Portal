@@ -109,5 +109,8 @@ export default {
   },
   getLoginViewAccounts(state){
       return state.loginViewAccounts;
-  }
+  },
+  getDisplayLoggedInElements(state){
+      return state.user.isLoggedIn;
+  },
 };

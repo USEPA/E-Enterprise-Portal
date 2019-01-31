@@ -135,4 +135,7 @@ export default {
   [types.SET_UID](state, int) {
     state.user.id = int;
   },
+  [types.IS_USER_LOGGED_IN](state, IsLoggedIn){
+      state.user.isLoggedIn = IsLoggedIn;
+  },
 };
