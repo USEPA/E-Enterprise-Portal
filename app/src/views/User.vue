@@ -152,7 +152,7 @@
     },
     data() {
       return {
-        mail: 'bob@example.com',
+
         locations: [{ }],
         UserDeleteModalInfo: { title: 'Delete User' },
       };
@@ -163,6 +163,7 @@
         // map getters go here
         isLoggedIn: 'getIsLoggedIn',
         username: 'getUsername',
+        mail: 'getUserEmail',
       }),
     },
     methods: {

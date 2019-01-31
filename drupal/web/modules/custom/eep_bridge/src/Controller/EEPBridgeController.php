@@ -82,12 +82,13 @@ class EEPBridgeController extends ControllerBase {
     }
 
     $url = Url::fromUri($environment_name . '?token='.$jwt_token.'&uid=' . $uid);
-    $this->eep_bridge_goto($url);
+    $this->eep_bridge_goto($url, $jwt_token);
     return;
   }
 
-  function eep_bridge_goto($url) {
+  function eep_bridge_goto($url, $jwt_token) {
     $response = new RedirectResponse($url->toString());
+    $response->headers->set('token', $jwt_token);
     $response->send();
     exit;
   }

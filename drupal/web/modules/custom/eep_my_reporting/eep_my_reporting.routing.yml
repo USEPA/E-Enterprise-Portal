@@ -1,6 +1,8 @@
-eep_my_reporting.get:
-path: '/api/cdxprogramtitles'
-  defaults: { _controller: '\Drupal\test_api\Controller\EEPMyReportingController::get_example' }
+eep_my_reporting.my_reporting:
+  path: '/api/cdxdataflows'
+  defaults:
+    _controller: '\Drupal\eep_my_reporting\Controller\EEPMyReportingController::fetch_my_cdx_links'
+    _title: 'CDX Dataflows'
   methods:  [GET]
   requirements:
     _access: 'TRUE'

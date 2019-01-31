@@ -7,26 +7,28 @@
         class="needs-validation"
         @submit="onCheckYourWater"
         novalidated>
+        <label
+          class="sr-only">Select partner</label>
         <b-form-select
-                id="partner-selection"
-                :value="selectedPartner"
-                :options="partners"
-                ref="partnerDropdown"
-                @change="setSelectedPartner"
-                class="mb-3"
-                required>
+          id="partner-selection"
+          :value="selectedPartner"
+          :options="partners"
+          ref="partnerDropdown"
+          @change="setSelectedPartner"
+          class="mb-3"
+          required>
           <template slot="first">
             <!-- this slot appears above the options from 'options' prop -->
             <option
-                    :value="null"
-                    disabled>-- Please select an partner --
+              :value="null"
+              disabled>-- Please select an partner --
             </option>
           </template>
         </b-form-select>
         <div
           id="bwi-widget-state-content"
           class="py-2"
-          v-html="eepApp.html.mainCard">
+          v-html="eepApp.field_html_content.mainCard">
         </div>
         <b-btn
           variant="primary"
@@ -105,7 +107,7 @@
           </b-tab>
         </b-tabs>
 
-       <!-- NBSP is used to prevent the default modal buttons from rendering -->
+        <!-- NBSP is used to prevent the default modal buttons from rendering -->
         <template
           slot="footer">&nbsp;
         </template>

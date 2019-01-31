@@ -19,6 +19,7 @@
     "composer/installers": "^1.6",
     "drupal-composer/drupal-scaffold": "^2.5",
     "drupal/admin_toolbar": "^1.24",
+    "drupal/admincss": "^1.1",
     "drupal/advagg": "^3.5",
     "drupal/backup_migrate": "^4.0",
     "drupal/config_actions": "^1.0@beta",
@@ -26,7 +27,9 @@
     "drupal/config_split": "^1.3",
     "drupal/config_update": "^1.5",
     "drupal/console": "^1.0.2",
-    "drupal/core": "8.6.2",
+    "drupal/content_access": "^1.0@alpha",
+    "drupal/content_sync": "^2.0",
+    "drupal/core": "8.6.7",
     "drupal/ctools": "^3.0",
     "drupal/default_content": "^1.0@alpha",
     "drupal/devel": "^1.2",
@@ -34,6 +37,7 @@
     "drupal/double_field": "3.2",
     "drupal/entity_browser": "^1.5",
     "drupal/entity_reference_revisions": "^1.5",
+    "drupal/formatter_field": "^1.0",
     "drupal/jwt": "^1.0@alpha",
     "drupal/node_export": "1.x-dev",
     "drupal/openapi": "^1.0@beta",
@@ -46,13 +50,16 @@
     "drupal/pathauto": "^1.2",
     "drupal/redirect": "^1.2",
     "drupal/restui": "^1.15",
+    "drupal/save_edit": "^1.1",
+    "drupal/simplesamlphp_auth": "^3.0",
+    "drupal/structure_sync": "^1.16",
     "drupal/supercache": "^1.3",
     "drupal/svg_image": "^1.8",
     "drupal/swagger_ui_formatter": "^2.0",
     "drupal/taxonomy_import": "^1.0",
     "drupal/token": "^1.5",
     "drupal/wincachedrupal": "^1.11",
-    "drush/drush": "^9.0.0",
+    "drush/drush": "^9.5",
     "mnsami/composer-custom-directory-installer": "^1.1",
     "vlucas/phpdotenv": "^2.4",
     "webflo/drupal-finder": "^1.0.0",
@@ -60,7 +67,7 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^6.5",
-    "webflo/drupal-core-require-dev": "~8.6"
+    "webflo/drupal-core-require-dev": "8.6.7"
   },
   "conflict": {
     "drupal/drupal": "*"
@@ -78,7 +85,7 @@
       "load.environment.php"
     ]
   },
-  "post-deployment-update": {
+  "scripts": {
     "pre-install-cmd": [
       "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
     ],

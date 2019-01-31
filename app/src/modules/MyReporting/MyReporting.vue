@@ -1,34 +1,39 @@
 <template>
   <div id="reportingrow">
-    <AppWrapper class="pb-5"
+    <AppWrapper
+      class="pb-5"
       :eep-app="eepApp">
       <div
-        v-html="eepApp.html.mainCard"
-        class="pb-2">
-      </div>
+        v-html="eepApp.field_html_content.mainCard"
+        class="pb-2"/>
       <nav>
-        <div class="nav nav-tabs nav-fill"
+        <div
+          class="nav nav-tabs nav-fill"
           id="nav-tab"
           role="tablist">
-          <a class="nav-item nav-link active"
+          <a
+            class="nav-item nav-link active"
             data-toggle="tab"
             href="#nav-epa"
             role="tab"
             aria-controls="nav-epa"
             aria-selected="true">US EPA</a>
-          <a class="nav-item nav-link"
+          <a
+            class="nav-item nav-link"
             data-toggle="tab"
             href="#nav-state"
             role="tab"
             aria-controls="nav-state"
             aria-selected="false">State</a>
-          <a class="nav-item nav-link"
+          <a
+            class="nav-item nav-link"
             data-toggle="tab"
             href="#nav-tribal"
             role="tab"
             aria-controls="nav-tribal"
             aria-selected="false">Tribal</a>
-          <a class="nav-item nav-link"
+          <a
+            class="nav-item nav-link"
             data-toggle="tab"
             href="#nav-local"
             role="tab"
@@ -38,99 +43,147 @@
       </nav>
       <div id="my-reporting">
         <ul class="inline-cdx-links">
-          <li class="my-cdx-login"><a class="my-cdx-web-handoff-link"
+          <li class="my-cdx-login"><a
+            class="my-cdx-web-handoff-link"
             data-handoff-type="login"
-            href="#">My CDX</a></li>
-          <li class="my-cdx-inbox"><a class="my-cdx-web-handoff-link"
+            href="https://dev.epacdx.net">My CDX</a></li>
+          <li class="my-cdx-inbox"><a
+            class="my-cdx-web-handoff-link"
             data-handoff-type="inbox"
-            href="#">Inbox</a></li>
-          <li class="my-cdx-alerts"><a class="my-cdx-web-handoff-link"
+            href="https://dev.epacdx.net">Inbox</a></li>
+          <li class="my-cdx-alerts"><a
+            class="my-cdx-web-handoff-link"
             data-handoff-type="alerts"
-            href="#">News and Alerts</a>
+            href="https://dev.epacdx.net">News and Alerts</a>
           </li>
-          <li class="my-cdx-profile"><a class="my-cdx-web-handoff-link"
+          <li class="my-cdx-profile"><a
+            class="my-cdx-web-handoff-link"
             data-handoff-type="profile"
-            href="#">My Profile</a>
+            href="https://dev.epacdx.net">My Profile</a>
           </li>
-          <li class="my-cdx-submission"><a class="my-cdx-web-handoff-link"
+          <li class="my-cdx-submission"><a
+            class="my-cdx-web-handoff-link"
             data-handoff-type="submission"
-            href="#">Submission
+            href="https://dev.epacdx.net">Submission
             History</a></li>
         </ul>
       </div>
-      <div class="tab-content"
+      <div
+        class="tab-content"
         id="nav-tabContent">
-        <div class="tab-pane fade show active"
+        <div
+          class="tab-pane fade show active"
           id="nav-epa"
           role="tabpanel"
           aria-labelledby="nav-epa-tab">
           <template> <b-container fluid>
             <!-- User Interface controls -->
             <b-row>
-              <b-col md="6" class="my-1">
-                <b-form-group horizontal label="Filter" class="mb-0">
+              <b-col
+                md="6"
+                class="my-1">
+                <b-form-group
+                  horizontal
+                  label="Filter"
+                  class="mb-0">
                   <b-input-group>
-                    <b-form-input v-model="filter" placeholder="" />
+                    <b-form-input
+                      v-model="filter"
+                      placeholder="" />
                   </b-input-group>
                 </b-form-group>
               </b-col>
 
-              <b-col md="6" class="my-1">
-                <b-form-group horizontal label="Rows" class="mb-0">
-                  <b-form-select :options="lengthMenu" v-model="perPage" />
+              <b-col
+                md="6"
+                class="my-1">
+                <b-form-group
+                  horizontal
+                  label="Rows"
+                  class="mb-0">
+                  <b-form-select
+                    :options="pageOptions"
+                    v-model="perPage" />
                 </b-form-group>
               </b-col>
             </b-row>
 
-            <b-table show-empty
+            <b-table
+              show-empty
               stacked="md"
-              :items="items"
               :fields="fields"
+              :items="program"
               :current-page="currentPage"
               :per-page="perPage"
               :filter="filter"
               @filtered="onFiltered"
             >
-
-            <b-table>
-              <template slot="name" slot-scope="data">
-                {{data.value}}
+              <template
+                slot="first"
+                slot-scope="data"
+                v-for="item in program">
+                {{ item.first }}
               </template>
-              <template slot="role" slot-scope="data">
-                <a href="https://www.epa.gov">
-                  {{data.value}}
+              <template
+                slot="second"
+                slot-scope="data"
+                v-for="item in program">
+                <a :href="item.second">
+                  {{ item.first }}
                 </a>
               </template>
-              <template slot="status" slot-scope="data">
-                <a href="https://www.epa.gov">
-                  {{data.value}}
-                </a>
+              <template
+                slot="status"
+                slot-scope="row">
+                <b-button
+                  size="sm"
+                  @click=""
+                  class="status-icon"/>
               </template>
             </b-table>
-            </b-table>
+            <b-modal><div class="my-cdx-modal">
+              <div class="my-cdx-detail-group">Organization Name</div>
+              <div class="organization-name"></div>
+              <select class="organization-select"></select>
+              <div class="my-cdx-detail-group">Program Client ID</div>
+              <div class="program-client-name"></div>
+              <select class="program-client-select"></select>
+              <div class="my-cdx-detail-group">Program</div>
+              <div class="program-acronym"></div>
+              <div class="my-cdx-detail-group">
+                <button class="proceed">Proceed</button>
+                <button class="cancel">Cancel</button>
+              </div>
+            </div></b-modal>
             <b-row>
-              <b-col md="6" class="my-1">
-                <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="currentPage" class="my-0" />
+              <b-col
+                md="6"
+                class="my-1">
+                <b-pagination
+                  :total-rows="totalRows"
+                  :per-page="perPage"
+                  v-model="currentPage"
+                  class="my-0" />
               </b-col>
             </b-row>
           </b-container>
           </template>
         </div>
-        <div class="tab-pane fade"
+        <div
+          class="tab-pane fade"
           id="nav-state"
           role="tabpanel"
-          aria-labelledby="nav-state-tab">
-        </div>
-        <div class="tab-pane fade"
+          aria-labelledby="nav-state-tab"/>
+        <div
+          class="tab-pane fade"
           id="nav-local"
           role="tabpanel"
-          aria-labelledby="nav-local-tab">
-        </div>
-        <div class="tab-pane fade"
+          aria-labelledby="nav-local-tab"/>
+        <div
+          class="tab-pane fade"
           id="nav-tribal"
           role="tabpanel"
-          aria-labelledby="nav-tribal-tab">
-        </div>
+          aria-labelledby="nav-tribal-tab"/>
       </div>
     </AppWrapper>
   </div>
@@ -144,15 +197,9 @@
   import { EventBus } from '../../EventBus';
 
   const moduleName = 'MyReporting';
-
   const items = [
-    { program_service_name: '111d: SPeCS for 111d', role: 'URL', status: 'Active' },
-    { program_service_name: 'ACRES: Assessment Cleanup and Redevelopment Exchange System', role: 'Certifier', status: 'Active' },
-    { program_service_name: 'AutoReg: Automating CDX Registration Workflow Via the Web', role: 'Certifier', status: 'Active' },
-    { program_service_name: 'BIOSOLIDS: NeT - EPA Biosolids Program (Read Only)', role: 'Certifier', status: 'Active' }
-  ]
-
-
+    { program_service_name: '', role: '', status: '' },
+  ];
 
 
   export default {
@@ -173,66 +220,78 @@
     data() {
       return {
         program: [
-          { first: '', },
-          { second: '', },
+          { first: '' },
+          { second: '' },
+          { status: '' },
+
         ],
-        items: items,
+         program1: [
+          { first: '' },
+          { second: '' },
+        ],
         fields: [
-          { key: 'program_service_name', label: 'Program service name' },
-          { key: 'role', label: 'Role' },
+          { key: 'first', label: 'Program service name' },
+          { key: 'second', label: 'Role' },
           { key: 'status', label: 'Status' },
         ],
         currentPage: 1,
         perPage: 5,
         totalRows: items.length,
-        lengthMenu: [5, 10, 25, 50],
+        pageOptions: [
+          { value: 5, text: '5' },
+          { value: 10, text: '10' },
+          { value: 25, text: '25' },
+          { value: 50, text: '50' },
+          { value: -1, text: 'All' },
+        ],
         filter: null,
-        modalInfo: { title: '', content: '' }
-      }
+        modalInfo: { title: '', content: '' },
+      };
     },
     mounted() {
       AppAxios
-        .get('https://apidev2.e-enterprise.gov/api/cdxprogramtitles')
-        .then(response => (this.program = response.data[0].field_cdx_program_name))
-
+        .get(this.apiURL + '/api/cdxdataflows')
+        .then(response => (this.program = response.data[0].field_cdx_program_name));
     },
     computed: {
       ...mapGetters({
+        apiURL: 'getEnvironmentApiURL',
         // map getters go here
       }),
-      sortOptions () {
+      sortOptions() {
         // Create an options list from our fields
         return this.fields
           .filter(f => f.sortable)
-          .map(f => { return { text: f.label, value: f.key } })
-      }
+          .map(f => ({ text: f.label, value: f.key }));
+      },
     },
     methods: {
       ...mapActions(moduleName, [
         // map actions go here
       ]),
-      info (item, index, button) {
-        this.modalInfo.title = `Row index: ${index}`
-        this.modalInfo.content = JSON.stringify(item, null, 2)
-        this.$root.$emit('bv::show::modal', 'modalInfo', button)
+      info(item, index, button) {
+        this.modalInfo.title = `Row index: ${index}`;
+        this.modalInfo.content = JSON.stringify(item, null, 2);
+        this.$root.$emit('bv::show::modal', 'modalInfo', button);
       },
-      resetModal () {
-        this.modalInfo.title = ''
-        this.modalInfo.content = ''
+      resetModal() {
+        this.modalInfo.title = '';
+        this.modalInfo.content = '';
       },
-      onFiltered (filteredItems) {
+      onFiltered(filteredItems) {
         // Trigger pagination to update the number of buttons/pages due to filtering
-        this.totalRows = filteredItems.length
-        this.currentPage = 1
-      }
+        this.totalRows = filteredItems.length;
+        this.currentPage = 1;
+      },
     },
+
     props: {
       eepApp: {
         type: Object,
         required: true,
       },
     },
-  }
+  };
 </script>
 
 <style scoped
@@ -295,4 +354,14 @@
     background-image: url('/images/mr-history.svg');
   }
   .my-cdx-web-handoff-link {font-size: .8rem;}
+  .status-icon {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color:#fff;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    border: none;
+    background-size: 1.3rem 1.325rem;
+    background-image: url('../../assets/images/check-circle-solid.svg');}
 </style>

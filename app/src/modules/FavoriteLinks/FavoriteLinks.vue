@@ -2,7 +2,7 @@
   <div id="favLinks">
     <AppWrapper
       :eep-app="eepApp">
-      <div v-html="eepApp.html.mainCard"/>
+      <div v-html="eepApp.field_html_content.mainCard"/>
       <b-row>
         <b-col
           md="5"
@@ -64,6 +64,8 @@
         </template>
 
         <template
+          v-if='favLinksArray[0].first != `Not logged in or no user ID found!` &&
+          favLinksArray[0].first != `Loading your Favorites...`'
           slot="actions"
           slot-scope="row">
           <b-button
@@ -187,6 +189,7 @@
     data() {
       return {
         favLinksArray: [{ first: 'Loading your Favorites...' }],
+        userInit: [],
         fields: [
           {
             key: 'first',
@@ -207,7 +210,7 @@
         ],
         currentPage: 1,
         perPage: 5,
-        pageOptions: [5, 10, 15],
+        pageOptions: [5, 10, 15, 20],
         sortBy: null,
         sortDesc: false,
         sortDirection: 'asc',
@@ -235,35 +238,15 @@
       },
       applyAddModal() {
         // stores changes in local state
+        const firstField = this.addModalInfo.first.trim();
+        const secondField = this.addModalInfo.second.trim();
         this.favLinksArray = this.favLinksArray.concat(
           {
-            first: this.addModalInfo.first,
-            second: this.addModalInfo.second,
+            first: firstField,
+            second: secondField,
           },
         );
-        // pushes changes to backend
-        // @TODO update request link to be based on uid pulled from jwt_token
-        AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
-            field_favorite_links: this.favLinksArray,
-          },
-          {
-            headers: {
-              crossDomain: true,
-              'cache-control': 'no-cache',
-              'Content-Type': 'application/json',
-            },
-            // @TODO set auth up to pass/accept jwt_token
-            auth: {
-              username: 'api_user',
-              password: 'api4epa',
-            },
-          })
-          .then(() => {
-            console.log('PATCH => success');
-          })
-          .catch(() => {
-            console.log('PATCH => failure');
-          });
+        this.axiosPATCHInit();
       },
       // EDIT
       openEditModal(item, index, button) {
@@ -282,59 +265,17 @@
           }
         }
         // stores changes in local state
-        this.favLinksArray[this.editModalIndex].first = this.editModalInfo.first;
-        this.favLinksArray[this.editModalIndex].second = this.editModalInfo.second;
+        this.favLinksArray[this.editModalIndex].first = this.editModalInfo.first.trim();
+        this.favLinksArray[this.editModalIndex].second = this.editModalInfo.second.trim();
         // pushes changes to backend
-        // @TODO update request link to be based on uid pulled from jwt_token
-        AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
-            field_favorite_links: this.favLinksArray,
-          },
-          {
-            headers: {
-              crossDomain: true,
-              'cache-control': 'no-cache',
-              'Content-Type': 'application/json',
-            },
-            // @TODO set auth up to pass/accept jwt_token
-            auth: {
-              username: 'api_user',
-              password: 'api4epa',
-            },
-          })
-          .then(() => {
-            console.log('PATCH => success');
-          })
-          .catch(() => {
-            console.log('PATCH => failure');
-          });
+        this.axiosPATCHInit();
       },
       // DELETE
       deleteFavLink(item, index) {
         // stores changes in local state
         this.favLinksArray.splice(index, 1);
         // pushes changes to backend
-        // @TODO update request link to be based on uid pulled from jwt_token
-        AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
-            field_favorite_links: this.favLinksArray,
-          },
-          {
-            headers: {
-              crossDomain: true,
-              'cache-control': 'no-cache',
-              'Content-Type': 'application/json',
-            },
-            // @TODO set auth up to pass/accept jwt_token
-            auth: {
-              username: 'api_user',
-              password: 'api4epa',
-            },
-          })
-          .then(() => {
-            console.log('PATCH => success');
-          })
-          .catch(() => {
-            console.log('PATCH => failure');
-          });
+        this.axiosPATCHInit();
       },
       onFiltered(filteredItems) {
         // Trigger pagination to update the number of buttons/pages due to filtering
@@ -342,7 +283,7 @@
         this.currentPage = 1;
       },
       getCookie(cname) {
-        const name = cname + '=';
+        const name = `${cname}=`;
         const decodedCookie = decodeURIComponent(document.cookie);
         const ca = decodedCookie.split(';');
         for (let i = 0; i < ca.length; i++) {
@@ -356,6 +297,61 @@
         }
         return '';
       },
+      axiosPATCHInit() {
+        if (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1) {
+          // pushes changes to backend
+          AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
+              init: [
+                {
+                  value: "generated-user@e-enterprise",
+                },
+              ],
+              field_favorite_links: this.favLinksArray,
+            },
+            {
+              headers: {
+                crossDomain: true,
+                'cache-control': 'no-cache',
+                'Content-Type': 'application/json',
+              },
+              // @TODO set auth up to pass/accept jwt_token
+              auth: {
+                username: 'api_user',
+                password: 'api4epa',
+              },
+            })
+            .then(() => {
+              console.log('PATCH => success');
+            })
+            .catch(() => {
+              console.log('PATCH => failure');
+            });
+        } else {
+          // pushes changes to backend
+          AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
+              init: this.userInit,
+              field_favorite_links: this.favLinksArray,
+            },
+            {
+              headers: {
+                crossDomain: true,
+                'cache-control': 'no-cache',
+                'Content-Type': 'application/json',
+              },
+              // @TODO set auth up to pass/accept jwt_token
+              auth: {
+                username: 'api_user',
+                password: 'api4epa',
+              },
+            })
+            .then(() => {
+              console.log('PATCH => success');
+            })
+            .catch(() => {
+              console.log('PATCH => failure');
+            });
+        }
+      },
     },
     beforeCreate() {
 
@@ -367,17 +363,22 @@
       }
     },
     mounted() {
-      AppAxios.get(`${this.apiURL}/user/${this.uid}?_format=json`, {
-        headers: this.$store.GETHeaders,
-        auth: {
-          username: 'api_user',
-          password: 'api4epa',
-        },
-      })
-        .then((response) => {
-          this.favLinksArray = response.data.field_favorite_links;
-          this.totalRows = this.favLinksArray.length;
-        });
+      if (this.uid) {
+        AppAxios.get(`${this.apiURL}/user/${this.uid}?_format=json`, {
+          headers: this.$store.GETHeaders,
+          auth: {
+            username: 'api_user',
+            password: 'api4epa',
+          },
+        })
+          .then((response) => {
+            this.favLinksArray = response.data.field_favorite_links;
+            this.userInit = response.data.init;
+            this.totalRows = this.favLinksArray.length;
+          });
+      } else {
+        this.favLinksArray[0].first = 'Not logged in or no user ID found!';
+      }
     },
     props: {
       eepApp: {

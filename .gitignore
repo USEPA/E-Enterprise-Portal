@@ -64,6 +64,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Drupal
+drupal/composer.lock
+
 # Runtime data
 pids
 *.pid
@@ -238,3 +241,4 @@ $RECYCLE.BIN/
 # End of https://www.gitignore.io/api/node,windows,drupal8,phpstorm,composer
 /drupal/vendor2/
 /drupal/vendor3/
+!/drupal/composer.lock

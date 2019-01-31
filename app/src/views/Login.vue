@@ -2,8 +2,8 @@
 <template>
     <div class="container">
         <h3>Login</h3>
-        <div class="pt-2">
-            <p class=" pt-2 font-weight-bold">Select your preferred login method to access E-Enterprise using one of
+        <div class="pt-2 caption-wrapper">
+            <p class="pt-2 font-weight-bold">Select your preferred login method to access E-Enterprise using one of
                 your existing accounts. Choose a
                 preferred login type and option to get started.</p>
 
@@ -13,23 +13,25 @@
         <b-tabs class="epa-tabs" pills card vertical nav-wrapper-class="w-25">
             <b-tab title="EPA" active>
                 <h6 class="tabText font-weight-bold">Use your EPA account...</h6>
-                <b-container class="bv-example-row ml-2">
-                    <b-row class="tabContainer align-h=between">
-                        <div v-for="(account, index) in loginViewAccounts" >
+                <b-container class="ml-2">
+                    <b-row class="tabContainer">
+                        <div v-for="(account, index) in loginViewAccounts">
                             <!-- v-if -->
-                            <b-col class="pb-1 col-md-auto"  v-if="account.weight == 0">
-                                <div class="link-wrapper pt-2 pb-2 pl-2">
-                                    <a class="link" href="javascript:void(0);"
-                                       @click="navigateToBridge(account.data.field_urn[0].value)">
-                                        <img :src="account.data.field_option_image[0].url" alt="not found">
-                                        <span class="pl-2">{{account.data.title[0].value}}</span>
-                                    </a>
-                                </div>
-                            </b-col>
-                            <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
+                            <template v-if="account.weight == 0">
+                                <b-col class="pb-1 col-md-auto">
+                                    <div class="link-wrapper">
+                                        <a class="link" href="javascript:void(0);"
+                                           @click="navigateToBridge(account.data.field_urn[0].value)">
+                                            <img :src="account.data.field_option_image[0].url" alt="not found">
+                                            <span class="pl-2">{{account.data.title[0].value}}</span>
+                                        </a>
+                                    </div>
+                                </b-col>
+                                <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
+                            </template>
                         </div>
                     </b-row>
-                   </b-container>
+                </b-container>
                 <div class="mt-4">
                     You can <a href="https://cdx.epa.gov/">create a free CDX account </a> within the Exchange Network.
                     You only need to provide some basic information.
@@ -37,20 +39,22 @@
             </b-tab>
             <b-tab class="tab" title="Social Media">
                 <h6 class="tabText font-weight-bold">Use your social media account to log in...</h6>
-                <b-container class="ml-2 pb-1">
+                <b-container class="ml-2">
                     <b-row class="tabContainer">
                         <div v-for="(account, index) in loginViewAccounts" >
                             <!-- v-if -->
-                            <b-col class="pb-1 col-md-auto"  v-if="account.weight == 1">
-                                <div class="link-wrapper pt-2 pb-2 pl-2">
-                                    <a class="link" href="javascript:void(0);"
-                                       @click="navigateToBridge(account.data.field_urn[0].value)">
-                                        <img :src="account.data.field_option_image[0].url" alt="not found">
-                                        <span class="pl-2">{{account.data.title[0].value}}</span>
-                                    </a>
-                                </div>
-                            </b-col>
-                            <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
+                            <template v-if="account.weight == 1">
+                                <b-col class="pb-1 col-md-auto">
+                                    <div class="link-wrapper">
+                                        <a class="link" href="javascript:void(0);"
+                                           @click="navigateToBridge(account.data.field_urn[0].value)">
+                                            <img :src="account.data.field_option_image[0].url" alt="not found">
+                                            <span class="pl-2">{{account.data.title[0].value}}</span>
+                                        </a>
+                                    </div>
+                                </b-col>
+                                <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
+                            </template>
                         </div>
                     </b-row>
                 </b-container>
@@ -63,21 +67,24 @@
                     <b-row class="tabContainer">
                         <div v-for="(account, index) in loginViewAccounts" >
                             <!-- v-if -->
-                            <b-col class="pb-1 col-md-auto"  v-if="account.weight == 2">
-                                <div class="link-wrapper pt-2 pb-2 pl-2">
-                                    <a class="link" href="javascript:void(0);"
-                                       @click="navigateToBridge(account.data.field_urn[0].value)">
-                                        <img :src="account.data.field_option_image[0].url" alt="not found">
-                                        <span class="pl-2">{{account.data.title[0].value}}</span>
-                                    </a>
-                                </div>
-                            </b-col>
-                            <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
+                            <template v-if="account.weight == 2">
+                                <b-col class="pb-1 col-md-auto">
+                                    <div class="link-wrapper state">
+                                        <a class="link" href="javascript:void(0);"
+                                           @click="navigateToBridge(account.data.field_urn[0].value)">
+                                            <img :src="account.data.field_option_image[0].url" alt="not found">
+                                            <span class="pl-2">{{account.data.title[0].value}}</span>
+                                        </a>
+                                    </div>
+                                </b-col>
+                                <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
+                            </template>
                         </div>
                     </b-row>
                 </b-container>
             </b-tab>
             <b-tab class="tab" title="Tribal">
+
             </b-tab>
         </b-tabs>
     </div>
@@ -96,6 +103,9 @@
             ...mapActions([
                 'navigateToBridge',
             ]),
+        },
+        beforeCreate(){
+            this.$store.dispatch('handleLogin');
         },
         computed: {
             ...mapGetters({
@@ -125,6 +135,12 @@
     li.nav-item a {
         background-color: #F1F1F1;
         color: #094e7a;
+        text-decoration: none;
+
+        &:hover{
+             background-color: #094e7a;
+             color: #ffffff;
+         }
     }
 
     li.nav-item a.active {
@@ -146,18 +162,28 @@
 
     }
     .link-wrapper {
-        background-color: #888888;
+        background-color: #AEB0B6;
+        cursor: pointer;
+        width: 232px;
+        padding: 15px;
 
-    .link {
-        color: #ffffff;
-        text-decoration: none;
-        padding: 5px;
+        &:hover{
+            background-color: #094E7A;
+         }
+
+        .link {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        img {
+            height: 24px;
+            width: 24px;
+        }
     }
 
-    img {
-        height: 16px;
-        width: 16px;
+    .caption-wrapper > p{
+        max-width: 100%;
     }
 
-    }
 </style>

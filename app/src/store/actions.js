@@ -25,7 +25,7 @@ export default {
       city: '',
       state: '',
     };
-    let url = store.getters.getURL('locationSearch');
+    let url = store.getters.getApiUrl('locationSearch');
 
     // Input validation for URL formation
     if (/^\d{5}(-\d{4})?$/.test(location)) {
@@ -62,7 +62,7 @@ export default {
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        let url = store.getters.getURL('geolocationSearch');
+        let url = store.getters.getApiUrl('geolocationSearch');
         url = `${url}?f=pjson&location=${position.coords.longitude},${position.coords.latitude}`;
         AppAxios.get(url).then((response) => {
           const { data } = response;
@@ -108,11 +108,10 @@ export default {
     store.commit('TOGGLE_HAS_LOCATION_SEARCH_BAR');
   },
   userLogOut(context) {
-    const store = context;
-
     // add additional logout logic here
+    Vue.cookie.set('Token', false, {expires: '-99s'});
+    Vue.cookie.set('uid', false, {expires: '-99s'});
     Vue.cookie.set('userLoggedIn', false, {expires: '-99s'});
-    store.commit('USER_LOG_OUT');
     location.reload();
   },
   // Function to process the payload of the JWT token, which contains the user
@@ -265,9 +264,6 @@ export default {
 
             // Commit formatted array to the store
             store.commit('SET_LOGIN_VIEW_ACCOUNTS', formatted_option_array);
-
-            // Redirect to login view
-            router.push('/login');
 
         }).catch(error =>{
             console.error(error.response);

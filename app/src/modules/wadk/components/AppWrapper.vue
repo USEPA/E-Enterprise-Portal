@@ -20,13 +20,12 @@
               <b-dropdown-item-button>Settings</b-dropdown-item-button>
               <b-dropdown-item-button>Move</b-dropdown-item-button>
               <b-dropdown-divider/>
-              <b-dropdown-item-button>Description</b-dropdown-item-button>
-              <b-dropdown-item-button>Source</b-dropdown-item-button>
-              <b-dropdown-item-button>Help</b-dropdown-item-button>
-              <b-dropdown-item-button>Contact</b-dropdown-item-button>
+              <b-dropdown-item-button
+                v-for="(text, title) in eepApp.field_settings_menu_items"
+                :title="text">{{ title }}</b-dropdown-item-button>
             </b-dropdown>
             <b-button
-              v-if='eepApp.isExpandable'
+              v-if='eepApp.field_is_expandable'
               class="widget-expand widget-button"
               @click="maximizeWidget()"/>
           </div>
@@ -96,8 +95,8 @@
         if (size !== 'small') {
           padding = '1.8rem';
         }
-        if (vm.eepApp.iconName) {
-          style = `background-image: url('images/${vm.eepApp.iconName}'); padding-left: ${padding};`;
+        if (vm.eepApp.field_icon_name) {
+          style = `background-image: url('images/${vm.eepApp.field_icon_name}'); padding-left: ${padding};`;
         }
         return style;
       },
@@ -121,11 +120,11 @@
         const vm = this;
         let size = 'small';
         // If the grid is 'tall', it is large
-        if (vm.eepApp.grid.h > 1) {
+        if (vm.eepApp.field_grid.height > 1) {
           size = 'large';
 
           // If the grid is not 'tall' but wide, it is medium
-        } else if (vm.eepApp.grid.w > 1) {
+        } else if (vm.eepApp.field_grid.width > 1) {
           size = 'medium';
         }
         return size;
