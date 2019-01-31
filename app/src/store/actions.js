@@ -112,7 +112,7 @@ export default {
     Vue.cookie.set('Token', false, {expires: '-99s'});
     Vue.cookie.set('uid', false, {expires: '-99s'});
     Vue.cookie.set('userLoggedIn', false, {expires: '-99s'});
-    location.reload();
+    router.push('/');
   },
   // Function to process the payload of the JWT token, which contains the user
   // info. This will set the state, verify the path exists and is defined then
