@@ -272,4 +272,8 @@ export default {
         console.error(error.response);
     });
   },
+  checkForTokenExpiration(context){
+      const store = context;
+
+  },
 };

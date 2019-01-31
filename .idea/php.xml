@@ -151,7 +151,6 @@
       <path value="$PROJECT_DIR$/drupal/vendor/drush/drush" />
     </include_path>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />
   <component name="PhpRuntimeConfiguration">
     <extensions>
       <extension name="Parle" enabled="true" />
