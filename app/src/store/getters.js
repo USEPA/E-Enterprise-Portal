@@ -111,6 +111,10 @@ export default {
       return state.loginViewAccounts;
   },
   getDisplayLoggedInElements(state){
-      return state.user.isLoggedIn;
+      let loggedIn = false;
+      if(state.user){
+          loggedIn = state.user.isLoggedIn;
+      }
+      return loggedIn;
   },
 };
