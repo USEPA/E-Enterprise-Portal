@@ -110,9 +110,6 @@
         },
       },
       methods: {
-         ...mapActions(moduleName, {
-             'checkForTokenExpiration',
-         }),
 
       },
       beforeCreate(){
@@ -144,9 +141,6 @@
               //  finish the progress bar
               vm.$Progress.finish();
           });
-
-          // Set up listener to listen for the expiration of the cookie
-//          EventBus.$on('App::tokenExpiration', this.afterTokenExpiration);
       },
       beforeMount(){
           // Declare the main url that the page is currently on
@@ -174,6 +168,17 @@
               store.commit(types.SET_UID, uid);
               // Log user in
               store.commit('USER_LOG_IN');
+
+//              // After the user is logged in then start checking to see if the cookie has expired and if it has then log them out
+//              setInterval(function () {
+//                  console.log("hit set interval");
+//                  if(!this.$cookie.get('userLoggedIn')){
+//
+//                  }else{
+//
+//                  }
+//
+//              }, 30000);
 
           }else{
               if(this.$cookie.get('userLoggedIn')){
