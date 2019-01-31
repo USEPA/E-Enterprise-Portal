@@ -136,6 +136,8 @@ export default {
     state.user.id = int;
   },
   [types.IS_USER_LOGGED_IN](state, IsLoggedIn){
-      state.user.isLoggedIn = IsLoggedIn;
+      Vue.set(state.user,
+      'isLoggedIn',
+      IsLoggedIn);
   },
 };
