@@ -131,9 +131,6 @@
           this.$refs['login-arrow'].classList.remove('d-none');
           this.$refs['login-arrow'].classList.add('d-block');
       },
-      dumyLogOut() {
-        this.userLogOut();
-      },
       handleLogin() {
           this.$router.push('/login');
       },
