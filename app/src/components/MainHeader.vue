@@ -130,7 +130,7 @@
       addLogInArrow() {
           this.$refs['login-arrow'].classList.remove('d-none');
           this.$refs['login-arrow'].classList.add('d-block');
-      },,
+      },
       handleLogin() {
           this.$router.push('/login');
       },
