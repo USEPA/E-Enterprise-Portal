@@ -30,7 +30,7 @@
                 variant="primary"
                 @mouseover="addTryItArrow"
                 @mouseleave="removeTryItArrow"
-                v-if='!idisplayLoggedInElements'>
+                v-if='!displayLoggedInElements'>
                 <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left pr-1"/>Try It
               </button>
             </router-link>
