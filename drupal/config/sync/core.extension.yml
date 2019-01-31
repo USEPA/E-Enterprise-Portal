@@ -23,7 +23,6 @@ module:
   config_update: 0
   contact: 0
   content_access: 0
-  content_sync: 0
   contextual: 0
   ctools: 0
   ctools_block: 0
