@@ -1,7 +1,8 @@
 eep_my_reporting.get:
-path: '/api/cdxprogramtitles'
-  defaults: { _controller: '\Drupal\test_api\Controller\EEPMyReportingController::get_example' }
+path: '/eep/proxy/service/cdxmyreporting'
+  defaults: { _controller: '\Drupal\test_api\Controller\EEPMyReportingController::connectToSOAPServerWithWSDL' }
   methods:  [GET]
   requirements:
     _access: 'TRUE'
+    _auth: 'jwt_auth'
 
