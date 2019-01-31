@@ -12,6 +12,9 @@ use Drupal\eep_bridge\AuthenticatedUser;
 use Drupal\jwt\Authentication\Provider\JwtAuth;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+////Temp
+use Drupal\user\Entity\User;
+
 
 /**
  * Returns responses for eep_bridge module routes.
@@ -31,7 +34,17 @@ class EEPBridgeController extends ControllerBase {
     $this->auth = $auth;
   }
 
+  private function tempLoginUser() {
+    $user = User::load(1);
+    user_login_finalize($user);
+    $uid = \Drupal::currentUser()->id();
+    $jwt_token = $this->auth->generateToken();
+    echo $jwt_token;
+    exit();
+  }
+
   public function eep_authenticate(){
+    $this->tempLoginUser();
     $config = $this->config('eep_bridge.environment_settings');
     $environment_name = $config->get('eep_bridge_environment_name');
 

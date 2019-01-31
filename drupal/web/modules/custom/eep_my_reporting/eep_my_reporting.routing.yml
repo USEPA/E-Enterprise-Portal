@@ -6,6 +6,8 @@ eep_my_reporting.my_reporting:
   methods:  [GET]
   requirements:
     _access: 'TRUE'
+  options:
+    _auth: ['jwt_auth']
 eep_my_reporting.eep_naas_administration_form:
   path: '/admin/config/system/eep_my_reporting_settings'
   defaults:

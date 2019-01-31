@@ -4,7 +4,7 @@
  *
  * Contains Drupal\eep_bridge\Form\AuthenticationConfigForm
  */
-namespace Drupal\eep_my\Form;
+namespace Drupal\eep_my_reporting\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
