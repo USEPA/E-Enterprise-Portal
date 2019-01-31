@@ -112,6 +112,7 @@ export default {
     Vue.cookie.set('Token', false, {expires: '-99s'});
     Vue.cookie.set('uid', false, {expires: '-99s'});
     Vue.cookie.set('userLoggedIn', false, {expires: '-99s'});
+    // Use router.push here to get rid of the token in the redirect URL
     router.push('/');
   },
   // Function to process the payload of the JWT token, which contains the user
