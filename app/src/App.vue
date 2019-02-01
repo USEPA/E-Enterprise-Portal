@@ -122,7 +122,13 @@
           vm.$store.dispatch('EEPBasicPagesToState');
       },
       created() {
+          
           const vm = this;
+          const store = vm.$store;
+          if (!(store && store.state && store.state[moduleName])) {
+              store.registerModule(moduleName, storeModule);
+          }
+
           vm.$store.commit(types.SET_APP, vm);
           //  [App.vue specific] When App.vue is first loaded start the progress bar
           vm.$Progress.start();
