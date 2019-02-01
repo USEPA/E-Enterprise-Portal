@@ -53,6 +53,10 @@
     <MainFooter/>
     <!-- set progressbar -->
     <vue-progress-bar/>
+    <AppModal
+        id="cookie-extension-modal"
+        title="Would you like to extend your session?">
+    </AppModal>
   </div>
 </template>
 
@@ -65,6 +69,9 @@
   import LocationSearch from '@/components/LocationSearch.vue';
   import VueProgessBar from 'vue-progressbar';
   import types from './store/types';
+  import {EventBus} from './EventBus';
+
+  const moduleName = "App";
 
   export default {
     name: 'App',
@@ -99,94 +106,103 @@
           env = envName;
         }
       }
-    });
-      let r = 'Local';
-      r = (env === 'DEV') ? 'Development' : r;
-      r = (env === 'TEST') ? 'Test' : r;
-      return r;
-    },
-  },
-  methods: {
+        });
+          let r = 'Local';
+          r = (env === 'DEV') ? 'Development' : r;
+          r = (env === 'TEST') ? 'Test' : r;
+          return r;
+        },
+      },
+      methods: {
 
-  },
-  beforeCreate(){
-    const vm = this;
-    vm.$store.dispatch('EEPBasicPagesToState');
-  },
-  created() {
-    const vm = this;
-    vm.$store.commit(types.SET_APP, vm);
-    //  [App.vue specific] When App.vue is first loaded start the progress bar
-    vm.$Progress.start();
-    //  hook the progress bar to start before we move router-view
-    vm.$router.beforeEach((
-            to, from, next,
-    ) => {
-      //  does the page we want to go to have a meta.progress object
-      if (to.meta.progress !== undefined) {
-      const meta = to.meta.progress;
-      // parse meta tags
-      vm.$Progress.parseMeta(meta);
-    }
-    //  start the progress bar
-    vm.$Progress.start();
-    //  continue to next page
-    next();
-  });
-    //  hook the progress bar to finish after we've finished moving router-view
-    vm.$router.afterEach(() => {
-      //  finish the progress bar
-      vm.$Progress.finish();
-  });
-  },
-  beforeMount(){
-    // Declare the main url that the page is currently on
-    const main_url = window.location.href;
-    // Declare the store
-    const vm = this;
-    const store = vm.$store;
-    if (main_url.indexOf("token") > -1 && main_url.indexOf("uid") > -1) {
-      // Declare variables
-      let vars = {};
-      // Extracts the URL params
-      // Got this functionality from https://html-online.com/articles/get-url-parameters-javascript/
-      let parts = main_url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
-        vars[key] = value;
-      });
-      // find the URL params for each one
-      const token = vars["token"];
-      const uid = vars["uid"];
-      // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
-      // Set another cookie saying they logged in
-      this.$cookie.set('userLoggedIn', true, {expires: '20m'});
-      // set user token in cookie
-      this.$cookie.set('Token', token, {expires: '20m'});
-      this.$cookie.set('uid', uid, {expires: '20m'});
-      store.commit(types.SET_UID, uid);
-      // Log user in
-      store.commit('USER_LOG_IN');
-    }else{
-      if(this.$cookie.get('userLoggedIn')){
-        // Log user in and set user name
-        store.commit('USER_LOG_IN');
-        store.commit(types.SET_UID, this.$cookie.get('uid'));
-      }
-    }
+      },
+      beforeCreate(){
+          const vm = this;
+          vm.$store.dispatch('EEPBasicPagesToState');
+      },
+      created() {
+          const vm = this;
+          vm.$store.commit(types.SET_APP, vm);
+          //  [App.vue specific] When App.vue is first loaded start the progress bar
+          vm.$Progress.start();
+          //  hook the progress bar to start before we move router-view
+          vm.$router.beforeEach((
+                  to, from, next,
+          ) => {
+              //  does the page we want to go to have a meta.progress object
+              if (to.meta.progress !== undefined) {
+                  const meta = to.meta.progress;
+                  // parse meta tags
+                  vm.$Progress.parseMeta(meta);
+              }
+              //  start the progress bar
+              vm.$Progress.start();
+              //  continue to next page
+              next();
+          });
+          //  hook the progress bar to finish after we've finished moving router-view
+          vm.$router.afterEach(() => {
+              //  finish the progress bar
+              vm.$Progress.finish();
+          });
+      },
+      beforeMount(){
+          // Declare the main url that the page is currently on
+          const main_url = window.location.href;
+          // Declare the store
+          const vm = this;
+          const store = vm.$store;
+          if (main_url.indexOf("token") > -1 && main_url.indexOf("uid") > -1) {
+              // Declare variables
+              let vars = {};
+              // Extracts the URL params
+              // Got this functionality from https://html-online.com/articles/get-url-parameters-javascript/
+              let parts = main_url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+                  vars[key] = value;
+              });
+              // find the URL params for each one
+              const token = vars["token"];
+              const uid = vars["uid"];
+              // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
+              // Set another cookie saying they logged in
+              this.$cookie.set('userLoggedIn', true, {expires: '20m'});
+              // set user token in cookie
+              this.$cookie.set('Token', token, {expires: '20m'});
+              this.$cookie.set('uid', uid, {expires: '20m'});
 
-    if (this.$cookie.get('userLoggedIn')) {
-        AppAxios.get(`${this.$store.getters.getEnvironmentApiURL}/user/${this.$cookie.get('uid')}?_format=json`, {
-            headers: { Authorization: `Bearer ${this.$cookie.get('Token')}` },
-        }).then((response) => {
-          store.commit('SET_USER_OBJECT', response.data);
-      }).catch((error) => {
-          console.warn(error)
-      });
-    }
-  },
-  mounted() {
-    //  [App.vue specific] When App.vue is finish loading finish the progress bar
-    this.$Progress.finish();
-  },
+              // After the user is logged in then start checking to see if the cookie has expired and if it has then log them out
+              setInterval(function () {
+                  console.log('cookies:' + document.cookie);
+
+
+              }, 2000);
+
+              // Set user id in the store
+              store.commit(types.SET_UID, uid);
+              // Log user in
+              store.commit('IS_USER_LOGGED_IN', true);
+          }else{
+              if(this.$cookie.get('userLoggedIn')){
+                  // Log user in and set user name
+                  store.commit('IS_USER_LOGGED_IN', true);
+                  store.commit(types.SET_UID, this.$cookie.get('uid'));
+              }
+          }
+
+          if (this.$cookie.get('userLoggedIn')) {
+              AppAxios.get(`${this.$store.getters.getEnvironmentApiURL}/user/${this.$cookie.get('uid')}?_format=json`, {
+                  headers: { Authorization: `Bearer ${this.$cookie.get('Token')}` },
+              }).then((response) => {
+                  store.commit('SET_USER_OBJECT', response.data);
+              }).catch((error) => {
+                  console.warn(error)
+              });
+          }
+      },
+      mounted() {
+          //  [App.vue specific] When App.vue is finish loading finish the progress bar
+          this.$Progress.finish();
+      },
   };
 
 </script>
