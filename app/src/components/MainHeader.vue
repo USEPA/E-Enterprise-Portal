@@ -42,20 +42,19 @@
           <template v-if='displayLoggedInElements'>
             <span>Welcome {{ username }}</span>
             <button
-              to="/"
               variant="outline-secondary"
               class="usa-button"
               @click="userLogOut">
               <i class="fas fa-lock pr-1"/>
               Logout
             </button>
-            <button
+            <router-link
               to="/User"
               id="my-account"
               class="usa-button ml-2"
               variant="primary">
               My account
-            </button>
+            </router-link>
           </template>
           <template v-else>
             <div
