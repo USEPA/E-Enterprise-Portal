@@ -175,8 +175,9 @@
               let set_interval_id = setInterval(checkCookieExistance, 20000);
 
               function checkCookieExistance(){
+                  console.log("hit check cookie");
                   if(document.cookie.indexOf('Token=') === -1){
-                      this.$root.$emit(
+                      vm.$root.$emit(
                           'bv::show::modal',
                           'cookieModal',
                           this.$refs.cookieModal
