@@ -36,9 +36,8 @@ class EEPMyReportingController extends ControllerBase {
     }
 
     function getCDXUserName() {
-//        $current_user = \Drupal::currentUser();
-        //TODO Create and pull cdx_username_field from $current_user
-        return 'greenolive';
+        $user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
+        return $user->get('field_cdx_user_id')->getString();
     }
 
     /**
