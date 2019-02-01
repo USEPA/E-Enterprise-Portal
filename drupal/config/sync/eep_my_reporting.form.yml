@@ -1,0 +1,5 @@
+admin_id: registration.dev@cgifederal.com
+credential: XXXXXX
+domain: default
+authentication_method: password
+wsdl: 'https://devngn.epacdxnode.net/cdx-register-II/services/RegisterMyCdxService?wsdl'

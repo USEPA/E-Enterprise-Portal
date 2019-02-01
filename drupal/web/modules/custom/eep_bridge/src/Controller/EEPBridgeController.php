@@ -21,105 +21,102 @@ use Drupal\user\Entity\User;
  */
 class EEPBridgeController extends ControllerBase {
 
-  private $auth;
+    private $auth;
 
-  /**
-   * {@inheritdoc}
-   *
-   * EEPBridgeController constructor.
-   * @param \Drupal\jwt\Authentication\Provider\JwtAuth $auth
-   *   The JWT auth service.
-   */
-  public function __construct(JwtAuth $auth) {
-    $this->auth = $auth;
-  }
-
-  private function tempLoginUser() {
-    $user = User::load(1);
-    user_login_finalize($user);
-    $uid = \Drupal::currentUser()->id();
-    $jwt_token = $this->auth->generateToken();
-    echo $jwt_token;
-    exit();
-  }
-
-  public function eep_authenticate(){
-    $this->tempLoginUser();
-    $config = $this->config('eep_bridge.environment_settings');
-    $environment_name = $config->get('eep_bridge_environment_name');
-
-    if (!isset($_POST['wa'])) {
-      $message = "Expected context parameter is not set";
-      $url = Url::fromUri($environment_name.'?data='.$message);
-      $this->eep_bridge_goto($url);
-      return;
+    /**
+     * {@inheritdoc}
+     *
+     * EEPBridgeController constructor.
+     * @param \Drupal\jwt\Authentication\Provider\JwtAuth $auth
+     *   The JWT auth service.
+     */
+    public function __construct(JwtAuth $auth) {
+        $this->auth = $auth;
     }
 
-    $post = $_POST;
-    // Pull UserDetails from Post
-    $userDetails = $this->parse_post_for_user_details($post);
-
-    $authenticated_user = new AuthenticatedUser($userDetails);
-    // Check if user is already in the system
-    $ext_user = user_load_by_name($authenticated_user->get_name());
-
-    $entity_storage = \Drupal::entityTypeManager()->getStorage('user');
-    $account_search = $entity_storage->loadByProperties(['name' => $authenticated_user->get_name()]);
-    $account_data = [];
-    if (empty($account_search)) {
-      //if the account does not already exist, create one.
-      $account_data = array_merge(
-        [
-          'name' => $authenticated_user->get_name(),
-          'init' => $authenticated_user->get_authentication_domain(),
-          'status' => 1,
-          'access' => (int) $_SERVER['REQUEST_TIME'],
-        ],
-        $account_data
-      );
-      $account = $entity_storage->create($account_data);
-      $account->enforceIsNew();
-      $account->save();
-      user_login_finalize($account);
-    }
-    else{
-      //Account already exists, just login the user
-      $account_search = array_values($account_search);
-      user_login_finalize($account_search[0]);
-    }
-    $uid = \Drupal::currentUser()->id();
-    $jwt_token = $this->auth->generateToken();
-    if ($jwt_token === FALSE) {
-      $error_msg = "Error. Please set a key in the JWT admin page.";
-      \Drupal::logger('eep_bridge')->error($error_msg);
+    private function tempLoginUser() {
+        $user = User::load(7);
+        user_login_finalize($user);
+        $uid = \Drupal::currentUser()->id();
+        $jwt_token = $this->auth->generateToken();
+        echo $jwt_token;
+        exit();
     }
 
-    $url = Url::fromUri($environment_name . '?token='.$jwt_token.'&uid=' . $uid);
-    $this->eep_bridge_goto($url, $jwt_token);
-    return;
-  }
+    public function eep_authenticate() {
+        $this->tempLoginUser();
+        $config = $this->config('eep_bridge.environment_settings');
+        $environment_name = $config->get('eep_bridge_environment_name');
+        if (!isset($_POST['wa'])) {
+            $message = "Expected context parameter is not set";
+            $url = Url::fromUri($environment_name . '?data=' . $message);
+            $this->eep_bridge_goto($url);
+            return;
+        }
 
-  function eep_bridge_goto($url, $jwt_token) {
-    $response = new RedirectResponse($url->toString());
-    $response->headers->set('token', $jwt_token);
-    $response->send();
-    exit;
-  }
+        $post = $_POST;
+        // Pull UserDetails from Post
+        $userDetails = $this->parse_post_for_user_details($post);
 
-  /**
-   * @param $post
-   * @return ADFSUserDetails
-   * Parses post variable into ADFS UserDetails object
-   */
-  function parse_post_for_user_details($post){
-    $adfs = new ADFSBridge();
-    $userDetails = $adfs->getAdfsSignInResponse(ADFSConf::getInstance(), $post['wresult']);
-    return $userDetails;
-  }
+        $authenticated_user = new AuthenticatedUser($userDetails);
+        $authenticated_user->set_name(time());
+        $entity_storage = \Drupal::entityTypeManager()->getStorage('user');
+        $account_search = $entity_storage->loadByProperties(['name' => $authenticated_user->get_name()]);
+        $account_data = [];
+        if (empty($account_search)) {
+            //if the account does not already exist, create one.
+            $account_data = array_merge(
+                [
+                    'name' => $authenticated_user->get_name(),
+                    'init' => $authenticated_user->get_authentication_domain(),
+                    'status' => 1,
+                    'access' => (int)$_SERVER['REQUEST_TIME'],
+                    'field_cdx_user_id' => $authenticated_user->get_source_username(),
+                ],
+                $account_data
+            );
+            $account = $entity_storage->create($account_data);
+            $account->enforceIsNew();
+            $account->save();
+            user_login_finalize($account);
+        } else {
+            //Account already exists, just login the user
+            $account_search = array_values($account_search);
+            user_login_finalize($account_search[0]);
+        }
+        $uid = \Drupal::currentUser()->id();
+        $jwt_token = $this->auth->generateToken();
+        if ($jwt_token === FALSE) {
+            $error_msg = "Error. Please set a key in the JWT admin page.";
+            \Drupal::logger('eep_bridge')->error($error_msg);
+        }
 
-  public static function create(ContainerInterface $container) {
-    $auth = $container->get('jwt.authentication.jwt');
-    return new static($auth);
-  }
+        $url = Url::fromUri($environment_name . '?token=' . $jwt_token . '&uid=' . $uid);
+        $this->eep_bridge_goto($url, $jwt_token);
+        return;
+    }
+
+    function eep_bridge_goto($url, $jwt_token) {
+        $response = new RedirectResponse($url->toString());
+        $response->headers->set('token', $jwt_token);
+        $response->send();
+        exit;
+    }
+
+    /**
+     * @param $post
+     * @return ADFSUserDetails
+     * Parses post variable into ADFS UserDetails object
+     */
+    function parse_post_for_user_details($post) {
+        $adfs = new ADFSBridge();
+        $userDetails = $adfs->getAdfsSignInResponse(ADFSConf::getInstance(), $post['wresult']);
+        return $userDetails;
+    }
+
+    public static function create(ContainerInterface $container) {
+        $auth = $container->get('jwt.authentication.jwt');
+        return new static($auth);
+    }
 
 }
