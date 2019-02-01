@@ -172,7 +172,7 @@
 
               // After the user is logged in then start checking to see if the cookie has expired and if it has then log them out
               setInterval(function () {
-                  console.log("hit set interval");
+                  console.log('cookies:' + document.cookie);
 
 
               }, 2000);
