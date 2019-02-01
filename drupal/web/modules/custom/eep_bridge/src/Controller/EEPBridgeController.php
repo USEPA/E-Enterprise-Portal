@@ -59,7 +59,6 @@ class EEPBridgeController extends ControllerBase {
         $userDetails = $this->parse_post_for_user_details($post);
 
         $authenticated_user = new AuthenticatedUser($userDetails);
-        $authenticated_user->set_name(time());
         $entity_storage = \Drupal::entityTypeManager()->getStorage('user');
         $account_search = $entity_storage->loadByProperties(['name' => $authenticated_user->get_name()]);
         $account_data = [];
