@@ -182,8 +182,8 @@
                   if(document.cookie.indexOf('Token=') === -1){
                       vm.$root.$emit(
                           'bv::show::modal',
-                          'cookieModal',
-                          this.$refs.cookieModal
+                          'cookie_modal',
+                          this.$refs.cookie_modal
                       );
                   }
               }
