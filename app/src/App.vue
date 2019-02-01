@@ -183,11 +183,8 @@
 
               // Set user id in the store
               store.commit(types.SET_UID, uid);
-              // Log user in
+              // Log user in to reflect the log out button being rendered
               store.commit('IS_USER_LOGGED_IN', true);
-
-
-
           }else{
               if(this.$cookie.get('userLoggedIn')){
                   // Log user in and set user name
