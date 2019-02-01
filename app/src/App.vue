@@ -170,20 +170,20 @@
               this.$cookie.set('Token', token, {expires: '20m'});
               this.$cookie.set('uid', uid, {expires: '20m'});
 
-              // After the user is logged in then start checking to see if the cookie has expired and if it has then log them out
-              setInterval(function () {
-                  console.log("hit set interval");
-                  if(!this.$cookie.get('userLoggedIn')){
-
-                  }else{
-
-                  }
-
-              }, 30000);
+//              // After the user is logged in then start checking to see if the cookie has expired and if it has then log them out
+//              setInterval(function () {
+//                  console.log("hit set interval");
+//                  if(!this.$cookie.get('userLoggedIn')){
+//
+//                  }else{
+//
+//                  }
+//
+//              }, 30000);
 
               // Set user id in the store
               store.commit(types.SET_UID, uid);
-              // Log user in to reflect the log out button being rendered
+              // Log user in
               store.commit('IS_USER_LOGGED_IN', true);
           }else{
               if(this.$cookie.get('userLoggedIn')){
