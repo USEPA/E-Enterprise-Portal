@@ -127,10 +127,8 @@
               <template
                 slot="second"
                 slot-scope="data"
-                v-for="item in program">
-                <a :href="item.second">
-                  {{ item.first }}
-                </a>
+                v-for="item in program1">
+                {{ item.first }}
               </template>
               <template
                 slot="status"
@@ -196,6 +194,7 @@
   import storeModule from './store/index';
   import { EventBus } from '../../EventBus';
 
+
   const moduleName = 'MyReporting';
   const items = [
     { program_service_name: '', role: '', status: '' },
@@ -251,7 +250,8 @@
     mounted() {
       AppAxios
         .get(this.apiURL + '/api/cdxdataflows')
-        .then(response => (this.program = response.data[0].field_cdx_program_name));
+        .then(response => (this.program = response.data[0].program_service_name))
+    .then(response => (this.program1 = response.data[0].role));
     },
     computed: {
       ...mapGetters({
