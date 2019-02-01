@@ -198,6 +198,8 @@
         isLoggedIn: 'getIsLoggedIn',
         username: 'getUsername',
         mail: 'getUserEmail',
+        organisation:'getOrganisation',
+        role:'getRole',
         apiURL: 'getEnvironmentApiURL'
       }),
        uid() { return this.getCookie('uid'); },
@@ -214,24 +216,8 @@
             .get('sample_data/role.json')
             .then(response => {
               this.role = response.data;
-              console.log(response.data)
-            });
-          if (this.uid) {
-           AppAxios.get(`${this.apiURL}/user/${this.uid}?_format=json`, {
-             headers: this.$store.GETHeaders,
-             Authorization: `Bearer ${this.Token}`,
-           })
-             .then((response) => {
-               this.organisation = response.data.field_organisation;
-               this.userInit = response.data.init;
-               this.totalRows = this.favLinksArray.length;
-             });
-         } else {
-           this.organisation[0].second = '--None--';
-         }
 
-
-        },
+          },
     methods: {
       ...mapActions(moduleName, [
         // map actions go here
@@ -249,10 +235,10 @@
         }
       },
       DeleteEEPUserProfile() {
-        console.log('DELETE PROFILE');
+        console.warn('DELETE PROFILE');
       },
       axiosPATCHInit() {
-      console.log("Hi");
+      console.warn("Hi");
           if (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1) {
             // pushes changes to backend
             AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
@@ -273,10 +259,10 @@
 
               })
               .then(() => {
-                console.log('PATCH => success');
+                console.warn'PATCH => success');
               })
               .catch(() => {
-                console.log('PATCH => failure');
+                console.warn('PATCH => failure');
               });
           } else {
             // pushes changes to backend
@@ -294,10 +280,10 @@
 
               })
               .then(() => {
-                console.log('PATCH => success');
+                console.warn('PATCH => success');
               })
               .catch(() => {
-                console.log('PATCH => failure');
+                console.warn('PATCH => failure');
               });
           }
         },

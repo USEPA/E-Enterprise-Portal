@@ -50,8 +50,8 @@ const state = {
     name: '',
     mail: '',
     favorite_links: [],
-    organisation:[],
-    role:[],
+    organisation:'',
+    role:'',
     location: {
       zipcode: '',
       city: '',
