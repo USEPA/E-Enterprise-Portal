@@ -198,7 +198,10 @@
         isLoggedIn: 'getIsLoggedIn',
         username: 'getUsername',
         mail: 'getUserEmail',
+        apiURL: 'getEnvironmentApiURL'
       }),
+       uid() { return this.getCookie('uid'); },
+       token() { return this.getCookie('Token'); },
     },
     mounted() {
           AppAxios
@@ -216,10 +219,7 @@
           if (this.uid) {
            AppAxios.get(`${this.apiURL}/user/${this.uid}?_format=json`, {
              headers: this.$store.GETHeaders,
-             auth: {
-               username: 'api_user',
-               password: 'api4epa',
-             },
+             Authorization: `Bearer ${this.Token}`,
            })
              .then((response) => {
                this.organisation = response.data.field_organisation;
@@ -265,15 +265,12 @@
               },
               {
                 headers: {
+                  Authorization: `Bearer ${this.Token}`,
                   crossDomain: true,
                   'cache-control': 'no-cache',
                   'Content-Type': 'application/json',
                 },
-                // @TODO set auth up to pass/accept jwt_token
-                auth: {
-                  username: 'api_user',
-                  password: 'api4epa',
-                },
+
               })
               .then(() => {
                 console.log('PATCH => success');
@@ -289,15 +286,12 @@
               },
               {
                 headers: {
+                  Authorization: `Bearer ${this.Token}`,
                   crossDomain: true,
                   'cache-control': 'no-cache',
                   'Content-Type': 'application/json',
                 },
-                // @TODO set auth up to pass/accept jwt_token
-                auth: {
-                  username: 'api_user',
-                  password: 'api4epa',
-                },
+
               })
               .then(() => {
                 console.log('PATCH => success');
