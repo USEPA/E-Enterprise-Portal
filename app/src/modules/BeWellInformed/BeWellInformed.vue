@@ -291,7 +291,7 @@
         'updateWaterAnalysisRequestProperty',
       ]),
       onCheckYourWater(evt) {
-        this.manageModal('bwi-modal');
+        EventBus.$emit('grid::modalOpen');
         evt.preventDefault();
         const partner = this.selectedPartner;
         if (partner) {
@@ -327,7 +327,7 @@
         return section;
       },
       onSubmit(evt) {
-        this.manageModal('bwi-modal-interactive');
+        EventBus.$emit('grid::modalClose');
         const vm = this;
         const isRequestEmpty = vm.isWaterAnalysisRequestEmpty();
         if (!isRequestEmpty) {
@@ -359,15 +359,6 @@
         return this.waterAnalysisResults
           && this.waterAnalysisResults.length
           && this.waterAnalysisResults[0];
-      },
-      manageModal(elId) {
-        console.log(elId);
-        const newParent = document.getElementById('grid-modal-container');
-        const oldParent = document.getElementById(elId).parentElement.parentElement;
-
-        while (oldParent.childNodes.length > 0) {
-          newParent.appendChild(oldParent.childNodes[0]);
-        }
       },
     },
     props: {
