@@ -109,11 +109,10 @@ export default {
     Vue.set(state.user,
       'name',
       name);
-    if (state.user.mail) {
       Vue.set(state.user,
         'mail',
         mail);
-    }
+
     Vue.set(state.user,
       'favorite_links',
       favorite_links);
