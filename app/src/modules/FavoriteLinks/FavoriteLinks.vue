@@ -232,10 +232,11 @@
     methods: {
       // ADD
       openAddModal(item, index, button) {
-        this.manageModal('addModalInfo');
+        EventBus.$emit('grid::modalOpen');
         this.$root.$emit('bv::show::modal', 'addModalInfo', button);
       },
       closeAddModal() {
+        EventBus.$emit('grid::modalClose');
         this.$root.$emit('bv::hide::modal', 'addModalInfo');
       },
       applyAddModal() {
@@ -252,6 +253,7 @@
       },
       // EDIT
       openEditModal(item, index, button) {
+        EventBus.$emit('grid::modalOpen');
         this.manageModal('editModalInfo');
         this.editModalIndex = index;
         this.editModalInfo.first = item.first;
@@ -259,6 +261,7 @@
         this.$root.$emit('bv::show::modal', 'editModalInfo', button);
       },
       closeEditModal() {
+        EventBus.$emit('grid::modalClose');
         this.$root.$emit('bv::hide::modal', 'editModalInfo');
       },
       applyEditModal(objTitle, objLink) {
@@ -345,15 +348,6 @@
             .catch(() => {
               console.log('PATCH => failure');
             });
-        }
-      },
-      manageModal(elId) {
-        console.log(elId);
-        const newParent = document.getElementById('grid-modal-container');
-        const oldParent = document.getElementById(elId).parentElement.parentElement;
-
-        while (oldParent.childNodes.length > 0) {
-          newParent.appendChild(oldParent.childNodes[0]);
         }
       },
     },
