@@ -1,6 +1,6 @@
 <template>
   <div class="workbench-grid">
-    <template v-if="isLayoutReady">
+    <template v-if="isLayoutReady && !modalOpen">
       <grid-layout
         :layout.sync="layout"
         :responsive="true"
@@ -55,6 +55,9 @@
         </div>
       </AppPlaceholderContent>
     </template>
+    <template v-if="modalOpen">
+      test
+    </template>
   </div>
 </template>
 
@@ -69,7 +72,7 @@
   import { GridLayout, GridItem } from 'vue-grid-layout';
   import { AppPlaceholderContent } from '../wadk/WADK';
   import storeModule from './store/index';
-  // import { EventBus } from '../../EventBus';
+  import { EventBus } from '../../EventBus';
 
   const moduleName = 'Grid';
 
@@ -96,9 +99,13 @@
       }
       // filter layout
       vm.initializeLayout();
+      // Custom event listeners
+      EventBus.$on('grid::modalOpen', this.manageModalOpen);
+      EventBus.$on('grid::modalClose', this.manageModalClose);
     },
     data() {
       return {
+        modalOpen: false,
       };
     },
     mounted() {
@@ -123,6 +130,12 @@
         'setGridLayout',
         'initializeLayout',
       ]),
+      manageModalOpen() {
+        this.modalOpen = true;
+      },
+      manageModalClose() {
+        this.modalOpen = false;
+      },
     },
   };
 </script>
