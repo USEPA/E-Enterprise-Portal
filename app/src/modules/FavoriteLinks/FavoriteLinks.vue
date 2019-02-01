@@ -24,7 +24,7 @@
           <b-btn
             @click="openAddModal"
             class="add-favorite-btn"/>
-          <div class="d-inline-block pl-1">Add a Favorite</div>
+          <div class="d-inline-block pl-1 add-favorite-btn-text">Add a Favorite</div>
         </b-col>
         <b-col
           md="3"
@@ -34,7 +34,7 @@
             label="Rows"
             class="mb-0">
             <b-form-select
-              class="ml-2"
+              class="ml-3"
               :options="pageOptions"
               v-model="perPage"/>
           </b-form-group>
@@ -430,5 +430,14 @@
     border-radius: 50%;
     background-size: 1.3rem 1.325rem;
     background-image: url('../../assets/images/favorites-empty.svg');
+  }
+
+  .form-group {
+    border: 0rem;
+  }
+
+  .add-favorite-btn-text, .add-favorite-btn {
+    position: relative;
+    top: .55rem;
   }
 </style>
