@@ -227,6 +227,7 @@
         apiURL: 'getEnvironmentApiURL',
       }),
       uid() { return this.getCookie('uid'); },
+      token() { return this.getCookie('Token'); },
     },
     methods: {
       // ADD
@@ -310,14 +311,10 @@
             },
             {
               headers: {
+                Authorization: `Bearer ${this.Token}`,
                 crossDomain: true,
                 'cache-control': 'no-cache',
                 'Content-Type': 'application/json',
-              },
-              // @TODO set auth up to pass/accept jwt_token
-              auth: {
-                username: 'api_user',
-                password: 'api4epa',
               },
             })
             .then(() => {
@@ -334,14 +331,10 @@
             },
             {
               headers: {
+                Authorization: `Bearer ${this.token}`,
                 crossDomain: true,
                 'cache-control': 'no-cache',
                 'Content-Type': 'application/json',
-              },
-              // @TODO set auth up to pass/accept jwt_token
-              auth: {
-                username: 'api_user',
-                password: 'api4epa',
               },
             })
             .then(() => {
