@@ -172,16 +172,17 @@
               this.$cookie.set('uid', uid, {expires: '1m'});
 
               // After the user is logged in then start checking to see if the cookie has expired and if it has then log them out
-              setInterval(function () {
+              let set_interval_id = setInterval(checkCookieExistance, 20000);
+
+              function checkCookieExistance(){
                   if(document.cookie.indexOf('Token=') === -1){
                       this.$root.$emit(
-                        'bv::show::modal',
-                        'cookieModal',
-                        this.$refs.cookieModal
+                          'bv::show::modal',
+                          'cookieModal',
+                          this.$refs.cookieModal
                       );
-
                   }
-              }, 20000);
+              }
 
               // Set user id in the store
               store.commit(types.SET_UID, uid);
