@@ -2,6 +2,7 @@
   <div class="workbench">
     <!-- @TODO - Dynamically load workbench apps -->
     <Grid/>
+    <div id="grid-modal-container"/>
   </div>
 </template>
 

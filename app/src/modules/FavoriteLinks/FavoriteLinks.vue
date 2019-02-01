@@ -232,6 +232,7 @@
     methods: {
       // ADD
       openAddModal(item, index, button) {
+        this.manageModal('addModalInfo');
         this.$root.$emit('bv::show::modal', 'addModalInfo', button);
       },
       closeAddModal() {
@@ -251,6 +252,7 @@
       },
       // EDIT
       openEditModal(item, index, button) {
+        this.manageModal('editModalInfo');
         this.editModalIndex = index;
         this.editModalInfo.first = item.first;
         this.editModalInfo.second = item.second;
@@ -343,6 +345,15 @@
             .catch(() => {
               console.log('PATCH => failure');
             });
+        }
+      },
+      manageModal(elId) {
+        console.log(elId);
+        const newParent = document.getElementById('grid-modal-container');
+        const oldParent = document.getElementById(elId).parentElement.parentElement;
+
+        while (oldParent.childNodes.length > 0) {
+          newParent.appendChild(oldParent.childNodes[0]);
         }
       },
     },
