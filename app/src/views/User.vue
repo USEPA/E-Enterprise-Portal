@@ -174,6 +174,7 @@
       return {
 
         locations: [{ }],
+        userInit: [],
         UserDeleteModalInfo: { title: 'Delete User' },
         selected: null,
         selectedRole: null,
