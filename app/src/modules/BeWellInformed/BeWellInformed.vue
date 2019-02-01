@@ -327,7 +327,6 @@
         return section;
       },
       onSubmit(evt) {
-        EventBus.$emit('grid::modalClose');
         const vm = this;
         const isRequestEmpty = vm.isWaterAnalysisRequestEmpty();
         if (!isRequestEmpty) {
