@@ -8,11 +8,14 @@ use Drupal\eep_my_reporting\SOAPHandler;
 
 class CDXRegisterMyCdxService extends CDXNaasService {
 
+  private $soap_handler;
+  private $config;
 
-  function __construct() {
+  function __construct($config) {
+    $this->config = $config;
     $this->soap_handler = new SOAPHandler();
-    $this->wsdl = 'https://devngn.epacdxnode.net/cdx-register-II/services/RegisterMyCdxService?wsdl';
-    $soap_service_setup = $this->soap_handler->connectToSOAPServerWithWSDL($this->wsdl, "My CDX");
+    $this->wsdl = $this->config->get('wsdl');
+    $soap_service_setup = $this->soap_handler->connectToSOAPServerWithWSDL($this->wsdl);
     if ($soap_service_setup->error) {
       $this->client = FALSE;
     }
@@ -27,10 +30,10 @@ class CDXRegisterMyCdxService extends CDXNaasService {
 
   private function generate_token_params() {
     $this->params = [
-      "userId" => 'registration.dev@cgifederal.com',
-      "credential" => 'Devregistration1',
-      "domain" => 'default',
-      "authenticationMethod" => 'password',
+      "userId" => $this->config->get('admin_id'),
+      "credential" => $this->config->get('credential'),
+      "domain" =>  $this->config->get('domain'),
+      "authenticationMethod" =>  $this->config->get('authentication_method'),
     ];
   }
 
