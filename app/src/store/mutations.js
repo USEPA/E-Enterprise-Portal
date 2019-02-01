@@ -115,11 +115,28 @@ export default {
     Vue.set(state.user,
       'favorite_links',
       favorite_links);
+
+    Vue.set(state.user,
+        'organisation',
+         organisation);
+    Vue.set(state.user,
+        'role',
+        role);
   },
   [types.SET_USER_OBJECT_FAV_LINKS](state, obj) {
     Vue.set(state.user.userObject,
       'field_favorite_links',
       obj);
+  },
+  [types.SET_USER_OBJECT_ORGANISATION](state, obj) {
+    Vue.set(state.user.userObject,
+        'field_organisation',
+        obj);
+  },
+  [types.SET_USER_OBJECT_ROLE](state, obj) {
+    Vue.set(state.user.userObject,
+        'field_role',
+        obj);
   },
   [types.SET_BASIC_PAGES](state, arr) {
     Vue.set(state.basicPages,

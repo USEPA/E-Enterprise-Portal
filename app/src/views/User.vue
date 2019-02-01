@@ -82,21 +82,42 @@
               <div class="int-container ">
                 <div />
                 <h3>Interests</h3>
-                <div class=" pt-3 d-flex">
+                <div class=" pt-3 mr-3 d-flex">
                   <div><h6>Organization</h6>
-                    <b-dropdown
-                      id="org_ddown1"
-                      text="Business"
-                      variant="outline-secondary"
-                      class="col-4-md organisation  mr-3" />
+ <b-form-select v-model="selected"
+                id="org-selection"
+
+                @click="organisation.second = option.value"
+                class="mr-3"
+                required>
+          <template  slot="first">
+
+            <!-- this slot appears above the options from 'options' prop -->
+            <option :value=null >-- None-- </option>
+            <option v-for="option in org" :value="option.value">
+                     {{ option.name }}
+                   </option>
+          </template>
+        </b-form-select>
+
                   </div>
-                  <div text="Role"><h6> Role</h6>
-                    <b-dropdown
-                      id="role_ddown2"
-                      text="Budget and operations"
-                      variant="outline-secondary"
-                      class="col-4-md role mr-3"/>
-                  </div>
+                  <div class="mr-3"></div>
+                  <div><h6> Role</h6>
+                     <b-form-select v-model="selectedRole"
+                                    id="role-selection"
+                                    class="mr-3"
+                                    required>
+                              <template>
+
+                                <!-- this slot appears above the options from 'options' prop -->
+                                <option :value=null >-- None-- </option>
+                                <option v-for="option in role">
+                                         {{ option.name }}
+                                       </option>
+                              </template>
+                            </b-form-select>
+
+                                     </div>
                 </div>
               </div>
             </div>
@@ -105,6 +126,11 @@
 
         <p class="ml-4 mt-4">All unsaved data will be lost upon navigating
         away from the Profile page.</p>
+        <b-btn
+                      class="mr-3 ml-2 "
+                      @click="axiosPATCHInit"
+                      variant="primary">Save
+                    </b-btn>
         <b-btn
           v-b-modal.UserDeleteModalInfo
           variant="outline-primary">Delete Profile</b-btn>
@@ -124,6 +150,7 @@
           you want to do this?
         </b-col>
       </b-row>
+
       <b-btn
         class="mt-3 ml-2 float-right"
         @click="DeleteEEPUserProfile"
@@ -139,6 +166,7 @@
 </template>
 
 <script>
+ import AppAxios from 'axios';
   import { mapActions, mapGetters } from 'vuex';
 
   const moduleName = 'User';
@@ -155,6 +183,25 @@
 
         locations: [{ }],
         UserDeleteModalInfo: { title: 'Delete User' },
+
+selected: null,
+selectedRole: null,
+                org: [
+                  { type: '', },
+                  { name: '', },
+
+
+                ],
+                role: [
+                  { type: '', },
+                  { name: '', },
+                  ],
+organisation:[
+{first:'',},
+{second:'',}
+]
+
+
       };
     },
 
@@ -166,6 +213,38 @@
         mail: 'getUserEmail',
       }),
     },
+    mounted() {
+          AppAxios
+            .get('sample_data/organisation.json')
+            .then(response => {
+              this.org = response.data;
+
+            });
+          AppAxios
+            .get('sample_data/role.json')
+            .then(response => {
+              this.role = response.data;
+              console.log(response.data)
+            });
+            if (this.uid) {
+                               AppAxios.get(`${this.apiURL}/user/${this.uid}?_format=json`, {
+                                 headers: this.$store.GETHeaders,
+                                 auth: {
+                                   username: 'api_user',
+                                   password: 'api4epa',
+                                 },
+                               })
+                                 .then((response) => {
+                                   this.organisation = response.data.field_organisation;
+                                   this.userInit = response.data.init;
+                                   this.totalRows = this.favLinksArray.length;
+                                 });
+                             } else {
+                               this.organisation[0].second = '--None--';
+                             }
+
+
+        },
     methods: {
       ...mapActions(moduleName, [
         // map actions go here
@@ -185,6 +264,62 @@
       DeleteEEPUserProfile() {
         console.log('DELETE PROFILE');
       },
+      axiosPATCHInit() {
+      console.log("Hi");
+              if (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1) {
+                // pushes changes to backend
+                AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
+                    init: [
+                      {
+                        value: "generated-user@e-enterprise",
+                      },
+                    ],
+                    field_organisation: this.selected,
+                  },
+                  {
+                    headers: {
+                      crossDomain: true,
+                      'cache-control': 'no-cache',
+                      'Content-Type': 'application/json',
+                    },
+                    // @TODO set auth up to pass/accept jwt_token
+                    auth: {
+                      username: 'api_user',
+                      password: 'api4epa',
+                    },
+                  })
+                  .then(() => {
+                    console.log('PATCH => success');
+                  })
+                  .catch(() => {
+                    console.log('PATCH => failure');
+                  });
+              } else {
+                // pushes changes to backend
+                AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
+                    init: this.userInit,
+                    field_organisation: this.selected,
+                  },
+                  {
+                    headers: {
+                      crossDomain: true,
+                      'cache-control': 'no-cache',
+                      'Content-Type': 'application/json',
+                    },
+                    // @TODO set auth up to pass/accept jwt_token
+                    auth: {
+                      username: 'api_user',
+                      password: 'api4epa',
+                    },
+                  })
+                  .then(() => {
+                    console.log('PATCH => success');
+                  })
+                  .catch(() => {
+                    console.log('PATCH => failure');
+                  });
+              }
+            },
     },
   };
 </script>
