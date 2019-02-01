@@ -53,10 +53,11 @@
     <MainFooter/>
     <!-- set progressbar -->
     <vue-progress-bar/>
+    <!-- Modal for cookie extension -->
     <AppModal
-        id="cookie-extension-modal"
-        title="Would you like to extend your session?"
-        modal-ref="cookieModal">
+        id="cookie_modal"
+        modal-ref="cookie_modal"
+        title="Would you like to extend your session?">
     </AppModal>
   </div>
 </template>
@@ -82,13 +83,14 @@
       MainFooter,
       VueProgessBar,
       LocationSearch,
+      AppModal,
     },
     computed: {
-            ...mapGetters({
-              ENV: 'getEnvironment',
-              navMargin: 'getnavMargin',
-              basicPages: 'getBasicPages',
-            }),
+    ...mapGetters({
+        ENV: 'getEnvironment',
+        navMargin: 'getnavMargin',
+        basicPages: 'getBasicPages',
+    }),
     // @todo clean up variable names here
     environmentName() {
       let env = 'LOCAL';
@@ -181,8 +183,8 @@
                   if(document.cookie.indexOf('Token=') === -1){
                       vm.$root.$emit(
                           'bv::show::modal',
-                          'cookieModal',
-                          this.$refs.cookieModal
+                          'cookie_modal',
+                          this.$refs.cookie_modal
                       );
                   }
               }
