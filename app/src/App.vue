@@ -53,6 +53,7 @@
     <MainFooter/>
     <!-- set progressbar -->
     <vue-progress-bar/>
+    <!-- Modal for cookie extension -->
     <AppModal
         id="cookie_modal"
         modal-ref="cookie_modal"
