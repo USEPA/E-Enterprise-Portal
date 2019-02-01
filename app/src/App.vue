@@ -171,15 +171,11 @@
               this.$cookie.set('uid', uid, {expires: '20m'});
 
 //              // After the user is logged in then start checking to see if the cookie has expired and if it has then log them out
-//              setInterval(function () {
-//                  console.log("hit set interval");
-//                  if(!this.$cookie.get('userLoggedIn')){
-//
-//                  }else{
-//
-//                  }
-//
-//              }, 30000);
+              setInterval(function () {
+                  console.log("hit set interval");
+
+
+              }, 20000);
 
               // Set user id in the store
               store.commit(types.SET_UID, uid);
