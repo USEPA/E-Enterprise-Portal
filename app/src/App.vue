@@ -71,6 +71,7 @@
   import VueProgessBar from 'vue-progressbar';
   import types from './store/types';
   import {EventBus} from './EventBus';
+  import {AppModal} from './modules/wadk/WADK';
 
   const moduleName = "App";
 
@@ -122,13 +123,7 @@
           vm.$store.dispatch('EEPBasicPagesToState');
       },
       created() {
-          
           const vm = this;
-          const store = vm.$store;
-          if (!(store && store.state && store.state[moduleName])) {
-              store.registerModule(moduleName, storeModule);
-          }
-
           vm.$store.commit(types.SET_APP, vm);
           //  [App.vue specific] When App.vue is first loaded start the progress bar
           vm.$Progress.start();
@@ -180,6 +175,7 @@
               // After the user is logged in then start checking to see if the cookie has expired and if it has then log them out
               let set_interval_id = setInterval(checkCookieExistance, 20000);
 
+              // Function that is used everytime setInterval is called
               function checkCookieExistance(){
                   console.log("hit check cookie");
                   if(document.cookie.indexOf('Token=') === -1){
