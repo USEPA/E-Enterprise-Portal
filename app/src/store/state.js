@@ -48,8 +48,10 @@ const state = {
     id: 0,
     isLoggedIn: false,
     name: '',
-    mail: 'No email set',
+    mail: '',
     favorite_links: [],
+    organisation:'',
+    role:'',
     location: {
       zipcode: '',
       city: '',
