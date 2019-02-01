@@ -112,7 +112,7 @@
               show-empty
               stacked="md"
               :fields="fields"
-              :items="program"
+              :items="items"
               :current-page="currentPage"
               :per-page="perPage"
               :filter="filter"
@@ -122,21 +122,19 @@
                 slot="first"
                 slot-scope="data"
                 v-for="item in program">
-                {{ item.first }}
+                {{ item.program_service_name }}
               </template>
               <template
                 slot="second"
                 slot-scope="data"
-                v-for="item in program1">
-                {{ item.first }}
+                v-for="item in program">
+                {{ item.role }}
               </template>
               <template
-                slot="status"
-                slot-scope="row">
-                <b-button
-                  size="sm"
-                  @click=""
-                  class="status-icon"/>
+                slot="third"
+                slot-scope="data"
+                v-for="item in program">
+                {{ item.status }}
               </template>
             </b-table>
             <b-modal><div class="my-cdx-modal">
@@ -219,19 +217,15 @@
     data() {
       return {
         program: [
-          { first: '' },
-          { second: '' },
+          { program_service_name: '' },
+          { role: '' },
           { status: '' },
-
         ],
-         program1: [
-          { first: '' },
-          { second: '' },
-        ],
+        items: items,
         fields: [
           { key: 'first', label: 'Program service name' },
           { key: 'second', label: 'Role' },
-          { key: 'status', label: 'Status' },
+          { key: 'third', label: 'Status' },
         ],
         currentPage: 1,
         perPage: 5,
@@ -248,10 +242,19 @@
       };
     },
     mounted() {
-      AppAxios
-        .get(this.apiURL + '/api/cdxdataflows')
-        .then(response => (this.program = response.data[0].program_service_name))
-        .then(response => (this.program1 = response.data[0].role));
+      let cookie = this.$cookie.get('Token');
+      AppAxios.get(
+        this.apiURL + '/api/cdxdataflows',
+        { headers: {
+            Authorization: `Bearer ${cookie}`,
+            crossDomain: true,
+            'cache-control': 'no-cache',
+            'Content-Type': 'application/json',
+          }})
+
+      .then(response => {
+        this.program = response.data[0];
+      });
     },
     computed: {
       ...mapGetters({

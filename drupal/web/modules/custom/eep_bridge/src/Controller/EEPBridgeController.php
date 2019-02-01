@@ -35,7 +35,7 @@ class EEPBridgeController extends ControllerBase {
     }
 
     private function tempLoginUser() {
-        $user = User::load(7);
+        $user = User::load(1);
         user_login_finalize($user);
         $uid = \Drupal::currentUser()->id();
         $jwt_token = $this->auth->generateToken();
