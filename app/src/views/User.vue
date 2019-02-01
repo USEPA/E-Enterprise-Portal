@@ -84,40 +84,33 @@
                 <h3>Interests</h3>
                 <div class=" pt-3 mr-3 d-flex">
                   <div><h6>Organization</h6>
- <b-form-select v-model="selected"
-                id="org-selection"
-
-                @click="organisation.second = option.value"
-                class="mr-3"
-                required>
-          <template  slot="first">
-
-            <!-- this slot appears above the options from 'options' prop -->
-            <option :value=null >-- None-- </option>
-            <option v-for="option in org" :value="option.value">
-                     {{ option.name }}
-                   </option>
-          </template>
-        </b-form-select>
-
+                    <b-form-select v-model="selected"
+                        id="org-selection"
+                        @click="organisation.second = option.value"
+                        class="mr-3"
+                        required>
+                        <template  slot="first">
+                            <option :value=null >-- None-- </option>
+                            <option v-for="option in org" :value="option.value">
+                            {{ option.name }}
+                            </option>
+                        </template>
+                     </b-form-select>
                   </div>
                   <div class="mr-3"></div>
                   <div><h6> Role</h6>
-                     <b-form-select v-model="selectedRole"
-                                    id="role-selection"
-                                    class="mr-3"
-                                    required>
-                              <template>
-
-                                <!-- this slot appears above the options from 'options' prop -->
-                                <option :value=null >-- None-- </option>
-                                <option v-for="option in role">
-                                         {{ option.name }}
-                                       </option>
-                              </template>
-                            </b-form-select>
-
-                                     </div>
+                    <b-form-select v-model="selectedRole"
+                         id="role-selection"
+                         class="mr-3"
+                         required>
+                         <template>
+                            <option :value=null >-- None-- </option>
+                            <option v-for="option in role">
+                            {{ option.name }}
+                            </option>
+                         </template>
+                    </b-form-select>
+                  </div>
                 </div>
               </div>
             </div>
