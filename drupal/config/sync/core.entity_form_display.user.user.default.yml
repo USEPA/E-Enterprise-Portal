@@ -26,6 +26,7 @@ content:
     region: content
   contact:
     weight: 5
+    region: content
   field_cdx_user_id:
     weight: 32
     settings:

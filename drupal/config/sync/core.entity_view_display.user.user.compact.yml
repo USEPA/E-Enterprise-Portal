@@ -26,5 +26,8 @@ content:
     third_party_settings: {  }
     label: hidden
 hidden:
+  field_cdx_user_id: true
   field_favorite_links: true
+  field_organisation: true
+  field_role: true
   member_for: true

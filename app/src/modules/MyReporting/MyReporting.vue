@@ -251,7 +251,7 @@
       AppAxios
         .get(this.apiURL + '/api/cdxdataflows')
         .then(response => (this.program = response.data[0].program_service_name))
-    .then(response => (this.program1 = response.data[0].role));
+        .then(response => (this.program1 = response.data[0].role));
     },
     computed: {
       ...mapGetters({
