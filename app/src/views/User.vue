@@ -215,8 +215,8 @@
           AppAxios
             .get('sample_data/role.json')
             .then(response => {
-              this.role = response.data;
-
+             this.role = response.data;
+            });
           },
     methods: {
       ...mapActions(moduleName, [
@@ -259,7 +259,7 @@
 
               })
               .then(() => {
-                console.warn'PATCH => success');
+                console.warn('PATCH => success');
               })
               .catch(() => {
                 console.warn('PATCH => failure');
