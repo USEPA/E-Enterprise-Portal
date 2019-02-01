@@ -1,7 +1,8 @@
 <template>
   <div class="workbench-grid">
-    <template v-if="isLayoutReady && !modalOpen">
+    <template v-if="isLayoutReady">
       <grid-layout
+        v-if="!modalOpen"
         :layout.sync="layout"
         :responsive="true"
         :breakpoints="{ lg: 992, md: 768, sm: 576, xs: 380, xxs: 0 }"
@@ -31,32 +32,31 @@
             :eep-app="wapp.eepApp"/>
         </grid-item>
       </grid-layout>
+      <User
+        v-if="modalOpen"/>
     </template>
     <template v-if="!isLayoutReady">
       <AppPlaceholderContent>
         <div class="row">
-          <div class="col-lg-3 col-6 square pulse"></div>
-          <div class="col-lg-3 col-6 square pulse"></div>
-          <div class="col-lg-3 col-6 square pulse"></div>
-          <div class="col-lg-3 col-6 square pulse"></div>
+          <div class="col-lg-3 col-6 square pulse"/>
+          <div class="col-lg-3 col-6 square pulse"/>
+          <div class="col-lg-3 col-6 square pulse"/>
+          <div class="col-lg-3 col-6 square pulse"/>
         </div>
         <div class="row">
           <div class="col-6">
             <div class="row">
-              <div class="col-12 rectangle pulse"></div>
-              <div class="col-12 rectangle pulse"></div>
+              <div class="col-12 rectangle pulse"/>
+              <div class="col-12 rectangle pulse"/>
             </div>
           </div>
           <div class="col-6">
             <div class="row">
-              <div class="col-12 square pulse"></div>
+              <div class="col-12 square pulse"/>
             </div>
           </div>
         </div>
       </AppPlaceholderContent>
-    </template>
-    <template v-if="modalOpen">
-      test
     </template>
   </div>
 </template>
@@ -73,6 +73,7 @@
   import { AppPlaceholderContent } from '../wadk/WADK';
   import storeModule from './store/index';
   import { EventBus } from '../../EventBus';
+  import User from '../../views/User.vue';
 
   const moduleName = 'Grid';
 
@@ -86,6 +87,7 @@
       TrendingAir,
       FavoriteLinks,
       MyReporting,
+      User,
     },
     beforeCreate() {
       const vm = this;
