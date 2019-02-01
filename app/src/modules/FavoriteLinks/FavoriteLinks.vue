@@ -254,7 +254,6 @@
       // EDIT
       openEditModal(item, index, button) {
         EventBus.$emit('grid::modalOpen');
-        this.manageModal('editModalInfo');
         this.editModalIndex = index;
         this.editModalInfo.first = item.first;
         this.editModalInfo.second = item.second;
