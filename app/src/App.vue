@@ -55,7 +55,8 @@
     <vue-progress-bar/>
     <AppModal
         id="cookie-extension-modal"
-        title="Would you like to extend your session?">
+        title="Would you like to extend your session?"
+        modal-ref="cookieModal">
     </AppModal>
   </div>
 </template>
@@ -165,17 +166,22 @@
               const uid = vars["uid"];
               // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
               // Set another cookie saying they logged in
-              this.$cookie.set('userLoggedIn', true, {expires: '20m'});
+              this.$cookie.set('userLoggedIn', true, {expires: '1m'});
               // set user token in cookie
-              this.$cookie.set('Token', token, {expires: '20m'});
-              this.$cookie.set('uid', uid, {expires: '20m'});
+              this.$cookie.set('Token', token, {expires: '1m'});
+              this.$cookie.set('uid', uid, {expires: '1m'});
 
               // After the user is logged in then start checking to see if the cookie has expired and if it has then log them out
               setInterval(function () {
-                  console.log('cookies:' + document.cookie);
+                  if(document.cookie.indexOf('Token=') === -1){
+                      this.$root.$emit(
+                        'bv::show::modal',
+                        'cookieModal',
+                        this.$refs.cookieModal
+                      );
 
-
-              }, 2000);
+                  }
+              }, 20000);
 
               // Set user id in the store
               store.commit(types.SET_UID, uid);
