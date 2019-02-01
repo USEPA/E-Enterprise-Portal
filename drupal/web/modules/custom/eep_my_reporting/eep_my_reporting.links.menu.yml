@@ -1,6 +1,6 @@
-eep_bridge.eep_bridge_environment_form:
-  title: 'E-Enterprise Bridge Authentication settings'
-  route_name: 'eep_bridge.eep_bridge_environment_form'
-  description: 'Configure host name and other authentication settings'
+eep_my_reporting.eep_my_reporting_form:
+  title: 'E-Enterprise My Reporting Settings'
+  route_name: 'eep_my_reporting.eep_my_reporting_form'
+  description: 'Configure Administrative settings for My Reporting'
   parent: system.admin_config_system
   weight: 99
