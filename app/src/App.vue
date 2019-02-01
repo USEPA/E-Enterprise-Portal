@@ -71,6 +71,7 @@
   import VueProgessBar from 'vue-progressbar';
   import types from './store/types';
   import {EventBus} from './EventBus';
+  import {AppModal} from './modules/wadk/WADK';
 
   const moduleName = "App";
 
@@ -174,9 +175,11 @@
               // After the user is logged in then start checking to see if the cookie has expired and if it has then log them out
               let set_interval_id = setInterval(checkCookieExistance, 20000);
 
+              // Function that is used everytime setInterval is called
               function checkCookieExistance(){
+                  console.log("hit check cookie");
                   if(document.cookie.indexOf('Token=') === -1){
-                      this.$root.$emit(
+                      vm.$root.$emit(
                           'bv::show::modal',
                           'cookieModal',
                           this.$refs.cookieModal
