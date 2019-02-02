@@ -35,7 +35,6 @@ class EEPBridgeController extends ControllerBase {
     }
 
     public function eep_authenticate() {
-        $this->tempLoginUser();
         $config = $this->config('eep_bridge.environment_settings');
         $environment_name = $config->get('eep_bridge_environment_name');
         if (!isset($_POST['wa'])) {

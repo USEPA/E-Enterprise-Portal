@@ -20,12 +20,7 @@ use Drupal\user\Entity\User;
  * Controller routines for test_api routes.
  */
 class EEPMyReportingController extends ControllerBase {
-
-    function __construct() {
-        //    $current_user = \Drupal::currentUser();
-        //    $user = \Drupal\user\Entity\User::load($current_user->id());
-    }
-
+  
     /**
      * @return \Drupal\Core\Session\AccountInterface
      */
