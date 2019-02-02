@@ -357,9 +357,11 @@
         });
       },
       onHideMainModal() {
-        EventBus.$emit('grid::modalClose');
         const vm = this;
         vm.tabIndex = 0;
+      },
+      backToGrid() {
+        EventBus.$emit('grid::modalClose');
       },
       hasWaterAnalysisResults() {
         return this.waterAnalysisResults
