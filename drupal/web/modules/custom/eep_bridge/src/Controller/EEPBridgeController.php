@@ -11,8 +11,6 @@ use Drupal\eep_bridge\ADFSBridge;
 use Drupal\eep_bridge\AuthenticatedUser;
 use Drupal\jwt\Authentication\Provider\JwtAuth;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-
-////Temp
 use Drupal\user\Entity\User;
 
 
