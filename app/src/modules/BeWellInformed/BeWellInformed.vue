@@ -291,7 +291,7 @@
         'updateWaterAnalysisRequestProperty',
       ]),
       onCheckYourWater(evt) {
-        EventBus.$emit('grid::modalOpen');
+        EventBus.$emit('grid::modalOpen', this.eepApp.field_vue_component_name, this.eepApp);
         evt.preventDefault();
         const partner = this.selectedPartner;
         if (partner) {

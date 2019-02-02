@@ -32,8 +32,10 @@
             :eep-app="wapp.eepApp"/>
         </grid-item>
       </grid-layout>
-      <User
-        v-if="modalOpen"/>
+      <component
+        v-if="modalOpen"
+        :is="modalIn"
+        :eep-app="modalEepApp"/>
     </template>
     <template v-if="!isLayoutReady">
       <AppPlaceholderContent>
@@ -102,16 +104,21 @@
       // filter layout
       vm.initializeLayout();
       // Custom event listeners
-      EventBus.$on('grid::modalOpen', this.manageModalOpen);
+      EventBus.$on('grid::modalOpen', this.gridModalOpen);
       EventBus.$on('grid::modalClose', this.manageModalClose);
     },
     data() {
       return {
         modalOpen: false,
+        modalIn: '',
+        modalEepApp: {},
       };
     },
     mounted() {
       const vm = this;
+      const componentName = 'BeWellInformed';
+      const componentProps = vm.$root.$options.components[componentName].$props;
+      console.log(componentProps);
     },
     computed: {
        ...mapGetters({
@@ -132,11 +139,15 @@
         'setGridLayout',
         'initializeLayout',
       ]),
-      manageModalOpen() {
+      gridModalOpen(modalIn, modalEepApp) {
         this.modalOpen = true;
+        this.modalIn = modalIn;
+        this.modalEepApp = modalEepApp;
       },
       manageModalClose() {
         this.modalOpen = false;
+        this.modalIn = '';
+        this.modalEepApp = {};
       },
     },
   };

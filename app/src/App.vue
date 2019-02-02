@@ -82,6 +82,7 @@
       MainFooter,
       VueProgessBar,
       LocationSearch,
+      AppModal,
     },
     computed: {
             ...mapGetters({
