@@ -32,10 +32,12 @@
             :eep-app="wapp.eepApp"/>
         </grid-item>
       </grid-layout>
-      <component
+      <BeWellInformed
         v-if="modalOpen"
         :is="modalIn"
-        :eep-app="modalEepApp"/>
+        :eep-app="modalEepApp"
+        :is-this-modal-open=true
+      />
     </template>
     <template v-if="!isLayoutReady">
       <AppPlaceholderContent>
@@ -113,10 +115,6 @@
       };
     },
     mounted() {
-      const vm = this;
-      const componentName = 'BeWellInformed';
-      const componentProps = vm.$root.$options.components[componentName].$props;
-      console.log(componentProps);
     },
     computed: {
        ...mapGetters({

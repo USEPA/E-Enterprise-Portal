@@ -28,8 +28,7 @@
         <div
           id="bwi-widget-state-content"
           class="py-2"
-          v-html="eepApp.field_html_content.mainCard">
-        </div>
+          v-html="eepApp.field_html_content.mainCard"/>
         <b-btn
           variant="primary"
           ref="btnCheckYourWater"
@@ -64,13 +63,13 @@
                 v-for="i in 3"
                 :key="i"
                 class="row my-5">
-                <h5 class="col-md-12 pulse"></h5>
+                <h5 class="col-md-12 pulse"/>
                 <div
                   v-for="j in 3"
                   :key="`${j}-left`"
                   class="col-md-6">
                   <div class="row m-2">
-                    <div class="col-12 pulse"></div>
+                    <div class="col-12 pulse"/>
                   </div>
                 </div>
                 <div
@@ -78,7 +77,7 @@
                   :key="`${j}-right`"
                   class="col-md-6">
                   <div class="row m-2">
-                    <div class="col-12 pulse"></div>
+                    <div class="col-12 pulse"/>
                   </div>
                 </div>
               </div>
@@ -252,6 +251,13 @@
       // Update location in BWI app
       EventBus.$on('locationService::update', this.updateSelectedPartner);
     },
+    mounted() {
+      if (this.$props.isThisModalOpen) {
+        this.$root.$emit(
+          'bv::show::modal', 'bwi-modal', this.$refs.btnCheckYourWater,
+        );
+      }
+    },
     data() {
       return {
         tabIndex: 0,
@@ -351,6 +357,7 @@
         });
       },
       onHideMainModal() {
+        EventBus.$emit('grid::modalClose');
         const vm = this;
         vm.tabIndex = 0;
       },
@@ -365,6 +372,7 @@
         type: Object,
         required: true,
       },
+      isThisModalOpen: false,
     },
   };
 </script>
