@@ -75,7 +75,6 @@
   import { AppPlaceholderContent } from '../wadk/WADK';
   import storeModule from './store/index';
   import { EventBus } from '../../EventBus';
-  import User from '../../views/User.vue';
 
   const moduleName = 'Grid';
 
@@ -89,7 +88,6 @@
       TrendingAir,
       FavoriteLinks,
       MyReporting,
-      User,
     },
     beforeCreate() {
       const vm = this;
