@@ -43,8 +43,10 @@
         id="bwi-modal"
         modal-ref="bwi-modal"
         title="Be Well Informed Water Analysis Tool"
+        @shown="setMainModalShown"
         @hide="onHideMainModal"
-        :hide-footer="true">
+        :hide-footer="true"
+        no-close-on-backdrop>
 
         <b-tabs
           v-model="tabIndex"
@@ -112,103 +114,109 @@
         </template>
       </AppModal>
 
-      <!-- Additional Information Request Modals -->
-      <AppModal
-        id="bwi-modal-interactive"
-        modal-ref="bwi-modal-interactive"
-        title="Additional Information Needed">
-        <div class="row">
-          <h5 class="col-md-12">Enter the Results of Your Drinking Water Test</h5>
+      <div
+        id="bwi-modal-wrapper">
+        <!-- Additional Information Request Modals -->
+        <AppModal
+          id="bwi-modal-interactive"
+          modal-ref="bwi-modal-interactive"
+          title="Additional Information Needed"
+          @shown="setInteractiveModalShown"
+          @hide="setInteractiveModalHidden"
+          no-close-on-backdrop>
+          <div class="row">
+            <h5 class="col-md-12">Enter the Results of Your Drinking Water Test</h5>
 
-          <!-- Requested prompts form the BWI Service -->
-          <template
-            v-if="interactivePrompts"
-            v-for="(question) in interactivePrompts">
-            <div
-              class="col-md-12"
-              :key="question.Symbol">
-              <div class="row my-2">
-                <div class="col-sm-6">
-                  <label class="">{{ question.Interaction }}</label>
-                </div>
-                <div class="col-sm-6">
-                  <b-form-radio-group
-                    @change="updatePromptResponses({question, $event,
-                                                    promptType:'InteractivePromptResponses'})"
-                    :id="`${question.Symbol}-question-Value`"
-                    :ref="`${question.Symbol}-question-Value`"
-                    name="radioSubComponent"
-                    class="text-right">
-                    <b-form-radio
-                      class="radio-btn radio-btn-primary"
-                      value="true">Yes
-                    </b-form-radio>
-                    <b-form-radio
-                      class="radio-btn radio-btn-primary"
-                      value="false">No
-                    </b-form-radio>
-                  </b-form-radio-group>
+            <!-- Requested prompts form the BWI Service -->
+            <template
+              v-if="interactivePrompts"
+              v-for="(question) in interactivePrompts">
+              <div
+                class="col-md-12"
+                :key="question.Symbol">
+                <div class="row my-2">
+                  <div class="col-sm-6">
+                    <label class="">{{ question.Interaction }}</label>
+                  </div>
+                  <div class="col-sm-6">
+                    <b-form-radio-group
+                      @change="updatePromptResponses({question, $event,
+                                                      promptType:'InteractivePromptResponses'})"
+                      :id="`${question.Symbol}-question-Value`"
+                      :ref="`${question.Symbol}-question-Value`"
+                      name="radioSubComponent"
+                      class="text-right">
+                      <b-form-radio
+                        class="radio-btn radio-btn-primary"
+                        value="true">Yes
+                      </b-form-radio>
+                      <b-form-radio
+                        class="radio-btn radio-btn-primary"
+                        value="false">No
+                      </b-form-radio>
+                    </b-form-radio-group>
+                  </div>
                 </div>
               </div>
-            </div>
-          </template>
+            </template>
 
-          <!-- Requested missing contaminant information from the BWI Service -->
-          <template
-            v-if="additionalContaminantRequests"
-            v-for="(question) in additionalContaminantRequests">
-            <div
-              class="col-md-12"
-              :key="question.Symbol">
-              <div class="row my-2">
-                <div class="col-sm-5">
-                  <label class="">{{ question.Interaction }}</label>
-                </div>
-                <div class="col-sm-3">
-                  <b-form-input
-                    :ref="`${question.Symbol}-question-Value`"
-                    :id="`${question.Symbol}-question-Value`"
-                    type="number"
-                    step="0.001"
-                    size="lg"
-                    @change="updateWaterAnalysisRequestProperty( {
-                      section: getSectionFromSymbol(question.Symbol),
-                      contaminant: getContaminantFromSymbol(question.Symbol),
-                      property: 'Value',
-                      event:$event })"/>
-                </div>
-                <div class="col-sm-4">
-                  <b-form-select
-                    :contam="getContaminantFromSymbol(question.Symbol)"
-                    :value="getContaminantFromSymbol(question.Symbol)._attributes.DefaultUnit"
-                    @change="updateWaterAnalysisRequestProperty( {
-                      section: getSectionFromSymbol(question.Symbol),
-                      contaminant: getContaminantFromSymbol(question.Symbol),
-                      property: 'Unit',
-                      event:$event })">
-                    <template
-                      v-for="unit in getContaminantUnits(question)">
-                      <option
-                        :key="unit"
-                        :value="unit">{{ unit }}
-                      </option>
-                    </template>
-                  </b-form-select>
+            <!-- Requested missing contaminant information from the BWI Service -->
+            <template
+              v-if="additionalContaminantRequests"
+              v-for="(question) in additionalContaminantRequests">
+              <div
+                class="col-md-12"
+                :key="question.Symbol">
+                <div class="row my-2">
+                  <div class="col-sm-5">
+                    <label class="">{{ question.Interaction }}</label>
+                  </div>
+                  <div class="col-sm-3">
+                    <b-form-input
+                      :ref="`${question.Symbol}-question-Value`"
+                      :id="`${question.Symbol}-question-Value`"
+                      type="number"
+                      step="0.001"
+                      size="lg"
+                      @change="updateWaterAnalysisRequestProperty( {
+                        section: getSectionFromSymbol(question.Symbol),
+                        contaminant: getContaminantFromSymbol(question.Symbol),
+                        property: 'Value',
+                        event:$event })"/>
+                  </div>
+                  <div class="col-sm-4">
+                    <b-form-select
+                      :contam="getContaminantFromSymbol(question.Symbol)"
+                      :value="getContaminantFromSymbol(question.Symbol)._attributes.DefaultUnit"
+                      @change="updateWaterAnalysisRequestProperty( {
+                        section: getSectionFromSymbol(question.Symbol),
+                        contaminant: getContaminantFromSymbol(question.Symbol),
+                        property: 'Unit',
+                        event:$event })">
+                      <template
+                        v-for="unit in getContaminantUnits(question)">
+                        <option
+                          :key="unit"
+                          :value="unit">{{ unit }}
+                        </option>
+                      </template>
+                    </b-form-select>
+                  </div>
                 </div>
               </div>
-            </div>
-          </template>
+            </template>
 
-        </div>
-        <template
-          slot="footer">
-          <b-button
-            type="submit"
-            variant="primary"
-            @click="onSubmit">Submit
-          </b-button>
-        </template>
-      </AppModal>
+          </div>
+          <template
+            slot="footer">
+            <b-button
+              type="submit"
+              variant="primary"
+              @click="onSubmit">Submit
+            </b-button>
+          </template>
+        </AppModal>
+      </div>
     </AppWrapper>
   </div>
 </template>
@@ -262,6 +270,9 @@
       return {
         tabIndex: 0,
         hasResults: false,
+        mainModalSubmitClicked: false,
+        mainModalVisible: false,
+        interactiveModalVisible: false,
       };
     },
     computed: {
@@ -333,6 +344,7 @@
         return section;
       },
       onSubmit(evt) {
+        this.mainModalSubmitClicked = true;
         const vm = this;
         const isRequestEmpty = vm.isWaterAnalysisRequestEmpty();
         if (!isRequestEmpty) {
@@ -357,11 +369,23 @@
         });
       },
       onHideMainModal() {
+        if (this.mainModalSubmitClicked && !this.interactiveModalVisible) {
+          this.backToGrid();
+        }
         const vm = this;
         vm.tabIndex = 0;
       },
       backToGrid() {
         EventBus.$emit('grid::modalClose');
+      },
+      setInteractiveModalShown() {
+        this.interactiveModalVisible = true;
+      },
+      setInteractiveModalHidden() {
+        this.interactiveModalVisible = false;
+      },
+      setMainModalShown() {
+        this.mainModalVisible = true;
       },
       hasWaterAnalysisResults() {
         return this.waterAnalysisResults
