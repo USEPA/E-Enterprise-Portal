@@ -20,7 +20,7 @@ use Drupal\user\Entity\User;
  * Controller routines for test_api routes.
  */
 class EEPMyReportingController extends ControllerBase {
-  
+
     /**
      * @return \Drupal\Core\Session\AccountInterface
      */
