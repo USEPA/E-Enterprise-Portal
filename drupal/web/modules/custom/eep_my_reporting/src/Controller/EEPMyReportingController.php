@@ -13,8 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Drupal\eep_my_reporting\SOAPHandler;
 use Drupal\eep_my_reporting\CDXRegisterMyCdxService;
-
-//Temp
 use Drupal\user\Entity\User;
 
 

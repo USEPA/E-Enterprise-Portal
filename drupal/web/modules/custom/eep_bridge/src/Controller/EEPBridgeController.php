@@ -34,15 +34,6 @@ class EEPBridgeController extends ControllerBase {
         $this->auth = $auth;
     }
 
-    private function tempLoginUser() {
-        $user = User::load(1);
-        user_login_finalize($user);
-        $uid = \Drupal::currentUser()->id();
-        $jwt_token = $this->auth->generateToken();
-        echo $jwt_token;
-        exit();
-    }
-
     public function eep_authenticate() {
         $this->tempLoginUser();
         $config = $this->config('eep_bridge.environment_settings');
