@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.user.user.field_cdx_user_id
     - field.field.user.user.field_favorite_links
     - field.field.user.user.field_organisation
     - field.field.user.user.field_role
@@ -19,6 +20,14 @@ targetEntityType: user
 bundle: user
 mode: default
 content:
+  field_cdx_user_id:
+    weight: 7
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
   field_favorite_links:
     weight: 6
     label: above

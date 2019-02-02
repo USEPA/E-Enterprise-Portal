@@ -112,7 +112,7 @@
               show-empty
               stacked="md"
               :fields="fields"
-              :items="program"
+              :items="items"
               :current-page="currentPage"
               :per-page="perPage"
               :filter="filter"
@@ -122,25 +122,35 @@
                 slot="first"
                 slot-scope="data"
                 v-for="item in program">
-                {{ item.first }}
+                {{ item.program_service_name }}
               </template>
               <template
                 slot="second"
                 slot-scope="data"
                 v-for="item in program">
-                <a :href="item.second">
-                  {{ item.first }}
-                </a>
+                {{ item.role }}
               </template>
               <template
-                slot="status"
-                slot-scope="row">
-                <b-button
-                  size="sm"
-                  @click=""
-                  class="status-icon"/>
+                slot="third"
+                slot-scope="data"
+                v-for="item in program">
+                {{ item.status }}
               </template>
             </b-table>
+            <b-modal><div class="my-cdx-modal">
+              <div class="my-cdx-detail-group">Organization Name</div>
+              <div class="organization-name"></div>
+              <select class="organization-select"></select>
+              <div class="my-cdx-detail-group">Program Client ID</div>
+              <div class="program-client-name"></div>
+              <select class="program-client-select"></select>
+              <div class="my-cdx-detail-group">Program</div>
+              <div class="program-acronym"></div>
+              <div class="my-cdx-detail-group">
+                <button class="proceed">Proceed</button>
+                <button class="cancel">Cancel</button>
+              </div>
+            </div></b-modal>
             <b-row>
               <b-col
                 md="6"
@@ -182,6 +192,7 @@
   import storeModule from './store/index';
   import { EventBus } from '../../EventBus';
 
+
   const moduleName = 'MyReporting';
   const items = [
     { program_service_name: '', role: '', status: '' },
@@ -206,19 +217,15 @@
     data() {
       return {
         program: [
-          { first: '' },
-          { second: '' },
+          { program_service_name: '' },
+          { role: '' },
           { status: '' },
-
         ],
-         program1: [
-          { first: '' },
-          { second: '' },
-        ],
+        items: items,
         fields: [
           { key: 'first', label: 'Program service name' },
           { key: 'second', label: 'Role' },
-          { key: 'status', label: 'Status' },
+          { key: 'third', label: 'Status' },
         ],
         currentPage: 1,
         perPage: 5,
@@ -235,12 +242,23 @@
       };
     },
     mounted() {
-      AppAxios
-        .get('https://apidev2.e-enterprise.gov/api/cdxdataflows')
-        .then(response => (this.program = response.data[0].field_cdx_program_name));
+      let cookie = this.$cookie.get('Token');
+      AppAxios.get(
+        this.apiURL + '/api/cdxdataflows',
+        { headers: {
+            Authorization: `Bearer ${cookie}`,
+            crossDomain: true,
+            'cache-control': 'no-cache',
+            'Content-Type': 'application/json',
+          }})
+
+      .then(response => {
+        this.program = response.data[0];
+      });
     },
     computed: {
       ...mapGetters({
+        apiURL: 'getEnvironmentApiURL',
         // map getters go here
       }),
       sortOptions() {
