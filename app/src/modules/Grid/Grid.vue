@@ -104,7 +104,7 @@
       // filter layout
       vm.initializeLayout();
       // Custom event listeners
-      EventBus.$on('grid::modalOpen', this.gridModalOpen);
+      EventBus.$on('grid::modalOpen', this.manageModalOpen);
       EventBus.$on('grid::modalClose', this.manageModalClose);
     },
     data() {
@@ -136,7 +136,7 @@
         'setGridLayout',
         'initializeLayout',
       ]),
-      gridModalOpen(modalIn, modalEepApp) {
+      manageModalOpen(modalIn, modalEepApp) {
         this.modalOpen = true;
         this.modalIn = modalIn;
         this.modalEepApp = modalEepApp;
