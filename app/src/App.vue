@@ -61,10 +61,10 @@
             If you choose not to extend, then you will be logged out.
             Would you like to extend your session?</p>
         <template slot="footer">
-            <b-button class="usa-button" @click="exitModal">
+            <b-button class="usa-button usa-button-danger" @click="exitModal">
                 Cancel
             </b-button>
-            <b-button class="usa-button" @click="extendTheSession">
+            <b-button class="usa-button usa-button-success" @click="extendTheSession">
                 Extend Session
             </b-button>
         </template>
@@ -313,5 +313,13 @@
 
   #nav{
     margin-top: 20px !important;
+  }
+
+  .usa-button-danger, .usa-button-danger:hover{
+      background-color: #C82333;
+  }
+
+  .usa-button-success, .usa-button-success:hover{
+      background-color: #218838;
   }
 </style>
