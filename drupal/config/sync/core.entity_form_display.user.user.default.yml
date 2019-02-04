@@ -4,14 +4,12 @@ status: true
 dependencies:
   config:
     - field.field.user.user.field_favorite_links
-    - field.field.user.user.field_organisation
-    - field.field.user.user.field_role
     - field.field.user.user.user_picture
     - image.style.thumbnail
   module:
     - double_field
+    - image
     - path
-    - svg_image
     - user
 _core:
   default_config_hash: K-1rBM8mTIkFp9RqOC2tMRUukOQ1xbRCfSKK8dEddnA
@@ -71,6 +69,4 @@ content:
     third_party_settings: {  }
     weight: -1
     region: content
-hidden:
-  field_organisation: true
-  field_role: true
+hidden: {  }

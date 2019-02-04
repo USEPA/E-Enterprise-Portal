@@ -1,1 +1,0 @@
-custom_css: 'input[id$="-second"], input[id$="-first"] { width:100% }'

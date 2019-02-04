@@ -1,4 +1,4 @@
-uuid: 86fa1e64-a19d-411a-9441-4ed82b8aa870
+uuid: 03975f5a-ed05-46e1-a2c2-ee4e5c610ed8
 langcode: en
 status: true
 dependencies:
@@ -12,7 +12,7 @@ dependencies:
 id: authentication_category_taxonomy_terms
 label: 'Authentication Category Taxonomy Terms'
 module: views
-description: 'this view will be for the taxonomy terms that describe each of the login options '
+description: ''
 tag: ''
 base_table: taxonomy_term_field_data
 base_field: tid
@@ -29,7 +29,7 @@ display:
         options:
           perm: 'access content'
       cache:
-        type: none
+        type: tag
         options: {  }
       query:
         type: views_query
@@ -127,43 +127,16 @@ display:
           convert_spaces: false
       filters:
         status:
-          id: status
+          value: '1'
           table: taxonomy_term_field_data
           field: status
-          relationship: none
-          group_type: group
-          admin_label: ''
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
           plugin_id: boolean
           entity_type: taxonomy_term
           entity_field: status
+          id: status
+          expose:
+            operator: ''
+          group: 1
         vid:
           id: vid
           table: taxonomy_term_field_data
