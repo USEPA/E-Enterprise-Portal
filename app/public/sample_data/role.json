@@ -1,0 +1,24 @@
+[
+  {
+    "type": "role",
+    "name": "Budget and operations"
+  },
+  {
+    "type": "role",
+    "name": "Community outreach"
+  },
+
+  {
+    "type": "role",
+    "name": "Data steward"
+  },
+  {
+    "type": "role",
+    "name": "Program manager"
+  },
+  {
+    "type": "role",
+    "name":"Utilities manager"
+  }
+
+]

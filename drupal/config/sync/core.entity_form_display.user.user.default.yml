@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.user.user.field_cdx_user_id
     - field.field.user.user.field_favorite_links
     - field.field.user.user.user_picture
     - image.style.thumbnail
@@ -23,6 +24,14 @@ content:
     region: content
   contact:
     weight: 5
+    region: content
+  field_cdx_user_id:
+    weight: 32
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
     region: content
   field_favorite_links:
     weight: 31

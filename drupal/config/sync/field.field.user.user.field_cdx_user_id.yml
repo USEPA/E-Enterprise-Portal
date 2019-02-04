@@ -1,0 +1,20 @@
+uuid: 82635b29-b23d-44a5-b177-6c92b5f3aa89
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_cdx_user_id
+  module:
+    - user
+id: user.user.field_cdx_user_id
+field_name: field_cdx_user_id
+entity_type: user
+bundle: user
+label: 'CDX User ID'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,6 @@
+eep_my_reporting.eep_my_reporting_form:
+  title: 'E-Enterprise My Reporting Settings'
+  route_name: 'eep_my_reporting.eep_my_reporting_form'
+  description: 'Configure Administrative settings for My Reporting'
+  parent: system.admin_config_system
+  weight: 99
