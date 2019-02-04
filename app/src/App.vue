@@ -151,6 +151,9 @@
           });
       },
       beforeMount(){
+
+      },
+      mounted() {
           // Declare the main url that the page is currently on
           const main_url = window.location.href;
           // Declare the store
@@ -182,9 +185,9 @@
                   console.log("hit check cookie");
                   if(document.cookie.indexOf('Token=') === -1){
                       vm.$root.$emit(
-                          'bv::show::modal',
-                          'cookie_modal',
-                          this.$refs.cookie_modal
+                              'bv::show::modal',
+                              'cookie_modal',
+                              this.$refs.cookie_modal
                       );
                   }
               }
@@ -210,8 +213,7 @@
                   console.warn(error)
               });
           }
-      },
-      mounted() {
+
           //  [App.vue specific] When App.vue is finish loading finish the progress bar
           this.$Progress.finish();
       },
