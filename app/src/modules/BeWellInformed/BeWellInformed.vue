@@ -253,6 +253,7 @@
       // Update location in BWI app
       EventBus.$on('locationService::update', this.updateSelectedPartner);
 
+      // Partner modal submit button clicked
       EventBus.$on('bwi::partnerModalSubmit', this.onPartnerModalSubmit);
     },
     data() {

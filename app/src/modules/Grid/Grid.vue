@@ -27,6 +27,7 @@
           :h="wapp.h"
           :i="wapp.i"
           :key="index">
+          <!-- @TODO Modal Manager Component -->
           <component
             :is="wapp.eepApp.field_vue_component_name"
             :eep-app="wapp.eepApp"/>
