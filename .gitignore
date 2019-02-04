@@ -242,3 +242,6 @@ $RECYCLE.BIN/
 /drupal/vendor2/
 /drupal/vendor3/
 !/drupal/composer.lock
+
+# .idea
+.idea/

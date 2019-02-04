@@ -2,6 +2,7 @@
   <div class="workbench-grid">
     <template v-if="isLayoutReady">
       <grid-layout
+        v-if="!modalOpen"
         :layout.sync="layout"
         :responsive="true"
         :breakpoints="{ lg: 992, md: 768, sm: 576, xs: 380, xxs: 0 }"
@@ -26,11 +27,18 @@
           :h="wapp.h"
           :i="wapp.i"
           :key="index">
+          <!-- @TODO Modal Manager Component -->
           <component
             :is="wapp.eepApp.field_vue_component_name"
             :eep-app="wapp.eepApp"/>
         </grid-item>
       </grid-layout>
+      <component
+        v-if="modalOpen"
+        :is="modalIn"
+        :eep-app="modalEepApp"
+        :is-this-modal-open=true
+      />
     </template>
     <template v-if="!isLayoutReady">
       <AppPlaceholderContent>
@@ -69,7 +77,7 @@
   import { GridLayout, GridItem } from 'vue-grid-layout';
   import { AppPlaceholderContent } from '../wadk/WADK';
   import storeModule from './store/index';
-  // import { EventBus } from '../../EventBus';
+  import { EventBus } from '../../EventBus';
 
   const moduleName = 'Grid';
 
@@ -96,16 +104,22 @@
       }
       // filter layout
       vm.initializeLayout();
+      // Custom event listeners
+      EventBus.$on('grid::modalOpen', this.manageModalOpen);
+      EventBus.$on('grid::modalClose', this.manageModalClose);
     },
     data() {
       return {
+        modalOpen: false,
+        modalIn: '',
+        modalEepApp: {},
       };
     },
     mounted() {
       const vm = this;
     },
     computed: {
-       ...mapGetters({
+      ...mapGetters({
         getLayout: `${moduleName}/getLayout`,
         isLayoutReady: `${moduleName}/isLayoutReady`,
       }),
@@ -123,6 +137,16 @@
         'setGridLayout',
         'initializeLayout',
       ]),
+      manageModalOpen(modalIn, modalEepApp) {
+        this.modalOpen = true;
+        this.modalIn = modalIn;
+        this.modalEepApp = modalEepApp;
+      },
+      manageModalClose() {
+        this.modalOpen = false;
+        this.modalIn = '';
+        this.modalEepApp = {};
+      },
     },
   };
 </script>
