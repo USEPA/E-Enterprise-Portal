@@ -123,4 +123,7 @@ export default {
       }
       return loggedIn;
   },
+  getTimeLeftUntilLogout(state){
+    return state.user.timeLeftUntilLogout;
+  },
 };

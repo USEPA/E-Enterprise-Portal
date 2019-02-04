@@ -47,6 +47,7 @@ const state = {
   user: {
     id: 0,
     isLoggedIn: false,
+    timeLeftUntilLogout: 1,
     name: '',
     mail: '',
     favorite_links: [],

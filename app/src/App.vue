@@ -23,8 +23,8 @@
     <MainHeader/>
     <div
       id="nav"
-      class="region-navigation pb-2 px-3" v-bind:style="navMargin">
-
+      class="region-navigation pb-2 px-3"
+      v-bind:style="navMargin">
       <div
         id="main-navigation-container"
         class="container">
@@ -37,6 +37,7 @@
             <router-link to="/about">About</router-link>
             <span class="divider">|</span>
             <router-link to="/workbench">Workbench</router-link>
+            <button @click="testButton">Open Cookie Modal</button>
           </div>
           <LocationSearch/>
         </div>
@@ -54,10 +55,16 @@
     <!-- set progressbar -->
     <vue-progress-bar/>
     <!-- Modal for cookie extension -->
-    <AppModal
-        id="cookie_modal"
-        modal-ref="cookie_modal"
-        title="Would you like to extend your session?">
+    <AppModal id="cookie_modal" modal-ref="cookie_modal" title="Your session is about to expire">
+        <!-- Modal content -->
+        <p>Your session will expire in {{timeLeftUntilLogout}} minutes.
+            If you choose not to extend, then you will be logged out.
+            Would you like to extend your session?</p>
+        <template slot="footer">
+            <b-button class="usa-button">
+                Extend Session
+            </b-button>
+        </template>
     </AppModal>
   </div>
 </template>
@@ -90,6 +97,7 @@
         ENV: 'getEnvironment',
         navMargin: 'getnavMargin',
         basicPages: 'getBasicPages',
+        timeLeftUntilLogout: 'getTimeLeftUntilLogout',
     }),
     // @todo clean up variable names here
     environmentName() {
@@ -118,6 +126,22 @@
         },
       },
       methods: {
+          testButton(){
+              const vm = this;
+              vm.$root.$emit(
+                  'bv::show::modal',
+                  'cookie_modal',
+                  this.$refs.cookie_modal
+              );
+          },
+          hideModal(){
+              const vm = this;
+              this.$root.$emit(
+                  'bv::hide::modal',
+                  'cookie_modal',
+                  this.$refs.cookie_modal);
+          },
+
 
       },
       beforeCreate(){
