@@ -9,7 +9,7 @@ eep_bridge.authenticate_dev_user:
   description: 'It will log in users and redirect to the portal front-end'
   parent: eep_core.admin
   route_name: eep_core.authenticate_dev_user
-  url: internal:/authenticate/dev_user/1
+  url: internal:/authenticate/dev_user
   options:
     attributes:
       target: _blank

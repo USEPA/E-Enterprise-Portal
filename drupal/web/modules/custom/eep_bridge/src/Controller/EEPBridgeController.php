@@ -83,7 +83,14 @@ class EEPBridgeController extends ControllerBase {
         return;
     }
 
-    public function eep_authenticate_dev_user($uid) {
+  /**
+   * Creates a method of logging into the front-end with a user. The passed $uid
+   * is used to select an existing Drupal user to return.  The default user is
+   * the current user if none is given
+   *
+   * @param $uid
+   */
+    public function eep_authenticate_dev_user($uid = null) {
     $config = $this->config('eep_bridge.environment_settings');
     $environment_name = $config->get('eep_bridge_environment_name');
 
