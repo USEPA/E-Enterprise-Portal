@@ -61,6 +61,9 @@
             If you choose not to extend, then you will be logged out.
             Would you like to extend your session?</p>
         <template slot="footer">
+            <b-button class="usa-button" @click="exitModal">
+                Cancel
+            </b-button>
             <b-button class="usa-button" @click="extendTheSession">
                 Extend Session
             </b-button>
@@ -130,6 +133,14 @@
               const vm = this;
               vm.$root.$emit(
                   'bv::show::modal',
+                  'cookie_modal',
+                  this.$refs.cookie_modal
+              );
+          },
+          exitModal(){
+              const vm = this;
+              vm.$root.emit(
+                  'bv::hide::modal',
                   'cookie_modal',
                   this.$refs.cookie_modal
               );
