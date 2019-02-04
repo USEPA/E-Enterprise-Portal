@@ -1,12 +1,12 @@
-uuid: 863d0ac6-ddf9-4af8-ac63-ac98ec4aad09
+uuid: b15cb5c5-20f0-4d1e-8268-e1a1f7e28a52
 langcode: en
 status: true
 dependencies:
   module:
-    - user
-id: user.field_cdx_user_id
-field_name: field_cdx_user_id
-entity_type: user
+    - node
+id: node.field_vue_component_name
+field_name: field_vue_component_name
+entity_type: node
 type: string
 settings:
   max_length: 255

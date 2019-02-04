@@ -1,0 +1,14 @@
+uuid: 0e925f32-d682-4443-80f9-d6999e9ff0ff
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.bwi_test
+  module:
+    - user
+id: user_add_role_action.bwi_test
+label: 'Add the bwi_test role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: bwi_test

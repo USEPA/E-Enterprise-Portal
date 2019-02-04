@@ -4,23 +4,11 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.user.compact
-    - field.field.user.user.field_cdx_user_id
-    - field.field.user.user.field_favorite_links
-    - field.field.user.user.field_organisation
-    - field.field.user.user.field_role
     - field.field.user.user.user_picture
     - image.style.thumbnail
   module:
-    - double_field
-    - panelizer
-    - svg_image
+    - image
     - user
-third_party_settings:
-  panelizer:
-    enable: false
-    custom: false
-    allow: false
-    default: default
 _core:
   default_config_hash: '-cLsS3M3JycipXQt9rEb81_HxKneReoGuRh8ijcOPXs'
 id: user.user.compact
@@ -28,74 +16,6 @@ targetEntityType: user
 bundle: user
 mode: compact
 content:
-  field_cdx_user_id:
-    type: string
-    weight: 1
-    region: content
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-  field_favorite_links:
-    type: double_field_unformatted_list
-    weight: 2
-    region: content
-    label: above
-    settings:
-      inline: true
-      first:
-        hidden: false
-        prefix: ''
-        suffix: ''
-        link: false
-        format_type: medium
-      second:
-        hidden: false
-        prefix: ''
-        suffix: ''
-        link: false
-        format_type: medium
-    third_party_settings: {  }
-  field_organisation:
-    type: double_field_unformatted_list
-    weight: 3
-    region: content
-    label: above
-    settings:
-      inline: true
-      first:
-        hidden: false
-        prefix: ''
-        suffix: ''
-        link: false
-        format_type: medium
-      second:
-        hidden: false
-        prefix: ''
-        suffix: ''
-        link: false
-        format_type: medium
-    third_party_settings: {  }
-  field_role:
-    type: double_field_unformatted_list
-    weight: 4
-    region: content
-    label: above
-    settings:
-      inline: true
-      first:
-        hidden: false
-        prefix: ''
-        suffix: ''
-        link: false
-        format_type: medium
-      second:
-        hidden: false
-        prefix: ''
-        suffix: ''
-        link: false
-        format_type: medium
-    third_party_settings: {  }
   user_picture:
     type: image
     weight: 0
@@ -103,11 +23,8 @@ content:
     settings:
       image_style: thumbnail
       image_link: content
-      svg_attributes:
-        width: ''
-        height: ''
-      svg_render_as_image: true
     third_party_settings: {  }
     label: hidden
 hidden:
+  field_favorite_links: true
   member_for: true

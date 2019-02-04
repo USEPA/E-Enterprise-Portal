@@ -1,31 +1,31 @@
-uuid: d3b699bd-e566-43d0-becc-7d3417fb9211
+uuid: f43b7f21-b031-4784-a426-a418e64c3adb
 langcode: en
 status: true
 dependencies:
   module:
     - double_field
-    - node
-id: node.field_sources
-field_name: field_sources
-entity_type: node
+    - user
+id: user.field_role
+field_name: field_role
+entity_type: user
 type: double_field
 settings:
   storage:
     first:
       type: string
-      maxlength: 512
+      maxlength: 255
       precision: 10
       scale: 2
       datetime_type: datetime
     second:
       type: string
-      maxlength: 512
+      maxlength: 255
       precision: 10
       scale: 2
       datetime_type: datetime
 module: double_field
 locked: false
-cardinality: -1
+cardinality: 1
 translatable: true
 indexes: {  }
 persist_with_no_fields: false

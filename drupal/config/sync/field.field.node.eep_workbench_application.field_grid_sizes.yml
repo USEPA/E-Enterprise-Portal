@@ -1,19 +1,19 @@
-uuid: 78b23aa9-2328-4963-a0dc-d44a9daf5fb2
+uuid: fc131d7d-ad6b-4211-baa3-5bf21b27245b
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_default_grid_size
+    - field.storage.node.field_grid_sizes
     - node.type.eep_workbench_application
   module:
     - options
-id: node.eep_workbench_application.field_default_grid_size
-field_name: field_default_grid_size
+id: node.eep_workbench_application.field_grid_sizes
+field_name: field_grid_sizes
 entity_type: node
 bundle: eep_workbench_application
-label: 'Default Grid Size'
+label: 'Grid Sizes'
 description: ''
-required: false
+required: true
 translatable: false
 default_value:
   -

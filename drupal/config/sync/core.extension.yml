@@ -23,6 +23,7 @@ module:
   config_update: 0
   contact: 0
   content_access: 0
+  content_sync: 0
   contextual: 0
   ctools: 0
   ctools_block: 0
@@ -38,7 +39,6 @@ module:
   eep_core: 0
   eep_location_services: 0
   eep_proxy_service: 0
-  eep_my_reporting: 0
   entity_browser: 0
   entity_reference_revisions: 0
   field: 0
@@ -96,7 +96,6 @@ module:
   pathauto: 1
   views: 10
   paragraphs: 11
-  e_enterprise_portal: 1000
 theme:
   stable: 0
   classy: 0

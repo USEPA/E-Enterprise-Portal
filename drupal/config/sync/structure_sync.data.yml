@@ -2,42 +2,42 @@ taxonomies:
   authentication_category:
     -
       vid: authentication_category
-      tid: '9'
+      tid: '5'
       langcode: en
       name: EPA
-      description__value: null
-      description__format: null
+      description__value: "<p>this term represents an EPA program</p>\r\n"
+      description__format: basic_html
       weight: '0'
       parent: '0'
-      uuid: f9ad69a5-3507-42b3-86dd-15a0407485b2
+      uuid: b2d24c38-bd24-4828-ab94-241af90e6283
     -
       vid: authentication_category
-      tid: '10'
+      tid: '6'
       langcode: en
       name: 'Social Media'
-      description__value: null
-      description__format: null
+      description__value: "<p>this term represents an authentication method that is like Twitter or Facebook</p>\r\n"
+      description__format: basic_html
       weight: '1'
       parent: '0'
-      uuid: 34c41b86-ac3b-40f6-8278-a476ba381ca3
+      uuid: 51a9e17f-d814-4c7b-ba33-4c1e89e1c069
     -
       vid: authentication_category
-      tid: '11'
+      tid: '7'
       langcode: en
       name: State
-      description__value: null
-      description__format: null
+      description__value: "<p>this term will represent a method of authentication that will be verified via state credentials</p>\r\n"
+      description__format: basic_html
       weight: '2'
       parent: '0'
-      uuid: 2063b2d7-3c86-49d9-8440-38bd49b50be1
+      uuid: c2a67703-55c4-4672-89c5-183ae4dd0079
     -
       vid: authentication_category
-      tid: '12'
+      tid: '8'
       langcode: en
       name: Tribal
-      description__value: null
-      description__format: null
+      description__value: "<p>this term will represent the authentication method through a tribal login</p>\r\n"
+      description__format: basic_html
       weight: '3'
       parent: '0'
-      uuid: 7768aadf-082b-408f-8a68-3259b10f5077
+      uuid: acb87307-d8f1-47f6-a822-09876cff48c5
   tags: {  }

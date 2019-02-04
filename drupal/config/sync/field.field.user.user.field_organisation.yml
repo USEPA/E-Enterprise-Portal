@@ -1,21 +1,24 @@
-uuid: 0e4fbb07-42f6-4525-a799-16c413829f75
+uuid: 5fd33bed-45d7-457e-86b7-7cc4a93744f3
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_sources
-    - node.type.eep_workbench_application
+    - field.storage.user.field_organisation
   module:
     - double_field
-id: node.eep_workbench_application.field_sources
-field_name: field_sources
-entity_type: node
-bundle: eep_workbench_application
-label: Sources
+    - user
+id: user.user.field_organisation
+field_name: field_organisation
+entity_type: user
+bundle: user
+label: organisation
 description: ''
 required: false
 translatable: false
-default_value: {  }
+default_value:
+  -
+    first: org
+    second: '--None--'
 default_value_callback: ''
 settings:
   first:
