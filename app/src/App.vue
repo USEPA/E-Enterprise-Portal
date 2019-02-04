@@ -57,11 +57,11 @@
     <!-- Modal for cookie extension -->
     <AppModal id="cookie_modal" modal-ref="cookie_modal" title="Your session is about to expire">
         <!-- Modal content -->
-        <p>Your session will expire in {{timeLeftUntilLogout}} minutes.
+        <p>Your session will expire in {{timeLeftUntilLogout}} minute(s).
             If you choose not to extend, then you will be logged out.
             Would you like to extend your session?</p>
         <template slot="footer">
-            <b-button class="usa-button">
+            <b-button class="usa-button" @click="extendTheSession">
                 Extend Session
             </b-button>
         </template>
@@ -134,14 +134,10 @@
                   this.$refs.cookie_modal
               );
           },
-          hideModal(){
-              const vm = this;
-              this.$root.$emit(
-                  'bv::hide::modal',
-                  'cookie_modal',
-                  this.$refs.cookie_modal);
+          extendTheSession(){
+              const vm = this
+              vm.$store.dispatch('extendSession', {vm});
           },
-
 
       },
       beforeCreate(){

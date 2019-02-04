@@ -275,4 +275,18 @@ export default {
         console.error(error.response);
     });
   },
+  extendSession(context, payload){
+      const store = context;
+      const {vm} = payload;
+      console.log('extended');
+
+      // Set the session in the back end with a post request
+
+      vm.$root.$emit(
+          'bv::hide::modal',
+          'cookie_modal',
+          vm.$refs.cookie_modal);
+
+
+  },
 };
