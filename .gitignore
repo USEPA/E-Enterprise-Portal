@@ -244,4 +244,4 @@ $RECYCLE.BIN/
 !/drupal/composer.lock
 
 # .idea
-.idea/ 
+.idea/
