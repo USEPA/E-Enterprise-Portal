@@ -367,16 +367,12 @@
       onHideMainModal() {
         const vm = this;
         vm.tabIndex = 0;
-        console.log(this.partnerModalSubmit);
         if(!this.partnerModalSubmit) {
-          console.log('back to grid');
           this.backToGrid();
         }
       },
       onHideInteractiveModal() {
-        console.log(this.partnerModalSubmit);
         if(!this.interactiveModalSubmit) {
-          console.log('back to grid');
           this.backToGrid();
         }
       },
