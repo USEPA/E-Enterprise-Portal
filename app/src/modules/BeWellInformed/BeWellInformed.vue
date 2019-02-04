@@ -28,7 +28,8 @@
         <div
           id="bwi-widget-state-content"
           class="py-2"
-          v-html="eepApp.field_html_content.mainCard"/>
+          v-html="eepApp.field_html_content.mainCard">
+        </div>
         <b-btn
           variant="primary"
           ref="btnCheckYourWater"
@@ -43,10 +44,8 @@
         id="bwi-modal"
         modal-ref="bwi-modal"
         title="Be Well Informed Water Analysis Tool"
-        @shown="setMainModalShown"
         @hide="onHideMainModal"
-        :hide-footer="true"
-        no-close-on-backdrop>
+        :hide-footer="true">
 
         <b-tabs
           v-model="tabIndex"
@@ -65,13 +64,13 @@
                 v-for="i in 3"
                 :key="i"
                 class="row my-5">
-                <h5 class="col-md-12 pulse"/>
+                <h5 class="col-md-12 pulse"></h5>
                 <div
                   v-for="j in 3"
                   :key="`${j}-left`"
                   class="col-md-6">
                   <div class="row m-2">
-                    <div class="col-12 pulse"/>
+                    <div class="col-12 pulse"></div>
                   </div>
                 </div>
                 <div
@@ -79,7 +78,7 @@
                   :key="`${j}-right`"
                   class="col-md-6">
                   <div class="row m-2">
-                    <div class="col-12 pulse"/>
+                    <div class="col-12 pulse"></div>
                   </div>
                 </div>
               </div>
@@ -114,109 +113,104 @@
         </template>
       </AppModal>
 
-      <div
-        id="bwi-modal-wrapper">
-        <!-- Additional Information Request Modals -->
-        <AppModal
-          id="bwi-modal-interactive"
-          modal-ref="bwi-modal-interactive"
-          title="Additional Information Needed"
-          @shown="setInteractiveModalShown"
-          @hide="setInteractiveModalHidden"
-          no-close-on-backdrop>
-          <div class="row">
-            <h5 class="col-md-12">Enter the Results of Your Drinking Water Test</h5>
+      <!-- Additional Information Request Modals -->
+      <AppModal
+        id="bwi-modal-interactive"
+        modal-ref="bwi-modal-interactive"
+        title="Additional Information Needed"
+        @hide="onHideInteractiveModal">
+        <div class="row">
+          <h5 class="col-md-12">Enter the Results of Your Drinking Water Test</h5>
 
-            <!-- Requested prompts form the BWI Service -->
-            <template
-              v-if="interactivePrompts"
-              v-for="(question) in interactivePrompts">
-              <div
-                class="col-md-12"
-                :key="question.Symbol">
-                <div class="row my-2">
-                  <div class="col-sm-6">
-                    <label class="">{{ question.Interaction }}</label>
-                  </div>
-                  <div class="col-sm-6">
-                    <b-form-radio-group
-                      @change="updatePromptResponses({question, $event,
-                                                      promptType:'InteractivePromptResponses'})"
-                      :id="`${question.Symbol}-question-Value`"
-                      :ref="`${question.Symbol}-question-Value`"
-                      name="radioSubComponent"
-                      class="text-right">
-                      <b-form-radio
-                        class="radio-btn radio-btn-primary"
-                        value="true">Yes
-                      </b-form-radio>
-                      <b-form-radio
-                        class="radio-btn radio-btn-primary"
-                        value="false">No
-                      </b-form-radio>
-                    </b-form-radio-group>
-                  </div>
-                </div>
-              </div>
-            </template>
-
-            <!-- Requested missing contaminant information from the BWI Service -->
-            <template
-              v-if="additionalContaminantRequests"
-              v-for="(question) in additionalContaminantRequests">
-              <div
-                class="col-md-12"
-                :key="question.Symbol">
-                <div class="row my-2">
-                  <div class="col-sm-5">
-                    <label class="">{{ question.Interaction }}</label>
-                  </div>
-                  <div class="col-sm-3">
-                    <b-form-input
-                      :ref="`${question.Symbol}-question-Value`"
-                      :id="`${question.Symbol}-question-Value`"
-                      type="number"
-                      step="0.001"
-                      size="lg"
-                      @change="updateWaterAnalysisRequestProperty( {
-                        section: getSectionFromSymbol(question.Symbol),
-                        contaminant: getContaminantFromSymbol(question.Symbol),
-                        property: 'Value',
-                        event:$event })"/>
-                  </div>
-                  <div class="col-sm-4">
-                    <b-form-select
-                      :contam="getContaminantFromSymbol(question.Symbol)"
-                      :value="getContaminantFromSymbol(question.Symbol)._attributes.DefaultUnit"
-                      @change="updateWaterAnalysisRequestProperty( {
-                        section: getSectionFromSymbol(question.Symbol),
-                        contaminant: getContaminantFromSymbol(question.Symbol),
-                        property: 'Unit',
-                        event:$event })">
-                      <template
-                        v-for="unit in getContaminantUnits(question)">
-                        <option
-                          :key="unit"
-                          :value="unit">{{ unit }}
-                        </option>
-                      </template>
-                    </b-form-select>
-                  </div>
-                </div>
-              </div>
-            </template>
-
-          </div>
+          <!-- Requested prompts form the BWI Service -->
           <template
-            slot="footer">
-            <b-button
-              type="submit"
-              variant="primary"
-              @click="onSubmit">Submit
-            </b-button>
+            v-if="interactivePrompts"
+            v-for="(question) in interactivePrompts">
+            <div
+              class="col-md-12"
+              :key="question.Symbol">
+              <div class="row my-2">
+                <div class="col-sm-6">
+                  <label class="">{{ question.Interaction }}</label>
+                </div>
+                <div class="col-sm-6">
+                  <b-form-radio-group
+                    @change="updatePromptResponses({question, $event,
+                                                    promptType:'InteractivePromptResponses'})"
+                    :id="`${question.Symbol}-question-Value`"
+                    :ref="`${question.Symbol}-question-Value`"
+                    name="radioSubComponent"
+                    class="text-right">
+                    <b-form-radio
+                      class="radio-btn radio-btn-primary"
+                      value="true">Yes
+                    </b-form-radio>
+                    <b-form-radio
+                      class="radio-btn radio-btn-primary"
+                      value="false">No
+                    </b-form-radio>
+                  </b-form-radio-group>
+                </div>
+              </div>
+            </div>
           </template>
-        </AppModal>
-      </div>
+
+          <!-- Requested missing contaminant information from the BWI Service -->
+          <template
+            v-if="additionalContaminantRequests"
+            v-for="(question) in additionalContaminantRequests">
+            <div
+              class="col-md-12"
+              :key="question.Symbol">
+              <div class="row my-2">
+                <div class="col-sm-5">
+                  <label class="">{{ question.Interaction }}</label>
+                </div>
+                <div class="col-sm-3">
+                  <b-form-input
+                    :ref="`${question.Symbol}-question-Value`"
+                    :id="`${question.Symbol}-question-Value`"
+                    type="number"
+                    step="0.001"
+                    size="lg"
+                    @change="updateWaterAnalysisRequestProperty( {
+                      section: getSectionFromSymbol(question.Symbol),
+                      contaminant: getContaminantFromSymbol(question.Symbol),
+                      property: 'Value',
+                      event:$event })"/>
+                </div>
+                <div class="col-sm-4">
+                  <b-form-select
+                    :contam="getContaminantFromSymbol(question.Symbol)"
+                    :value="getContaminantFromSymbol(question.Symbol)._attributes.DefaultUnit"
+                    @change="updateWaterAnalysisRequestProperty( {
+                      section: getSectionFromSymbol(question.Symbol),
+                      contaminant: getContaminantFromSymbol(question.Symbol),
+                      property: 'Unit',
+                      event:$event })">
+                    <template
+                      v-for="unit in getContaminantUnits(question)">
+                      <option
+                        :key="unit"
+                        :value="unit">{{ unit }}
+                      </option>
+                    </template>
+                  </b-form-select>
+                </div>
+              </div>
+            </div>
+          </template>
+
+        </div>
+        <template
+          slot="footer">
+          <b-button
+            type="submit"
+            variant="primary"
+            @click="onSubmit">Submit
+          </b-button>
+        </template>
+      </AppModal>
     </AppWrapper>
   </div>
 </template>
@@ -258,6 +252,16 @@
 
       // Update location in BWI app
       EventBus.$on('locationService::update', this.updateSelectedPartner);
+
+      EventBus.$on('bwi::partnerModalSubmit', this.onPartnerModalSubmit);
+    },
+    data() {
+      return {
+        tabIndex: 0,
+        hasResults: false,
+        partnerModalSubmit: false,
+        interactiveModalSubmit: false,
+      };
     },
     mounted() {
       if (this.$props.isThisModalOpen) {
@@ -265,15 +269,6 @@
           'bv::show::modal', 'bwi-modal', this.$refs.btnCheckYourWater,
         );
       }
-    },
-    data() {
-      return {
-        tabIndex: 0,
-        hasResults: false,
-        mainModalSubmitClicked: false,
-        mainModalVisible: false,
-        interactiveModalVisible: false,
-      };
     },
     computed: {
       ...mapGetters({
@@ -308,10 +303,10 @@
         'updateWaterAnalysisRequestProperty',
       ]),
       onCheckYourWater(evt) {
-        EventBus.$emit('grid::modalOpen', this.eepApp.field_vue_component_name, this.eepApp);
         evt.preventDefault();
         const partner = this.selectedPartner;
         if (partner) {
+          EventBus.$emit('grid::modalOpen', this.eepApp.field_vue_component_name, this.eepApp);
           this.fetchPartnerAndFlowchartXML(partner.code);
           this.$root.$emit(
             'bv::show::modal', 'bwi-modal', this.$refs.btnCheckYourWater,
@@ -344,7 +339,8 @@
         return section;
       },
       onSubmit(evt) {
-        this.mainModalSubmitClicked = true;
+        this.interactiveModalSubmit = true;
+        this.partnerModalSubmit= false;
         const vm = this;
         const isRequestEmpty = vm.isWaterAnalysisRequestEmpty();
         if (!isRequestEmpty) {
@@ -369,28 +365,31 @@
         });
       },
       onHideMainModal() {
-        if (this.mainModalSubmitClicked && !this.interactiveModalVisible) {
-          this.backToGrid();
-        }
         const vm = this;
         vm.tabIndex = 0;
+        console.log(this.partnerModalSubmit);
+        if(!this.partnerModalSubmit) {
+          console.log('back to grid');
+          this.backToGrid();
+        }
       },
-      backToGrid() {
-        EventBus.$emit('grid::modalClose');
-      },
-      setInteractiveModalShown() {
-        this.interactiveModalVisible = true;
-      },
-      setInteractiveModalHidden() {
-        this.interactiveModalVisible = false;
-      },
-      setMainModalShown() {
-        this.mainModalVisible = true;
+      onHideInteractiveModal() {
+        console.log(this.partnerModalSubmit);
+        if(!this.interactiveModalSubmit) {
+          console.log('back to grid');
+          this.backToGrid();
+        }
       },
       hasWaterAnalysisResults() {
         return this.waterAnalysisResults
           && this.waterAnalysisResults.length
           && this.waterAnalysisResults[0];
+      },
+      backToGrid() {
+        EventBus.$emit('grid::modalClose');
+      },
+      onPartnerModalSubmit() {
+        this.partnerModalSubmit = true;
       },
     },
     props: {

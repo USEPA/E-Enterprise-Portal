@@ -232,11 +232,9 @@
     methods: {
       // ADD
       openAddModal(item, index, button) {
-        EventBus.$emit('grid::modalOpen');
         this.$root.$emit('bv::show::modal', 'addModalInfo', button);
       },
       closeAddModal() {
-        EventBus.$emit('grid::modalClose');
         this.$root.$emit('bv::hide::modal', 'addModalInfo');
       },
       applyAddModal() {
@@ -253,14 +251,12 @@
       },
       // EDIT
       openEditModal(item, index, button) {
-        EventBus.$emit('grid::modalOpen');
         this.editModalIndex = index;
         this.editModalInfo.first = item.first;
         this.editModalInfo.second = item.second;
         this.$root.$emit('bv::show::modal', 'editModalInfo', button);
       },
       closeEditModal() {
-        EventBus.$emit('grid::modalClose');
         this.$root.$emit('bv::hide::modal', 'editModalInfo');
       },
       applyEditModal(objTitle, objLink) {

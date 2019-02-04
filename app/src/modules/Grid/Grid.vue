@@ -32,7 +32,7 @@
             :eep-app="wapp.eepApp"/>
         </grid-item>
       </grid-layout>
-      <BeWellInformed
+      <component
         v-if="modalOpen"
         :is="modalIn"
         :eep-app="modalEepApp"
@@ -42,21 +42,21 @@
     <template v-if="!isLayoutReady">
       <AppPlaceholderContent>
         <div class="row">
-          <div class="col-lg-3 col-6 square pulse"/>
-          <div class="col-lg-3 col-6 square pulse"/>
-          <div class="col-lg-3 col-6 square pulse"/>
-          <div class="col-lg-3 col-6 square pulse"/>
+          <div class="col-lg-3 col-6 square pulse"></div>
+          <div class="col-lg-3 col-6 square pulse"></div>
+          <div class="col-lg-3 col-6 square pulse"></div>
+          <div class="col-lg-3 col-6 square pulse"></div>
         </div>
         <div class="row">
           <div class="col-6">
             <div class="row">
-              <div class="col-12 rectangle pulse"/>
-              <div class="col-12 rectangle pulse"/>
+              <div class="col-12 rectangle pulse"></div>
+              <div class="col-12 rectangle pulse"></div>
             </div>
           </div>
           <div class="col-6">
             <div class="row">
-              <div class="col-12 square pulse"/>
+              <div class="col-12 square pulse"></div>
             </div>
           </div>
         </div>
@@ -115,9 +115,10 @@
       };
     },
     mounted() {
+      const vm = this;
     },
     computed: {
-       ...mapGetters({
+      ...mapGetters({
         getLayout: `${moduleName}/getLayout`,
         isLayoutReady: `${moduleName}/isLayoutReady`,
       }),
