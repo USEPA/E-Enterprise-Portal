@@ -83,6 +83,32 @@ class EEPBridgeController extends ControllerBase {
         return;
     }
 
+  /**
+   * Creates a method of logging into the front-end with a user. The passed $uid
+   * is used to select an existing Drupal user to return.  The default user is
+   * the current user if none is given
+   *
+   * @param $uid
+   */
+    public function eep_authenticate_dev_user($uid = null) {
+    $config = $this->config('eep_bridge.environment_settings');
+    $environment_name = $config->get('eep_bridge_environment_name');
+
+    if(!$uid) {
+      $uid = \Drupal::currentUser()->id();
+    }
+
+    $jwt_token = $this->auth->generateToken();
+    if ($jwt_token === FALSE) {
+      $error_msg = "Error. Please set a key in the JWT admin page.";
+      \Drupal::logger('eep_bridge')->error($error_msg);
+    }
+
+    $url = Url::fromUri($environment_name . '?token=' . $jwt_token . '&uid=' . $uid);
+    $this->eep_bridge_goto($url, $jwt_token);
+    return;
+  }
+
     function eep_bridge_goto($url, $jwt_token) {
         $response = new RedirectResponse($url->toString());
         $response->headers->set('token', $jwt_token);

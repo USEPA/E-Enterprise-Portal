@@ -1,0 +1,18 @@
+uuid: e8a43f03-dcff-48e3-b44a-8be99d6f4f8c
+langcode: en
+status: false
+dependencies: {  }
+id: test
+label: Test
+description: ''
+folder: ../config/test
+module:
+  eep_bridge: 0
+theme: {  }
+blacklist:
+  - eep_bridge.environment_settings
+graylist:
+  - eep_bridge.environment_settings
+graylist_dependents: true
+graylist_skip_equal: true
+weight: 0

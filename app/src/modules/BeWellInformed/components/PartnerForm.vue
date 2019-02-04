@@ -55,6 +55,7 @@
 <script>
   import { mapActions, mapGetters } from 'vuex';
   import ContaminantSection from './ContaminantSection.vue';
+  import { EventBus } from '../../../EventBus';
 
   const name = 'BeWellInformed';
 
@@ -87,6 +88,8 @@
         'submitPartnersData',
       ]),
       onSubmit(evt) {
+        EventBus.$emit('bwi::partnerModalSubmit');
+
         evt.preventDefault();
 
         const vm = this;
