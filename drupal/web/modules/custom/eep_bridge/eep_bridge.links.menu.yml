@@ -4,3 +4,12 @@ eep_bridge.eep_bridge_environment_form:
   description: 'Configure host name and other authentication settings'
   parent: system.admin_config_system
   weight: 99
+eep_bridge.authenticate_dev_user:
+  title: 'Front-end Dev Sign In'
+  description: 'It will log in users and redirect to the portal front-end'
+  parent: eep_core.admin
+  route_name: eep_core.authenticate_dev_user
+  url: internal:/authenticate/dev_user
+  options:
+    attributes:
+      target: _blank
