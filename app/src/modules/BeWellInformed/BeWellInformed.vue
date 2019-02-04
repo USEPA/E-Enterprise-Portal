@@ -117,7 +117,8 @@
       <AppModal
         id="bwi-modal-interactive"
         modal-ref="bwi-modal-interactive"
-        title="Additional Information Needed">
+        title="Additional Information Needed"
+        @hide="onHideInteractiveModal">
         <div class="row">
           <h5 class="col-md-12">Enter the Results of Your Drinking Water Test</h5>
 
@@ -251,12 +252,24 @@
 
       // Update location in BWI app
       EventBus.$on('locationService::update', this.updateSelectedPartner);
+
+      // Partner modal submit button clicked
+      EventBus.$on('bwi::partnerModalSubmit', this.onPartnerModalSubmit);
     },
     data() {
       return {
         tabIndex: 0,
         hasResults: false,
+        partnerModalSubmit: false,
+        interactiveModalSubmit: false,
       };
+    },
+    mounted() {
+      if (this.$props.isThisModalOpen) {
+        this.$root.$emit(
+          'bv::show::modal', 'bwi-modal', this.$refs.btnCheckYourWater,
+        );
+      }
     },
     computed: {
       ...mapGetters({
@@ -294,6 +307,7 @@
         evt.preventDefault();
         const partner = this.selectedPartner;
         if (partner) {
+          EventBus.$emit('grid::modalOpen', this.eepApp.field_vue_component_name, this.eepApp);
           this.fetchPartnerAndFlowchartXML(partner.code);
           this.$root.$emit(
             'bv::show::modal', 'bwi-modal', this.$refs.btnCheckYourWater,
@@ -326,6 +340,8 @@
         return section;
       },
       onSubmit(evt) {
+        this.interactiveModalSubmit = true;
+        this.partnerModalSubmit= false;
         const vm = this;
         const isRequestEmpty = vm.isWaterAnalysisRequestEmpty();
         if (!isRequestEmpty) {
@@ -352,11 +368,25 @@
       onHideMainModal() {
         const vm = this;
         vm.tabIndex = 0;
+        if(!this.partnerModalSubmit) {
+          this.backToGrid();
+        }
+      },
+      onHideInteractiveModal() {
+        if(!this.interactiveModalSubmit) {
+          this.backToGrid();
+        }
       },
       hasWaterAnalysisResults() {
         return this.waterAnalysisResults
           && this.waterAnalysisResults.length
           && this.waterAnalysisResults[0];
+      },
+      backToGrid() {
+        EventBus.$emit('grid::modalClose');
+      },
+      onPartnerModalSubmit() {
+        this.partnerModalSubmit = true;
       },
     },
     props: {
@@ -364,6 +394,7 @@
         type: Object,
         required: true,
       },
+      isThisModalOpen: false,
     },
   };
 </script>
