@@ -15,10 +15,4 @@ eep_core.eep_workbench_application:
   description: 'example of how to make an admin settings page link'
   parent: eep_core.admin
   route_name: eep_core.eep_workbench_application
-  url: internal:/admin/content?title=&type=eep_workbench_application&status=All&langcode=Alleep_core.eep_cookie_configuration_form:
-  title: 'EepCookieConfigurationForm'
-  route_name: eep_core.eep_cookie_configuration_form
-  description: 'EepCookieConfig Menu Link'
-  parent: system.admin_config_system
-  weight: 99
-
+  url: internal:/admin/content?title=&type=eep_workbench_application&status=All&langcode=All
