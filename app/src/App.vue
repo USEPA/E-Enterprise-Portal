@@ -139,7 +139,7 @@
           },
           exitModal(){
               const vm = this;
-              vm.$root.emit(
+              vm.$root.$emit(
                   'bv::hide::modal',
                   'cookie_modal',
                   this.$refs.cookie_modal
