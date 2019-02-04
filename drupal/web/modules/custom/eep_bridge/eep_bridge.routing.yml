@@ -16,7 +16,7 @@ eep_bridge.eep_bridge_environment_form:
   options:
     _admin_route: TRUE
 eep_bridge.dev_login:
-  path: '/authenticate/dev_user'
+  path: '/authenticate/dev_user/{uid}'
   defaults:
     _controller: '\Drupal\eep_bridge\Controller\EEPBridgeController::eep_authenticate_dev_user'
     _title: 'E-Enterprise Bridge Authentication'

@@ -83,11 +83,14 @@ class EEPBridgeController extends ControllerBase {
         return;
     }
 
-    public function eep_authenticate_dev_user() {
+    public function eep_authenticate_dev_user($uid) {
     $config = $this->config('eep_bridge.environment_settings');
     $environment_name = $config->get('eep_bridge_environment_name');
 
-    $uid = \Drupal::currentUser()->id();
+    if(!$uid) {
+      $uid = \Drupal::currentUser()->id();
+    }
+
     $jwt_token = $this->auth->generateToken();
     if ($jwt_token === FALSE) {
       $error_msg = "Error. Please set a key in the JWT admin page.";
