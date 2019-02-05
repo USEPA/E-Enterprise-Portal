@@ -112,30 +112,29 @@
               show-empty
               stacked="md"
               :items="items"
-              :fields="fields"
               :current-page="currentPage"
               :per-page="perPage"
               :filter="filter"
               @filtered="onFiltered"
             >
-              <template
-                slot="program_service_name"
-                slot-scope="data"
-                v-for="item in dataFlows">
-                {{ item.data.program_service_name }}
-              </template>
-              <template
-                slot="role"
-                slot-scope="data"
-                v-for="item in dataFlows">
-                {{ item.data.role }}
-              </template>
-              <template
-                slot="status"
-                slot-scope="data"
-                v-for="item in dataFlows">
-                {{item.statuses[0]}}
-              </template>
+              <!--<template-->
+                <!--slot="program_service_name"-->
+                <!--slot-scope="data"-->
+                <!--v-for="item in dataFlows">-->
+                <!--{{ item.data.program_service_name }}-->
+              <!--</template>-->
+              <!--<template-->
+                <!--slot="role"-->
+                <!--slot-scope="data"-->
+                <!--v-for="item in dataFlows">-->
+                <!--{{ item.data.role }}-->
+              <!--</template>-->
+              <!--<template-->
+                <!--slot="status"-->
+                <!--slot-scope="data"-->
+                <!--v-for="item in dataFlows">-->
+                <!--{{item.statuses[0]}}-->
+              <!--</template>-->
             </b-table>
             <b-modal><div class="my-cdx-modal">
               <div class="my-cdx-detail-group">Organization Name</div>
@@ -194,8 +193,7 @@
 
 
   const moduleName = 'MyReporting';
-  const items = [];
-
+let items = [];
 
   export default {
     name: moduleName,
@@ -204,13 +202,7 @@
     },
     data() {
       return {
-        items: [{program_service_name:'', role:'', statuses:''}],
-        dataFlows: [{program_service_name:'', role:'', statuses:''}],
-        fields: [
-          { key: 'program_service_name', label: 'Program service name' },
-          { key: 'role', label: 'Role' },
-          { key: 'status', label: 'Status' },
-        ],
+        items:items,
         currentPage: 1,
         perPage: 5,
         totalRows: items.length,
@@ -237,7 +229,7 @@
     },
 
     mounted() {
-     let cookie = this.$cookie.get('Token');
+    let cookie = this.$cookie.get('Token');
       AppAxios.get(
         this.apiURL + '/api/cdxdataflows',
         { headers: {
@@ -248,8 +240,9 @@
           }})
 
         .then(response => {
-          this.dataFlows = response.data;
+          this.items = response.data;
         });
+
     },
     computed: {
       ...mapGetters({
@@ -281,6 +274,9 @@
         this.totalRows = filteredItems.length;
         this.currentPage = 1;
       },
+      returnFormattedRow(programDataObject) {
+
+      }
     },
 
     props: {
