@@ -194,10 +194,10 @@
               const uid = vars["uid"];
               // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
               // Set another cookie saying they logged in
-              this.$cookie.set('userLoggedIn', true, {expires: '5m'});
+              this.$cookie.set('userLoggedIn', true, {expires: '3m'});
               // set user token in cookie
-              this.$cookie.set('Token', token, {expires: '5m'});
-              this.$cookie.set('uid', uid, {expires: '5m'});
+              this.$cookie.set('Token', token, {expires: '3m'});
+              this.$cookie.set('uid', uid, {expires: '3m'});
 
               // Set login time and token in the store
               store.commit(types.SET_LOGGED_IN_TOKEN, token);
@@ -215,14 +215,10 @@
               // Function that is used everytime setInterval is called
               function checkCookieExistance(){
                   // If statement will only execute when there is one minute left until expiration and the user is logged in
-//                  var between_now_and_cookie_expiration_time = (new Date()).getMinutes() -
-//                          store.getters.getLogInTime.getMinutes();
-                  // when cookie value is saved in the store its gonna be like this (store.getters.getLogInTime.getMinutes() + {cookie amount time - 1})
                   var cookie_expiration_time = store.getters.getLogInTime.getMinutes() + 4;
                   if(cookie_expiration_time === (new Date()).getMinutes() &&
                           store.getters.getDisplayLoggedInElements){
-                      store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, (new Date()).getMinutes()
-                              - store.getters.getLogInTime.getMinutes());
+                      store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
                       vm.$root.$emit(
                               'bv::show::modal',
                               'cookie_modal',
