@@ -167,5 +167,10 @@ export default {
       Vue.set(state.user,
           'loggedInTime',
           time);
-  }
+  },
+  [types.TIME_LEFT_UNTIL_LOG_OUT](state, timeAmount){
+      Vue.set(state.user,
+      'timeLeftUntilLogout',
+      timeAmount);
+  },
 };

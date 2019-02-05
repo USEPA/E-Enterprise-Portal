@@ -47,7 +47,7 @@ const state = {
   user: {
     id: 0,
     isLoggedIn: false,
-    timeLeftUntilLogout: 1,
+    timeLeftUntilLogout: 0,
     loggedInToken: '',
     loggedInTime: null,
     name: '',
