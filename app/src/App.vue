@@ -195,10 +195,10 @@
               const uid = vars["uid"];
               // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
               // Set another cookie saying they logged in
-              this.$cookie.set('userLoggedIn', true, {expires: '20m'});
+              this.$cookie.set('userLoggedIn', true, {expires: '3m'});
               // set user token in cookie
-              this.$cookie.set('Token', token, {expires: '20m'});
-              this.$cookie.set('uid', uid, {expires: '20m'});
+              this.$cookie.set('Token', token, {expires: '3m'});
+              this.$cookie.set('uid', uid, {expires: '3m'});
 
               // Set login time and token in the store
               store.commit(types.SET_LOGGED_IN_TOKEN, token);
@@ -215,10 +215,12 @@
 
               // Function that is used everytime setInterval is called
               function checkCookieExistance(){
+                  console.log('hit inside set interval');
                   // If statement will only execute when there is one minute left until expiration and the user is logged in
-                  var cookie_expiration_time = store.getters.getLogInTime.getMinutes() + 19;
+                  var cookie_expiration_time = store.getters.getLogInTime.getMinutes() + 2;
                   if(cookie_expiration_time === (new Date()).getMinutes() &&
                           store.getters.getDisplayLoggedInElements){
+                      console.log('hit inside if');
                       store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
                       vm.$root.$emit(
                               'bv::show::modal',

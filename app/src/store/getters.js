@@ -127,7 +127,7 @@ export default {
     return state.user.timeLeftUntilLogout;
   },
   getLoggedInToken(state){
-    return state.user.loggedInToken;
+    return state.token.raw;
   },
   getLogInTime(state){
     return state.user.loggedInTime;
