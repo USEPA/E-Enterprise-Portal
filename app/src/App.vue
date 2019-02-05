@@ -210,8 +210,13 @@
 
               // Set user id in the store
               store.commit(types.SET_UID, uid);
+
               // Log user in
-              store.commit('IS_USER_LOGGED_IN', true);
+              store.commit(types.IS_USER_LOGGED_IN, true)
+
+              // Set login time and token in the store
+              store.commit(types.SET_LOGGED_IN_TOKEN, token);
+              store.commit(types.SET_LOGGED_IN_TIME, new Date())
 
               // After the user is logged in then start checking to see if the cookie has expired and if it has then log them out
               let set_interval_id = setInterval(checkCookieExistance, 5000);
