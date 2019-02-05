@@ -62,7 +62,7 @@
             If you choose not to extend, then you will be logged out.</p>
         <p>Would you like to extend your session?</p>
         <template slot="footer">
-            <b-button class="usa-button-secondary" @click="exitModal">
+            <b-button class="usa-button usa-button-secondary" @click="exitModal">
                 Cancel
             </b-button>
             <b-button class="usa-button" @click="extendTheSession">
