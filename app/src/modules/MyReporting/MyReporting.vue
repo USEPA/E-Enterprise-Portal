@@ -1,4 +1,4 @@
-<template>
+<template ref="myreporting">
   <div id="reportingrow">
     <AppWrapper
       class="pb-5"
@@ -111,30 +111,32 @@
             <b-table
               show-empty
               stacked="md"
-              :fields="fields"
               :items="items"
+              :fields="fields"
               :current-page="currentPage"
               :per-page="perPage"
               :filter="filter"
               @filtered="onFiltered"
             >
               <template
-                slot="first"
+                slot="program_service_name"
                 slot-scope="data"
-                v-for="item in program">
-                {{ item.program_service_name }}
+                v-for="item in dataFlows">
+                {{ item.data.program_service_name }}
               </template>
               <template
-                slot="second"
+                v-if='dataFlows != `Not logged in or no user ID found!` &&
+          dataFlows != `Loading your Programs...`'
+                slot="role"
                 slot-scope="data"
-                v-for="item in program">
-                {{ item.role }}
+                v-for="item in dataFlows">
+                {{ item.data.role }}
               </template>
               <template
-                slot="third"
+                slot="status"
                 slot-scope="data"
-                v-for="item in program">
-                {{ item.status }}
+                v-for="item in dataFlows">
+                {{ item.statuses[0] }}
               </template>
             </b-table>
             <b-modal><div class="my-cdx-modal">
@@ -151,6 +153,7 @@
                 <button class="cancel">Cancel</button>
               </div>
             </div></b-modal>
+            <div v-if="(dataFlows.length === 0)">{{ noData }}</div>
             <b-row>
               <b-col
                 md="6"
@@ -194,9 +197,7 @@
 
 
   const moduleName = 'MyReporting';
-  const items = [
-    { program_service_name: '', role: '', status: '' },
-  ];
+  const items = [];
 
 
   export default {
@@ -204,28 +205,14 @@
     components: {
       AppWrapper,
     },
-
-    beforeCreate() {
-
-    },
-    created() {
-      const store = this.$store;
-      if (!(store && store.state && store.state[moduleName])) {
-        store.registerModule(moduleName, storeModule);
-      }
-    },
     data() {
       return {
-        program: [
-          { program_service_name: '' },
-          { role: '' },
-          { status: '' },
-        ],
-        items: items,
+        items: [{program_service_name:'', role:'', statuses:''}],
+        dataFlows: [{program_service_name:'', role:'', statuses:''}],
         fields: [
-          { key: 'first', label: 'Program service name' },
-          { key: 'second', label: 'Role' },
-          { key: 'third', label: 'Status' },
+          { key: 'program_service_name', label: 'Program service name' },
+          { key: 'role', label: 'Role' },
+          { key: 'status', label: 'Status' },
         ],
         currentPage: 1,
         perPage: 5,
@@ -239,8 +226,20 @@
         ],
         filter: null,
         modalInfo: { title: '', content: '' },
+        noData: 'No Data Available',
       };
     },
+
+    beforeCreate() {
+
+    },
+    created() {
+      const store = this.$store;
+      if (!(store && store.state && store.state[moduleName])) {
+        store.registerModule(moduleName, storeModule);
+      }
+    },
+
     mounted() {
       let cookie = this.$cookie.get('Token');
       AppAxios.get(
@@ -252,9 +251,9 @@
             'Content-Type': 'application/json',
           }})
 
-      .then(response => {
-        this.program = response.data[0];
-      });
+        .then(response => {
+          this.program = response.data;
+        });
     },
     computed: {
       ...mapGetters({
