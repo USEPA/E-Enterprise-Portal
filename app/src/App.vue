@@ -214,7 +214,8 @@
               // Function that is used everytime setInterval is called
               function checkCookieExistance(){
                   // If statement will only execute when there is one minute left until expiration
-                  if(document.cookie.indexOf('Token=') === -1){
+                  console.log(this.$cookie.get('Token'));
+                  if(document.cookie.indexOf('Token=') === -1 && store.getters.getDisplayLoggedInElements){
                       vm.$root.$emit(
                               'bv::show::modal',
                               'cookie_modal',
