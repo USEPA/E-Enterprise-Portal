@@ -117,24 +117,6 @@
               :filter="filter"
               @filtered="onFiltered"
             >
-              <!--<template-->
-                <!--slot="program_service_name"-->
-                <!--slot-scope="data"-->
-                <!--v-for="item in dataFlows">-->
-                <!--{{ item.data.program_service_name }}-->
-              <!--</template>-->
-              <!--<template-->
-                <!--slot="role"-->
-                <!--slot-scope="data"-->
-                <!--v-for="item in dataFlows">-->
-                <!--{{ item.data.role }}-->
-              <!--</template>-->
-              <!--<template-->
-                <!--slot="status"-->
-                <!--slot-scope="data"-->
-                <!--v-for="item in dataFlows">-->
-                <!--{{item.statuses[0]}}-->
-              <!--</template>-->
             </b-table>
             <b-modal><div class="my-cdx-modal">
               <div class="my-cdx-detail-group">Organization Name</div>
