@@ -48,7 +48,6 @@ const state = {
     id: 0,
     isLoggedIn: false,
     timeLeftUntilLogout: 0,
-    loggedInToken: '',
     loggedInTime: null,
     name: '',
     mail: '',
