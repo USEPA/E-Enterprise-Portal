@@ -37,6 +37,7 @@
             <router-link to="/about">About</router-link>
             <span class="divider">|</span>
             <router-link to="/workbench">Workbench</router-link>
+            <button @click="openModal">Open Modal</button>
           </div>
           <LocationSearch/>
         </div>
@@ -54,7 +55,9 @@
     <!-- set progressbar -->
     <vue-progress-bar/>
     <!-- Modal for cookie extension -->
-    <AppModal id="cookie_modal" modal-ref="cookie_modal" title="Your session is about to expire">
+    <AppModal id="cookie_modal"
+              modal-ref="cookie_modal"
+              title="Your session is about to expire">
         <!-- Modal content -->
         <p>Your session will expire in {{timeLeftUntilLogout}} minute(s).
             If you choose not to extend, then you will be logged out.</p>
@@ -128,7 +131,15 @@
         },
       },
       methods: {
-          exitModal(){
+          openModal(){
+              const vm = this;
+              vm.$root.$emit(
+                      'bv::show::modal',
+                      'cookie_modal',
+                      vm.$refs.cookie_modal
+              );
+          },
+          exitModal(evt){
               const vm = this;
               vm.$root.$emit(
                   'bv::hide::modal',
@@ -195,6 +206,7 @@
               const uid = vars["uid"];
               // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
               // Set another cookie saying they logged in
+              // replace cookie expiration with the one from config
               this.$cookie.set('userLoggedIn', true, {expires: '20m'});
               // set user token in cookie
               this.$cookie.set('Token', token, {expires: '20m'});
@@ -211,24 +223,22 @@
               store.commit(types.IS_USER_LOGGED_IN, true);
 
               // After the user is logged in then start checking to see if the cookie has expired and if it has then log them out
-              let set_interval_id = setInterval(checkCookieExistance, 5000);
-
-              // Function that is used everytime setInterval is called
-              function checkCookieExistance(){
-                  console.log('hit inside set interval');
+              setInterval(function(evt){
                   // If statement will only execute when there is one minute left until expiration and the user is logged in
                   var cookie_expiration_time = store.getters.getLogInTime.getMinutes() + 19;
-                  if(cookie_expiration_time === (new Date()).getMinutes() &&
+                  if((new Date()).getMinutes() === cookie_expiration_time &&
                           store.getters.getDisplayLoggedInElements){
-                      console.log('hit inside if');
                       store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
                       vm.$root.$emit(
                               'bv::show::modal',
                               'cookie_modal',
                               vm.$refs.cookie_modal
                       );
+                  }else if((new Date()).getMinutes() > cookie_expiration_time){
+                      store.commit('userLogOut');
                   }
-              }
+                  // replace the 3 with the cookie time length
+              }, (20 - 1) * 60000);
           }else{
               if(this.$cookie.get('userLoggedIn')){
                   // Log user in and set user name

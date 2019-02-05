@@ -285,6 +285,9 @@ export default {
       const {vm} = payload;
 
       // Set the session in the back end with a post request
+
+      // replace cookie expiration with the one from config
+
       Vue.cookie.set('userLoggedIn', true, {expires: '20m'});
       Vue.cookie.set('uid', store.getters.getUser.id, {expires: '20m'});
       Vue.cookie.set('Token', store.getters.getLoggedInToken, {expires: '20m'});
