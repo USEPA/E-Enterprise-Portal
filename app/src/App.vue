@@ -209,19 +209,19 @@
               this.$cookie.set('uid', uid, {expires: '1m'});
 
 //              // After the user is logged in then start checking to see if the cookie has expired and if it has then log them out
-//              let set_interval_id = setInterval(checkCookieExistance, 20000);
-//
-//              // Function that is used everytime setInterval is called
-//              function checkCookieExistance(){
-//                  console.log("hit check cookie");
-//                  if(document.cookie.indexOf('Token=') === -1){
-//                      vm.$root.$emit(
-//                              'bv::show::modal',
-//                              'cookie_modal',
-//                              this.$refs.cookie_modal
-//                      );
-//                  }
-//              }
+              let set_interval_id = setInterval(checkCookieExistance, 5000);
+
+              // Function that is used everytime setInterval is called
+              function checkCookieExistance(){
+                  if(document.cookie.indexOf('Token=') === -1){
+                      console.log("hit check cookie");
+                      vm.$root.$emit(
+                              'bv::show::modal',
+                              'cookie_modal',
+                              vm.$refs.cookie_modal
+                      );
+                  }
+              }
 
               // Set user id in the store
               store.commit(types.SET_UID, uid);
