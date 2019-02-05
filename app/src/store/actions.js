@@ -286,7 +286,5 @@ export default {
           'bv::hide::modal',
           'cookie_modal',
           vm.$refs.cookie_modal);
-
-
   },
 };
