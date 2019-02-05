@@ -56,16 +56,17 @@
     <!-- Modal for cookie extension -->
     <AppModal id="cookie_modal"
               modal-ref="cookie_modal"
-              title="Your session is about to expire">
+              title="Your session is about to expire"
+              @hide="checkOutsideClick">
         <!-- Modal content -->
         <p>Your session will expire in {{timeLeftUntilLogout}} minute(s).
             If you choose not to extend, then you will be logged out.</p>
         <p>Would you like to extend your session?</p>
         <template slot="footer">
-            <b-button class="usa-button usa-button-danger" @click="exitModal">
+            <b-button class="usa-button" @click="exitModal">
                 Cancel
             </b-button>
-            <b-button class="usa-button usa-button-success" @click="extendTheSession">
+            <b-button class="usa-button" @click="extendTheSession">
                 Extend Session
             </b-button>
         </template>
@@ -138,7 +139,7 @@
                       vm.$refs.cookie_modal
               );
           },
-          exitModal(evt){
+          exitModal(){
               const vm = this;
               vm.$root.$emit(
                   'bv::hide::modal',
@@ -151,7 +152,6 @@
               const vm = this
               vm.$store.dispatch('extendSession', {vm});
           },
-
       },
       beforeCreate(){
           const vm = this;
@@ -324,13 +324,5 @@
 
   #nav{
     margin-top: 20px !important;
-  }
-
-  .usa-button-danger, .usa-button-danger:hover{
-      background-color: #C82333;
-  }
-
-  .usa-button-success, .usa-button-success:hover{
-      background-color: #218838;
   }
 </style>
