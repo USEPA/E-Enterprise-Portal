@@ -58,8 +58,8 @@
     <AppModal id="cookie_modal" modal-ref="cookie_modal" title="Your session is about to expire">
         <!-- Modal content -->
         <p>Your session will expire in {{timeLeftUntilLogout}} minute(s).
-            If you choose not to extend, then you will be logged out.
-            Would you like to extend your session?</p>
+            If you choose not to extend, then you will be logged out.</p>
+        <p>Would you like to extend your session?</p>
         <template slot="footer">
             <b-button class="usa-button usa-button-danger" @click="exitModal">
                 Cancel
