@@ -1,4 +1,4 @@
-<template ref="myreporting">
+<template>
   <div id="reportingrow">
     <AppWrapper
       class="pb-5"
@@ -125,8 +125,6 @@
                 {{ item.data.program_service_name }}
               </template>
               <template
-                v-if='dataFlows != `Not logged in or no user ID found!` &&
-          dataFlows != `Loading your Programs...`'
                 slot="role"
                 slot-scope="data"
                 v-for="item in dataFlows">
@@ -136,7 +134,7 @@
                 slot="status"
                 slot-scope="data"
                 v-for="item in dataFlows">
-                {{ item.statuses[0] }}
+                {{item.statuses[0]}}
               </template>
             </b-table>
             <b-modal><div class="my-cdx-modal">
@@ -153,8 +151,7 @@
                 <button class="cancel">Cancel</button>
               </div>
             </div></b-modal>
-            <div v-if="(dataFlows.length === 0)">{{ noData }}</div>
-            <b-row>
+                <b-row>
               <b-col
                 md="6"
                 class="my-1">
@@ -226,7 +223,6 @@
         ],
         filter: null,
         modalInfo: { title: '', content: '' },
-        noData: 'No Data Available',
       };
     },
 
@@ -241,7 +237,7 @@
     },
 
     mounted() {
-      let cookie = this.$cookie.get('Token');
+     let cookie = this.$cookie.get('Token');
       AppAxios.get(
         this.apiURL + '/api/cdxdataflows',
         { headers: {
@@ -252,7 +248,7 @@
           }})
 
         .then(response => {
-          this.program = response.data;
+          this.dataFlows = response.data;
         });
     },
     computed: {
@@ -260,13 +256,13 @@
         apiURL: 'getEnvironmentApiURL',
         // map getters go here
       }),
+    },
       sortOptions() {
         // Create an options list from our fields
         return this.fields
           .filter(f => f.sortable)
           .map(f => ({ text: f.label, value: f.key }));
       },
-    },
     methods: {
       ...mapActions(moduleName, [
         // map actions go here
