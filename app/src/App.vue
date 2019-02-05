@@ -135,6 +135,7 @@
                   'cookie_modal',
                   this.$refs.cookie_modal
               );
+              this.$store.dispatch('userLogOut');
           },
           extendTheSession(){
               const vm = this
