@@ -215,7 +215,7 @@
               // Function that is used everytime setInterval is called
               function checkCookieExistance(){
                   // If statement will only execute when there is one minute left until expiration and the user is logged in
-                  var cookie_expiration_time = store.getters.getLogInTime.getMinutes() + 4;
+                  var cookie_expiration_time = store.getters.getLogInTime.getMinutes() + 2;
                   if(cookie_expiration_time === (new Date()).getMinutes() &&
                           store.getters.getDisplayLoggedInElements){
                       store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
