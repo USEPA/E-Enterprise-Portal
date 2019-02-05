@@ -129,7 +129,7 @@ export default {
   getLoggedInToken(state){
     return state.user.loggedInToken;
   },
-  getLogInTime(state)
+  getLogInTime(state){
     return state.user.loggedInTime;
   },
 };
