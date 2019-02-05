@@ -48,6 +48,8 @@ const state = {
     id: 0,
     isLoggedIn: false,
     timeLeftUntilLogout: 1,
+    loggedInToken: '',
+    loggedInTime: null,
     name: '',
     mail: '',
     favorite_links: [],

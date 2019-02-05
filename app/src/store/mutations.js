@@ -158,4 +158,14 @@ export default {
       'isLoggedIn',
       IsLoggedIn);
   },
+  [types.SET_LOGGED_IN_TOKEN](state, token){
+      Vue.set(state.user,
+          'loggedInToken',
+          token);
+  },
+  [types.SET_LOGGED_IN_TIME](state, time){
+      Vue.set(state.user,
+          'loggedInTime',
+          time);
+  }
 };
