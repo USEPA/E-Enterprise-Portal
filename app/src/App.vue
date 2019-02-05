@@ -203,18 +203,18 @@
               const uid = vars["uid"];
               // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
               // Set another cookie saying they logged in
-              this.$cookie.set('userLoggedIn', true, {expires: '1m'});
+              this.$cookie.set('userLoggedIn', true, {expires: '2m'});
               // set user token in cookie
-              this.$cookie.set('Token', token, {expires: '1m'});
-              this.$cookie.set('uid', uid, {expires: '1m'});
+              this.$cookie.set('Token', token, {expires: '2m'});
+              this.$cookie.set('uid', uid, {expires: '2m'});
 
 //              // After the user is logged in then start checking to see if the cookie has expired and if it has then log them out
               let set_interval_id = setInterval(checkCookieExistance, 5000);
 
               // Function that is used everytime setInterval is called
               function checkCookieExistance(){
+                  // If statement will only execute when there is one minute left until expiration
                   if(document.cookie.indexOf('Token=') === -1){
-                      console.log("hit check cookie");
                       vm.$root.$emit(
                               'bv::show::modal',
                               'cookie_modal',

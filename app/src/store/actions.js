@@ -281,9 +281,9 @@ export default {
       console.log('extended');
 
       // Set the session in the back end with a post request
-      Vue.cookie.set('userLoggedIn', true, {expires: '20m'});
-      Vue.cookie.set('uid', false, {expires: '20m'});
-      Vue.cookie.set('Token', true, {expires: '20m'});
+      Vue.cookie.set('userLoggedIn', true, {expires: '2m'});
+      // Vue.cookie.set('uid', false, {expires: '2m'});
+      // Vue.cookie.set('Token', true, {expires: '2m'});
 
       // Close modal
       vm.$root.$emit(
