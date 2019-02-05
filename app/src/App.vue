@@ -237,7 +237,7 @@
                   }
                   // was : (20 - 1) * 60000 but i had to change it to a static number so if the modal got clicked out of
                   // then the next step that will happen is an automatic log out for security reasons
-              }, 5000);
+              }, (20 - 1) * 60000);
           }else{
               if(this.$cookie.get('userLoggedIn')){
                   // Log user in and set user name
