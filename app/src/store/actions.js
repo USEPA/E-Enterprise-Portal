@@ -287,8 +287,8 @@ export default {
 
       // Set the session in the back end with a post request
       Vue.cookie.set('userLoggedIn', true, {expires: '5m'});
-      Vue.cookie.set('uid', false, {expires: '5m'});
-      Vue.cookie.set('Token', true, {expires: '5m'});
+      Vue.cookie.set('uid', store.getters.get, {expires: '5m'});
+      Vue.cookie.set('Token', store.getters.getLoggedInToken, {expires: '5m'});
 
       store.commit(types.SET_LOGGED_IN_TIME, new Date());
 

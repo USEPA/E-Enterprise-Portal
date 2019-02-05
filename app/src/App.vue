@@ -37,7 +37,6 @@
             <router-link to="/about">About</router-link>
             <span class="divider">|</span>
             <router-link to="/workbench">Workbench</router-link>
-            <button @click="testButton">Open Cookie Modal</button>
           </div>
           <LocationSearch/>
         </div>
@@ -129,14 +128,6 @@
         },
       },
       methods: {
-          testButton(){
-              const vm = this;
-              vm.$root.$emit(
-                  'bv::show::modal',
-                  'cookie_modal',
-                  this.$refs.cookie_modal
-              );
-          },
           exitModal(){
               const vm = this;
               vm.$root.$emit(
@@ -227,10 +218,11 @@
 //                  var between_now_and_cookie_expiration_time = (new Date()).getMinutes() -
 //                          store.getters.getLogInTime.getMinutes();
                   // when cookie value is saved in the store its gonna be like this (store.getters.getLogInTime.getMinutes() + {cookie amount time - 1})
-                  var cookie_expiration_time = ((store.getters.getLogInTime.getMinutes() + 4);
+                  var cookie_expiration_time = store.getters.getLogInTime.getMinutes() + 4;
                   if(cookie_expiration_time === (new Date()).getMinutes() &&
                           store.getters.getDisplayLoggedInElements){
-                      store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, between_now_and_cookie_expiration_time);
+                      store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, (new Date()).getMinutes()
+                              - store.getters.getLogInTime.getMinutes());
                       vm.$root.$emit(
                               'bv::show::modal',
                               'cookie_modal',
