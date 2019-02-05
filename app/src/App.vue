@@ -37,7 +37,6 @@
             <router-link to="/about">About</router-link>
             <span class="divider">|</span>
             <router-link to="/workbench">Workbench</router-link>
-            <button @click="openModal">Open Modal</button>
           </div>
           <LocationSearch/>
         </div>
