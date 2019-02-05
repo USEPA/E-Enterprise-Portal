@@ -256,9 +256,6 @@ let items = [];
         this.totalRows = filteredItems.length;
         this.currentPage = 1;
       },
-      returnFormattedRow(programDataObject) {
-
-      }
     },
 
     props: {
