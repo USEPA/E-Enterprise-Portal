@@ -56,14 +56,13 @@
     <!-- Modal for cookie extension -->
     <AppModal id="cookie_modal"
               modal-ref="cookie_modal"
-              title="Your session is about to expire"
-              @hide="checkOutsideClick">
+              title="Your session is about to expire">
         <!-- Modal content -->
         <p>Your session will expire in {{timeLeftUntilLogout}} minute(s).
             If you choose not to extend, then you will be logged out.</p>
         <p>Would you like to extend your session?</p>
         <template slot="footer">
-            <b-button class="usa-button" @click="exitModal">
+            <b-button class="usa-button-secondary" @click="exitModal">
                 Cancel
             </b-button>
             <b-button class="usa-button" @click="extendTheSession">
@@ -236,8 +235,9 @@
                   }else if((new Date()).getMinutes() > cookie_expiration_time){
                       store.dispatch('userLogOut');
                   }
-                  // replace the 3 with the cookie time length
-              }, (20 - 1) * 60000);
+                  // was : (20 - 1) * 60000 but i had to change it to a static number so if the modal got clicked out of
+                  // then the next step that will happen is an automatic log out for security reasons
+              }, 5000);
           }else{
               if(this.$cookie.get('userLoggedIn')){
                   // Log user in and set user name
