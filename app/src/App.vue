@@ -234,7 +234,7 @@
                               vm.$refs.cookie_modal
                       );
                   }else if((new Date()).getMinutes() > cookie_expiration_time){
-                      store.commit('userLogOut');
+                      store.dispatch('userLogOut');
                   }
                   // replace the 3 with the cookie time length
               }, (20 - 1) * 60000);
