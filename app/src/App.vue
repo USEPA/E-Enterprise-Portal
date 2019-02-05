@@ -216,7 +216,7 @@
 
               // Set login time and token in the store
               store.commit(types.SET_LOGGED_IN_TOKEN, token);
-              store.commit(types.SET_LOGGED_IN_TIME, new Date())
+              store.commit(types.SET_LOGGED_IN_TIME, new Date());
 
               // After the user is logged in then start checking to see if the cookie has expired and if it has then log them out
               let set_interval_id = setInterval(checkCookieExistance, 5000);
@@ -226,6 +226,7 @@
                   // If statement will only execute when there is one minute left until expiration and the user is logged in
                   if((new Date()).getMinutes() - store.getters.getLogInTime.getMinutes() === 1 &&
                           store.getters.getDisplayLoggedInElements){
+                      console.log('hit here');
                       vm.$root.$emit(
                               'bv::show::modal',
                               'cookie_modal',
