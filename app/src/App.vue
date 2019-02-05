@@ -223,7 +223,8 @@
 
               // Function that is used everytime setInterval is called
               function checkCookieExistance(){
-                  console.log('token: ' + store.getters.getLoggedInToken + '     how many minutes left: ' + (new Date).getMinutes() - store.getters.getLogInTime.getMinutes())
+                  //
+                  console.log('token: ' + store.getters.getLoggedInToken + '     how many minutes left: ' + ((new Date()).getMinutes() - store.getters.getLogInTime.getMinutes() === 1));
                   // If statement will only execute when there is one minute left until expiration
                   if(document.cookie.indexOf('Token=') === -1 && store.getters.getDisplayLoggedInElements){
                       console.log("hit check cookie existance inside if");

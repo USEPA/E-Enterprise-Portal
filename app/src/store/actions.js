@@ -115,6 +115,11 @@ export default {
     Vue.cookie.set('userLoggedIn', false, {expires: '-99s'});
 
     store.commit('IS_USER_LOGGED_IN', false);
+
+    // Reset login token and time
+    store.commit(types.SET_LOGGED_IN_TOKEN, '');
+    store.commit(types.SET_LOGGED_IN_TIME, null);
+
     // Use router.push here to get rid of the token in the redirect URL
     router.push('/');
   },
