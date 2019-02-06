@@ -256,6 +256,9 @@
 
           //  [App.vue specific] When App.vue is finish loading finish the progress bar
           this.$Progress.finish();
+        if(window.location.href.indexOf("token") > -1) {
+          this.$router.push('/workbench');
+        }
       },
   };
 
