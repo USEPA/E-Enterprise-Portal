@@ -288,9 +288,9 @@ export default {
 
       // replace cookie expiration with the one from config
 
-      Vue.cookie.set('userLoggedIn', true, {expires: '20m'});
-      Vue.cookie.set('uid', store.getters.getUser.id, {expires: '20m'});
-      Vue.cookie.set('Token', store.getters.getLoggedInToken, {expires: '20m'});
+      Vue.cookie.set('userLoggedIn', true, {expires: '3m'});
+      Vue.cookie.set('uid', store.getters.getUser.id, {expires: '3m'});
+      Vue.cookie.set('Token', store.getters.getLoggedInToken, {expires: '3m'});
 
       store.commit(types.SET_LOGGED_IN_TIME, new Date());
 
