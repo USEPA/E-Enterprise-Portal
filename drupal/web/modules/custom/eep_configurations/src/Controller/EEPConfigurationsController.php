@@ -12,5 +12,8 @@ namespace Drupal\eep_configurations\Controller;
 use Drupal\Core\Controller\ControllerBase;
 
 class EEPConfigurationsController extends ControllerBase {
+    function eep_retrieve_all_configurations(){
+
+    }
 
 }
