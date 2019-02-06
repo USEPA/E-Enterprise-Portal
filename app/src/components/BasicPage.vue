@@ -68,15 +68,16 @@
   lang="scss">
   h2 + p,
   h2 + table,
-  p + pre
+  p + pre {
+    margin-top: 5px;
+  }
 
-  { margin-top: 5px; }
-  pre + h2
+  pre + h2 {
+    margin-top: 2em;
+  }
 
-  { margin-top: 2em; }
-  pre
-
-  { margin-left: 0;
+  pre {
+    margin-left: 0;
     overflow: auto;
     max-height: 200px;
     padding: 20px;
@@ -86,21 +87,26 @@
     white-space: pre-wrap;
     white-space: -moz-pre-wrap;
     white-space: -o-pre-wrap;
-    word-wrap: break-word; }
-  table {
-    td
+    word-wrap: break-word;
+  }
 
-    { vertical-align: top; }
+  table {
+    td {
+      vertical-align: top;
+    }
+
     ol {
       margin-top: 0;
       margin-bottom: 0;
+
       li {
         margin-top: 0;
         margin-bottom: 0.5rem;
         background-color: transparent;
-        &:before
 
-        { font-weight: normal; }
+        &:before {
+          font-weight: normal;
+        }
       }
     }
   }
