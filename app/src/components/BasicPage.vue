@@ -61,9 +61,6 @@
         return this.basicPages.find(page => page.path[0].alias.replace(/\\|\//g, '') === this.urlAlias);
       },
     },
-    mounted() {
-      console.log(this.basicPages.find(page => page.path[0].alias.replace(/\\|\//g, '') === this.urlAlias));
-    },
   };
 </script>
 
