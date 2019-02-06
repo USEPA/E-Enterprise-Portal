@@ -40,7 +40,7 @@
           class="col-4-md"
           id="log-in-container">
           <template v-if='displayLoggedInElements'>
-            <span>Welcome {{ username }}</span>
+            <span class="mr-3">Welcome {{ username }}</span>
             <button
               variant="outline-secondary"
               class="usa-button"
