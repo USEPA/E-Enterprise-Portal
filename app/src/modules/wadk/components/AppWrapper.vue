@@ -22,7 +22,8 @@
               <b-dropdown-divider/>
               <b-dropdown-item-button
                 v-for="(text, title) in eepApp.field_settings_menu_items"
-                :title="text">{{ title }}</b-dropdown-item-button>
+                :title="text">{{ title }}
+              </b-dropdown-item-button>
             </b-dropdown>
             <b-button
               v-if='eepApp.field_is_expandable'
@@ -37,7 +38,7 @@
       <div class="w-100 source-wrapper">
         <h6
           class="small"
-          v-show="!!eepApp.source" >
+          v-show="!!eepApp.source">
           Source:&nbsp;
           <template
             v-for="(source, index) in eepApp.source">
@@ -47,7 +48,7 @@
                   target="_blank">{{ source.text }}</a>
                 <br
                   :key="index"
-                  v-if="eepApp.source.length !== index + 1" >
+                  v-if="eepApp.source.length !== index + 1">
               </span>
           </template>
         </h6>
@@ -144,15 +145,19 @@
   lang="scss"
   scoped>
   @import '../styles/bootstrap-widget-dropdown.scss';
+
   .app-window-icon {
     padding: 0.5em;
   }
+
   .widget-dropdown {
     background-image: url('../images/widget-menu.svg');
   }
+
   .widget-expand {
     background-image: url('../images/widget-expand.svg');
   }
+
   .widget-button {
     background-repeat: no-repeat;
     background-position: center center;

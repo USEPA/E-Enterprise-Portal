@@ -19,18 +19,19 @@
       >
         <span aria-hidden="true">×</span>
       </button>
-
     </template>
     <div class="">
-      <slot></slot>
+      <slot/>
     </div>
     <template slot="modal-footer">
-      <slot name="footer"></slot>
+      <slot name="footer"/>
     </template>
   </b-modal>
 </template>
 
 <script>
+  import { EventBus } from '../../../EventBus';
+
   export default {
     name: 'AppModal',
     props: {
@@ -62,6 +63,11 @@
       title: {
         type: String,
         required: true,
+      },
+      useAppModalManager: {
+        type: Boolean,
+        default: () => true,
+        required: false,
       },
     },
     computed: {
@@ -97,13 +103,23 @@
               vm.$emit('cancel', event);
             },
           },
-        // eslint-disable-next-line function-paren-newline
+          // eslint-disable-next-line function-paren-newline
         );
       },
     },
+    mounted() {
+      const vm = this;
+      if (vm.useAppModalManager) {
+        EventBus.$emit('AppModalManager::registerModal', {
+          callee: vm,
+          modal: vm.$refs[vm.modalRef],
+        });
+      }
+    },
     methods: {
       hideModal() {
-        this.$refs[this.modalRef].hide();
+        const vm = this;
+        vm.$refs[vm.modalRef].hide();
       },
     },
   };
@@ -111,16 +127,28 @@
 
 <style lang="scss">
   @import '../../../styles/bootstrap-mixins-cheatsheet.scss';
+
   @include media-breakpoint-up(sm) {
-    .modal-dialog { max-width: $modal-sm; }
+    .modal-dialog {
+      max-width: $modal-sm;
+    }
   }
+
   @include media-breakpoint-up(md) {
-    .modal-dialog { max-width: $modal-md; }
+    .modal-dialog {
+      max-width: $modal-md;
+    }
   }
+
   @include media-breakpoint-up(lg) {
-    .modal-dialog { max-width: $modal-lg; }
+    .modal-dialog {
+      max-width: $modal-lg;
+    }
   }
+
   @include media-breakpoint-up(xl) {
-    .modal-dialog { max-width: $modal-xl; }
+    .modal-dialog {
+      max-width: $modal-xl;
+    }
   }
 </style>

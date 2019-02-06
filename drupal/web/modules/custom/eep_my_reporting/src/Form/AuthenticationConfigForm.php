@@ -48,11 +48,6 @@ class AuthenticationConfigForm extends ConfigFormBase {
             '#description' => $this->t('Typically an email address'),
             '#default_value' => $config->get('admin_id'),
         ];
-        $form['credential'] = [
-            '#type' => 'password',
-            '#title' => $this->t('Password for NAAS authentication'),
-            '#default_value' => $config->get('credential'),
-        ];
         $form['domain'] = [
             '#type' => 'textfield',
             '#title' => $this->t('Domain for NAAS authentication'),
@@ -73,7 +68,6 @@ class AuthenticationConfigForm extends ConfigFormBase {
         $this->config('eep_my_reporting.form')
             ->set('wsdl', $form_state->getValue('wsdl'))
             ->set('admin_id', $form_state->getValue('admin_id'))
-            ->set('credential', $form_state->getValue('credential'))
             ->set('domain', $form_state->getValue('domain'))
             ->set('authentication_method', $form_state->getValue('authentication_method'))
             ->save();

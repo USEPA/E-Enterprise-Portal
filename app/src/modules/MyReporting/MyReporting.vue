@@ -1,4 +1,4 @@
-<template ref="myreporting">
+<template>
   <div id="reportingrow">
     <AppWrapper
       class="pb-5"
@@ -112,32 +112,11 @@
               show-empty
               stacked="md"
               :items="items"
-              :fields="fields"
               :current-page="currentPage"
               :per-page="perPage"
               :filter="filter"
               @filtered="onFiltered"
             >
-              <template
-                slot="program_service_name"
-                slot-scope="data"
-                v-for="item in dataFlows">
-                {{ item.data.program_service_name }}
-              </template>
-              <template
-                v-if='dataFlows != `Not logged in or no user ID found!` &&
-          dataFlows != `Loading your Programs...`'
-                slot="role"
-                slot-scope="data"
-                v-for="item in dataFlows">
-                {{ item.data.role }}
-              </template>
-              <template
-                slot="status"
-                slot-scope="data"
-                v-for="item in dataFlows">
-                {{ item.statuses[0] }}
-              </template>
             </b-table>
             <b-modal><div class="my-cdx-modal">
               <div class="my-cdx-detail-group">Organization Name</div>
@@ -153,8 +132,7 @@
                 <button class="cancel">Cancel</button>
               </div>
             </div></b-modal>
-            <div v-if="(dataFlows.length === 0)">{{ noData }}</div>
-            <b-row>
+                <b-row>
               <b-col
                 md="6"
                 class="my-1">
@@ -197,8 +175,7 @@
 
 
   const moduleName = 'MyReporting';
-  const items = [];
-
+let items = [];
 
   export default {
     name: moduleName,
@@ -207,13 +184,7 @@
     },
     data() {
       return {
-        items: [{program_service_name:'', role:'', statuses:''}],
-        dataFlows: [{program_service_name:'', role:'', statuses:''}],
-        fields: [
-          { key: 'program_service_name', label: 'Program service name' },
-          { key: 'role', label: 'Role' },
-          { key: 'status', label: 'Status' },
-        ],
+        items:items,
         currentPage: 1,
         perPage: 5,
         totalRows: items.length,
@@ -226,7 +197,6 @@
         ],
         filter: null,
         modalInfo: { title: '', content: '' },
-        noData: 'No Data Available',
       };
     },
 
@@ -241,7 +211,7 @@
     },
 
     mounted() {
-      let cookie = this.$cookie.get('Token');
+    let cookie = this.$cookie.get('Token');
       AppAxios.get(
         this.apiURL + '/api/cdxdataflows',
         { headers: {
@@ -252,21 +222,22 @@
           }})
 
         .then(response => {
-          this.program = response.data;
+          this.items = response.data;
         });
+
     },
     computed: {
       ...mapGetters({
         apiURL: 'getEnvironmentApiURL',
         // map getters go here
       }),
+    },
       sortOptions() {
         // Create an options list from our fields
         return this.fields
           .filter(f => f.sortable)
           .map(f => ({ text: f.label, value: f.key }));
       },
-    },
     methods: {
       ...mapActions(moduleName, [
         // map actions go here
