@@ -9,7 +9,7 @@ eep_core.eep_cookie_config_form:
   path: '/admin/config/eep_core/eepcookieconfig'
   defaults:
     _form: '\Drupal\eep_core\Form\EepCookieConfigForm'
-    _title: 'EepCookieConfigForm'
+    _title: 'EEP Cookie Configuration Form'
   requirements:
     _permission: 'access administration pages'
   options:

@@ -14,10 +14,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class EEPConfigurationsController extends ControllerBase {
     function eep_retrieve_all_configurations(){
-        $response['data'] = 'Some test data to return';
-        $response['method'] = 'GET';
+        $my_config = \Drupal::config('eep_core.admin_settings');
 
-        return new JsonResponse( $response );
+
+        return new JsonResponse($my_config);
     }
 
 }
