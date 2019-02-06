@@ -30,7 +30,7 @@
                 variant="primary"
                 @mouseover="addTryItArrow"
                 @mouseleave="removeTryItArrow"
-                v-if='!isLoggedIn'>
+                v-if='!displayLoggedInElements'>
                 <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left pr-1"/>Try It
               </button>
             </router-link>
@@ -39,23 +39,22 @@
         <div
           class="col-4-md"
           id="log-in-container">
-          <template v-if='isLoggedIn'>
+          <template v-if='displayLoggedInElements'>
             <span>Welcome {{ username }}</span>
             <button
-              to="/"
               variant="outline-secondary"
               class="usa-button"
               @click="userLogOut">
               <i class="fas fa-lock pr-1"/>
               Logout
             </button>
-            <button
+            <router-link
               to="/User"
               id="my-account"
               class="usa-button ml-2"
               variant="primary">
               My account
-            </button>
+            </router-link>
           </template>
           <template v-else>
             <div
@@ -77,14 +76,14 @@
           </template>
         </div>
         <b-tooltip
-          v-if="!isLoggedIn"
+          v-if="!displayLoggedInElements"
           target="try-it"
           class="tryit-tooltip"
           placement="bottom">
           Want to just try it? No log in needed.
         </b-tooltip>
         <b-tooltip
-          v-if="!isLoggedIn"
+          v-if="!displayLoggedInElements"
           target="log-in"
           class="login-tooltip"
           placement="bottom">
@@ -109,6 +108,7 @@
         bridgeURL: 'getBridgeURL',
         username: 'getUsername',
         loginBtnHoverMessage: 'getloginBtnHoverMessage',
+        displayLoggedInElements: 'getDisplayLoggedInElements',
       }),
     },
     methods: {
@@ -130,9 +130,6 @@
       addLogInArrow() {
           this.$refs['login-arrow'].classList.remove('d-none');
           this.$refs['login-arrow'].classList.add('d-block');
-      },
-      dumyLogOut() {
-        this.userLogOut();
       },
       handleLogin() {
           this.$router.push('/login');

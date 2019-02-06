@@ -7,7 +7,7 @@ eep_my_reporting.my_reporting:
   requirements:
     _access: 'TRUE'
   options:
-    _auth: ['jwt_auth']
+    _auth: ['cookie', 'basic_auth','jwt_auth']
 eep_my_reporting.eep_my_reporting_form:
   path: '/admin/config/system/eep_my_reporting_administration_form'
   defaults:

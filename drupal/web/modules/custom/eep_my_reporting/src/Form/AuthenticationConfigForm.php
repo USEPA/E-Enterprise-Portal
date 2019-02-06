@@ -2,7 +2,7 @@
 /**
  * @file
  *
- * Contains Drupal\eep_bridge\Form\AuthenticationConfigForm
+ * Contains Drupal\eep_eep_my_reporting\Form\AuthenticationConfigForm
  */
 namespace Drupal\eep_my_reporting\Form;
 

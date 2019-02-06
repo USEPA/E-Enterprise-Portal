@@ -89,6 +89,12 @@ export default {
   getUserEmail(state) {
     return state.user.mail;
   },
+  getOrganisation(state) {
+    return state.user.organisation;
+  },
+  getRole(state) {
+    return state.user.role;
+  },
   getUserObject(state) {
     return state.user.userObject;
   },
@@ -109,5 +115,12 @@ export default {
   },
   getLoginViewAccounts(state){
       return state.loginViewAccounts;
-  }
+  },
+  getDisplayLoggedInElements(state){
+      let loggedIn = false;
+      if(state.user){
+          loggedIn = state.user.isLoggedIn;
+      }
+      return loggedIn;
+  },
 };

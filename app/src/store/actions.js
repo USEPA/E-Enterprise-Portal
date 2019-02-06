@@ -108,11 +108,15 @@ export default {
     store.commit('TOGGLE_HAS_LOCATION_SEARCH_BAR');
   },
   userLogOut(context) {
+    const store = context;
     // add additional logout logic here
     Vue.cookie.set('Token', false, {expires: '-99s'});
     Vue.cookie.set('uid', false, {expires: '-99s'});
     Vue.cookie.set('userLoggedIn', false, {expires: '-99s'});
-    location.reload();
+
+    store.commit('IS_USER_LOGGED_IN', false);
+    // Use router.push here to get rid of the token in the redirect URL
+    router.push('/');
   },
   // Function to process the payload of the JWT token, which contains the user
   // info. This will set the state, verify the path exists and is defined then
@@ -136,7 +140,6 @@ export default {
         value: tokenPayload.value,
         defaultValue: null,
       };
-
       // if deep property
       store.commit('SET_DEEP_PROPERTY', payload);
     }

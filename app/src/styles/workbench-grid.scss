@@ -12,4 +12,13 @@
   }
 }
 
+// Grid modals
+.modal {
+  overflow: hidden !important;
+}
+.modal-content {
+  max-height: 90vh;
+  overflow-y: scroll;
+}
+
 

@@ -100,26 +100,40 @@ export default {
   [types.SET_USER_OBJECT](state, obj) {
     const name = obj.name[0].value;
     let mail = state.user.mail;
-    if (state.user.mail !== 'No email set') {
+    if (!!obj.mail[0]) {
       mail = obj.mail[0].value;
     }
     const favorite_links = obj.field_favorite_links;
     Vue.set(state.user,
       'name',
       name);
-    if (state.user.mail) {
-      Vue.set(state.user,
+    Vue.set(state.user,
         'mail',
         mail);
-    }
     Vue.set(state.user,
       'favorite_links',
       favorite_links);
+    /*Vue.set(state.user,
+        'organisation',
+         organisation);
+    Vue.set(state.user,
+        'role',
+        role);*/
   },
   [types.SET_USER_OBJECT_FAV_LINKS](state, obj) {
     Vue.set(state.user.userObject,
       'field_favorite_links',
       obj);
+  },
+  [types.SET_USER_OBJECT_ORGANISATION](state, obj) {
+    Vue.set(state.user.userObject,
+        'field_organisation',
+        obj);
+  },
+  [types.SET_USER_OBJECT_ROLE](state, obj) {
+    Vue.set(state.user.userObject,
+        'field_role',
+        obj);
   },
   [types.SET_BASIC_PAGES](state, arr) {
     Vue.set(state.basicPages,
@@ -134,5 +148,10 @@ export default {
   },
   [types.SET_UID](state, int) {
     state.user.id = int;
+  },
+  [types.IS_USER_LOGGED_IN](state, IsLoggedIn){
+      Vue.set(state.user,
+      'isLoggedIn',
+      IsLoggedIn);
   },
 };

@@ -1,0 +1,17 @@
+uuid: 4dbf22e8-87ff-4774-b4f1-6407825f63e4
+langcode: en
+status: false
+dependencies: {  }
+id: localhost
+label: Localhost
+description: ''
+folder: ../config/local
+module:
+  eep_bridge: 0
+theme: {  }
+blacklist:
+  - eep_bridge.environment_settings
+graylist: {  }
+graylist_dependents: true
+graylist_skip_equal: true
+weight: 0
