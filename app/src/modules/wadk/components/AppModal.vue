@@ -19,7 +19,6 @@
       >
         <span aria-hidden="true">×</span>
       </button>
-
     </template>
     <div class="">
       <slot></slot>
@@ -110,10 +109,12 @@
     },
     mounted() {
       const vm = this;
-      EventBus.$emit('AppModalManager::registerModal', {
-        callee: vm,
-        modal: vm.$refs[vm.modalRef],
-      });
+      if (vm.useAppModalManager) {
+        EventBus.$emit('AppModalManager::registerModal', {
+          callee: vm,
+          modal: vm.$refs[vm.modalRef],
+        });
+      }
     },
     methods: {
       hideModal() {
