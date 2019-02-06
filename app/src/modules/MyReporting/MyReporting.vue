@@ -336,5 +336,20 @@ let items = [];
     border-radius: 50%;
     border: none;
     background-size: 1.3rem 1.325rem;
-    background-image: url('../../assets/images/check-circle-solid.svg');}
+    background-image: url('/images/check-circle-solid.svg');}
+
+[class*='status-']
+{display:inline-block;
+  height:2rem;
+  width:2rem;
+  background-size:cover;
+  background-image:url('../../assets/images/check-circle-solid.svg');
+  margin-right:5px}
+  .status-active{background-image:url('../../assets/images/check-circle-solid.svg')}
+  .status-awaiting-sponsorship{background-image:url('/images/my-cdx-images-awaiting-sponsorship.svg')}
+  .status-awaiting-esa-approval{background-image:url('/images/my-cdx-images-awaiting-esa.svg')}
+  .status-awaiting-approval{background-image:url('/my-cdx-images-awaiting-approval.svg')}
+  .status-inactive{background-image:url('/images/minus-circle-solid.svg')}
+
+
 </style>
