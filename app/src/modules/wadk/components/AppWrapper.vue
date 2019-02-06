@@ -56,6 +56,14 @@
         <slot/>
       </div>
     </div>
+    <b-modal
+      v-show="currentGrid"
+      id="descriptionModal"
+      modal-ref="descriptionModal"
+      hide-footer
+      title="Description">
+      {{ eepApp.field_settings_menu_items.Description }}
+    </b-modal>
   </div>
 </template>
 
@@ -70,6 +78,7 @@
       return {
         title: '',
         value: '',
+        currentGrid: false,
       };
     },
     props: {
