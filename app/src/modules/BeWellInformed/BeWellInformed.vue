@@ -25,11 +25,6 @@
             </option>
           </template>
         </b-form-select>
-        <div
-          id="bwi-widget-state-content"
-          class="py-2"
-          v-html="eepApp.field_html_content.mainCard">
-        </div>
         <b-btn
           variant="primary"
           ref="btnCheckYourWater"
