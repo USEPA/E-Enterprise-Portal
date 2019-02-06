@@ -13,7 +13,15 @@ use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class EEPConfigurationsController extends ControllerBase {
-    function eep_retrieve_all_configurations(){
+    // Declare global variables
+    private static $cookie_config_machine_name = 'eep_core.eepcookieconfig';
+
+    /**
+     *
+     * @return JsonResponse
+     */
+    function eep_retrieve_configurations(){
+
         $config = \Drupal::config('eep_core.eepcookieconfig');
         $cookie_information = array(
             'cookie_expiration_time' => $config->get('cookie_duration'),
