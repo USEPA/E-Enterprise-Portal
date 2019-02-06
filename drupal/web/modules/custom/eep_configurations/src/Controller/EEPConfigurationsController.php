@@ -10,10 +10,14 @@ namespace Drupal\eep_configurations\Controller;
 
 
 use Drupal\Core\Controller\ControllerBase;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class EEPConfigurationsController extends ControllerBase {
     function eep_retrieve_all_configurations(){
+        $response['data'] = 'Some test data to return';
+        $response['method'] = 'GET';
 
+        return new JsonResponse( $response );
     }
 
 }
