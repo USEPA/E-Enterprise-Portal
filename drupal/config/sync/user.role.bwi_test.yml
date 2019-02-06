@@ -1,9 +1,0 @@
-uuid: 3c5df314-720e-4d7e-8e33-9124b4906a46
-langcode: en
-status: true
-dependencies: {  }
-id: bwi_test
-label: bwi_test
-weight: 4
-is_admin: null
-permissions: {  }
