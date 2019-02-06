@@ -96,15 +96,13 @@
           <b-form-input
             type="text"
             v-model="addModalInfo.first"
-            required>
-          </b-form-input>
+            required/>
           <label>Website Address (URL)
           </label>
           <b-form-input
             type="url"
             v-model="addModalInfo.second"
-            required>
-          </b-form-input>
+            required/>
           <b-btn
             class="mt-3"
             variant="primary"
@@ -131,15 +129,13 @@
           <b-form-input
             type="text"
             v-model="editModalInfo.first"
-            required>
-          </b-form-input>
+            required/>
           <label>Website Address (URL)
           </label>
           <b-form-input
             type="url"
             v-model="editModalInfo.second"
-            required>
-          </b-form-input>
+            required/>
           <b-btn
             class="mt-3"
             variant="primary"
@@ -310,7 +306,7 @@
           AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
               init: [
                 {
-                  value: "generated-user@e-enterprise",
+                  value: 'generated-user@e-enterprise',
                 },
               ],
               field_favorite_links: this.favLinksArray,
