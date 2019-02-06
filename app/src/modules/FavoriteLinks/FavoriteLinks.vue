@@ -1,6 +1,5 @@
 <template ref="favoriteLinks">
-  <div id="favLinks"
-  :class="[ ieTrue ? ieConditionalClass : true ]">
+  <div id="favLinks">
     <AppWrapper
       :eep-app="eepApp">
       <div v-html="eepApp.field_html_content.mainCard"/>
@@ -449,12 +448,4 @@
     top: .55rem;
   }
 
-  .modal-content {
-    max-height: 90vh;
-    overflow-y: hidden;
-  }
-
-  .ie-conditional-class {
-    @import '../../styles/internet-explorer-fixes.scss';
-  }
 </style>
