@@ -14,10 +14,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class EEPConfigurationsController extends ControllerBase {
     function eep_retrieve_all_configurations(){
-        $my_config = \Drupal::config('eep_core.admin_settings');
-
-
-        return new JsonResponse($my_config);
+        $config = \Drupal::config('eep_core.eepcookieconfig');
+        $cookie_information = array(
+            'cookie_expiration_time' => $config->get('cookie_duration'),
+            'cookie_time_units' => $config->get('cookie_time_units')
+        );
+        return new JsonResponse($cookie_information);
     }
 
 }
