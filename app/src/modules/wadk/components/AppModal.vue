@@ -31,6 +31,8 @@
 </template>
 
 <script>
+  import { EventBus } from '../../../EventBus';
+
   export default {
     name: 'AppModal',
     props: {
@@ -62,6 +64,11 @@
       title: {
         type: String,
         required: true,
+      },
+      useAppModalManager: {
+        type: Boolean,
+        default: () => true,
+        required: false,
       },
     },
     computed: {
@@ -101,9 +108,17 @@
         );
       },
     },
+    mounted() {
+      const vm = this;
+      EventBus.$emit('AppModalManager::registerModal', {
+        callee: vm,
+        modal: vm.$refs[vm.modalRef],
+      });
+    },
     methods: {
       hideModal() {
-        this.$refs[this.modalRef].hide();
+        const vm = this;
+        vm.$refs[vm.modalRef].hide();
       },
     },
   };

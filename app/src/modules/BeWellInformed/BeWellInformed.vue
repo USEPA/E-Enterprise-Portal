@@ -246,7 +246,6 @@
       }
       this.fetchPartners();
 
-
       // Custom event listeners
       EventBus.$on('bwi::showWaterAnalysisResults', this.showWaterAnalysisResults);
 
@@ -265,9 +264,10 @@
       };
     },
     mounted() {
-      if (this.$props.isThisModalOpen) {
-        this.$root.$emit(
-          'bv::show::modal', 'bwi-modal', this.$refs.btnCheckYourWater,
+      const vm = this;
+      if (vm.$props.isThisModalOpen) {
+        vm.$root.$emit(
+          'bv::show::modal', 'bwi-modal', vm.$refs.btnCheckYourWater,
         );
       }
     },
@@ -365,25 +365,10 @@
           vm.tabIndex = event.value;
         });
       },
-      onHideMainModal() {
-        const vm = this;
-        vm.tabIndex = 0;
-        if(!this.partnerModalSubmit) {
-          this.backToGrid();
-        }
-      },
-      onHideInteractiveModal() {
-        if(!this.interactiveModalSubmit) {
-          this.backToGrid();
-        }
-      },
       hasWaterAnalysisResults() {
         return this.waterAnalysisResults
           && this.waterAnalysisResults.length
           && this.waterAnalysisResults[0];
-      },
-      backToGrid() {
-        EventBus.$emit('grid::modalClose');
       },
       onPartnerModalSubmit() {
         this.partnerModalSubmit = true;
@@ -394,7 +379,6 @@
         type: Object,
         required: true,
       },
-      isThisModalOpen: false,
     },
   };
 </script>
