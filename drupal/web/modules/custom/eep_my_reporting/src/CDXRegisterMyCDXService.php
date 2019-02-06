@@ -10,9 +10,11 @@ class CDXRegisterMyCdxService extends CDXNaasService {
 
   private $soap_handler;
   private $config;
+  private $system_config;
 
   function __construct($config) {
     $this->config = $config;
+    $this->system_config = \Drupal::config('system.passwords');
     $this->soap_handler = new SOAPHandler();
     $this->wsdl = $this->config->get('wsdl');
     $soap_service_setup = $this->soap_handler->connectToSOAPServerWithWSDL($this->wsdl);
@@ -29,11 +31,12 @@ class CDXRegisterMyCdxService extends CDXNaasService {
   }
 
   private function generate_token_params() {
+
     $this->params = [
       "userId" => $this->config->get('admin_id'),
-      "credential" => $this->config->get('credential'),
-      "domain" =>  $this->config->get('domain'),
-      "authenticationMethod" =>  $this->config->get('authentication_method'),
+      "credential" => $this->system_config->get('cdx_naas'),
+      "domain" => $this->config->get('domain'),
+      "authenticationMethod" => $this->config->get('authentication_method'),
     ];
   }
 
