@@ -221,8 +221,6 @@
         addModalInfo: { title: 'Add Favorite', first: '', second: '' },
         totalRows: null,
         noFavs: 'No Favorites...',
-        ieConditionalClass: 'ie-conditional-class',
-        ieTrue: false,
       };
     },
     computed: {
