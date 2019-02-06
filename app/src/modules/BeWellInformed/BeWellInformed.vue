@@ -264,12 +264,6 @@
       };
     },
     mounted() {
-      const vm = this;
-      if (vm.$props.isThisModalOpen) {
-        vm.$root.$emit(
-          'bv::show::modal', 'bwi-modal', vm.$refs.btnCheckYourWater,
-        );
-      }
     },
     computed: {
       ...mapGetters({
