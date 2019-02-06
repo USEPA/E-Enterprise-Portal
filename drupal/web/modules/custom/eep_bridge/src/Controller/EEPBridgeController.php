@@ -32,16 +32,6 @@ class EEPBridgeController extends ControllerBase {
     $this->auth = $auth;
   }
 
-
-  private function add_cdx_name_if_needed($uid, $cdx_username) {
-    $user = \Drupal\user\Entity\User::load($uid);
-    $stored_username =  $user->get('field_cdx_user_id')->getString();
-    if (empty($stored_username) || $stored_username !== $cdx_username) {
-      $user->set('field_cdx_user_id', trim($cdx_username));
-      $user->save();
-    }
-  }
-
   public function eep_authenticate() {
     $config = $this->config('eep_bridge.environment_settings');
     $environment_name = $config->get('eep_bridge_environment_name');
@@ -120,8 +110,13 @@ class EEPBridgeController extends ControllerBase {
     $this->eep_bridge_goto($url, $jwt_token);
     return;
   }
+  
+  public static function create(ContainerInterface $container) {
+    $auth = $container->get('jwt.authentication.jwt');
+    return new static($auth);
+  }
 
-  function eep_bridge_goto($url, $jwt_token) {
+  private  function eep_bridge_goto($url, $jwt_token) {
     $response = new RedirectResponse($url->toString());
     $response->headers->set('token', $jwt_token);
     $response->send();
@@ -133,15 +128,19 @@ class EEPBridgeController extends ControllerBase {
    * @return ADFSUserDetails
    * Parses post variable into ADFS UserDetails object
    */
-  function parse_post_for_user_details($post) {
+  private function parse_post_for_user_details($post) {
     $adfs = new ADFSBridge();
     $userDetails = $adfs->getAdfsSignInResponse(ADFSConf::getInstance(), $post['wresult']);
     return $userDetails;
   }
 
-  public static function create(ContainerInterface $container) {
-    $auth = $container->get('jwt.authentication.jwt');
-    return new static($auth);
+  private function add_cdx_name_if_needed($uid, $cdx_username) {
+    $user = \Drupal\user\Entity\User::load($uid);
+    $stored_username =  $user->get('field_cdx_user_id')->getString();
+    if (empty($stored_username) || $stored_username !== $cdx_username) {
+      $user->set('field_cdx_user_id', trim($cdx_username));
+      $user->save();
+    }
   }
 
 }
