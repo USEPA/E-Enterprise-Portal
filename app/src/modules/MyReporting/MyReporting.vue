@@ -116,7 +116,12 @@
               :per-page="perPage"
               :filter="filter"
               @filtered="onFiltered"
-            ><template slot="status" slot-scope="data" ><div :class="data.item.status" ></div></template>
+            >
+              <template
+                slot="status"
+                slot-scope="data">
+                <div :class="data.item.status"></div>
+              </template>
             </b-table>
             <b-modal><div class="my-cdx-modal">
               <div class="my-cdx-detail-group">Organization Name</div>
