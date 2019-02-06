@@ -116,7 +116,7 @@
               :per-page="perPage"
               :filter="filter"
               @filtered="onFiltered"
-            >
+            ><template slot="status" slot-scope="data" ><div :class="data.item.status" ></div></template>
             </b-table>
             <b-modal><div class="my-cdx-modal">
               <div class="my-cdx-detail-group">Organization Name</div>
@@ -132,15 +132,16 @@
                 <button class="cancel">Cancel</button>
               </div>
             </div></b-modal>
-                <b-row>
+            <b-row class="text-center">
               <b-col
-                md="6"
+                md="12"
                 class="my-1">
                 <b-pagination
+                  align="center"
                   :total-rows="totalRows"
                   :per-page="perPage"
                   v-model="currentPage"
-                  class="my-0" />
+                  class="my-0"/>
               </b-col>
             </b-row>
           </b-container>
@@ -220,11 +221,10 @@ let items = [];
             'cache-control': 'no-cache',
             'Content-Type': 'application/json',
           }})
-
         .then(response => {
           this.items = response.data;
         });
-
+      
     },
     computed: {
       ...mapGetters({
@@ -232,12 +232,6 @@ let items = [];
         // map getters go here
       }),
     },
-      sortOptions() {
-        // Create an options list from our fields
-        return this.fields
-          .filter(f => f.sortable)
-          .map(f => ({ text: f.label, value: f.key }));
-      },
     methods: {
       ...mapActions(moduleName, [
         // map actions go here
@@ -284,6 +278,9 @@ let items = [];
   #my-reporting .nav-item {
     color:#000;
   }
+  .form-group {
+    border: 0rem;
+  }
   h2::before {
     height:50px;
     width: 50px;
@@ -327,7 +324,7 @@ let items = [];
     background-image: url('/images/mr-history.svg');
   }
   .my-cdx-web-handoff-link {font-size: .8rem;}
-  .status-icon {
+ .Active{
     background-repeat: no-repeat;
     background-position: center center;
     background-color:#fff;
@@ -336,20 +333,48 @@ let items = [];
     border-radius: 50%;
     border: none;
     background-size: 1.3rem 1.325rem;
-    background-image: url('/images/check-circle-solid.svg');}
+    background-image:url('../../assets/images/check-circle-solid.svg')};
 
-[class*='status-']
-{display:inline-block;
-  height:2rem;
-  width:2rem;
-  background-size:cover;
-  background-image:url('../../assets/images/check-circle-solid.svg');
-  margin-right:5px}
-  .status-active{background-image:url('../../assets/images/check-circle-solid.svg')}
-  .status-awaiting-sponsorship{background-image:url('/images/my-cdx-images-awaiting-sponsorship.svg')}
-  .status-awaiting-esa-approval{background-image:url('/images/my-cdx-images-awaiting-esa.svg')}
-  .status-awaiting-approval{background-image:url('/my-cdx-images-awaiting-approval.svg')}
-  .status-inactive{background-image:url('/images/minus-circle-solid.svg')}
+  .AwaitingSponsorship{
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color:#fff;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    border: none;
+    background-size: 1.3rem 1.325rem;
+    background-image:url('/images/my_cdx_images_awaiting-sponsor.svg')};
+  .AwaitingEsaApproval{
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color:#fff;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    border: none;
+    background-size: 1.3rem 1.325rem;
+    background-image:url('/images/my_cdx_images_awaiting-esa.svg')};
+  .AwaitingApproval{
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color:#fff;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    border: none;
+    background-size: 1.3rem 1.325rem;
+    background-image:url('/images/my_cdx_images_awaiting-approval.svg')};
+  .Inactive{
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color:#fff;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    border: none;
+    background-size: 1.3rem 1.325rem;
+    background-image:url('../../assets/images/minus-circle-solid.svg')};
 
 
 </style>
