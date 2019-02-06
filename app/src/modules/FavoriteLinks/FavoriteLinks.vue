@@ -313,7 +313,7 @@
             },
             {
               headers: {
-                Authorization: `Bearer ${this.Token}`,
+                Authorization: `Bearer ${this.token}`,
                 crossDomain: true,
                 'cache-control': 'no-cache',
                 'Content-Type': 'application/json',
@@ -333,7 +333,7 @@
             },
             {
               headers: {
-                Authorization: `Bearer ${this.Token}`,
+                Authorization: `Bearer ${this.token}`,
                 crossDomain: true,
                 'cache-control': 'no-cache',
                 'Content-Type': 'application/json',
