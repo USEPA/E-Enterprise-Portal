@@ -129,13 +129,14 @@
           <b-form-input
             type="text"
             v-model="editModalInfo.first"
-            required/>
+            required>
+          </b-form-input>
           <label>Website Address (URL)
           </label>
           <b-form-input
             type="url"
             v-model="editModalInfo.second"
-            required/>
+            required></b-form-input>
           <b-btn
             class="mt-3"
             variant="primary"
