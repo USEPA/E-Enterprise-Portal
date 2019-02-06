@@ -2,7 +2,6 @@
   <div class="workbench-grid">
     <template v-if="isLayoutReady">
       <grid-layout
-        v-if="!modalOpen"
         :layout.sync="layout"
         :responsive="true"
         :breakpoints="{ lg: 992, md: 768, sm: 576, xs: 380, xxs: 0 }"
@@ -33,12 +32,6 @@
             :eep-app="wapp.eepApp"/>
         </grid-item>
       </grid-layout>
-      <component
-        v-if="modalOpen"
-        :is="modalIn"
-        :eep-app="modalEepApp"
-        :is-this-modal-open=true
-      />
     </template>
     <template v-if="!isLayoutReady">
       <AppPlaceholderContent>
@@ -63,6 +56,7 @@
         </div>
       </AppPlaceholderContent>
     </template>
+    <AppModalManager/>
   </div>
 </template>
 
@@ -75,7 +69,7 @@
 
   import { mapActions, mapGetters } from 'vuex';
   import { GridLayout, GridItem } from 'vue-grid-layout';
-  import { AppPlaceholderContent } from '../wadk/WADK';
+  import { AppPlaceholderContent, AppModalManager } from '../wadk/WADK';
   import storeModule from './store/index';
   import { EventBus } from '../../EventBus';
 
@@ -85,6 +79,7 @@
     name: moduleName,
     components: {
       AppPlaceholderContent,
+      AppModalManager,
       GridLayout,
       GridItem,
       BeWellInformed,
@@ -94,7 +89,7 @@
     },
     beforeCreate() {
       const vm = this;
-      const store = this.$store;
+      const store = vm.$store;
     },
     created() {
       const vm = this;
@@ -104,9 +99,6 @@
       }
       // filter layout
       vm.initializeLayout();
-      // Custom event listeners
-      EventBus.$on('grid::modalOpen', this.manageModalOpen);
-      EventBus.$on('grid::modalClose', this.manageModalClose);
     },
     data() {
       return {
@@ -137,16 +129,6 @@
         'setGridLayout',
         'initializeLayout',
       ]),
-      manageModalOpen(modalIn, modalEepApp) {
-        this.modalOpen = true;
-        this.modalIn = modalIn;
-        this.modalEepApp = modalEepApp;
-      },
-      manageModalClose() {
-        this.modalOpen = false;
-        this.modalIn = '';
-        this.modalEepApp = {};
-      },
     },
   };
 </script>
