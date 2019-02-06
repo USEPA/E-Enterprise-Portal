@@ -14,18 +14,21 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class EEPConfigurationsController extends ControllerBase {
     // Declare global variables
-    private static $cookie_config_machine_name = 'eep_core.eepcookieconfig';
+
 
     /**
      *
      * @return JsonResponse
      */
     function eep_retrieve_configurations(){
+        static $cookie_config_machine_name = 'eep_core.eepcookieconfig';
 
-        $config = \Drupal::config('eep_core.eepcookieconfig');
+        $config = \Drupal::config($cookie_config_machine_name);
         $cookie_information = array(
-            'cookie_expiration_time' => $config->get('cookie_duration'),
-            'cookie_time_units' => $config->get('cookie_time_units')
+            $cookie_config_machine_name => array(
+                'cookie_expiration_time' => $config->get('cookie_duration'),
+                'cookie_time_units' => $config->get('cookie_time_units')
+            )
         );
         return new JsonResponse($cookie_information);
     }
