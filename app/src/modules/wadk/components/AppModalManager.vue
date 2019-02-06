@@ -16,8 +16,7 @@
       EventBus.$on('AppModalManager::registerModal', this.registerModal);
     },
     data() {
-      return {
-      };
+      return {};
     },
     methods: {
       registerModal(payload) {

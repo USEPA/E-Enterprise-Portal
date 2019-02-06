@@ -21,10 +21,10 @@
       </button>
     </template>
     <div class="">
-      <slot></slot>
+      <slot/>
     </div>
     <template slot="modal-footer">
-      <slot name="footer"></slot>
+      <slot name="footer"/>
     </template>
   </b-modal>
 </template>
@@ -103,7 +103,7 @@
               vm.$emit('cancel', event);
             },
           },
-        // eslint-disable-next-line function-paren-newline
+          // eslint-disable-next-line function-paren-newline
         );
       },
     },
@@ -127,16 +127,28 @@
 
 <style lang="scss">
   @import '../../../styles/bootstrap-mixins-cheatsheet.scss';
+
   @include media-breakpoint-up(sm) {
-    .modal-dialog { max-width: $modal-sm; }
+    .modal-dialog {
+      max-width: $modal-sm;
+    }
   }
+
   @include media-breakpoint-up(md) {
-    .modal-dialog { max-width: $modal-md; }
+    .modal-dialog {
+      max-width: $modal-md;
+    }
   }
+
   @include media-breakpoint-up(lg) {
-    .modal-dialog { max-width: $modal-lg; }
+    .modal-dialog {
+      max-width: $modal-lg;
+    }
   }
+
   @include media-breakpoint-up(xl) {
-    .modal-dialog { max-width: $modal-xl; }
+    .modal-dialog {
+      max-width: $modal-xl;
+    }
   }
 </style>
