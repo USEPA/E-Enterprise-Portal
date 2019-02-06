@@ -212,19 +212,20 @@ let items = [];
     },
 
     mounted() {
-    let cookie = this.$cookie.get('Token');
+      let cookie = this.$cookie.get('Token');
       AppAxios.get(
         this.apiURL + '/api/cdxdataflows',
-        { headers: {
+        {
+          headers: {
             Authorization: `Bearer ${cookie}`,
             crossDomain: true,
             'cache-control': 'no-cache',
             'Content-Type': 'application/json',
-          }})
+          }
+        })
         .then(response => {
           this.items = response.data;
         });
-      
     },
     computed: {
       ...mapGetters({
@@ -251,7 +252,6 @@ let items = [];
         this.currentPage = 1;
       },
     },
-
     props: {
       eepApp: {
         type: Object,
@@ -284,7 +284,7 @@ let items = [];
   h2::before {
     height:50px;
     width: 50px;
-    content: url('../../assets/images/state-government.svg');
+    content: url('/images/state-government.svg');
   }
   .inline-cdx-links {
     display: flex;
@@ -333,7 +333,7 @@ let items = [];
     border-radius: 50%;
     border: none;
     background-size: 1.3rem 1.325rem;
-    background-image:url('../../assets/images/check-circle-solid.svg')};
+    background-image:url('/images/check-circle-solid.svg')};
 
   .AwaitingSponsorship{
     background-repeat: no-repeat;
@@ -374,7 +374,7 @@ let items = [];
     border-radius: 50%;
     border: none;
     background-size: 1.3rem 1.325rem;
-    background-image:url('../../assets/images/minus-circle-solid.svg')};
+    background-image:url('/images/minus-circle-solid.svg')};
 
 
 </style>
