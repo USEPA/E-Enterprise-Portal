@@ -284,8 +284,8 @@ export default {
       const {vm} = payload;
 
       // Cookie information from the store
-      const COOKIE_EXPIRATION_TIME = store.getters.getAllConfigs.eepcookieconfig.cookie_expiration_time +
-          store.getters.getAllConfigs.eepcookieconfig.cookie_time_units;
+      const COOKIE_EXPIRATION_TIME = store.getters.getCookieInfo.time
+          + store.getters.getCookieInfo.time_units;
 
       Vue.cookie.set('userLoggedIn', true, {expires: COOKIE_EXPIRATION_TIME});
       Vue.cookie.set('uid', store.getters.getUser.id, {expires: COOKIE_EXPIRATION_TIME});
@@ -300,8 +300,9 @@ export default {
         vm.$refs.cookie_modal
       );
   },
-  DrupalConfigsToState(context){
+  DrupalConfigsToState(context, payload){
       const store = context;
+      const {vm} = payload;
 
       // Axios call the get all of the configs from drupal
       AppAxios.get(store.getters.getEnvironmentApiURL + '/eep/configurations', {
@@ -354,57 +355,49 @@ export default {
 
               // After the user is logged in then start checking to see if the cookie has expired and if it has then log them out
               setInterval(function(){
-                  // Checking dates for cookie expiration and last login time
-                  let last_log_in = store.getters.getLogInTime;
-                  let cookie_expiration_date = new Date((last_log_in.getTime() + ((cookie_time - 1) * 60 * 1000)));
+                  // Comparing dates to find when there is a minute left until cookie expiration
+                  let minutes_difference = Math.floor((Math.abs(new Date((store.getters.getLogInTime.getTime() +
+                              ((cookie_time) * 60 * 1000))) - (new Date)) / 1000) / 60) % 60;
 
-                  console.log(cookie_expiration_date);
+                  console.log(minutes_difference);
 
+                  if( minutes_difference === 1 && store.getters.getDisplayLoggedInElements){
+                    store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
+                    vm.$root.$emit(
+                        'bv::show::modal',
+                        'cookie_modal',
+                        vm.$refs.cookie_modal
+                    );
+                  }
+                //(cookie_time - 1) * 60000
+              }, 10000);
+          }else{
+              if(Vue.cookie.get('userLoggedIn')){
+                  // Log user in and set user name
+                  store.commit('IS_USER_LOGGED_IN', true);
+                  store.commit(types.SET_UID, Vue.cookie.get('uid'));
+              }
+          }
 
+          if (this.$cookie.get('userLoggedIn')) {
+              AppAxios.get(`${store.getters.getEnvironmentApiURL}/user/${Vue.cookie.get('uid')}?_format=json`, {
+                  headers: { Authorization: `Bearer ${Vue.cookie.get('Token')}` },
+              }).then((response) => {
+                  store.commit('SET_USER_OBJECT', response.data);
+              }).catch((error) => {
+                  console.log("hit error findind the person");
+                  console.warn(error);
+              });
+          }
 
+          //  [App.vue specific] When App.vue is finish loading finish the progress bar
+          vm.$Progress.finish();
+          if(window.location.href.indexOf("token") > -1) {
+              router.push('/workbench');
+          }
 
-
-
-
-
-                if( 1 === 1 && store.getters.getDisplayLoggedInElements){
-    //                 store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
-    //                 vm.$root.$emit(
-    //                     'bv::show::modal',
-    //                     'cookie_modal',
-    //                     vm.$refs.cookie_modal
-    //                 );
-                }else if((new Date()).getMinutes() > cookie_expiration_time){
-    //                 store.dispatch('userLogOut');
-                }
-    //         (cookie_time - 1) * 60000
-              }, 5000);
-          // }else{
-          //     if(this.$cookie.get('userLoggedIn')){
-          //         // Log user in and set user name
-          //         store.commit('IS_USER_LOGGED_IN', true);
-          //         store.commit(types.SET_UID, this.$cookie.get('uid'));
-          //     }
-          // }
-    //
-    //       if (this.$cookie.get('userLoggedIn')) {
-    //           AppAxios.get(`${this.$store.getters.getEnvironmentApiURL}/user/${this.$cookie.get('uid')}?_format=json`, {
-    //               headers: { Authorization: `Bearer ${this.$cookie.get('Token')}` },
-    //           }).then((response) => {
-    //               store.commit('SET_USER_OBJECT', response.data);
-    //       }).catch((error) => {
-    //               console.warn(error)
-    //       });
-    //       }
-    //
-    //       //  [App.vue specific] When App.vue is finish loading finish the progress bar
-    //       this.$Progress.finish();
-    //       if(window.location.href.indexOf("token") > -1) {
-    //           this.$router.push('/workbench');
-            }
-
-          }).catch(error => {
-              console.error(error.response);
-          });
+      }).catch(error => {
+          console.error(error.response);
+      });
   },
 };
