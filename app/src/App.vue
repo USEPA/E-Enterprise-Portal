@@ -204,13 +204,19 @@
               // find the URL params for each one
               const token = vars["token"];
               const uid = vars["uid"];
+
+              const cookie_time = store.getters.getAllConfigs.eep_core.eepcookieconfig.cookie_expiration_time;
+              const cookie_time_units = store.getters.getAllConfigs.eep_core.eepcookieconfig.cookie_time_units;
+
+              const COOKIE_EXPIRATION_TIME = cookie_time + cookie_time_units;
+                      + store.getters.getAllConfigs.eep_core.eepcookieconfig.cookie_time_units;
               // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
               // Set another cookie saying they logged in
               // replace cookie expiration with the one from config
-              this.$cookie.set('userLoggedIn', true, {expires: '20m'});
+              this.$cookie.set('userLoggedIn', true, {expires: COOKIE_EXPIRATION_TIME});
               // set user token in cookie
-              this.$cookie.set('Token', token, {expires: '20m'});
-              this.$cookie.set('uid', uid, {expires: '20m'});
+              this.$cookie.set('Token', token, {expires: COOKIE_EXPIRATION_TIME});
+              this.$cookie.set('uid', uid, {expires: COOKIE_EXPIRATION_TIME});
 
               // Set login time and token in the store
               store.commit(types.SET_LOGGED_IN_TOKEN, token);
@@ -225,7 +231,7 @@
               // After the user is logged in then start checking to see if the cookie has expired and if it has then log them out
               setInterval(function(evt){
                   // If statement will only execute when there is one minute left until expiration and the user is logged in
-                  var cookie_expiration_time = store.getters.getLogInTime.getMinutes() + 19;
+                  var cookie_expiration_time = store.getters.getLogInTime.getMinutes() + (cookie_time - 1);
                   if((new Date()).getMinutes() === cookie_expiration_time &&
                           store.getters.getDisplayLoggedInElements){
                       store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
@@ -237,7 +243,7 @@
                   }else if((new Date()).getMinutes() > cookie_expiration_time){
                       store.dispatch('userLogOut');
                   }
-              }, (20 - 1) * 60000);
+              }, (cookie_time - 1) * 60000);
           }else{
               if(this.$cookie.get('userLoggedIn')){
                   // Log user in and set user name

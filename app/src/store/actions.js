@@ -283,13 +283,15 @@ export default {
       const store = context;
       const {vm} = payload;
 
-      // Set the session in the back end with a post request
+      // Cookie information from the store
+      const cookie_time = store.getters.getAllConfigs.eep_core.eepcookieconfig.cookie_expiration_time;
+      const cookie_time_units = store.getters.getAllConfigs.eep_core.eepcookieconfig.cookie_time_units;
 
-      // replace cookie expiration with the one from config
+      const COOKIE_EXPIRATION_TIME = cookie_time + cookie_time_units;
 
-      Vue.cookie.set('userLoggedIn', true, {expires: '20m'});
-      Vue.cookie.set('uid', store.getters.getUser.id, {expires: '20m'});
-      Vue.cookie.set('Token', store.getters.getLoggedInToken, {expires: '20m'});
+      Vue.cookie.set('userLoggedIn', true, {expires: COOKIE_EXPIRATION_TIME});
+      Vue.cookie.set('uid', store.getters.getUser.id, {expires: COOKIE_EXPIRATION_TIME});
+      Vue.cookie.set('Token', store.getters.getLoggedInToken, {expires: COOKIE_EXPIRATION_TIME});
 
       store.commit(types.SET_LOGGED_IN_TIME, new Date());
 
@@ -308,6 +310,8 @@ export default {
           headers: store.getters.getGETHeaders,
       }).then(response => {
           store.commit(types.SET_CONFIGS, response.data);
+
+          console.log(store.getters.getAllConfigs);
       }).catch(error =>{
           console.error(error.response);
       });
