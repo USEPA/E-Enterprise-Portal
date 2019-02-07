@@ -81,74 +81,70 @@
       </b-table>
 
       <!-- add modal -->
-      <b-modal
+      <AppModal
         id="addModalInfo"
-        @hide="applyAddModal"
+        modal-ref="addModalInfo"
         hide-footer
         :title="addModalInfo.title">
-        <b-row>
-          <b-col
-            md="12"
-            class="my-1">Title
-          </b-col>
-          <b-col
-            md="12"
-            class="my-1">
-            <b-input v-model="addModalInfo.first"/>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col
-            md="12"
-            class="my-1">Website Address (URL)
-          </b-col>
-          <b-col
-            md="12"
-            class="my-1">
-            <b-input v-model="addModalInfo.second"/>
-          </b-col>
-        </b-row>
-        <b-btn
-          class="mt-3"
-          @click="closeAddModal">save
-        </b-btn>
+        <b-form
+          id="addModalInfoForm"
+          class="needs-validation"
+          @submit="applyAddModal"
+          novalidated>
+          <label>Title
+          </label>
+          <b-form-input
+            type="text"
+            v-model="addModalInfo.first"
+            required/>
+          <label>Website Address (URL)
+          </label>
+          <b-form-input
+            type="url"
+            v-model="addModalInfo.second"
+            required/>
+          <b-btn
+            class="mt-3"
+            variant="primary"
+            type="submit">
+            save
+          </b-btn>
+        </b-form>
 
-      </b-modal>
+      </AppModal>
 
       <!-- edit modal -->
-      <b-modal
+      <AppModal
         id="editModalInfo"
-        @hide="applyEditModal(editModalInfo.first, editModalInfo.second)"
+        modal-ref="editModalInfo"
         hide-footer
         :title="editModalInfo.title">
-        <b-row>
-          <b-col
-            md="12"
-            class="my-1">Title
-          </b-col>
-          <b-col
-            md="12"
-            class="my-1">
-            <b-input v-model="editModalInfo.first"/>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col
-            md="12"
-            class="my-1">Website Address (URL)
-          </b-col>
-          <b-col
-            md="12"
-            class="my-1">
-            <b-input v-model="editModalInfo.second"/>
-          </b-col>
-        </b-row>
-        <b-btn
-          class="mt-3"
-          @click="closeEditModal">save
-        </b-btn>
+        <b-form
+          id="editModalInfoForm"
+          class="needs-validation"
+          @submit="applyEditModal"
+          novalidated>
+          <label>Title
+          </label>
+          <b-form-input
+            type="text"
+            v-model="editModalInfo.first"
+            required/>
+          <label>Website Address (URL)
+          </label>
+          <b-form-input
+            type="url"
+            v-model="editModalInfo.second"
+            required/>
+          <b-btn
+            class="mt-3"
+            variant="primary"
+            type="submit">
+            save
+          </b-btn>
+        </b-form>
 
-      </b-modal>
+      </AppModal>
 
       <!--if No Favorites-->
       <div v-if="(favLinksArray.length === 0)">{{ noFavs }}</div>
@@ -174,7 +170,7 @@
 <script>
   import AppAxios from 'axios';
   import { mapGetters } from 'vuex';
-  import { AppWrapper, AppPlaceholderContent } from '../wadk/WADK';
+  import { AppWrapper, AppPlaceholderContent, AppModal } from '../wadk/WADK';
   import storeModule from './store/index';
   import { EventBus } from '../../EventBus';
 
@@ -185,6 +181,7 @@
     components: {
       AppWrapper,
       AppPlaceholderContent,
+      AppModal,
     },
     data() {
       return {
@@ -235,9 +232,10 @@
         this.$root.$emit('bv::show::modal', 'addModalInfo', button);
       },
       closeAddModal() {
-        this.$root.$emit('bv::hide::modal', 'addModalInfo');
+          this.$root.$emit('bv::hide::modal', 'addModalInfo');
       },
-      applyAddModal() {
+      applyAddModal(evt) {
+        evt.preventDefault();
         // stores changes in local state
         const firstField = this.addModalInfo.first.trim();
         const secondField = this.addModalInfo.second.trim();
@@ -248,6 +246,7 @@
           },
         );
         this.axiosPATCHInit();
+        this.closeAddModal();
       },
       // EDIT
       openEditModal(item, index, button) {
@@ -259,9 +258,11 @@
       closeEditModal() {
         this.$root.$emit('bv::hide::modal', 'editModalInfo');
       },
-      applyEditModal(objTitle, objLink) {
+      applyEditModal(evt) {
+        evt.preventDefault();
+
         for (let i = 0; i < this.favLinksArray.length; i++) {
-          if (this.favLinksArray[i].first === objTitle && this.favLinksArray[i].second === objLink) {
+          if (this.favLinksArray[i].first === this.editModalInfo.first && this.favLinksArray[i].second === this.editModalInfo.second) {
             this.editModalIndex = i;
           }
         }
@@ -270,6 +271,7 @@
         this.favLinksArray[this.editModalIndex].second = this.editModalInfo.second.trim();
         // pushes changes to backend
         this.axiosPATCHInit();
+        this.closeEditModal();
       },
       // DELETE
       deleteFavLink(item, index) {
@@ -304,14 +306,14 @@
           AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
               init: [
                 {
-                  value: "generated-user@e-enterprise",
+                  value: 'generated-user@e-enterprise',
                 },
               ],
               field_favorite_links: this.favLinksArray,
             },
             {
               headers: {
-                Authorization: `Bearer ${this.Token}`,
+                Authorization: `Bearer ${this.token}`,
                 crossDomain: true,
                 'cache-control': 'no-cache',
                 'Content-Type': 'application/json',
@@ -347,7 +349,6 @@
       },
     },
     beforeCreate() {
-
     },
     created() {
       const store = this.$store;
@@ -440,4 +441,5 @@
     position: relative;
     top: .55rem;
   }
+
 </style>

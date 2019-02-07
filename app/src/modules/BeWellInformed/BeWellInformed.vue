@@ -25,11 +25,6 @@
             </option>
           </template>
         </b-form-select>
-        <div
-          id="bwi-widget-state-content"
-          class="py-2"
-          v-html="eepApp.field_html_content.mainCard">
-        </div>
         <b-btn
           variant="primary"
           ref="btnCheckYourWater"
@@ -44,7 +39,6 @@
         id="bwi-modal"
         modal-ref="bwi-modal"
         title="Be Well Informed Water Analysis Tool"
-        @hide="onHideMainModal"
         :hide-footer="true">
 
         <b-tabs
@@ -117,8 +111,7 @@
       <AppModal
         id="bwi-modal-interactive"
         modal-ref="bwi-modal-interactive"
-        title="Additional Information Needed"
-        @hide="onHideInteractiveModal">
+        title="Additional Information Needed">
         <div class="row">
           <h5 class="col-md-12">Enter the Results of Your Drinking Water Test</h5>
 
@@ -246,7 +239,6 @@
       }
       this.fetchPartners();
 
-
       // Custom event listeners
       EventBus.$on('bwi::showWaterAnalysisResults', this.showWaterAnalysisResults);
 
@@ -265,11 +257,6 @@
       };
     },
     mounted() {
-      if (this.$props.isThisModalOpen) {
-        this.$root.$emit(
-          'bv::show::modal', 'bwi-modal', this.$refs.btnCheckYourWater,
-        );
-      }
     },
     computed: {
       ...mapGetters({
@@ -365,25 +352,10 @@
           vm.tabIndex = event.value;
         });
       },
-      onHideMainModal() {
-        const vm = this;
-        vm.tabIndex = 0;
-        if(!this.partnerModalSubmit) {
-          this.backToGrid();
-        }
-      },
-      onHideInteractiveModal() {
-        if(!this.interactiveModalSubmit) {
-          this.backToGrid();
-        }
-      },
       hasWaterAnalysisResults() {
         return this.waterAnalysisResults
           && this.waterAnalysisResults.length
           && this.waterAnalysisResults[0];
-      },
-      backToGrid() {
-        EventBus.$emit('grid::modalClose');
       },
       onPartnerModalSubmit() {
         this.partnerModalSubmit = true;
@@ -394,7 +366,6 @@
         type: Object,
         required: true,
       },
-      isThisModalOpen: false,
     },
   };
 </script>

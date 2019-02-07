@@ -9,6 +9,7 @@
     background-size: 1.2rem 1.2rem;
     font-size: 1rem;
     padding: 0.2rem 0;
+    margin-bottom: 0;
   }
 }
 
@@ -34,13 +35,5 @@
 .wapp-large {
   .wapp-title {
     font-size: 1.3rem;
-  }
-}
-
-// Modal Manage
-#grid-modal-container{
-  .modal-content {
-    max-height: 90vh;
-    overflow-y: scroll;
   }
 }
