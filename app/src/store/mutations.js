@@ -170,7 +170,6 @@ export default {
       timeAmount);
   },
   [types.SET_COOKIE](state, obj){
-      console.log(obj.time);
       Vue.set(state.user,
           'cookie',
           obj);

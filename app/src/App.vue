@@ -155,9 +155,6 @@
       beforeCreate(){
           const vm = this;
           vm.$store.dispatch('EEPBasicPagesToState');
-
-          // Fetch cookie information from Drupal backend
-          vm.$store.dispatch('DrupalConfigsToState');
       },
       created() {
           const vm = this;
@@ -189,88 +186,12 @@
 
       },
       mounted() {
-          // Declare the main url that the page is currently on
-          const main_url = window.location.href;
           // Declare the store
           const vm = this;
           const store = vm.$store;
 
-          if (main_url.indexOf("token") > -1 && main_url.indexOf("uid") > -1) {
-              // Declare variables
-              let vars = {};
-              // Extracts the URL params
-              // Got this functionality from https://html-online.com/articles/get-url-parameters-javascript/
-              let parts = main_url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
-                  vars[key] = value;
-              });
-              // find the URL params for each one
-              const token = vars["token"];
-              const uid = vars["uid"];
-
-//              const cookie_time = store.getters.getCookieInformation.time;
-//              const cookie_time_units =
-
-
-              //console.log(store.getters.getCookieInfo);
-
-              //const COOKIE_EXPIRATION_TIME = cookie_time + cookie_time_units;
-              // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
-              // Set another cookie saying they logged in
-              // replace cookie expiration with the one from config
-              this.$cookie.set('userLoggedIn', true, {expires: COOKIE_EXPIRATION_TIME});
-              // set user token in cookie
-              this.$cookie.set('Token', token, {expires: COOKIE_EXPIRATION_TIME});
-              this.$cookie.set('uid', uid, {expires: COOKIE_EXPIRATION_TIME});
-
-              // Set login time and token in the store
-              store.commit(types.SET_LOGGED_IN_TOKEN, token);
-              store.commit(types.SET_LOGGED_IN_TIME, new Date());
-
-              // Set user id in the store
-              store.commit(types.SET_UID, uid);
-
-              // Log user in
-              store.commit(types.IS_USER_LOGGED_IN, true);
-
-              // After the user is logged in then start checking to see if the cookie has expired and if it has then log them out
-              setInterval(function(evt){
-                  // If statement will only execute when there is one minute left until expiration and the user is logged in
-                  var cookie_expiration_time = store.getters.getLogInTime.getMinutes() + (cookie_time - 1);
-                  if((new Date()).getMinutes() === cookie_expiration_time &&
-                          store.getters.getDisplayLoggedInElements){
-                      store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
-                      vm.$root.$emit(
-                              'bv::show::modal',
-                              'cookie_modal',
-                              vm.$refs.cookie_modal
-                      );
-                  }else if((new Date()).getMinutes() > cookie_expiration_time){
-                      store.dispatch('userLogOut');
-                  }
-              }, (cookie_time - 1) * 60000);
-          }else{
-              if(this.$cookie.get('userLoggedIn')){
-                  // Log user in and set user name
-                  store.commit('IS_USER_LOGGED_IN', true);
-                  store.commit(types.SET_UID, this.$cookie.get('uid'));
-              }
-          }
-
-          if (this.$cookie.get('userLoggedIn')) {
-              AppAxios.get(`${this.$store.getters.getEnvironmentApiURL}/user/${this.$cookie.get('uid')}?_format=json`, {
-                  headers: { Authorization: `Bearer ${this.$cookie.get('Token')}` },
-              }).then((response) => {
-                  store.commit('SET_USER_OBJECT', response.data);
-              }).catch((error) => {
-                  console.warn(error)
-              });
-          }
-
-          //  [App.vue specific] When App.vue is finish loading finish the progress bar
-          this.$Progress.finish();
-        if(window.location.href.indexOf("token") > -1) {
-          this.$router.push('/workbench');
-        }
+          // Fetch cookie information from Drupal backend and log in
+          vm.$store.dispatch('DrupalConfigsToState');
       },
   };
 
