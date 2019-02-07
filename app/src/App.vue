@@ -182,10 +182,11 @@
               //  finish the progress bar
               vm.$Progress.finish();
           });
+
+          // Fetch cookie information from Drupal backend
+          vm.$store.dispatch('DrupalConfigsToState');
       },
       beforeMount(){
-          const vm = this;
-          vm.$store.dispatch('DrupalConfigsToState');
       },
       mounted() {
           // Declare the main url that the page is currently on
@@ -209,7 +210,7 @@
 //              const cookie_time_units =
 
 
-              console.log(store.getters);
+              console.log(store.getters.getCookieInfo);
 
               //const COOKIE_EXPIRATION_TIME = cookie_time + cookie_time_units;
               // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript

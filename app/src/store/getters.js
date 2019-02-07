@@ -132,10 +132,7 @@ export default {
   getLogInTime(state){
     return state.user.loggedInTime;
   },
-  getCookieTime(state){
-    return state.cookie.time;
-  },
-  getCookieTimeUnits(state){
-    return state.cookie.time_units;
+  getCookieInfo(state){
+    return state.cookie;
   },
 };
