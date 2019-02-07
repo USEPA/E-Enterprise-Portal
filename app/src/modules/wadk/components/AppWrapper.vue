@@ -22,7 +22,8 @@
               <b-dropdown-divider/>
               <b-dropdown-item-button
                 v-for="(text, title) in eepApp.field_settings_menu_items"
-                :title="text">{{ title }}</b-dropdown-item-button>
+                :title="text">{{ title }}
+              </b-dropdown-item-button>
             </b-dropdown>
             <b-button
               v-if='eepApp.field_is_expandable'
@@ -34,28 +35,21 @@
             :style="getIcon">{{ getTitle }}</h2>
         </div>
       </div>
-      <div class="w-100 source-description-wrapper">
-        <h6 class="small">
-          <a
-            class="text-decoration-underline cursor-pointer no-after"
-            v-show="!!eepApp.field_settings_menu_items.Description"
-            target="_blank"
-            @click="onDescription($event.target)">
-            Description</a>
-          <span v-show="!!eepApp.source && !!eepApp.field_settings_menu_items.Description">
-            &#8226;</span>
+      <div class="w-100 source-wrapper">
+        <h6
+          class="small"
+          v-show="!!eepApp.source">
+          Source:&nbsp;
           <template
-            v-show="!!eepApp.source"
             v-for="(source, index) in eepApp.source">
-            Source:&nbsp;
-            <span :key="index">
-              <a
-                :href="source.link"
-                target="_blank">{{ source.text }}</a>
-              <br
-                :key="index"
-                v-if="eepApp.source.length !== index + 1" >
-            </span>
+              <span :key="index">
+                <a
+                  :href="source.link"
+                  target="_blank">{{ source.text }}</a>
+                <br
+                  :key="index"
+                  v-if="eepApp.source.length !== index + 1">
+              </span>
           </template>
         </h6>
       </div>
@@ -63,14 +57,6 @@
         <slot/>
       </div>
     </div>
-    <b-modal
-      v-show="currentGrid"
-      id="descriptionModal"
-      modal-ref="descriptionModal"
-      hide-footer
-      title="Description">
-      {{ eepApp.field_settings_menu_items.Description }}
-    </b-modal>
   </div>
 </template>
 
@@ -85,7 +71,6 @@
       return {
         title: '',
         value: '',
-        currentGrid: false,
       };
     },
     props: {
@@ -151,11 +136,6 @@
         // eslint-disable-next-line no-console
         console.log('hi');
       },
-      onDescription(button) {
-        const vm = this;
-        this.currentGrid = true;
-        vm.$root.$emit('bv::show::modal', 'descriptionModal', button);
-      },
     },
   };
 
@@ -165,15 +145,19 @@
   lang="scss"
   scoped>
   @import '../styles/bootstrap-widget-dropdown.scss';
+
   .app-window-icon {
     padding: 0.5em;
   }
+
   .widget-dropdown {
     background-image: url('../images/widget-menu.svg');
   }
+
   .widget-expand {
     background-image: url('../images/widget-expand.svg');
   }
+
   .widget-button {
     background-repeat: no-repeat;
     background-position: center center;
