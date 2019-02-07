@@ -109,43 +109,48 @@
                 </b-col>
               </b-row>
 
-              <b-table
-                show-empty
-                stacked="md"
-                :items="items"
-                :current-page="currentPage"
-                :per-page="perPage"
-                :filter="filter"
-                @filtered="onFiltered"
-              />
-              <b-modal>
-                <div class="my-cdx-modal">
-                  <div class="my-cdx-detail-group">Organization Name</div>
-                  <div class="organization-name"/>
-                  <select class="organization-select"/>
-                  <div class="my-cdx-detail-group">Program Client ID</div>
-                  <div class="program-client-name"/>
-                  <select class="program-client-select"/>
-                  <div class="my-cdx-detail-group">Program</div>
-                  <div class="program-acronym"/>
-                  <div class="my-cdx-detail-group">
-                    <button class="proceed">Proceed</button>
-                    <button class="cancel">Cancel</button>
-                  </div>
-                </div>
-              </b-modal>
-              <b-row>
-                <b-col
-                  md="6"
-                  class="my-1">
-                  <b-pagination
-                    :total-rows="totalRows"
-                    :per-page="perPage"
-                    v-model="currentPage"
-                    class="my-0"/>
-                </b-col>
-              </b-row>
-            </b-container>
+            <b-table
+              show-empty
+              stacked="md"
+              :items="items"
+              :current-page="currentPage"
+              :per-page="perPage"
+              :filter="filter"
+              @filtered="onFiltered"
+            >
+              <template
+                slot="status"
+                slot-scope="data">
+                <div :class="data.item.status"></div>
+              </template>
+            </b-table>
+            <b-modal><div class="my-cdx-modal">
+              <div class="my-cdx-detail-group">Organization Name</div>
+              <div class="organization-name"></div>
+              <select class="organization-select"></select>
+              <div class="my-cdx-detail-group">Program Client ID</div>
+              <div class="program-client-name"></div>
+              <select class="program-client-select"></select>
+              <div class="my-cdx-detail-group">Program</div>
+              <div class="program-acronym"></div>
+              <div class="my-cdx-detail-group">
+                <button class="proceed">Proceed</button>
+                <button class="cancel">Cancel</button>
+              </div>
+            </div></b-modal>
+            <b-row class="text-center">
+              <b-col
+                md="12"
+                class="my-1">
+                <b-pagination
+                  align="center"
+                  :total-rows="totalRows"
+                  :per-page="perPage"
+                  v-model="currentPage"
+                  class="my-0"/>
+              </b-col>
+            </b-row>
+          </b-container>
           </template>
         </div>
         <div
@@ -237,12 +242,6 @@
         // map getters go here
       }),
     },
-    sortOptions() {
-      // Create an options list from our fields
-      return this.fields
-        .filter(f => f.sortable)
-        .map(f => ({ text: f.label, value: f.key }));
-    },
     methods: {
       ...mapActions(moduleName, [
         // map actions go here
@@ -291,10 +290,14 @@
     color: #000;
   }
 
+  .form-group {
+    border: 0rem;
+  }
+
   h2::before {
     height: 50px;
     width: 50px;
-    content: url('../../assets/images/state-government.svg');
+    content: url('/images/state-government.svg');
   }
 
   .inline-cdx-links {
@@ -346,6 +349,8 @@
   }
 
   .status-icon {
+  .my-cdx-web-handoff-link {font-size: .8rem;}
+ .Active{
     background-repeat: no-repeat;
     background-position: center center;
     background-color: #fff;
@@ -356,4 +361,48 @@
     background-size: 1.3rem 1.325rem;
     background-image: url('../../assets/images/check-circle-solid.svg');
   }
+    background-image:url('/images/check-circle-solid.svg')};
+
+  .AwaitingSponsorship{
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color:#fff;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    border: none;
+    background-size: 1.3rem 1.325rem;
+    background-image:url('/images/my_cdx_images_awaiting-sponsor.svg')};
+  .AwaitingEsaApproval{
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color:#fff;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    border: none;
+    background-size: 1.3rem 1.325rem;
+    background-image:url('/images/my_cdx_images_awaiting-esa.svg')};
+  .AwaitingApproval{
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color:#fff;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    border: none;
+    background-size: 1.3rem 1.325rem;
+    background-image:url('/images/my_cdx_images_awaiting-approval.svg')};
+  .Inactive{
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color:#fff;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    border: none;
+    background-size: 1.3rem 1.325rem;
+    background-image:url('/images/minus-circle-solid.svg')};
+
+
 </style>

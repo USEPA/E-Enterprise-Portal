@@ -3,9 +3,9 @@
     <AppWrapper
       :eep-app="eepApp">
       <h4>{{selectedValue}}</h4>
-      <p>Updated every minute via <a v-bind:href="providerURL"
-        target="_blank">{{providerName}}</a></p>
-      Air Monitoring Station
+      <span>Updated every minute via <a v-bind:href="providerURL"
+        target="_blank">{{providerName}}</a></span><br>
+      <span>Air Monitoring Station</span>
       <b-form-select
         id="location-dropdown"
         ref="locationDropdown"
