@@ -182,9 +182,6 @@
               //  finish the progress bar
               vm.$Progress.finish();
           });
-
-          // Fetch cookie information from Drupal backend
-          vm.$store.dispatch('DrupalConfigsToState');
       },
       beforeMount(){
       },
@@ -194,6 +191,10 @@
           // Declare the store
           const vm = this;
           const store = vm.$store;
+
+          // Fetch cookie information from Drupal backend
+          store.dispatch('DrupalConfigsToState');
+      
           if (main_url.indexOf("token") > -1 && main_url.indexOf("uid") > -1) {
               // Declare variables
               let vars = {};
