@@ -220,8 +220,7 @@ export default {
     // gets drupal object
     AppAxios.get( URL, {
       headers: store.GETHeaders,
-    })
-      .then(response => {
+    }).then(response => {
         if(response.data){
           return response;
         }
@@ -288,9 +287,9 @@ export default {
 
       // replace cookie expiration with the one from config
 
-      Vue.cookie.set('userLoggedIn', true, {expires: '3m'});
-      Vue.cookie.set('uid', store.getters.getUser.id, {expires: '3m'});
-      Vue.cookie.set('Token', store.getters.getLoggedInToken, {expires: '3m'});
+      Vue.cookie.set('userLoggedIn', true, {expires: '20m'});
+      Vue.cookie.set('uid', store.getters.getUser.id, {expires: '20m'});
+      Vue.cookie.set('Token', store.getters.getLoggedInToken, {expires: '20m'});
 
       store.commit(types.SET_LOGGED_IN_TIME, new Date());
 
@@ -300,5 +299,18 @@ export default {
         'cookie_modal',
         vm.$refs.cookie_modal
       );
+  },
+  DrupalConfigsToState(context){
+      const store = context;
+
+      // Axios call the get all of the configs from drupal
+      AppAxios.get(store.getters.getEnvironmentApiURL + '/eep/configurations', {
+          headers: store.getters.getGETHeaders,
+      }).then(response => {
+          store.commit(types.SET_CONFIGS, response.data);
+      }).catch(error =>{
+          console.error(error.response);
+      });
+
   },
 };

@@ -155,6 +155,8 @@
       beforeCreate(){
           const vm = this;
           vm.$store.dispatch('EEPBasicPagesToState');
+
+          vm.$store.dispatch('DrupalConfigsToState');
       },
       created() {
           const vm = this;

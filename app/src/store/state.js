@@ -73,6 +73,9 @@ const state = {
       'cache-control': 'no-cache',
       'Content-Type': 'application/hal+json',
   },
+  configs:{
+
+  },
 };
 
 export default state;

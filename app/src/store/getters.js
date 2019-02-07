@@ -132,4 +132,7 @@ export default {
   getLogInTime(state){
     return state.user.loggedInTime;
   },
+  getAllConfigs(state){
+    return state.configs;
+  },
 };
