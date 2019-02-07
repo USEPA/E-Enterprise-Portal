@@ -25,7 +25,7 @@ class EEPConfigurationsController extends ControllerBase {
 
         $config = \Drupal::config($cookie_config_machine_name);
         $cookie_information = array(
-            $cookie_config_machine_name => array(
+           explode('.', $cookie_config_machine_name)[1] => array(
                 'cookie_expiration_time' => $config->get('cookie_duration'),
                 'cookie_time_units' => $config->get('cookie_time_units')
             )
