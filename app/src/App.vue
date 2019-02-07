@@ -205,11 +205,11 @@
               const token = vars["token"];
               const uid = vars["uid"];
 
-              const cookie_time = store.getters.getCookieInformation.time;
-              const cookie_time_units = store.getters.getCookieInformation.time_units;
+//              const cookie_time = store.getters.getCookieInformation.time;
+//              const cookie_time_units =
 
 
-              console.log(store.getters.getCookieInformation);
+              console.log(store.getters.getCookieTime);
 
               //const COOKIE_EXPIRATION_TIME = cookie_time + cookie_time_units;
               // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
