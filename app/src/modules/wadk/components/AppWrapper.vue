@@ -133,11 +133,7 @@
 </template>
 
 <script>
-  /* eslint-disable global-require */
-
-  import AppAxios from '../utils/AppAxios';
   import AppModal from './AppModal.vue';
-
 
   export default {
     name: 'AppWrapper',
