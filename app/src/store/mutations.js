@@ -170,7 +170,6 @@ export default {
       timeAmount);
   },
   [types.SET_COOKIE](state, cookie_time){
-      console.log("hit mutation to set cookie");
       Vue.set(state.cookie,
             'time',
             cookie_time.time_number
