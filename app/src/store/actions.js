@@ -284,10 +284,8 @@ export default {
       const {vm} = payload;
 
       // Cookie information from the store
-      const cookie_time = store.getters.getAllConfigs.eepcookieconfig.cookie_expiration_time;
-      const cookie_time_units = store.getters.getAllConfigs.eepcookieconfig.cookie_time_units;
-
-      const COOKIE_EXPIRATION_TIME = cookie_time + cookie_time_units;
+      const COOKIE_EXPIRATION_TIME = store.getters.getAllConfigs.eepcookieconfig.cookie_expiration_time +
+          store.getters.getAllConfigs.eepcookieconfig.cookie_time_units;
 
       Vue.cookie.set('userLoggedIn', true, {expires: COOKIE_EXPIRATION_TIME});
       Vue.cookie.set('uid', store.getters.getUser.id, {expires: COOKIE_EXPIRATION_TIME});
