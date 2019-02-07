@@ -133,6 +133,6 @@ export default {
     return state.user.loggedInTime;
   },
   getCookieInfo(state){
-    return state.cookie;
+    return state.user.cookie;
   },
 };

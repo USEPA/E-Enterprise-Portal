@@ -62,6 +62,10 @@ const state = {
     tAndCCookieDismiss: false,
     UserPolicyCookieDismiss: false,
     userObject: {},
+    cookie:{
+      time: '',
+      time_units: ''
+    },
   },
   loginBtnHoverMessage: 'Use an EPA, CDX, or a social media account to login',
   navMargin: {
@@ -73,11 +77,6 @@ const state = {
       'cache-control': 'no-cache',
       'Content-Type': 'application/hal+json',
   },
-  cookie:{
-      time: '',
-      time_units: ''
-  }
-
 };
 
 export default state;

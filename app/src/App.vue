@@ -156,6 +156,8 @@
           const vm = this;
           vm.$store.dispatch('EEPBasicPagesToState');
 
+          // Fetch cookie information from Drupal backend
+          vm.$store.dispatch('DrupalConfigsToState');
       },
       created() {
           const vm = this;
@@ -184,6 +186,7 @@
           });
       },
       beforeMount(){
+
       },
       mounted() {
           // Declare the main url that the page is currently on
@@ -192,9 +195,6 @@
           const vm = this;
           const store = vm.$store;
 
-          // Fetch cookie information from Drupal backend
-          store.dispatch('DrupalConfigsToState');
-      
           if (main_url.indexOf("token") > -1 && main_url.indexOf("uid") > -1) {
               // Declare variables
               let vars = {};
@@ -211,7 +211,7 @@
 //              const cookie_time_units =
 
 
-              console.log(store.getters.getCookieInfo);
+              //console.log(store.getters.getCookieInfo);
 
               //const COOKIE_EXPIRATION_TIME = cookie_time + cookie_time_units;
               // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
