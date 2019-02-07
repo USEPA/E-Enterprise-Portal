@@ -63,15 +63,10 @@
 <script>
   /* eslint-disable global-require */
 
-  import AppAxios from '../utils/AppAxios';
-
   export default {
     name: 'AppWrapper',
     data() {
-      return {
-        title: '',
-        value: '',
-      };
+      return {};
     },
     props: {
       eepApp: {
@@ -79,13 +74,7 @@
         required: true,
       },
     },
-    mounted() {
-      AppAxios
-        .get('https://apidev2.e-enterprise.gov/api/workbenchapps')
-        .then((response) => {
-          this.title = (response.data);
-        });
-    },
+    mounted() {},
     computed: {
       getIcon() {
         const vm = this;
