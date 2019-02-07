@@ -209,7 +209,6 @@
 //              const cookie_time_units = store.getters.getAllConfigs.eepcookieconfig.cookie_time_units;
 //
 //              const COOKIE_EXPIRATION_TIME = cookie_time + cookie_time_units;
-          //    console.log(store.getters.getAllConfigs);
               // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
               // Set another cookie saying they logged in
               // replace cookie expiration with the one from config

@@ -174,7 +174,7 @@ export default {
             'time',
             cookie_time.time_number
       );
-      Vue.set(state.cookie
+      Vue.set(state.cookie,
             'time_units',
             cookie_time.time_units
       );
