@@ -39,7 +39,6 @@
         id="bwi-modal"
         modal-ref="bwi-modal"
         title="Be Well Informed Water Analysis Tool"
-        @hide="onHideMainModal"
         :hide-footer="true">
 
         <b-tabs
@@ -112,8 +111,7 @@
       <AppModal
         id="bwi-modal-interactive"
         modal-ref="bwi-modal-interactive"
-        title="Additional Information Needed"
-        @hide="onHideInteractiveModal">
+        title="Additional Information Needed">
         <div class="row">
           <h5 class="col-md-12">Enter the Results of Your Drinking Water Test</h5>
 
