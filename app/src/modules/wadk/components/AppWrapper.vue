@@ -213,22 +213,22 @@
         const vm = this;
         switch (title) {
           case 'Description':
-            this.menuModalTabIndex = 0;
+            vm.menuModalTabIndex = 0;
             break;
           case 'Help':
-            this.menuModalTabIndex = 1;
+            vm.menuModalTabIndex = 1;
             break;
           case 'Disclaimer':
-            this.menuModalTabIndex = 2;
+            vm.menuModalTabIndex = 2;
             break;
           case 'Contact':
-            this.menuModalTabIndex = 3;
+            vm.menuModalTabIndex = 3;
             break;
           case 'Source':
-            this.menuModalTabIndex = 4;
+            vm.menuModalTabIndex = 4;
             break;
           default:
-            this.menuModalTabIndex = 0;
+            vm.menuModalTabIndex = 0;
         }
         vm.$root.$emit('bv::show::modal', `${vm.eepApp.id}-description`, button);
       },
