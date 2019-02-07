@@ -146,9 +146,6 @@
     },
     data() {
       return {
-        title: '',
-        value: '',
-        currentGridDescription: false,
         menuModalTabIndex: 0,
       };
     },
@@ -157,13 +154,6 @@
         type: Object,
         required: true,
       },
-    },
-    mounted() {
-      AppAxios
-        .get('https://apidev2.e-enterprise.gov/api/workbenchapps')
-        .then((response) => {
-          this.title = (response.data);
-        });
     },
     computed: {
       getIcon() {
