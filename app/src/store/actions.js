@@ -308,15 +308,13 @@ export default {
           headers: store.getters.getGETHeaders,
       }).then(response => {
 
-          console.log(response.data);
-
           // Set the cookie information in the store
-          // store.commit(types.SET_COOOKIE, {
-          //     time_number: response.data.eepcookieconfig.cookie_expiration_time,
-          //     time_units: response.data.eepcookieconfig.cookie_time_units
-          // });
+          store.commit(types.SET_COOKIE, {
+              time_number: response.data.eepcookieconfig.cookie_expiration_time,
+              time_units: response.data.eepcookieconfig.cookie_time_units
+          });
 
-      }).catch(error =>{
+      }).catch(error => {
           console.error(error.response);
       });
   },
