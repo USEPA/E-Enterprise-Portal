@@ -308,11 +308,8 @@ export default {
           headers: store.getters.getGETHeaders,
       }).then(response => {
           store.commit(types.SET_CONFIGS, response.data);
-
-          console.log(store.getters.getAllConfigs);
       }).catch(error =>{
           console.error(error.response);
       });
-
   },
 };
