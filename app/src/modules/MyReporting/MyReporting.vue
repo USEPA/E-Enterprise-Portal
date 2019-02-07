@@ -220,8 +220,7 @@
     mounted() {
       const vm = this;
       const cookie = this.$cookie.get('Token');
-      const isUserLoggedIn = vm.$store.getIsLoggedIn;
-      if (isUserLoggedIn) {
+      if (vm.isUserLoggedIn) {
         AppAxios.get(
           `${this.apiURL}/api/cdxdataflows`,
           {
@@ -241,6 +240,7 @@
     computed: {
       ...mapGetters({
         apiURL: 'getEnvironmentApiURL',
+        isUserLoggedIn: 'getIsLoggedIn',
         // map getters go here
       }),
     },
