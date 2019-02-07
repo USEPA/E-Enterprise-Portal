@@ -76,74 +76,76 @@
           id="nav-epa"
           role="tabpanel"
           aria-labelledby="nav-epa-tab">
-          <template> <b-container fluid>
-            <!-- User Interface controls -->
-            <b-row>
-              <b-col
-                md="6"
-                class="my-1">
-                <b-form-group
-                  horizontal
-                  label="Filter"
-                  class="mb-0">
-                  <b-input-group>
-                    <b-form-input
-                      v-model="filter"
-                      placeholder="" />
-                  </b-input-group>
-                </b-form-group>
-              </b-col>
+          <template>
+            <b-container fluid>
+              <!-- User Interface controls -->
+              <b-row>
+                <b-col
+                  md="6"
+                  class="my-1">
+                  <b-form-group
+                    horizontal
+                    label="Filter"
+                    class="mb-0">
+                    <b-input-group>
+                      <b-form-input
+                        v-model="filter"
+                        placeholder=""/>
+                    </b-input-group>
+                  </b-form-group>
+                </b-col>
 
-              <b-col
-                md="6"
-                class="my-1">
-                <b-form-group
-                  horizontal
-                  label="Rows"
-                  class="mb-0">
-                  <b-form-select
-                    :options="pageOptions"
-                    v-model="perPage" />
-                </b-form-group>
-              </b-col>
-            </b-row>
+                <b-col
+                  md="6"
+                  class="my-1">
+                  <b-form-group
+                    horizontal
+                    label="Rows"
+                    class="mb-0">
+                    <b-form-select
+                      :options="pageOptions"
+                      v-model="perPage"/>
+                  </b-form-group>
+                </b-col>
+              </b-row>
 
-            <b-table
-              show-empty
-              stacked="md"
-              :items="items"
-              :current-page="currentPage"
-              :per-page="perPage"
-              :filter="filter"
-              @filtered="onFiltered"
-            >
-            </b-table>
-            <b-modal><div class="my-cdx-modal">
-              <div class="my-cdx-detail-group">Organization Name</div>
-              <div class="organization-name"></div>
-              <select class="organization-select"></select>
-              <div class="my-cdx-detail-group">Program Client ID</div>
-              <div class="program-client-name"></div>
-              <select class="program-client-select"></select>
-              <div class="my-cdx-detail-group">Program</div>
-              <div class="program-acronym"></div>
-              <div class="my-cdx-detail-group">
-                <button class="proceed">Proceed</button>
-                <button class="cancel">Cancel</button>
-              </div>
-            </div></b-modal>
-                <b-row>
-              <b-col
-                md="6"
-                class="my-1">
-                <b-pagination
-                  :total-rows="totalRows"
-                  :per-page="perPage"
-                  v-model="currentPage"
-                  class="my-0" />
-              </b-col>
-            </b-row>
-          </b-container>
+              <b-table
+                show-empty
+                stacked="md"
+                :items="items"
+                :current-page="currentPage"
+                :per-page="perPage"
+                :filter="filter"
+                @filtered="onFiltered"
+              />
+              <b-modal>
+                <div class="my-cdx-modal">
+                  <div class="my-cdx-detail-group">Organization Name</div>
+                  <div class="organization-name"/>
+                  <select class="organization-select"/>
+                  <div class="my-cdx-detail-group">Program Client ID</div>
+                  <div class="program-client-name"/>
+                  <select class="program-client-select"/>
+                  <div class="my-cdx-detail-group">Program</div>
+                  <div class="program-acronym"/>
+                  <div class="my-cdx-detail-group">
+                    <button class="proceed">Proceed</button>
+                    <button class="cancel">Cancel</button>
+                  </div>
+                </div>
+              </b-modal>
+              <b-row>
+                <b-col
+                  md="6"
+                  class="my-1">
+                  <b-pagination
+                    :total-rows="totalRows"
+                    :per-page="perPage"
+                    v-model="currentPage"
+                    class="my-0"/>
+                </b-col>
+              </b-row>
+            </b-container>
           </template>
         </div>
         <div
@@ -173,9 +175,8 @@
   import storeModule from './store/index';
   import { EventBus } from '../../EventBus';
 
-
   const moduleName = 'MyReporting';
-let items = [];
+  const items = [];
 
   export default {
     name: moduleName,
@@ -184,7 +185,7 @@ let items = [];
     },
     data() {
       return {
-        items:items,
+        items,
         currentPage: 1,
         perPage: 5,
         totalRows: items.length,
@@ -199,7 +200,6 @@ let items = [];
         modalInfo: { title: '', content: '' },
       };
     },
-
     beforeCreate() {
 
     },
@@ -211,20 +211,25 @@ let items = [];
     },
 
     mounted() {
-    let cookie = this.$cookie.get('Token');
-      AppAxios.get(
-        this.apiURL + '/api/cdxdataflows',
-        { headers: {
-            Authorization: `Bearer ${cookie}`,
-            crossDomain: true,
-            'cache-control': 'no-cache',
-            'Content-Type': 'application/json',
-          }})
-
-        .then(response => {
+      const vm = this;
+      const cookie = this.$cookie.get('Token');
+      const isUserLoggedIn = vm.$store.getIsLoggedIn;
+      if (isUserLoggedIn) {
+        AppAxios.get(
+          `${this.apiURL}/api/cdxdataflows`,
+          {
+            headers: {
+              Authorization: `Bearer ${cookie}`,
+              crossDomain: true,
+              'cache-control': 'no-cache',
+              'Content-Type': 'application/json',
+            },
+          },
+        )
+        .then((response) => {
           this.items = response.data;
         });
-
+      }
     },
     computed: {
       ...mapGetters({
@@ -232,12 +237,12 @@ let items = [];
         // map getters go here
       }),
     },
-      sortOptions() {
-        // Create an options list from our fields
-        return this.fields
-          .filter(f => f.sortable)
-          .map(f => ({ text: f.label, value: f.key }));
-      },
+    sortOptions() {
+      // Create an options list from our fields
+      return this.fields
+        .filter(f => f.sortable)
+        .map(f => ({ text: f.label, value: f.key }));
+    },
     methods: {
       ...mapActions(moduleName, [
         // map actions go here
@@ -257,7 +262,6 @@ let items = [];
         this.currentPage = 1;
       },
     },
-
     props: {
       eepApp: {
         type: Object,
@@ -272,6 +276,7 @@ let items = [];
   #app {
     margin-bottom: 7rem;
   }
+
   #reportingrow {
     overflow-y: scroll;
     max-height: 100%;
@@ -279,16 +284,19 @@ let items = [];
 
   #my-reporting .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
     color: #000;
-    font-weight:bold;
+    font-weight: bold;
   }
+
   #my-reporting .nav-item {
-    color:#000;
+    color: #000;
   }
+
   h2::before {
-    height:50px;
+    height: 50px;
     width: 50px;
     content: url('../../assets/images/state-government.svg');
   }
+
   .inline-cdx-links {
     display: flex;
     justify-content: space-between;
@@ -296,6 +304,7 @@ let items = [];
     margin-top: 1rem;
     padding-left: 0px;
   }
+
   .inline-cdx-links li::before {
     display: inline-flex;
     content: '';
@@ -307,34 +316,44 @@ let items = [];
     background-repeat: no-repeat;
     background-position: center center;
     margin-right: 2px;
-    vertical-align:middle;
+    vertical-align: middle;
   }
+
   .inline-cdx-links li.my-cdx-login::before {
     background-image: url('/images/mr-my-cdx.png');
     background-color: #fff;
     border: 1px solid #6c757d;
   }
+
   .inline-cdx-links li.my-cdx-inbox::before {
     background-image: url('/images/mr-inbox.svg');
   }
+
   .inline-cdx-links li.my-cdx-profile::before {
     background-image: url('/images/mr-profile.svg');
   }
+
   .inline-cdx-links li.my-cdx-alerts::before {
     background-image: url('/images/mr-alerts.svg');
   }
+
   .inline-cdx-links li.my-cdx-submission::before {
     background-image: url('/images/mr-history.svg');
   }
-  .my-cdx-web-handoff-link {font-size: .8rem;}
+
+  .my-cdx-web-handoff-link {
+    font-size: .8rem;
+  }
+
   .status-icon {
     background-repeat: no-repeat;
     background-position: center center;
-    background-color:#fff;
+    background-color: #fff;
     width: 2.2rem;
     height: 2.2rem;
     border-radius: 50%;
     border: none;
     background-size: 1.3rem 1.325rem;
-    background-image: url('../../assets/images/check-circle-solid.svg');}
+    background-image: url('../../assets/images/check-circle-solid.svg');
+  }
 </style>
