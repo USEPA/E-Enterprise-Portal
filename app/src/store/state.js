@@ -73,9 +73,11 @@ const state = {
       'cache-control': 'no-cache',
       'Content-Type': 'application/hal+json',
   },
-  configs:{
+  cookie:{
+      time: '',
+      time_units: ''
+  }
 
-  },
 };
 
 export default state;

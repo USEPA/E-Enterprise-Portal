@@ -169,7 +169,7 @@ export default {
       'timeLeftUntilLogout',
       timeAmount);
   },
-  [types.SET_CONFIGS](state, obj){
-      state.configs = obj;
+  [types.SET_COOKIE](state, obj){
+      state.cookie = obj;
   },
 };
