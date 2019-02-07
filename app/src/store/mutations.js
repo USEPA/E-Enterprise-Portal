@@ -169,7 +169,14 @@ export default {
       'timeLeftUntilLogout',
       timeAmount);
   },
-  [types.SET_COOKIE](state, obj){
-      state.cookie = obj;
+  [types.SET_COOKIE](state, cookie_time){
+      Vue.set(state.cookie,
+            'time',
+            cookie_time.time_number
+      );
+      Vue.set(state.cookie
+            'time_units',
+            cookie_time.time_units
+      );
   },
 };
