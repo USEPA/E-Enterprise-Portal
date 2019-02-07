@@ -310,7 +310,7 @@ export default {
 
           // Set the cookie information in the store
           store.commit(types.SET_COOKIE, {
-              time_number: response.data.eepcookieconfig.cookie_expiration_time,
+              time: response.data.eepcookieconfig.cookie_expiration_time,
               time_units: response.data.eepcookieconfig.cookie_time_units
           });
 

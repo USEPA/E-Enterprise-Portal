@@ -74,7 +74,7 @@ const state = {
       'Content-Type': 'application/hal+json',
   },
   cookie:{
-      time_number: '',
+      time: '',
       time_units: ''
   }
 
