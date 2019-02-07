@@ -209,7 +209,7 @@
 //              const cookie_time_units =
 
 
-              console.log(store.getters.getCookieTime);
+              console.log(store.getters);
 
               //const COOKIE_EXPIRATION_TIME = cookie_time + cookie_time_units;
               // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
