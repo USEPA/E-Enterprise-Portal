@@ -22,7 +22,6 @@
     "uswds": "^2.0.0-beta.4",
     "vue": "^2.5.22",
     "vue-cookie": "^1.1.4",
-    "vue-fullscreen": "^2.1.4",
     "vue-grid-layout": "^2.3.3",
     "vue-progressbar": "^0.7.5",
     "vue-router": "^3.0.2",
