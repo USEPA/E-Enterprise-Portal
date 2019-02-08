@@ -72,17 +72,3 @@ a.no-after:not([href]):not([tabindex]) {
     text-decoration: $link-hover-decoration;
   }
 }
-// Remove External Link icon after link that doesn't navigate away from the site
-.no-after:after {
-  content: none !important;
-}
-a.no-after:not([href]):not([tabindex]) {
-  color: $link-color;
-  text-decoration: $link-hover-decoration;
-  background-color: transparent; // Remove the gray background on active links in IE 10.
-
-  @include hover {
-    color: $link-hover-color;
-    text-decoration: $link-hover-decoration;
-  }
-}
