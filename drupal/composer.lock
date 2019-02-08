@@ -3131,20 +3131,20 @@
         },
         {
             "name": "drupal/ctools",
-            "version": "3.0.0",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/ctools",
-                "reference": "8.x-3.0"
+                "reference": "8.x-3.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/ctools-8.x-3.0.zip",
-                "reference": "8.x-3.0",
-                "shasum": "302e869ecd1e59fe55663673999fee2ccac5daa8"
+                "url": "https://ftp.drupal.org/files/projects/ctools-8.x-3.1.zip",
+                "reference": "8.x-3.1",
+                "shasum": "7056df469624ec3943c62ebe613dbfcb3171dcd1"
             },
             "require": {
-                "drupal/core": "~8.0"
+                "drupal/core": "^8.5"
             },
             "type": "drupal-module",
             "extra": {
@@ -3152,8 +3152,8 @@
                     "dev-3.x": "3.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-3.0",
-                    "datestamp": "1493401742",
+                    "version": "8.x-3.1",
+                    "datestamp": "1549603381",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -3224,7 +3224,7 @@
         },
         {
             "name": "drupal/ctools_block",
-            "version": "3.0.0",
+            "version": "3.1.0",
             "require": {
                 "drupal/core": "~8.0",
                 "drupal/ctools": "self.version"
@@ -3235,8 +3235,8 @@
                     "dev-3.x": "3.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-3.0",
-                    "datestamp": "1493401742",
+                    "version": "8.x-3.1",
+                    "datestamp": "1549603381",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -5498,16 +5498,16 @@
         },
         {
             "name": "drush/drush",
-            "version": "9.6.0-rc3",
+            "version": "9.6.0-rc2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drush-ops/drush.git",
-                "reference": "e409b7c4ccca0d51eb0b5bce0a9e015ef2d2ce85"
+                "reference": "0d5a21909cb1fdbcc03469f04ee9b1a812707b83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drush-ops/drush/zipball/e409b7c4ccca0d51eb0b5bce0a9e015ef2d2ce85",
-                "reference": "e409b7c4ccca0d51eb0b5bce0a9e015ef2d2ce85",
+                "url": "https://api.github.com/repos/drush-ops/drush/zipball/0d5a21909cb1fdbcc03469f04ee9b1a812707b83",
+                "reference": "0d5a21909cb1fdbcc03469f04ee9b1a812707b83",
                 "shasum": ""
             },
             "require": {
@@ -5539,7 +5539,7 @@
                 "composer/installers": "^1.2",
                 "cweagans/composer-patches": "~1.0",
                 "drupal/alinks": "1.0.0",
-                "drupal/devel": "^2",
+                "drupal/devel": "^1.0@RC",
                 "drupal/empty_theme": "1.0",
                 "g1a/composer-test-scenarios": "^3",
                 "lox/xhprof": "dev-master",
@@ -5638,7 +5638,7 @@
             ],
             "description": "Drush is a command line shell and scripting interface for Drupal, a veritable Swiss Army knife designed to make life easier for those of us who spend some of our working hours hacking away at the command prompt.",
             "homepage": "http://www.drush.org",
-            "time": "2019-02-07T16:06:16+00:00"
+            "time": "2019-01-29T15:52:39+00:00"
         },
         {
             "name": "easyrdf/easyrdf",

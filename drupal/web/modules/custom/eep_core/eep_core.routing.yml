@@ -5,7 +5,7 @@ eep_core.admin_settings:
     _title: 'E-Enterprise Configurations'
   requirements:
     _permission: 'administer site configuration'
-eep_configurations.configs:
+eep_core.configs:
   path: '/eep/configurations'
   defaults:
     _controller: '\Drupal\eep_core\Controller\EEPConfigurationsController::eep_retrieve_configurations'
