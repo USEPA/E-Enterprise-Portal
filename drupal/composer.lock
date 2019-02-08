@@ -5498,16 +5498,16 @@
         },
         {
             "name": "drush/drush",
-            "version": "9.6.0-rc2",
+            "version": "9.6.0-rc3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drush-ops/drush.git",
-                "reference": "0d5a21909cb1fdbcc03469f04ee9b1a812707b83"
+                "reference": "e409b7c4ccca0d51eb0b5bce0a9e015ef2d2ce85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drush-ops/drush/zipball/0d5a21909cb1fdbcc03469f04ee9b1a812707b83",
-                "reference": "0d5a21909cb1fdbcc03469f04ee9b1a812707b83",
+                "url": "https://api.github.com/repos/drush-ops/drush/zipball/e409b7c4ccca0d51eb0b5bce0a9e015ef2d2ce85",
+                "reference": "e409b7c4ccca0d51eb0b5bce0a9e015ef2d2ce85",
                 "shasum": ""
             },
             "require": {
@@ -5539,7 +5539,7 @@
                 "composer/installers": "^1.2",
                 "cweagans/composer-patches": "~1.0",
                 "drupal/alinks": "1.0.0",
-                "drupal/devel": "^1.0@RC",
+                "drupal/devel": "^2",
                 "drupal/empty_theme": "1.0",
                 "g1a/composer-test-scenarios": "^3",
                 "lox/xhprof": "dev-master",
@@ -5638,7 +5638,7 @@
             ],
             "description": "Drush is a command line shell and scripting interface for Drupal, a veritable Swiss Army knife designed to make life easier for those of us who spend some of our working hours hacking away at the command prompt.",
             "homepage": "http://www.drush.org",
-            "time": "2019-01-29T15:52:39+00:00"
+            "time": "2019-02-07T16:06:16+00:00"
         },
         {
             "name": "easyrdf/easyrdf",
