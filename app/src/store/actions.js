@@ -300,7 +300,7 @@ export default {
         vm.$refs.cookie_modal
       );
   },
-  DrupalConfigsToState(context, payload){
+  getEEPConfigs(context, payload){
       const store = context;
       const {vm} = payload;
 
@@ -331,13 +331,10 @@ export default {
               const token = vars["token"];
               const uid = vars["uid"];
 
-              const cookie_time = store.getters.getCookieInfo.time;
-              const cookie_time_units = store.getters.getCookieInfo.time_units;
-
-              const COOKIE_EXPIRATION_TIME = cookie_time + cookie_time_units;
+              // Grabs the static cookie time from the store
+              const COOKIE_EXPIRATION_TIME = store.getters.getCookieInfo.time + store.getters.getCookieInfo.time_units;
 
               // Set another cookie saying they logged in
-              // replace cookie expiration with the one from config
               Vue.cookie.set('userLoggedIn', true, {expires: COOKIE_EXPIRATION_TIME});
               // set user token in cookie
               Vue.cookie.set('Token', token, {expires: COOKIE_EXPIRATION_TIME});
@@ -354,12 +351,10 @@ export default {
               store.commit(types.IS_USER_LOGGED_IN, true);
 
               // After the user is logged in then start checking to see if the cookie has expired and if it has then log them out
-              setInterval(function(){
+              setTimeout(function(){
                   // Comparing dates to find when there is a minute left until cookie expiration
                   let minutes_difference = Math.floor((Math.abs(new Date((store.getters.getLogInTime.getTime() +
-                              ((cookie_time) * 60 * 1000))) - (new Date)) / 1000) / 60) % 60;
-
-                  console.log(minutes_difference);
+                              ((store.getters.getCookieInfo.time) * 60 * 1000))) - (new Date)) / 1000) / 60) % 60;
 
                   if( minutes_difference === 1 && store.getters.getDisplayLoggedInElements){
                     store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
@@ -369,8 +364,7 @@ export default {
                         vm.$refs.cookie_modal
                     );
                   }
-                //(cookie_time - 1) * 60000
-              }, 10000);
+              }, (store.getters.getCookieInfo.time - 1) * 60000);
           }else{
               if(Vue.cookie.get('userLoggedIn')){
                   // Log user in and set user name
