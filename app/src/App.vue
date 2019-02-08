@@ -191,7 +191,7 @@
           const store = vm.$store;
 
           // Fetch cookie information from Drupal backend and log in
-          vm.$store.dispatch('getEEPConfigs', {vm});
+          vm.$store.dispatch('DrupalConfigsToState', {vm});
       },
   };
 
