@@ -6,13 +6,15 @@
  * Time: 12:34 PM
  */
 
-namespace Drupal\eep_core\Controller;
+namespace Drupal\eep_configurations\Controller;
 
 
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class EEPConfigurationsController extends ControllerBase {
+    // Declare global variables
+
 
     /**
      *

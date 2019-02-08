@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains eep_configurations.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function eep_configurations_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the eep_configurations module.
+    case 'help.page.eep_configurations':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('this module will expose all of the configurations that will be assessible to the front end via Axios get request.') . '</p>';
+      return $output;
+
+    default:
+  }
+}

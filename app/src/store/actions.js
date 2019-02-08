@@ -351,10 +351,12 @@ export default {
               store.commit(types.IS_USER_LOGGED_IN, true);
 
               // After the user is logged in then start checking to see if the cookie has expired and if it has then log them out
-              setTimeout(function(){
+              setInterval(function(){
                   // Comparing dates to find when there is a minute left until cookie expiration
                   let minutes_difference = Math.floor((Math.abs(new Date((store.getters.getLogInTime.getTime() +
-                              ((store.getters.getCookieInfo.time) * 60 * 1000))) - (new Date)) / 1000) / 60) % 60;
+                              ((cookie_time) * 60 * 1000))) - (new Date)) / 1000) / 60) % 60;
+
+                  console.log(minutes_difference);
 
                   if( minutes_difference === 1 && store.getters.getDisplayLoggedInElements){
                     store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
@@ -364,6 +366,7 @@ export default {
                         vm.$refs.cookie_modal
                     );
                   }
+                //
               }, (store.getters.getCookieInfo.time - 1) * 60000);
           }else{
               if(Vue.cookie.get('userLoggedIn')){

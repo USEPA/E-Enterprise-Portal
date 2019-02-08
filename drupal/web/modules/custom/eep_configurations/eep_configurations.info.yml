@@ -1,0 +1,5 @@
+name: 'EEP Configurations'
+type: module
+description: 'this module will expose all of the configurations that will be assessible to the front end via Axios get request.'
+core: 8.x
+package: 'EEP'
