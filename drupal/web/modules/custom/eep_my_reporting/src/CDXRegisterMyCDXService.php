@@ -9,7 +9,9 @@ use Drupal\eep_my_reporting\SOAPHandler;
 class CDXRegisterMyCdxService extends CDXNaasService {
 
   private $soap_handler;
+
   private $config;
+
   private $system_config;
 
   function __construct($config) {
@@ -30,7 +32,7 @@ class CDXRegisterMyCdxService extends CDXNaasService {
     }
   }
 
-  private function generate_token_params() {
+  public function generate_token_params() {
 
     $this->params = [
       "userId" => $this->config->get('admin_id'),
@@ -38,6 +40,7 @@ class CDXRegisterMyCdxService extends CDXNaasService {
       "domain" => $this->config->get('domain'),
       "authenticationMethod" => $this->config->get('authentication_method'),
     ];
+    return $this->params;
   }
 
 
