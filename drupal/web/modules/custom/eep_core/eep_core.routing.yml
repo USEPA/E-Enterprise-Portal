@@ -14,4 +14,11 @@ eep_core.eep_cookie_config_form:
     _permission: 'access administration pages'
   options:
     _admin_route: TRUE
+eep_core.configs:
+  path: '/eep/configurations'
+  defaults:
+    _controller: '\Drupal\eep_core\Controller\EEPConfigurationsController::eep_retrieve_configurations'
+    _title: 'EEP Configurations'
+  requirements:
+    _permission: 'access content'
 

@@ -1,7 +1,0 @@
-eep_configurations.configs:
-  path: '/eep/configurations'
-  defaults:
-    _controller: '\Drupal\eep_configurations\Controller\EEPConfigurationsController::eep_retrieve_configurations'
-    _title: 'EEP Configurations'
-  requirements:
-    _permission: 'access content'

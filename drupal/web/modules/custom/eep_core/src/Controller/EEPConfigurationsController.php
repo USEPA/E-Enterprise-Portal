@@ -6,7 +6,7 @@
  * Time: 12:34 PM
  */
 
-namespace Drupal\eep_configurations\Controller;
+namespace Drupal\eep_core\Controller;
 
 
 use Drupal\Core\Controller\ControllerBase;
