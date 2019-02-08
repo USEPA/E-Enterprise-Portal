@@ -1,0 +1,4 @@
+wsdl: 'https://devngn.epacdxnode.net/cdx-register-II/services/RegisterMyCdxService?wsdl'
+admin_id: registration.dev@cgifederal.com
+domain: default
+authentication_method: password
