@@ -57,6 +57,7 @@ class EEPMyReportingController extends ControllerBase {
 
           // If key has not been stored, initialize
 
+
           $program_data = [
             'program_service_name' => $link->DataflowAcronym . ': ' . $link->DataflowName,
             'role' => $link->Description,
@@ -64,14 +65,17 @@ class EEPMyReportingController extends ControllerBase {
 
           ];
 
-
           $cdx_link_data[] = $program_data;
         }
       }
+
+
+      return new JsonResponse($cdx_link_data);
+
     }
-
-    return new JsonResponse($cdx_link_data);
-
   }
-
 }
+
+
+
+
