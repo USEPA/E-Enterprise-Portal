@@ -118,7 +118,7 @@ export default {
 
     // Reset login token and time
     store.commit(types.SET_LOGGED_IN_TOKEN, '');
-    store.commit(types.SET_LOGGED_IN_TIME, null);
+    store.commit(types.SET_LOGGED_IN_TIME, '');
 
     // Use router.push here to get rid of the token in the redirect URL
     router.push('/');
@@ -351,16 +351,18 @@ export default {
               store.commit(types.IS_USER_LOGGED_IN, true);
 
               // Set interval instance
-              let set_interval_cookie_check = null;
-
-              // After the user is logged in then start checking to see if the cookie has expired and if it has then log them out
-              function checkCookieTime(){
+              let cookie_check = setInterval(function(){
                   // Comparing dates to find when there is a minute left until cookie expiration
-                  let minutes_difference = Math.floor((Math.abs(new Date((store.getters.getLogInTime.getTime() +
+                  let minutes_difference = 0;
+
+                  if(!!store.getters.getLogInTime){
+                      minutes_difference = Math.floor((Math.abs(new Date((store.getters.getLogInTime.getTime() +
                               ((store.getters.getCookieInfo.time) * 60 * 1000))) - (new Date)) / 1000) / 60) % 60;
+                  }else{
+                      clearInterval(cookie_check);
+                  }
 
-                  console.log("hit inside check cookie time");
-
+                  // Check to see if there is a minute left
                   if(minutes_difference <= 1 && store.getters.getDisplayLoggedInElements){
                       store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
                       vm.$root.$emit(
@@ -368,16 +370,8 @@ export default {
                           'cookie_modal',
                           vm.$refs.cookie_modal
                       );
-                  }else if(!store.getters.getDisplayLoggedInElements){
-                      clearInterval(set_interval_cookie_check);
-                      console.log("interval cleared");
                   }
-              }
-
-              if(!!store.getters.getLogInTime.getTime()){
-                  console.log("hit here inside of login time not being null");
-                  set_interval_cookie_check = setInterval(checkCookieTime, (store.getters.getCookieInfo.time - 1) * 60000);
-              }
+              }, (store.getters.getCookieInfo.time - 1) * 60000);
           }else{
               if(Vue.cookie.get('userLoggedIn')){
                   // Log user in and set user name
@@ -386,7 +380,7 @@ export default {
               }
           }
 
-          if (this.$cookie.get('userLoggedIn')) {
+          if (Vue.cookie.get('userLoggedIn')) {
               AppAxios.get(`${store.getters.getEnvironmentApiURL}/user/${Vue.cookie.get('uid')}?_format=json`, {
                   headers: { Authorization: `Bearer ${Vue.cookie.get('Token')}` },
               }).then((response) => {
@@ -403,7 +397,7 @@ export default {
           }
 
       }).catch(error => {
-          console.error(error.response);
+          console.error(error);
       });
   },
 };
