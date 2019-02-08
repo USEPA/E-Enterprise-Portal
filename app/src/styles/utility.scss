@@ -59,10 +59,7 @@ a[target='_blank']:after {
   transform: rotate(270deg);
 }
 // Remove External Link icon after link that doesn't navigate away from the site
-div .no-after:after {
-  content: none;
-}
-a.no-after:not([href]):not([tabindex]) {
+a.link-button:not([href]):not([tabindex]) {
   color: $link-color;
   text-decoration: $link-hover-decoration;
   background-color: transparent; // Remove the gray background on active links in IE 10.

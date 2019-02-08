@@ -39,9 +39,8 @@
       <div class="w-100 source-description-wrapper">
         <h6 class="small">
           <a
-            class="text-decoration-underline cursor-pointer no-after"
+            class="text-decoration-underline cursor-pointer link-button"
             v-show="!!eepApp.field_settings_menu_items.Description"
-            target="_blank"
             @click="onDescription($event.target)">
             Description</a>
           <span v-show="!!eepApp.source && !!eepApp.field_settings_menu_items.Description">
