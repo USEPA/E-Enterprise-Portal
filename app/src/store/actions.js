@@ -354,7 +354,7 @@ export default {
               setTimeout(function(){
                   // Comparing dates to find when there is a minute left until cookie expiration
                   let minutes_difference = Math.floor((Math.abs(new Date((store.getters.getLogInTime.getTime() +
-                              ((cookie_time) * 60 * 1000))) - (new Date)) / 1000) / 60) % 60;
+                              ((store.getters.getCookieInfo.time) * 60 * 1000))) - (new Date)) / 1000) / 60) % 60;
 
                   if( minutes_difference === 1 && store.getters.getDisplayLoggedInElements){
                     store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
