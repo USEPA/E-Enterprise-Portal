@@ -350,21 +350,34 @@ export default {
               // Log user in
               store.commit(types.IS_USER_LOGGED_IN, true);
 
+              // Set interval instance
+              let set_interval_cookie_check = null;
+
               // After the user is logged in then start checking to see if the cookie has expired and if it has then log them out
-              setInterval(function(){
+              function checkCookieTime(){
                   // Comparing dates to find when there is a minute left until cookie expiration
                   let minutes_difference = Math.floor((Math.abs(new Date((store.getters.getLogInTime.getTime() +
                               ((store.getters.getCookieInfo.time) * 60 * 1000))) - (new Date)) / 1000) / 60) % 60;
 
-                  if((minutes_difference <= 1 || minutes_difference >= 0) && store.getters.getDisplayLoggedInElements){
-                    store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
-                    vm.$root.$emit(
-                        'bv::show::modal',
-                        'cookie_modal',
-                        vm.$refs.cookie_modal
-                    );
+                  console.log("hit inside check cookie time");
+
+                  if(minutes_difference <= 1 && store.getters.getDisplayLoggedInElements){
+                      store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
+                      vm.$root.$emit(
+                          'bv::show::modal',
+                          'cookie_modal',
+                          vm.$refs.cookie_modal
+                      );
+                  }else if(!store.getters.getDisplayLoggedInElements){
+                      clearInterval(set_interval_cookie_check);
+                      console.log("interval cleared");
                   }
-              }, (store.getters.getCookieInfo.time - 1) * 60000);
+              }
+
+              if(!!store.getters.getLogInTime.getTime()){
+                  console.log("hit here inside of login time not being null");
+                  set_interval_cookie_check = setInterval(checkCookieTime, (store.getters.getCookieInfo.time - 1) * 60000);
+              }
           }else{
               if(Vue.cookie.get('userLoggedIn')){
                   // Log user in and set user name
