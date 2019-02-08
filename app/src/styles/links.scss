@@ -1,3 +1,5 @@
+@import "bootstrap-variable-overrides";
+
 // Remove External Link icon after link that doesn't navigate away from the site
 a.link-button:not([href]):not([tabindex]) {
   color: $link-color;
