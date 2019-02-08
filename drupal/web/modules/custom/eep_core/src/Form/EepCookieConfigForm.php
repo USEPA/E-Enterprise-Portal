@@ -6,9 +6,9 @@ use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Class EepCookieConfigForm.
+ * Class EEPCookieConfigForm.
  */
-class EepCookieConfigForm extends ConfigFormBase {
+class EEPCookieConfigForm extends ConfigFormBase {
 
   /**
    * {@inheritdoc}
@@ -34,7 +34,7 @@ class EepCookieConfigForm extends ConfigFormBase {
     $form['cookie_duration'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Cookie Duration'),
-      '#description' => $this->t('this will be the number value of how long the cookie will be active for'),
+      '#description' => $this->t('amount of the time cookie will be active for'),
       '#maxlength' => 64,
       '#size' => 64,
       '#default_value' => $config->get('cookie_duration'),
@@ -42,7 +42,7 @@ class EepCookieConfigForm extends ConfigFormBase {
     $form['cookie_time_units'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Cookie Time Units'),
-      '#description' => $this->t('this field will contain s, m ,or h. That determines whether it it is seconds, minutes, or hours.'),
+      '#description' => $this->t('this will be either s, m, h. These will represent seconds, minutes, or hours.'),
       '#maxlength' => 64,
       '#size' => 64,
       '#default_value' => $config->get('cookie_time_units'),
