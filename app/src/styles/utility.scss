@@ -4,6 +4,7 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "~@fortawesome/fontawesome-free/scss/brands";
 @import "~@fortawesome/fontawesome-free/scss/solid";
 @import "~@fortawesome/fontawesome-free/scss/regular";
+@import "bootstrap-variable-overrides";
 
 /*
  The gutters between columns in our predefined grid classes can be removed with .no-gutters. This
@@ -56,4 +57,32 @@ a[target='_blank']:after {
 }
 .rotate-270 {
   transform: rotate(270deg);
+}
+// Remove External Link icon after link that doesn't navigate away from the site
+.no-after:after {
+  content: none !important;
+}
+a.no-after:not([href]):not([tabindex]) {
+  color: $link-color;
+  text-decoration: $link-hover-decoration;
+  background-color: transparent; // Remove the gray background on active links in IE 10.
+
+  @include hover {
+    color: $link-hover-color;
+    text-decoration: $link-hover-decoration;
+  }
+}
+// Remove External Link icon after link that doesn't navigate away from the site
+.no-after:after {
+  content: none !important;
+}
+a.no-after:not([href]):not([tabindex]) {
+  color: $link-color;
+  text-decoration: $link-hover-decoration;
+  background-color: transparent; // Remove the gray background on active links in IE 10.
+
+  @include hover {
+    color: $link-hover-color;
+    text-decoration: $link-hover-decoration;
+  }
 }
