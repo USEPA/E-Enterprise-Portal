@@ -13,8 +13,6 @@ use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class EEPConfigurationsController extends ControllerBase {
-    // Declare global variables
-
 
     /**
      *
