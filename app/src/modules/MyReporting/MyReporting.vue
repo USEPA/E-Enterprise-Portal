@@ -113,6 +113,7 @@
                 show-empty
                 stacked="md"
                 :items="items"
+                :fields="fields"
                 :current-page="currentPage"
                 :per-page="perPage"
                 :filter="filter"
@@ -147,12 +148,11 @@
                   <b-form-select v-model="organization" class="mb-3" >
 
                     <template slot="first">
-                      <!-- this slot appears above the options from 'options' prop -->
-                      <option value="" selected="selected">Choose Organization...</option>
+                      <option :value="null">Choose Organization...</option>
                       <option
                         v-for="(item, index) in linkDetails.organizations"
                         :value="linkDetails.organizations[index]"
-                        :selected="index === 0">{{item.orgName}}</option>
+                        >{{item.orgName}}</option>
                     </template>
 
                   </b-form-select>
@@ -161,8 +161,7 @@
                   <div class="program-client-name"/>
                   <b-form-select v-model="programClientId" class="mb-3" >
                     <template slot="first">
-                      <!-- this slot appears above the options from 'options' prop -->
-                      <option value="" selected="selected">Choose Program Client...</option>
+                      <option :value="null">Choose Program Client...</option>
                       <option
                         v-for="(item, index) in organization.programClients"
                         :value="item.userRoleId">{{item.roleName}} - {{item.clientName}}</option>
@@ -173,7 +172,7 @@
                   <div class="my-cdx-detail-group">Program</div>
                   <div class="program-acronym"/>
                   <div class="my-cdx-detail-group">
-                    <b-btn @click="onSubmit">Proceed</b-btn>
+                    <b-btn @click=" openPopupPage">Proceed</b-btn>
                   </div>
                 </div>
               </AppModal>
@@ -231,6 +230,20 @@
     data() {
       return {
         items,
+        fields: [
+          {
+            key: 'program_service_name',
+            label: 'Program service name',
+          },
+          {
+            key: 'role',
+            label: 'Role',
+          },
+          {
+            key: 'status',
+            label: 'Status',
+          },
+        ],
         currentPage: 1,
         perPage: 5,
         totalRows: items.length,
@@ -243,29 +256,12 @@
         ],
         filter: null,
         modalInfo: { title: '', content: '' },
-        linkDetails: {
-          "orgCount": 1,
-          "organizations": [
-            {
-              "clientCount": 2,
-              "orgName": "Org1",
-              "programClients": [
-                {
-                  "clientName": "11111",
-                  "roleName": "Authorized Agent",
-                  "userRoleId": 209834
-                },
-                {
-                  "clientName": "N\/A",
-                  "roleName": "Authorized Agent",
-                  "userRoleId": 210352
-                }
-              ]
-            }
-          ]
-        },
+        linkDetails: {},
         organization: {},
         programClientId: null,
+        roleId:'',
+        userRoleId:'',
+        handoff:{},
       };
     },
     beforeCreate() {
@@ -283,7 +279,7 @@
       const cookie = this.$cookie.get('Token');
       if (vm.isUserLoggedIn) {
         AppAxios.get(
-          `${this.apiURL}/api/cdxdataflows`,
+          `${this.apiURL}/api/cdx/dataflows`,
           {
             headers: {
               Authorization: `Bearer ${cookie}`,
@@ -295,6 +291,34 @@
         )
           .then((response) => {
             this.items = response.data;
+          });
+        AppAxios.get(
+          `${this.apiURL}/api/cdx/link-details-json/${this.roleId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${cookie}`,
+              crossDomain: true,
+              'cache-control': 'no-cache',
+              'Content-Type': 'application/json',
+            },
+          },
+        )
+          .then((response) => {
+            this.linkDetails = response.data;
+          });
+        AppAxios.get(
+          `${this.apiURL}/api/cdx/link-json-handoff/${this.userRoleId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${cookie}`,
+              crossDomain: true,
+              'cache-control': 'no-cache',
+              'Content-Type': 'application/json',
+            },
+          },
+        )
+          .then((response) => {
+            this.handoff = response.data;
           });
       }
     },
@@ -329,120 +353,38 @@
         this.totalRows = filteredItems.length;
         this.currentPage = 1;
       },
-      returnUrlForHandoffType(handoff_type) {
-    let url = '';
-    let cdx_environment = Drupal.settings.cdxRootURL;
-    switch (handoff_type) {
-      case 'inbox':
-        url = cdx_environment + '/Inbox';
-        break;
-      case 'my_account':
-        url = cdx_environment + '/MyProfile';
-        break;
-      case 'submission':
-        url = Drupal.settings.cdxSubmissionHistoryURL;
-        break;
-    }
-    return encodeURIComponent(url);
-  },
 
-  onSubmit(evt) {
-      let roleIds = this.roleIds;
-      let acronym = this.acronym;
-      let roleDescription = this.roleDescription;
-      let $modal_content = $('#my-reporting-modal-content')
-        .dialog({
-          dialogClass: 'my-reporting-modal-content',
-          title: 'Application Profile Settings'
-        });
-      $.ajax({
-        url: Drupal.settings.basePath + 'my-cdx/link-details-json/' + roleIds,
-        dataType: 'json',
-        success: function (data) {
-          processCDXAppReturn(modal_content, data, roleDescription, acronym);
-        }
-      });
-      ev.preventDefault();
-    },
-
-      processSelectedOrgAndRole(modal_content, data) {
-    let org_index = 0;
-    let prog_index = 0;
-    /*Determine the user role id based on what the user selected from org and program drop down list box.
-     * If one or both are invisible, just use the default value, 0*/
-    if ($modal_content.find(".organization-select").is(":visible")) {
-      org_index = $(".organization-select option:selected").index();
-    }
-    if ($modal_content.find(".program-client-select").is(":visible")) {
-      prog_index = $(".program-client-select option:selected").index();
-    }
-    let handOffRoleId = data.organizations[org_index].programClients[prog_index].userRoleId;
-    return handOffRoleId;
-  },
-      loadSelectedOrgAndRole($modal_content, data) {
-    let role_id = processSelectedOrgAndRole($modal_content, data);
-    prepareHandoffLink(role_id).done(function (service_return) {
-      processHandoffReturnForm(service_return);
-    });
-  },
-      myCDXLinkProgramClientHandler(programClientsJson, roleDescription) {
-        let programClientsSelect = '.my-cdx-modal .program-client-select';
-        let programClientName = '.my-cdx-modal .program-client-name';
-
-        programClientsSelect.html('');
-        programClientName.html('');
-
-        if (programClientsJson.clientCount === 0) {
-          programClientsSelect.hide();
-          programClientName.html("No Program Clients found.");
-        } else {
-          if (programClientsJson.clientCount > 1) {
-            $programClientsSelect.show();
-            $programClientName.hide();
-          }
-        }
-      },
-      instantConnect(data, modal_content) {
-    let firstOrgClientCount;
-    for (let key in data.organizations) {
-      firstOrgClientCount = data.organizations[key].clientCount;
-      break;
-    }
-
-    if (data.orgCount == 1 && firstOrgClientCount == 1) {
-      prepareHandoffLink(data.organizations[0].programClients[0].userRoleId);
-      return true;
-    }
-    return false;
+      openPopupPage(relativeUrl, emailId, age)
+  {
+    var param = { 'emailId' : emailId, 'age': age };
+    OpenWindowWithPost(relativeUrl, "width=1000, height=600, left=100, top=100, resizable=yes, scrollbars=yes", "NewFile", param);
   },
 
 
-      openPopupPage(relativeUrl, emailId, age) {
-        let param = { 'emailId': emailId, 'age': age };
-        OpenWindowWithPost(relativeUrl, "width=1000, height=600, left=100, top=100, resizable=yes, scrollbars=yes", "NewFile", param);
-      },
-      OpenWindowWithPost(url, windowoption, name, params) {
-        let form = document.createElement("form");
-        form.setAttribute("method", "post");
-        form.setAttribute("action", url);
-        form.setAttribute("target", name);
-        for (let i in params) {
-          if (params.hasOwnProperty(i)) {
-            let input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = i;
-            input.value = params[i];
-            form.appendChild(input);
-          }
-        }
-        document.body.appendChild(form);
-        //note I am using a post.htm page since I did not want to make double request to the page
-        //it might have some Page_Load call which might screw things up.
-        window.open("post.htm", name, windowoption);
-        form.submit();
-        document.body.removeChild(form);
-
-      },
+  OpenWindowWithPost(url, windowoption, name, params)
+  {
+    var form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", url);
+    form.setAttribute("target", name);
+    for (var i in params)
+    {
+      if (params.hasOwnProperty(i))
+      {
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = i;
+        input.value = params[i];
+        form.appendChild(input);
+      }
+    }
+    document.body.appendChild(form);
+    //note I am using a post.htm page since I did not want to make double request to the page
+    //it might have some Page_Load call which might screw things up.
+    window.open("post.htm", name, windowoption);
+    form.submit();
+    document.body.removeChild(form);
+  }
     },
     props: {
       eepApp: {
