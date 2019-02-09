@@ -1,5 +1,5 @@
 eep_my_reporting.my_reporting:
-  path: '/api/cdxdataflows'
+  path: '/api/cdx/dataflows'
   defaults:
     _controller: '\Drupal\eep_my_reporting\Controller\EEPMyReportingController::fetch_my_cdx_links'
     _title: 'CDX Dataflows'
@@ -18,3 +18,23 @@ eep_my_reporting.eep_my_reporting_form:
     _permission: 'access content'
   options:
     _admin_route: TRUE
+eep_my_reporting.link_details_json:
+  path: '/api/cdx/link-details-json/{roleIds}'
+  defaults:
+    _controller: '\Drupal\eep_my_reporting\Controller\EEPMyReportingController::my_cdx_json_link_details'
+    _title: 'CDX Dataflows - Link Details'
+  methods:  [GET]
+  requirements:
+    _access: 'TRUE'
+  options:
+    _auth: ['cookie', 'basic_auth','jwt_auth']
+eep_my_reporting.link_json_handoff:
+  path: '/api/cdx/link-json-handoff/{roleId}'
+  defaults:
+    _controller: '\Drupal\eep_my_reporting\Controller\EEPMyReportingController::my_cdx_json_link_handoff'
+    _title: 'CDX Dataflows - Link Handoff'
+  methods:  [GET]
+  requirements:
+    _access: 'TRUE'
+  options:
+    _auth: ['cookie', 'basic_auth','jwt_auth']
