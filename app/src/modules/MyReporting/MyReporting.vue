@@ -354,9 +354,9 @@
         this.currentPage = 1;
       },
 
-      openPopupPage(relativeUrl, emailId, age)
+      openPopupPage(destination_url, Token, CDX_Data)
   {
-    var param = { 'emailId' : emailId, 'age': age };
+    var param = { 'Token' : Token, 'CDX_Data': CDX_Data };
     OpenWindowWithPost(relativeUrl, "width=1000, height=600, left=100, top=100, resizable=yes, scrollbars=yes", "NewFile", param);
   },
 
