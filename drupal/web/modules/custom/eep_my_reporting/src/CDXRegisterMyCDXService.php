@@ -32,17 +32,14 @@ class CDXRegisterMyCdxService extends CDXNaasService {
     }
   }
 
-  public function generate_token_params() {
-
+  private function generate_token_params() {
     $this->params = [
       "userId" => $this->config->get('admin_id'),
       "credential" => $this->system_config->get('cdx_naas'),
       "domain" => $this->config->get('domain'),
       "authenticationMethod" => $this->config->get('authentication_method'),
     ];
-    return $this->params;
   }
-
 
   private function return_handoff_params($role_id) {
     $params = [
@@ -52,7 +49,6 @@ class CDXRegisterMyCdxService extends CDXNaasService {
     ];
     return $params;
   }
-
 
   public function return_link_handoff_data($role_id) {
     $this->params = $this->return_handoff_params($role_id);
