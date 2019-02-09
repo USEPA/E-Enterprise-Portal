@@ -19,7 +19,7 @@ eep_my_reporting.eep_my_reporting_form:
   options:
     _admin_route: TRUE
 eep_my_reporting.link_details_json:
-  path: '/api/cdx/link-details-json/{roleId}'
+  path: '/api/cdx/link-details-json/{roleIds}'
   defaults:
     _controller: '\Drupal\eep_my_reporting\Controller\EEPMyReportingController::my_cdx_json_link_details'
     _title: 'CDX Dataflows - Link Details'
