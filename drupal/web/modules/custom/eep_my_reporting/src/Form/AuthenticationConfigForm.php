@@ -43,6 +43,12 @@ class AuthenticationConfigForm extends ConfigFormBase {
       '#description' => $this->t('A URL ending with \'?wsdl\''),
       '#default_value' => $config->get('wsdl'),
     ];
+    $form['security_token_wsdl'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('WSDL address to generate SSO Security token'),
+      '#description' => $this->t('A URL ending with \'?wsdl\''),
+      '#default_value' => $config->get('security_token_wsdl'),
+    ];
     $form['cdx_base_url'] = [
       '#type' => 'textfield',
       '#title' => $this->t('CDX URL for SSO and silent handoffs'),
@@ -73,6 +79,7 @@ class AuthenticationConfigForm extends ConfigFormBase {
       '#description' => $this->t('Typically \'password\''),
       '#default_value' => $config->get('authentication_method'),
     ];
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -80,6 +87,7 @@ class AuthenticationConfigForm extends ConfigFormBase {
     parent::submitForm($form, $form_state);
     $this->config('eep_my_reporting.form')
       ->set('wsdl', $form_state->getValue('wsdl'))
+      ->set('security_token_wsdl', $form_state->getValue('security_token_wsdl'))
       ->set('cdx_base_url', $form_state->getValue('cdx_base_url'))
       ->set('cdx_submission_history_url', $form_state->getValue('cdx_submission_history_url'))
       ->set('admin_id', $form_state->getValue('admin_id'))
