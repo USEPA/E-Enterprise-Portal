@@ -201,6 +201,84 @@ class EEPMyReportingController extends ControllerBase {
     }
   }
 
+  function fetch_my_cdx_link($type) {
+    if ($this->token) {
+      // retrieve objects from "RetrieveMyCdxLinkDetails" service
+      $data = [];
+      $role_ids = explode('|', $role_ids);
+      foreach ($role_ids as $role_id) {
+        // make the SOAP call
+        $params_for_data = [
+          'securityToken' => $this->token,
+          'userId' => $this->cdx_username,
+          'roleId' => $role_id,
+        ];
+        $result = $this->soapHandler->callSOAPWithParams($this->client, "RetrieveMyCdxLinkDetails", $params_for_data, get_class($this));
+        if ($result->error) {
+          continue;
+        }
+
+        // format it to be some sort of array, match the structure of fetch_sample_my_cdx_links()
+        // CDX service sends an object if the return is singular.
+        // Convert the object to an array containing the object
+        if (!is_array($result->response->linkDetails)) {
+          $result->response->linkDetails = [$result->response->linkDetails];
+        }
+
+        foreach ($result->response->linkDetails as $linkDetail) {
+          // Only accept links that are Active
+          if ($linkDetail->RoleStatus->code === "Active") {
+            $userOrgId = $linkDetail->UserOrganizationId;
+            if (!isset($data['organizations'][$userOrgId])) {
+              $data['orgCount']++;
+              $data['organizations'][$userOrgId] = [
+                'clientCount' => 0,
+                'orgName' => $linkDetail->OrganizationName,
+                'programClients' => [],
+              ];
+            }
+            $data['organizations'][$userOrgId]["clientCount"]++;
+            $data['organizations'][$userOrgId]["programClients"][] = [
+              'clientName' => $linkDetail->Subject,
+              'roleName' => $linkDetail->RoleName,
+              'userRoleId' => $linkDetail->UserRoleId,
+            ];
+          }
+        }
+
+      }
+
+      // Organizations have a 1 to many relationship with Program Clients. We alphabetize
+      // program clients for each organization by clientName,
+      // then alphabetize the organizations by orgName
+      $organizations = [];
+      foreach ($data['organizations'] as $org_obj) {
+        $client_ids = [];
+        foreach ($org_obj['programClients'] as $program_client) {
+          $client_ids[] = $program_client;
+        }
+        // Sort clients for this organization
+        usort($client_ids, function ($a, $b) {
+          return strcmp($a["clientName"], $b["clientName"]);
+        });
+        // Reassign the programClients for this organization to the sorted client_ids
+        $org_obj['programClients'] = $client_ids;
+        $organizations[] = $org_obj;
+      }
+      usort($organizations, function ($a, $b) {
+        return strcmp($a["orgName"], $b["orgName"]);
+      });
+
+      // Reassign the organizations to the sorted version
+      $data['organizations'] = $organizations;
+
+      return $data;
+    }
+    else {
+      return [];
+    }
+  }
+
   /**
    * Fetch My CDX link handoff from SOAP service
    */
@@ -215,6 +293,17 @@ class EEPMyReportingController extends ControllerBase {
       }
     }
     return $link_handoff;
+  }
+
+  function fetch_my_reporting_configs() {
+    $response = $this->config;
+    $response = $response->getRawData();
+    unset($response['admin_id']);
+    unset($response['authentication_method']);
+    unset($response['domain']);
+    unset($response['wsdl']);
+    $response['ssoToken'] = $this->token;
+    return new JsonResponse($response);
   }
 
 }

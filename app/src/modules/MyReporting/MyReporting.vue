@@ -43,29 +43,39 @@
       </nav>
       <div id="my-reporting">
         <ul class="inline-cdx-links">
-          <li class="my-cdx-login"><a
+          <li class="my-cdx-login cursor-pointer"><a
             class="my-cdx-web-handoff-link"
             data-handoff-type="login"
-            href="javascript:void(0)">My CDX</a></li>
-          <li class="my-cdx-inbox"><a
+            @click="openPopupPage(cdx_configs.cdx_silent_handoff_url, {'ssoToken' : cdx_configs.ssoToken})">My CDX</a>
+          </li>
+
+          <li class="my-cdx-inbox cursor-pointer"><a
             class="my-cdx-web-handoff-link"
             data-handoff-type="inbox"
-            href="javascript:void(0)">Inbox</a></li>
-          <li class="my-cdx-alerts"><a
+            @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}/Inbox`, {'ssoToken' : cdx_configs.ssoToken})">Inbox</a>
+          </li>
+
+          <li class="my-cdx-alerts cursor-pointer"><a
             class="my-cdx-web-handoff-link"
             data-handoff-type="alerts"
-            href="javascript:void(0)">News and Alerts</a>
+            @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}/Alerts`, {'ssoToken' : cdx_configs.ssoToken})">
+            News and Alerts</a>
           </li>
-          <li class="my-cdx-profile"><a
-            class="my-cdx-web-handoff-link"
-            data-handoff-type="profile"
-            href="javascript:void(0)">My Profile</a>
+
+          <li class="my-cdx-profile cursor-pointer">
+            <a
+              class="my-cdx-web-handoff-link"
+              data-handoff-type="profile"
+              @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}/MyProfile`, {'ssoToken' : cdx_configs.ssoToken})">
+              My Profile</a>
           </li>
-          <li class="my-cdx-submission"><a
+          <li
+            class="my-cdx-submission cursor-pointer"><a
             class="my-cdx-web-handoff-link"
             data-handoff-type="submission"
-            href="javascript:void(0)">Submission
-            History</a></li>
+            @click="openPopupPage(`${cdx_configs.cdx_submission_history_url}`, {'ssoToken' : cdx_configs.ssoToken})">Submission
+            History</a>
+          </li>
         </ul>
       </div>
       <div
@@ -130,7 +140,8 @@
                   <div>
                     <b-btn
                       @click="onClickGetLinkDetails(data.item.roleId, $event.target)"
-                      :data-roleId="data.item.roleId">{{ data.item.role }}</b-btn>
+                      :data-roleId="data.item.roleId">{{ data.item.role }}
+                    </b-btn>
                   </div>
                 </template>
                 <template
@@ -168,10 +179,13 @@
                   <div class="my-cdx-detail-group">Program Client ID</div>
                   <div class="program-client-name"/>
                   <b-form-select
+                    :disabled="!organization"
                     v-model="programClientId"
                     class="mb-3"
-                    @change="onProgramClientChange(value)">
-                    <template slot="first">
+                    @change="onProgramClientChange($event)">
+                    <template
+                      slot="first"
+                      v-if="!!organization">
                       <option :value="null">Choose Program Client...</option>
                       <option
                         v-for="(item, index) in organization.programClients"
@@ -186,7 +200,11 @@
                   <div class="my-cdx-detail-group">Program</div>
                   <div class="program-acronym"/>
                   <div class="my-cdx-detail-group">
-                    <b-btn @click="openPopupPage()">Proceed</b-btn>
+                    <b-btn
+                      :disabled="!handoff"
+                      @click="openPopupPage(handoff.destination_url, handoff.post_params)">
+                      Proceed
+                    </b-btn>
                   </div>
                 </div>
               </AppModal>
@@ -271,11 +289,12 @@
         filter: null,
         modalInfo: { title: '', content: '' },
         linkDetails: {},
-        organization: {},
+        organization: null,
         programClientId: null,
         roleId: '',
         userRoleId: '',
-        handoff: {},
+        handoff: null,
+        cdx_configs: {},
       };
     },
     beforeCreate() {
@@ -304,6 +323,21 @@
         )
           .then((response) => {
             vm.items = response.data;
+          });
+
+        AppAxios.get(
+          `${vm.apiURL}/api/cdx/configs`,
+          {
+            headers: {
+              Authorization: `Bearer ${cookie}`,
+              crossDomain: true,
+              'cache-control': 'no-cache',
+              'Content-Type': 'application/json',
+            },
+          },
+        )
+          .then((response) => {
+            vm.cdx_configs = response.data;
           });
       }
     },
@@ -338,8 +372,8 @@
         this.totalRows = filteredItems.length;
         this.currentPage = 1;
       },
-      openPopupPage() {
-        this.openWindowWithPost(this.handoff.destination_url, '', 'sso-handoff', this.handoff.post_params);
+      openPopupPage(url, params) {
+        this.openWindowWithPost(`${url}`, '', 'sso-handoff', params);
       },
       openWindowWithPost(url, windowoption, name, params) {
         const form = document.createElement('form');
@@ -364,7 +398,7 @@
       onClickGetLinkDetails(roleIds, button) {
         const vm = this;
 
-        if(roleIds){
+        if (roleIds) {
           AppAxios.get(
             `${vm.apiURL}/api/cdx/link-details-json/${roleIds}`,
             {
@@ -377,18 +411,19 @@
             },
           )
             .then((response) => {
+              vm.organization = null;
               vm.$root.$emit('bv::show::modal', 'my-reporting-link-details', button);
               vm.linkDetails = response.data;
             });
         }
-
       },
-      onProgramClientChange() {
+      onProgramClientChange(value) {
         const vm = this;
+        vm.handoff = null;
 
-        if (vm.programClientId) {
+        if (value) {
           AppAxios.get(
-            `${vm.apiURL}/api/cdx/link-json-handoff/${vm.programClientId}`,
+            `${vm.apiURL}/api/cdx/link-json-handoff/${value}`,
             {
               headers: {
                 Authorization: `Bearer ${vm.token}`,
