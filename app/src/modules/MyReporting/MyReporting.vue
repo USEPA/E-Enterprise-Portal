@@ -127,10 +127,13 @@
                 <template
                   slot="role"
                   slot-scope="data">
-                  <div>
+                  <div v-if="data.item.sso_to_app_enabled">
                     <b-btn
                       @click="onClickGetLinkDetails(data.item.roleId, $event.target)"
                       :data-roleId="data.item.roleId">{{ data.item.role }}</b-btn>
+                  </div>
+                  <div v-else>
+                    Nothing
                   </div>
                 </template>
                 <template
@@ -170,7 +173,7 @@
                   <b-form-select
                     v-model="programClientId"
                     class="mb-3"
-                    @change="onProgramClientChange(value)">
+                    @change="onProgramClientChange($event)">
                     <template slot="first">
                       <option :value="null">Choose Program Client...</option>
                       <option
@@ -436,9 +439,9 @@
       onProgramClientChange(value) {
         const vm = this;
 
-        if (vm.programClientId) {
+        if (value) {
           AppAxios.get(
-            `${vm.apiURL}/api/cdx/link-json-handoff/${vm.programClientId}`,
+            `${vm.apiURL}/api/cdx/link-json-handoff/${value}`,
             {
               headers: {
                 Authorization: `Bearer ${vm.token}`,
@@ -449,7 +452,6 @@
             },
           )
             .then((response) => {
-              vm.$root.$emit(value);
               vm.handoff = response.data;
             });
         }

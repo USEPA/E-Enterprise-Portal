@@ -83,6 +83,7 @@ class EEPMyReportingController extends ControllerBase {
             'data_acronym' => $link->DataflowAcronym,
             'roleId' => $link->RoleId,
             'status' => $link->Status->code,
+            'sso_to_app_enabled' => $link->EEPIntegration
           ];
 
           $cdx_link_data[] = $program_data;
@@ -150,7 +151,6 @@ class EEPMyReportingController extends ControllerBase {
 
         foreach ($result->response->linkDetails as $linkDetail) {
           // Only accept links that are Active
-          if ($linkDetail->RoleStatus->code === "Active") {
             $userOrgId = $linkDetail->UserOrganizationId;
             if (!isset($data['organizations'][$userOrgId])) {
               $data['orgCount']++;
@@ -166,7 +166,6 @@ class EEPMyReportingController extends ControllerBase {
               'roleName' => $linkDetail->RoleName,
               'userRoleId' => $linkDetail->UserRoleId,
             ];
-          }
         }
 
       }
