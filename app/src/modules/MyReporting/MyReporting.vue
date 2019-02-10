@@ -43,38 +43,48 @@
       </nav>
       <div id="my-reporting">
         <ul class="inline-cdx-links">
-          <li class="my-cdx-login cursor-pointer"><a
-            class="my-cdx-web-handoff-link"
-            data-handoff-type="login"
-            @click="openPopupPage(cdx_configs.cdx_silent_handoff_url, {'ssoToken' : cdx_configs.ssoToken})">My CDX</a>
+          <li class="my-cdx-login cursor-pointer">
+            <a
+              class="my-cdx-web-handoff-link"
+              data-handoff-type="login"
+              @click="openPopupPage(cdx_configs.cdx_silent_handoff_url, getCdxParams())">
+              My CDX
+            </a>
           </li>
 
-          <li class="my-cdx-inbox cursor-pointer"><a
-            class="my-cdx-web-handoff-link"
-            data-handoff-type="inbox"
-            @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}/Inbox`, {'ssoToken' : cdx_configs.ssoToken})">Inbox</a>
+          <li class="my-cdx-inbox cursor-pointer">
+            <a
+              class="my-cdx-web-handoff-link"
+              data-handoff-type="inbox"
+              @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}/Inbox`, getCdxParams())">
+              Inbox
+            </a>
           </li>
 
-          <li class="my-cdx-alerts cursor-pointer"><a
-            class="my-cdx-web-handoff-link"
-            data-handoff-type="alerts"
-            @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}/Alerts`, {'ssoToken' : cdx_configs.ssoToken})">
-            News and Alerts</a>
+          <li class="my-cdx-alerts cursor-pointer">
+            <a
+              class="my-cdx-web-handoff-link"
+              data-handoff-type="alerts"
+              @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}/Alerts`, getCdxParams())">
+              News and Alerts
+            </a>
           </li>
 
           <li class="my-cdx-profile cursor-pointer">
             <a
               class="my-cdx-web-handoff-link"
               data-handoff-type="profile"
-              @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}/MyProfile`, {'ssoToken' : cdx_configs.ssoToken})">
+              @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}/MyProfile`, getCdxParams())">
               My Profile</a>
           </li>
           <li
-            class="my-cdx-submission cursor-pointer"><a
-            class="my-cdx-web-handoff-link"
-            data-handoff-type="submission"
-            @click="openPopupPage(`${cdx_configs.cdx_submission_history_url}`, {'ssoToken' : cdx_configs.ssoToken})">Submission
-            History</a>
+            class="my-cdx-submission cursor-pointer">
+            <a
+              class="my-cdx-web-handoff-link"
+              data-handoff-type="submission"
+              @click="openPopupPage(`${cdx_configs.cdx_submission_history_url}`, getCdxParams())">
+              Submission History
+            </a>
           </li>
         </ul>
       </div>
@@ -357,6 +367,11 @@
       ]),
       closeAddModal(item, index, button) {
         this.$root.$emit('bv::hide::modal', 'modalInfo', button);
+      },
+      getCdxParams() {
+        return {
+          ssoToken: this.cdx_configs.ssoToken,
+        };
       },
       info(item, index, button) {
         this.modalInfo.title = `Row index: ${index}`;

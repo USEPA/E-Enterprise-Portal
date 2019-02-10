@@ -43,11 +43,11 @@ class AuthenticationConfigForm extends ConfigFormBase {
       '#description' => $this->t('A URL ending with \'?wsdl\''),
       '#default_value' => $config->get('wsdl'),
     ];
-    $form['cdx_silent_handoff_url'] = [
+    $form['cdx_base_url'] = [
       '#type' => 'textfield',
       '#title' => $this->t('CDX URL for SSO and silent handoffs'),
       '#description' => $this->t('This URL is used for the SSO redirect to CDX'),
-      '#default_value' => $config->get('cdx_silent_handoff_url'),
+      '#default_value' => $config->get('cdx_base_url'),
     ];
     $form['cdx_submission_history_url'] = [
       '#type' => 'textfield',
@@ -80,7 +80,7 @@ class AuthenticationConfigForm extends ConfigFormBase {
     parent::submitForm($form, $form_state);
     $this->config('eep_my_reporting.form')
       ->set('wsdl', $form_state->getValue('wsdl'))
-      ->set('cdx_silent_handoff_url', $form_state->getValue('cdx_silent_handoff_url'))
+      ->set('cdx_base_url', $form_state->getValue('cdx_base_url'))
       ->set('cdx_submission_history_url', $form_state->getValue('cdx_submission_history_url'))
       ->set('admin_id', $form_state->getValue('admin_id'))
       ->set('domain', $form_state->getValue('domain'))

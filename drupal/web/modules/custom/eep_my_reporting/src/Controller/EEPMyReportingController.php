@@ -40,7 +40,7 @@ class EEPMyReportingController extends ControllerBase {
     $this->cdx_username = $this->getCDXUserName();
     $this->cdx_register_service = new CDXRegisterMyCdxService($this->config);
     $this->token = $this->cdx_register_service->return_token();
-    $this->location = 'my_cdx.module';
+    $this->location = 'eep_my_reporting.module';
     $this->soapHandler = new SOAPHandler();
 
     // Get the root item
@@ -80,6 +80,7 @@ class EEPMyReportingController extends ControllerBase {
           $program_data = [
             'program_service_name' => $link->DataflowAcronym . ': ' . $link->DataflowName,
             'role' => $link->Description,
+            'data_acronym' => $link->DataflowAcronym,
             'roleId' => $link->RoleId,
             'status' => $link->Status->code,
           ];
@@ -302,7 +303,12 @@ class EEPMyReportingController extends ControllerBase {
     unset($response['authentication_method']);
     unset($response['domain']);
     unset($response['wsdl']);
-    $response['ssoToken'] = $this->token;
+
+    // UTF-16LE and base64 encoding are required by the cdx NaasToken silent handoff.
+    $sso_token = "token=" . $this->token . "&remoteIpAddress=" . $_SERVER['LOCAL_ADDR'];
+    $sso_token = mb_convert_encoding($sso_token, 'UTF-16LE');
+    $response['ssoToken'] = base64_encode($sso_token);
+    $response['cdx_silent_handoff_url'] = $response['cdx_base_url'] . '/SilentHandoff/NaasTokenSSO';
     return new JsonResponse($response);
   }
 
