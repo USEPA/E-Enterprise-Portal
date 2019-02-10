@@ -46,25 +46,25 @@
           <li class="my-cdx-login"><a
             class="my-cdx-web-handoff-link"
             data-handoff-type="login"
-            href="javascript:void(0)">My CDX</a></li>
+            v-on:click="cdxLinkOpen">My CDX</a></li>
           <li class="my-cdx-inbox"><a
             class="my-cdx-web-handoff-link"
             data-handoff-type="inbox"
-            href="javascript:void(0)">Inbox</a></li>
+            v-on:click="cdxLinkOpen">Inbox</a></li>
           <li class="my-cdx-alerts"><a
             class="my-cdx-web-handoff-link"
             data-handoff-type="alerts"
-            href="javascript:void(0)">News and Alerts</a>
+            v-on:click="cdxLinkOpen">News and Alerts</a>
           </li>
           <li class="my-cdx-profile"><a
             class="my-cdx-web-handoff-link"
             data-handoff-type="profile"
-            href="javascript:void(0)">My Profile</a>
+            v-on:click="cdxLinkOpen">My Profile</a>
           </li>
           <li class="my-cdx-submission"><a
             class="my-cdx-web-handoff-link"
             data-handoff-type="submission"
-            href="javascript:void(0)">Submission
+            v-on:click="cdxLinkOpen">Submission
             History</a></li>
         </ul>
       </div>
@@ -338,7 +338,57 @@
         this.totalRows = filteredItems.length;
         this.currentPage = 1;
       },
-      openPopupPage() {
+      cdxLinkOpen() {
+        const handoff_type = document.getElementsByClassName("my-cdx-web-handoff-link")[0].getAttribute("data-handoff-type");
+        this.processUserHandoff(handoff_type);
+        },
+
+      processHandoffParams(service_return) {
+        let form = '';
+        if (service_return) {
+          if (service_return.post_params) {
+            form = this.openWindowWithPost(service_return.destination_url, service_return.post_params);
+          }
+        }
+        return form;
+      },
+      submitHandoffForm(form) {
+    let sso_wrapper = '.my-reporting-sso-form-wrapper';
+    sso_wrapper.html(form);
+    sso_wrapper.find('form').submit();
+    sso_wrapper.html('');
+  },
+      processUserHandoff(handoff_type) {
+    let return_url = this.returnUrlForHandoffType(handoff_type);
+    let postBuildingComponents = {
+      destination_url: 'https://dev.epacdx.net',
+      post_params: {
+        Token: this.token
+      }
+    };
+    if (return_url !== '') {
+      postBuildingComponents.post_params.returnUrl = '?URL=' + return_url;
+    }
+    let form = this.processHandoffParams(postBuildingComponents);
+    this.submitHandoffForm(form);
+  },
+      returnUrlForHandoffType(handoff_type) {
+    let url = '';
+    let cdx_environment = 'https://dev.epacdx.net';
+    switch (handoff_type) {
+      case 'inbox':
+        url = cdx_environment + '/Inbox';
+        break;
+      case 'my_account':
+        url = cdx_environment + '/MyProfile';
+        break;
+      case 'submission':
+        url = 'https://devngn.epacdxnode.net/cromerr-review/action/submitter/home/';
+        break;
+    }
+    return encodeURIComponent(url);
+  },
+    openPopupPage() {
         this.openWindowWithPost(this.handoff.destination_url, '', 'sso-handoff', this.handoff.post_params);
       },
       openWindowWithPost(url, windowoption, name, params) {
@@ -383,7 +433,7 @@
         }
 
       },
-      onProgramClientChange() {
+      onProgramClientChange(value) {
         const vm = this;
 
         if (vm.programClientId) {
@@ -399,6 +449,7 @@
             },
           )
             .then((response) => {
+              vm.$root.$emit(value);
               vm.handoff = response.data;
             });
         }

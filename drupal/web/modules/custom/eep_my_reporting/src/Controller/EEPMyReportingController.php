@@ -40,7 +40,7 @@ class EEPMyReportingController extends ControllerBase {
     $this->cdx_username = $this->getCDXUserName();
     $this->cdx_register_service = new CDXRegisterMyCdxService($this->config);
     $this->token = $this->cdx_register_service->return_token();
-    $this->location = 'my_cdx.module';
+    $this->location = 'eep_my_reporting.module';
     $this->soapHandler = new SOAPHandler();
 
     // Get the root item
@@ -80,6 +80,7 @@ class EEPMyReportingController extends ControllerBase {
           $program_data = [
             'program_service_name' => $link->DataflowAcronym . ': ' . $link->DataflowName,
             'role' => $link->Description,
+            'data_acronym' => $link->DataflowAcronym,
             'roleId' => $link->RoleId,
             'status' => $link->Status->code,
           ];
@@ -96,11 +97,11 @@ class EEPMyReportingController extends ControllerBase {
   /**
    * Callback for 'api/cdx/link-details-json/%' menu item
    */
-  function my_cdx_json_link_details($roleIds) {
+  function my_cdx_json_link_details($roleId) {
     $response = [];
 
     // @todo Add caching of CDX roles
-    if ($input = $this->fetch_my_cdx_link_details($roleIds)) {
+    if ($input = $this->fetch_my_cdx_link_details($roleId)) {
       $response = $input;
     }
     return new JsonResponse($response);
