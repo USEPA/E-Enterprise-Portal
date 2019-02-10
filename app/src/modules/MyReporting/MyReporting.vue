@@ -122,12 +122,16 @@
                 <template
                   slot="program_service_name"
                   slot-scope="data">
-                  <div>{{data.item.program_service_name}}</div>
+                  <div>{{ data.item.program_service_name }}</div>
                 </template>
                 <template
                   slot="role"
                   slot-scope="data">
-                  <div><b-btn v-b-modal.my-reporting-modal-content>{{data.item.role}}</b-btn></div>
+                  <div>
+                    <b-btn
+                      @click="onClickGetLinkDetails(data.item.roleId, $event.target)"
+                      :data-roleId="data.item.roleId">{{ data.item.role }}</b-btn>
+                  </div>
                 </template>
                 <template
                   slot="status"
@@ -136,8 +140,8 @@
                 </template>
               </b-table>
               <AppModal
-                id="my-reporting-modal-content"
-                modal-ref="my_reporting_link_details"
+                id="my-reporting-link-details"
+                modal-ref="my-reporting-link-details"
                 busy
                 hide-footer
                 title="Application Profile Settings">
@@ -145,26 +149,36 @@
                   <div class="my-cdx-detail-group">Organization Name</div>
                   <div class="organization-name"/>
 
-                  <b-form-select v-model="organization" class="mb-3" >
+                  <b-form-select
+                    v-model="organization"
+                    class="mb-3">
 
                     <template slot="first">
                       <option :value="null">Choose Organization...</option>
                       <option
                         v-for="(item, index) in linkDetails.organizations"
                         :value="linkDetails.organizations[index]"
-                        >{{item.orgName}}</option>
+                        :key="index"
+                      >{{ item.orgName }}
+                      </option>
                     </template>
 
                   </b-form-select>
 
                   <div class="my-cdx-detail-group">Program Client ID</div>
                   <div class="program-client-name"/>
-                  <b-form-select v-model="programClientId" class="mb-3" >
+                  <b-form-select
+                    v-model="programClientId"
+                    class="mb-3"
+                    @change="onProgramClientChange(value)">
                     <template slot="first">
                       <option :value="null">Choose Program Client...</option>
                       <option
                         v-for="(item, index) in organization.programClients"
-                        :value="item.userRoleId">{{item.roleName}} - {{item.clientName}}</option>
+                        :value="item.userRoleId"
+                        :key="index">
+                        {{ item.roleName }} - {{ item.clientName }}
+                      </option>
                     </template>
 
                   </b-form-select>
@@ -172,7 +186,7 @@
                   <div class="my-cdx-detail-group">Program</div>
                   <div class="program-acronym"/>
                   <div class="my-cdx-detail-group">
-                    <b-btn @click=" openPopupPage">Proceed</b-btn>
+                    <b-btn @click="openPopupPage()">Proceed</b-btn>
                   </div>
                 </div>
               </AppModal>
@@ -259,9 +273,9 @@
         linkDetails: {},
         organization: {},
         programClientId: null,
-        roleId:'',
-        userRoleId:'',
-        handoff:{},
+        roleId: '',
+        userRoleId: '',
+        handoff: {},
       };
     },
     beforeCreate() {
@@ -273,13 +287,12 @@
         store.registerModule(moduleName, storeModule);
       }
     },
-
     mounted() {
       const vm = this;
-      const cookie = this.$cookie.get('Token');
+      const cookie = vm.$cookie.get('Token');
       if (vm.isUserLoggedIn) {
         AppAxios.get(
-          `${this.apiURL}/api/cdx/dataflows`,
+          `${vm.apiURL}/api/cdx/dataflows`,
           {
             headers: {
               Authorization: `Bearer ${cookie}`,
@@ -290,35 +303,7 @@
           },
         )
           .then((response) => {
-            this.items = response.data;
-          });
-        AppAxios.get(
-          `${this.apiURL}/api/cdx/link-details-json/${this.roleId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${cookie}`,
-              crossDomain: true,
-              'cache-control': 'no-cache',
-              'Content-Type': 'application/json',
-            },
-          },
-        )
-          .then((response) => {
-            this.linkDetails = response.data;
-          });
-        AppAxios.get(
-          `${this.apiURL}/api/cdx/link-json-handoff/${this.userRoleId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${cookie}`,
-              crossDomain: true,
-              'cache-control': 'no-cache',
-              'Content-Type': 'application/json',
-            },
-          },
-        )
-          .then((response) => {
-            this.handoff = response.data;
+            vm.items = response.data;
           });
       }
     },
@@ -328,14 +313,14 @@
         isUserLoggedIn: 'getIsLoggedIn',
         // map getters go here
       }),
+      token() {
+        return this.$cookie.get('Token');
+      },
     },
     methods: {
       ...mapActions(moduleName, [
         // map actions go here
       ]),
-      openAddModal(item, index, button) {
-        this.$root.$emit('bv::show::modal', 'addModalInfo', button);
-      },
       closeAddModal(item, index, button) {
         this.$root.$emit('bv::hide::modal', 'modalInfo', button);
       },
@@ -353,38 +338,71 @@
         this.totalRows = filteredItems.length;
         this.currentPage = 1;
       },
+      openPopupPage() {
+        this.openWindowWithPost(this.handoff.destination_url, '', 'sso-handoff', this.handoff.post_params);
+      },
+      openWindowWithPost(url, windowoption, name, params) {
+        const form = document.createElement('form');
+        form.setAttribute('method', 'post');
+        form.setAttribute('action', url);
+        form.setAttribute('target', name);
+        const keys = Object.keys(params);
 
-      openPopupPage(destination_url, Token, CDX_Data)
-  {
-    var param = { 'Token' : Token, 'CDX_Data': CDX_Data };
-    OpenWindowWithPost(relativeUrl, "width=1000, height=600, left=100, top=100, resizable=yes, scrollbars=yes", "NewFile", param);
-  },
+        // eslint-disable-next-line array-callback-return
+        keys.map((key) => {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = key;
+          input.value = params[key];
+          form.appendChild(input);
+        });
+        document.body.appendChild(form);
+        window.open('sso-handoff.htm', name, windowoption);
+        form.submit();
+        document.body.removeChild(form);
+      },
+      onClickGetLinkDetails(roleIds, button) {
+        const vm = this;
 
+        if(roleIds){
+          AppAxios.get(
+            `${vm.apiURL}/api/cdx/link-details-json/${roleIds}`,
+            {
+              headers: {
+                Authorization: `Bearer ${vm.token}`,
+                crossDomain: true,
+                'cache-control': 'no-cache',
+                'Content-Type': 'application/json',
+              },
+            },
+          )
+            .then((response) => {
+              vm.$root.$emit('bv::show::modal', 'my-reporting-link-details', button);
+              vm.linkDetails = response.data;
+            });
+        }
 
-  OpenWindowWithPost(url, windowoption, name, params)
-  {
-    var form = document.createElement("form");
-    form.setAttribute("method", "post");
-    form.setAttribute("action", url);
-    form.setAttribute("target", name);
-    for (var i in params)
-    {
-      if (params.hasOwnProperty(i))
-      {
-        var input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = i;
-        input.value = params[i];
-        form.appendChild(input);
-      }
-    }
-    document.body.appendChild(form);
-    //note I am using a post.htm page since I did not want to make double request to the page
-    //it might have some Page_Load call which might screw things up.
-    window.open("post.htm", name, windowoption);
-    form.submit();
-    document.body.removeChild(form);
-  }
+      },
+      onProgramClientChange() {
+        const vm = this;
+
+        if (vm.programClientId) {
+          AppAxios.get(
+            `${vm.apiURL}/api/cdx/link-json-handoff/${vm.programClientId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${vm.token}`,
+                crossDomain: true,
+                'cache-control': 'no-cache',
+                'Content-Type': 'application/json',
+              },
+            },
+          )
+            .then((response) => {
+              vm.handoff = response.data;
+            });
+        }
+      },
     },
     props: {
       eepApp: {
@@ -392,7 +410,7 @@
         required: true,
       },
     },
-    };
+  };
 </script>
 
 <style scoped
