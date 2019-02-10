@@ -43,29 +43,49 @@
       </nav>
       <div id="my-reporting">
         <ul class="inline-cdx-links">
-          <li class="my-cdx-login"><a
-            class="my-cdx-web-handoff-link"
-            data-handoff-type="login"
-            v-on:click="cdxLinkOpen">My CDX</a></li>
-          <li class="my-cdx-inbox"><a
-            class="my-cdx-web-handoff-link"
-            data-handoff-type="inbox"
-            v-on:click="cdxLinkOpen">Inbox</a></li>
-          <li class="my-cdx-alerts"><a
-            class="my-cdx-web-handoff-link"
-            data-handoff-type="alerts"
-            v-on:click="cdxLinkOpen">News and Alerts</a>
+          <li class="my-cdx-login cursor-pointer">
+            <a
+              class="my-cdx-web-handoff-link"
+              data-handoff-type="login"
+              @click="openPopupPage(cdx_configs.cdx_silent_handoff_url, getCdxParams())">
+              My CDX
+            </a>
           </li>
-          <li class="my-cdx-profile"><a
-            class="my-cdx-web-handoff-link"
-            data-handoff-type="profile"
-            v-on:click="cdxLinkOpen">My Profile</a>
+
+          <li class="my-cdx-inbox cursor-pointer">
+            <a
+              class="my-cdx-web-handoff-link"
+              data-handoff-type="inbox"
+              @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}/Inbox`, getCdxParams())">
+              Inbox
+            </a>
           </li>
-          <li class="my-cdx-submission"><a
-            class="my-cdx-web-handoff-link"
-            data-handoff-type="submission"
-            v-on:click="cdxLinkOpen">Submission
-            History</a></li>
+
+          <li class="my-cdx-alerts cursor-pointer">
+            <a
+              class="my-cdx-web-handoff-link"
+              data-handoff-type="alerts"
+              @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}/Alerts`, getCdxParams())">
+              News and Alerts
+            </a>
+          </li>
+
+          <li class="my-cdx-profile cursor-pointer">
+            <a
+              class="my-cdx-web-handoff-link"
+              data-handoff-type="profile"
+              @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}/MyProfile`, getCdxParams())">
+              My Profile</a>
+          </li>
+          <li
+            class="my-cdx-submission cursor-pointer">
+            <a
+              class="my-cdx-web-handoff-link"
+              data-handoff-type="submission"
+              @click="openPopupPage(`${cdx_configs.cdx_submission_history_url}`, getCdxParams())">
+              Submission History
+            </a>
+          </li>
         </ul>
       </div>
       <div
@@ -130,7 +150,8 @@
                   <div v-if="data.item.sso_to_app_enabled">
                     <b-btn
                       @click="onClickGetLinkDetails(data.item.roleId, $event.target)"
-                      :data-roleId="data.item.roleId">{{ data.item.role }}</b-btn>
+                      :data-roleId="data.item.roleId">{{ data.item.role }}
+                    </b-btn>
                   </div>
                   <div v-else>
                     Nothing
@@ -171,10 +192,13 @@
                   <div class="my-cdx-detail-group">Program Client ID</div>
                   <div class="program-client-name"/>
                   <b-form-select
+                    :disabled="!organization"
                     v-model="programClientId"
                     class="mb-3"
                     @change="onProgramClientChange($event)">
-                    <template slot="first">
+                    <template
+                      slot="first"
+                      v-if="!!organization">
                       <option :value="null">Choose Program Client...</option>
                       <option
                         v-for="(item, index) in organization.programClients"
@@ -189,7 +213,11 @@
                   <div class="my-cdx-detail-group">Program</div>
                   <div class="program-acronym"/>
                   <div class="my-cdx-detail-group">
-                    <b-btn @click="openPopupPage()">Proceed</b-btn>
+                    <b-btn
+                      :disabled="!handoff"
+                      @click="openPopupPage(handoff.destination_url, handoff.post_params)">
+                      Proceed
+                    </b-btn>
                   </div>
                 </div>
               </AppModal>
@@ -274,11 +302,12 @@
         filter: null,
         modalInfo: { title: '', content: '' },
         linkDetails: {},
-        organization: {},
+        organization: null,
         programClientId: null,
         roleId: '',
         userRoleId: '',
-        handoff: {},
+        handoff: null,
+        cdx_configs: {},
       };
     },
     beforeCreate() {
@@ -308,6 +337,21 @@
           .then((response) => {
             vm.items = response.data;
           });
+
+        AppAxios.get(
+          `${vm.apiURL}/api/cdx/configs`,
+          {
+            headers: {
+              Authorization: `Bearer ${cookie}`,
+              crossDomain: true,
+              'cache-control': 'no-cache',
+              'Content-Type': 'application/json',
+            },
+          },
+        )
+          .then((response) => {
+            vm.cdx_configs = response.data;
+          });
       }
     },
     computed: {
@@ -327,6 +371,11 @@
       closeAddModal(item, index, button) {
         this.$root.$emit('bv::hide::modal', 'modalInfo', button);
       },
+      getCdxParams() {
+        return {
+          ssoToken: this.cdx_configs.ssoToken,
+        };
+      },
       info(item, index, button) {
         this.modalInfo.title = `Row index: ${index}`;
         this.modalInfo.content = JSON.stringify(item, null, 2);
@@ -341,58 +390,8 @@
         this.totalRows = filteredItems.length;
         this.currentPage = 1;
       },
-      cdxLinkOpen() {
-        const handoff_type = document.getElementsByClassName("my-cdx-web-handoff-link")[0].getAttribute("data-handoff-type");
-        this.processUserHandoff(handoff_type);
-        },
-
-      processHandoffParams(service_return) {
-        let form = '';
-        if (service_return) {
-          if (service_return.post_params) {
-            form = this.openWindowWithPost(service_return.destination_url, service_return.post_params);
-          }
-        }
-        return form;
-      },
-      submitHandoffForm(form) {
-    let sso_wrapper = '.my-reporting-sso-form-wrapper';
-    sso_wrapper.html(form);
-    sso_wrapper.find('form').submit();
-    sso_wrapper.html('');
-  },
-      processUserHandoff(handoff_type) {
-    let return_url = this.returnUrlForHandoffType(handoff_type);
-    let postBuildingComponents = {
-      destination_url: 'https://dev.epacdx.net',
-      post_params: {
-        Token: this.token
-      }
-    };
-    if (return_url !== '') {
-      postBuildingComponents.post_params.returnUrl = '?URL=' + return_url;
-    }
-    let form = this.processHandoffParams(postBuildingComponents);
-    this.submitHandoffForm(form);
-  },
-      returnUrlForHandoffType(handoff_type) {
-    let url = '';
-    let cdx_environment = 'https://dev.epacdx.net';
-    switch (handoff_type) {
-      case 'inbox':
-        url = cdx_environment + '/Inbox';
-        break;
-      case 'my_account':
-        url = cdx_environment + '/MyProfile';
-        break;
-      case 'submission':
-        url = 'https://devngn.epacdxnode.net/cromerr-review/action/submitter/home/';
-        break;
-    }
-    return encodeURIComponent(url);
-  },
-    openPopupPage() {
-        this.openWindowWithPost(this.handoff.destination_url, '', 'sso-handoff', this.handoff.post_params);
+      openPopupPage(url, params) {
+        this.openWindowWithPost(`${url}`, '', 'sso-handoff', params);
       },
       openWindowWithPost(url, windowoption, name, params) {
         const form = document.createElement('form');
@@ -417,7 +416,7 @@
       onClickGetLinkDetails(roleIds, button) {
         const vm = this;
 
-        if(roleIds){
+        if (roleIds) {
           AppAxios.get(
             `${vm.apiURL}/api/cdx/link-details-json/${roleIds}`,
             {
@@ -430,14 +429,15 @@
             },
           )
             .then((response) => {
+              vm.organization = null;
               vm.$root.$emit('bv::show::modal', 'my-reporting-link-details', button);
               vm.linkDetails = response.data;
             });
         }
-
       },
       onProgramClientChange(value) {
         const vm = this;
+        vm.handoff = null;
 
         if (value) {
           AppAxios.get(

@@ -38,3 +38,13 @@ eep_my_reporting.link_json_handoff:
     _access: 'TRUE'
   options:
     _auth: ['cookie', 'basic_auth','jwt_auth']
+eep_my_reporting.configs:
+  path: '/api/cdx/configs'
+  defaults:
+    _controller: '\Drupal\eep_my_reporting\Controller\EEPMyReportingController::fetch_my_reporting_configs'
+    _title: 'CDX Dataflows - Configs'
+  methods:  [GET]
+  requirements:
+    _access: 'TRUE'
+  options:
+    _auth: ['cookie', 'basic_auth','jwt_auth']
