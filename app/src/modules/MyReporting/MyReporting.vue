@@ -43,7 +43,8 @@
       </nav>
       <div id="my-reporting">
         <ul class="inline-cdx-links">
-          <li class="my-cdx-login cursor-pointer">
+          <li
+            class="my-cdx-login cursor-pointer">
             <a
               class="my-cdx-web-handoff-link"
               @click="openPopupPage(cdx_configs.cdx_silent_handoff_url, getCdxParams())">
@@ -51,21 +52,24 @@
             </a>
           </li>
 
-          <li class="my-cdx-inbox cursor-pointer">
+          <li
+            class="my-cdx-inbox cursor-pointer">
             <a
               class="my-cdx-web-handoff-link"
               @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}`, getReturnURLWithCdxParams('Inbox'))">
               Inbox
             </a>
           </li>
-          <li class="my-cdx-profile cursor-pointer">
+          <li
+            class="my-cdx-profile cursor-pointer">
             <a
               class="my-cdx-web-handoff-link"
               data-handoff-type="profile"
               @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}`, getReturnURLWithCdxParams('MyProfile'))">
               My Profile</a>
           </li>
-          <li class="my-cdx-submission cursor-pointer">
+          <li
+            class="my-cdx-submission cursor-pointer">
             <a
               class="my-cdx-web-handoff-link"
               data-handoff-type="submission"
