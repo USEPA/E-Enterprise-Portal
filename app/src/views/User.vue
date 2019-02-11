@@ -246,47 +246,100 @@
         console.warn('DELETE PROFILE');
       },
       getCookie(cname) {
-                    const name = `${cname}=`;
-                    const decodedCookie = decodeURIComponent(document.cookie);
-                    const ca = decodedCookie.split(';');
-                    for (let i = 0; i < ca.length; i++) {
-                      let c = ca[i];
-                      while (c.charAt(0) === ' ') {
-                        c = c.substring(1);
-                      }
-                      if (c.indexOf(name) === 0) {
-                        return c.substring(name.length, c.length);
-                      }
-                    }
-                    return '';
-                  },
-                  axiosPatch(){
-                   this.axiosPATCHOrg();
-                    this.axiosPATCHRole();
-                  },
-            axiosPATCHOrg() {
-             const firstField = 'org';
-             const secondField = this.selected;
-             console.warn(secondField);
-                          this.fieldOrganisation = this.fieldOrganisation.concat(
-                            {
-                              first: firstField,
-                              second: secondField,
-                            },
-                          );
-             if (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1) {
-            // pushes changes to backend
+        const name = `${cname}=`;
+        const decodedCookie = decodeURIComponent(document.cookie);
+        const ca = decodedCookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) === ' ') {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) === 0) {
+            return c.substring(name.length, c.length);
+          }
+        }
+        return '';
+      },
+      axiosPatch(){
+       this.axiosPATCHOrg();
+       this.axiosPATCHRole();
+      },
+      axiosPATCHOrg() {
+         const firstField = 'org';
+         const secondField = this.selected;
+         this.fieldOrganisation = this.fieldOrganisation.concat(
+                        {
+                          first: firstField,
+                          second: secondField,
+                        },
+                      );
+        if (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1) {
+        // pushes changes to backend
+        AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
+            init: [
+              {
+                value: "generated-user@e-enterprise",
+              },
+            ],
+            field_organisation: this.selected,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${this.Token}`,
+              crossDomain: true,
+              'cache-control': 'no-cache',
+              'Content-Type': 'application/json',
+            },
+
+          })
+          .then(() => {
+            console.warn('PATCH => success');
+          })
+          .catch(() => {
+            console.warn('PATCH => failure');
+          });
+      } else {
+        // pushes changes to backend
+        AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
+            init: this.userInit,
+            field_organisation: this.selected,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${this.Token}`,
+              crossDomain: true,
+              'cache-control': 'no-cache',
+              'Content-Type': 'application/json',
+            },
+
+          })
+          .then(() => {
+            console.warn('PATCH => success');
+          })
+          .catch(() => {
+            console.warn('PATCH => failure');
+          });
+      }
+    },
+
+    axiosPATCHRole() {
+       const firstField = 'role';
+       const secondField = this.selectedRole;
+       this.fieldRole = this.fieldRole.concat(
+          {
+            first: firstField,
+            second: secondField,
+          },
+          );
+          if (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1) {
+                        // pushes changes to backend
             AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
-                init: [
-                  {
-                    value: "generated-user@e-enterprise",
-                  },
-                ],
-                field_organisation: this.selected,
+
+                field_role: this.fieldRole,
               },
               {
                 headers: {
-                  Authorization: `Bearer ${this.Token}`,
+                  Authorization: `Bearer ${this.token}`,
                   crossDomain: true,
                   'cache-control': 'no-cache',
                   'Content-Type': 'application/json',
@@ -302,12 +355,12 @@
           } else {
             // pushes changes to backend
             AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
-                init: this.userInit,
-                field_organisation: this.selected,
+
+                field_role: this.fieldRole,
               },
               {
                 headers: {
-                  Authorization: `Bearer ${this.Token}`,
+                  Authorization: `Bearer ${this.token}`,
                   crossDomain: true,
                   'cache-control': 'no-cache',
                   'Content-Type': 'application/json',
@@ -322,59 +375,6 @@
               });
           }
         },
-        axiosPATCHRole() {
-           const firstField = 'role';
-           const secondField = this.selectedRole;
-           this.fieldRole = this.fieldRole.concat(
-              {
-                first: firstField,
-                second: secondField,
-              },
-              );
-              if (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1) {
-                            // pushes changes to backend
-                AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
-
-                    field_role: this.fieldRole,
-                  },
-                  {
-                    headers: {
-                      Authorization: `Bearer ${this.token}`,
-                      crossDomain: true,
-                      'cache-control': 'no-cache',
-                      'Content-Type': 'application/json',
-                    },
-
-                  })
-                  .then(() => {
-                    console.warn('PATCH => success');
-                  })
-                  .catch(() => {
-                    console.warn('PATCH => failure');
-                  });
-              } else {
-                // pushes changes to backend
-                AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
-
-                    field_role: this.fieldRole,
-                  },
-                  {
-                    headers: {
-                      Authorization: `Bearer ${this.token}`,
-                      crossDomain: true,
-                      'cache-control': 'no-cache',
-                      'Content-Type': 'application/json',
-                    },
-
-                  })
-                  .then(() => {
-                    console.warn('PATCH => success');
-                  })
-                  .catch(() => {
-                    console.warn('PATCH => failure');
-                  });
-              }
-            },
             },
           };
         </script>
