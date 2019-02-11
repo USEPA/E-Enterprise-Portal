@@ -16,10 +16,7 @@
               variant="link"
               right
               class="widget-dropdown widget-button"
-              no-caret><!--
-              @TODO Move option for mobile workbench
-              <b-dropdown-item-button>Move</b-dropdown-item-button>
-              <b-dropdown-divider/>-->
+              no-caret>
               <b-dropdown-item-button
                 v-for="(text, title, index) in eepApp.field_settings_menu_items"
                 :title="text"
