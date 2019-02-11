@@ -74,7 +74,7 @@
         ref="widget-menu-tabs">
         <b-tab
           :title="title"
-          ref="widgetMenuDescription"
+          ref="widgetMenuItems"
           class="py-3"
           v-for="(text, title) in eepApp.field_settings_menu_items">
           {{ text }}
