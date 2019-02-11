@@ -12,28 +12,28 @@
           id="nav-tab"
           role="tablist">
           <a
-            class="nav-item nav-link active"
+            class="nav-item nav-link active text-decoration-none"
             data-toggle="tab"
             href="#nav-epa"
             role="tab"
             aria-controls="nav-epa"
             aria-selected="true">US EPA</a>
           <a
-            class="nav-item nav-link"
+            class="nav-item nav-link text-decoration-none"
             data-toggle="tab"
             href="#nav-state"
             role="tab"
             aria-controls="nav-state"
             aria-selected="false">State</a>
           <a
-            class="nav-item nav-link"
+            class="nav-item nav-link text-decoration-none"
             data-toggle="tab"
             href="#nav-tribal"
             role="tab"
             aria-controls="nav-tribal"
             aria-selected="false">Tribal</a>
           <a
-            class="nav-item nav-link"
+            class="nav-item nav-link text-decoration-none"
             data-toggle="tab"
             href="#nav-local"
             role="tab"
@@ -43,7 +43,8 @@
       </nav>
       <div id="my-reporting">
         <ul class="inline-cdx-links">
-          <li class="my-cdx-login cursor-pointer">
+          <li
+            class="my-cdx-login cursor-pointer">
             <a
               class="my-cdx-web-handoff-link"
               @click="openPopupPage(cdx_configs.cdx_silent_handoff_url, getCdxParams())">
@@ -51,14 +52,16 @@
             </a>
           </li>
 
-          <li class="my-cdx-inbox cursor-pointer">
+          <li
+            class="my-cdx-inbox cursor-pointer">
             <a
               class="my-cdx-web-handoff-link"
               @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}`, getReturnURLWithCdxParams('Inbox'))">
               Inbox
             </a>
           </li>
-          <li class="my-cdx-profile cursor-pointer">
+          <li
+            class="my-cdx-profile cursor-pointer">
             <a
               class="my-cdx-web-handoff-link"
               data-handoff-type="profile"
@@ -89,8 +92,8 @@
               <!-- User Interface controls -->
               <b-row>
                 <b-col
-                  md="6"
-                  class="my-1">
+                  md="8"
+                  class="my-1 pl-0">
                   <b-form-group
                     horizontal
                     label="Filter"
@@ -104,13 +107,14 @@
                 </b-col>
 
                 <b-col
-                  md="6"
-                  class="my-1">
+                  md="3"
+                  class="my-1 pl-0">
                   <b-form-group
                     horizontal
                     label="Rows"
                     class="mb-0">
                     <b-form-select
+                      class="ml-3"
                       :options="pageOptions"
                       v-model="perPage"/>
                   </b-form-group>
@@ -125,8 +129,7 @@
                 :current-page="currentPage"
                 :per-page="perPage"
                 :filter="filter"
-                @filtered="onFiltered"
-              >
+                @filtered="onFiltered">
                 <template
                   slot="program_service_name"
                   slot-scope="data">
@@ -136,18 +139,19 @@
                   slot="role"
                   slot-scope="data">
                   <div v-if="data.item.sso_to_app_enabled">
-                    <b-btn
+                    <a
+                      class="cursor-pointer text-decoration-underline"
                       @click="onClickGetLinkDetails(data.item.roleId, $event.target)"
                       :data-roleId="data.item.roleId">{{ data.item.role }}
-                    </b-btn>
+                    </a>
                   </div>
                   <div v-else>
-                    <b-btn
-                      class="my-cdx-web-handoff-link"
+                    <a
+                      class="cursor-pointer text-decoration-underline"
                       data-handoff-type="login"
                       @click="openPopupPage(cdx_configs.cdx_silent_handoff_url, getCdxParams())">
                       {{ data.item.role }}
-                    </b-btn>
+                    </a>
                   </div>
                 </template>
                 <template
@@ -175,8 +179,8 @@
                       <option
                         v-for="(item, index) in linkDetails.organizations"
                         :value="linkDetails.organizations[index]"
-                        :key="index"
-                      >{{ item.orgName }}
+                        :key="index">
+                        {{ item.orgName }}
                       </option>
                     </template>
 
@@ -476,31 +480,25 @@
   #app {
     margin-bottom: 7rem;
   }
-
   #reportingrow {
     overflow-y: scroll;
     max-height: 100%;
   }
-
   #my-reporting .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
     color: #000;
     font-weight: bold;
   }
-
   #my-reporting .nav-item {
     color: #000;
   }
-
   .form-group {
     border: 0rem;
   }
-
   h2::before {
     height: 50px;
     width: 50px;
     content: url('/images/state-government.svg');
   }
-
   .inline-cdx-links {
     display: flex;
     justify-content: space-between;
@@ -508,7 +506,6 @@
     margin-top: 1rem;
     padding-left: 0px;
   }
-
   .inline-cdx-links li::before {
     display: inline-flex;
     content: '';
@@ -522,33 +519,26 @@
     margin-right: 2px;
     vertical-align: middle;
   }
-
   .inline-cdx-links li.my-cdx-login::before {
     background-image: url('/images/mr-my-cdx.png');
     background-color: #fff;
     border: 1px solid #6c757d;
   }
-
   .inline-cdx-links li.my-cdx-inbox::before {
     background-image: url('/images/mr-inbox.svg');
   }
-
   .inline-cdx-links li.my-cdx-profile::before {
     background-image: url('/images/mr-profile.svg');
   }
-
   .inline-cdx-links li.my-cdx-alerts::before {
     background-image: url('/images/mr-alerts.svg');
   }
-
   .inline-cdx-links li.my-cdx-submission::before {
     background-image: url('/images/mr-history.svg');
   }
-
   .my-cdx-web-handoff-link {
     font-size: .8rem;
   }
-
   .Active {
     background-repeat: no-repeat;
     background-position: center center;
@@ -560,7 +550,6 @@
     background-size: 1.3rem 1.325rem;
     background-image: url('../../assets/images/check-circle-solid.svg');
   }
-
   .AwaitingSponsorship {
     background-repeat: no-repeat;
     background-position: center center;
@@ -572,7 +561,6 @@
     background-size: 1.3rem 1.325rem;
     background-image: url('/images/my_cdx_images_awaiting-sponsor.svg')
   }
-
   .AwaitingElectronicSignatureAgreement {
     background-repeat: no-repeat;
     background-position: center center;
@@ -584,7 +572,6 @@
     background-size: 1.3rem 1.325rem;
     background-image: url('/images/my_cdx_images_awaiting-esa.svg')
   }
-
   .AwaitingApproval {
     background-repeat: no-repeat;
     background-position: center center;
@@ -596,8 +583,18 @@
     background-size: 1.3rem 1.325rem;
     background-image: url('/images/my_cdx_images_awaiting-approval.svg')
   }
-
   .Inactive {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: #fff;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    border: none;
+    background-size: 1.3rem 1.325rem;
+    background-image: url('/images/minus-circle-solid.svg')
+  }
+  .OfflineTemporary {
     background-repeat: no-repeat;
     background-position: center center;
     background-color: #fff;
