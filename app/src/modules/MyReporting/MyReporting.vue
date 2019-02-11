@@ -65,8 +65,7 @@
               @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}`, getReturnURLWithCdxParams('MyProfile'))">
               My Profile</a>
           </li>
-          <li
-            class="my-cdx-submission cursor-pointer">
+          <li class="my-cdx-submission cursor-pointer">
             <a
               class="my-cdx-web-handoff-link"
               data-handoff-type="submission"
@@ -142,8 +141,7 @@
                     </a>
                   </div>
                   <div v-else>
-                    <a
-                      class="cursor-pointer text-decoration-underline"
+                    <a class="cursor-pointer text-decoration-underline"
                       data-handoff-type="login"
                       @click="openPopupPage(cdx_configs.cdx_silent_handoff_url, getCdxParams())">
                       {{ data.item.role }}
