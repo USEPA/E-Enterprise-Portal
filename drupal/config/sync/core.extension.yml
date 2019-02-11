@@ -35,7 +35,6 @@ module:
   dynamic_page_cache: 0
   editor: 0
   eep_bridge: 0
-  eep_configurations: 0
   eep_core: 0
   eep_location_services: 0
   eep_my_reporting: 0

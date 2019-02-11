@@ -22,11 +22,3 @@ eep_core.eep_cookie_config_form:
   description: 'this is the EEP Cookie Configuration Form Menu Link'
   parent: system.admin_config_system
   weight: 99
-
-eep_core.eep_cookie_config_form:
-  title: 'EEP Cookie Configuration Form'
-  route_name: eep_core.eep_cookie_config_form
-  description: 'EEP Cookie Config Menu Link'
-  parent: system.admin_config_system
-  weight: 99
-
