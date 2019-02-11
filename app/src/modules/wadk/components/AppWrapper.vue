@@ -65,7 +65,7 @@
       </div>
     </div>
     <AppModal
-      :id="`${eepApp.id}-description`"
+      :id="`${eepApp.id}-widget-modal`"
       modal-ref="widgetMenuModal"
       hide-footer
       :title="`${eepApp.title} Menu`">
@@ -173,21 +173,22 @@
       },
       onDescription(button) {
         const vm = this;
-        vm.$root.$emit('bv::show::modal', `${vm.eepApp.id}-description`, button);
+        vm.menuModalTabIndex = 3;
+        vm.$root.$emit('bv::show::modal', `${vm.eepApp.id}-widget-modal`, button);
       },
       widgetMenuModalToIndex(title, button) {
         const vm = this;
         switch (title) {
-          case 'Description':
+          case 'Help':
             vm.menuModalTabIndex = 0;
             break;
-          case 'Help':
+          case 'Disclaimer':
             vm.menuModalTabIndex = 1;
             break;
-          case 'Disclaimer':
+          case 'Contact':
             vm.menuModalTabIndex = 2;
             break;
-          case 'Contact':
+          case 'Description':
             vm.menuModalTabIndex = 3;
             break;
           case 'Source':
@@ -196,7 +197,7 @@
           default:
             vm.menuModalTabIndex = 0;
         }
-        vm.$root.$emit('bv::show::modal', `${vm.eepApp.id}-description`, button);
+        vm.$root.$emit('bv::show::modal', `${vm.eepApp.id}-widget-modal`, button);
       },
     },
   };
