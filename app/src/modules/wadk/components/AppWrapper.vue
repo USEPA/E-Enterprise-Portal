@@ -21,9 +21,9 @@
               <b-dropdown-item-button>Move</b-dropdown-item-button>
               <b-dropdown-divider/>
               <b-dropdown-item-button
-                v-for="(text, title) in eepApp.field_settings_menu_items"
+                v-for="(text, title, index) in eepApp.field_settings_menu_items"
                 :title="text"
-                @click="widgetMenuModalToIndex(title, $event.target)">{{ title }}
+                @click="widgetMenuModalToIndex(title, $event.target, index)">{{ title }}
               </b-dropdown-item-button>
             </b-dropdown>
             <b-button
@@ -39,9 +39,8 @@
       <div class="w-100 source-description-wrapper">
         <h6 class="small">
           <a
-            class="text-decoration-underline cursor-pointer no-after"
+            class="text-decoration-underline cursor-pointer link-button"
             v-show="!!eepApp.field_settings_menu_items.Description"
-            target="_blank"
             @click="onDescription($event.target)">
             Description</a>
           <span v-show="!!eepApp.source && !!eepApp.field_settings_menu_items.Description">
@@ -66,48 +65,19 @@
       </div>
     </div>
     <AppModal
-      :id="`${eepApp.id}-description`"
+      :id="`${eepApp.id}-widget-modal`"
       modal-ref="widgetMenuModal"
       hide-footer
       :title="`${eepApp.title} Menu`">
       <b-tabs
         v-model="menuModalTabIndex"
-        ref="bwi-tabs">
+        ref="widget-menu-tabs">
         <b-tab
-          title="Description"
-          ref="widgetMenuDescription"
+          :title="title"
+          ref="widgetMenuItems"
           class="py-3"
-          :disabled="!eepApp.field_settings_menu_items.Description">
-          <b-col>
-            {{ eepApp.field_settings_menu_items.Description }}
-          </b-col>
-        </b-tab>
-        <b-tab
-          title="Help"
-          ref="widgetMenuHelp"
-          class="py-3"
-          :disabled="!eepApp.field_settings_menu_items.Help">
-          <b-col>
-            {{ eepApp.field_settings_menu_items.Help }}
-          </b-col>
-        </b-tab>
-        <b-tab
-          title="Disclaimer"
-          ref="widgetMenuDisclaimer"
-          class="py-3"
-          :disabled="!eepApp.field_settings_menu_items.Disclaimer">
-          <b-col>
-            {{ eepApp.field_settings_menu_items.Disclaimer }}
-          </b-col>
-        </b-tab>
-        <b-tab
-          title="Contact"
-          ref="widgetMenuContact"
-          class="py-3"
-          :disabled="!eepApp.field_settings_menu_items.Contact">
-          <b-col>
-            {{ eepApp.field_settings_menu_items.Contact }}
-          </b-col>
+          v-for="(text, title) in eepApp.field_settings_menu_items">
+          {{ text }}
         </b-tab>
         <b-tab
           title="Source"
@@ -203,30 +173,14 @@
       },
       onDescription(button) {
         const vm = this;
-        vm.$root.$emit('bv::show::modal', `${vm.eepApp.id}-description`, button);
+        const keys = Object.keys(this.eepApp.field_settings_menu_items);
+        vm.menuModalTabIndex = keys.indexOf('Description');
+        vm.$root.$emit('bv::show::modal', `${vm.eepApp.id}-widget-modal`, button);
       },
-      widgetMenuModalToIndex(title, button) {
+      widgetMenuModalToIndex(title, button, index) {
         const vm = this;
-        switch (title) {
-          case 'Description':
-            vm.menuModalTabIndex = 0;
-            break;
-          case 'Help':
-            vm.menuModalTabIndex = 1;
-            break;
-          case 'Disclaimer':
-            vm.menuModalTabIndex = 2;
-            break;
-          case 'Contact':
-            vm.menuModalTabIndex = 3;
-            break;
-          case 'Source':
-            vm.menuModalTabIndex = 4;
-            break;
-          default:
-            vm.menuModalTabIndex = 0;
-        }
-        vm.$root.$emit('bv::show::modal', `${vm.eepApp.id}-description`, button);
+        vm.menuModalTabIndex = index;
+        vm.$root.$emit('bv::show::modal', `${vm.eepApp.id}-widget-modal`, button);
       },
     },
   };
