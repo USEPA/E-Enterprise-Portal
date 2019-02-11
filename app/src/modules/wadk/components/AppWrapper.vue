@@ -21,9 +21,9 @@
               <b-dropdown-item-button>Move</b-dropdown-item-button>
               <b-dropdown-divider/>
               <b-dropdown-item-button
-                v-for="(text, title) in eepApp.field_settings_menu_items"
+                v-for="(text, title, index) in eepApp.field_settings_menu_items"
                 :title="text"
-                @click="widgetMenuModalToIndex(title, $event.target)">{{ title }}
+                @click="widgetMenuModalToIndex(title, $event.target, index)">{{ title }}
               </b-dropdown-item-button>
             </b-dropdown>
             <b-button
@@ -173,30 +173,13 @@
       },
       onDescription(button) {
         const vm = this;
-        vm.menuModalTabIndex = 3;
+        const keys = Object.keys(this.eepApp.field_settings_menu_items);
+        vm.menuModalTabIndex = keys.indexOf('Description');
         vm.$root.$emit('bv::show::modal', `${vm.eepApp.id}-widget-modal`, button);
       },
-      widgetMenuModalToIndex(title, button) {
+      widgetMenuModalToIndex(title, button, index) {
         const vm = this;
-        switch (title) {
-          case 'Help':
-            vm.menuModalTabIndex = 0;
-            break;
-          case 'Disclaimer':
-            vm.menuModalTabIndex = 1;
-            break;
-          case 'Contact':
-            vm.menuModalTabIndex = 2;
-            break;
-          case 'Description':
-            vm.menuModalTabIndex = 3;
-            break;
-          case 'Source':
-            vm.menuModalTabIndex = 4;
-            break;
-          default:
-            vm.menuModalTabIndex = 0;
-        }
+        vm.menuModalTabIndex = index;
         vm.$root.$emit('bv::show::modal', `${vm.eepApp.id}-widget-modal`, button);
       },
     },
