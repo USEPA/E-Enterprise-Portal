@@ -46,7 +46,6 @@
           <li class="my-cdx-login cursor-pointer">
             <a
               class="my-cdx-web-handoff-link"
-              data-handoff-type="login"
               @click="openPopupPage(cdx_configs.cdx_silent_handoff_url, getCdxParams())">
               My CDX
             </a>
@@ -55,26 +54,15 @@
           <li class="my-cdx-inbox cursor-pointer">
             <a
               class="my-cdx-web-handoff-link"
-              data-handoff-type="inbox"
-              @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}/Inbox`, getCdxParams())">
+              @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}`, getReturnURLWithCdxParams('Inbox'))">
               Inbox
             </a>
           </li>
-
-          <li class="my-cdx-alerts cursor-pointer">
-            <a
-              class="my-cdx-web-handoff-link"
-              data-handoff-type="alerts"
-              @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}/Alerts`, getCdxParams())">
-              News and Alerts
-            </a>
-          </li>
-
           <li class="my-cdx-profile cursor-pointer">
             <a
               class="my-cdx-web-handoff-link"
               data-handoff-type="profile"
-              @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}/MyProfile`, getCdxParams())">
+              @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}`, getReturnURLWithCdxParams('MyProfile'))">
               My Profile</a>
           </li>
           <li
@@ -82,7 +70,7 @@
             <a
               class="my-cdx-web-handoff-link"
               data-handoff-type="submission"
-              @click="openPopupPage(`${cdx_configs.cdx_submission_history_url}`, getCdxParams())">
+              @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}`, getReturnURLWithCdxParams('submission'))">
               Submission History
             </a>
           </li>
@@ -380,6 +368,18 @@
         return {
           ssoToken: this.cdx_configs.ssoToken,
         };
+      },
+      getReturnURLWithCdxParams(urlPathEnd) {
+        let returnUrl = '';
+        let cdxParams = this.getCdxParams();
+        if (urlPathEnd === 'submission') {
+          returnUrl = this.cdx_configs.cdx_submission_history_url;
+        } else {
+          returnUrl = this.cdx_configs.cdx_base_url + '/' + urlPathEnd;
+        }
+        returnUrl = "?URL=" + encodeURIComponent(returnUrl);
+        cdxParams.returnUrl = returnUrl;
+        return cdxParams;
       },
       info(item, index, button) {
         this.modalInfo.title = `Row index: ${index}`;
