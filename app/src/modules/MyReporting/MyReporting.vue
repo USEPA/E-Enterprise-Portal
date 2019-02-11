@@ -476,31 +476,25 @@
   #app {
     margin-bottom: 7rem;
   }
-
   #reportingrow {
     overflow-y: scroll;
     max-height: 100%;
   }
-
   #my-reporting .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
     color: #000;
     font-weight: bold;
   }
-
   #my-reporting .nav-item {
     color: #000;
   }
-
   .form-group {
     border: 0rem;
   }
-
   h2::before {
     height: 50px;
     width: 50px;
     content: url('/images/state-government.svg');
   }
-
   .inline-cdx-links {
     display: flex;
     justify-content: space-between;
@@ -508,7 +502,6 @@
     margin-top: 1rem;
     padding-left: 0px;
   }
-
   .inline-cdx-links li::before {
     display: inline-flex;
     content: '';
@@ -522,33 +515,26 @@
     margin-right: 2px;
     vertical-align: middle;
   }
-
   .inline-cdx-links li.my-cdx-login::before {
     background-image: url('/images/mr-my-cdx.png');
     background-color: #fff;
     border: 1px solid #6c757d;
   }
-
   .inline-cdx-links li.my-cdx-inbox::before {
     background-image: url('/images/mr-inbox.svg');
   }
-
   .inline-cdx-links li.my-cdx-profile::before {
     background-image: url('/images/mr-profile.svg');
   }
-
   .inline-cdx-links li.my-cdx-alerts::before {
     background-image: url('/images/mr-alerts.svg');
   }
-
   .inline-cdx-links li.my-cdx-submission::before {
     background-image: url('/images/mr-history.svg');
   }
-
   .my-cdx-web-handoff-link {
     font-size: .8rem;
   }
-
   .Active {
     background-repeat: no-repeat;
     background-position: center center;
@@ -560,7 +546,6 @@
     background-size: 1.3rem 1.325rem;
     background-image: url('../../assets/images/check-circle-solid.svg');
   }
-
   .AwaitingSponsorship {
     background-repeat: no-repeat;
     background-position: center center;
@@ -572,7 +557,6 @@
     background-size: 1.3rem 1.325rem;
     background-image: url('/images/my_cdx_images_awaiting-sponsor.svg')
   }
-
   .AwaitingElectronicSignatureAgreement {
     background-repeat: no-repeat;
     background-position: center center;
@@ -584,7 +568,6 @@
     background-size: 1.3rem 1.325rem;
     background-image: url('/images/my_cdx_images_awaiting-esa.svg')
   }
-
   .AwaitingApproval {
     background-repeat: no-repeat;
     background-position: center center;
@@ -596,8 +579,18 @@
     background-size: 1.3rem 1.325rem;
     background-image: url('/images/my_cdx_images_awaiting-approval.svg')
   }
-
   .Inactive {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: #fff;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    border: none;
+    background-size: 1.3rem 1.325rem;
+    background-image: url('/images/minus-circle-solid.svg')
+  }
+  .OfflineTemporary {
     background-repeat: no-repeat;
     background-position: center center;
     background-color: #fff;
