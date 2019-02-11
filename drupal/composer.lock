@@ -770,16 +770,16 @@
         },
         {
             "name": "consolidation/robo",
-            "version": "1.4.3",
+            "version": "1.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/Robo.git",
-                "reference": "d0b6f516ec940add7abed4f1432d30cca5f8ae0c"
+                "reference": "8bec6a6ea54a7d03d56552a4250c49dec3b3083d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/Robo/zipball/d0b6f516ec940add7abed4f1432d30cca5f8ae0c",
-                "reference": "d0b6f516ec940add7abed4f1432d30cca5f8ae0c",
+                "url": "https://api.github.com/repos/consolidation/Robo/zipball/8bec6a6ea54a7d03d56552a4250c49dec3b3083d",
+                "reference": "8bec6a6ea54a7d03d56552a4250c49dec3b3083d",
                 "shasum": ""
             },
             "require": {
@@ -810,7 +810,7 @@
                 "natxet/cssmin": "3.0.4",
                 "nikic/php-parser": "^3.1.5",
                 "patchwork/jsqueeze": "~2",
-                "pear/archive_tar": "^1.4.2",
+                "pear/archive_tar": "^1.4.4",
                 "php-coveralls/php-coveralls": "^1",
                 "phpunit/php-code-coverage": "~2|~4",
                 "squizlabs/php_codesniffer": "^2.8"
@@ -874,7 +874,7 @@
                 }
             ],
             "description": "Modern task runner",
-            "time": "2019-01-02T21:33:28+00:00"
+            "time": "2019-02-08T20:59:23+00:00"
         },
         {
             "name": "consolidation/self-update",
@@ -5498,16 +5498,16 @@
         },
         {
             "name": "drush/drush",
-            "version": "9.6.0-rc2",
+            "version": "9.6.0-rc3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drush-ops/drush.git",
-                "reference": "0d5a21909cb1fdbcc03469f04ee9b1a812707b83"
+                "reference": "e409b7c4ccca0d51eb0b5bce0a9e015ef2d2ce85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drush-ops/drush/zipball/0d5a21909cb1fdbcc03469f04ee9b1a812707b83",
-                "reference": "0d5a21909cb1fdbcc03469f04ee9b1a812707b83",
+                "url": "https://api.github.com/repos/drush-ops/drush/zipball/e409b7c4ccca0d51eb0b5bce0a9e015ef2d2ce85",
+                "reference": "e409b7c4ccca0d51eb0b5bce0a9e015ef2d2ce85",
                 "shasum": ""
             },
             "require": {
@@ -5539,7 +5539,7 @@
                 "composer/installers": "^1.2",
                 "cweagans/composer-patches": "~1.0",
                 "drupal/alinks": "1.0.0",
-                "drupal/devel": "^1.0@RC",
+                "drupal/devel": "^2",
                 "drupal/empty_theme": "1.0",
                 "g1a/composer-test-scenarios": "^3",
                 "lox/xhprof": "dev-master",
@@ -5638,7 +5638,7 @@
             ],
             "description": "Drush is a command line shell and scripting interface for Drupal, a veritable Swiss Army knife designed to make life easier for those of us who spend some of our working hours hacking away at the command prompt.",
             "homepage": "http://www.drush.org",
-            "time": "2019-01-29T15:52:39+00:00"
+            "time": "2019-02-07T16:06:16+00:00"
         },
         {
             "name": "easyrdf/easyrdf",
@@ -7269,16 +7269,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v3.20.5",
+            "version": "v3.20.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "f69624bbedb3b95eb1ef4b89d963dd3e9d99d8ba"
+                "reference": "67c1e00d96b915737da66efdbb0ea559b2d465f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/f69624bbedb3b95eb1ef4b89d963dd3e9d99d8ba",
-                "reference": "f69624bbedb3b95eb1ef4b89d963dd3e9d99d8ba",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/67c1e00d96b915737da66efdbb0ea559b2d465f9",
+                "reference": "67c1e00d96b915737da66efdbb0ea559b2d465f9",
                 "shasum": ""
             },
             "type": "library",
@@ -7322,7 +7322,7 @@
                 "swagger",
                 "ui"
             ],
-            "time": "2019-01-12T07:08:55+00:00"
+            "time": "2019-02-08T23:27:33+00:00"
         },
         {
             "name": "symfony-cmf/routing",
