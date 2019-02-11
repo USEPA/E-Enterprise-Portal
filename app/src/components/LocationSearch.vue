@@ -15,12 +15,16 @@
         class="col-sm-12"
         v-if="isLocationSearchBarEnabled">
         <b-input-group id="location-input">
+          <label for="locationInput" class="sr-only">Enter Your Location as City, State, or Zip Code</label>
           <b-form-input
+            id="locationInput"
             type="text"
             v-model="locationInputText"
             @keyup.enter.native="submitLocation"
-            placeholder="Enter city, state; or ZIP code"/>
+            placeholder="Enter city, state; or ZIP code"
+         />
           <b-input-group-append>
+            <label for="submit-geolocation" class="sr-only">Click to use Your current location</label>
             <b-button
               id="submit-geolocation"
               type="submit"
@@ -32,6 +36,7 @@
                 <i class="fas fa-globe"></i>
               </div>
             </b-button>
+            <label for="submit-location" class="sr-only">Click to submit Your location</label>
             <b-button
               id="submit-location"
               type="submit"
