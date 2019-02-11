@@ -71,42 +71,13 @@
       :title="`${eepApp.title} Menu`">
       <b-tabs
         v-model="menuModalTabIndex"
-        ref="bwi-tabs">
+        ref="widget-menu-tabs">
         <b-tab
-          title="Description"
+          :title="title"
           ref="widgetMenuDescription"
           class="py-3"
-          :disabled="!eepApp.field_settings_menu_items.Description">
-          <b-col>
-            {{ eepApp.field_settings_menu_items.Description }}
-          </b-col>
-        </b-tab>
-        <b-tab
-          title="Help"
-          ref="widgetMenuHelp"
-          class="py-3"
-          :disabled="!eepApp.field_settings_menu_items.Help">
-          <b-col>
-            {{ eepApp.field_settings_menu_items.Help }}
-          </b-col>
-        </b-tab>
-        <b-tab
-          title="Disclaimer"
-          ref="widgetMenuDisclaimer"
-          class="py-3"
-          :disabled="!eepApp.field_settings_menu_items.Disclaimer">
-          <b-col>
-            {{ eepApp.field_settings_menu_items.Disclaimer }}
-          </b-col>
-        </b-tab>
-        <b-tab
-          title="Contact"
-          ref="widgetMenuContact"
-          class="py-3"
-          :disabled="!eepApp.field_settings_menu_items.Contact">
-          <b-col>
-            {{ eepApp.field_settings_menu_items.Contact }}
-          </b-col>
+          v-for="(text, title) in eepApp.field_settings_menu_items">
+          {{ text }}
         </b-tab>
         <b-tab
           title="Source"
