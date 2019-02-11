@@ -47,6 +47,8 @@ const state = {
   user: {
     id: 0,
     isLoggedIn: false,
+    timeLeftUntilLogout: 0,
+    loggedInTime: null,
     name: '',
     mail: '',
     favorite_links: [],
@@ -60,6 +62,10 @@ const state = {
     tAndCCookieDismiss: false,
     UserPolicyCookieDismiss: false,
     userObject: {},
+    cookie:{
+      time: '',
+      time_units: ''
+    },
   },
   loginBtnHoverMessage: 'Use an EPA, CDX, or a social media account to login',
   navMargin: {

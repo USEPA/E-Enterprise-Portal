@@ -115,6 +115,11 @@ export default {
     Vue.cookie.set('userLoggedIn', false, {expires: '-99s'});
 
     store.commit('IS_USER_LOGGED_IN', false);
+
+    // Reset login token and time
+    store.commit(types.SET_LOGGED_IN_TOKEN, '');
+    store.commit(types.SET_LOGGED_IN_TIME, '');
+
     // Use router.push here to get rid of the token in the redirect URL
     router.push('/');
   },
@@ -215,8 +220,7 @@ export default {
     // gets drupal object
     AppAxios.get( URL, {
       headers: store.GETHeaders,
-    })
-      .then(response => {
+    }).then(response => {
         if(response.data){
           return response;
         }
@@ -274,5 +278,126 @@ export default {
     }).catch(error => {
         console.error(error.response);
     });
+  },
+  extendSession(context, payload){
+      const store = context;
+      const {vm} = payload;
+
+      // Cookie information from the store
+      const COOKIE_EXPIRATION_TIME = store.getters.getCookieInfo.time
+          + store.getters.getCookieInfo.time_units;
+
+      Vue.cookie.set('userLoggedIn', true, {expires: COOKIE_EXPIRATION_TIME});
+      Vue.cookie.set('uid', store.getters.getUser.id, {expires: COOKIE_EXPIRATION_TIME});
+      Vue.cookie.set('Token', store.getters.getLoggedInToken, {expires: COOKIE_EXPIRATION_TIME});
+
+      store.commit(types.SET_LOGGED_IN_TIME, new Date());
+
+      // Close modal
+      vm.$root.$emit(
+        'bv::hide::modal',
+        'cookie_modal',
+        vm.$refs.cookie_modal
+      );
+  },
+  getEEPConfigs(context, payload){
+      const store = context;
+      const {vm} = payload;
+
+      // Axios call the get all of the configs from drupal
+      AppAxios.get(store.getters.getEnvironmentApiURL + '/eep/configurations', {
+          headers: store.getters.getGETHeaders,
+      }).then(response => {
+
+          // Set the cookie information in the store
+          store.commit(types.SET_COOKIE, {
+              time: response.data.eepcookieconfig.cookie_expiration_time,
+              time_units: response.data.eepcookieconfig.cookie_time_units
+          });
+
+          // do log in stuff here
+          // Declare the main url that the page is currently on
+          const main_url = window.location.href;
+
+          if (main_url.indexOf("token") > -1 && main_url.indexOf("uid") > -1) {
+              // Declare variables
+              let vars = {};
+              // Extracts the URL params
+              // Got this functionality from https://html-online.com/articles/get-url-parameters-javascript/
+              let parts = main_url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+                  vars[key] = value;
+              });
+              // find the URL params for each one
+              const token = vars["token"];
+              const uid = vars["uid"];
+
+              // Grabs the static cookie time from the store
+              const COOKIE_EXPIRATION_TIME = store.getters.getCookieInfo.time + store.getters.getCookieInfo.time_units;
+
+              // Set another cookie saying they logged in
+              Vue.cookie.set('userLoggedIn', true, {expires: COOKIE_EXPIRATION_TIME});
+              // set user token in cookie
+              Vue.cookie.set('Token', token, {expires: COOKIE_EXPIRATION_TIME});
+              Vue.cookie.set('uid', uid, {expires: COOKIE_EXPIRATION_TIME});
+
+              // Set login time and token in the store
+              store.commit(types.SET_LOGGED_IN_TOKEN, token);
+              store.commit(types.SET_LOGGED_IN_TIME, new Date());
+
+              // Set user id in the store
+              store.commit(types.SET_UID, uid);
+
+              // Log user in
+              store.commit(types.IS_USER_LOGGED_IN, true);
+
+              // Set interval instance
+              let cookie_check = setInterval(function(){
+                  // Comparing dates to find when there is a minute left until cookie expiration
+                  let minutes_difference = 0;
+
+                  if(!!store.getters.getLogInTime){
+                      minutes_difference = Math.floor((Math.abs(new Date((store.getters.getLogInTime.getTime() +
+                              ((store.getters.getCookieInfo.time) * 60 * 1000))) - (new Date)) / 1000) / 60) % 60;
+                  }else{
+                      clearInterval(cookie_check);
+                  }
+
+                  // Check to see if there is a minute left
+                  if(minutes_difference <= 1 && store.getters.getDisplayLoggedInElements){
+                      store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
+                      vm.$root.$emit(
+                          'bv::show::modal',
+                          'cookie_modal',
+                          vm.$refs.cookie_modal
+                      );
+                  }
+              }, (store.getters.getCookieInfo.time - 1) * 60000);
+          }else{
+              if(Vue.cookie.get('userLoggedIn')){
+                  // Log user in and set user name
+                  store.commit('IS_USER_LOGGED_IN', true);
+                  store.commit(types.SET_UID, Vue.cookie.get('uid'));
+              }
+          }
+
+          if (Vue.cookie.get('userLoggedIn')) {
+              AppAxios.get(`${store.getters.getEnvironmentApiURL}/user/${Vue.cookie.get('uid')}?_format=json`, {
+                  headers: { Authorization: `Bearer ${Vue.cookie.get('Token')}` },
+              }).then((response) => {
+                  store.commit('SET_USER_OBJECT', response.data);
+              }).catch((error) => {
+                  console.warn(error);
+              });
+          }
+
+          //  [App.vue specific] When App.vue is finish loading finish the progress bar
+          vm.$Progress.finish();
+          if(window.location.href.indexOf("token") > -1) {
+              router.push('/workbench');
+          }
+
+      }).catch(error => {
+          console.error(error);
+      });
   },
 };
