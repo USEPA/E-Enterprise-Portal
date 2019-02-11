@@ -22,7 +22,8 @@
               <b-dropdown-divider/>
               <b-dropdown-item-button
                 v-for="(text, title) in eepApp.field_settings_menu_items"
-                :title="text">{{ title }}
+                :title="text"
+                @click="widgetMenuModalToIndex(title, $event.target)">{{ title }}
               </b-dropdown-item-button>
             </b-dropdown>
             <b-button
@@ -35,21 +36,28 @@
             :style="getIcon">{{ getTitle }}</h2>
         </div>
       </div>
-      <div class="w-100 source-wrapper">
-        <h6
-          class="small"
-          v-show="!!eepApp.source">
-          Source:&nbsp;
+      <div class="w-100 source-description-wrapper">
+        <h6 class="small">
+          <a
+            class="text-decoration-underline cursor-pointer no-after"
+            v-show="!!eepApp.field_settings_menu_items.Description"
+            target="_blank"
+            @click="onDescription($event.target)">
+            Description</a>
+          <span v-show="!!eepApp.source && !!eepApp.field_settings_menu_items.Description">
+            &#8226;</span>
           <template
+            v-show="!!eepApp.source"
             v-for="(source, index) in eepApp.source">
-              <span :key="index">
-                <a
-                  :href="source.link"
-                  target="_blank">{{ source.text }}</a>
-                <br
-                  :key="index"
-                  v-if="eepApp.source.length !== index + 1">
-              </span>
+            Source:&nbsp;
+            <span :key="index">
+              <a
+                :href="source.link"
+                target="_blank">{{ source.text }}</a>
+              <br
+                :key="index"
+                v-if="eepApp.source.length !== index + 1" >
+            </span>
           </template>
         </h6>
       </div>
@@ -57,16 +65,85 @@
         <slot/>
       </div>
     </div>
+    <AppModal
+      :id="`${eepApp.id}-description`"
+      modal-ref="widgetMenuModal"
+      hide-footer
+      :title="`${eepApp.title} Menu`">
+      <b-tabs
+        v-model="menuModalTabIndex"
+        ref="bwi-tabs">
+        <b-tab
+          title="Description"
+          ref="widgetMenuDescription"
+          class="py-3"
+          :disabled="!eepApp.field_settings_menu_items.Description">
+          <b-col>
+            {{ eepApp.field_settings_menu_items.Description }}
+          </b-col>
+        </b-tab>
+        <b-tab
+          title="Help"
+          ref="widgetMenuHelp"
+          class="py-3"
+          :disabled="!eepApp.field_settings_menu_items.Help">
+          <b-col>
+            {{ eepApp.field_settings_menu_items.Help }}
+          </b-col>
+        </b-tab>
+        <b-tab
+          title="Disclaimer"
+          ref="widgetMenuDisclaimer"
+          class="py-3"
+          :disabled="!eepApp.field_settings_menu_items.Disclaimer">
+          <b-col>
+            {{ eepApp.field_settings_menu_items.Disclaimer }}
+          </b-col>
+        </b-tab>
+        <b-tab
+          title="Contact"
+          ref="widgetMenuContact"
+          class="py-3"
+          :disabled="!eepApp.field_settings_menu_items.Contact">
+          <b-col>
+            {{ eepApp.field_settings_menu_items.Contact }}
+          </b-col>
+        </b-tab>
+        <b-tab
+          title="Source"
+          ref="widgetMenuSource"
+          class="py-3"
+          :disabled="!eepApp.source">
+          <template
+            v-show="!!eepApp.source"
+            v-for="(source, index) in eepApp.source">
+            <span :key="index">
+              <a
+                :href="source.link"
+                target="_blank">{{ source.text }}</a>
+              <br
+                :key="index"
+                v-if="eepApp.source.length !== index + 1" >
+            </span>
+          </template>
+        </b-tab>
+      </b-tabs>
+    </AppModal>
   </div>
 </template>
 
 <script>
-  /* eslint-disable global-require */
+  import AppModal from './AppModal.vue';
 
   export default {
     name: 'AppWrapper',
+    components: {
+      AppModal,
+    },
     data() {
-      return {};
+      return {
+        menuModalTabIndex: 0,
+      };
     },
     props: {
       eepApp: {
@@ -74,7 +151,6 @@
         required: true,
       },
     },
-    mounted() {},
     computed: {
       getIcon() {
         const vm = this;
@@ -124,6 +200,33 @@
       maximizeWidget() {
         // eslint-disable-next-line no-console
         console.log('hi');
+      },
+      onDescription(button) {
+        const vm = this;
+        vm.$root.$emit('bv::show::modal', `${vm.eepApp.id}-description`, button);
+      },
+      widgetMenuModalToIndex(title, button) {
+        const vm = this;
+        switch (title) {
+          case 'Description':
+            vm.menuModalTabIndex = 0;
+            break;
+          case 'Help':
+            vm.menuModalTabIndex = 1;
+            break;
+          case 'Disclaimer':
+            vm.menuModalTabIndex = 2;
+            break;
+          case 'Contact':
+            vm.menuModalTabIndex = 3;
+            break;
+          case 'Source':
+            vm.menuModalTabIndex = 4;
+            break;
+          default:
+            vm.menuModalTabIndex = 0;
+        }
+        vm.$root.$emit('bv::show::modal', `${vm.eepApp.id}-description`, button);
       },
     },
   };

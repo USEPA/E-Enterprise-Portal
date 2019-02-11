@@ -770,3 +770,5 @@ $settings['entity_update_batch_size'] = 50;
 # }
 $config_directories['sync'] = '../config/sync';
 $settings['install_profile'] = 'e_enterprise_portal';
+
+$config['system.passwords']['cdx_naas'] = '__PASSWORD__';

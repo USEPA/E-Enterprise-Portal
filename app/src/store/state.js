@@ -52,7 +52,7 @@ const state = {
     name: '',
     mail: '',
     favorite_links: [],
-    organisation:'',
+    organisation: '',
     role:'',
     location: {
       zipcode: '',

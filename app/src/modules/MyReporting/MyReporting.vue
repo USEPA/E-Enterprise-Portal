@@ -43,29 +43,49 @@
       </nav>
       <div id="my-reporting">
         <ul class="inline-cdx-links">
-          <li class="my-cdx-login"><a
-            class="my-cdx-web-handoff-link"
-            data-handoff-type="login"
-            href="https://dev.epacdx.net">My CDX</a></li>
-          <li class="my-cdx-inbox"><a
-            class="my-cdx-web-handoff-link"
-            data-handoff-type="inbox"
-            href="https://dev.epacdx.net">Inbox</a></li>
-          <li class="my-cdx-alerts"><a
-            class="my-cdx-web-handoff-link"
-            data-handoff-type="alerts"
-            href="https://dev.epacdx.net">News and Alerts</a>
+          <li class="my-cdx-login cursor-pointer">
+            <a
+              class="my-cdx-web-handoff-link"
+              data-handoff-type="login"
+              @click="openPopupPage(cdx_configs.cdx_silent_handoff_url, getCdxParams())">
+              My CDX
+            </a>
           </li>
-          <li class="my-cdx-profile"><a
-            class="my-cdx-web-handoff-link"
-            data-handoff-type="profile"
-            href="https://dev.epacdx.net">My Profile</a>
+
+          <li class="my-cdx-inbox cursor-pointer">
+            <a
+              class="my-cdx-web-handoff-link"
+              data-handoff-type="inbox"
+              @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}/Inbox`, getCdxParams())">
+              Inbox
+            </a>
           </li>
-          <li class="my-cdx-submission"><a
-            class="my-cdx-web-handoff-link"
-            data-handoff-type="submission"
-            href="https://dev.epacdx.net">Submission
-            History</a></li>
+
+          <li class="my-cdx-alerts cursor-pointer">
+            <a
+              class="my-cdx-web-handoff-link"
+              data-handoff-type="alerts"
+              @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}/Alerts`, getCdxParams())">
+              News and Alerts
+            </a>
+          </li>
+
+          <li class="my-cdx-profile cursor-pointer">
+            <a
+              class="my-cdx-web-handoff-link"
+              data-handoff-type="profile"
+              @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}/MyProfile`, getCdxParams())">
+              My Profile</a>
+          </li>
+          <li
+            class="my-cdx-submission cursor-pointer">
+            <a
+              class="my-cdx-web-handoff-link"
+              data-handoff-type="submission"
+              @click="openPopupPage(`${cdx_configs.cdx_submission_history_url}`, getCdxParams())">
+              Submission History
+            </a>
+          </li>
         </ul>
       </div>
       <div
@@ -113,33 +133,99 @@
                 show-empty
                 stacked="md"
                 :items="items"
+                :fields="fields"
                 :current-page="currentPage"
                 :per-page="perPage"
                 :filter="filter"
                 @filtered="onFiltered"
               >
                 <template
+                  slot="program_service_name"
+                  slot-scope="data">
+                  <div>{{ data.item.program_service_name }}</div>
+                </template>
+                <template
+                  slot="role"
+                  slot-scope="data">
+                  <div v-if="data.item.sso_to_app_enabled">
+                    <b-btn
+                      @click="onClickGetLinkDetails(data.item.roleId, $event.target)"
+                      :data-roleId="data.item.roleId">{{ data.item.role }}
+                    </b-btn>
+                  </div>
+                  <div v-else>
+                    <b-btn
+                      class="my-cdx-web-handoff-link"
+                      data-handoff-type="login"
+                      @click="openPopupPage(cdx_configs.cdx_silent_handoff_url, getCdxParams())">
+                      {{ data.item.role }}
+                    </b-btn>
+                  </div>
+                </template>
+                <template
                   slot="status"
                   slot-scope="data">
                   <div :class="data.item.status"/>
                 </template>
               </b-table>
-              <b-modal>
+              <AppModal
+                id="my-reporting-link-details"
+                modal-ref="my-reporting-link-details"
+                busy
+                hide-footer
+                title="Application Profile Settings">
                 <div class="my-cdx-modal">
                   <div class="my-cdx-detail-group">Organization Name</div>
                   <div class="organization-name"/>
-                  <select class="organization-select"/>
+
+                  <b-form-select
+                    v-model="organization"
+                    class="mb-3">
+
+                    <template slot="first">
+                      <option :value="null">Choose Organization...</option>
+                      <option
+                        v-for="(item, index) in linkDetails.organizations"
+                        :value="linkDetails.organizations[index]"
+                        :key="index"
+                      >{{ item.orgName }}
+                      </option>
+                    </template>
+
+                  </b-form-select>
+
                   <div class="my-cdx-detail-group">Program Client ID</div>
                   <div class="program-client-name"/>
-                  <select class="program-client-select"/>
+                  <b-form-select
+                    :disabled="!organization"
+                    v-model="programClientId"
+                    class="mb-3"
+                    @change="onProgramClientChange($event)">
+                    <template
+                      slot="first"
+                      v-if="!!organization">
+                      <option :value="null">Choose Program Client...</option>
+                      <option
+                        v-for="(item, index) in organization.programClients"
+                        :value="item.userRoleId"
+                        :key="index">
+                        {{ item.roleName }} - {{ item.clientName }}
+                      </option>
+                    </template>
+
+                  </b-form-select>
+
                   <div class="my-cdx-detail-group">Program</div>
                   <div class="program-acronym"/>
                   <div class="my-cdx-detail-group">
-                    <button class="proceed">Proceed</button>
-                    <button class="cancel">Cancel</button>
+                    <b-btn
+                      :disabled="!handoff"
+                      @click="openPopupPage(handoff.destination_url, handoff.post_params)">
+                      Proceed
+                    </b-btn>
                   </div>
                 </div>
-              </b-modal>
+              </AppModal>
               <b-row class="text-center">
                 <b-col
                   md="12"
@@ -189,10 +275,25 @@
     name: moduleName,
     components: {
       AppWrapper,
+      AppModal,
     },
     data() {
       return {
         items,
+        fields: [
+          {
+            key: 'program_service_name',
+            label: 'Program service name',
+          },
+          {
+            key: 'role',
+            label: 'Role',
+          },
+          {
+            key: 'status',
+            label: 'Status',
+          },
+        ],
         currentPage: 1,
         perPage: 5,
         totalRows: items.length,
@@ -205,6 +306,13 @@
         ],
         filter: null,
         modalInfo: { title: '', content: '' },
+        linkDetails: {},
+        organization: null,
+        programClientId: null,
+        roleId: '',
+        userRoleId: '',
+        handoff: null,
+        cdx_configs: {},
       };
     },
     beforeCreate() {
@@ -216,13 +324,12 @@
         store.registerModule(moduleName, storeModule);
       }
     },
-
     mounted() {
       const vm = this;
-      const cookie = this.$cookie.get('Token');
+      const cookie = vm.$cookie.get('Token');
       if (vm.isUserLoggedIn) {
         AppAxios.get(
-          `${this.apiURL}/api/cdxdataflows`,
+          `${vm.apiURL}/api/cdx/dataflows`,
           {
             headers: {
               Authorization: `Bearer ${cookie}`,
@@ -233,7 +340,22 @@
           },
         )
           .then((response) => {
-            this.items = response.data;
+            vm.items = response.data;
+          });
+
+        AppAxios.get(
+          `${vm.apiURL}/api/cdx/configs`,
+          {
+            headers: {
+              Authorization: `Bearer ${cookie}`,
+              crossDomain: true,
+              'cache-control': 'no-cache',
+              'Content-Type': 'application/json',
+            },
+          },
+        )
+          .then((response) => {
+            vm.cdx_configs = response.data;
           });
       }
     },
@@ -243,11 +365,22 @@
         isUserLoggedIn: 'getIsLoggedIn',
         // map getters go here
       }),
+      token() {
+        return this.$cookie.get('Token');
+      },
     },
     methods: {
       ...mapActions(moduleName, [
         // map actions go here
       ]),
+      closeAddModal(item, index, button) {
+        this.$root.$emit('bv::hide::modal', 'modalInfo', button);
+      },
+      getCdxParams() {
+        return {
+          ssoToken: this.cdx_configs.ssoToken,
+        };
+      },
       info(item, index, button) {
         this.modalInfo.title = `Row index: ${index}`;
         this.modalInfo.content = JSON.stringify(item, null, 2);
@@ -261,6 +394,72 @@
         // Trigger pagination to update the number of buttons/pages due to filtering
         this.totalRows = filteredItems.length;
         this.currentPage = 1;
+      },
+      openPopupPage(url, params) {
+        this.openWindowWithPost(`${url}`, '', 'sso-handoff', params);
+      },
+      openWindowWithPost(url, windowoption, name, params) {
+        const form = document.createElement('form');
+        form.setAttribute('method', 'post');
+        form.setAttribute('action', url);
+        form.setAttribute('target', name);
+        const keys = Object.keys(params);
+
+        // eslint-disable-next-line array-callback-return
+        keys.map((key) => {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = key;
+          input.value = params[key];
+          form.appendChild(input);
+        });
+        document.body.appendChild(form);
+        window.open('sso-handoff.htm', name, windowoption);
+        form.submit();
+        document.body.removeChild(form);
+      },
+      onClickGetLinkDetails(roleIds, button) {
+        const vm = this;
+
+        if (roleIds) {
+          AppAxios.get(
+            `${vm.apiURL}/api/cdx/link-details-json/${roleIds}`,
+            {
+              headers: {
+                Authorization: `Bearer ${vm.token}`,
+                crossDomain: true,
+                'cache-control': 'no-cache',
+                'Content-Type': 'application/json',
+              },
+            },
+          )
+            .then((response) => {
+              vm.organization = null;
+              vm.$root.$emit('bv::show::modal', 'my-reporting-link-details', button);
+              vm.linkDetails = response.data;
+            });
+        }
+      },
+      onProgramClientChange(value) {
+        const vm = this;
+        vm.handoff = null;
+
+        if (value) {
+          AppAxios.get(
+            `${vm.apiURL}/api/cdx/link-json-handoff/${value}`,
+            {
+              headers: {
+                Authorization: `Bearer ${vm.token}`,
+                crossDomain: true,
+                'cache-control': 'no-cache',
+                'Content-Type': 'application/json',
+              },
+            },
+          )
+            .then((response) => {
+              vm.handoff = response.data;
+            });
+        }
       },
     },
     props: {
@@ -374,7 +573,7 @@
     background-image: url('/images/my_cdx_images_awaiting-sponsor.svg')
   }
 
-  .AwaitingEsaApproval {
+  .AwaitingElectronicSignatureAgreement {
     background-repeat: no-repeat;
     background-position: center center;
     background-color: #fff;
