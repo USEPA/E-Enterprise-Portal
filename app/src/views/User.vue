@@ -84,32 +84,28 @@
                 <h3>Interests</h3>
                 <div class=" pt-3 mr-3 d-flex">
                   <div><h6>Organization</h6>
-                    <b-form-select v-model="selected"
-                        id="org-selection"
-                        @click="organisation.second = option.value"
-                        class="mr-3"
-                        required>
-                        <template  slot="first">
-                            <option :value=null >-- None-- </option>
-                            <option v-for="option in org" :value="option.value">
-                            {{ option.name }}
-                            </option>
-                        </template>
-                     </b-form-select>
+                      <b-form-select v-model="selected"
+                          id="org-selection"
+                          class="mr-3"
+                          required>
+                          <option v-bind:value=null>{{fieldOrg}}</option>
+                          <option v-for="option in org" v-bind:value="option.name">
+                          {{ option.name }}
+                          </option>
+                      </b-form-select>
                   </div>
-                  <div class="mr-3"></div>
+                <div class="mr-3"></div>
                   <div><h6> Role</h6>
-                    <b-form-select v-model="selectedRole"
-                         id="role-selection"
-                         class="mr-3"
-                         required>
-                         <template>
-                            <option :value=null >-- None-- </option>
-                            <option v-for="option in role">
-                            {{ option.name }}
-                            </option>
-                         </template>
-                    </b-form-select>
+                      <b-form-select v-model="selectedRole"
+                          id="role-selection"
+                          class="mr-3"
+                          required>
+                          <option v-bind:value=null >{{fieldrole}} </option>
+                          <option v-for="option in role" v-bind:value="option.name">
+                          {{ option.name }}
+                          </option>
+
+                      </b-form-select>
                   </div>
                 </div>
               </div>
@@ -120,7 +116,7 @@
         <p class="ml-4 mt-4">All unsaved data will be lost upon navigating
         away from the Profile page.</p>
         <b-btn class="mr-3 ml-2 "
-               @click="axiosPATCHInit"
+               @click="axiosPatch""
                variant="primary">Save
         </b-btn>
         <b-btn
@@ -171,27 +167,23 @@
 
     },
     data() {
-      return {
-
-        locations: [{ }],
-        userInit: [],
-        UserDeleteModalInfo: { title: 'Delete User' },
-        selected: null,
-        selectedRole: null,
-        org: [
-               { type: '', },
-               { name: '', },
-             ],
-        role: [
-               { type: '', },
-               { name: '', },
-             ],
-        organisation:[
-               {first:'',},
-               {second:'',}
-             ]
-            };
-          },
+          return {
+            fieldOrg:'',
+            fieldrole:'',
+            locations: [{ }],
+            userInit: [],
+            fieldOrganisation:[],
+            fieldRole:[],
+            UserDeleteModalInfo: { title: 'Delete User' },
+            selected:null,
+            org:[
+                { first: '', },
+                { second: '', },
+                ],
+            selectedRole: null,
+            role: [],
+                 };
+               },
 
     computed: {
       ...mapGetters({
@@ -218,6 +210,21 @@
             .then(response => {
              this.role = response.data;
             });
+          if (this.uid) {
+              AppAxios.get(`${this.apiURL}/user/${this.uid}?_format=json`, {
+                 headers: {
+                 Authorization: `Bearer ${this.token}`,
+                 crossDomain: true,
+                 'cache-control': 'no-cache',
+                 'Content-Type': 'application/json',
+                          },
+                 })
+                 .then((response) => {
+                  this.fieldOrg = response.data.field_organisation[0].second;
+                  this.fieldrole = response.data.field_role[0].second;
+                                    });
+                          }
+
           },
     methods: {
       ...mapActions(moduleName, [
@@ -238,9 +245,36 @@
       DeleteEEPUserProfile() {
         console.warn('DELETE PROFILE');
       },
-      axiosPATCHInit() {
-      console.warn("Hi");
-          if (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1) {
+      getCookie(cname) {
+                    const name = `${cname}=`;
+                    const decodedCookie = decodeURIComponent(document.cookie);
+                    const ca = decodedCookie.split(';');
+                    for (let i = 0; i < ca.length; i++) {
+                      let c = ca[i];
+                      while (c.charAt(0) === ' ') {
+                        c = c.substring(1);
+                      }
+                      if (c.indexOf(name) === 0) {
+                        return c.substring(name.length, c.length);
+                      }
+                    }
+                    return '';
+                  },
+                  axiosPatch(){
+                   this.axiosPATCHOrg();
+                    this.axiosPATCHRole();
+                  },
+            axiosPATCHOrg() {
+             const firstField = 'org';
+             const secondField = this.selected;
+             console.warn(secondField);
+                          this.fieldOrganisation = this.fieldOrganisation.concat(
+                            {
+                              first: firstField,
+                              second: secondField,
+                            },
+                          );
+             if (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1) {
             // pushes changes to backend
             AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
                 init: [
@@ -288,9 +322,62 @@
               });
           }
         },
-    },
-  };
-</script>
+        axiosPATCHRole() {
+           const firstField = 'role';
+           const secondField = this.selectedRole;
+           this.fieldRole = this.fieldRole.concat(
+              {
+                first: firstField,
+                second: secondField,
+              },
+              );
+              if (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1) {
+                            // pushes changes to backend
+                AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
 
-<style scoped>
-</style>
+                    field_role: this.fieldRole,
+                  },
+                  {
+                    headers: {
+                      Authorization: `Bearer ${this.token}`,
+                      crossDomain: true,
+                      'cache-control': 'no-cache',
+                      'Content-Type': 'application/json',
+                    },
+
+                  })
+                  .then(() => {
+                    console.warn('PATCH => success');
+                  })
+                  .catch(() => {
+                    console.warn('PATCH => failure');
+                  });
+              } else {
+                // pushes changes to backend
+                AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
+
+                    field_role: this.fieldRole,
+                  },
+                  {
+                    headers: {
+                      Authorization: `Bearer ${this.token}`,
+                      crossDomain: true,
+                      'cache-control': 'no-cache',
+                      'Content-Type': 'application/json',
+                    },
+
+                  })
+                  .then(() => {
+                    console.warn('PATCH => success');
+                  })
+                  .catch(() => {
+                    console.warn('PATCH => failure');
+                  });
+              }
+            },
+            },
+          };
+        </script>
+
+        <style scoped>
+        </style>
