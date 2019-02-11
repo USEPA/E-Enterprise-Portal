@@ -770,7 +770,5 @@ $settings['entity_update_batch_size'] = 50;
 # }
 $config_directories['sync'] = '../config/sync';
 $settings['install_profile'] = 'e_enterprise_portal';
-$config['config_split.config_split.localhost']['status']= TRUE;
-$config['config_split.config_split.dev']['status']= FALSE;
-$config['config_split.config_split.test']['status']= FALSE;
-$config['config_split.config_split.prod']['status']= FALSE;
+
+$config['system.passwords']['cdx_naas'] = '__PASSWORD__';
