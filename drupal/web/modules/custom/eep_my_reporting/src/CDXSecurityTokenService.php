@@ -36,7 +36,8 @@ class CDXSecurityTokenService extends CDXNaasService {
 
   private function return_user_cdx_name() {
     $user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
-    return $user->get('field_cdx_user_id')->getString();
+    $user_name = $user->get('field_cdx_user_id')->getString();
+    return strtoupper($user_name);
 
   }
 
@@ -48,7 +49,7 @@ class CDXSecurityTokenService extends CDXNaasService {
       "domain" => $this->config->get('domain'),
       "authMethod" => $this->config->get('authentication_method'),
       "trustee" => $this->config->get('admin_id'),
-      "ip" => $_SERVER['SERVER_ADDR'],
+      "ip" => $_SERVER['LOCAL_ADDR'],
       "subjectData" => "userId=$user_id",
       "subject" => $user_id,
       "issuer" => "EEP",

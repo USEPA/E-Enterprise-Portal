@@ -154,7 +154,12 @@
                     </b-btn>
                   </div>
                   <div v-else>
-                    Nothing
+                    <b-btn
+                      class="my-cdx-web-handoff-link"
+                      data-handoff-type="login"
+                      @click="openPopupPage(cdx_configs.cdx_silent_handoff_url, getCdxParams())">
+                      {{ data.item.role }}
+                    </b-btn>
                   </div>
                 </template>
                 <template
