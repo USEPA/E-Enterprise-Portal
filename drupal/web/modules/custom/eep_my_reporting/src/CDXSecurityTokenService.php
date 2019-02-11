@@ -1,13 +1,29 @@
 <?php
 
+namespace Drupal\eep_my_reporting;
+
+use Drupal\eep_my_reporting\CDXNaasService;
+use Drupal\eep_my_reporting\SOAPHandler;
+
 class CDXSecurityTokenService extends CDXNaasService {
 
-  function __construct() {
+
+  private $soap_handler;
+
+  private $config;
+
+  private $system_config;
+
+  
+  function __construct($config) {
+    $this->config = $config;
+    $this->system_config = \Drupal::config('system.passwords');
     $this->wsdl = 'cdx_facility_naas_wsdl';
-    // Initialize connection with client
-    $soap_service_setup = connectToSOAPServerWithWSDL($this->wsdl, "CDX Security Token Service");
+    $this->soap_handler = new SOAPHandler();
+    $this->wsdl = $this->config->get('security_token_wsdl');
+    $soap_service_setup = $this->soap_handler->connectToSOAPServerWithWSDL($this->wsdl);
     if ($soap_service_setup->error) {
-      $this->client = false;
+      $this->client = FALSE;
     }
     else {
       $this->token_access_name = 'return';
@@ -19,21 +35,21 @@ class CDXSecurityTokenService extends CDXNaasService {
   }
 
   private function return_user_cdx_name() {
-    global $user;
-    $account = $user->uid;
-    $user_id = strtoupper($account->field_cdx_username[LANGUAGE_NONE][0]['value']);
-    return $user_id;
+    $user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
+    $user_name = $user->get('field_cdx_user_id')->getString();
+    return strtoupper($user_name);
+
   }
 
   private function generate_token_params() {
     $user_id = $this->return_user_cdx_name();
     $this->params = array(
       "userId" => $user_id,
-      "credential" => 'cdx_facility_password',
-      "domain" => 'cdx_node_token_domain',
-      "authMethod" => 'eactivity_auth_reg_auth_method',
-      "trustee" => 'cdx_node_token_email',
-      "ip" => $_SERVER['SERVER_ADDR'],
+      "credential" => $this->system_config->get('cdx_naas'),
+      "domain" => $this->config->get('domain'),
+      "authMethod" => $this->config->get('authentication_method'),
+      "trustee" => $this->config->get('admin_id'),
+      "ip" => $_SERVER['LOCAL_ADDR'],
       "subjectData" => "userId=$user_id",
       "subject" => $user_id,
       "issuer" => "EEP",

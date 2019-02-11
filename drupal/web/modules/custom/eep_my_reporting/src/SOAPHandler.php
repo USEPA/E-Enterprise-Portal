@@ -50,5 +50,4 @@ class SOAPHandler {
     return $soap_obj;
   }
 
-
 }

@@ -6,13 +6,13 @@
  */
 
 export default {
-  // @todo Remove POC "user" and add meaningful intial state values
+  // @todo Remove POC "user" and add meaningful initial state values
   user: {
     id: 0,
     roles: [
       'admin',
       'logged in',
-      'authenitcated',
+      'authenticated',
     ],
   },
 };

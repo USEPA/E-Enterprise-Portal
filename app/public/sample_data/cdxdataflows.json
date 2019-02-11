@@ -1,0 +1,102 @@
+[
+  {
+    "program_service_name": "111d: SPeCS for 111d",
+    "role": "111d Preparer",
+    "status": "Active"
+  },
+  {
+    "program_service_name": "BIOSOLIDS: NeT - EPA Biosolids Program (Read Only)",
+    "role": "Certifier",
+    "status": "Active"
+  },
+  {
+    "program_service_name": "CEDRI: Compliance and Emissions Data Reporting Interface",
+    "role": "Certifier",
+    "status": "Active"
+  },
+  {
+    "program_service_name": "CEDRI: Compliance and Emissions Data Reporting Interface",
+    "role": "EPA Reviewer",
+    "status": "Active"
+  },
+  {
+    "program_service_name": "CEDRI: Compliance and Emissions Data Reporting Interface",
+    "role": "State Reviewer",
+    "status": "Active"
+  },
+  {
+    "program_service_name": "CROMERRTEST: CROMERR Test Sandbox",
+    "role": "NAAS Handoff Test",
+    "status": "Active"
+  },
+  {
+    "program_service_name": "CSPP: Submissions for Chemical Safety and Pesticide Programs",
+    "role": "Primary Authorized Official",
+    "status": "Active"
+  },
+  {
+    "program_service_name": "EEP: General E-Enterprise Use",
+    "role": "E-Enterprise Portal",
+    "status": "Active"
+  },
+  {
+    "program_service_name": "FOND: Fuel Oil Non-Availability Disclosure",
+    "role": "Fuel Oil Non-Availability Disclosure",
+    "status": "Active"
+  },
+  {
+    "program_service_name": "FORS: FARR Online Reporting System",
+    "role": "Preparer",
+    "status": "AwaitingSponsorship"
+  },
+  {
+    "program_service_name": "LEAD: Lead-Based Paint Program",
+    "role": "Lead-Based Paint Firm Applications",
+    "status": "Active"
+  },
+  {
+    "program_service_name": "NDMR-R2: NetDMR: EPA Region 02 - NY - PR - SR",
+    "role": "Data Provider",
+    "status": "Active"
+  },
+  {
+    "program_service_name": "QuE: SPeCS Question Exchange",
+    "role": "Admin",
+    "status": "Active"
+  },
+  {
+    "program_service_name": "RCRAInfo: Resource Conservation and Recovery Act Information",
+    "role": "Industry Application",
+    "status": "Active"
+  },
+  {
+    "program_service_name": "RCRAInfo: Resource Conservation and Recovery Act Information",
+    "role": "Submit a Site Notification Form",
+    "status": "Active"
+  },
+  {
+    "program_service_name": "SDWISPA: SDWIS Primacy Agency",
+    "role": "State",
+    "status": "Active"
+  },
+  {
+    "program_service_name": "TRIDPC: TRI DPC Processing",
+    "role": "TRIDPC Admin",
+    "status": "Active"
+  },
+  {
+    "program_service_name": "TRIMEweb: Toxic Release Inventory Made Easy Web",
+    "role": "TRI-MEweb",
+    "status": "Active"
+  },
+  {
+    "program_service_name": "TRIMEweb2: Toxic Release Inventory Made Easy Web - Legacy",
+    "role": "TRIMEweb2",
+    "status": "Active"
+  },
+  {
+    "program_service_name": "eDisclosure: Voluntary Disclosure System",
+    "role": "Disclose/Certify",
+    "status": "Active"
+  }
+]
