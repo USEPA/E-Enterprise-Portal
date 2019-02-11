@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Drupal\eep_my_reporting\SOAPHandler;
 use Drupal\eep_my_reporting\CDXRegisterMyCdxService;
+use Drupal\eep_my_reporting\CDXSecurityTokenService;
 use Drupal\user\Entity\User;
 
 
@@ -40,7 +41,7 @@ class EEPMyReportingController extends ControllerBase {
     $this->cdx_username = $this->getCDXUserName();
     $this->cdx_register_service = new CDXRegisterMyCdxService($this->config);
     $this->token = $this->cdx_register_service->return_token();
-    $this->location = 'my_cdx.module';
+    $this->location = 'eep_my_reporting.module';
     $this->soapHandler = new SOAPHandler();
 
     // Get the root item
@@ -80,8 +81,10 @@ class EEPMyReportingController extends ControllerBase {
           $program_data = [
             'program_service_name' => $link->DataflowAcronym . ': ' . $link->DataflowName,
             'role' => $link->Description,
+            'data_acronym' => $link->DataflowAcronym,
             'roleId' => $link->RoleId,
             'status' => $link->Status->code,
+            'sso_to_app_enabled' => $link->EEPIntegration
           ];
 
           $cdx_link_data[] = $program_data;
@@ -96,11 +99,11 @@ class EEPMyReportingController extends ControllerBase {
   /**
    * Callback for 'api/cdx/link-details-json/%' menu item
    */
-  function my_cdx_json_link_details($roleIds) {
+  function my_cdx_json_link_details($roleId) {
     $response = [];
 
     // @todo Add caching of CDX roles
-    if ($input = $this->fetch_my_cdx_link_details($roleIds)) {
+    if ($input = $this->fetch_my_cdx_link_details($roleId)) {
       $response = $input;
     }
     return new JsonResponse($response);
@@ -149,7 +152,6 @@ class EEPMyReportingController extends ControllerBase {
 
         foreach ($result->response->linkDetails as $linkDetail) {
           // Only accept links that are Active
-          if ($linkDetail->RoleStatus->code === "Active") {
             $userOrgId = $linkDetail->UserOrganizationId;
             if (!isset($data['organizations'][$userOrgId])) {
               $data['orgCount']++;
@@ -165,7 +167,6 @@ class EEPMyReportingController extends ControllerBase {
               'roleName' => $linkDetail->RoleName,
               'userRoleId' => $linkDetail->UserRoleId,
             ];
-          }
         }
 
       }
@@ -201,6 +202,7 @@ class EEPMyReportingController extends ControllerBase {
     }
   }
 
+
   /**
    * Fetch My CDX link handoff from SOAP service
    */
@@ -215,6 +217,23 @@ class EEPMyReportingController extends ControllerBase {
       }
     }
     return $link_handoff;
+  }
+
+  function fetch_my_reporting_configs() {
+    $security_token_handler = new CDXSecurityTokenService($this->config);
+    $response = $this->config;
+    $response = $response->getRawData();
+    unset($response['admin_id']);
+    unset($response['authentication_method']);
+    unset($response['domain']);
+    unset($response['wsdl']);
+
+    // UTF-16LE and base64 encoding are required by the cdx NaasToken silent handoff.
+    $sso_token = "token=" . $security_token_handler->return_token() . "&remoteIpAddress=" . $_SERVER['LOCAL_ADDR'];
+    $sso_token = mb_convert_encoding($sso_token, 'UTF-16LE');
+    $response['ssoToken'] = base64_encode($sso_token);
+    $response['cdx_silent_handoff_url'] = $response['cdx_base_url'] . '/SilentHandoff/NaasTokenSSO';
+    return new JsonResponse($response);
   }
 
 }

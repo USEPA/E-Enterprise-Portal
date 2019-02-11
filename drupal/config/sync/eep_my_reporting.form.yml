@@ -2,3 +2,6 @@ wsdl: 'https://devngn.epacdxnode.net/cdx-register-II/services/RegisterMyCdxServi
 admin_id: registration.dev@cgifederal.com
 domain: default
 authentication_method: password
+cdx_base_url: 'https://dev.epacdx.net'
+cdx_submission_history_url: 'https://devngn.epacdxnode.net/cromerr-review/action/submitter/home/'
+security_token_wsdl: 'https://naasdev.epacdxnode.net/xml/SecurityToken_v30.wsdl'
