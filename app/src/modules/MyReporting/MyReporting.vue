@@ -135,13 +135,15 @@
                   slot="role"
                   slot-scope="data">
                   <div v-if="data.item.sso_to_app_enabled">
-                    <a class="cursor-pointer text-decoration-underline"
+                    <a
+                      class="cursor-pointer text-decoration-underline"
                       @click="onClickGetLinkDetails(data.item.roleId, $event.target)"
                       :data-roleId="data.item.roleId">{{ data.item.role }}
                     </a>
                   </div>
                   <div v-else>
-                    <a class="cursor-pointer text-decoration-underline"
+                    <a
+                      class="cursor-pointer text-decoration-underline"
                       data-handoff-type="login"
                       @click="openPopupPage(cdx_configs.cdx_silent_handoff_url, getCdxParams())">
                       {{ data.item.role }}
