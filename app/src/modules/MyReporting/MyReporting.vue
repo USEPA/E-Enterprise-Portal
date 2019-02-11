@@ -12,28 +12,28 @@
           id="nav-tab"
           role="tablist">
           <a
-            class="nav-item nav-link active"
+            class="nav-item nav-link active text-decoration-none"
             data-toggle="tab"
             href="#nav-epa"
             role="tab"
             aria-controls="nav-epa"
             aria-selected="true">US EPA</a>
           <a
-            class="nav-item nav-link"
+            class="nav-item nav-link text-decoration-none"
             data-toggle="tab"
             href="#nav-state"
             role="tab"
             aria-controls="nav-state"
             aria-selected="false">State</a>
           <a
-            class="nav-item nav-link"
+            class="nav-item nav-link text-decoration-none"
             data-toggle="tab"
             href="#nav-tribal"
             role="tab"
             aria-controls="nav-tribal"
             aria-selected="false">Tribal</a>
           <a
-            class="nav-item nav-link"
+            class="nav-item nav-link text-decoration-none"
             data-toggle="tab"
             href="#nav-local"
             role="tab"
@@ -89,8 +89,8 @@
               <!-- User Interface controls -->
               <b-row>
                 <b-col
-                  md="6"
-                  class="my-1">
+                  md="8"
+                  class="my-1 pl-0">
                   <b-form-group
                     horizontal
                     label="Filter"
@@ -104,13 +104,14 @@
                 </b-col>
 
                 <b-col
-                  md="6"
-                  class="my-1">
+                  md="3"
+                  class="my-1 pl-0">
                   <b-form-group
                     horizontal
                     label="Rows"
                     class="mb-0">
                     <b-form-select
+                      class="ml-3"
                       :options="pageOptions"
                       v-model="perPage"/>
                   </b-form-group>
@@ -125,8 +126,7 @@
                 :current-page="currentPage"
                 :per-page="perPage"
                 :filter="filter"
-                @filtered="onFiltered"
-              >
+                @filtered="onFiltered">
                 <template
                   slot="program_service_name"
                   slot-scope="data">
@@ -136,18 +136,18 @@
                   slot="role"
                   slot-scope="data">
                   <div v-if="data.item.sso_to_app_enabled">
-                    <b-btn
+                    <a class="cursor-pointer text-decoration-underline"
                       @click="onClickGetLinkDetails(data.item.roleId, $event.target)"
                       :data-roleId="data.item.roleId">{{ data.item.role }}
-                    </b-btn>
+                    </a>
                   </div>
                   <div v-else>
-                    <b-btn
-                      class="my-cdx-web-handoff-link"
+                    <a
+                      class="cursor-pointer text-decoration-underline"
                       data-handoff-type="login"
                       @click="openPopupPage(cdx_configs.cdx_silent_handoff_url, getCdxParams())">
                       {{ data.item.role }}
-                    </b-btn>
+                    </a>
                   </div>
                 </template>
                 <template
@@ -175,8 +175,8 @@
                       <option
                         v-for="(item, index) in linkDetails.organizations"
                         :value="linkDetails.organizations[index]"
-                        :key="index"
-                      >{{ item.orgName }}
+                        :key="index">
+                        {{ item.orgName }}
                       </option>
                     </template>
 
