@@ -357,23 +357,27 @@ export default {
                   // Comparing dates to find when there is a minute left until cookie expiration
                   let minutes_difference = 0;
 
-                  if(!!store.getters.getLogInTime){
-                      minutes_difference = Math.floor((Math.abs(new Date((store.getters.getLogInTime.getTime() +
-                              ((store.getters.getCookieInfo.time) * 60 * 1000))) - (new Date)) / 1000) / 60) % 60;
+                  if(!Vue.cookie.get('userLoggedIn')){
+                      store.dispatch('userLogOut');
                   }else{
-                      clearInterval(cookie_check);
-                  }
+                      if(!!store.getters.getLogInTime){
+                          minutes_difference = Math.floor((Math.abs(new Date((store.getters.getLogInTime.getTime() +
+                                      ((store.getters.getCookieInfo.time) * 60 * 1000))) - (new Date)) / 1000) / 60) % 60;
+                      }else{
+                          clearInterval(cookie_check);
+                      }
 
-                  // Check to see if there is a minute left
-                  if(minutes_difference <= 1 && store.getters.getDisplayLoggedInElements){
-                      store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
-                      vm.$root.$emit(
-                          'bv::show::modal',
-                          'cookie_modal',
-                          vm.$refs.cookie_modal
-                      );
+                      // Check to see if there is a minute left
+                      if(minutes_difference <= 1 && store.getters.getDisplayLoggedInElements){
+                          store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
+                          vm.$root.$emit(
+                              'bv::show::modal',
+                              'cookie_modal',
+                              vm.$refs.cookie_modal
+                          );
+                      }
                   }
-              }, (store.getters.getCookieInfo.time - 1) * 60000);
+              }, 5000);
           }else{
               if(Vue.cookie.get('userLoggedIn')){
                   // Log user in and set user name
