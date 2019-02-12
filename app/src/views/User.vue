@@ -116,7 +116,7 @@
         <p class="ml-4 mt-4">All unsaved data will be lost upon navigating
         away from the Profile page.</p>
         <b-btn class="mr-3 ml-2 "
-               @click="axiosPatch""
+               @click="axiosPatch"
                variant="primary">Save
         </b-btn>
         <b-btn
