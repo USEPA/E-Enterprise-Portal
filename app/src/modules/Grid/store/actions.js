@@ -16,64 +16,68 @@ export default {
   initializeLayout(context) {
     const store = context;
 
-    // Axios call to get the apps from the API (currently mimicing it)
-    const url = store.rootGetters.getApiUrl('workbenchApplications');
-
     // Update the layout in the store
-    const wappFilter = (wapps) => {
-      const tmpWapps = wapps.reduce((acc, wapp, idx) => {
-        const tmp = {};
-        tmp.eepApp = wapp;
+    /**
+     * Takes raw API Workbench Applications (wapp) and processes them to work
+     *
+     */
+    const generateWappsFromRawWapps = (rawWapps) => {
+      const wapps = rawWapps.reduce((acc, rawWapp, idx) => {
+        const wapp = {};
+        wapp.eepApp = rawWapp;
         // eslint-disable-next-line no-useless-escape
-        tmp.eepApp.id = wapp.title.toLowerCase().replace(/[`~!@#$%^&*()_|+=?;:'",.<>\{\}\[\]\\\/]/gi, '-');
+        wapp.eepApp.id = rawWapp.title.toLowerCase().replace(/[`~!@#$%^&*()_|+=?;:'",.<>\{\}\[\]\\\/]/gi, '-');
 
         // Setup the sources
-        tmp.eepApp.source = [];
-        const keys = Object.keys(wapp.field_sources);
+        wapp.eepApp.source = [];
+        const keys = Object.keys(rawWapp.field_sources);
         keys.forEach((key) => {
-          tmp.eepApp.source.push({
+          wapp.eepApp.source.push({
             text: key,
-            link: wapp.field_sources[keys[0]],
+            link: rawWapp.field_sources[keys[0]],
           });
         });
 
         // Setup the html content
-        let html = wapp.field_html_content.reduce((acc, html_content, idx) => {
+        let html = rawWapp.field_html_content.reduce((acc, html_content, idx) => {
           acc[html_content.field_key] = html_content.field_html;
           return acc;
         }, {});
-        tmp.eepApp.field_html_content = html;
+        wapp.eepApp.field_html_content = html;
 
         // Setup the values for the grid
-        tmp.x = wapp.field_grid.x;
-        tmp.y = wapp.field_grid.y;
-        tmp.w = wapp.field_grid.width;
-        tmp.h = wapp.field_grid.height;
-        tmp.i = idx;
+        wapp.x = rawWapp.field_grid.x;
+        wapp.y = rawWapp.field_grid.y;
+        wapp.w = rawWapp.field_grid.width;
+        wapp.h = rawWapp.field_grid.height;
+        wapp.i = idx;
 
         // Setup size
         let size = 'small';
         // If the grid is 'tall', it is large
-        if (tmp.eepApp.field_grid.height > 1) {
+        if (wapp.eepApp.field_grid.height > 1) {
           size = 'large';
 
           // If the grid is not 'tall' but wide, it is medium
-        } else if (tmp.eepApp.field_grid.width > 1) {
+        } else if (wapp.eepApp.field_grid.width > 1) {
           size = 'medium';
         }
-        tmp.eepApp.size = size;
+        wapp.eepApp.size = size;
 
         // Push that new value
-        acc.push(tmp);
+        acc.push(wapp);
         return acc;
       }, []);
-      return tmpWapps;
+      return wapps;
     };
+
+    // Axios call to get the apps from the API (currently mimicing it)
+    const url = store.rootGetters.getApiUrl('workbenchApplications');
 
     AppAxios.get(url)
       .then((response) => {
         if (Array.isArray(response.data) && response.data.length) {
-          const wapps = wappFilter(response.data);
+          const wapps = generateWappsFromRawWapps(response.data);
           store.commit(types.SET_LAYOUT, wapps);
         } else {
           console.warn('Workbench Applications endpoint returned an error.');
@@ -103,7 +107,7 @@ export default {
    * Medium is 2 colums wide & 1 row high
    * Large is 2 columns wide & 2 rows high
    *
-   * Each app will be added to the grid from left to right. For esthetic reasons
+   * Each app will be added to the grid from left to right. For aesthetic reasons,
    * The grid will only place the apps with a width of 2 columns on either the
    * first of third column (medium and large). Large widgets will initially
    * start on a new row.
@@ -130,32 +134,33 @@ export default {
     const store = context;
     const sizesPromise = context.dispatch('sortWappBySizes');
 
-    sizesPromise.then((sizes)=>{
+    sizesPromise.then((sizes) => {
       let newLayout = [];
       const columnCount = 4;
-      let x = 0;
-      let y = 0;
+      let columnPosition = 0;
+      let rowPosition = 0;
 
       const calculatePosition = (wapp, idx) => {
         // set new values and sync layout settings
         const width = wapp.eepApp.field_grid.width;
         const height = wapp.eepApp.field_grid.height;
         wapp.eepApp.field_grid = {
-          x: x,
-          y: y,
+          x: columnPosition,
+          y: rowPosition,
           width: width,
           height: height,
         };
-        wapp.x = x;
-        wapp.y = y;
+        wapp.x = columnPosition;
+        wapp.y = rowPosition;
         wapp.w = width;
         wapp.h = height;
 
         newLayout.push(wapp);
-        x = x + wapp.eepApp.field_grid.width;
-        if (x > columnCount - 1) {
-          y = y + wapp.eepApp.field_grid.height;
-          x = 0;
+        //
+        columnPosition = columnPosition + wapp.eepApp.field_grid.width;
+        if (columnPosition > columnCount - 1) {
+          rowPosition = rowPosition + wapp.eepApp.field_grid.height;
+          columnPosition = 0;
         }
       };
 
@@ -163,15 +168,17 @@ export default {
       sizes.small.map(calculatePosition);
 
       // Medium WAPPs
-      // Resetting x & y positions to behave as detailed above
-      y = (x) ? y + 1 : y;
-      x = (x && x <= 2) ? 2 : 0;
+      // If the column position is not zero, add a new row.
+      rowPosition = (columnPosition) ? rowPosition + 1 : rowPosition;
+      // The grid will only place the apps with a width of 2 columns on either the
+      // first of third column.
+      columnPosition = (columnPosition && columnPosition <= 2) ? 2 : 0;
       sizes.medium.map(calculatePosition);
 
-      // Large WAPPs
-      // Resetting x & y positions to behave as detailed above
-      y = (x) ? y + 1 : y;
-      x = 0;
+      // If the column position is not zero, add a new row.
+      rowPosition = (columnPosition) ? rowPosition + 1 : rowPosition;
+      // Large Wapps will initially start on a new row.
+      columnPosition = 0;
       sizes.large.map(calculatePosition);
 
       // Combine the sorted items and update the layout in the store
@@ -189,11 +196,11 @@ export default {
 
     const getFootprint = (wapp) => {
       const footprint = [];
-      for (let x = wapp.eepApp.field_grid.x; x < wapp.eepApp.field_grid.x + wapp.eepApp.field_grid.width; x++) {
-        for (let y = wapp.eepApp.field_grid.y; y < wapp.eepApp.field_grid.y + wapp.eepApp.field_grid.height; y++) {
-          // Originally used an array but Vue makes if difficult to compare them.
-          // So we use a concatenated string.
-          footprint.push(`${x}, ${y}`);
+      for (let columnPosition = wapp.eepApp.field_grid.x; columnPosition < wapp.eepApp.field_grid.x + wapp.eepApp.field_grid.width; columnPosition++) {
+        for (let rowPosition = wapp.eepApp.field_grid.y; rowPosition < wapp.eepApp.field_grid.y + wapp.eepApp.field_grid.height; rowPosition++) {
+          // Originally used an array but Vue makes if difficult to compare
+          // them. So we use a concatenated string.
+          footprint.push(`${columnPosition}, ${rowPosition}`);
         }
       }
       return footprint;
@@ -205,11 +212,11 @@ export default {
       // check the remaining array items for conflicts, We don't need to check
       // previous times as that would be redundant.
       if (idx < arr.length - 1) {
-        const c_fp = getFootprint(wapp);
+        const wapp_footprint = getFootprint(wapp);
 
         arr.slice(idx).forEach((other_wapp) => {
-          const o_fp = getFootprint(other_wapp);
-          const intersection = intersect(c_fp, o_fp);
+          const other_wapp_footprint = getFootprint(other_wapp);
+          const intersection = intersect(wapp_footprint, other_wapp_footprint);
           if (intersection.length > 0) {
             isValid = false;
           }
@@ -224,13 +231,14 @@ export default {
    * @returns {string}
    */
   getSize(context, wapp) {
+    const tallWappSetting = 2
     let size = 'small';
     // If the grid is 'tall', it is large
-    if (wapp.eepApp.field_grid.height > 1) {
+    if (wapp.eepApp.field_grid.height >= tallWappSetting) {
       size = 'large';
 
       // If the grid is not 'tall' but wide, it is medium
-    } else if (wapp.eepApp.field_grid.width > 1) {
+    } else if (wapp.eepApp.field_grid.width > tallWappSetting) {
       size = 'medium';
     }
     return size;
