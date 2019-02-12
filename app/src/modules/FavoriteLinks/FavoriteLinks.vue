@@ -232,6 +232,9 @@
       token() { return this.getCookie('Token'); },
     },
     methods: {
+      ...mapActions([
+        'appAxiosPatch',
+      ]),
       ...mapActions(moduleName, [
         'addFavoriteLink',
       ]),
@@ -310,7 +313,7 @@
       applyPATCH() {
         if (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1) {
           // pushes changes to backend
-          this.appAxiosPATCH({
+          this.appAxiosPatch({
               init: [
                 {
                   value: 'generated-user@e-enterprise',
@@ -320,28 +323,13 @@
             });
         } else {
           // pushes changes to backend
-          this.appAxiosPATCH({
+          this.appAxiosPatch({
               init: this.userInit,
               field_favorite_links: this.favoriteLinks,
             });
         }
       },
-      appAxiosPATCH(body) {
-        AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, body, {
-          headers: {
-            Authorization: `Bearer ${this.token}`,
-            crossDomain: true,
-            'cache-control': 'no-cache',
-            'Content-Type': 'application/json',
-          },
-        })
-          .then(() => {
-            console.log('PATCH => success');
-          })
-          .catch(() => {
-            console.log('PATCH => failure');
-          });
-      },
+
     },
     beforeCreate() {
     },
