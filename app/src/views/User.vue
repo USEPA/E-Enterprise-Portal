@@ -88,7 +88,7 @@
                           id="org-selection"
                           class="mr-3"
                           required>
-                          <option v-bind:value=null>{{fieldOrg}}</option>
+                          <option v-bind:value=null>{{organisation}}</option>
                           <option v-for="option in org" v-bind:value="option.name">
                           {{ option.name }}
                           </option>
@@ -100,8 +100,8 @@
                           id="role-selection"
                           class="mr-3"
                           required>
-                          <option v-bind:value=null >{{fieldrole}} </option>
-                          <option v-for="option in role" v-bind:value="option.name">
+                          <option v-bind:value=null >{{role}} </option>
+                          <option v-for="option in roleList" v-bind:value="option.name">
                           {{ option.name }}
                           </option>
 
@@ -168,12 +168,12 @@
     },
     data() {
           return {
-            fieldOrg:'',
-            fieldrole:'',
+            organisation:'',
+            role:'',
             locations: [{ }],
             userInit: [],
-            fieldOrganisation:[],
-            fieldRole:[],
+            organisations:[],
+            roles:[],
             UserDeleteModalInfo: { title: 'Delete User' },
             selected:null,
             org:[
@@ -181,7 +181,7 @@
                 { second: '', },
                 ],
             selectedRole: null,
-            role: [],
+            roleList: [],
                  };
                },
 
@@ -208,7 +208,7 @@
           AppAxios
             .get('sample_data/role.json')
             .then(response => {
-             this.role = response.data;
+             this.roleList = response.data;
             });
           if (this.uid) {
               AppAxios.get(`${this.apiURL}/user/${this.uid}?_format=json`, {
@@ -220,8 +220,8 @@
                           },
                  })
                  .then((response) => {
-                  this.fieldOrg = response.data.field_organisation[0].second;
-                  this.fieldrole = response.data.field_role[0].second;
+                  this.organisation = response.data.field_organisation[0].second;
+                  this.role = response.data.field_role[0].second;
                                     });
                           }
 
@@ -267,7 +267,7 @@
       axiosPATCHOrg() {
          const firstField = 'org';
          const secondField = this.selected;
-         this.fieldOrganisation = this.fieldOrganisation.concat(
+         this.organisations = this.organisations.concat(
                         {
                           first: firstField,
                           second: secondField,
@@ -276,16 +276,12 @@
         if (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1) {
         // pushes changes to backend
         AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
-            init: [
-              {
-                value: "generated-user@e-enterprise",
-              },
-            ],
-            field_organisation: this.selected,
+
+            field_organisation: this.organisations,
           },
           {
             headers: {
-              Authorization: `Bearer ${this.Token}`,
+              Authorization: `Bearer ${this.token}`,
               crossDomain: true,
               'cache-control': 'no-cache',
               'Content-Type': 'application/json',
@@ -301,12 +297,12 @@
       } else {
         // pushes changes to backend
         AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
-            init: this.userInit,
-            field_organisation: this.selected,
+
+            field_organisation: this.organisations,
           },
           {
             headers: {
-              Authorization: `Bearer ${this.Token}`,
+              Authorization: `Bearer ${this.token}`,
               crossDomain: true,
               'cache-control': 'no-cache',
               'Content-Type': 'application/json',
@@ -325,7 +321,7 @@
     axiosPATCHRole() {
        const firstField = 'role';
        const secondField = this.selectedRole;
-       this.fieldRole = this.fieldRole.concat(
+       this.roles = this.roles.concat(
           {
             first: firstField,
             second: secondField,
@@ -335,7 +331,7 @@
                         // pushes changes to backend
             AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
 
-                field_role: this.fieldRole,
+                field_role: this.roles,
               },
               {
                 headers: {
@@ -356,7 +352,7 @@
             // pushes changes to backend
             AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
 
-                field_role: this.fieldRole,
+                field_role: this.roles,
               },
               {
                 headers: {
