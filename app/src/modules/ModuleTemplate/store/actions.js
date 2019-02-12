@@ -13,6 +13,23 @@ export default {
     const store = context;
     const { state } = store;
 
-    store.commit(types.SAMPLE_MUTATION, state);
+    store.commit(types.SAMPLE_MUTATION, {});
   },
+  sampleActionWithParmas(context, params) {
+    const store = context;
+    const { state } = store;
+
+    store.commit(types.SAMPLE_MUTATION, {});
+  },
+  /**
+   *
+   * The first parameter is always the context, by using a deconstructor we can
+   * cherry pick to properties dispatch and commit which are equivalent to
+   * context.dispatch and context.commit
+   */
+  sampleCallToOtherAction({ dispatch, commit }) {
+    dispatch('sampleAction');
+    // With params
+    dispatch('sampleActionWithParmas', { param1, param2 });
+  }
 };

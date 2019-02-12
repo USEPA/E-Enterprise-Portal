@@ -17,15 +17,11 @@ export default {
     const store = context;
 
     // Axios call to get the apps from the API (currently mimicing it)
-    // const layout = store.getters.getSampleLayout;
-    // eslint-disable-next-line max-len
-    // eslint-disable-next-line object-curly-newline,object-curly-spacing,quote-props,quotes,key-spacing,comma-spacing
-    // const response = [{"title":"Be Well Informed - Workbench Application Name","field_settings_menu_items":{"Help":"Sample help text","Disclaimer":"Your basic disclaimer","Contact":"Talk to us here..."},"field_default_grid_size":["small"],"field_description":[],"field_is_expandable":1,"field_grid":{"x":0,"y":0,"width":1,"height":1},"field_grid_sizes":["small"],"field_html_content":[{"nid":7,"uuid":8,"vid":18,"langcode":"en","type":[{"target_id":"eep_app_content"}],"revision_timestamp":1548799635,"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":0,"title":"Be Well Informed - Main","uid":[{"target_id":"1"}],"created":1548261997,"changed":1548799635,"promote":0,"sticky":0,"default_langcode":1,"revision_default":1,"revision_translation_affected":1,"path":[{"langcode":"en"}],"menu_link":[[]],"field_html":"\u003Cp\u003EHave a well and wonder what your water testing results mean?\u003C\/p\u003E\r\n\r\n\u003Cp\u003EBe Well Informed lets you enter your test results and get feedback about health concerns and water treatment choices. Be Well Informed includes useful information about the most common contaminants that affect wells.\u003C\/p\u003E\r\n\r\n\u003Cp\u003EA quick disclaimer before we start: Information provided by the participating States is for informational purposes only. It is recommended that you consult a qualified water treatment professional if you need to treat your water. They can consider other conditions or factors related to your well or home to determine the most appropriate water treatment option.\u003C\/p\u003E\r\n\r\n\u003Cp\u003EModeled After: \u003Ca href=\u0022https:\/\/xml2.des.state.nh.us\/DWITool\/Welcome.aspx\u0022\u003ENew Hampshire\u2019s Be \u003Cem\u003EWell\u003C\/em\u003E Informed Guide\u003C\/a\u003E\u003C\/p\u003E\r\n","field_key":"mainCard"}],"field_icon_name":"bookmark.svg","field_sources":{"New Hampshire\u2019s Be Well Informed Guide":"https:\/\/xml2.des.state.nh.us\/DWITool\/Welcome.aspx"},"field_vue_component_name":"BeWellInformed"}];
     const url = store.rootGetters.getApiUrl('workbenchApplications');
 
     // Update the layout in the store
-    const wappFilter = function (data) {
-      const tmpWapps = data.reduce((acc, wapp, idx) => {
+    const wappFilter = (wapps) => {
+      const tmpWapps = wapps.reduce((acc, wapp, idx) => {
         const tmp = {};
         tmp.eepApp = wapp;
         // eslint-disable-next-line no-useless-escape
@@ -42,8 +38,7 @@ export default {
         });
 
         // Setup the html content
-        let html = {};
-        html = wapp.field_html_content.reduce((acc, html_content, idx) => {
+        let html = wapp.field_html_content.reduce((acc, html_content, idx) => {
           acc[html_content.field_key] = html_content.field_html;
           return acc;
         }, {});
@@ -55,6 +50,18 @@ export default {
         tmp.w = wapp.field_grid.width;
         tmp.h = wapp.field_grid.height;
         tmp.i = idx;
+
+        // Setup size
+        let size = 'small';
+        // If the grid is 'tall', it is large
+        if (tmp.eepApp.field_grid.height > 1) {
+          size = 'large';
+
+          // If the grid is not 'tall' but wide, it is medium
+        } else if (tmp.eepApp.field_grid.width > 1) {
+          size = 'medium';
+        }
+        tmp.eepApp.size = size;
 
         // Push that new value
         acc.push(tmp);
@@ -73,5 +80,159 @@ export default {
           console.warn([url, response]);
         }
       });
+  },
+  /**
+   * Sorts the Workbench Applications by current size and sorts them in order of
+   * small to large
+   */
+  sortWappBySizes(context) {
+    const store = context;
+    let layout = store.state.layout;
+    const sizes = { small: [], medium: [], large: [] };
+
+    // Sort wapp to make ordering them easier
+    layout.map((wapp) => {
+      sizes[wapp.eepApp.size].push(wapp);
+    });
+
+    // layout = [].concat(sizes.small, sizes.medium, sizes.large);
+    return sizes;
+  },
+  /**
+   * This assumes we are using the 4 column grid for the layout of the widgets.
+   * Small is 1 column wide & 1 row high
+   * Medium is 2 colums wide & 1 row high
+   * Large is 2 columns wide & 2 rows high
+   *
+   * Each app will be added to the grid from left to right. For esthetic reasons
+   * The grid will only place the apps with a width of 2 columns on either the
+   * first of third column (medium and large). Large widgets will initially
+   * start on a new row.
+   *
+   * Below is a visualization of how it should work: (S)mall, (M)edium, (L)arge,
+   * (E}mpty or skipped grid slots.
+   *
+   *    ---------------------
+   *    | S  | S  | S  | S  |
+   *    ---------------------
+   *    | S  |  E |    M    |
+   *    ---------------------
+   *    |    M    |    M    |
+   *    ---------------------
+   *    |    M    |  E | E  |
+   *    ---------------------
+   *    |         |         |
+   *    |    L    |    L    |
+   *    |         |         |
+   *    ---------------------
+   *
+   */
+  autoPositionWapps(context) {
+    const store = context;
+    const sizesPromise = context.dispatch('sortWappBySizes');
+
+    sizesPromise.then((sizes)=>{
+      let newLayout = [];
+      const columnCount = 4;
+      let x = 0;
+      let y = 0;
+
+      const calculatePosition = (wapp, idx) => {
+        // set new values and sync layout settings
+        const width = wapp.eepApp.field_grid.width;
+        const height = wapp.eepApp.field_grid.height;
+        wapp.eepApp.field_grid = {
+          x: x,
+          y: y,
+          width: width,
+          height: height,
+        };
+        wapp.x = x;
+        wapp.y = y;
+        wapp.w = width;
+        wapp.h = height;
+
+        newLayout.push(wapp);
+        x = x + wapp.eepApp.field_grid.width;
+        if (x > columnCount - 1) {
+          y = y + wapp.eepApp.field_grid.height;
+          x = 0;
+        }
+      };
+
+      // Small WAPPs
+      sizes.small.map(calculatePosition);
+
+      // Medium WAPPs
+      // Resetting x & y positions to behave as detailed above
+      y = (x) ? y + 1 : y;
+      x = (x && x <= 2) ? 2 : 0;
+      sizes.medium.map(calculatePosition);
+
+      // Large WAPPs
+      // Resetting x & y positions to behave as detailed above
+
+      y = (x) ? y + 1 : y;
+      x = 0;
+      sizes.large.map(calculatePosition);
+
+      newLayout = [].concat(sizes.small, sizes.medium, sizes.large);
+
+      store.commit(types.SET_LAYOUT, newLayout);
+    });
+  },
+  /**
+   * This function checks if the widget items over lap
+   */
+  validateWappPositions(context, layout) {
+    const intersect = function (...a) {
+      return [...a].reduce((p, c) => p.filter(e => c.includes(e)));
+    };
+
+    const getFootprint = (wapp) => {
+      const footprint = [];
+      for (let x = wapp.eepApp.field_grid.x; x < wapp.eepApp.field_grid.x + wapp.eepApp.field_grid.width; x++) {
+        for (let y = wapp.eepApp.field_grid.y; y < wapp.eepApp.field_grid.y + wapp.eepApp.field_grid.height; y++) {
+          footprint.push(`${x}, ${y}`);
+        }
+      }
+      return footprint;
+    };
+
+    let isValid = true;
+
+    layout.reduce((acc, wapp, idx, arr) => {
+      // check the remaining array items for conflicts, We don't need to check
+      // previous times as that would be redundant.
+      if (idx < arr.length - 1) {
+        const c_fp = getFootprint(wapp);
+
+        arr.slice(idx).forEach((other_wapp) => {
+          const o_fp = getFootprint(other_wapp);
+          const intersection = intersect(c_fp, o_fp);
+          if (intersection.length > 0) {
+            isValid = false;
+          }
+        });
+      }
+    });
+
+    return isValid;
+  },
+  /**
+   * This returns the readable size of the grid: small, medium, or large
+   * @returns {string}
+   */
+  getSize(context, wapp) {
+    let size = 'small';
+    // If the grid is 'tall', it is large
+    if (wapp.eepApp.field_grid.height > 1) {
+      size = 'large';
+
+      // If the grid is not 'tall' but wide, it is medium
+    } else if (wapp.eepApp.field_grid.width > 1) {
+      size = 'medium';
+    }
+    return size;
   },
 };
