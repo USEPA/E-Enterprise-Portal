@@ -95,7 +95,6 @@ export default {
       sizes[wapp.eepApp.size].push(wapp);
     });
 
-    // layout = [].concat(sizes.small, sizes.medium, sizes.large);
     return sizes;
   },
   /**
@@ -171,13 +170,12 @@ export default {
 
       // Large WAPPs
       // Resetting x & y positions to behave as detailed above
-
       y = (x) ? y + 1 : y;
       x = 0;
       sizes.large.map(calculatePosition);
 
+      // Combine the sorted items and update the layout in the store
       newLayout = [].concat(sizes.small, sizes.medium, sizes.large);
-
       store.commit(types.SET_LAYOUT, newLayout);
     });
   },
@@ -193,6 +191,8 @@ export default {
       const footprint = [];
       for (let x = wapp.eepApp.field_grid.x; x < wapp.eepApp.field_grid.x + wapp.eepApp.field_grid.width; x++) {
         for (let y = wapp.eepApp.field_grid.y; y < wapp.eepApp.field_grid.y + wapp.eepApp.field_grid.height; y++) {
+          // Originally used an array but Vue makes if difficult to compare them.
+          // So we use a concatenated string.
           footprint.push(`${x}, ${y}`);
         }
       }
