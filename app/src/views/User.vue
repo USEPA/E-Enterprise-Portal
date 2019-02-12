@@ -261,8 +261,14 @@
         return '';
       },
       axiosPatch(){
+      if(this.selected!=''){
        this.axiosPATCHOrg();
+       }else{
+       }
+       if(this.selectedRole!=''){
        this.axiosPATCHRole();
+       }else{
+       }
       },
       axiosPATCHOrg() {
          const firstField = 'org';
