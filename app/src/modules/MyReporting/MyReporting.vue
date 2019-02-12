@@ -43,8 +43,7 @@
       </nav>
       <div id="my-reporting">
         <ul class="inline-cdx-links">
-          <li
-          >
+          <li>
             <a
               class="my-cdx-web-handoff-link my-cdx-login cursor-pointer"
               @click="openPopupPage(cdx_configs.cdx_silent_handoff_url, getCdxParams())">
