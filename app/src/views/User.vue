@@ -66,17 +66,13 @@
                     </div>
                   </b-input-group>
                 </div>
-                <div class="pt-3 d-flex">
+                <div id="input-box-results-drop-down" class="pt-3 d-flex">
                     <b-input-group>
                         <label class="col-12 font-weight-bold">Select a zipcode for {{inputBoxText}}</label>
                         <b-form-select
                                 id="afterInputDropDown"
-                                class="col-4 ml-3">
-                            <template>
-                                <option v-for="afterInputOption in afterInputOptions">
-                                    {{afterInputOption}}
-                                </option>
-                            </template>
+                                class="col-4 ml-3"
+                                :options="afterInputOptions">
                         </b-form-select>
                     </b-input-group>
                 </div>
@@ -305,8 +301,7 @@
         },
         submitInput(event){
             if(event.which === 13){
-
-
+                this.$store.dispatch('populateDropdownForUserInput', this.inputBoxText);
             }
         }
     },
@@ -314,4 +309,7 @@
 </script>
 
 <style scoped>
+    #input-box-results-drop-down{
+        display: none !important;
+    }
 </style>

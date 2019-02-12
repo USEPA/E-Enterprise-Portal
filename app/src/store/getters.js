@@ -135,4 +135,7 @@ export default {
   getCookieInfo(state){
     return state.user.cookie;
   },
+  getOptionsAfterInput(state){
+      return state.user.optionsAfterInput;
+  },
 };

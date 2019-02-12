@@ -402,4 +402,9 @@ export default {
           console.error(error);
       });
   },
+  populateDropdownForUserInput(context, userInput){
+      const store = context;
+
+      console.log("hit the action: " + userInput);
+  },
 };
