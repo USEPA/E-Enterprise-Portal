@@ -1,50 +1,52 @@
 <template>
-  <div class='user-profile'>
-    <h3>GET</h3> **Need to run in order to store userObject in state**
-    <br>
-    <br>
-    User ID: <input v-model.number="userID" type="number">
-    <br>
-    <br>
-    <b-btn @click="performDrupalUserGETRequest(userID)">Click to GET Request</b-btn>
-    <hr>
-    <h3>PATCH</h3>
-    Favorite Link Name: <input v-model.text="favoriteLinkName" type="text">
-    <br>
-    <br>
-    Favorite Link URL: <input v-model.url="favoriteLinkURL" type="url">
-    <br>
-    <br>
-    <b-btn @click="performDrupalUserFavLinkPATCHRequest(favoriteLinkName, favoriteLinkURL, userID)">Click to PATCH
-      Request
-    </b-btn>
-    <hr>
-    <h3>DELETE</h3>
-    Favorite Link Name: <input v-model.text="DELETEfavoriteLinkName" type="text">
-    <br>
-    <br>
-    <b-btn @click="performDrupalUserFavLinkDELETERequest(DELETEfavoriteLinkName, userID)">Click to DELETE Request
-    </b-btn>
-    <hr>
-    <h3>userObject in State: </h3>
-    <div id='stateCheck'>{{ userObj }}</div>
-    <hr>
-    <h3>GET Result: </h3>
-    <div id='getResult'></div>
-    <hr>
-    <h3>PATCH Result: </h3>
-    <div id='patchResult'></div>
-    <hr>
-    <h3>DELETE Result: </h3>
-    <div id='deleteResult'></div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-  </div>
+    <div class='user-profile'>
+        <h3>GET</h3>
+        **Need to run in order to store userObject in state**
+        <br>
+        <br>
+        User ID: <input v-model.number="userID" type="number">
+        <br>
+        <br>
+        <b-btn @click="performDrupalUserGETRequest(userID)">Click to GET Request</b-btn>
+        <hr>
+        <h3>PATCH</h3>
+        Favorite Link Name: <input v-model.text="favoriteLinkName" type="text">
+        <br>
+        <br>
+        Favorite Link URL: <input v-model.url="favoriteLinkURL" type="url">
+        <br>
+        <br>
+        <b-btn @click="performDrupalUserFavLinkPATCHRequest(favoriteLinkName, favoriteLinkURL, userID)">Click to PATCH
+            Request
+        </b-btn>
+        <hr>
+        <h3>DELETE</h3>
+        Favorite Link Name: <input v-model.text="DELETEfavoriteLinkName" type="text">
+        <br>
+        <br>
+        <b-btn @click="performDrupalUserFavLinkDELETERequest(DELETEfavoriteLinkName, userID)">Click to DELETE Request
+        </b-btn>
+        <hr>
+        <h3>userObject in State: </h3>
+        <div id='stateCheck'>{{ userObj }}</div>
+        <hr>
+        <h3>GET Result: </h3>
+        <div id='getResult'></div>
+        <hr>
+        <h3>PATCH Result: </h3>
+        <div id='patchResult'></div>
+        <hr>
+        <h3>DELETE Result: </h3>
+        <div id='deleteResult'></div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+    </div>
 </template>
+COPY TO CLIPBOARD
 
 <script>
   import AppAxios from '../modules/wadk/utils/AppAxios.js';

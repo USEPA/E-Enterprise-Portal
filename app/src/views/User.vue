@@ -10,7 +10,7 @@
           active>
           <b-container class="bv-example-row ml-2">
             <div class="user-info-container col-md-12" >
-              <div class="information-container col-md-4">
+              <div class="information-container col-md-4 mt-2">
                 <div/>
                 <h3>User Information</h3>
                 <div class="user-name-container">
@@ -38,7 +38,7 @@
           title="Locations">
           <b-container class="bv-example-row ml-2">
             <div class="locations-container " >
-              <div class="loc-container ">
+              <div class="loc-container">
                 <h3 class="mt-2">Locations of Interest</h3>
                 <div class=" pt-3 d-flex">
                   <p>Add your locations of interest to see environmental information relevant to
@@ -54,14 +54,10 @@
                 </div>
                 <div class="pt-3 d-flex">
                   <b-input-group>
-                    <label
-                      class="col-12 font-weight-bold"
-                    >
+                    <label class="col-12 font-weight-bold">
                       Enter city, state; tribe; or ZIP code
                     </label>
-                    <b-form-input
-                      class="col-6 ml-3"
-                      value="Durham, North Carolina"/>
+                    <b-form-input id="locationInput" v-model="inputBoxText" @keydown.native="submitInput" class="col-4 ml-3"/>
                     <div class="col-6 cursor-pointer">
                       <i
                         ref="click-star"
@@ -69,6 +65,20 @@
                         class="fas fa-star"/>
                     </div>
                   </b-input-group>
+                </div>
+                <div class="pt-3 d-flex">
+                    <b-input-group>
+                        <label class="col-12 font-weight-bold">Select a zipcode for {{inputBoxText}}</label>
+                        <b-form-select
+                                id="afterInputDropDown"
+                                class="col-4 ml-3">
+                            <template>
+                                <option v-for="afterInputOption in afterInputOptions">
+                                    {{afterInputOption}}
+                                </option>
+                            </template>
+                        </b-form-select>
+                    </b-input-group>
                 </div>
               </div>
             </div>
@@ -119,7 +129,7 @@
 
         <p class="ml-4 mt-4">All unsaved data will be lost upon navigating
         away from the Profile page.</p>
-        <b-btn class="mr-3 ml-2 "
+        <b-btn class="usa-button mr-3 ml-2"
                @click="axiosPATCHInit"
                variant="primary">Save
         </b-btn>
@@ -172,7 +182,7 @@
     },
     data() {
       return {
-
+        inputBoxText: '',
         locations: [{ }],
         userInit: [],
         UserDeleteModalInfo: { title: 'Delete User' },
@@ -201,7 +211,8 @@
         mail: 'getUserEmail',
         organisation:'getOrganisation',
         role:'getRole',
-        apiURL: 'getEnvironmentApiURL'
+        apiURL: 'getEnvironmentApiURL',
+        afterInputOptions: 'getOptionsAfterInput'
       }),
        uid() { return this.getCookie('uid'); },
        token() { return this.getCookie('Token'); },
@@ -288,6 +299,12 @@
               });
           }
         },
+        submitInput(event){
+            if(event.which === 13){
+
+
+            }
+        }
     },
   };
 </script>

@@ -27,6 +27,8 @@ export default {
     };
     let url = store.getters.getApiUrl('locationSearch');
 
+
+
     // Input validation for URL formation
     if (/^\d{5}(-\d{4})?$/.test(location)) {
       url += `?zipcode=${location}`;

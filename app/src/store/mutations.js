@@ -174,4 +174,10 @@ export default {
           'cookie',
           obj);
   },
+  [types.SET_OPTIONS_AFTER_INPUT](state, obj){
+      Vue.set(state.user,
+          'optionsAfterInput',
+          obj
+      );
+  },
 };

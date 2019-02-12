@@ -102,4 +102,7 @@ export default {
     });
     return isEmpty;
   },
+  getOptionsAfterInput(state){
+    return state.user.optionsAfterInput;
+  },  
 };

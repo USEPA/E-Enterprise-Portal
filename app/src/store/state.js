@@ -52,6 +52,7 @@ const state = {
     name: '',
     mail: '',
     favorite_links: [],
+    optionsAfterInput: [],
     organisation: '',
     role:'',
     location: {
@@ -72,6 +73,7 @@ const state = {
     'margin-top': 0,
   },
   loginViewAccounts: [],
+
   GETHeaders: {
       'crossDomain': true,
       'cache-control': 'no-cache',
