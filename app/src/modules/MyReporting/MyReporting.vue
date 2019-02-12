@@ -601,5 +601,4 @@
     background-size: 1.3rem 1.325rem;
     background-image: url('/images/minus-circle-solid.svg')
   }
-
 </style>
