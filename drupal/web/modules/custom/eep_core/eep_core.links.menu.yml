@@ -16,3 +16,9 @@ eep_core.eep_workbench_application:
   parent: eep_core.admin
   route_name: eep_core.eep_workbench_application
   url: internal:/admin/content?title=&type=eep_workbench_application&status=All&langcode=All
+eep_core.eep_cookie_config_form:
+  title: 'EEP Cookie Configuration Form'
+  route_name: eep_core.eep_cookie_config_form
+  description: 'this is the EEP Cookie Configuration Form Menu Link'
+  parent: system.admin_config_system
+  weight: 99

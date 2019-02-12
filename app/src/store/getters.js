@@ -123,4 +123,16 @@ export default {
       }
       return loggedIn;
   },
+  getTimeLeftUntilLogout(state){
+    return state.user.timeLeftUntilLogout;
+  },
+  getLoggedInToken(state){
+    return state.token.raw;
+  },
+  getLogInTime(state){
+    return state.user.loggedInTime;
+  },
+  getCookieInfo(state){
+    return state.user.cookie;
+  },
 };

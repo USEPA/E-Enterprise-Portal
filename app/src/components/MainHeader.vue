@@ -22,10 +22,9 @@
             <router-link to="/workbench">
               <div
                 ref="tryit-arrow"
-                class="d-none button-down-arrow"
-              />
+                class="d-none button-down-arrow"/>
               <button
-                id="try-it"
+                id="try-it-header-button"
                 class="usa-button"
                 variant="primary"
                 @mouseover="addTryItArrow"
@@ -59,8 +58,7 @@
           <template v-else>
             <div
               ref="login-arrow"
-              class="d-none button-down-arrow"
-            />
+              class="d-none button-down-arrow"/>
             <div
               class="router-link-wrapper pt-2"
               id="log-in">
@@ -95,8 +93,8 @@
 </template>
 
 <script>
-    import { mapGetters, mapActions } from 'vuex';
-    import { EventBus } from '../EventBus';
+  import { mapGetters, mapActions } from 'vuex';
+  import { EventBus } from '../EventBus';
 
   // eslint-disable-next-line
   export default {
@@ -116,28 +114,27 @@
         'userLogOut',
       ]),
       removeTryItArrow() {
-          this.$refs['tryit-arrow'].classList.remove('d-block');
-          this.$refs['tryit-arrow'].classList.add('d-none');
+        this.$refs['tryit-arrow'].classList.remove('d-block');
+        this.$refs['tryit-arrow'].classList.add('d-none');
       },
       addTryItArrow() {
-          this.$refs['tryit-arrow'].classList.remove('d-none');
-          this.$refs['tryit-arrow'].classList.add('d-block');
+        this.$refs['tryit-arrow'].classList.remove('d-none');
+        this.$refs['tryit-arrow'].classList.add('d-block');
       },
       removeLogInArrow() {
-          this.$refs['login-arrow'].classList.remove('d-block');
-          this.$refs['login-arrow'].classList.add('d-none');
+        this.$refs['login-arrow'].classList.remove('d-block');
+        this.$refs['login-arrow'].classList.add('d-none');
       },
       addLogInArrow() {
-          this.$refs['login-arrow'].classList.remove('d-none');
-          this.$refs['login-arrow'].classList.add('d-block');
+        this.$refs['login-arrow'].classList.remove('d-none');
+        this.$refs['login-arrow'].classList.add('d-block');
       },
       handleLogin() {
-          this.$router.push('/login');
+        this.$router.push('/login');
       },
     },
     data() {
-      return {
-      };
+      return {};
     },
   };
 </script>
@@ -145,32 +142,31 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped
   lang="scss">
-    #try-it-container {
-        position: relative;
-    }
-    #try-it {
-        position: relative;
-    }
-    #log-in-container {
-        position: relative;
-    }
-    #log-in {
-        position: relative;
-    }
-    .button-down-arrow {
-      top: 100%;
-      left: 50%;
-      border: .7rem solid transparent;
-      content: " ";
-      height: 0;
-      width: 0;
-      position: absolute;
-      pointer-events: none;
-      border-color: rgba(0, 98, 160, 0);
-      border-top-color: #1a4480;
-      margin-left: -.7rem;
-    }
-
+  #try-it-container {
+    position: relative;
+  }
+  #try-it {
+    position: relative;
+  }
+  #log-in-container {
+    position: relative;
+  }
+  #log-in {
+    position: relative;
+  }
+  .button-down-arrow {
+    top: 100%;
+    left: 50%;
+    border: .7rem solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(0, 98, 160, 0);
+    border-top-color: #1a4480;
+    margin-left: -.7rem;
+  }
   .eep_logo {
     img {
       max-width: 100%;
