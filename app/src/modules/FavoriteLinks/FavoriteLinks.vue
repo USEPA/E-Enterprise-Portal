@@ -44,7 +44,7 @@
       <!--datatable-->
       <b-table
         hover
-        :items="favLinksArray"
+        :items="favoriteLinks"
         :fields="fields"
         :current-page="currentPage"
         :per-page="perPage"
@@ -64,8 +64,8 @@
         </template>
 
         <template
-          v-if='favLinksArray[0].first != `Not logged in or no user ID found!` &&
-          favLinksArray[0].first != `Loading your Favorites...`'
+          v-if='favoriteLinks[0].first != `Not logged in or no user ID found!` &&
+          favoriteLinks[0].first != `Loading your Favorites...`'
           slot="actions"
           slot-scope="row">
           <b-button
@@ -147,7 +147,7 @@
       </AppModal>
 
       <!--if No Favorites-->
-      <div v-if="(favLinksArray.length === 0)">{{ noFavs }}</div>
+      <div v-if="(favoriteLinks.length === 0)">{{ noFavs }}</div>
 
       <!--pagination-->
       <b-row class="text-center">
@@ -169,7 +169,7 @@
 
 <script>
   import AppAxios from 'axios';
-  import { mapGetters } from 'vuex';
+  import { mapGetters, mapActions } from 'vuex';
   import { AppWrapper, AppPlaceholderContent, AppModal } from '../wadk/WADK';
   import storeModule from './store/index';
   import { EventBus } from '../../EventBus';
@@ -185,7 +185,6 @@
     },
     data() {
       return {
-        favLinksArray: [{ first: 'Loading your Favorites...' }],
         userInit: [],
         fields: [
           {
@@ -222,11 +221,20 @@
     computed: {
       ...mapGetters({
         apiURL: 'getEnvironmentApiURL',
+        getUser: 'getUser',
       }),
+      favoriteLinks: {
+        get() {
+          return this.getUser.favoriteLinks;
+        },
+      },
       uid() { return this.getCookie('uid'); },
       token() { return this.getCookie('Token'); },
     },
     methods: {
+      ...mapActions(moduleName, [
+        'addFavoriteLink',
+      ]),
       // ADD
       openAddModal(item, index, button) {
         this.$root.$emit('bv::show::modal', 'addModalInfo', button);
@@ -239,13 +247,13 @@
         // stores changes in local state
         const firstField = this.addModalInfo.first.trim();
         const secondField = this.addModalInfo.second.trim();
-        this.favLinksArray = this.favLinksArray.concat(
+        this.addFavoriteLink(
           {
             first: firstField,
             second: secondField,
           },
         );
-        this.axiosPATCHInit();
+        this.applyPATCH();
         this.closeAddModal();
       },
       // EDIT
@@ -260,25 +268,24 @@
       },
       applyEditModal(evt) {
         evt.preventDefault();
-
-        for (let i = 0; i < this.favLinksArray.length; i++) {
-          if (this.favLinksArray[i].first === this.editModalInfo.first && this.favLinksArray[i].second === this.editModalInfo.second) {
+        for (let i = 0; i < this.favoriteLinks.length; i++) {
+          if (this.favoriteLinks[i].first === this.editModalInfo.first && this.favoriteLinks[i].second === this.editModalInfo.second) {
             this.editModalIndex = i;
           }
         }
         // stores changes in local state
-        this.favLinksArray[this.editModalIndex].first = this.editModalInfo.first.trim();
-        this.favLinksArray[this.editModalIndex].second = this.editModalInfo.second.trim();
+        this.favoriteLinks[this.editModalIndex].first = this.editModalInfo.first.trim();
+        this.favoriteLinks[this.editModalIndex].second = this.editModalInfo.second.trim();
         // pushes changes to backend
-        this.axiosPATCHInit();
+        this.applyPATCH();
         this.closeEditModal();
       },
       // DELETE
       deleteFavLink(item, index) {
         // stores changes in local state
-        this.favLinksArray.splice(index, 1);
+        this.favoriteLinks.splice(index, 1);
         // pushes changes to backend
-        this.axiosPATCHInit();
+        this.applyPATCH();
       },
       onFiltered(filteredItems) {
         // Trigger pagination to update the number of buttons/pages due to filtering
@@ -300,52 +307,40 @@
         }
         return '';
       },
-      axiosPATCHInit() {
+      applyPATCH() {
         if (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1) {
           // pushes changes to backend
-          AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
+          this.appAxiosPATCH({
               init: [
                 {
                   value: 'generated-user@e-enterprise',
                 },
               ],
-              field_favorite_links: this.favLinksArray,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${this.token}`,
-                crossDomain: true,
-                'cache-control': 'no-cache',
-                'Content-Type': 'application/json',
-              },
-            })
-            .then(() => {
-              console.log('PATCH => success');
-            })
-            .catch(() => {
-              console.log('PATCH => failure');
+              field_favorite_links: this.favoriteLinks,
             });
         } else {
           // pushes changes to backend
-          AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
+          this.appAxiosPATCH({
               init: this.userInit,
-              field_favorite_links: this.favLinksArray,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${this.token}`,
-                crossDomain: true,
-                'cache-control': 'no-cache',
-                'Content-Type': 'application/json',
-              },
-            })
-            .then(() => {
-              console.log('PATCH => success');
-            })
-            .catch(() => {
-              console.log('PATCH => failure');
+              field_favorite_links: this.favoriteLinks,
             });
         }
+      },
+      appAxiosPATCH(body) {
+        AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, body, {
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+            crossDomain: true,
+            'cache-control': 'no-cache',
+            'Content-Type': 'application/json',
+          },
+        })
+          .then(() => {
+            console.log('PATCH => success');
+          })
+          .catch(() => {
+            console.log('PATCH => failure');
+          });
       },
     },
     beforeCreate() {
@@ -357,22 +352,6 @@
       }
     },
     mounted() {
-      if (this.uid) {
-        AppAxios.get(`${this.apiURL}/user/${this.uid}?_format=json`, {
-          headers: this.$store.GETHeaders,
-          auth: {
-            username: 'api_user',
-            password: 'api4epa',
-          },
-        })
-          .then((response) => {
-            this.favLinksArray = response.data.field_favorite_links;
-            this.userInit = response.data.init;
-            this.totalRows = this.favLinksArray.length;
-          });
-      } else {
-        this.favLinksArray[0].first = 'Not logged in or no user ID found!';
-      }
     },
     props: {
       eepApp: {

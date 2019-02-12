@@ -103,22 +103,22 @@ export default {
     if (!!obj.mail[0]) {
       mail = obj.mail[0].value;
     }
-    const favorite_links = obj.field_favorite_links;
+    const favoriteLinks = obj.field_favorite_links;
     Vue.set(state.user,
       'name',
       name);
     Vue.set(state.user,
-        'mail',
-        mail);
+      'mail',
+      mail);
     Vue.set(state.user,
-      'favorite_links',
-      favorite_links);
-    /*Vue.set(state.user,
+      'favoriteLinks',
+      favoriteLinks);
+    /* Vue.set(state.user,
         'organisation',
          organisation);
     Vue.set(state.user,
         'role',
-        role);*/
+        role); */
   },
   [types.SET_USER_OBJECT_FAV_LINKS](state, obj) {
     Vue.set(state.user.userObject,
@@ -127,13 +127,13 @@ export default {
   },
   [types.SET_USER_OBJECT_ORGANISATION](state, obj) {
     Vue.set(state.user.userObject,
-        'field_organisation',
-        obj);
+      'field_organisation',
+      obj);
   },
   [types.SET_USER_OBJECT_ROLE](state, obj) {
     Vue.set(state.user.userObject,
-        'field_role',
-        obj);
+      'field_role',
+      obj);
   },
   [types.SET_BASIC_PAGES](state, arr) {
     Vue.set(state.basicPages,
@@ -149,29 +149,29 @@ export default {
   [types.SET_UID](state, int) {
     state.user.id = int;
   },
-  [types.IS_USER_LOGGED_IN](state, IsLoggedIn){
-      Vue.set(state.user,
+  [types.IS_USER_LOGGED_IN](state, IsLoggedIn) {
+    Vue.set(state.user,
       'isLoggedIn',
       IsLoggedIn);
   },
-  [types.SET_LOGGED_IN_TOKEN](state, token){
-      Vue.set(state.token,
-          'raw',
-          token);
+  [types.SET_LOGGED_IN_TOKEN](state, token) {
+    Vue.set(state.token,
+      'raw',
+      token);
   },
-  [types.SET_LOGGED_IN_TIME](state, time){
-      Vue.set(state.user,
-          'loggedInTime',
-          time);
+  [types.SET_LOGGED_IN_TIME](state, time) {
+    Vue.set(state.user,
+      'loggedInTime',
+      time);
   },
-  [types.TIME_LEFT_UNTIL_LOG_OUT](state, timeAmount){
-      Vue.set(state.user,
+  [types.TIME_LEFT_UNTIL_LOG_OUT](state, timeAmount) {
+    Vue.set(state.user,
       'timeLeftUntilLogout',
       timeAmount);
   },
-  [types.SET_COOKIE](state, obj){
-      Vue.set(state.user,
-          'cookie',
-          obj);
+  [types.SET_COOKIE](state, obj) {
+    Vue.set(state.user,
+      'cookie',
+      obj);
   },
 };
