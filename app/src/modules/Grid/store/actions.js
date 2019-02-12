@@ -53,13 +53,14 @@ export default {
         wapp.i = idx;
 
         // Setup size
+        // A wapp is said to be tall if it is at least two grids height
+        const tallWappSetting = 2;
         let size = 'small';
         // If the grid is 'tall', it is large
-        if (wapp.eepApp.field_grid.height > 1) {
+        if (wapp.eepApp.field_grid.height >= tallWappSetting) {
           size = 'large';
-
           // If the grid is not 'tall' but wide, it is medium
-        } else if (wapp.eepApp.field_grid.width > 1) {
+        } else if (wapp.eepApp.field_grid.width >= tallWappSetting) {
           size = 'medium';
         }
         wapp.eepApp.size = size;
@@ -231,7 +232,7 @@ export default {
    * @returns {string}
    */
   getSize(context, wapp) {
-    const tallWappSetting = 2
+    const tallWappSetting = 2;
     let size = 'small';
     // If the grid is 'tall', it is large
     if (wapp.eepApp.field_grid.height >= tallWappSetting) {
