@@ -256,7 +256,7 @@
             second: secondField,
           },
         );
-        this.applyPATCH();
+        this.applyChanges();
         this.closeAddModal();
       },
       // EDIT
@@ -280,7 +280,7 @@
         this.favoriteLinks[this.editModalIndex].first = this.editModalInfo.first.trim();
         this.favoriteLinks[this.editModalIndex].second = this.editModalInfo.second.trim();
         // pushes changes to backend
-        this.applyPATCH();
+        this.applyChanges();
         this.closeEditModal();
       },
       // DELETE
@@ -288,7 +288,7 @@
         // stores changes in local state
         this.favoriteLinks.splice(index, 1);
         // pushes changes to backend
-        this.applyPATCH();
+        this.applyChanges();
       },
       onFiltered(filteredItems) {
         // Trigger pagination to update the number of buttons/pages due to filtering
@@ -310,7 +310,7 @@
         }
         return '';
       },
-      applyPATCH() {
+      applyChanges() {
         if (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1) {
           // pushes changes to backend
           this.appAxiosPatch({
