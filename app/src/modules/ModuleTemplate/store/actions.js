@@ -30,6 +30,7 @@ export default {
   sampleCallToOtherAction({ dispatch, commit }) {
     dispatch('sampleAction');
     // With params
+    // NOTE dispatch returns a promise. To additional work, you must use .then()
     dispatch('sampleActionWithParmas', { param1, param2 });
   }
 };
