@@ -177,7 +177,6 @@
     data() {
       return {
         locations: [{}],
-        userInit: [],
         UserDeleteModalInfo: { title: 'Delete User' },
         selected: null,
         selectedRole: null,
@@ -189,6 +188,11 @@
         // map getters go here
         user: 'getUser',
       }),
+      userInit: {
+        get() {
+          return this.user.init;
+        },
+      },
       username: {
         get() {
           return this.user.name;
