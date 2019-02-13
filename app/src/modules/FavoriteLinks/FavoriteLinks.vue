@@ -228,8 +228,6 @@
           return this.getUser.favoriteLinks;
         },
       },
-      uid() { return this.getCookie('uid'); },
-      token() { return this.getCookie('Token'); },
     },
     methods: {
       ...mapActions([

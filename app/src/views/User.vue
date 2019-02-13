@@ -208,12 +208,6 @@
         role: 'getRole',
         apiURL: 'getEnvironmentApiURL',
       }),
-      uid() {
-        return this.getCookie('uid');
-      },
-      token() {
-        return this.getCookie('Token');
-      },
     },
     mounted() {
       AppAxios
