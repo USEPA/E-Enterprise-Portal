@@ -51,7 +51,9 @@ const state = {
     loggedInTime: null,
     name: '',
     mail: '',
-    favorite_links: [],
+    favoriteLinks: [],
+    loaded: false,
+    init: [],
     organisation: '',
     role:'',
     location: {

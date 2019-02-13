@@ -1,20 +1,20 @@
 <!--this view is so that users can find their information and view it and in the future, edit it-->
 <template>
-  <div class="container" >
+  <div class="container">
     <h3>Profile</h3>
     <b-card>
-      <b-tabs class="profile-tabs" >
+      <b-tabs class="profile-tabs">
 
         <b-tab
           title="Account"
           active>
           <b-container class="bv-example-row ml-2">
-            <div class="user-info-container col-md-12" >
+            <div class="user-info-container col-md-12">
               <div class="information-container col-md-4">
                 <div/>
                 <h3>User Information</h3>
                 <div class="user-name-container">
-                  <div>User Name </div>
+                  <div>User Name</div>
                   <b-form-input
                     id="first-name-input"
                     v-model="username"
@@ -37,12 +37,12 @@
         <b-tab
           title="Locations">
           <b-container class="bv-example-row ml-2">
-            <div class="locations-container " >
+            <div class="locations-container ">
               <div class="loc-container ">
                 <h3 class="mt-2">Locations of Interest</h3>
                 <div class=" pt-3 d-flex">
                   <p>Add your locations of interest to see environmental information relevant to
-                  those areas.
+                    those areas.
                     <span class="font-weight-bold"> Click the </span><i class="far fa-star"/>
                     <span class="font-weight-bold"> icon next to a location to make it your default
                     location.</span>
@@ -50,7 +50,7 @@
                 </div>
                 <div class=" pt-3 d-flex">
                   <p>Until a location is specified, the default location is set to
-                  Durham, North Carolina.</p>
+                    Durham, North Carolina.</p>
                 </div>
                 <div class="pt-3 d-flex">
                   <b-input-group>
@@ -78,37 +78,41 @@
         <b-tab
           title="Interest">
           <b-container class="bv-example-row ml-2">
-            <div class="interest-container " >
+            <div class="interest-container ">
               <div class="int-container ">
-                <div />
+                <div/>
                 <h3>Interests</h3>
                 <div class=" pt-3 mr-3 d-flex">
                   <div><h6>Organization</h6>
-                    <b-form-select v-model="selected"
-                        id="org-selection"
-                        @click="organisation.second = option.value"
-                        class="mr-3"
-                        required>
-                        <template  slot="first">
-                            <option :value=null >-- None-- </option>
-                            <option v-for="option in org" :value="option.value">
-                            {{ option.name }}
-                            </option>
-                        </template>
-                     </b-form-select>
+                    <b-form-select
+                      v-model="selected"
+                      id="org-selection"
+                      @click="organisation.second = option.value"
+                      class="mr-3"
+                      required>
+                      <template slot="first">
+                        <option :value=null>-- None--</option>
+                        <option
+                          v-for="option in organisation"
+                          :value="option.value">
+                          {{ option.name }}
+                        </option>
+                      </template>
+                    </b-form-select>
                   </div>
-                  <div class="mr-3"></div>
+                  <div class="mr-3"/>
                   <div><h6> Role</h6>
-                    <b-form-select v-model="selectedRole"
-                         id="role-selection"
-                         class="mr-3"
-                         required>
-                         <template>
-                            <option :value=null >-- None-- </option>
-                            <option v-for="option in role">
-                            {{ option.name }}
-                            </option>
-                         </template>
+                    <b-form-select
+                      v-model="selectedRole"
+                      id="role-selection"
+                      class="mr-3"
+                      required>
+                      <template>
+                        <option :value=null>-- None--</option>
+                        <option v-for="option in role">
+                          {{ option.name }}
+                        </option>
+                      </template>
                     </b-form-select>
                   </div>
                 </div>
@@ -118,14 +122,16 @@
         </b-tab>
 
         <p class="ml-4 mt-4">All unsaved data will be lost upon navigating
-        away from the Profile page.</p>
-        <b-btn class="mr-3 ml-2 "
-               @click="axiosPATCHInit"
-               variant="primary">Save
+          away from the Profile page.</p>
+        <b-btn
+          class="mr-3 ml-2 "
+          @click="saveUserChanges"
+          variant="primary">Save
         </b-btn>
         <b-btn
           v-b-modal.UserDeleteModalInfo
-          variant="outline-primary">Delete Profile</b-btn>
+          variant="outline-primary">Delete Profile
+        </b-btn>
       </b-tabs>
     </b-card>
 
@@ -158,70 +164,61 @@
 </template>
 
 <script>
- import AppAxios from 'axios';
   import { mapActions, mapGetters } from 'vuex';
 
   const moduleName = 'User';
 
   export default {
     name: moduleName,
-    components: {
-    },
+    components: {},
     beforeCreate() {
 
     },
     data() {
       return {
-
-        locations: [{ }],
-        userInit: [],
+        locations: [{}],
         UserDeleteModalInfo: { title: 'Delete User' },
         selected: null,
         selectedRole: null,
-        org: [
-               { type: '', },
-               { name: '', },
-             ],
-        role: [
-               { type: '', },
-               { name: '', },
-             ],
-        organisation:[
-               {first:'',},
-               {second:'',}
-             ]
-            };
-          },
+      };
+    },
 
     computed: {
       ...mapGetters({
         // map getters go here
-        isLoggedIn: 'getIsLoggedIn',
-        username: 'getUsername',
-        mail: 'getUserEmail',
-        organisation:'getOrganisation',
-        role:'getRole',
-        apiURL: 'getEnvironmentApiURL'
+        user: 'getUser',
       }),
-       uid() { return this.getCookie('uid'); },
-       token() { return this.getCookie('Token'); },
+      userInit: {
+        get() {
+          return this.user.init;
+        },
+      },
+      username: {
+        get() {
+          return this.user.name;
+        },
+      },
+      mail: {
+        get() {
+          return this.user.mail;
+        },
+      },
+      organisation: {
+        get() {
+          return this.user.organisation;
+        },
+      },
+      role: {
+        get() {
+          return this.user.role;
+        },
+      },
     },
     mounted() {
-          AppAxios
-            .get('sample_data/organisation.json')
-            .then(response => {
-              this.org = response.data;
-
-            });
-          AppAxios
-            .get('sample_data/role.json')
-            .then(response => {
-             this.role = response.data;
-            });
-          },
+    },
     methods: {
-      ...mapActions(moduleName, [
-        // map actions go here
+      ...mapActions([
+        'apiUserPatch',
       ]),
       hideUserDeleteModal() {
         this.$refs.UserDeleteModal.hide();
@@ -238,56 +235,25 @@
       DeleteEEPUserProfile() {
         console.warn('DELETE PROFILE');
       },
-      axiosPATCHInit() {
-      console.warn("Hi");
-          if (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1) {
-            // pushes changes to backend
-            AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
-                init: [
-                  {
-                    value: "generated-user@e-enterprise",
-                  },
-                ],
-                field_organisation: this.selected,
-              },
+      saveUserChanges() {
+        if (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1) {
+          // pushes changes to backend
+          this.apiUserPatch({
+            init: [
               {
-                headers: {
-                  Authorization: `Bearer ${this.Token}`,
-                  crossDomain: true,
-                  'cache-control': 'no-cache',
-                  'Content-Type': 'application/json',
-                },
-
-              })
-              .then(() => {
-                console.warn('PATCH => success');
-              })
-              .catch(() => {
-                console.warn('PATCH => failure');
-              });
-          } else {
-            // pushes changes to backend
-            AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
-                init: this.userInit,
-                field_organisation: this.selected,
+                value: 'generated-user@e-enterprise',
               },
-              {
-                headers: {
-                  Authorization: `Bearer ${this.Token}`,
-                  crossDomain: true,
-                  'cache-control': 'no-cache',
-                  'Content-Type': 'application/json',
-                },
-
-              })
-              .then(() => {
-                console.warn('PATCH => success');
-              })
-              .catch(() => {
-                console.warn('PATCH => failure');
-              });
-          }
-        },
+            ],
+            field_organisation: this.selected,
+          });
+        } else {
+          // pushes changes to backend
+          this.apiUserPatch({
+            init: this.userInit,
+            field_organisation: this.selected,
+          });
+        }
+      },
     },
   };
 </script>
