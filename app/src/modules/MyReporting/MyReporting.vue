@@ -43,35 +43,31 @@
       </nav>
       <div id="my-reporting">
         <ul class="inline-cdx-links">
-          <li
-            class="my-cdx-login cursor-pointer">
+          <li>
             <a
-              class="my-cdx-web-handoff-link"
+              class="my-cdx-web-handoff-link my-cdx-login cursor-pointer"
               @click="openPopupPage(cdx_configs.cdx_silent_handoff_url, getCdxParams())">
               My CDX
             </a>
           </li>
 
-          <li
-            class="my-cdx-inbox cursor-pointer">
+          <li>
             <a
-              class="my-cdx-web-handoff-link"
+              class="my-cdx-web-handoff-link  my-cdx-inbox cursor-pointer"
               @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}`, getReturnURLWithCdxParams('Inbox'))">
               Inbox
             </a>
           </li>
-          <li
-            class="my-cdx-profile cursor-pointer">
+          <li>
             <a
-              class="my-cdx-web-handoff-link"
+              class="my-cdx-web-handoff-link my-cdx-profile cursor-pointer"
               data-handoff-type="profile"
               @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}`, getReturnURLWithCdxParams('MyProfile'))">
               My Profile</a>
           </li>
-          <li
-            class="my-cdx-submission cursor-pointer">
+          <li>
             <a
-              class="my-cdx-web-handoff-link"
+              class="my-cdx-web-handoff-link my-cdx-submission cursor-pointer"
               data-handoff-type="submission"
               @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}`, getReturnURLWithCdxParams('submission'))">
               Submission History
@@ -506,7 +502,7 @@
     margin-top: 1rem;
     padding-left: 0px;
   }
-  .inline-cdx-links li::before {
+  .inline-cdx-links a::before {
     display: inline-flex;
     content: '';
     width: 1.5rem;
@@ -519,21 +515,21 @@
     margin-right: 2px;
     vertical-align: middle;
   }
-  .inline-cdx-links li.my-cdx-login::before {
+  .inline-cdx-links a.my-cdx-login::before {
     background-image: url('/images/mr-my-cdx.png');
     background-color: #fff;
     border: 1px solid #6c757d;
   }
-  .inline-cdx-links li.my-cdx-inbox::before {
+  .inline-cdx-links a.my-cdx-inbox::before {
     background-image: url('/images/mr-inbox.svg');
   }
-  .inline-cdx-links li.my-cdx-profile::before {
+  .inline-cdx-links a.my-cdx-profile::before {
     background-image: url('/images/mr-profile.svg');
   }
-  .inline-cdx-links li.my-cdx-alerts::before {
+  .inline-cdx-links a.my-cdx-alerts::before {
     background-image: url('/images/mr-alerts.svg');
   }
-  .inline-cdx-links li.my-cdx-submission::before {
+  .inline-cdx-links a.my-cdx-submission::before {
     background-image: url('/images/mr-history.svg');
   }
   .my-cdx-web-handoff-link {
@@ -605,5 +601,4 @@
     background-size: 1.3rem 1.325rem;
     background-image: url('/images/minus-circle-solid.svg')
   }
-
 </style>
