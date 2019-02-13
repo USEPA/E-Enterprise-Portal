@@ -54,8 +54,8 @@ const state = {
     favoriteLinks: [],
     loaded: false,
     init: [],
-    organisation: '',
-    role:'',
+    organisation: [],
+    role:[],
     location: {
       zipcode: '',
       city: '',
