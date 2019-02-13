@@ -42,7 +42,7 @@
                 <h3 class="mt-2">Locations of Interest</h3>
                 <div class=" pt-3 d-flex">
                   <p>Add your locations of interest to see environmental information relevant to
-                  those areas.
+                    those areas.
                     <span class="font-weight-bold"> Click the </span><i class="far fa-star"/>
                     <span class="font-weight-bold"> icon next to a location to make it your default
                     location.</span>
@@ -50,7 +50,7 @@
                 </div>
                 <div class=" pt-3 d-flex">
                   <p>Until a location is specified, the default location is set to
-                  Durham, North Carolina.</p>
+                    Durham, North Carolina.</p>
                 </div>
                 <div class="pt-3 d-flex">
                   <b-input-group>
@@ -93,7 +93,7 @@
                       <template slot="first">
                         <option :value=null>-- None--</option>
                         <option
-                          v-for="option in org"
+                          v-for="option in organisation"
                           :value="option.value">
                           {{ option.name }}
                         </option>
@@ -122,7 +122,7 @@
         </b-tab>
 
         <p class="ml-4 mt-4">All unsaved data will be lost upon navigating
-        away from the Profile page.</p>
+          away from the Profile page.</p>
         <b-btn
           class="mr-3 ml-2 "
           @click="saveUserChanges"
@@ -177,49 +177,41 @@
     },
     data() {
       return {
-
         locations: [{}],
         userInit: [],
         UserDeleteModalInfo: { title: 'Delete User' },
         selected: null,
         selectedRole: null,
-        org: [
-          { type: '' },
-          { name: '' },
-        ],
-        role: [
-          { type: '' },
-          { name: '' },
-        ],
-        organisation: [
-          { first: '' },
-          { second: '' },
-        ],
       };
     },
 
     computed: {
       ...mapGetters({
         // map getters go here
-        isLoggedIn: 'getIsLoggedIn',
-        username: 'getUsername',
-        mail: 'getUserEmail',
-        organisation: 'getOrganisation',
-        role: 'getRole',
-        apiURL: 'getEnvironmentApiURL',
+        user: 'getUser',
       }),
+      username: {
+        get() {
+          return this.user.name;
+        },
+      },
+      mail: {
+        get() {
+          return this.user.mail;
+        },
+      },
+      organisation: {
+        get() {
+          return this.user.organisation;
+        },
+      },
+      role: {
+        get() {
+          return this.user.role;
+        },
+      },
     },
     mounted() {
-      AppAxios
-        .get('sample_data/organisation.json')
-        .then((response) => {
-          this.org = response.data;
-        });
-      AppAxios
-        .get('sample_data/role.json')
-        .then((response) => {
-          this.role = response.data;
-        });
     },
     methods: {
       ...mapActions([
