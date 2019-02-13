@@ -276,7 +276,7 @@
       closeEditModal() {
         this.$root.$emit('bv::hide::modal', 'editModalInfo');
       },
-      getEditModalIndex() {
+      setEditModalIndex() {
         for (let i = 0; i < this.favoriteLinks.length; i++) {
           if (this.favoriteLinks[i].first === this.editModalInfo.first && this.favoriteLinks[i].second === this.editModalInfo.second) {
             this.editModalIndex = i;
@@ -289,7 +289,7 @@
       },
       applyEditModal(evt) {
         evt.preventDefault();
-        this.getEditModalIndex();
+        this.setEditModalIndex();
         this.makeEditChangesToState();
         this.applyChangesToFavoriteLinks();
         this.closeEditModal();
