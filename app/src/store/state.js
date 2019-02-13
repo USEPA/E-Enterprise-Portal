@@ -34,7 +34,6 @@ const state = {
       locationSearch: 'eep/proxy/service/location',
       geolocationSearch: 'eep/proxy/service/geolocation',
       workbenchApplications: 'api/view/workbench-applications',
-      userLocationLookupByCityState: 'eep/proxy/service/user_profile_location_lookup_by_city_state',
     },
   },
   token: {
