@@ -57,7 +57,10 @@
                     <label class="col-12 font-weight-bold">
                       Enter city, state; tribe; or ZIP code
                     </label>
-                    <b-form-input id="locationInput" v-model="inputBoxText" @keydown.native="submitInput" class="col-4 ml-3"/>
+                    <b-form-input id="locationInput"
+                                  v-model="inputBoxText"
+                                  @keydown.native="submitInput"
+                                  class="col-4 ml-3"/>
                     <div class="col-6 cursor-pointer">
                       <i
                         ref="click-star"
@@ -300,9 +303,9 @@
           }
         },
         submitInput(event){
-            if(event.which === 13){
-                this.$store.dispatch('populateDropdownForUserInput', this.inputBoxText);
-            }
+          if(event.which === 13){
+              this.$store.dispatch('populateDropdownForUserInput', this.inputBoxText);
+          }
         }
     },
   };

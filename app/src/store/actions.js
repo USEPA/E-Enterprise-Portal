@@ -27,8 +27,6 @@ export default {
     };
     let url = store.getters.getApiUrl('locationSearch');
 
-
-
     // Input validation for URL formation
     if (/^\d{5}(-\d{4})?$/.test(location)) {
       url += `?zipcode=${location}`;
@@ -408,7 +406,35 @@ export default {
   },
   populateDropdownForUserInput(context, userInput){
       const store = context;
+      let endpoint = '';
+      let rest_of_url_with_params;
 
-      console.log("hit the action: " + userInput);
+
+     if(/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(userInput)){
+          console.log("zipcode: " + userInput);
+      }else{
+          // if city and state
+
+          if(userInput.indexOf(',') > -1){
+              endpoint = store.getters.getApiUrl('userLocationLookupByCityState');
+              let city_and_state = userInput.split(",");
+              let city = city_and_state[0].toUpperCase().trim();
+              let state = city_and_state[1].toUpperCase().trim();
+              rest_of_url_with_params = '?where=UPPER%28NAME_LABEL%29%3D%27'+
+                  city+'%2C+'+
+                  state+'%27&outFields=*&orderByFields=ZCTA&f=pjson';
+          }
+      }
+
+      // Axios request down here after the url is built
+
+
+      AppAxios.get(endpoint + rest_of_url_with_params, {
+          headers: store.getters.getGETHeaders,
+      }).then((response) => {
+          console.log(response.data);
+      }).catch((error) => {
+          console.log(error);
+      });
   },
 };

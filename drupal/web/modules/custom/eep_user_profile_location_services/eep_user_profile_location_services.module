@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains eep_user_profile_location_services.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function eep_user_profile_location_services_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the eep_user_profile_location_services module.
+    case 'help.page.eep_user_profile_location_services':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('this module will grab data from a third party source and expose tribal, state, and zipcode information') . '</p>';
+      return $output;
+
+    default:
+  }
+}

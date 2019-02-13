@@ -1,0 +1,8 @@
+name: 'EEP User Profile Location Services'
+type: module
+description: 'this module will grab data from a third party source and expose tribal, state, and zipcode information'
+core: 8.x
+package: 'EEP'
+dependencies:
+  - eep_core
+  - default_content
