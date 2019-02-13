@@ -116,7 +116,7 @@
         <p class="ml-4 mt-4">All unsaved data will be lost upon navigating
         away from the Profile page.</p>
         <b-btn class="mr-3 ml-2 "
-               @click="axiosPatch"
+               @click="save"
                variant="primary">Save
         </b-btn>
         <b-btn
@@ -260,7 +260,7 @@
         }
         return '';
       },
-      axiosPatch(){
+      save(){
       if(this.selected!=''){
        this.axiosPATCHOrg();
        }else{
@@ -279,50 +279,12 @@
                           second: secondField,
                         },
                       );
-        if (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1) {
-        // pushes changes to backend
-        AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
+         const orgParams={
+                           field_organisation: this.organisations,
+                         };
+         this.axiosPatch(orgParams);
 
-            field_organisation: this.organisations,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${this.token}`,
-              crossDomain: true,
-              'cache-control': 'no-cache',
-              'Content-Type': 'application/json',
-            },
-
-          })
-          .then(() => {
-            console.warn('PATCH => success');
-          })
-          .catch(() => {
-            console.warn('PATCH => failure');
-          });
-      } else {
-        // pushes changes to backend
-        AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
-
-            field_organisation: this.organisations,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${this.token}`,
-              crossDomain: true,
-              'cache-control': 'no-cache',
-              'Content-Type': 'application/json',
-            },
-
-          })
-          .then(() => {
-            console.warn('PATCH => success');
-          })
-          .catch(() => {
-            console.warn('PATCH => failure');
-          });
-      }
-    },
+      },
 
     axiosPATCHRole() {
        const firstField = 'role';
@@ -333,50 +295,50 @@
             second: secondField,
           },
           );
-          if (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1) {
-                        // pushes changes to backend
-            AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
+       const params={
+                       field_role: this.roles,
+                     };
+       this.axiosPatch(params);
+       },
 
-                field_role: this.roles,
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${this.token}`,
-                  crossDomain: true,
-                  'cache-control': 'no-cache',
-                  'Content-Type': 'application/json',
-                },
+       axiosPatch(params){
+        if (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1) {
+        AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`,params,
+                      {
+                        headers: {
+                          Authorization: `Bearer ${this.token}`,
+                          crossDomain: true,
+                          'cache-control': 'no-cache',
+                          'Content-Type': 'application/json',
+                        },
 
-              })
-              .then(() => {
-                console.warn('PATCH => success');
-              })
-              .catch(() => {
-                console.warn('PATCH => failure');
-              });
-          } else {
-            // pushes changes to backend
-            AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
+                      })
+                      .then(() => {
+                        console.warn('PATCH => success');
+                      })
+                      .catch(() => {
+                        console.warn('PATCH => failure');
+                      });
+                  } else {
+                    // pushes changes to backend
+                    AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`,params,
+                      {
+                        headers: {
+                          Authorization: `Bearer ${this.token}`,
+                          crossDomain: true,
+                          'cache-control': 'no-cache',
+                          'Content-Type': 'application/json',
+                        },
 
-                field_role: this.roles,
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${this.token}`,
-                  crossDomain: true,
-                  'cache-control': 'no-cache',
-                  'Content-Type': 'application/json',
-                },
-
-              })
-              .then(() => {
-                console.warn('PATCH => success');
-              })
-              .catch(() => {
-                console.warn('PATCH => failure');
-              });
-          }
-        },
+                      })
+                      .then(() => {
+                        console.warn('PATCH => success');
+                      })
+                      .catch(() => {
+                        console.warn('PATCH => failure');
+                      });
+                  }
+              }
             },
           };
         </script>
