@@ -155,7 +155,7 @@
 
 <script>
  import AppAxios from 'axios';
-  import { mapActions, mapGetters } from 'vuex';
+ import { mapActions, mapGetters } from 'vuex';
 
   const moduleName = 'User';
 
@@ -341,7 +341,7 @@
               }
             },
           };
-        </script>
+</script>
 
-        <style scoped>
-        </style>
+<style scoped>
+</style>
