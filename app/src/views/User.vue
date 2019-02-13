@@ -33,8 +33,8 @@
                     Add your locations of interest to see environmental information relevant to
                     those areas.
                     <span
-                      class="font-weight-bold"
-                    >Click the</span>
+                      class="font-weight-bold">Click the
+                    </span>
                     <i class="far fa-star"/>
                     <span class="font-weight-bold">
                       icon next to a location to make it your default
@@ -73,7 +73,8 @@
                     <h6>Organization</h6>
                     <b-form-select v-model="selected" id="org-selection" class="mr-3" required>
                       <option v-bind:value="null">{{organisation[0].second}}</option>
-                      <option v-for="option in org" v-bind:value="option.name">{{ option.name }}</option>
+                      <option v-for="option in org" v-bind:value="option.name">{{ option.name }}
+                      </option>
                     </b-form-select>
                   </div>
                   <div class="mr-3"></div>
@@ -83,8 +84,8 @@
                       <option v-bind:value="null">{{role[0].second}}</option>
                       <option
                         v-for="option in roleList"
-                        v-bind:value="option.name"
-                      >{{ option.name }}</option>
+                        v-bind:value="option.name">{{ option.name }}
+                      </option>
                     </b-form-select>
                   </div>
                 </div>
@@ -106,8 +107,7 @@
       hide-footer
       id="UserDeleteModalInfo"
       ref="UserDeleteModal"
-      :title="UserDeleteModalInfo.title"
-    >
+      :title="UserDeleteModalInfo.title">
       <b-row>
         <b-col md="12" class="my-1">
           This will delete your entire profile, including any selected preferences,
@@ -119,8 +119,8 @@
       <b-btn
         class="mt-3 ml-2 float-right"
         @click="DeleteEEPUserProfile"
-        variant="outline-primary"
-      >Delete Profile</b-btn>
+        variant="outline-primary">Delete Profile
+      </b-btn>
       <b-btn class="mt-3 float-right" @click="hideUserDeleteModal">Back</b-btn>
     </b-modal>
   </div>
