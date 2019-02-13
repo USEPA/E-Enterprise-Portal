@@ -263,7 +263,7 @@
             second: favoriteLinkURL,
           },
         );
-        this.updateUserConditionally();
+        this.applyChangesToFavoriteLinks();
         this.closeAddModal();
       },
       // EDIT
@@ -283,47 +283,47 @@
           }
         }
       },
-      makeChangesToState() {
-        // stores changes state
+      makeEditChangesToState() {
         this.favoriteLinks[this.editModalIndex].first = this.editModalInfo.first.trim();
         this.favoriteLinks[this.editModalIndex].second = this.editModalInfo.second.trim();
       },
       applyEditModal(evt) {
         evt.preventDefault();
         this.getEditModalIndex();
-        this.makeChangesToState();
-        // pushes changes to backend
-        this.updateUserConditionally();
+        this.makeEditChangesToState();
+        this.applyChangesToFavoriteLinks();
         this.closeEditModal();
       },
       // DELETE
       deleteFavLink(item, index) {
-        console.warn(this.getUser.init);
-
-        // stores changes in local state
         this.favoriteLinks.splice(index, 1);
-        // pushes changes to backend
-        this.updateUserConditionally();
+        this.applyChangesToFavoriteLinks();
       },
       onFiltered(filteredItems) {
         // Trigger pagination to update the number of buttons/pages due to filtering
         this.totalRows = filteredItems.length;
         this.currentPage = 1;
       },
-      updateUserConditionally() {
-        if (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1) {
-          // pushes changes to backend
+      validateInit() {
+        return (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1);
+      },
+      applyChangesToFavoriteLinks() {
+        if (this.validateInit()) {
           this.apiUserPatch({
-              field_favorite_links: this.favoriteLinks,
-            });
+            init: [
+              {
+                value: 'generated-user@e-enterprise',
+              },
+            ],
+            field_favorite_links: this.favoriteLinks,
+          });
         } else {
-          // pushes changes to backend
           this.apiUserPatch({
-              field_favorite_links: this.favoriteLinks,
-            });
+            init: this.userInit,
+            field_favorite_links: this.favoriteLinks,
+          });
         }
       },
-
     },
     created() {
       const store = this.$store;
