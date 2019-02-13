@@ -43,6 +43,7 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
     (!isset($query['zipcode'])) ?: $this->payload['zipcode'][] = trim($query['zipcode']);
     (!isset($query['city'])) ?: $this->payload['city'][] = ucwords(trim($query['city']));
     (!isset($query['state'])) ?: $this->payload['state'][] = strtoupper(trim($query['state']));
+    (!isset($query['tribe'])) ?: $this->payload['tribe'][] = strtoupper(trim($query['tribe']));
 
     // If the user hands off a zip code
     if ($query['zipcode']) {
@@ -78,6 +79,10 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
           $this->payload['zipcode'][] = $zip;
         }
       }
+    }
+
+    if($query['tribe']){
+        $tribe_response = $this->gpo_retrieve_tribal_info($query['tribe']);
     }
   }
 
@@ -262,7 +267,7 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
       // Get Zip Code to Tribal Area Lookup table as json
       // https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services
       $zip_pop_url = $this->request->getUri() . '/ZipToTribalLookups_WFL/FeatureServer/1/query?where=UPPER%28TRIBE_NAME_CLEAN%29+LIKE+%27%25' . $cleaned_city . '%25%27&outFields=*&orderByFields=ZCTA&f=pjson';
-      $response = $this->make_request_and_receive_response($zip_tribe_url);
+      $response = $this->make_request_and_receive_response($zip_pop_url);
       $decoded_response = json_decode($response->getBody(), FALSE);
 
       if (!empty($decoded_response->features)) {
@@ -298,5 +303,11 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
     }
 
     return $response;
+  }
+
+  public function gpo_retrieve_tribal_info($tribe){
+      $tribe_url = $zip_pop_url = $this->request->getUri() . '/ZipToTribalLookups_WFL/FeatureServer/1/query?where=UPPER%28TRIBE_NAME_CLEAN%29+LIKE+%27%25' . $tribe . '%25%27&outFields=*&orderByFields=ZCTA&f=pjson';
+      $response = $this->make_request_and_receive_response($tribe_url);
+      $decoded_response = json_decode($response->getBody(), FALSE);
   }
 }
