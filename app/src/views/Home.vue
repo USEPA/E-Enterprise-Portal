@@ -8,8 +8,7 @@
       :interval="0"
       v-model="slide"
       @sliding-start="onSlideStart"
-      @sliding-end="onSlideEnd"
-    >
+      @sliding-end="onSlideEnd">
       <!-- Text slides with image -->
       <b-carousel-slide
         class="col"
@@ -27,7 +26,7 @@
               <p>See the video <span aria-hidden="true">&gt;&gt;</span></p>
               <router-link to="/workbench">
                 <b-button
-                  id="try-it"
+                  id="try-it-carousel-button"
                   class="btn btn-md float-right"
                   variant="primary"
                   :title="tryitTitle"
@@ -42,8 +41,7 @@
                 aspect="16by9"
                 src="https://www.youtube.com/embed/iFv0DYnW1-A?rel=0"
                 allowfullscreen
-                frameborder="0"
-              />
+                frameborder="0"/>
             </div>
           </div>
         </div>
@@ -119,7 +117,7 @@
               </p>
             </div>
             <p class="lgc-calltoaction">Select your location, organization, and role to find
-            resources.</p>
+              resources.</p>
           </div>
         </div>
 
@@ -165,7 +163,7 @@
 </script>
 
 
-<style lang="scss" >
+<style lang="scss">
   // @TODO - Move non scoped styles to the appropriate sass file
   @import '../styles/bootstrap-mixins-cheatsheet.scss';
   #home-carousel {
@@ -203,7 +201,7 @@
       width: 2rem;
     }
 
-  // Slide 1
+    // Slide 1
 
     // Slide 2
 
@@ -219,7 +217,7 @@
     .account-auth {
       align-self: flex-end;
     }
-    @media only screen and (min-width: 576px) and (max-width: 767px){
+    @media only screen and (min-width: 576px) and (max-width: 767px) {
       #progress-tracker-img {
         max-width: 40%;
         position: absolute;
@@ -263,13 +261,11 @@
       }
     }
   }
-
   .account-auth {
     background-color: #0071bc;
     color: white;
   }
-
-  .login-btn-wrapper{
+  .login-btn-wrapper {
     padding-left: 40%;
   }
 </style>

@@ -51,13 +51,11 @@ const state = {
     loggedInTime: null,
     name: '',
     mail: '',
-    favorite_links: [],
-    organisation:[
-      {first:''},
-      {second:''},
-
-    ],
-    role:[],
+    favoriteLinks: [],
+    loaded: false,
+    init: [],
+    organisation: '',
+    role:'',
     location: {
       zipcode: '',
       city: '',

@@ -11,8 +11,12 @@
         -->
         <div class="text-left">
           <div class="float-right px-0 text-right">
+            <label for="divider"
+              class="sr-only">{{getTitle}} Menu</label>
             <b-dropdown
               id="divider"
+              role="button"
+              tabindex="0"
               variant="link"
               right
               class="widget-dropdown widget-button"
@@ -23,7 +27,10 @@
                 @click="widgetMenuModalToIndex(title, $event.target, index)">{{ title }}
               </b-dropdown-item-button>
             </b-dropdown>
+            <label for="expander"
+              class="sr-only">Expand {{getTitle}}</label>
             <b-button
+              id="expander"
               v-if='eepApp.field_is_expandable'
               class="widget-expand widget-button"
               @click="maximizeWidget()"/>
@@ -48,11 +55,12 @@
             Source:&nbsp;
             <span :key="index">
               <a
+                :title="source.text"
                 :href="source.link"
                 target="_blank">{{ source.text }}</a>
               <br
                 :key="index"
-                v-if="eepApp.source.length !== index + 1" >
+                v-if="eepApp.source.length !== index + 1">
             </span>
           </template>
         </h6>
@@ -90,7 +98,7 @@
                 target="_blank">{{ source.text }}</a>
               <br
                 :key="index"
-                v-if="eepApp.source.length !== index + 1" >
+                v-if="eepApp.source.length !== index + 1">
             </span>
           </template>
         </b-tab>
@@ -188,19 +196,15 @@
   lang="scss"
   scoped>
   @import '../styles/bootstrap-widget-dropdown.scss';
-
   .app-window-icon {
     padding: 0.5em;
   }
-
   .widget-dropdown {
     background-image: url('../images/widget-menu.svg');
   }
-
   .widget-expand {
     background-image: url('../images/widget-expand.svg');
   }
-
   .widget-button {
     background-repeat: no-repeat;
     background-position: center center;
