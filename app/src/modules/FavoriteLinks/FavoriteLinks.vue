@@ -220,7 +220,6 @@
     },
     computed: {
       ...mapGetters({
-        apiURL: 'getEnvironmentApiURL',
         getUser: 'getUser',
       }),
       favoriteLinks: {
@@ -293,21 +292,6 @@
         this.totalRows = filteredItems.length;
         this.currentPage = 1;
       },
-      getCookie(cname) {
-        const name = `${cname}=`;
-        const decodedCookie = decodeURIComponent(document.cookie);
-        const ca = decodedCookie.split(';');
-        for (let i = 0; i < ca.length; i++) {
-          let c = ca[i];
-          while (c.charAt(0) === ' ') {
-            c = c.substring(1);
-          }
-          if (c.indexOf(name) === 0) {
-            return c.substring(name.length, c.length);
-          }
-        }
-        return '';
-      },
       applyChanges() {
         if (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1) {
           // pushes changes to backend
@@ -329,15 +313,11 @@
       },
 
     },
-    beforeCreate() {
-    },
     created() {
       const store = this.$store;
       if (!(store && store.state && store.state[moduleName])) {
         store.registerModule(moduleName, storeModule);
       }
-    },
-    mounted() {
     },
     props: {
       eepApp: {
