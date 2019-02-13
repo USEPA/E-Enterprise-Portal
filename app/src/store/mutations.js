@@ -99,7 +99,8 @@ export default {
   },
   [types.SET_USER_OBJECT](state, obj) {
     const name = obj.name[0].value;
-    let mail = state.user.mail;
+    const { init } = obj;
+    let { mail } = state.user;
     if (!!obj.mail[0]) {
       mail = obj.mail[0].value;
     }
@@ -113,6 +114,9 @@ export default {
     Vue.set(state.user,
       'favoriteLinks',
       favoriteLinks);
+    Vue.set(state.user,
+      'init',
+      init);
     /* Vue.set(state.user,
         'organisation',
          organisation);

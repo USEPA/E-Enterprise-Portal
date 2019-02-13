@@ -168,11 +168,9 @@
 </template>
 
 <script>
-  import AppAxios from 'axios';
   import { mapGetters, mapActions } from 'vuex';
   import { AppWrapper, AppPlaceholderContent, AppModal } from '../wadk/WADK';
   import storeModule from './store/index';
-  import { EventBus } from '../../EventBus';
 
   const moduleName = 'FavoriteLinks';
 
@@ -185,7 +183,6 @@
     },
     data() {
       return {
-        userInit: [],
         fields: [
           {
             key: 'first',
@@ -227,10 +224,15 @@
           return this.getUser.favoriteLinks;
         },
       },
+      userInit: {
+        get() {
+          return this.getUser.init;
+        },
+      },
     },
     methods: {
       ...mapActions([
-        'appAxiosPatch',
+        'apiUserPatch',
       ]),
       ...mapActions(moduleName, [
         'addFavoriteLink',
@@ -282,6 +284,8 @@
       },
       // DELETE
       deleteFavLink(item, index) {
+        console.warn(this.getUser.init);
+
         // stores changes in local state
         this.favoriteLinks.splice(index, 1);
         // pushes changes to backend
@@ -295,18 +299,12 @@
       applyChanges() {
         if (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1) {
           // pushes changes to backend
-          this.appAxiosPatch({
-              init: [
-                {
-                  value: 'generated-user@e-enterprise',
-                },
-              ],
+          this.apiUserPatch({
               field_favorite_links: this.favoriteLinks,
             });
         } else {
           // pushes changes to backend
-          this.appAxiosPatch({
-              init: this.userInit,
+          this.apiUserPatch({
               field_favorite_links: this.favoriteLinks,
             });
         }

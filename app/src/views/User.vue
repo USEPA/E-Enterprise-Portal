@@ -164,7 +164,6 @@
 </template>
 
 <script>
-  import AppAxios from 'axios';
   import { mapActions, mapGetters } from 'vuex';
 
   const moduleName = 'User';
@@ -215,7 +214,7 @@
     },
     methods: {
       ...mapActions([
-        'appAxiosPatch',
+        'apiUserPatch',
       ]),
       hideUserDeleteModal() {
         this.$refs.UserDeleteModal.hide();
@@ -235,7 +234,7 @@
       saveUserChanges() {
         if (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1) {
           // pushes changes to backend
-          this.appAxiosPatch({
+          this.apiUserPatch({
             init: [
               {
                 value: 'generated-user@e-enterprise',
@@ -245,7 +244,7 @@
           });
         } else {
           // pushes changes to backend
-          this.appAxiosPatch({
+          this.apiUserPatch({
             init: this.userInit,
             field_organisation: this.selected,
           });

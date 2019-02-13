@@ -397,7 +397,7 @@ export default {
       console.error(error);
     });
   },
-  appAxiosPatch(context, body) {
+  apiUserPatch(context, body) {
     const store = context;
     const apiURL = store.getters.getEnvironmentApiURL;
     const { id } = store.getters.getUser;
