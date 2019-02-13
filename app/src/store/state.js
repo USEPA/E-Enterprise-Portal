@@ -52,6 +52,7 @@ const state = {
     name: '',
     mail: '',
     favoriteLinks: [],
+    userLoaded: false,
     init: [],
     organisation: '',
     role:'',

@@ -64,8 +64,7 @@
         </template>
 
         <template
-          v-if='favoriteLinks[0].first != `Not logged in or no user ID found!` &&
-          favoriteLinks[0].first != `Loading your Favorites...`'
+          v-if='favoriteLinksLoaded'
           slot="actions"
           slot-scope="row">
           <b-button
@@ -76,6 +75,10 @@
             size="sm"
             @click="openEditModal(row.item, row.index, $event.target)"
             class="edit-favorite-btn mr-1"/>
+        </template>
+        <template
+          v-if='!favoriteLinksLoaded'>
+          <p>Loading you Favorites...</p>
         </template>
 
       </b-table>
@@ -147,7 +150,7 @@
       </AppModal>
 
       <!--if No Favorites-->
-      <div v-if="(favoriteLinks.length === 0)">{{ noFavs }}</div>
+      <div v-if="(favoriteLinks.length === 0 && favoriteLinksLoaded)">{{ noFavs }}</div>
 
       <!--pagination-->
       <b-row class="text-center">
@@ -224,6 +227,11 @@
           return this.getUser.favoriteLinks;
         },
       },
+      favoriteLinksLoaded: {
+        get() {
+          return this.getUser.userLoaded;
+        },
+      },
       userInit: {
         get() {
           return this.getUser.init;
@@ -247,15 +255,15 @@
       applyAddModal(evt) {
         evt.preventDefault();
         // stores changes in local state
-        const firstField = this.addModalInfo.first.trim();
-        const secondField = this.addModalInfo.second.trim();
+        const favoriteLinkName = this.addModalInfo.first.trim();
+        const favoriteLinkURL = this.addModalInfo.second.trim();
         this.addFavoriteLink(
           {
-            first: firstField,
-            second: secondField,
+            first: favoriteLinkName,
+            second: favoriteLinkURL,
           },
         );
-        this.applyChanges();
+        this.updateUserConditionally();
         this.closeAddModal();
       },
       // EDIT
@@ -268,18 +276,24 @@
       closeEditModal() {
         this.$root.$emit('bv::hide::modal', 'editModalInfo');
       },
-      applyEditModal(evt) {
-        evt.preventDefault();
+      getEditModalIndex() {
         for (let i = 0; i < this.favoriteLinks.length; i++) {
           if (this.favoriteLinks[i].first === this.editModalInfo.first && this.favoriteLinks[i].second === this.editModalInfo.second) {
             this.editModalIndex = i;
           }
         }
-        // stores changes in local state
+      },
+      makeChangesToState() {
+        // stores changes state
         this.favoriteLinks[this.editModalIndex].first = this.editModalInfo.first.trim();
         this.favoriteLinks[this.editModalIndex].second = this.editModalInfo.second.trim();
+      },
+      applyEditModal(evt) {
+        evt.preventDefault();
+        this.getEditModalIndex();
+        this.makeChangesToState();
         // pushes changes to backend
-        this.applyChanges();
+        this.updateUserConditionally();
         this.closeEditModal();
       },
       // DELETE
@@ -289,14 +303,14 @@
         // stores changes in local state
         this.favoriteLinks.splice(index, 1);
         // pushes changes to backend
-        this.applyChanges();
+        this.updateUserConditionally();
       },
       onFiltered(filteredItems) {
         // Trigger pagination to update the number of buttons/pages due to filtering
         this.totalRows = filteredItems.length;
         this.currentPage = 1;
       },
-      applyChanges() {
+      updateUserConditionally() {
         if (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1) {
           // pushes changes to backend
           this.apiUserPatch({

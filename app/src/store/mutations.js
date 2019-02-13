@@ -105,6 +105,7 @@ export default {
       mail = obj.mail[0].value;
     }
     const favoriteLinks = obj.field_favorite_links;
+    const userLoaded = true;
     Vue.set(state.user,
       'name',
       name);
@@ -114,6 +115,9 @@ export default {
     Vue.set(state.user,
       'favoriteLinks',
       favoriteLinks);
+    Vue.set(state.user,
+      'userLoaded',
+      userLoaded);
     Vue.set(state.user,
       'init',
       init);
