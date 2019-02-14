@@ -82,9 +82,22 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
     }
 
     if($query['tribe']){
-        print "hit here";
         $tribe_response = $this->gpo_retrieve_tribal_information($query['tribe']);
-        $this->payload['tribe'][] =  json_decode($tribe_response->getBody(), FALSE);
+        $this->payload['tribal_information_response'] =  json_decode($tribe_response->getBody(), FALSE);
+
+        // Loop through the first time to find all of the Tribal names.
+        foreach ($this->payload['tribal_information_response']->features as $feature){
+            $tribe_name = $feature->attributes->TRIBE_NAME_CLEAN;
+            if(!ArrayHelper::in_array($tribe_name, $this->payload['tribes'])){
+                $current_tribe_zipcodes = [];
+                foreach($this->payload['tribal_information_response']->features as $feature_inner){
+                    if($tribe_name === $feature_inner->attributes->TRIBE_NAME_CLEAN){
+                        $current_tribe_zipcodes[] = $feature_inner->attributes->ZCTA;
+                    }
+                }
+                $this->payload['tribes'][$tribe_name] = $current_tribe_zipcodes;
+            }
+        }
     }
   }
 
@@ -95,13 +108,22 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
    */
   public function postfetch() {
 
+    $content = [];
+
     // Build content
-    $content = [
-      'city' => $this->payload['city'],
-      'state' => $this->payload['state'],
-      'zipcode' => $this->payload['zipcode'],
-      'tribe' => $this->payload['tribe'],
-    ];
+    if(!isset($this->payload['tribe'])){
+        $content = [
+          'city' => $this->payload['city'],
+          'state' => $this->payload['state'],
+          'zipcode' => $this->payload['zipcode'],
+        ];
+    }else{
+        $content = [
+            'tribal_information' => $this->payload['tribes'],
+        ];
+    }
+
+
 
     $final_content = \GuzzleHttp\json_encode($content);
 
