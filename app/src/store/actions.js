@@ -405,34 +405,31 @@ export default {
       });
   },
   populateDropdownForUserInput(context, userInput){
+      // Declare variables
       const store = context;
-      let endpoint = '';
-      let rest_of_url_with_params;
+      let params = '';
 
-
-     if(/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(userInput)){
-          console.log("zipcode: " + userInput);
-      }else{
-          // if city and state
-
-          if(userInput.indexOf(',') > -1){
-              endpoint = store.getters.getApiUrl('userLocationLookupByCityState');
-              let city_and_state = userInput.split(",");
-              let city = city_and_state[0].toUpperCase().trim();
-              let state = city_and_state[1].toUpperCase().trim();
-              rest_of_url_with_params = '?where=UPPER%28NAME_LABEL%29%3D%27'+
-                  city+'%2C+'+
-                  state+'%27&outFields=*&orderByFields=ZCTA&f=pjson';
+      if(/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(userInput)) {
+          // handle zipcode
+      }else {
+          if (userInput.indexOf(',') > -1) {
+              // handle city and state
+          } else {
+              params = 'tribe=' + userInput.toUpperCase().trim();
           }
       }
 
-      // Axios request down here after the url is built
-
-
-      AppAxios.get(endpoint + rest_of_url_with_params, {
+      AppAxios.get(store.getters.getEnvironmentApiURL + '/eep/proxy/service/location?'+ params, {
           headers: store.getters.getGETHeaders,
       }).then((response) => {
-          console.log(response.data);
+
+          Object.keys(response.data.tribal_information).forEach(function(key, index){
+            console.log(key[index]);
+          });
+
+
+          // store.commit('SET_OPTIONS_AFTER_INPUT', response.data.tribal_information);
+
       }).catch((error) => {
           console.log(error);
       });

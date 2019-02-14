@@ -74,8 +74,10 @@
                         <label class="col-12 font-weight-bold">Select a zipcode for {{inputBoxText}}</label>
                         <b-form-select
                                 id="afterInputDropDown"
-                                class="col-4 ml-3"
-                                :options="afterInputOptions">
+                                class="col-4 ml-3">
+                            <option v-for="afterInputOption in afterInputOptions">
+                                {{afterInputOption}}
+                            </option>
                         </b-form-select>
                     </b-input-group>
                 </div>
@@ -312,7 +314,7 @@
 </script>
 
 <style scoped>
-    #input-box-results-drop-down{
-        display: none !important;
-    }
+    /*#input-box-results-drop-down{*/
+        /*display: none !important;*/
+    /*}*/
 </style>

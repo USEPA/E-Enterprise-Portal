@@ -52,7 +52,7 @@ const state = {
     name: '',
     mail: '',
     favorite_links: [],
-    optionsAfterInput: ['23146', '23230'],
+    optionsAfterInput: [],
     organisation: '',
     role:'',
     location: {
