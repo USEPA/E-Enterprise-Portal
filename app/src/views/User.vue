@@ -70,25 +70,23 @@
                   </b-input-group>
                 </div>
                 <div id="input-box-results-drop-down" class="pt-3 d-flex">
-                    <b-input-group :style="{display: isDisplayed}">
-                        <label class="col-12 font-weight-bold">Select a zipcode for {{inputBoxText}}</label>
-                        <b-form-select
-                                id="afterInputDropDown"
-                                class="col-4 ml-3">
-                            <template v-for="afterInputOption in afterInputOptions">
-                                <template v-if="/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(afterInputOption)">
-                                    <option>
-                                        {{afterInputOption}}
-                                    </option>
-                                </template>
-                                <template v-else>
-                                    <option disabled>
-                                        {{afterInputOption}}
-                                    </option>
-                                </template>
-                            </template>
-                        </b-form-select>
-                    </b-input-group>
+                  <b-input-group :style="{display: isDisplayed}">
+                      <label class="col-12 font-weight-bold">Select a zipcode for {{inputBoxText}}</label>
+                      <b-form-select class="col-4 ml-3">
+                          <template v-for="afterInputOption in afterInputOptions">
+                              <template v-if="/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(afterInputOption)">
+                                  <option>
+                                      {{afterInputOption}}
+                                  </option>
+                              </template>
+                              <template v-else>
+                                  <option disabled>
+                                      {{afterInputOption}}
+                                  </option>
+                              </template>
+                          </template>
+                      </b-form-select>
+                  </b-input-group>
                 </div>
                   <div class="locations-btn-wrapper pt-2 ml-3" :style="{display: isDisplayed}">
                       <button class="usa-button">Select</button>
