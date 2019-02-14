@@ -409,13 +409,11 @@ export default {
         'cache-control': 'no-cache',
         'Content-Type': 'application/json',
       },
-    })
-      .then(() => {
-        console.log('PATCH => success');
-      })
-      .catch(() => {
-        console.log('PATCH => failure');
-      });
+    }).then(() => {
+      console.log('PATCH => success');
+    }).catch(() => {
+      console.log('PATCH => failure');
+    });
   },
   populateDropdownForUserInput(context, userInput){
       // Declare variables
@@ -452,12 +450,12 @@ export default {
               });
           })
 
+          // Commit all of the information to the store
           store.commit('SET_OPTIONS_AFTER_INPUT', formatted_response_information);
 
+          // Reset the display none for the populated dropdown
           store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', '');
-
-
-
+      
       }).catch((error) => {
           console.log(error);
       });
