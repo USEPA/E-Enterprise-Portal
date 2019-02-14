@@ -64,7 +64,6 @@
         </template>
 
         <template
-          v-if='favoriteLinksLoaded'
           slot="actions"
           slot-scope="row">
           <b-button
