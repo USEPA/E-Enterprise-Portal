@@ -90,6 +90,10 @@
                         </b-form-select>
                     </b-input-group>
                 </div>
+                  <div class="locations-btn-wrapper pt-2 ml-3" :style="{display: isDisplayed}">
+                      <button class="usa-button">Select</button>
+                      <button class="usa-button">Back</button>
+                  </div>
               </div>
             </div>
           </b-container>
