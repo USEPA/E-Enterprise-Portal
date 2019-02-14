@@ -186,7 +186,7 @@
               </b-row>
             </b-container>
           </template>
-        </b-tab>
+          </b-tab>
           <b-tab
             title="State"
             class="nav-item nav-link text-decoration-none"></b-tab>
