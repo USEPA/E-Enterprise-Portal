@@ -6,84 +6,44 @@
       <div
         v-html="eepApp.field_html_content.mainCard"
         class="pb-2"/>
-      <nav>
-        <div
-          class="nav nav-tabs nav-fill"
-          id="nav-tab"
-          role="tablist">
-          <a
-            class="nav-item nav-link active text-decoration-none"
-            data-toggle="tab"
-            href="#nav-epa"
-            role="tab"
-            aria-controls="nav-epa"
-            aria-selected="true">US EPA</a>
-          <a
-            class="nav-item nav-link text-decoration-none"
-            data-toggle="tab"
-            href="#nav-state"
-            role="tab"
-            aria-controls="nav-state"
-            aria-selected="false">State</a>
-          <a
-            class="nav-item nav-link text-decoration-none"
-            data-toggle="tab"
-            href="#nav-tribal"
-            role="tab"
-            aria-controls="nav-tribal"
-            aria-selected="false">Tribal</a>
-          <a
-            class="nav-item nav-link text-decoration-none"
-            data-toggle="tab"
-            href="#nav-local"
-            role="tab"
-            aria-controls="nav-local"
-            aria-selected="false">Local</a>
-        </div>
-      </nav>
-      <div id="my-reporting">
-        <ul class="inline-cdx-links">
-          <li>
-            <a
-              class="my-cdx-web-handoff-link my-cdx-login cursor-pointer"
-              @click="openPopupPage(cdx_configs.cdx_silent_handoff_url, getCdxParams())">
-              My CDX
-            </a>
-          </li>
-
-          <li>
-            <a
-              class="my-cdx-web-handoff-link  my-cdx-inbox cursor-pointer"
-              @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}`, getReturnURLWithCdxParams('Inbox'))">
-              Inbox
-            </a>
-          </li>
-          <li>
-            <a
-              class="my-cdx-web-handoff-link my-cdx-profile cursor-pointer"
-              data-handoff-type="profile"
-              @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}`, getReturnURLWithCdxParams('MyProfile'))">
-              My Profile</a>
-          </li>
-          <li>
-            <a
-              class="my-cdx-web-handoff-link my-cdx-submission cursor-pointer"
-              data-handoff-type="submission"
-              @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}`, getReturnURLWithCdxParams('submission'))">
-              Submission History
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div
-        class="tab-content"
-        id="nav-tabContent">
-        <div
-          class="tab-pane fade show active"
-          id="nav-epa"
-          role="tabpanel"
-          aria-labelledby="nav-epa-tab">
+      <b-tabs>
+        <b-tab
+          title="US EPA"
+          class="nav-item nav-link active text-decoration-none">
           <template>
+            <div id="my-reporting-flows-container">
+              <ul class="inline-cdx-links">
+                <li>
+                  <a
+                    class="my-cdx-web-handoff-link my-cdx-login cursor-pointer"
+                    @click="openPopupPage(cdx_configs.cdx_silent_handoff_url, getCdxParams())">
+                    My CDX
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="my-cdx-web-handoff-link  my-cdx-inbox cursor-pointer"
+                    @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}`, getReturnURLWithCdxParams('Inbox'))">
+                    Inbox
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="my-cdx-web-handoff-link my-cdx-profile cursor-pointer"
+                    data-handoff-type="profile"
+                    @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}`, getReturnURLWithCdxParams('MyProfile'))">
+                    My Profile</a>
+                </li>
+                <li>
+                  <a
+                    class="my-cdx-web-handoff-link my-cdx-submission cursor-pointer"
+                    data-handoff-type="submission"
+                    @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}`, getReturnURLWithCdxParams('submission'))">
+                    Submission History
+                  </a>
+                </li>
+              </ul>
+            </div>
             <b-container fluid>
               <!-- User Interface controls -->
               <b-row>
@@ -93,32 +53,36 @@
                   <b-form-group
                     horizontal
                     label="Filter"
+                    label-for="filter-results"
                     class="mb-0">
                     <b-input-group>
                       <b-form-input
+                        id="filter-results"
+                        aria-controls="my-reporting-table"
                         v-model="filter"
                         placeholder=""/>
                     </b-input-group>
                   </b-form-group>
                 </b-col>
-
                 <b-col
                   md="3"
                   class="my-1 pl-0">
                   <b-form-group
                     horizontal
                     label="Rows"
+                    label-for="row-results"
                     class="mb-0">
                     <b-form-select
                       class="ml-3"
+                      aria-controls="my-reporting-table"
                       :options="pageOptions"
                       v-model="perPage"/>
                   </b-form-group>
                 </b-col>
               </b-row>
-
               <b-table
                 show-empty
+                id="my-reporting-table"
                 stacked="md"
                 :items="items"
                 :fields="fields"
@@ -153,7 +117,8 @@
                 <template
                   slot="status"
                   slot-scope="data">
-                  <div :class="data.item.status"/>
+                  <div :class="data.item.status"
+                    :title="data.item.status"/>
                 </template>
               </b-table>
               <AppModal
@@ -165,11 +130,9 @@
                 <div class="my-cdx-modal">
                   <div class="my-cdx-detail-group">Organization Name</div>
                   <div class="organization-name"/>
-
                   <b-form-select
                     v-model="organization"
                     class="mb-3">
-
                     <template slot="first">
                       <option :value="null">Choose Organization...</option>
                       <option
@@ -179,9 +142,7 @@
                         {{ item.orgName }}
                       </option>
                     </template>
-
                   </b-form-select>
-
                   <div class="my-cdx-detail-group">Program Client ID</div>
                   <div class="program-client-name"/>
                   <b-form-select
@@ -200,9 +161,7 @@
                         {{ item.roleName }} - {{ item.clientName }}
                       </option>
                     </template>
-
                   </b-form-select>
-
                   <div class="my-cdx-detail-group">Program</div>
                   <div class="program-acronym"/>
                   <div class="my-cdx-detail-group">
@@ -228,23 +187,17 @@
               </b-row>
             </b-container>
           </template>
-        </div>
-        <div
-          class="tab-pane fade"
-          id="nav-state"
-          role="tabpanel"
-          aria-labelledby="nav-state-tab"/>
-        <div
-          class="tab-pane fade"
-          id="nav-local"
-          role="tabpanel"
-          aria-labelledby="nav-local-tab"/>
-        <div
-          class="tab-pane fade"
-          id="nav-tribal"
-          role="tabpanel"
-          aria-labelledby="nav-tribal-tab"/>
-      </div>
+        </b-tab>
+        <b-tab
+          title="State"
+          class="nav-item nav-link text-decoration-none"></b-tab>
+        <b-tab
+          title="Tribal"
+          class="nav-item nav-link text-decoration-none"></b-tab>
+        <b-tab
+          title="Local"
+          class="nav-item nav-link text-decoration-none"></b-tab>
+      </b-tabs>
     </AppWrapper>
   </div>
 </template>
@@ -480,11 +433,11 @@
     overflow-y: scroll;
     max-height: 100%;
   }
-  #my-reporting .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+  #my-reporting-flows-container .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
     color: #000;
     font-weight: bold;
   }
-  #my-reporting .nav-item {
+  #my-reporting-flows-container .nav-item {
     color: #000;
   }
   .form-group {

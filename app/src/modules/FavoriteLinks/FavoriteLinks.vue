@@ -10,9 +10,11 @@
           <b-form-group
             horizontal
             label="Filter"
-            class="mb-0">
+            label-for="filter-results"
+            class="mb-2">
             <b-input-group>
               <b-form-input
+                id="filter-results"
                 v-model="filter"
                 placeholder="Type to Search"/>
             </b-input-group>
@@ -22,9 +24,10 @@
           md="4"
           class="my-1">
           <b-btn
+            id="add-favorite"
             @click="openAddModal"
             class="add-favorite-btn"/>
-          <div class="d-inline-block pl-1 add-favorite-btn-text">Add a Favorite</div>
+          <label for="add-favorite" class="d-inline-block pl-1 add-favorite-btn-text">Add a Favorite</label>
         </b-col>
         <b-col
           md="3"
@@ -32,9 +35,11 @@
           <b-form-group
             horizontal
             label="Rows"
-            class="mb-0">
+            label-for="row-results"
+            class="mb-2">
             <b-form-select
               class="ml-3"
+              id="row-results"
               :options="pageOptions"
               v-model="perPage"/>
           </b-form-group>
