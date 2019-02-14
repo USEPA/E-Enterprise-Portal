@@ -82,8 +82,9 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
     }
 
     if($query['tribe']){
+        print "hit here";
         $tribe_response = $this->gpo_retrieve_tribal_information($query['tribe']);
-
+        $this->payload['tribe'][] =  json_decode($tribe_response->getBody(), FALSE);
     }
   }
 
@@ -95,11 +96,14 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
   public function postfetch() {
 
     // Build content
-    $content = [
-      'city' => $this->payload['city'],
-      'state' => $this->payload['state'],
-      'zipcode' => $this->payload['zipcode'],
-    ];
+//    $content = [
+//      'city' => $this->payload['city'],
+//      'state' => $this->payload['state'],
+//      'zipcode' => $this->payload['zipcode'],
+//    ];
+      $content = [
+          'tribal_info' => $this->payload['tribe'],
+      ];
     $final_content = \GuzzleHttp\json_encode($content);
 
     // Update the response
@@ -309,6 +313,8 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
   public function gpo_retrieve_tribal_information($tribe){
       $tribe_url = $this->request->getUri() . '/ZipToTribalLookups_WFL/FeatureServer/1/query?where=UPPER%28TRIBE_NAME_CLEAN%29+LIKE+%27%25' . $tribe . '%25%27&outFields=*&orderByFields=ZCTA&f=pjson';
       $response = $this->make_request_and_receive_response($tribe_url);
+      $decoded_response = json_decode($response->getBody(), FALSE);
 
+      return $decoded_response;
   }
 }
