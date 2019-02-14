@@ -437,11 +437,13 @@ export default {
               response.data.tribal_information[key].forEach(function(item){
                   formatted_response_information.push(item);
               });
-          });
-
-          console.log(formatted_response_information);
+          })
 
           store.commit('SET_OPTIONS_AFTER_INPUT', formatted_response_information);
+
+          store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', '');
+
+
 
       }).catch((error) => {
           console.log(error);

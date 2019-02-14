@@ -138,4 +138,7 @@ export default {
   getOptionsAfterInput(state){
       return state.user.optionsAfterInput;
   },
+  getIsAfterInputDropdownDisplayed(state){
+    return state.user.IsAfterInputDropdownDisplayed;
+  },
 };

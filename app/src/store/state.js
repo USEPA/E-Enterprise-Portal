@@ -52,6 +52,7 @@ const state = {
     name: '',
     mail: '',
     favorite_links: [],
+    IsAfterInputDropdownDisplayed: 'none',
     optionsAfterInput: [],
     organisation: '',
     role:'',

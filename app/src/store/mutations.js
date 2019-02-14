@@ -179,4 +179,9 @@ export default {
           'optionsAfterInput',
           obj);
   },
+  [types.SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED](state, isDisplayed){
+      Vue.set(state.user,
+          'IsAfterInputDropdownDisplayed',
+          isDisplayed);
+  },
 };
