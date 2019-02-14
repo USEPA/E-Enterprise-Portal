@@ -72,8 +72,8 @@
                   <div>
                     <h6>Organization</h6>
                     <b-form-select v-model="selected" id="org-selection" class="mr-3" required>
-                      <option v-if= "organisation!=[]" v-bind:value="null">-None-</option>
-                      <option v-else= "organisation==[]" v-bind:value="null">{{organisation[0].second}}</option>
+                      <option v-if= "organisation==[]" v-bind:value="null">-None-</option>
+                      <option v-else= "organisation!=[]" v-bind:value="null">{{organisation[0].second}}</option>
                       <option v-for="option in org" v-bind:value="option.name">{{ option.name }}
                       </option>
                     </b-form-select>
