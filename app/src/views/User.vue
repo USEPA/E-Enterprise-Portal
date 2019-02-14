@@ -69,8 +69,8 @@
                     </div>
                   </b-input-group>
                 </div>
-                <div id="input-box-results-drop-down" class="pt-3 d-flex" :style="{display: isDisplayed}">
-                    <b-input-group>
+                <div id="input-box-results-drop-down" class="pt-3 d-flex">
+                    <b-input-group :style="{display: isDisplayed}">
                         <label class="col-12 font-weight-bold">Select a zipcode for {{inputBoxText}}</label>
                         <b-form-select
                                 id="afterInputDropDown"
