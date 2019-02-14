@@ -75,9 +75,18 @@
                         <b-form-select
                                 id="afterInputDropDown"
                                 class="col-4 ml-3">
-                            <option v-for="afterInputOption in afterInputOptions">
-                                {{afterInputOption}}
-                            </option>
+                            <template v-for="afterInputOption in afterInputOptions">
+                                <template v-if="/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(afterInputOption)">
+                                    <option>
+                                        {{afterInputOption}}
+                                    </option>
+                                </template>
+                                <template v-else>
+                                    <option disabled>
+                                        {{afterInputOption}}
+                                    </option>
+                                </template>
+                            </template>
                         </b-form-select>
                     </b-input-group>
                 </div>

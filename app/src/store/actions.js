@@ -427,13 +427,19 @@ export default {
           let formatted_response_information = [];
 
           Object.keys(response.data.tribal_information).forEach(function(key){
-            //console.log(response.data.tribal_information[key]);
-              formatted_response_information.push({
-                  name: key,
-                  zipcodes: response.data.tribal_information[key],
-              });
+              // Declare variables
+              let i;
 
+              // Push name onto array
+              formatted_response_information.push(key);
+
+              // Push each zipcode on array
+              response.data.tribal_information[key].forEach(function(item){
+                  formatted_response_information.push(item);
+              });
           });
+
+          console.log(formatted_response_information);
 
           store.commit('SET_OPTIONS_AFTER_INPUT', formatted_response_information);
 
