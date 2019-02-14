@@ -8,8 +8,8 @@
         class="pb-2"/>
       <b-tabs>
         <b-tab
-            title="US EPA"
-            class="nav-item nav-link active text-decoration-none">
+          title="US EPA"
+          class="nav-item nav-link active text-decoration-none">
           <template>
             <div id="my-reporting-flows-container">
               <ul class="inline-cdx-links">
@@ -117,7 +117,8 @@
                 <template
                   slot="status"
                   slot-scope="data">
-                  <div :class="data.item.status" :title="data.item.status"/>
+                  <div :class="data.item.status"
+                    :title="data.item.status"/>
                 </template>
               </b-table>
               <AppModal
@@ -186,16 +187,16 @@
               </b-row>
             </b-container>
           </template>
-          </b-tab>
-          <b-tab
-            title="State"
-            class="nav-item nav-link text-decoration-none"></b-tab>
-          <b-tab
-            title="Tribal"
-            class="nav-item nav-link text-decoration-none"></b-tab>
-          <b-tab
-            title="Local"
-            class="nav-item nav-link text-decoration-none"></b-tab>
+        </b-tab>
+        <b-tab
+          title="State"
+          class="nav-item nav-link text-decoration-none"></b-tab>
+        <b-tab
+          title="Tribal"
+          class="nav-item nav-link text-decoration-none"></b-tab>
+        <b-tab
+          title="Local"
+          class="nav-item nav-link text-decoration-none"></b-tab>
       </b-tabs>
     </AppWrapper>
   </div>
