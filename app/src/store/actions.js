@@ -423,12 +423,19 @@ export default {
           headers: store.getters.getGETHeaders,
       }).then((response) => {
 
-          Object.keys(response.data.tribal_information).forEach(function(key, index){
-            console.log(key[index]);
+          // Declare variables
+          let formatted_response_information = [];
+
+          Object.keys(response.data.tribal_information).forEach(function(key){
+            //console.log(response.data.tribal_information[key]);
+              formatted_response_information.push({
+                  name: key,
+                  zipcodes: response.data.tribal_information[key],
+              });
+
           });
 
-
-          // store.commit('SET_OPTIONS_AFTER_INPUT', response.data.tribal_information);
+          store.commit('SET_OPTIONS_AFTER_INPUT', formatted_response_information);
 
       }).catch((error) => {
           console.log(error);
