@@ -69,13 +69,12 @@
                     </div>
                   </b-input-group>
                 </div>
-                <div id="input-box-results-drop-down" class="pt-3 d-flex">
+                <div id="input-box-results-drop-down" class="pt-3 d-flex" :style="{display: isDisplayed}">
                     <b-input-group>
                         <label class="col-12 font-weight-bold">Select a zipcode for {{inputBoxText}}</label>
                         <b-form-select
                                 id="afterInputDropDown"
-                                class="col-4 ml-3"
-                                :style="{display: isDisplayed}">
+                                class="col-4 ml-3">
                             <template v-for="afterInputOption in afterInputOptions">
                                 <template v-if="/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(afterInputOption)">
                                     <option>
@@ -227,7 +226,7 @@
         organisation:'getOrganisation',
         role:'getRole',
         apiURL: 'getEnvironmentApiURL',
-        afterInputOptions: 'getOptionsAfterInput'
+        afterInputOptions: 'getOptionsAfterInput',
         isDisplayed: 'getIsAfterInputDropdownDisplayed'
       }),
        uid() { return this.getCookie('uid'); },
