@@ -11,7 +11,7 @@
             title="US EPA"
             class="nav-item nav-link active text-decoration-none">
           <template>
-            <div id="my-reporting">
+            <div id="my-reporting-flows-container">
               <ul class="inline-cdx-links">
                 <li>
                   <a
@@ -432,11 +432,11 @@
     overflow-y: scroll;
     max-height: 100%;
   }
-  #my-reporting .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+  #my-reporting-flows-container .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
     color: #000;
     font-weight: bold;
   }
-  #my-reporting .nav-item {
+  #my-reporting-flows-container .nav-item {
     color: #000;
   }
   .form-group {
