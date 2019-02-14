@@ -72,8 +72,8 @@
                   <div>
                     <h6>Organization</h6>
                     <b-form-select v-model="selected" id="org-selection" class="mr-3" required>
-                      <option v-if= "organisation=='undefined'" v-bind:value="null">-None-</option>
-                      <option v-else-if= "organisation!='undefined'" v-bind:value="null">{{organisation[0].second}}</option>
+                      <option v-if= "organisation.length===0" v-bind:value="null">-None-</option>
+                      <option v-else v-bind:value="null">{{organisation[0].second}}</option>
                       <option>-None-</option>
                       <option v-for="option in org" v-bind:value="option.name">{{ option.name }}
                       </option>
@@ -83,8 +83,8 @@
                   <div>
                     <h6>Role</h6>
                     <b-form-select v-model="selectedRole" id="role-selection" class="mr-3" required>
-                      <option v-if= "role=='undefined'" v-bind:value="null">-None-</option>
-                      <option v-else-if= "role!='undefined'" v-bind:value="null">{{role[0].second}}</option>
+                      <option v-if= "role.length===0" v-bind:value="null">-None-</option>
+                      <option v-else v-bind:value="null">{{role[0].second}}</option>
                       <option>-None-</option>
                       <option
                         v-for="option in roleList"
