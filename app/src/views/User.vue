@@ -124,8 +124,10 @@
               All unsaved data will be lost upon navigating
               away from the Profile page.
           </p>
-          <b-btn class="mr-3 ml-2" @click="save" variant="primary">Save</b-btn>
-          <b-btn v-b-modal.UserDeleteModalInfo variant="outline-primary">Delete Profile</b-btn>
+          <div class="mt-2">
+              <b-btn class="usa-button mr-3 ml-2 mt-0" @click="save">Save</b-btn>
+              <b-btn v-b-modal.UserDeleteModalInfo class="usa-button">Delete Profile</b-btn>
+          </div>
       </b-tabs>
     </b-card>
 
