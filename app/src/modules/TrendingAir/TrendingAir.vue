@@ -3,7 +3,7 @@
     <AppWrapper
       :eep-app="eepApp">
       <h4>{{selectedValue}}</h4>
-      <span>Updated every minute via <a v-bind:href="providerURL"
+      <span title="provderName">Updated every minute via <a :title="providerName" v-bind:href="providerURL"
         target="_blank">{{providerName}}</a></span><br>
       <span>Air Monitoring Station</span>
       <b-form-select
