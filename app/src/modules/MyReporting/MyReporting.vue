@@ -20,7 +20,6 @@
                     My CDX
                   </a>
                 </li>
-
                 <li>
                   <a
                     class="my-cdx-web-handoff-link  my-cdx-inbox cursor-pointer"
@@ -51,7 +50,6 @@
                 <b-col
                   md="8"
                   class="my-1 pl-0">
-
                   <b-form-group
                     horizontal
                     label="Filter"
@@ -66,7 +64,6 @@
                     </b-input-group>
                   </b-form-group>
                 </b-col>
-
                 <b-col
                   md="3"
                   class="my-1 pl-0">
@@ -83,7 +80,6 @@
                   </b-form-group>
                 </b-col>
               </b-row>
-
               <b-table
                 show-empty
                 id="my-reporting-table"
@@ -133,11 +129,9 @@
                 <div class="my-cdx-modal">
                   <div class="my-cdx-detail-group">Organization Name</div>
                   <div class="organization-name"/>
-
                   <b-form-select
                     v-model="organization"
                     class="mb-3">
-
                     <template slot="first">
                       <option :value="null">Choose Organization...</option>
                       <option
@@ -147,9 +141,7 @@
                         {{ item.orgName }}
                       </option>
                     </template>
-
                   </b-form-select>
-
                   <div class="my-cdx-detail-group">Program Client ID</div>
                   <div class="program-client-name"/>
                   <b-form-select
@@ -168,9 +160,7 @@
                         {{ item.roleName }} - {{ item.clientName }}
                       </option>
                     </template>
-
                   </b-form-select>
-
                   <div class="my-cdx-detail-group">Program</div>
                   <div class="program-acronym"/>
                   <div class="my-cdx-detail-group">
