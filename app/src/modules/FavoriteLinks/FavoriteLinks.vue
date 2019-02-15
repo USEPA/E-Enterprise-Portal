@@ -15,6 +15,7 @@
             <b-input-group>
               <b-form-input
                 id="filter-results"
+                aria-controls="favorite-links-table"
                 v-model="filter"
                 placeholder="Type to Search"/>
             </b-input-group>
@@ -40,6 +41,7 @@
             class="mb-2">
             <b-form-select
               class="ml-3"
+              aria-controls="favorite-links-table"
               id="row-results"
               :options="pageOptions"
               v-model="perPage"/>
@@ -50,6 +52,7 @@
       <!--datatable-->
       <b-table
         hover
+        id="favorite-links-table"
         :items="favoriteLinks"
         :fields="fields"
         :current-page="currentPage"
