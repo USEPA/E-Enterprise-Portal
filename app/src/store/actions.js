@@ -422,13 +422,20 @@ export default {
 
       if(/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(userInput)) {
           // handle zipcode
+          params = 'zipcode=' + userInput;
       }else {
           if (userInput.indexOf(',') > -1) {
               // handle city and state
+              let split_city_and_state = userInput.split(',');
+              let city = split_city_and_state[0].toUpperCase().trim();
+              let state = split_city_and_state[1].toUpperCase().trim();
+              params = 'city=' + city + '&state=' + state;
           } else {
               params = 'tribe=' + userInput.toUpperCase().trim();
           }
       }
+
+      console.log(store.getters.getEnvironmentApiURL + '/eep/proxy/service/location?'+ params);
 
       AppAxios.get(store.getters.getEnvironmentApiURL + '/eep/proxy/service/location?'+ params, {
           headers: store.getters.getGETHeaders,
@@ -436,28 +443,40 @@ export default {
 
           // Declare variables
           let formatted_response_information = [];
+          const return_data = response.data;
 
-          Object.keys(response.data.tribal_information).forEach(function(key){
-              // Declare variables
-              let i;
+          console.log(return_data);
 
-              // Push name onto array
-              formatted_response_information.push(key);
+          if(params.indexOf("tribe") !== -1) {
+              Object.keys(return_data.tribal_information).forEach(function (key) {
+                  // Declare variables
+                  let i;
 
-              // Push each zipcode on array
-              response.data.tribal_information[key].forEach(function(item){
-                  formatted_response_information.push(item);
-              });
-          })
+                  // Push name onto array
+                  formatted_response_information.push(key);
+
+                  // Push each zipcode on array
+                  return_data.tribal_information[key].forEach(function (item) {
+                      formatted_response_information.push(item);
+                  });
+              })
+          }else if(params.indexOf("zipcode") !== -1){
+              console.log('hit zipcode');
+              console.log(return_data);
+
+          }else if(params.indexOf("city") !== -1 && params.indexOf("state") !== -1){
+              console.log('hit iscitystate');
+              console.log(return_data);
+          }
 
           // Commit all of the information to the store
           store.commit('SET_OPTIONS_AFTER_INPUT', formatted_response_information);
 
           // Reset the display none for the populated dropdown
           store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', '');
-      
+
       }).catch((error) => {
-          console.log(error);
+          console.warn(error);
       });
   },
 };
