@@ -465,8 +465,7 @@ export default {
               console.log(return_data);
 
           }else if(params.indexOf("city") !== -1 && params.indexOf("state") !== -1){
-              console.log('hit iscitystate');
-              console.log(return_data);
+              formatted_response_information = return_data.zipcode;
           }
 
           // Commit all of the information to the store
