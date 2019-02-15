@@ -24,6 +24,7 @@
           md="4"
           class="my-1">
           <b-btn
+            title="Add a Favorite"
             id="add-favorite"
             @click="openAddModal"
             class="add-favorite-btn"/>
@@ -57,8 +58,7 @@
         :sort-by.sync="sortBy"
         :sort-desc.sync="sortDesc"
         :sort-direction="sortDirection"
-        @filtered="onFiltered"
-      >
+        @filtered="onFiltered">
 
         <template
           slot="first"
@@ -72,10 +72,12 @@
           slot="actions"
           slot-scope="row">
           <b-button
+            title="Delete Favorite"
             size="sm"
             @click="deleteFavLink(row.item, row.index)"
             class="delete-favorite-btn mr-1"/>
           <b-button
+            title="Edit Favorite"
             size="sm"
             @click="openEditModal(row.item, row.index, $event.target)"
             class="edit-favorite-btn mr-1"/>

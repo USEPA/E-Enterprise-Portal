@@ -14,6 +14,7 @@
             <label for="divider"
               class="sr-only">{{getTitle}} Menu</label>
             <b-dropdown
+              :title="`${eepApp.title} Menu`"
               id="divider"
               role="button"
               tabindex="0"
@@ -30,6 +31,7 @@
             <label for="expander"
               class="sr-only">Expand {{getTitle}}</label>
             <b-button
+              :title="`Expand ${eepApp.title}`"
               id="expander"
               v-if='eepApp.field_is_expandable'
               class="widget-expand widget-button"
