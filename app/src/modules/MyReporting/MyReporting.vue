@@ -1,6 +1,7 @@
 <template>
   <div id="reportingrow">
     <AppWrapper
+      id="gridapp"
       class="pb-5"
       :eep-app="eepApp">
       <div
@@ -15,6 +16,7 @@
               <ul class="inline-cdx-links">
                 <li>
                   <a
+                    title="My CDX"
                     class="my-cdx-web-handoff-link my-cdx-login cursor-pointer"
                     @click="openPopupPage(cdx_configs.cdx_silent_handoff_url, getCdxParams())">
                     My CDX
@@ -22,6 +24,7 @@
                 </li>
                 <li>
                   <a
+                    title="Inbox"
                     class="my-cdx-web-handoff-link  my-cdx-inbox cursor-pointer"
                     @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}`, getReturnURLWithCdxParams('Inbox'))">
                     Inbox
@@ -29,6 +32,7 @@
                 </li>
                 <li>
                   <a
+                    title="My Profile"
                     class="my-cdx-web-handoff-link my-cdx-profile cursor-pointer"
                     data-handoff-type="profile"
                     @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}`, getReturnURLWithCdxParams('MyProfile'))">
@@ -36,6 +40,7 @@
                 </li>
                 <li>
                   <a
+                    title="Submission History"
                     class="my-cdx-web-handoff-link my-cdx-submission cursor-pointer"
                     data-handoff-type="submission"
                     @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}`, getReturnURLWithCdxParams('submission'))">
