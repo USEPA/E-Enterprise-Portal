@@ -1,7 +1,6 @@
 <template>
   <div id="reportingrow">
     <AppWrapper
-      id="gridapp"
       class="pb-5"
       :eep-app="eepApp">
       <div
