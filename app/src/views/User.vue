@@ -102,7 +102,7 @@
           All unsaved data will be lost upon navigating
           away from the Profile page.
         </p>
-        <b-btn class="mr-3 ml-2" @click="save" variant="primary">Save</b-btn>
+        <b-btn class="mr-3  ml-2" @click="save" variant="primary">Save</b-btn>
         <b-btn v-b-modal.UserDeleteModalInfo variant="outline-primary">Delete Profile</b-btn>
       </b-tabs>
     </b-card>
@@ -125,7 +125,7 @@
         @click="DeleteEEPUserProfile"
         variant="outline-primary">Delete Profile
       </b-btn>
-      <b-btn class="mt-3 float-right" @click="hideUserDeleteModal">Back</b-btn>
+      <b-btn class=" float-right" @click="hideUserDeleteModal">Back</b-btn>
     </b-modal>
   </div>
 </template>
