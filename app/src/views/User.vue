@@ -218,7 +218,7 @@ export default {
       }
     },
     updateOrg() {
-      const firstField = "org";
+      const firstField = 'org';
       const secondField = this.selected;
       this.organisations = this.organisations.concat({
         first: firstField,
@@ -250,7 +250,7 @@ export default {
        );
     },
     updateRole() {
-      const firstField = "role";
+      const firstField = 'role';
       const secondField = this.selectedRole;
       this.roles = this.roles.concat({
         first: firstField,
