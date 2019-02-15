@@ -1,6 +1,6 @@
 <!--this view is so that users can find their information and view it and in the future, edit it-->
 <template>
-  <div class="container" >
+  <div class="container">
     <h3>Profile</h3>
     <b-card>
       <b-tabs class="profile-tabs">
@@ -11,7 +11,7 @@
                 <div/>
                 <h3>User Information</h3>
                 <div class="user-name-container">
-                  <div>User Name </div>
+                  <div>User Name</div>
                   <b-form-input
                     id="first-name-input"
                     v-model="username"
@@ -32,7 +32,7 @@
             <div class="locations-container">
               <div class="loc-container">
                 <h3 class="mt-2">Locations of Interest</h3>
-                <div class=" pt-3 d-flex">
+                <div class="pt-3 d-flex">
                   <p>Add your locations of interest to see environmental information relevant to
                   those areas.
                     <span class="font-weight-bold"> Click the </span><i class="far fa-star"/>
@@ -40,7 +40,7 @@
                     location.</span>
                   </p>
                 </div>
-                <div class=" pt-3 d-flex">
+                <div class="pt-3 d-flex">
                   <p>Until a location is specified, the default location is set to
                   Durham, North Carolina.</p>
                 </div>
@@ -90,7 +90,7 @@
               <div class="int-container">
                 <div />
                 <h3>Interests</h3>
-                <div class=" pt-3 mr-3 d-flex">
+                <div class="pt-3 mr-3 d-flex">
                   <div>
                     <h6>Organization</h6>
                       <b-form-select v-model="selected" id="org-selection" class="mr-3" required>
@@ -144,7 +144,6 @@
           you want to do this?
         </b-col>
       </b-row>
-
         <b-btn class="mt-3 ml-2 float-right" @click="DeleteEEPUserProfile" variant="outline-primary">
             Delete Profile
         </b-btn>
