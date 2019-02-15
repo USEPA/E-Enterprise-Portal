@@ -471,6 +471,8 @@ export default {
           // Commit all of the information to the store
           store.commit('SET_OPTIONS_AFTER_INPUT', formatted_response_information);
 
+          store.commit('SET_INPUT_BOX_TEXT_AFTER_SUBMIT', userInput);
+
           // Reset the display none for the populated dropdown
           store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', '');
 

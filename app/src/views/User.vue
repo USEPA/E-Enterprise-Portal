@@ -57,7 +57,7 @@
                 </div>
                 <div id="input-box-results-drop-down" class="pt-3 d-flex">
                     <b-input-group :style="{display: isDisplayed}">
-                        <label class="col-12 font-weight-bold">Select a zipcode for {{inputBoxText}}</label>
+                        <label class="col-12 font-weight-bold">Select a zipcode for {{inputBoxTextAfterSubmit}}</label>
                         <b-form-select class="col-4 ml-3">
                             <template v-for="afterInputOption in afterInputOptions">
                                 <template v-if="/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(afterInputOption)">
@@ -184,6 +184,7 @@
         user: 'getUser',
         afterInputOptions: 'getOptionsAfterInput',
         isDisplayed: 'getIsAfterInputDropdownDisplayed',
+        inputBoxTextAfterSubmit: 'getInputBoxSelectionAfterSubmit',
       }),
       userInit: {
           get() {

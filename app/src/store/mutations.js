@@ -194,4 +194,9 @@ export default {
           'IsAfterInputDropdownDisplayed',
           isDisplayed);
   },
+  [types.SET_INPUT_BOX_TEXT_AFTER_SUBMIT](state, newText){
+      Vue.set(state.user,
+          'inputBoxTextAfterSubmit',
+          newText);
+  },
 };

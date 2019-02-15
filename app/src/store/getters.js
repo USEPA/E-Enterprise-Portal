@@ -141,4 +141,7 @@ export default {
   getIsAfterInputDropdownDisplayed(state){
     return state.user.IsAfterInputDropdownDisplayed;
   },
+  getInputBoxSelectionAfterSubmit(state){
+    return state.user.inputBoxTextAfterSubmit;
+  },
 };
