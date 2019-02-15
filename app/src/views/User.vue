@@ -218,7 +218,7 @@ export default {
       }
     },
     updateOrg() {
-      const firstField = 'org';
+      const firstField = "org";
       const secondField = this.selected;
       this.organisations = this.organisations.concat({
         first: firstField,
@@ -227,22 +227,54 @@ export default {
       const orgParams = {
         field_organisation: this.organisations
       };
-      this.apiUserPatch(orgParams);
+      if (this.validateInit()) {
+        this.apiUserPatch({
+          init: [
+            {
+              value: "generated-user@e-enterprise"
+            }
+          ],
+          field_role: this.organisations
+        });
+      } else {
+        this.apiUserPatch({
+          init: this.userInit,
+          field_role: this.organisations
+        });
+      }
+      this.organisations = [];
     },
-
+    validateInit() {
+       return (
+         this.userInit.length > 0 && this.userInit[0].value.indexOf("@") < 1
+       );
+    },
     updateRole() {
-      const firstField = 'role';
+      const firstField = "role";
       const secondField = this.selectedRole;
       this.roles = this.roles.concat({
         first: firstField,
         second: secondField
       });
-      const params = {
-        field_role: this.roles
-      };
-      this.apiUserPatch(params);
+
+      if (this.validateInit()) {
+        this.apiUserPatch({
+          init: [
+            {
+              value: "generated-user@e-enterprise"
+            }
+          ],
+          field_role: this.roles
+        });
+      } else {
+        this.apiUserPatch({
+          init: this.userInit,
+          field_role: this.roles
+        });
+      }
+      this.roles = [];
     }
-  }
+ }
 };
 </script>
 
