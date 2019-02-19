@@ -199,4 +199,7 @@ export default {
           'inputBoxTextAfterSubmit',
           newText);
   },
+  [types.SAVE_USER_SELECTED_LOCATIONS](state, new_location){
+      state.user.userSavedLocations.push(new_location);
+  },
 };

@@ -46,10 +46,6 @@
                 </div>
                   <!-- comp here -->
                 <LocationSelectionOption></LocationSelectionOption>
-                <div class="locations-btn-wrapper pt-2 ml-3" :style="{display: user.IsAfterInputDropdownDisplayed}">
-                    <button class="usa-button">Select</button>
-                    <button class="usa-button">Back</button>
-                </div>
               </div>
             </div>
           </b-container>
@@ -191,18 +187,11 @@
       });
     },
     methods: {
-        ...mapActions(['apiUserPatch']),
+        ...mapActions([
+          'apiUserPatch'
+        ]),
         hideUserDeleteModal() {
           this.$refs.UserDeleteModal.hide();
-        },
-        starClick() {
-          if (this.$refs['click-star'].classList.contains('fas')) {
-            this.$refs['click-star'].classList.remove('fas');
-            this.$refs['click-star'].classList.add('far');
-          } else {
-            this.$refs['click-star'].classList.remove('far');
-            this.$refs['click-star'].classList.add('fas');
-          }
         },
         DeleteEEPUserProfile() {
           console.warn('DELETE PROFILE');

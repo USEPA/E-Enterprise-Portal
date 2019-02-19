@@ -476,4 +476,15 @@ export default {
           console.warn(error);
       });
   },
+  handleSelectButtonClickForLocation(context){
+      const store = context;
+
+
+      console.log("select clicked");
+
+  },
+  handleBackButtonClickForLocation(context){
+      const store = context;
+      console.log("back clicked");
+  },
 };

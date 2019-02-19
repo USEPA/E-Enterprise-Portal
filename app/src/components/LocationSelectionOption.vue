@@ -30,6 +30,10 @@
                 </b-form-select>
             </b-input-group>
         </div>
+        <div class="locations-btn-wrapper pt-2 ml-3" :style="{display: user.IsAfterInputDropdownDisplayed}">
+            <button class="usa-button" @click="handleSelectButtonClickForLocation">Select</button>
+            <button class="usa-button" @click="handleBackButtonClickForLocation">Back</button>
+        </div>
     </div>
 </template>
 
@@ -69,8 +73,9 @@
            }),
         },
         methods: {
-           ...mapActions(moduleName, [
-
+           ...mapActions([
+              'handleSelectButtonClickForLocation',
+              'handleBackButtonClickForLocation',
            ]),
            starClick() {
                if (this.$refs['click-star'].classList.contains('fas')) {

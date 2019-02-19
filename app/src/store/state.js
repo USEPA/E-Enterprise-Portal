@@ -73,6 +73,7 @@ const state = {
       time_units: ''
     },
     inputBoxTextAfterSubmit: '',
+    userSavedLocations: [],
   },
   loginBtnHoverMessage: 'Use an EPA, CDX, or a social media account to login',
   navMargin: {
