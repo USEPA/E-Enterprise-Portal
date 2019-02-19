@@ -435,17 +435,13 @@ export default {
           }
       }
 
-      console.log(store.getters.getEnvironmentApiURL + '/eep/proxy/service/location?'+ params);
-
-      AppAxios.get(store.getters.getEnvironmentApiURL + '/eep/proxy/service/location?'+ params, {
+      AppAxios.get(store.getters.getEEPAPIURL({endpoint: store.getters.getApiUrl('locationSearch'), params: params}), {
           headers: store.getters.getGETHeaders,
       }).then((response) => {
 
           // Declare variables
           let formatted_response_information = [];
           const return_data = response.data;
-
-          console.log(return_data);
 
           if(params.indexOf("tribe") !== -1) {
               Object.keys(return_data.tribal_information).forEach(function (key) {
