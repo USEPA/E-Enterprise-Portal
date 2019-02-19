@@ -201,7 +201,7 @@
       border: none;
       border-radius: 100%;
       line-height: 30px;
-      color: #fff;
+      color: #FFFFFF;
       background-color: #999;
       transition: all 0.25s ease;
       &.active,
@@ -209,7 +209,8 @@
         margin: 0 2px;
         width: 30px;
         height: 30px;
-        background-color: #337ab7;
+        color:#000000;
+        background-color: #ffffff;
       }
     }
   }
