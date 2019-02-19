@@ -8,7 +8,7 @@
       @sliding-start="onSlideStart"
       @sliding-end="onSlideEnd">
       <!-- customised numbered indicators -->
-      <ol class="carousel-indicators carousel-indicators-numbers">
+      <ol class="carousel-indicators carousel-indicators-numbers mt-1">
         <li data-target="#home-carousel" data-slide-to="0" class="active">1</li>
         <li data-target="#home-carousel" data-slide-to="1">2</li>
         <li data-target="#home-carousel" data-slide-to="2">3</li>
@@ -49,7 +49,7 @@
                 </b-button>
               </router-link>
             </div>
-            <div class="col-md align-self-end">
+            <div class="col-md mb-5 align-self-end">
               <b-embed
                 type="iframe"
                 title="E-Enterprise for the Environment Portal"
