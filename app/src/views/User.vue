@@ -56,10 +56,10 @@
                   </b-input-group>
                 </div>
                 <div id="input-box-results-drop-down" class="pt-3 d-flex">
-                    <b-input-group :style="{display: isDisplayed}">
-                        <label class="col-12 font-weight-bold">Select a zipcode for {{inputBoxTextAfterSubmit}}</label>
+                    <b-input-group :style="{display: user.IsAfterInputDropdownDisplayed}">
+                        <label class="col-12 font-weight-bold">Select a zipcode for {{user.inputBoxTextAfterSubmit}}</label>
                         <b-form-select class="col-4 ml-3">
-                            <template v-for="afterInputOption in afterInputOptions">
+                            <template v-for="afterInputOption in user.optionsAfterInput">
                                 <template v-if="/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(afterInputOption)">
                                     <option>
                                         {{afterInputOption}}
@@ -74,7 +74,7 @@
                         </b-form-select>
                     </b-input-group>
                 </div>
-                  <div class="locations-btn-wrapper pt-2 ml-3" :style="{display: isDisplayed}">
+                  <div class="locations-btn-wrapper pt-2 ml-3" :style="{display: user.IsAfterInputDropdownDisplayed}">
                       <button class="usa-button">Select</button>
                       <button class="usa-button">Back</button>
                   </div>
@@ -181,9 +181,6 @@
       ...mapGetters({
         // map getters go here
         user: 'getUser',
-        afterInputOptions: 'getOptionsAfterInput',
-        isDisplayed: 'getIsAfterInputDropdownDisplayed',
-        inputBoxTextAfterSubmit: 'getInputBoxSelectionAfterSubmit',
       }),
       userInit: {
           get() {
