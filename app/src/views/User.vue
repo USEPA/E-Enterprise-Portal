@@ -44,7 +44,12 @@
                   <p>Until a location is specified, the default location is set to
                   Durham, North Carolina.</p>
                 </div>
-                  <!-- comp here -->
+                  <!-- format this to output the users inputted locations -->
+                  <div id="user-input-locations" v-if="user.userSavedLocations.length > 0">
+                      <template v-for="location in user.userSavedLocations">
+                          {{location.typed_in_location}}
+                      </template>
+                  </div>
                 <LocationSelectionOption></LocationSelectionOption>
               </div>
             </div>

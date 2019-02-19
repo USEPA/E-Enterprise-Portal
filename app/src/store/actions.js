@@ -467,7 +467,7 @@ export default {
           // Commit all of the information to the store
           store.commit('SET_OPTIONS_AFTER_INPUT', formatted_response_information);
 
-          store.commit('SET_INPUT_BOX_TEXT_AFTER_SUBMIT', store.getters.getUser.inputBoxText);
+          store.commit('SET_INPUT_BOX_TEXT', store.getters.getUser.inputBoxText);
 
           // Reset the display none for the populated dropdown
           store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', '');
@@ -483,10 +483,6 @@ export default {
           typed_in_location: store.getters.getUser.inputBoxText,
           selected_location_from_dropdown: store.getters.getUser.dropDownSelection
       });
-
-      // After location is saved to the store, we want to get rid of the buttons for that componenet
-      store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', 'none');
-
   },
   handleBackButtonClickForLocation(context){
       const store = context;

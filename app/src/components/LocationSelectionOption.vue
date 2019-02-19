@@ -14,7 +14,7 @@
         <div id="input-box-results-drop-down" class="pt-3 d-flex">
             <b-input-group :style="{display: user.IsAfterInputDropdownDisplayed}">
                 <label class="col-12 font-weight-bold">Select a zipcode for {{user.inputBoxText}}</label>
-                <b-form-select class="col-4 ml-3" v-model="selectedOption">
+                <b-form-select class="col-4 ml-3" v-model="user.dropDownSelection">
                     <template v-for="afterInputOption in user.optionsAfterInput">
                         <template v-if="/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(afterInputOption)">
                             <option>
