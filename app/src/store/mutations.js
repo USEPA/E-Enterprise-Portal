@@ -124,16 +124,11 @@ export default {
       'init',
       init);
     Vue.set(state.user,
-        'organisation',
-         organisation);
+      'organisation',
+      organisation);
     Vue.set(state.user,
-        'role',
-        role);
-  },
-  [types.SET_USER_OBJECT_FAV_LINKS](state, obj) {
-    Vue.set(state.user.userObject,
-      'field_favorite_links',
-      obj);
+      'role',
+      role);
   },
   [types.SET_USER_OBJECT_ORGANISATION](state, obj) {
     Vue.set(state.user.userObject,

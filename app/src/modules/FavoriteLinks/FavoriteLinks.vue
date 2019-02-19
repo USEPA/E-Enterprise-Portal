@@ -5,8 +5,8 @@
       <div v-html="eepApp.field_html_content.mainCard"/>
       <b-row>
         <b-col
-          md="5"
-          class="my-1">
+          md="4"
+          class="my-1 favorite-links-filter">
           <b-form-group
             horizontal
             label="Filter"
@@ -15,34 +15,35 @@
             <b-input-group>
               <b-form-input
                 id="filter-results"
-                v-model="filter"
-                placeholder="Type to Search"/>
+                v-model="filter"/>
             </b-input-group>
           </b-form-group>
         </b-col>
         <b-col
           md="4"
-          class="my-1">
+          class="my-1 add-fav-column">
           <b-btn
             title="Add a Favorite"
             id="add-favorite"
             @click="openAddModal"
             class="add-favorite-btn"/>
-          <label for="add-favorite" class="d-inline-block pl-1 add-favorite-btn-text">Add a Favorite</label>
+          <label
+            for="add-favorite"
+            class="d-inline-block pl-1 add-favorite-btn-text">Add a Favorite</label>
         </b-col>
         <b-col
-          md="3"
-          class="my-1 pr-4 pl-0">
+          md="4"
+          class="my-1 pr-4 pl-0 favorite-links-rows-column">
           <b-form-group
             horizontal
             label="Rows"
             label-for="row-results"
             class="mb-2">
             <b-form-select
-              class="ml-3"
               id="row-results"
               :options="pageOptions"
-              v-model="perPage"/>
+              v-model="perPage"
+              class="float-right"/>
           </b-form-group>
         </b-col>
       </b-row>
@@ -256,7 +257,7 @@
         this.$root.$emit('bv::show::modal', 'addModalInfo', button);
       },
       closeAddModal() {
-          this.$root.$emit('bv::hide::modal', 'addModalInfo');
+        this.$root.$emit('bv::hide::modal', 'addModalInfo');
       },
       applyAddModal(evt) {
         evt.preventDefault();
@@ -310,25 +311,10 @@
         this.totalRows = filteredItems.length;
         this.currentPage = 1;
       },
-      validateInit() {
-        return (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1);
-      },
       applyChangesToFavoriteLinks() {
-        if (this.validateInit()) {
-          this.apiUserPatch({
-            init: [
-              {
-                value: 'generated-user@e-enterprise',
-              },
-            ],
-            field_favorite_links: this.favoriteLinks,
-          });
-        } else {
-          this.apiUserPatch({
-            init: this.userInit,
-            field_favorite_links: this.favoriteLinks,
-          });
-        }
+        this.apiUserPatch({
+          field_favorite_links: this.favoriteLinks,
+        });
       },
     },
     created() {
@@ -348,61 +334,26 @@
 
 <style scoped
   lang="scss">
-  #app {
-    margin-bottom: 7rem;
-  }
-
-  #favLinks {
-    overflow-y: scroll;
-    max-height: 100%;
-  }
-
+  @import "../../styles/favorite-links";
+  /* To import images */
   h2::before {
-    height: 50px;
-    width: 50px;
     content: url('../../assets/images/bookmark.svg');
   }
 
   .add-favorite-btn {
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-color: #0071c2;
-    width: 2.2rem;
-    height: 2.2rem;
-    border-radius: 50%;
-    background-size: 1.3rem 1.325rem;
     background-image: url('../../assets/images/favorites-add.svg');
   }
 
   .edit-favorite-btn {
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-color: #0071c2;
-    width: 2.2rem;
-    height: 2.2rem;
-    border-radius: 50%;
-    background-size: 1.3rem 1.325rem;
     background-image: url('../../assets/images/favorites-edit.svg');
   }
 
   .delete-favorite-btn {
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-color: #0071c2;
-    width: 2.2rem;
-    height: 2.2rem;
-    border-radius: 50%;
-    background-size: 1.3rem 1.325rem;
     background-image: url('../../assets/images/favorites-empty.svg');
   }
-
-  .form-group {
-    border: 0rem;
-  }
-
-  .add-favorite-btn-text, .add-favorite-btn {
-    position: relative;
-    top: .55rem;
+  /* Fixes bottom of worlbench grey area */
+  #app {
+    margin-bottom: 7rem;
   }
 
 </style>

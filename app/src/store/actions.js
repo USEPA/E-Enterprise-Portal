@@ -159,14 +159,6 @@ export default {
     Vue.cookie.set('userPolicy', true, { expires: '1Y' });
     store.commit('USER_POLICY_COOKIE_DISMISS');
   },
-  setUserObject(context, userObject) {
-    const store = context;
-    store.commit('SET_USER_OBJECT', userObject);
-  },
-  setUserObjectFavLinks(context, userObjectFavLinks) {
-    const store = context;
-    store.commit('SET_USER_OBJECT_FAV_LINKS', userObjectFavLinks);
-  },
   /**
    * API GET request function
    * Stores basic pages from Drupal in state
@@ -402,7 +394,17 @@ export default {
     const apiURL = store.getters.getEnvironmentApiURL;
     const { id } = store.getters.getUser;
     const token = Vue.cookie.get('Token');
-    AppAxios.patch(`${apiURL}/user/${id}?_format=json`, body, {
+    const userInit = store.getters.getUser.init;
+    const updatedBody = body;
+    if (store.dispatch('validateUserInit')) {
+      updatedBody.init =
+          {
+            value: 'generated-user@e-enterprise',
+          };
+    } else {
+      updatedBody.init = userInit;
+    }
+    AppAxios.patch(`${apiURL}/user/${id}?_format=json`, updatedBody, {
       headers: {
         Authorization: `Bearer ${token}`,
         crossDomain: true,
@@ -416,5 +418,10 @@ export default {
       .catch(() => {
         console.log('PATCH => failure');
       });
+  },
+  validateUserInit(context) {
+    const store = context;
+    const userInit = store.getters.getUser.init;
+    return (userInit.length > 0 && userInit[0].value.indexOf('@') < 1);
   },
 };
