@@ -45,7 +45,7 @@
                   Durham, North Carolina.</p>
                 </div>
                   <!-- comp here -->
-                </LocationSelectionOption>
+                <LocationSelectionOption></LocationSelectionOption>
                 <div class="locations-btn-wrapper pt-2 ml-3" :style="{display: user.IsAfterInputDropdownDisplayed}">
                     <button class="usa-button">Select</button>
                     <button class="usa-button">Back</button>

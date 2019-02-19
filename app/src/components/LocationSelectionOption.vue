@@ -36,8 +36,43 @@
 
 <script>
 
+    import { mapActions, mapGetters } from 'vuex';
+    import { AppWrapper, AppModal, AppPlaceholderContent } from '../wadk/WADK';
+    import storeModule from './store/index';
+    import { EventBus } from '../../EventBus';
 
+    const moduleName = 'LocationSelectionOption';
+
+    export default {
+        name: moduleName,
+        components: {
+            AppWrapper,
+        },
+        beforeCreate() {
+
+        },
+        created() {
+            const store = this.$store;
+            if (!(store && store.state && store.state[moduleName])) {
+                store.registerModule(moduleName, storeModule);
+            }
+        },
+        data() {
+            return {
+            };
+        },
+        mounted() {
+
+        },
+        computed: {
+           ...mapGetters({}),
+        },
+        methods: {
+           ...mapActions(moduleName, []),
+        },
+    };
 </script>
+
 
 <style scoped
        lang="scss">
