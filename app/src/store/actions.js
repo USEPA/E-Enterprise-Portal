@@ -396,7 +396,8 @@ export default {
     const token = Vue.cookie.get('Token');
     const userInit = store.getters.getUser.init;
     const updatedBody = body;
-    if (store.getters.getUserInitValidation) {
+    const userInitValid = store.getters.getUserInitValidation;
+    if (userInitValid) {
       updatedBody.init =
           {
             value: 'generated-user@e-enterprise',
