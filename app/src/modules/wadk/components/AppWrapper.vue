@@ -11,8 +11,9 @@
         -->
         <div class="text-left">
           <div class="float-right px-0 text-right">
-            <label for="divider"
-              class="sr-only">{{getTitle}} Menu</label>
+            <label
+              for="divider"
+              class="sr-only">{{ getTitle }} Menu</label>
             <b-dropdown
               :title="`${eepApp.title} Menu`"
               id="divider"
@@ -27,9 +28,14 @@
                 :title="text"
                 @click="widgetMenuModalToIndex(title, $event.target, index)">{{ title }}
               </b-dropdown-item-button>
+              <b-dropdown-item-button
+                @click="onSource">
+                Source
+              </b-dropdown-item-button>
             </b-dropdown>
-            <label for="expander"
-              class="sr-only">Expand {{getTitle}}</label>
+            <label
+              for="expander"
+              class="sr-only">Expand {{ getTitle }}</label>
             <b-button
               :title="`Expand ${eepApp.title}`"
               id="expander"
@@ -50,12 +56,19 @@
             @click="onDescription($event.target)">
             Description</a>
           <span v-show="!!eepApp.source && !!eepApp.field_settings_menu_items.Description">
-            &#8226;</span>
+            &#8226;&nbsp;</span>
+          <a
+            class="text-decoration-underline cursor-pointer link-button"
+            v-show="!!eepApp.source"
+            v-if="getSize === 'small'"
+            @click="onSource($event.target)">Source</a>
+          <span v-if="getSize !== 'small'">Source</span>
           <template
             v-show="!!eepApp.source"
             v-for="(source, index) in eepApp.source">
-            Source:&nbsp;
-            <span :key="index">
+            <span
+              v-if="getSize !== 'small'"
+              :key="index">:
               <a
                 :title="source.text"
                 :href="source.link"
@@ -182,6 +195,12 @@
         const vm = this;
         const keys = Object.keys(this.eepApp.field_settings_menu_items);
         vm.menuModalTabIndex = keys.indexOf('Description');
+        vm.$root.$emit('bv::show::modal', `${vm.eepApp.id}-widget-modal`, button);
+      },
+      onSource(button) {
+        const vm = this;
+        const keys = Object.keys(this.eepApp.field_settings_menu_items);
+        vm.menuModalTabIndex = keys.length;
         vm.$root.$emit('bv::show::modal', `${vm.eepApp.id}-widget-modal`, button);
       },
       widgetMenuModalToIndex(title, button, index) {

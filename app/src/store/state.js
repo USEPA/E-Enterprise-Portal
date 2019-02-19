@@ -54,12 +54,10 @@ const state = {
     favoriteLinks: [],
     IsAfterInputDropdownDisplayed: 'none',
     optionsAfterInput: [],
-    organisation: '',
-    role:'',
     loaded: false,
     init: [],
     organisation: [],
-    role:[],
+    role: [],
     location: {
       zipcode: '',
       city: '',
@@ -68,9 +66,9 @@ const state = {
     tAndCCookieDismiss: false,
     UserPolicyCookieDismiss: false,
     userObject: {},
-    cookie:{
+    cookie: {
       time: '',
-      time_units: ''
+      time_units: '',
     },
     inputBoxTextAfterSubmit: '',
   },
@@ -81,9 +79,9 @@ const state = {
   loginViewAccounts: [],
 
   GETHeaders: {
-      'crossDomain': true,
-      'cache-control': 'no-cache',
-      'Content-Type': 'application/hal+json',
+    crossDomain: true,
+    'cache-control': 'no-cache',
+    'Content-Type': 'application/hal+json',
   },
 };
 
