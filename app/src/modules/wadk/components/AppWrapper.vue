@@ -62,13 +62,13 @@
             v-show="!!eepApp.source"
             v-if="getSize === 'small'"
             @click="onSource($event.target)">Source</a>
-          <span v-if="getSize !== 'small'">Source</span>
+          <span v-if="getSize !== 'small'">Source: </span>
           <template
             v-show="!!eepApp.source"
             v-for="(source, index) in eepApp.source">
             <span
               v-if="getSize !== 'small'"
-              :key="index">:
+              :key="index">
               <a
                 :title="source.text"
                 :href="source.link"
