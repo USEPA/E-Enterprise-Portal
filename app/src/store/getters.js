@@ -115,7 +115,6 @@ export default {
     return state.token.raw;
   },
   getEEPAPIURL: (state, ref) => (variables) => {
-    console.log(variables.endpoint + '?' + variables.params);
     return variables.endpoint + '?' + variables.params;
   },
 };
