@@ -354,7 +354,7 @@
   .delete-favorite-btn {
     background-image: url('../../assets/images/favorites-empty.svg');
   }
-  /* Fixes bottom of worlbench grey area */
+  /* Fixes bottom of workbench grey area */
   #app {
     margin-bottom: 7rem;
   }
