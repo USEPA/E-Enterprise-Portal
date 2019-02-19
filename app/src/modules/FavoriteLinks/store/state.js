@@ -7,7 +7,4 @@ import { commonAppStore } from "../../wadk/WADK";
  * @SEE https://vuex.vuejs.org/guide/state.html
  */
 
-export default {
-  editModalIndex: null,
-
-};
+export default {};
