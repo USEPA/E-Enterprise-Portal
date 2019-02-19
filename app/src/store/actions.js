@@ -415,23 +415,23 @@ export default {
       console.log('PATCH => failure');
     });
   },
-  populateDropdownForUserInput(context, userInput){
+  populateDropdownForUserInput(context){
       // Declare variables
       const store = context;
       let params = '';
 
-      if(/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(userInput)) {
+      if(/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(store.getters.getUser.inputBoxText)) {
           // handle zipcode
-          params = 'zipcode=' + userInput;
+          params = 'zipcode=' + store.getters.getUser.inputBoxText;
       }else {
-          if (userInput.indexOf(',') > -1) {
+          if (store.getters.getUser.inputBoxText.indexOf(',') > -1) {
               // handle city and state
-              let split_city_and_state = userInput.split(',');
+              let split_city_and_state = store.getters.getUser.inputBoxText.split(',');
               let city = split_city_and_state[0].toUpperCase().trim();
               let state = split_city_and_state[1].toUpperCase().trim();
               params = 'city=' + city + '&state=' + state;
           } else {
-              params = 'tribe=' + userInput.toUpperCase().trim();
+              params = 'tribe=' + store.getters.getUser.inputBoxText.toUpperCase().trim();
           }
       }
 
@@ -467,7 +467,7 @@ export default {
           // Commit all of the information to the store
           store.commit('SET_OPTIONS_AFTER_INPUT', formatted_response_information);
 
-          store.commit('SET_INPUT_BOX_TEXT_AFTER_SUBMIT', userInput);
+          store.commit('SET_INPUT_BOX_TEXT_AFTER_SUBMIT', store.getters.getUser.inputBoxText);
 
           // Reset the display none for the populated dropdown
           store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', '');
@@ -476,12 +476,12 @@ export default {
           console.warn(error);
       });
   },
-  handleSelectButtonClickForLocation(context, userSelectedOptions){
+  handleSelectButtonClickForLocation(context){
       const store = context;
 
       store.commit('SAVE_USER_SELECTED_LOCATIONS', {
-          typed_in_location: userSelectedOptions.userInput,
-          selected_location_from_dropdown: userSelectedOptions.dropdownSelection
+          typed_in_location: store.getters.getUser.inputBoxText,
+          selected_location_from_dropdown: store.getters.getUser.dropDownSelection
       });
 
       // After location is saved to the store, we want to get rid of the buttons for that componenet

@@ -89,7 +89,6 @@
                }
            },
           handleSelectButton(){
-                this.$store.commit('SET_INPUT_BOX_TEXT', this.inputBoxText);
                 this.$store.dispatch('handleSelectButtonClickForLocation');
 
           },
