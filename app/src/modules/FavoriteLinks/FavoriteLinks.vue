@@ -16,8 +16,7 @@
               <b-form-input
                 id="filter-results"
                 aria-controls="favorite-links-table"
-                v-model="filter"
-                placeholder="Type to Search"/>
+                v-model="filter"/>
             </b-input-group>
           </b-form-group>
         </b-col>
