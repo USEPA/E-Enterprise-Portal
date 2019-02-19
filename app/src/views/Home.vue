@@ -7,13 +7,13 @@
       v-model="slide"
       @sliding-start="onSlideStart"
       @sliding-end="onSlideEnd">
-      //customised numbered indicators
+      <!-- customised numbered indicators -->
       <ol class="carousel-indicators carousel-indicators-numbers">
         <li data-target="#home-carousel" data-slide-to="0" class="active">1</li>
         <li data-target="#home-carousel" data-slide-to="1">2</li>
         <li data-target="#home-carousel" data-slide-to="2">3</li>
       </ol>
-      // controllers linked to customised indicators
+      <!-- controllers linked to customised indicators -->
       <a class="carousel-control-prev" href="#home-carousel" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="sr-only">Previous</span>
