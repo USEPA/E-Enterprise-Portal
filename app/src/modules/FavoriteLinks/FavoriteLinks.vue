@@ -41,12 +41,11 @@
             label-for="row-results"
             class="mb-2">
             <b-form-select
-              class="ml-3"
               aria-controls="favorite-links-table"
               id="row-results"
               :options="pageOptions"
               v-model="perPage"
-              class="float-right"/>
+              class="float-right ml-3"/>
           </b-form-group>
         </b-col>
       </b-row>
