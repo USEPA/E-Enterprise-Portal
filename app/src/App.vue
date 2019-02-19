@@ -58,7 +58,7 @@
               modal-ref="cookie_modal"
               title="Your session is about to expire">
         <!-- Modal content -->
-        <p>Your session will expire in {{timeLeftUntilLogout}} minute(s).
+        <p>Your session will expire in {{user.timeLeftUntilLogout}} minute(s).
             If you choose not to extend, then you will be logged out.</p>
         <p>Would you like to extend your session?</p>
         <template slot="footer">
@@ -101,7 +101,7 @@
         ENV: 'getEnvironment',
         navMargin: 'getnavMargin',
         basicPages: 'getBasicPages',
-        timeLeftUntilLogout: 'getTimeLeftUntilLogout',
+        user: 'getUser',
     }),
     // @todo clean up variable names here
     environmentName() {

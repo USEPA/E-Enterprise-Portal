@@ -52,6 +52,10 @@ const state = {
     name: '',
     mail: '',
     favoriteLinks: [],
+    IsAfterInputDropdownDisplayed: 'none',
+    optionsAfterInput: [],
+    organisation: '',
+    role:'',
     loaded: false,
     init: [],
     organisation: [],
@@ -68,12 +72,14 @@ const state = {
       time: '',
       time_units: ''
     },
+    inputBoxTextAfterSubmit: '',
   },
   loginBtnHoverMessage: 'Use an EPA, CDX, or a social media account to login',
   navMargin: {
     'margin-top': 0,
   },
   loginViewAccounts: [],
+
   GETHeaders: {
       'crossDomain': true,
       'cache-control': 'no-cache',

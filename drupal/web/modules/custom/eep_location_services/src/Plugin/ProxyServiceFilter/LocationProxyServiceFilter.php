@@ -43,6 +43,7 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
     (!isset($query['zipcode'])) ?: $this->payload['zipcode'][] = trim($query['zipcode']);
     (!isset($query['city'])) ?: $this->payload['city'][] = ucwords(trim($query['city']));
     (!isset($query['state'])) ?: $this->payload['state'][] = strtoupper(trim($query['state']));
+    (!isset($query['tribe'])) ?: $this->payload['tribe'][] = strtoupper(trim($query['tribe']));
 
     // If the user hands off a zip code
     if ($query['zipcode']) {
@@ -79,6 +80,25 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
         }
       }
     }
+
+    if($query['tribe']){
+        $tribe_response = $this->gpo_retrieve_tribal_information($query['tribe']);
+        $this->payload['tribal_information_response'] =  json_decode($tribe_response->getBody(), FALSE);
+
+        // Loop through the first time to find all of the Tribal names.
+        foreach ($this->payload['tribal_information_response']->features as $feature){
+            $tribe_name = $feature->attributes->TRIBE_NAME_CLEAN;
+            if(!ArrayHelper::in_array($tribe_name, $this->payload['tribes'])){
+                $current_tribe_zipcodes = [];
+                foreach($this->payload['tribal_information_response']->features as $feature_inner){
+                    if($tribe_name === $feature_inner->attributes->TRIBE_NAME_CLEAN){
+                        $current_tribe_zipcodes[] = $feature_inner->attributes->ZCTA;
+                    }
+                }
+                $this->payload['tribes'][$tribe_name] = $current_tribe_zipcodes;
+            }
+        }
+    }
   }
 
   /**
@@ -88,12 +108,23 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
    */
   public function postfetch() {
 
+    $content = [];
+
     // Build content
-    $content = [
-      'city' => $this->payload['city'],
-      'state' => $this->payload['state'],
-      'zipcode' => $this->payload['zipcode'],
-    ];
+    if(!isset($this->payload['tribe'])){
+        $content = [
+          'city' => $this->payload['city'],
+          'state' => $this->payload['state'],
+          'zipcode' => $this->payload['zipcode'],
+        ];
+    }else{
+        $content = [
+            'tribal_information' => $this->payload['tribes'],
+        ];
+    }
+
+
+
     $final_content = \GuzzleHttp\json_encode($content);
 
     // Update the response
@@ -262,7 +293,7 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
       // Get Zip Code to Tribal Area Lookup table as json
       // https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services
       $zip_pop_url = $this->request->getUri() . '/ZipToTribalLookups_WFL/FeatureServer/1/query?where=UPPER%28TRIBE_NAME_CLEAN%29+LIKE+%27%25' . $cleaned_city . '%25%27&outFields=*&orderByFields=ZCTA&f=pjson';
-      $response = $this->make_request_and_receive_response($zip_tribe_url);
+      $response = $this->make_request_and_receive_response($zip_pop_url);
       $decoded_response = json_decode($response->getBody(), FALSE);
 
       if (!empty($decoded_response->features)) {
@@ -298,5 +329,11 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
     }
 
     return $response;
+  }
+
+  public function gpo_retrieve_tribal_information($tribe){
+      $tribe_url = $this->request->getUri() . '/ZipToTribalLookups_WFL/FeatureServer/1/query?where=UPPER%28TRIBE_NAME_CLEAN%29+LIKE+%27%25' . $tribe . '%25%27&outFields=*&orderByFields=ZCTA&f=pjson';
+      $response = $this->make_request_and_receive_response($tribe_url);
+      return $response;
   }
 }
