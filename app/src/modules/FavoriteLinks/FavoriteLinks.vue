@@ -15,6 +15,7 @@
             <b-input-group>
               <b-form-input
                 id="filter-results"
+                aria-controls="favorite-links-table"
                 v-model="filter"
                 placeholder="Type to Search"/>
             </b-input-group>
@@ -24,6 +25,7 @@
           md="4"
           class="my-1">
           <b-btn
+            title="Add a Favorite"
             id="add-favorite"
             @click="openAddModal"
             class="add-favorite-btn"/>
@@ -39,6 +41,7 @@
             class="mb-2">
             <b-form-select
               class="ml-3"
+              aria-controls="favorite-links-table"
               id="row-results"
               :options="pageOptions"
               v-model="perPage"/>
@@ -49,6 +52,7 @@
       <!--datatable-->
       <b-table
         hover
+        id="favorite-links-table"
         :items="favoriteLinks"
         :fields="fields"
         :current-page="currentPage"
@@ -57,8 +61,7 @@
         :sort-by.sync="sortBy"
         :sort-desc.sync="sortDesc"
         :sort-direction="sortDirection"
-        @filtered="onFiltered"
-      >
+        @filtered="onFiltered">
 
         <template
           slot="first"
@@ -69,14 +72,15 @@
         </template>
 
         <template
-          v-if='favoriteLinksLoaded'
           slot="actions"
           slot-scope="row">
           <b-button
+            title="Delete Favorite"
             size="sm"
             @click="deleteFavLink(row.item, row.index)"
             class="delete-favorite-btn mr-1"/>
           <b-button
+            title="Edit Favorite"
             size="sm"
             @click="openEditModal(row.item, row.index, $event.target)"
             class="edit-favorite-btn mr-1"/>

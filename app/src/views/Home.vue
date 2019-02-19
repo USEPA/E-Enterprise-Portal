@@ -2,13 +2,27 @@
   <div class="home">
     <b-carousel
       id="home-carousel"
-      controls
-      indicators
       background="#ababab"
       :interval="0"
       v-model="slide"
       @sliding-start="onSlideStart"
       @sliding-end="onSlideEnd">
+      <!-- customised numbered indicators -->
+      <ol class="carousel-indicators carousel-indicators-numbers mt-1">
+        <li data-target="#home-carousel" data-slide-to="0" class="active">1</li>
+        <li data-target="#home-carousel" data-slide-to="1">2</li>
+        <li data-target="#home-carousel" data-slide-to="2">3</li>
+      </ol>
+      <!-- controllers linked to customised indicators -->
+      <a class="carousel-control-prev" href="#home-carousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#home-carousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+
       <!-- Text slides with image -->
       <b-carousel-slide
         class="col"
@@ -35,7 +49,7 @@
                 </b-button>
               </router-link>
             </div>
-            <div class="col-md align-self-end">
+            <div class="col-md mb-5 align-self-end">
               <b-embed
                 type="iframe"
                 title="E-Enterprise for the Environment Portal"
@@ -109,7 +123,7 @@
                 src="../assets/images/my-topics-large.png">
             </div>
             <div class="slide-details col-md-6 align-self-end">
-              <h2>Find Local Government Resources</h2>
+              <h2>A Tool Suite for Your Environmental Needs</h2>
               <p>
                 The local government component will provide powerful, easy-to-use
                 tools that will enable local governments to make better
@@ -173,10 +187,38 @@
       font-weight: 300;
     }
 
-    p {
-      // font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
-      font-weight: 300;
+  p {
+    // font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
+    font-weight: 300;
+  }
+  .carousel-indicators-numbers {
+    li {
+      text-indent: 0;
+      text-align: center;
+      margin: 0 2px;
+      width: 30px;
+      height: 30px;
+      border: none;
+      border-radius: 100%;
+      line-height: 30px;
+      color: #FFFFFF;
+      background-color: #999;
+      transition: all 0.25s ease;
+      &.active,
+      &:hover {
+        margin: 0 2px;
+        width: 30px;
+        height: 30px;
+        color:#000000;
+        background-color: #ffffff;
+      }
     }
+  }
+  .carousel-controls {
+    position: relative;
+    width: 300px;
+    margin: 0 auto;
+  }
 
     .carousel-caption {
       position: relative;

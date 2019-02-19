@@ -278,8 +278,8 @@ export default {
     const { vm } = payload;
 
     // Cookie information from the store
-    const COOKIE_EXPIRATION_TIME = store.getters.getCookieInfo.time
-      + store.getters.getCookieInfo.time_units;
+    const COOKIE_EXPIRATION_TIME = store.getters.getUser.cookie.time
+      + store.getters.getUser.cookie.time_units;
 
     Vue.cookie.set('userLoggedIn', true, { expires: COOKIE_EXPIRATION_TIME });
     Vue.cookie.set('uid', store.getters.getUser.id, { expires: COOKIE_EXPIRATION_TIME });
@@ -326,7 +326,7 @@ export default {
         const uid = vars.uid;
 
         // Grabs the static cookie time from the store
-        const COOKIE_EXPIRATION_TIME = store.getters.getCookieInfo.time + store.getters.getCookieInfo.time_units;
+        const COOKIE_EXPIRATION_TIME = store.getters.getUser.cookie.time + store.getters.getUser.cookie.time_units;
 
         // Set another cookie saying they logged in
         Vue.cookie.set('userLoggedIn', true, { expires: COOKIE_EXPIRATION_TIME });
@@ -353,9 +353,9 @@ export default {
           if (!Vue.cookie.get('userLoggedIn')) {
             store.dispatch('userLogOut');
           } else {
-            if (store.getters.getLogInTime) {
-              minutes_difference = Math.floor((Math.abs(new Date((store.getters.getLogInTime.getTime() +
-                ((store.getters.getCookieInfo.time) * 60 * 1000))) - (new Date())) / 1000) / 60) % 60;
+            if (store.getters.getUser.loggedInTime) {
+              minutes_difference = Math.floor((Math.abs(new Date((store.getters.getUser.loggedInTime.getTime() +
+                ((store.getters.getUser.cookie.time) * 60 * 1000))) - (new Date())) / 1000) / 60) % 60;
             } else {
               clearInterval(cookie_check);
             }
@@ -435,17 +435,13 @@ export default {
           }
       }
 
-      console.log(store.getters.getEnvironmentApiURL + '/eep/proxy/service/location?'+ params);
-
-      AppAxios.get(store.getters.getEnvironmentApiURL + '/eep/proxy/service/location?'+ params, {
+      AppAxios.get(store.getters.getEEPAPIURL({endpoint: store.getters.getApiUrl('locationSearch'), params: params}), {
           headers: store.getters.getGETHeaders,
       }).then((response) => {
 
           // Declare variables
           let formatted_response_information = [];
           const return_data = response.data;
-
-          console.log(return_data);
 
           if(params.indexOf("tribe") !== -1) {
               Object.keys(return_data.tribal_information).forEach(function (key) {
