@@ -37,9 +37,8 @@
 <script>
 
     import { mapActions, mapGetters } from 'vuex';
-    import { AppWrapper, AppModal, AppPlaceholderContent } from '../wadk/WADK';
-    import storeModule from './store/index';
-    import { EventBus } from '../../EventBus';
+    import { AppWrapper, AppModal, AppPlaceholderContent } from '../modules/wadk/WADK';
+    import { EventBus } from '../EventBus';
 
     const moduleName = 'LocationSelectionOption';
 
@@ -65,10 +64,28 @@
 
         },
         computed: {
-           ...mapGetters({}),
+           ...mapGetters({
+                user: 'getUser',
+           }),
         },
         methods: {
-           ...mapActions(moduleName, []),
+           ...mapActions(moduleName, [
+
+           ]),
+           starClick() {
+               if (this.$refs['click-star'].classList.contains('fas')) {
+                  this.$refs['click-star'].classList.remove('fas');
+                  this.$refs['click-star'].classList.add('far');
+               } else {
+                  this.$refs['click-star'].classList.remove('far');
+                  this.$refs['click-star'].classList.add('fas');
+               }
+           },
+           submitInput(event){
+               if(event.which === 13){
+                   this.$store.dispatch('populateDropdownForUserInput', this.inputBoxText);
+               }
+           },
         },
     };
 </script>

@@ -239,11 +239,6 @@
             };
             this.apiUserPatch(params);
         },
-        submitInput(event){
-            if(event.which === 13){
-                this.$store.dispatch('populateDropdownForUserInput', this.inputBoxText);
-            }
-        }
     },
   };
 </script>
