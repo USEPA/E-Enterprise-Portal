@@ -101,7 +101,7 @@ export default {
     const name = obj.name[0].value;
     const { init } = obj;
     let { mail } = state.user;
-    if (!!obj.mail[0]) {
+    if (obj.mail[0]) {
       mail = obj.mail[0].value;
     }
     const favoriteLinks = obj.field_favorite_links;

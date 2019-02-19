@@ -396,7 +396,7 @@ export default {
     const token = Vue.cookie.get('Token');
     const userInit = store.getters.getUser.init;
     const updatedBody = body;
-    if (store.dispatch('validateUserInit')) {
+    if (store.getters.getUserInitValidation) {
       updatedBody.init =
           {
             value: 'generated-user@e-enterprise',
@@ -417,70 +417,60 @@ export default {
       console.log('PATCH => failure');
     });
   },
-  populateDropdownForUserInput(context, userInput){
-      // Declare variables
-      const store = context;
-      let params = '';
+  populateDropdownForUserInput(context, userInput) {
+    // Declare variables
+    const store = context;
+    let params = '';
 
-      if(/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(userInput)) {
-          // handle zipcode
-          params = 'zipcode=' + userInput;
-      }else {
-          if (userInput.indexOf(',') > -1) {
-              // handle city and state
-              let split_city_and_state = userInput.split(',');
-              let city = split_city_and_state[0].toUpperCase().trim();
-              let state = split_city_and_state[1].toUpperCase().trim();
-              params = 'city=' + city + '&state=' + state;
-          } else {
-              params = 'tribe=' + userInput.toUpperCase().trim();
-          }
+    if (/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(userInput)) {
+      // handle zipcode
+      params = `zipcode=${userInput}`;
+    } else if (userInput.indexOf(',') > -1) {
+      // handle city and state
+      const split_city_and_state = userInput.split(',');
+      const city = split_city_and_state[0].toUpperCase().trim();
+      const state = split_city_and_state[1].toUpperCase().trim();
+      params = `city=${city}&state=${state}`;
+    } else {
+      params = `tribe=${userInput.toUpperCase().trim()}`;
+    }
+
+    AppAxios.get(store.getters.getEEPAPIURL({ endpoint: store.getters.getApiUrl('locationSearch'), params }), {
+      headers: store.getters.getGETHeaders,
+    }).then((response) => {
+      // Declare variables
+      let formatted_response_information = [];
+      const return_data = response.data;
+
+      if (params.indexOf('tribe') !== -1) {
+        Object.keys(return_data.tribal_information).forEach((key) => {
+          // Declare variables
+          let i;
+
+          // Push name onto array
+          formatted_response_information.push(key);
+
+          // Push each zipcode on array
+          return_data.tribal_information[key].forEach((item) => {
+            formatted_response_information.push(item);
+          });
+        });
+      } else if (params.indexOf('zipcode') !== -1) {
+        console.log('hit zipcode');
+        console.log(return_data);
+      } else if (params.indexOf('city') !== -1 && params.indexOf('state') !== -1) {
+        formatted_response_information = return_data.zipcode;
       }
 
-      AppAxios.get(store.getters.getEEPAPIURL({endpoint: store.getters.getApiUrl('locationSearch'), params: params}), {
-          headers: store.getters.getGETHeaders,
-      }).then((response) => {
+      // Commit all of the information to the store
+      store.commit('SET_OPTIONS_AFTER_INPUT', formatted_response_information);
 
-          // Declare variables
-          let formatted_response_information = [];
-          const return_data = response.data;
+      store.commit('SET_INPUT_BOX_TEXT_AFTER_SUBMIT', userInput);
 
-          if(params.indexOf("tribe") !== -1) {
-              Object.keys(return_data.tribal_information).forEach(function (key) {
-                  // Declare variables
-                  let i;
-
-                  // Push name onto array
-                  formatted_response_information.push(key);
-
-                  // Push each zipcode on array
-                  return_data.tribal_information[key].forEach(function (item) {
-                      formatted_response_information.push(item);
-                  });
-              })
-          }else if(params.indexOf("zipcode") !== -1){
-              console.log('hit zipcode');
-              console.log(return_data);
-
-          }else if(params.indexOf("city") !== -1 && params.indexOf("state") !== -1){
-              formatted_response_information = return_data.zipcode;
-          }
-
-          // Commit all of the information to the store
-          store.commit('SET_OPTIONS_AFTER_INPUT', formatted_response_information);
-
-          store.commit('SET_INPUT_BOX_TEXT_AFTER_SUBMIT', userInput);
-
-          // Reset the display none for the populated dropdown
-          store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', '');
-
-      }).catch((error) => {
-          console.warn(error);
-      });
-  },
-  validateUserInit(context) {
-    const store = context;
-    const userInit = store.getters.getUser.init;
-    return (userInit.length > 0 && userInit[0].value.indexOf('@') < 1);
+      // Reset the display none for the populated dropdown
+      store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', '');
+    }).catch((error) => {
+      console.warn(error);
+    });
   },
 };
