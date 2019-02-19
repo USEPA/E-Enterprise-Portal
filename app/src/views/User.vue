@@ -128,6 +128,7 @@
 <script>
   import AppAxios from "axios";
   import { mapActions, mapGetters } from "vuex";
+  import LocationSelectionOption from '@/components/LocationSelectionOption.vue';
 
   const moduleName = 'User';
 
