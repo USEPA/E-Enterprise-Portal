@@ -51,7 +51,7 @@ const state = {
     loggedInTime: null,
     name: '',
     mail: '',
-    favorite_links: [],
+    favoriteLinks: [],
     IsAfterInputDropdownDisplayed: 'none',
     optionsAfterInput: [],
     organisation: '',
