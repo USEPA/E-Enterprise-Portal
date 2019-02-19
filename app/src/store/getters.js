@@ -135,4 +135,13 @@ export default {
   getCookieInfo(state){
     return state.user.cookie;
   },
+  getOptionsAfterInput(state){
+      return state.user.optionsAfterInput;
+  },
+  getIsAfterInputDropdownDisplayed(state){
+    return state.user.IsAfterInputDropdownDisplayed;
+  },
+  getInputBoxSelectionAfterSubmit(state){
+    return state.user.inputBoxTextAfterSubmit;
+  },
 };

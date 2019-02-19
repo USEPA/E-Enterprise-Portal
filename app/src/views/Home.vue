@@ -38,6 +38,7 @@
             <div class="col-md align-self-end">
               <b-embed
                 type="iframe"
+                title="E-Enterprise for the Environment Portal"
                 aspect="16by9"
                 src="https://www.youtube.com/embed/iFv0DYnW1-A?rel=0"
                 allowfullscreen

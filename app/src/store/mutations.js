@@ -184,4 +184,19 @@ export default {
       'cookie',
       obj);
   },
+  [types.SET_OPTIONS_AFTER_INPUT](state, obj){
+      Vue.set(state.user,
+          'optionsAfterInput',
+          obj);
+  },
+  [types.SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED](state, isDisplayed){
+      Vue.set(state.user,
+          'IsAfterInputDropdownDisplayed',
+          isDisplayed);
+  },
+  [types.SET_INPUT_BOX_TEXT_AFTER_SUBMIT](state, newText){
+      Vue.set(state.user,
+          'inputBoxTextAfterSubmit',
+          newText);
+  },
 };
