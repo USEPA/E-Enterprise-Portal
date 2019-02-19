@@ -83,18 +83,6 @@ export default {
   getLoginPageAccounts(state) {
     return state.loginPageAccounts;
   },
-  getUsername(state) {
-    return state.user.name;
-  },
-  getUserEmail(state) {
-    return state.user.mail;
-  },
-  getOrganisation(state) {
-    return state.user.organisation;
-  },
-  getRole(state) {
-    return state.user.role;
-  },
   getUserObject(state) {
     return state.user.userObject;
   },
@@ -123,16 +111,10 @@ export default {
       }
       return loggedIn;
   },
-  getTimeLeftUntilLogout(state){
-    return state.user.timeLeftUntilLogout;
-  },
   getLoggedInToken(state){
     return state.token.raw;
   },
-  getLogInTime(state){
-    return state.user.loggedInTime;
-  },
-  getCookieInfo(state){
-    return state.user.cookie;
+  getEEPAPIURL: (state, ref) => (variables) => {
+    return variables.endpoint + '?' + variables.params;
   },
 };

@@ -39,7 +39,7 @@
           class="col-4-md"
           id="log-in-container">
           <template v-if='displayLoggedInElements'>
-            <span class="mr-3">Welcome {{ username }}</span>
+            <span class="mr-3">Welcome {{ user.name }}</span>
             <button
               variant="outline-secondary"
               class="usa-button"
@@ -104,9 +104,9 @@
       ...mapGetters({
         isLoggedIn: 'getIsLoggedIn',
         bridgeURL: 'getBridgeURL',
-        username: 'getUsername',
         loginBtnHoverMessage: 'getloginBtnHoverMessage',
         displayLoggedInElements: 'getDisplayLoggedInElements',
+        user: 'getUser'
       }),
     },
     methods: {

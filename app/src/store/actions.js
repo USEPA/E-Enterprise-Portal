@@ -270,8 +270,8 @@ export default {
     const { vm } = payload;
 
     // Cookie information from the store
-    const COOKIE_EXPIRATION_TIME = store.getters.getCookieInfo.time
-      + store.getters.getCookieInfo.time_units;
+    const COOKIE_EXPIRATION_TIME = store.getters.getUser.cookie.time
+      + store.getters.getUser.cookie.time_units;
 
     Vue.cookie.set('userLoggedIn', true, { expires: COOKIE_EXPIRATION_TIME });
     Vue.cookie.set('uid', store.getters.getUser.id, { expires: COOKIE_EXPIRATION_TIME });
@@ -318,7 +318,7 @@ export default {
         const uid = vars.uid;
 
         // Grabs the static cookie time from the store
-        const COOKIE_EXPIRATION_TIME = store.getters.getCookieInfo.time + store.getters.getCookieInfo.time_units;
+        const COOKIE_EXPIRATION_TIME = store.getters.getUser.cookie.time + store.getters.getUser.cookie.time_units;
 
         // Set another cookie saying they logged in
         Vue.cookie.set('userLoggedIn', true, { expires: COOKIE_EXPIRATION_TIME });
@@ -345,9 +345,9 @@ export default {
           if (!Vue.cookie.get('userLoggedIn')) {
             store.dispatch('userLogOut');
           } else {
-            if (store.getters.getLogInTime) {
-              minutes_difference = Math.floor((Math.abs(new Date((store.getters.getLogInTime.getTime() +
-                ((store.getters.getCookieInfo.time) * 60 * 1000))) - (new Date())) / 1000) / 60) % 60;
+            if (store.getters.getUser.loggedInTime) {
+              minutes_difference = Math.floor((Math.abs(new Date((store.getters.getUser.loggedInTime.getTime() +
+                ((store.getters.getUser.cookie.time) * 60 * 1000))) - (new Date())) / 1000) / 60) % 60;
             } else {
               clearInterval(cookie_check);
             }
@@ -411,12 +411,71 @@ export default {
         'cache-control': 'no-cache',
         'Content-Type': 'application/json',
       },
-    })
-      .then(() => {
-        console.log('PATCH => success');
-      })
-      .catch(() => {
-        console.log('PATCH => failure');
+    }).then(() => {
+      console.log('PATCH => success');
+    }).catch(() => {
+      console.log('PATCH => failure');
+    });
+  },
+  populateDropdownForUserInput(context, userInput){
+      // Declare variables
+      const store = context;
+      let params = '';
+
+      if(/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(userInput)) {
+          // handle zipcode
+          params = 'zipcode=' + userInput;
+      }else {
+          if (userInput.indexOf(',') > -1) {
+              // handle city and state
+              let split_city_and_state = userInput.split(',');
+              let city = split_city_and_state[0].toUpperCase().trim();
+              let state = split_city_and_state[1].toUpperCase().trim();
+              params = 'city=' + city + '&state=' + state;
+          } else {
+              params = 'tribe=' + userInput.toUpperCase().trim();
+          }
+      }
+
+      AppAxios.get(store.getters.getEEPAPIURL({endpoint: store.getters.getApiUrl('locationSearch'), params: params}), {
+          headers: store.getters.getGETHeaders,
+      }).then((response) => {
+
+          // Declare variables
+          let formatted_response_information = [];
+          const return_data = response.data;
+
+          if(params.indexOf("tribe") !== -1) {
+              Object.keys(return_data.tribal_information).forEach(function (key) {
+                  // Declare variables
+                  let i;
+
+                  // Push name onto array
+                  formatted_response_information.push(key);
+
+                  // Push each zipcode on array
+                  return_data.tribal_information[key].forEach(function (item) {
+                      formatted_response_information.push(item);
+                  });
+              })
+          }else if(params.indexOf("zipcode") !== -1){
+              console.log('hit zipcode');
+              console.log(return_data);
+
+          }else if(params.indexOf("city") !== -1 && params.indexOf("state") !== -1){
+              formatted_response_information = return_data.zipcode;
+          }
+
+          // Commit all of the information to the store
+          store.commit('SET_OPTIONS_AFTER_INPUT', formatted_response_information);
+
+          store.commit('SET_INPUT_BOX_TEXT_AFTER_SUBMIT', userInput);
+
+          // Reset the display none for the populated dropdown
+          store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', '');
+
+      }).catch((error) => {
+          console.warn(error);
       });
   },
   validateUserInit(context) {
