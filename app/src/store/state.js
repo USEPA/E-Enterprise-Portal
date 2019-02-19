@@ -79,7 +79,7 @@ const state = {
   loginViewAccounts: [],
 
   GETHeaders: {
-    crossDomain: true,
+    'crossDomain': true,
     'cache-control': 'no-cache',
     'Content-Type': 'application/hal+json',
   },
