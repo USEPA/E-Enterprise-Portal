@@ -194,11 +194,16 @@ export default {
           'IsAfterInputDropdownDisplayed',
           isDisplayed);
   },
-  [types.SET_INPUT_BOX_TEXT_AFTER_SUBMIT](state, newText){
+  [types.SET_INPUT_BOX_TEXT](state, newText){
       Vue.set(state.user,
-          'inputBoxTextAfterSubmit',
+          'inputBoxText',
           newText);
   },
+  [types.SET_DROPDOWN_SELECTION](state, dropdownSelection){
+      Vue.set(state.user,
+          'dropDownSelection',
+          dropdownSelection);
+  }
   [types.SAVE_USER_SELECTED_LOCATIONS](state, new_location){
       state.user.userSavedLocations.push(new_location);
   },

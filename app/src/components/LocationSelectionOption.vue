@@ -5,7 +5,7 @@
                 <label class="col-12 font-weight-bold">
                     Enter city, state; tribe; or ZIP code
                 </label>
-                <b-form-input id="locationInput" v-model="inputBoxText" @keydown.native="submitInput" class="col-4 ml-3"/>
+                <b-form-input id="locationInput" v-model="user.inputBoxText" @keydown.native="submitInput" class="col-4 ml-3"/>
                 <div class="col-6 cursor-pointer">
                     <i ref="click-star" @click="starClick" class="fas fa-star"/>
                 </div>
@@ -13,8 +13,8 @@
         </div>
         <div id="input-box-results-drop-down" class="pt-3 d-flex">
             <b-input-group :style="{display: user.IsAfterInputDropdownDisplayed}">
-                <label class="col-12 font-weight-bold">Select a zipcode for {{user.inputBoxTextAfterSubmit}}</label>
-                <b-form-select class="col-4 ml-3">
+                <label class="col-12 font-weight-bold">Select a zipcode for {{user.inputBoxText}}</label>
+                <b-form-select class="col-4 ml-3" v-model="selectedOption">
                     <template v-for="afterInputOption in user.optionsAfterInput">
                         <template v-if="/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(afterInputOption)">
                             <option>
@@ -31,8 +31,8 @@
             </b-input-group>
         </div>
         <div class="locations-btn-wrapper pt-2 ml-3" :style="{display: user.IsAfterInputDropdownDisplayed}">
-            <button class="usa-button" @click="handleSelectButtonClickForLocation">Select</button>
-            <button class="usa-button" @click="handleBackButtonClickForLocation">Back</button>
+            <button class="usa-button" @click="handleSelectButton">Select</button>
+            <button class="usa-button" @click="handleBackButton">Back</button>
         </div>
     </div>
 </template>
@@ -55,13 +55,12 @@
 
         },
         created() {
-            const store = this.$store;
-            if (!(store && store.state && store.state[moduleName])) {
-                store.registerModule(moduleName, storeModule);
-            }
+
         },
         data() {
             return {
+                inputBoxText: '',
+                selectedOption: '',
             };
         },
         mounted() {
@@ -74,8 +73,6 @@
         },
         methods: {
            ...mapActions([
-              'handleSelectButtonClickForLocation',
-              'handleBackButtonClickForLocation',
            ]),
            starClick() {
                if (this.$refs['click-star'].classList.contains('fas')) {
@@ -91,6 +88,14 @@
                    this.$store.dispatch('populateDropdownForUserInput', this.inputBoxText);
                }
            },
+          handleSelectButton(){
+                this.$store.commit('SET_INPUT_BOX_TEXT', this.inputBoxText);
+                this.$store.dispatch('handleSelectButtonClickForLocation');
+
+          },
+          handleBackButton(){
+                this.$store.dispatch('handleBackButtonClickForLocation');
+          }
         },
     };
 </script>

@@ -136,7 +136,6 @@
     beforeCreate() {},
     data() {
       return {
-        inputBoxText: '',
         locations: [{}],
         UserDeleteModalInfo: { title:'Delete User' },
         selected: null,

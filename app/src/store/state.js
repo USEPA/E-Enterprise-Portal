@@ -72,7 +72,8 @@ const state = {
       time: '',
       time_units: ''
     },
-    inputBoxTextAfterSubmit: '',
+    inputBoxText: '',
+    dropDownSelection: '',
     userSavedLocations: [],
   },
   loginBtnHoverMessage: 'Use an EPA, CDX, or a social media account to login',

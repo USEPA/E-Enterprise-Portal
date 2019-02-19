@@ -476,11 +476,16 @@ export default {
           console.warn(error);
       });
   },
-  handleSelectButtonClickForLocation(context){
+  handleSelectButtonClickForLocation(context, userSelectedOptions){
       const store = context;
 
+      store.commit('SAVE_USER_SELECTED_LOCATIONS', {
+          typed_in_location: userSelectedOptions.userInput,
+          selected_location_from_dropdown: userSelectedOptions.dropdownSelection
+      });
 
-      console.log("select clicked");
+      // After location is saved to the store, we want to get rid of the buttons for that componenet
+      store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', 'none');
 
   },
   handleBackButtonClickForLocation(context){
