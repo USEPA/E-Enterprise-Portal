@@ -426,7 +426,7 @@ export default {
     if(/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(store.getters.getUser.inputBoxText)) {
         // handle zipcode
         params = 'zipcode=' + store.getters.getUser.inputBoxText;
-    }else {
+    } else {
         if (store.getters.getUser.inputBoxText.indexOf(',') > -1) {
             // handle city and state
             let split_city_and_state = store.getters.getUser.inputBoxText.split(',');
