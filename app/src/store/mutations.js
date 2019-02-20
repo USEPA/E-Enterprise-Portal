@@ -207,4 +207,15 @@ export default {
   [types.SAVE_USER_SELECTED_LOCATIONS](state, new_location){
       state.user.userSavedLocations.push(new_location);
   },
+  [types.DELETE_USER_SELECTED_LOCATION](state, deleted_selection){
+      // Filter the array with the location that they want deleted
+      let filtered_location_array = state.user.userSavedLocations
+              .filter(location => location.typed_in_location != deleted_selection.typed_in_location
+          && location.selected_location_from_dropdown != deleted_selection.selected_location_from_dropdown);
+
+      // Save back to state
+      Vue.set(state.user,
+          'userSavedLocations',
+          filtered_location_array);
+  },
 };

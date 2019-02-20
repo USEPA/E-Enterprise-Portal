@@ -52,14 +52,17 @@
                                             type="text"
                                             class="col-4 ml-3"
                                             disabled/>
-                              <div class="col-6 cursor-pointer">
+                              <div class="col-1 cursor-pointer">
                                   <template v-if="index == 0">
-                                      <i ref="click-star" @click="starClick" class="fas fa-star"/>
+                                      <i :ref="'click-star-' + index" @click="starClick('click-star-' + index)" class="fas fa-star"/>
                                   </template>
                                   <template v-else>
-                                      <i ref="click-star" @click="starClick" class="far fa-star"/>
+                                      <i :ref="'click-star-' + index" @click="starClick('click-star-' + index)" class="far fa-star"/>
                                   </template>
                               </div>
+                              <button class="usa-button" value="x" @click="deleteSelectedLocation({
+                                typed_in_location: location.typed_in_location,
+                                selected_location_from_dropdown: location.selected_location_from_dropdown})">X</button>
                               <span class="col-md-12 pt-1 small">{{location.typed_in_location}}</span>
                           </b-input-group>
                       </template>
@@ -214,16 +217,15 @@
         DeleteEEPUserProfile() {
           console.warn('DELETE PROFILE');
         },
-        starClick(){
+        starClick(ref_index){
             // redo logic for star click
-            if (this.$refs['click-star'][0].classList.contains('fas')) {
-                this.$refs['click-star'][0].classList.remove('fas');
-                this.$refs['click-star'][0].classList.add('far');
+            if (this.$refs[ref_index][0].classList.contains('fas')) {
+                this.$refs[ref_index][0].classList.remove('fas');
+                this.$refs[ref_index][0].classList.add('far');
             } else {
-                this.$refs['click-star'][0].classList.remove('far');
-                this.$refs['click-star'][0].classList.add('fas');
+                this.$refs[ref_index][0].classList.remove('far');
+                this.$refs[ref_index][0].classList.add('fas');
             }
-
         },
         save() {
             if (this.selected != '') {
@@ -257,7 +259,9 @@
             };
             this.apiUserPatch(params);
         },
-
+        deleteSelectedLocation(location){
+            console.log(location);
+        },
     },
   };
 </script>
