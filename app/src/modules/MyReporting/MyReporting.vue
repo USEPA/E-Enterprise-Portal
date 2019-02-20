@@ -1,5 +1,5 @@
 <template>
-  <div id="reportingrow">
+  <div>
     <AppWrapper
       class="pb-5"
       :eep-app="eepApp">
@@ -86,6 +86,8 @@
               </b-row>
               <b-table
                 show-empty
+                fixed
+                class="table-scroll"
                 id="my-reporting-table"
                 stacked="md"
                 :items="items"
@@ -557,5 +559,11 @@
     border: none;
     background-size: 1.3rem 1.325rem;
     background-image: url('/images/minus-circle-solid.svg')
+  }
+  .table-scroll {
+    display:block;
+    width: 100%;
+    height:150px;
+    overflow-y:auto;
   }
 </style>
