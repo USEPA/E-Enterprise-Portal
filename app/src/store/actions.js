@@ -492,6 +492,8 @@ export default {
 
       store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', 'none');
 
+      store.commit('SET_DISPLAY_WHEN_LOCATION_IS_CLICKED', 'none');
+
   },
   handleBackButtonClickForLocation(context){
       const store = context;

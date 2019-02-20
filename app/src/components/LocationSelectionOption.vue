@@ -1,7 +1,7 @@
 <template>
     <div id="comp">
         <div class="pt-3 d-flex">
-            <b-input-group>
+            <b-input-group :style="{display: user.displayWhenNewLocationIsClicked}">
                 <label class="col-12 font-weight-bold">
                     Enter city, state; tribe; or ZIP code
                 </label>
@@ -27,7 +27,7 @@
                 </b-form-select>
             </b-input-group>
         </div>
-        <div class="locations-btn-wrapper pt-2 ml-3" :style="{display: user.IsAfterInputDropdownDisplayed}">
+        <div class="locations-btn-wrapper pt-2 ml-3 pb-3" :style="{display: user.IsAfterInputDropdownDisplayed}">
             <button class="usa-button" @click="handleSelectButton">Select</button>
             <button class="usa-button" @click="handleBackButton">Back</button>
         </div>

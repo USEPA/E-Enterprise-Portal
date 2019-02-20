@@ -68,6 +68,9 @@
                       </template>
                   </div>
                 <LocationSelectionOption></LocationSelectionOption>
+                <div v-if="user.displayWhenNewLocationIsClicked == 'none'">
+                    <button class="usa-button pt-2" @click="revealLocationInputBox">New Location</button>
+                </div>
               </div>
             </div>
           </b-container>
@@ -260,7 +263,10 @@
             this.apiUserPatch(params);
         },
         deleteSelectedLocation(location){
-            console.log(location);
+            this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
+        },
+        revealLocationInputBox(){
+            this.$store.commit('SET_DISPLAY_WHEN_LOCATION_IS_CLICKED', '');
         },
     },
   };

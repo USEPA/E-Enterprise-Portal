@@ -218,4 +218,9 @@ export default {
           'userSavedLocations',
           filtered_location_array);
   },
+  [types.SET_DISPLAY_WHEN_LOCATION_IS_CLICKED](state, css_prop){
+      Vue.set(state.user,
+          'displayWhenNewLocationIsClicked',
+          css_prop);
+  },
 };
