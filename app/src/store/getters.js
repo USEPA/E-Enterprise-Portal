@@ -115,9 +115,8 @@ export default {
     return state.token.raw;
   },
   getEEPAPIURL: (state, ref) => variables => `${variables.endpoint}?${variables.params}`,
-  getUserInitValidation(context) {
-    const store = context;
-    const userInit = store.getters.getUser.init;
+  getUserInitValidation(state) {
+    const userInit = state.user.init;
     return (userInit.length > 0 && userInit[0].value.indexOf('@') < 1);
   },
 };
