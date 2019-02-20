@@ -6,9 +6,6 @@
                     Enter city, state; tribe; or ZIP code
                 </label>
                 <b-form-input id="locationInput" v-model="user.inputBoxText" @keydown.native="submitInput" class="col-4 ml-3"/>
-                <div class="col-6 cursor-pointer">
-                    <i ref="click-star" @click="starClick" class="fas fa-star"/>
-                </div>
             </b-input-group>
         </div>
         <div id="input-box-results-drop-down" class="pt-3 d-flex">
@@ -74,15 +71,6 @@
         methods: {
            ...mapActions([
            ]),
-           starClick() {
-               if (this.$refs['click-star'].classList.contains('fas')) {
-                  this.$refs['click-star'].classList.remove('fas');
-                  this.$refs['click-star'].classList.add('far');
-               } else {
-                  this.$refs['click-star'].classList.remove('far');
-                  this.$refs['click-star'].classList.add('fas');
-               }
-           },
            submitInput(event){
                if(event.which === 13){
                    this.$store.dispatch('populateDropdownForUserInput', this.inputBoxText);

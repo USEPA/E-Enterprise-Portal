@@ -46,13 +46,21 @@
                 </div>
                   <!-- format this to output the users inputted locations -->
                   <div id="user-input-locations" v-if="user.userSavedLocations.length > 0">
-                      <template v-for="location in user.userSavedLocations">
+                      <template v-for="(location, index) in user.userSavedLocations">
                           <b-input-group class="pl-2 pb-2 pt-2">
                               <b-form-input v-model="location.selected_location_from_dropdown"
                                             type="text"
                                             class="col-4 ml-3"
                                             disabled/>
-                              <span class="col-md-12 pt-1 pl-4 small">{{location.typed_in_location}}</span>
+                              <div class="col-6 cursor-pointer">
+                                  <template v-if="index == 0">
+                                      <i ref="click-star" @click="starClick" class="fas fa-star"/>
+                                  </template>
+                                  <template v-else>
+                                      <i ref="click-star" @click="starClick" class="far fa-star"/>
+                                  </template>
+                              </div>
+                              <span class="col-md-12 pt-1 small">{{location.typed_in_location}}</span>
                           </b-input-group>
                       </template>
                   </div>
@@ -206,6 +214,17 @@
         DeleteEEPUserProfile() {
           console.warn('DELETE PROFILE');
         },
+        starClick(){
+            // redo logic for star click
+            if (this.$refs['click-star'][0].classList.contains('fas')) {
+                this.$refs['click-star'][0].classList.remove('fas');
+                this.$refs['click-star'][0].classList.add('far');
+            } else {
+                this.$refs['click-star'][0].classList.remove('far');
+                this.$refs['click-star'][0].classList.add('fas');
+            }
+
+        },
         save() {
             if (this.selected != '') {
                 this.updateOrg();
@@ -238,6 +257,7 @@
             };
             this.apiUserPatch(params);
         },
+
     },
   };
 </script>

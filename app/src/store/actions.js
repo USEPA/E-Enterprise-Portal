@@ -490,6 +490,8 @@ export default {
       // Clear the dropdown list options
       store.commit('SET_OPTIONS_AFTER_INPUT', '');
 
+      store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', 'none');
+
   },
   handleBackButtonClickForLocation(context){
       const store = context;
