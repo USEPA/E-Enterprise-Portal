@@ -59,8 +59,7 @@
             &#8226;&nbsp;</span>
           <a
             class="text-decoration-underline cursor-pointer link-button"
-            v-show="!!eepApp.source"
-            v-if="getSize === 'small'"
+            v-show="!!eepApp.source && getSize === 'small'"
             @click="onSource($event.target)">Source</a>
           <span v-if="getSize !== 'small'">Source: </span>
           <template
