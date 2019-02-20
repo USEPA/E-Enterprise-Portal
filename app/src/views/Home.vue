@@ -22,121 +22,120 @@
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="sr-only">Next</span>
       </a>
-
-      <!-- Text slides with image -->
-      <b-carousel-slide
-        class="col"
-        img-blank>
-        <div class="container">
-          <div class="row">
-            <div class="col-md-6">
-              <h2>Customize your information</h2>
-              <p>
-                The E-Enterprise Portal provides an important new means by which
-                users can customize the types of information presented to them,
-                find and select tools and other resources, and conduct
-                transactions with EPA, Tribes, and States.
-              </p>
-              <p>See the video <span aria-hidden="true">&gt;&gt;</span></p>
-              <router-link to="/workbench">
-                <b-button
-                  id="try-it-carousel-button"
-                  class="btn btn-md float-right"
-                  variant="primary"
-                  :title="tryitTitle"
-                  v-if='!authenticated'>
-                  <i class="fas fa-arrow-circle-right"></i>Try It
-                </b-button>
-              </router-link>
-            </div>
-            <div class="col-md mb-5 align-self-end">
-              <b-embed
-                type="iframe"
-                title="E-Enterprise for the Environment Portal"
-                aspect="16by9"
-                src="https://www.youtube.com/embed/iFv0DYnW1-A?rel=0"
-                allowfullscreen
-                frameborder="0"/>
-            </div>
-          </div>
-        </div>
-      </b-carousel-slide>
-
-      <!-- Slide with blank fluid image to maintain slide aspect ratio -->
-      <b-carousel-slide
-        class="col"
-        img-blank>
-        <div class="container">
-          <div class="row">
-            <div class="slide-details col-md-7">
-              <h2>Access Your State and EPA Accounts</h2>
-              <p>
-                Personalize your E-Enterprise experience by logging in with your state or EPA
-                account. You'll have access to valuable content and tools like My Facility Manager,
-                My Reporting, permits, and more.
-                We will continue to add partners in the future.
-              </p>
-              <router-link
-                to="/login"
-                class="btn btn-md btn-outline-primary pl-1 float-right account-auth"
-                ref="loginBtn"
-                v-if='!authenticated'>
-                <i class="fas fa-lock"></i>&nbsp;
-                Login
-              </router-link>
-            </div>
-            <div class="col-md-5">
-              <img
-                fluid
-                id="my-reporting-img"
-                src="../assets/images/my_reporting.png"
-                alt="My Reporting">
-              <div class="w-100 h-5"></div>
-              <img
-                fluid
-                id="progress-tracker-img"
-                src="../assets/images/progress_tracker.png"
-                alt="Progress Tracker">
-            </div>
-          </div>
-        </div>
-
-      </b-carousel-slide>
-
-      <!-- Slide with blank fluid image to maintain slide aspect ratio -->
-      <b-carousel-slide
-        class="col"
-        img-blank>
-        <div class="container">
-          <div class="row">
-            <div class="slide-image col-md-6 align-self-start">
-              <img
-                class="lgc-roles"
-                alt="Through our What Matters to You screen, you can select locations,
+        <!-- Slide with blank fluid image to maintain slide aspect ratio -->
+        <b-carousel-slide
+                class="col"
+                img-blank>
+            <div class="container">
+                <div class="row">
+                    <div class="slide-image col-md-6 align-self-start">
+                        <img
+                                class="lgc-roles"
+                                alt="Through our What Matters to You screen, you can select locations,
               organizations, and roles that matter to you to see relevant content,
               including local government resources."
-                src="../assets/images/lgc-select-role-magnified.png">
-              <img
-                class="lgc-highlight"
-                alt="You can see and update topics that matter to you in our Resources for Local
+                                src="../assets/images/lgc-select-role-magnified.png">
+                        <img
+                                class="lgc-highlight"
+                                alt="You can see and update topics that matter to you in our Resources for Local
                   Communities widget also."
-                src="../assets/images/my-topics-large.png">
+                                src="../assets/images/my-topics-large.png">
+                    </div>
+                    <div class="slide-details col-md-6 align-self-end">
+                        <h2>A Tool Suite for Your Environmental Needs</h2>
+                        <p>
+                            The local government component will provide powerful, easy-to-use
+                            tools that will enable local governments to make better
+                            decisions, save staff time and money, and provide higher levels
+                            of service to community members.
+                        </p>
+                    </div>
+                    <p class="lgc-calltoaction">Select your location, organization, and role to find
+                        resources.</p>
+                </div>
             </div>
-            <div class="slide-details col-md-6 align-self-end">
-              <h2>A Tool Suite for Your Environmental Needs</h2>
-              <p>
-                The local government component will provide powerful, easy-to-use
-                tools that will enable local governments to make better
-                decisions, save staff time and money, and provide higher levels
-                of service to community members.
-              </p>
+        </b-carousel-slide>
+        <!-- Slide with blank fluid image to maintain slide aspect ratio -->
+        <b-carousel-slide
+                class="col"
+                img-blank>
+            <div class="container">
+                <div class="row">
+                    <div class="slide-details col-md-7">
+                        <h2>Access Your State and EPA Accounts</h2>
+                        <p>
+                            Personalize your E-Enterprise experience by logging in with your state or EPA
+                            account. You'll have access to valuable content and tools like My Facility Manager,
+                            My Reporting, permits, and more.
+                            We will continue to add partners in the future.
+                        </p>
+                        <router-link
+                                to="/login"
+                                class="btn btn-md btn-outline-primary pl-1 float-right account-auth"
+                                ref="loginBtn"
+                                v-if='!authenticated'>
+                            <i class="fas fa-lock"></i>&nbsp;
+                            Login
+                        </router-link>
+                    </div>
+                    <div class="col-md-5">
+                        <img
+                                fluid
+                                id="my-reporting-img"
+                                src="../assets/images/my_reporting.png"
+                                alt="My Reporting">
+                        <div class="w-100 h-5"></div>
+                        <img
+                                fluid
+                                id="progress-tracker-img"
+                                src="../assets/images/progress_tracker.png"
+                                alt="Progress Tracker">
+                    </div>
+                </div>
             </div>
-            <p class="lgc-calltoaction">Select your location, organization, and role to find
-              resources.</p>
-          </div>
-        </div>
 
-      </b-carousel-slide>
+        </b-carousel-slide>
+
+
+        <!-- Text slides with image -->
+        <b-carousel-slide
+                class="col"
+                img-blank>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2>Customize your information</h2>
+                        <p>
+                            The E-Enterprise Portal provides an important new means by which
+                            users can customize the types of information presented to them,
+                            find and select tools and other resources, and conduct
+                            transactions with EPA, Tribes, and States.
+                        </p>
+                        <p>See the video <span aria-hidden="true">&gt;&gt;</span></p>
+                        <router-link to="/workbench">
+                            <b-button
+                                    id="try-it-carousel-button"
+                                    class="btn btn-md float-right"
+                                    variant="primary"
+                                    :title="tryitTitle"
+                                    v-if='!authenticated'>
+                                <i class="fas fa-arrow-circle-right"></i>Try It
+                            </b-button>
+                        </router-link>
+                    </div>
+                    <div class="col-md mb-5 align-self-end">
+                        <b-embed
+                                type="iframe"
+                                title="E-Enterprise for the Environment Portal"
+                                aspect="16by9"
+                                src="https://www.youtube.com/embed/iFv0DYnW1-A?rel=0"
+                                allowfullscreen
+                                frameborder="0"/>
+                    </div>
+                </div>
+            </div>
+        </b-carousel-slide>
+
 
     </b-carousel>
   </div>
