@@ -1,20 +1,15 @@
 .bootstrap-vue-table-scroll {
   width: 100%;
   table-layout: fixed;
-
 }
-
 td:nth-child(1), th:nth-child(1) { min-width: 200px; }
 td:nth-child(2), th:nth-child(2) { min-width: 160px; }
 td:nth-child(3), th:nth-child(3) { width: 80px; }
-
 .thead-fixed {
-  display:block;
+  display: block;
 }
-
-
-  .tbody-scroll {
-    display: block;
-    overflow-y: auto;
-    height: 95px;
-  }
+.tbody-scroll {
+  display: block;
+  overflow-y: auto;
+  height: 95px;
+}
