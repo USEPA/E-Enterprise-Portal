@@ -16,28 +16,8 @@ h2::before {
   width: 50px;
 }
 
-.add-favorite-btn {
+.add-favorite-btn, .edit-favorite-btn, .delete-favorite-btn {
   top: -0.1rem;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-color: #0071c2;
-  width: 2.2rem;
-  height: 2.2rem;
-  border-radius: 50%;
-  background-size: 1.3rem 1.325rem;
-}
-
-.edit-favorite-btn {
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-color: #0071c2;
-  width: 2.2rem;
-  height: 2.2rem;
-  border-radius: 50%;
-  background-size: 1.3rem 1.325rem;
-}
-
-.delete-favorite-btn {
   background-repeat: no-repeat;
   background-position: center center;
   background-color: #0071c2;
@@ -69,18 +49,7 @@ h2::before {
 }
 
 @media all and (min-width: 768px) and (max-width: 1200px) {
-  .favorite-links-filter {
-    flex-basis: 100%;
-    max-width: 100%;
-  }
-
-  .add-fav-column {
-    flex-basis: 100%;
-    max-width: 100%;
-
-  }
-
-  .favorite-links-rows-column {
+  .favorite-links-filter, .add-fav-column, .favorite-links-rows-column {
     flex-basis: 100%;
     max-width: 100%;
   }
