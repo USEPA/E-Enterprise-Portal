@@ -31,12 +31,12 @@
             <div class="slide-image col-md-6 align-self-start">
               <img class="lgc-roles"
                    alt="Through our What Matters to You screen, you can select locations,
-                             organizations, and roles that matter to you to see relevant content,
-                             including local government resources."
+                        organizations, and roles that matter to you to see relevant content,
+                        including local government resources."
                    src="../assets/images/lgc-select-role-magnified.png">
               <img class="lgc-highlight"
                    alt="You can see and update topics that matter to you in our Resources for Local
-                             Communities widget also."
+                        Communities widget also."
                    src="../assets/images/my-topics-large.png">
             </div>
             <div class="slide-details col-md-6 align-self-end">
