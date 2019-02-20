@@ -179,9 +179,6 @@
       ...mapGetters({
         // map getters go here
         user: 'getUser',
-        afterInputOptions: 'getOptionsAfterInput',
-        isDisplayed: 'getIsAfterInputDropdownDisplayed',
-        inputBoxTextAfterSubmit: 'getInputBoxSelectionAfterSubmit',
       }),
       userInit: {
           get() {
