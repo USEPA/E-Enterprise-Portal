@@ -419,62 +419,62 @@ export default {
     });
   },
   populateDropdownForUserInput(context){
+    // Declare variables
+    const store = context;
+    let params = '';
+
+    if(/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(store.getters.getUser.inputBoxText)) {
+        // handle zipcode
+        params = 'zipcode=' + store.getters.getUser.inputBoxText;
+    }else {
+        if (store.getters.getUser.inputBoxText.indexOf(',') > -1) {
+            // handle city and state
+            let split_city_and_state = store.getters.getUser.inputBoxText.split(',');
+            let city = split_city_and_state[0].toUpperCase().trim();
+            let state = split_city_and_state[1].toUpperCase().trim();
+            params = 'city=' + city + '&state=' + state;
+        } else {
+            params = 'tribe=' + store.getters.getUser.inputBoxText.toUpperCase().trim();
+        }
+    }
+    AppAxios.get(store.getters.getEEPAPIURL({endpoint: store.getters.getApiUrl('locationSearch'), params: params}), {
+        headers: store.getters.getGETHeaders,
+    }).then((response) => {
+
       // Declare variables
-      const store = context;
-      let params = '';
-
-      if(/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(store.getters.getUser.inputBoxText)) {
-          // handle zipcode
-          params = 'zipcode=' + store.getters.getUser.inputBoxText;
-      }else {
-          if (store.getters.getUser.inputBoxText.indexOf(',') > -1) {
-              // handle city and state
-              let split_city_and_state = store.getters.getUser.inputBoxText.split(',');
-              let city = split_city_and_state[0].toUpperCase().trim();
-              let state = split_city_and_state[1].toUpperCase().trim();
-              params = 'city=' + city + '&state=' + state;
-          } else {
-              params = 'tribe=' + store.getters.getUser.inputBoxText.toUpperCase().trim();
-          }
-      }
-
-      AppAxios.get(store.getters.getEEPAPIURL({endpoint: store.getters.getApiUrl('locationSearch'), params: params}), {
-          headers: store.getters.getGETHeaders,
-      }).then((response) => {
-
-          // Declare variables
-          let formatted_response_information = [];
-          const return_data = response.data;
-
+      let formatted_response_information = [];
+      const return_data = response.data;
       if (params.indexOf('tribe') !== -1) {
-        Object.keys(return_data.tribal_information).forEach((key) => {
-          // Declare variables
-          let i;
+          Object.keys(return_data.tribal_information).forEach((key) => {
+            // Declare variables
+            let i;
 
-          // Push name onto array
-          formatted_response_information.push(key);
+            // Push name onto array
+            formatted_response_information.push(key);
 
-          // Push each zipcode on array
-          return_data.tribal_information[key].forEach((item) => {
-            formatted_response_information.push(item);
+            // Push each zipcode on array
+            return_data.tribal_information[key].forEach((item) => {
+                formatted_response_information.push(item);
+            });
+
           });
-        });
       } else if (params.indexOf('zipcode') !== -1) {
-        console.log('hit zipcode');
-        console.log(return_data);
+          console.log('hit zipcode');
+          console.log(return_data);
       } else if (params.indexOf('city') !== -1 && params.indexOf('state') !== -1) {
-        formatted_response_information = return_data.zipcode;
+          formatted_response_information = return_data.zipcode;
       }
 
       // Commit all of the information to the store
       store.commit('SET_OPTIONS_AFTER_INPUT', formatted_response_information);
-
-          store.commit('SET_INPUT_BOX_TEXT', store.getters.getUser.inputBoxText);
-
+      store.commit('SET_INPUT_BOX_TEXT', store.getters.getUser.inputBoxText);
       // Reset the display none for the populated dropdown
       store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', '');
+
     }).catch((error) => {
+
       console.warn(error);
+
     });
   },
   handleSelectButtonClickForLocation(context){

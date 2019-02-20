@@ -177,29 +177,29 @@
         user: 'getUser',
       }),
       userInit: {
-          get() {
-              return this.user.init;
-          }
+        get() {
+            return this.user.init;
+        }
       },
       username: {
-          get() {
-              return this.user.name;
-          }
+        get() {
+            return this.user.name;
+        }
       },
       mail: {
-          get() {
-              return this.user.mail;
-          }
+        get() {
+            return this.user.mail;
+        }
       },
       organisation: {
-          get() {
-              return this.user.organisation;
-          }
+        get() {
+            return this.user.organisation;
+        }
       },
       role: {
-          get() {
-              return this.user.role;
-          }
+        get() {
+            return this.user.role;
+        }
       },
     },
     mounted() {
@@ -211,63 +211,63 @@
       });
     },
     methods: {
-        ...mapActions([
-          'apiUserPatch'
-        ]),
-        hideUserDeleteModal() {
-          this.$refs.UserDeleteModal.hide();
-        },
-        DeleteEEPUserProfile() {
-          console.warn('DELETE PROFILE');
-        },
-        starClick(ref_index){
-            // redo logic for star click
-            if (this.$refs[ref_index][0].classList.contains('fas')) {
-                this.$refs[ref_index][0].classList.remove('fas');
-                this.$refs[ref_index][0].classList.add('far');
-            } else {
-                this.$refs[ref_index][0].classList.remove('far');
-                this.$refs[ref_index][0].classList.add('fas');
-            }
-        },
-        save() {
-            if (this.selected != '') {
-                this.updateOrg();
-            }
-            if (this.selectedRole != '') {
-                this.updateRole();
-            }
-        },
-        updateOrg() {
-            const firstField = 'org';
-            const secondField = this.selected;
-            this.organisations = this.organisations.concat({
-                first: firstField,
-                second: secondField
-            });
-            const orgParams = {
-                field_organisation: this.organisations
-            };
-            this.apiUserPatch(orgParams);
-        },
-        updateRole() {
-            const firstField = 'role';
-            const secondField = this.selectedRole;
-            this.roles = this.roles.concat({
-                first: firstField,
-                second: secondField
-            });
-            const params = {
-                field_role: this.roles
-            };
-            this.apiUserPatch(params);
-        },
-        deleteSelectedLocation(location){
-            this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
-        },
-        revealLocationInputBox(){
-            this.$store.commit('SET_DISPLAY_WHEN_LOCATION_IS_CLICKED', '');
-        },
+      ...mapActions([
+        'apiUserPatch'
+      ]),
+      hideUserDeleteModal() {
+        this.$refs.UserDeleteModal.hide();
+      },
+      DeleteEEPUserProfile() {
+        console.warn('DELETE PROFILE');
+      },
+      starClick(ref_index){
+          // redo logic for star click
+          if (this.$refs[ref_index][0].classList.contains('fas')) {
+              this.$refs[ref_index][0].classList.remove('fas');
+              this.$refs[ref_index][0].classList.add('far');
+          } else {
+              this.$refs[ref_index][0].classList.remove('far');
+              this.$refs[ref_index][0].classList.add('fas');
+          }
+      },
+      save() {
+          if (this.selected != '') {
+              this.updateOrg();
+          }
+          if (this.selectedRole != '') {
+              this.updateRole();
+          }
+      },
+      updateOrg() {
+          const firstField = 'org';
+          const secondField = this.selected;
+          this.organisations = this.organisations.concat({
+              first: firstField,
+              second: secondField
+          });
+          const orgParams = {
+              field_organisation: this.organisations
+          };
+          this.apiUserPatch(orgParams);
+      },
+      updateRole() {
+          const firstField = 'role';
+          const secondField = this.selectedRole;
+          this.roles = this.roles.concat({
+              first: firstField,
+              second: secondField
+          });
+          const params = {
+              field_role: this.roles
+          };
+          this.apiUserPatch(params);
+      },
+      deleteSelectedLocation(location){
+          this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
+      },
+      revealLocationInputBox(){
+          this.$store.commit('SET_DISPLAY_WHEN_LOCATION_IS_CLICKED', '');
+      },
     },
   };
 </script>
