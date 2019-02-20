@@ -253,6 +253,7 @@
                 field_organisation: this.organisations
             };
             this.apiUserPatch(orgParams);
+            this.organisations=[];
         },
         updateRole() {
             const firstField = 'role';
@@ -265,6 +266,7 @@
                 field_role: this.roles
             };
             this.apiUserPatch(params);
+            this.roles=[];
         },
         submitInput(event){
             if(event.which === 13){
