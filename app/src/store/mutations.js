@@ -101,7 +101,7 @@ export default {
     const name = obj.name[0].value;
     const { init } = obj;
     let { mail } = state.user;
-    if (!!obj.mail[0]) {
+    if (obj.mail[0]) {
       mail = obj.mail[0].value;
     }
     const favoriteLinks = obj.field_favorite_links;
@@ -124,16 +124,11 @@ export default {
       'init',
       init);
     Vue.set(state.user,
-        'organisation',
-         organisation);
+      'organisation',
+      organisation);
     Vue.set(state.user,
-        'role',
-        role);
-  },
-  [types.SET_USER_OBJECT_FAV_LINKS](state, obj) {
-    Vue.set(state.user.userObject,
-      'field_favorite_links',
-      obj);
+      'role',
+      role);
   },
   [types.SET_USER_OBJECT_ORGANISATION](state, obj) {
     Vue.set(state.user.userObject,

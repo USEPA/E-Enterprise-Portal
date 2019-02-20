@@ -159,14 +159,6 @@ export default {
     Vue.cookie.set('userPolicy', true, { expires: '1Y' });
     store.commit('USER_POLICY_COOKIE_DISMISS');
   },
-  setUserObject(context, userObject) {
-    const store = context;
-    store.commit('SET_USER_OBJECT', userObject);
-  },
-  setUserObjectFavLinks(context, userObjectFavLinks) {
-    const store = context;
-    store.commit('SET_USER_OBJECT_FAV_LINKS', userObjectFavLinks);
-  },
   /**
    * API GET request function
    * Stores basic pages from Drupal in state
@@ -402,7 +394,18 @@ export default {
     const apiURL = store.getters.getEnvironmentApiURL;
     const { id } = store.getters.getUser;
     const token = Vue.cookie.get('Token');
-    AppAxios.patch(`${apiURL}/user/${id}?_format=json`, body, {
+    const userInit = store.getters.getUser.init;
+    const updatedBody = body;
+    const userInitValid = store.getters.getUserInitValidation;
+    if (userInitValid) {
+      updatedBody.init =
+          {
+            value: 'generated-user@e-enterprise',
+          };
+    } else {
+      updatedBody.init = userInit;
+    }
+    AppAxios.patch(`${apiURL}/user/${id}?_format=json`, updatedBody, {
       headers: {
         Authorization: `Bearer ${token}`,
         crossDomain: true,
@@ -443,38 +446,36 @@ export default {
           let formatted_response_information = [];
           const return_data = response.data;
 
-          if(params.indexOf("tribe") !== -1) {
-              Object.keys(return_data.tribal_information).forEach(function (key) {
-                  // Declare variables
-                  let i;
+      if (params.indexOf('tribe') !== -1) {
+        Object.keys(return_data.tribal_information).forEach((key) => {
+          // Declare variables
+          let i;
 
-                  // Push name onto array
-                  formatted_response_information.push(key);
+          // Push name onto array
+          formatted_response_information.push(key);
 
-                  // Push each zipcode on array
-                  return_data.tribal_information[key].forEach(function (item) {
-                      formatted_response_information.push(item);
-                  });
-              })
-          }else if(params.indexOf("zipcode") !== -1){
-              console.log('hit zipcode');
-              console.log(return_data);
+          // Push each zipcode on array
+          return_data.tribal_information[key].forEach((item) => {
+            formatted_response_information.push(item);
+          });
+        });
+      } else if (params.indexOf('zipcode') !== -1) {
+        console.log('hit zipcode');
+        console.log(return_data);
+      } else if (params.indexOf('city') !== -1 && params.indexOf('state') !== -1) {
+        formatted_response_information = return_data.zipcode;
+      }
 
-          }else if(params.indexOf("city") !== -1 && params.indexOf("state") !== -1){
-              formatted_response_information = return_data.zipcode;
-          }
-
-          // Commit all of the information to the store
-          store.commit('SET_OPTIONS_AFTER_INPUT', formatted_response_information);
+      // Commit all of the information to the store
+      store.commit('SET_OPTIONS_AFTER_INPUT', formatted_response_information);
 
           store.commit('SET_INPUT_BOX_TEXT', store.getters.getUser.inputBoxText);
 
-          // Reset the display none for the populated dropdown
-          store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', '');
-
-      }).catch((error) => {
-          console.warn(error);
-      });
+      // Reset the display none for the populated dropdown
+      store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', '');
+    }).catch((error) => {
+      console.warn(error);
+    });
   },
   handleSelectButtonClickForLocation(context){
       const store = context;
