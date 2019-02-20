@@ -29,17 +29,15 @@
             <div class="container">
                 <div class="row">
                     <div class="slide-image col-md-6 align-self-start">
-                        <img
-                                class="lgc-roles"
-                                alt="Through our What Matters to You screen, you can select locations,
-              organizations, and roles that matter to you to see relevant content,
-              including local government resources."
-                                src="../assets/images/lgc-select-role-magnified.png">
-                        <img
-                                class="lgc-highlight"
-                                alt="You can see and update topics that matter to you in our Resources for Local
-                  Communities widget also."
-                                src="../assets/images/my-topics-large.png">
+                        <img class="lgc-roles"
+                             alt="Through our What Matters to You screen, you can select locations,
+                             organizations, and roles that matter to you to see relevant content,
+                             including local government resources."
+                             src="../assets/images/lgc-select-role-magnified.png">
+                        <img class="lgc-highlight"
+                             alt="You can see and update topics that matter to you in our Resources for Local
+                             Communities widget also."
+                             src="../assets/images/my-topics-large.png">
                     </div>
                     <div class="slide-details col-md-6 align-self-end">
                         <h2>A Tool Suite for Your Environmental Needs</h2>
@@ -79,17 +77,15 @@
                         </router-link>
                     </div>
                     <div class="col-md-5">
-                        <img
-                                fluid
-                                id="my-reporting-img"
-                                src="../assets/images/my_reporting.png"
-                                alt="My Reporting">
+                        <img fluid
+                             id="my-reporting-img"
+                             src="../assets/images/my_reporting.png"
+                             alt="My Reporting">
                         <div class="w-100 h-5"></div>
-                        <img
-                                fluid
-                                id="progress-tracker-img"
-                                src="../assets/images/progress_tracker.png"
-                                alt="Progress Tracker">
+                        <img fluid
+                             id="progress-tracker-img"
+                             src="../assets/images/progress_tracker.png"
+                             alt="Progress Tracker">
                     </div>
                 </div>
             </div>
