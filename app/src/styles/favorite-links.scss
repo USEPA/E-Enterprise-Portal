@@ -2,3 +2,74 @@
   overflow-y: hidden;
 }
 
+#favLinks {
+  overflow-y: scroll;
+  max-height: 100%;
+}
+
+#row-results {
+  max-width: 3.8rem;
+}
+
+h2::before {
+  height: 50px;
+  width: 50px;
+}
+
+.add-favorite-btn, .edit-favorite-btn, .delete-favorite-btn {
+  top: -0.1rem;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: #0071c2;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background-size: 1.3rem 1.325rem;
+}
+
+.form-group {
+  border: 0rem;
+}
+
+.favorite-links-rows-column label {
+  left: 1rem;
+}
+
+@media all and (min-width: 768px) {
+
+  .add-favorite-btn-text {
+    position: relative;
+    padding-top: calc(0.375rem + 1px);
+  }
+
+  .add-favorite-btn {
+    position: relative;
+  }
+
+}
+
+@media all and (min-width: 768px) and (max-width: 1200px) {
+  .favorite-links-filter, .add-fav-column, .favorite-links-rows-column {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+
+  .favorite-links-filter .input-group {
+    width: 100%;
+  }
+
+}
+
+@media all and (min-width: 1200px) {
+  .favorite-links-filter .input-group {
+    width: 140%;
+  }
+
+  .add-favorite-btn-text, .add-favorite-btn {
+    left: 2.8rem;
+  }
+
+  .favorite-links-rows-column label {
+    left: 3.2rem;
+  }
+}
