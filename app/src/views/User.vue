@@ -47,7 +47,13 @@
                   <!-- format this to output the users inputted locations -->
                   <div id="user-input-locations" v-if="user.userSavedLocations.length > 0">
                       <template v-for="location in user.userSavedLocations">
-                          {{location.typed_in_location}}
+                          <b-input-group class="pl-2 pb-2 pt-2">
+                              <b-form-input v-model="location.selected_location_from_dropdown"
+                                            type="text"
+                                            class="col-4 ml-3"
+                                            disabled/>
+                              <span class="col-md-12 pt-1 pl-4 small">{{location.typed_in_location}}</span>
+                          </b-input-group>
                       </template>
                   </div>
                 <LocationSelectionOption></LocationSelectionOption>

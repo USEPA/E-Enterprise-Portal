@@ -483,6 +483,13 @@ export default {
           typed_in_location: store.getters.getUser.inputBoxText,
           selected_location_from_dropdown: store.getters.getUser.dropDownSelection
       });
+
+      // Clear the inputbox text
+      store.commit('SET_INPUT_BOX_TEXT', '');
+
+      // Clear the dropdown list options
+      store.commit('SET_OPTIONS_AFTER_INPUT', '');
+
   },
   handleBackButtonClickForLocation(context){
       const store = context;
