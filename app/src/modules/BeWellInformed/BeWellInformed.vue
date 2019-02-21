@@ -8,6 +8,7 @@
         @submit="onCheckYourWater"
         novalidated>
         <label
+          for="partner-selection"
           class="sr-only">Select partner</label>
         <b-form-select
           id="partner-selection"

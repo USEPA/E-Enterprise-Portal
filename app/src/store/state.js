@@ -47,11 +47,17 @@ const state = {
   user: {
     id: 0,
     isLoggedIn: false,
+    timeLeftUntilLogout: 0,
+    loggedInTime: null,
     name: '',
     mail: '',
-    favorite_links: [],
-    organisation: '',
-    role:'',
+    favoriteLinks: [],
+    IsAfterInputDropdownDisplayed: 'none',
+    optionsAfterInput: [],
+    loaded: false,
+    init: [],
+    organisation: [],
+    role: [],
     location: {
       zipcode: '',
       city: '',
@@ -60,16 +66,22 @@ const state = {
     tAndCCookieDismiss: false,
     UserPolicyCookieDismiss: false,
     userObject: {},
+    cookie: {
+      time: '',
+      time_units: '',
+    },
+    inputBoxTextAfterSubmit: '',
   },
   loginBtnHoverMessage: 'Use an EPA, CDX, or a social media account to login',
   navMargin: {
     'margin-top': 0,
   },
   loginViewAccounts: [],
+
   GETHeaders: {
-      'crossDomain': true,
-      'cache-control': 'no-cache',
-      'Content-Type': 'application/hal+json',
+    'crossDomain': true,
+    'cache-control': 'no-cache',
+    'Content-Type': 'application/hal+json',
   },
 };
 

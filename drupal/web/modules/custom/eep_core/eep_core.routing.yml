@@ -5,3 +5,23 @@ eep_core.admin_settings:
     _title: 'E-Enterprise Configurations'
   requirements:
     _permission: 'administer site configuration'
+eep_core.eep_cookie_config_form:
+  path: '/admin/config/eep_core/eepcookieconfig'
+  defaults:
+    _form: '\Drupal\eep_core\Form\EEPCookieConfigForm'
+    _title: 'EEPCookieConfigForm'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
+eep_core.get_configs:
+  path: '/eep/configurations'
+  defaults:
+     _controller: '\Drupal\eep_core\Controller\EEPConfigurationsController::eep_retrieve_configurations'
+     _title: 'EEP Configurations'
+  requirements:
+     _permission: 'access content'
+
+
+
+

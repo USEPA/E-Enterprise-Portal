@@ -68,9 +68,9 @@ export default {
     let url = '#';
     const bridgeSettings = state.bridgeSettings[env];
     if (bridgeSettings) {
-      url = `${bridgeSettings.issuer}?wtrealm=${encodeURI(bridgeSettings.relyingParty) 
-        }&wreply=${encodeURI(bridgeSettings.sendBridgeBackTo)}&whr=urn:${state.currentBridgeUrn
-        }&wa=${bridgeSettings.signInMethod}`;
+      url = `${bridgeSettings.issuer}?wtrealm=${encodeURI(bridgeSettings.relyingParty)
+      }&wreply=${encodeURI(bridgeSettings.sendBridgeBackTo)}&whr=urn:${state.currentBridgeUrn
+      }&wa=${bridgeSettings.signInMethod}`;
     }
     return url;
   },
@@ -82,18 +82,6 @@ export default {
   },
   getLoginPageAccounts(state) {
     return state.loginPageAccounts;
-  },
-  getUsername(state) {
-    return state.user.name;
-  },
-  getUserEmail(state) {
-    return state.user.mail;
-  },
-  getOrganisation(state) {
-    return state.user.organisation;
-  },
-  getRole(state) {
-    return state.user.role;
   },
   getUserObject(state) {
     return state.user.userObject;
@@ -113,14 +101,22 @@ export default {
   getBasicPagesArray(state) {
     return state.basicPages.pagesArray;
   },
-  getLoginViewAccounts(state){
-      return state.loginViewAccounts;
+  getLoginViewAccounts(state) {
+    return state.loginViewAccounts;
   },
-  getDisplayLoggedInElements(state){
-      let loggedIn = false;
-      if(state.user){
-          loggedIn = state.user.isLoggedIn;
-      }
-      return loggedIn;
+  getDisplayLoggedInElements(state) {
+    let loggedIn = false;
+    if (state.user) {
+      loggedIn = state.user.isLoggedIn;
+    }
+    return loggedIn;
+  },
+  getLoggedInToken(state) {
+    return state.token.raw;
+  },
+  getEEPAPIURL: (state, ref) => variables => `${variables.endpoint}?${variables.params}`,
+  getUserInitValidation(state) {
+    const userInit = state.user.init;
+    return (userInit.length > 0 && userInit[0].value.indexOf('@') < 1);
   },
 };

@@ -2,53 +2,57 @@
   <div class="home">
     <b-carousel
       id="home-carousel"
-      controls
-      indicators
       background="#ababab"
       :interval="0"
       v-model="slide"
       @sliding-start="onSlideStart"
-      @sliding-end="onSlideEnd"
-    >
-      <!-- Text slides with image -->
+      @sliding-end="onSlideEnd">
+      <!-- customised numbered indicators -->
+      <ol class="carousel-indicators carousel-indicators-numbers mt-1">
+        <li data-target="#home-carousel" data-slide-to="0" class="active">1</li>
+        <li data-target="#home-carousel" data-slide-to="1">2</li>
+        <li data-target="#home-carousel" data-slide-to="2">3</li>
+      </ol>
+      <!-- controllers linked to customised indicators -->
+      <a class="carousel-control-prev" href="#home-carousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#home-carousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+      <!-- Slide with blank fluid image to maintain slide aspect ratio -->
       <b-carousel-slide
         class="col"
         img-blank>
         <div class="container">
           <div class="row">
-            <div class="col-md-6">
-              <h2>Customize your information</h2>
+            <div class="slide-image col-md-6 align-self-start">
+              <img class="lgc-roles"
+                   alt="Through our What Matters to You screen, you can select locations,
+                        organizations, and roles that matter to you to see relevant content,
+                        including local government resources."
+                   src="../assets/images/lgc-select-role-magnified.png">
+              <img class="lgc-highlight"
+                   alt="You can see and update topics that matter to you in our Resources for Local
+                        Communities widget also."
+                   src="../assets/images/my-topics-large.png">
+            </div>
+            <div class="slide-details col-md-6 align-self-end">
+              <h2>A Tool Suite for Your Environmental Needs</h2>
               <p>
-                The E-Enterprise Portal provides an important new means by which
-                users can customize the types of information presented to them,
-                find and select tools and other resources, and conduct
-                transactions with EPA, Tribes, and States.
+                The local government component will provide powerful, easy-to-use
+                tools that will enable local governments to make better
+                decisions, save staff time and money, and provide higher levels
+                of service to community members.
               </p>
-              <p>See the video <span aria-hidden="true">&gt;&gt;</span></p>
-              <router-link to="/workbench">
-                <b-button
-                  id="try-it"
-                  class="btn btn-md float-right"
-                  variant="primary"
-                  :title="tryitTitle"
-                  v-if='!authenticated'>
-                  <i class="fas fa-arrow-circle-right"></i>Try It
-                </b-button>
-              </router-link>
             </div>
-            <div class="col-md align-self-end">
-              <b-embed
-                type="iframe"
-                aspect="16by9"
-                src="https://www.youtube.com/embed/iFv0DYnW1-A?rel=0"
-                allowfullscreen
-                frameborder="0"
-              />
-            </div>
+            <p class="lgc-calltoaction">Select your location, organization, and role to find
+              resources.</p>
           </div>
         </div>
       </b-carousel-slide>
-
       <!-- Slide with blank fluid image to maintain slide aspect ratio -->
       <b-carousel-slide
         class="col"
@@ -73,57 +77,61 @@
               </router-link>
             </div>
             <div class="col-md-5">
-              <img
-                fluid
-                id="my-reporting-img"
-                src="../assets/images/my_reporting.png"
-                alt="My Reporting">
+              <img fluid
+                   id="my-reporting-img"
+                   src="../assets/images/my_reporting.png"
+                   alt="My Reporting">
               <div class="w-100 h-5"></div>
-              <img
-                fluid
-                id="progress-tracker-img"
-                src="../assets/images/progress_tracker.png"
-                alt="Progress Tracker">
+              <img fluid
+                   id="progress-tracker-img"
+                   src="../assets/images/progress_tracker.png"
+                   alt="Progress Tracker">
             </div>
           </div>
         </div>
 
       </b-carousel-slide>
 
-      <!-- Slide with blank fluid image to maintain slide aspect ratio -->
+
+      <!-- Text slides with image -->
       <b-carousel-slide
         class="col"
         img-blank>
         <div class="container">
           <div class="row">
-            <div class="slide-image col-md-6 align-self-start">
-              <img
-                class="lgc-roles"
-                alt="Through our What Matters to You screen, you can select locations,
-              organizations, and roles that matter to you to see relevant content,
-              including local government resources."
-                src="../assets/images/lgc-select-role-magnified.png">
-              <img
-                class="lgc-highlight"
-                alt="You can see and update topics that matter to you in our Resources for Local
-                  Communities widget also."
-                src="../assets/images/my-topics-large.png">
-            </div>
-            <div class="slide-details col-md-6 align-self-end">
-              <h2>Find Local Government Resources</h2>
+            <div class="col-md-6">
+              <h2>Customize your information</h2>
               <p>
-                The local government component will provide powerful, easy-to-use
-                tools that will enable local governments to make better
-                decisions, save staff time and money, and provide higher levels
-                of service to community members.
+                The E-Enterprise Portal provides an important new means by which
+                users can customize the types of information presented to them,
+                find and select tools and other resources, and conduct
+                transactions with EPA, Tribes, and States.
               </p>
+              <p>See the video <span aria-hidden="true">&gt;&gt;</span></p>
+              <router-link to="/workbench">
+                <b-button
+                  id="try-it-carousel-button"
+                  class="btn btn-md float-right"
+                  variant="primary"
+                  :title="tryitTitle"
+                  v-if='!authenticated'>
+                  <i class="fas fa-arrow-circle-right"></i>Try It
+                </b-button>
+              </router-link>
             </div>
-            <p class="lgc-calltoaction">Select your location, organization, and role to find
-            resources.</p>
+            <div class="col-md mb-5 align-self-end">
+              <b-embed
+                type="iframe"
+                title="E-Enterprise for the Environment Portal"
+                aspect="16by9"
+                src="https://www.youtube.com/embed/iFv0DYnW1-A?rel=0"
+                allowfullscreen
+                frameborder="0"/>
+            </div>
           </div>
         </div>
-
       </b-carousel-slide>
+
 
     </b-carousel>
   </div>
@@ -165,7 +173,7 @@
 </script>
 
 
-<style lang="scss" >
+<style lang="scss">
   // @TODO - Move non scoped styles to the appropriate sass file
   @import '../styles/bootstrap-mixins-cheatsheet.scss';
   #home-carousel {
@@ -174,10 +182,38 @@
       font-weight: 300;
     }
 
-    p {
-      // font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
-      font-weight: 300;
+  p {
+    // font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
+    font-weight: 300;
+  }
+  .carousel-indicators-numbers {
+    li {
+      text-indent: 0;
+      text-align: center;
+      margin: 0 2px;
+      width: 30px;
+      height: 30px;
+      border: none;
+      border-radius: 100%;
+      line-height: 30px;
+      color: #FFFFFF;
+      background-color: #999;
+      transition: all 0.25s ease;
+      &.active,
+      &:hover {
+        margin: 0 2px;
+        width: 30px;
+        height: 30px;
+        color:#000000;
+        background-color: #ffffff;
+      }
     }
+  }
+  .carousel-controls {
+    position: relative;
+    width: 300px;
+    margin: 0 auto;
+  }
 
     .carousel-caption {
       position: relative;
@@ -203,7 +239,7 @@
       width: 2rem;
     }
 
-  // Slide 1
+    // Slide 1
 
     // Slide 2
 
@@ -219,7 +255,7 @@
     .account-auth {
       align-self: flex-end;
     }
-    @media only screen and (min-width: 576px) and (max-width: 767px){
+    @media only screen and (min-width: 576px) and (max-width: 767px) {
       #progress-tracker-img {
         max-width: 40%;
         position: absolute;
@@ -263,13 +299,11 @@
       }
     }
   }
-
   .account-auth {
     background-color: #0071bc;
     color: white;
   }
-
-  .login-btn-wrapper{
+  .login-btn-wrapper {
     padding-left: 40%;
   }
 </style>

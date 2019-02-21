@@ -1,5 +1,11 @@
 <template>
   <div class="workbench-grid">
+    <div v-show="false">
+      <button
+        @click="autoPositionWapps">autoPositionWapps</button>
+      <button
+        @click="validateWappPositions(layout)">validateWappPositions</button>
+    </div>
     <template v-if="isLayoutReady">
       <grid-layout
         :layout.sync="layout"
@@ -12,13 +18,14 @@
         :is-draggable="true"
         :is-resizable="false"
         :is-mirrored="false"
-        :vertical-compact="true"
+        :vertical-compact="false"
         :margin="[10, 10]"
         :use-css-transforms="true"
       >
         <grid-item
           v-for="(wapp, index) in layout"
           :min-w="275"
+          :dragIgnoreFrom="`.wapp-inner-wrapper`"
           :is-resizable="false"
           :x="wapp.x"
           :y="wapp.y"
@@ -126,8 +133,11 @@
     },
     methods: {
       ...mapActions(moduleName, [
-        'setGridLayout',
+        'autoPositionWapps',
         'initializeLayout',
+        'setGridLayout',
+        'sortWappBySizes',
+        'validateWappPositions',
       ]),
     },
   };

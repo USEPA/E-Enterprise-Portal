@@ -5,38 +5,47 @@
       <div v-html="eepApp.field_html_content.mainCard"/>
       <b-row>
         <b-col
-          md="5"
-          class="my-1">
+          md="4"
+          class="my-1 favorite-links-filter">
           <b-form-group
             horizontal
             label="Filter"
-            class="mb-0">
+            label-for="filter-results"
+            class="mb-2">
             <b-input-group>
               <b-form-input
-                v-model="filter"
-                placeholder="Type to Search"/>
+                id="filter-results"
+                aria-controls="favorite-links-table"
+                v-model="filter"/>
             </b-input-group>
           </b-form-group>
         </b-col>
         <b-col
           md="4"
-          class="my-1">
+          class="my-1 add-fav-column">
           <b-btn
+            title="Add a Favorite"
+            id="add-favorite"
             @click="openAddModal"
             class="add-favorite-btn"/>
-          <div class="d-inline-block pl-1 add-favorite-btn-text">Add a Favorite</div>
+          <label
+            for="add-favorite"
+            class="d-inline-block pl-1 add-favorite-btn-text">Add a Favorite</label>
         </b-col>
         <b-col
-          md="3"
-          class="my-1 pr-4 pl-0">
+          md="4"
+          class="my-1 pr-4 pl-0 favorite-links-rows-column">
           <b-form-group
             horizontal
             label="Rows"
-            class="mb-0">
+            label-for="row-results"
+            class="mb-2">
             <b-form-select
-              class="ml-3"
+              aria-controls="favorite-links-table"
+              id="row-results"
               :options="pageOptions"
-              v-model="perPage"/>
+              v-model="perPage"
+              class="float-right ml-3"/>
           </b-form-group>
         </b-col>
       </b-row>
@@ -44,7 +53,8 @@
       <!--datatable-->
       <b-table
         hover
-        :items="favLinksArray"
+        id="favorite-links-table"
+        :items="favoriteLinks"
         :fields="fields"
         :current-page="currentPage"
         :per-page="perPage"
@@ -52,8 +62,7 @@
         :sort-by.sync="sortBy"
         :sort-desc.sync="sortDesc"
         :sort-direction="sortDirection"
-        @filtered="onFiltered"
-      >
+        @filtered="onFiltered">
 
         <template
           slot="first"
@@ -64,18 +73,22 @@
         </template>
 
         <template
-          v-if='favLinksArray[0].first != `Not logged in or no user ID found!` &&
-          favLinksArray[0].first != `Loading your Favorites...`'
           slot="actions"
           slot-scope="row">
           <b-button
+            title="Delete Favorite"
             size="sm"
             @click="deleteFavLink(row.item, row.index)"
             class="delete-favorite-btn mr-1"/>
           <b-button
+            title="Edit Favorite"
             size="sm"
             @click="openEditModal(row.item, row.index, $event.target)"
             class="edit-favorite-btn mr-1"/>
+        </template>
+        <template
+          v-if='!favoriteLinksLoaded'>
+          <p>Loading you Favorites...</p>
         </template>
 
       </b-table>
@@ -147,7 +160,7 @@
       </AppModal>
 
       <!--if No Favorites-->
-      <div v-if="(favLinksArray.length === 0)">{{ noFavs }}</div>
+      <div v-if="(favoriteLinks.length === 0 && favoriteLinksLoaded)">{{ noFavs }}</div>
 
       <!--pagination-->
       <b-row class="text-center">
@@ -168,11 +181,9 @@
 </template>
 
 <script>
-  import AppAxios from 'axios';
-  import { mapGetters } from 'vuex';
+  import { mapGetters, mapActions } from 'vuex';
   import { AppWrapper, AppPlaceholderContent, AppModal } from '../wadk/WADK';
   import storeModule from './store/index';
-  import { EventBus } from '../../EventBus';
 
   const moduleName = 'FavoriteLinks';
 
@@ -185,8 +196,6 @@
     },
     data() {
       return {
-        favLinksArray: [{ first: 'Loading your Favorites...' }],
-        userInit: [],
         fields: [
           {
             key: 'first',
@@ -221,31 +230,50 @@
     },
     computed: {
       ...mapGetters({
-        apiURL: 'getEnvironmentApiURL',
+        getUser: 'getUser',
       }),
-      uid() { return this.getCookie('uid'); },
-      token() { return this.getCookie('Token'); },
+      favoriteLinks: {
+        get() {
+          return this.getUser.favoriteLinks;
+        },
+      },
+      favoriteLinksLoaded: {
+        get() {
+          return this.getUser.userLoaded;
+        },
+      },
+      userInit: {
+        get() {
+          return this.getUser.init;
+        },
+      },
     },
     methods: {
+      ...mapActions([
+        'apiUserPatch',
+      ]),
+      ...mapActions(moduleName, [
+        'addFavoriteLink',
+      ]),
       // ADD
       openAddModal(item, index, button) {
         this.$root.$emit('bv::show::modal', 'addModalInfo', button);
       },
       closeAddModal() {
-          this.$root.$emit('bv::hide::modal', 'addModalInfo');
+        this.$root.$emit('bv::hide::modal', 'addModalInfo');
       },
       applyAddModal(evt) {
         evt.preventDefault();
         // stores changes in local state
-        const firstField = this.addModalInfo.first.trim();
-        const secondField = this.addModalInfo.second.trim();
-        this.favLinksArray = this.favLinksArray.concat(
+        const favoriteLinkName = this.addModalInfo.first.trim();
+        const favoriteLinkURL = this.addModalInfo.second.trim();
+        this.addFavoriteLink(
           {
-            first: firstField,
-            second: secondField,
+            first: favoriteLinkName,
+            second: favoriteLinkURL,
           },
         );
-        this.axiosPATCHInit();
+        this.applyChangesToFavoriteLinks();
         this.closeAddModal();
       },
       // EDIT
@@ -258,120 +286,44 @@
       closeEditModal() {
         this.$root.$emit('bv::hide::modal', 'editModalInfo');
       },
-      applyEditModal(evt) {
-        evt.preventDefault();
-
-        for (let i = 0; i < this.favLinksArray.length; i++) {
-          if (this.favLinksArray[i].first === this.editModalInfo.first && this.favLinksArray[i].second === this.editModalInfo.second) {
+      setEditModalIndex() {
+        for (let i = 0; i < this.favoriteLinks.length; i++) {
+          if (this.favoriteLinks[i].first === this.editModalInfo.first && this.favoriteLinks[i].second === this.editModalInfo.second) {
             this.editModalIndex = i;
           }
         }
-        // stores changes in local state
-        this.favLinksArray[this.editModalIndex].first = this.editModalInfo.first.trim();
-        this.favLinksArray[this.editModalIndex].second = this.editModalInfo.second.trim();
-        // pushes changes to backend
-        this.axiosPATCHInit();
+      },
+      makeEditChangesToState() {
+        this.favoriteLinks[this.editModalIndex].first = this.editModalInfo.first.trim();
+        this.favoriteLinks[this.editModalIndex].second = this.editModalInfo.second.trim();
+      },
+      applyEditModal(evt) {
+        evt.preventDefault();
+        this.setEditModalIndex();
+        this.makeEditChangesToState();
+        this.applyChangesToFavoriteLinks();
         this.closeEditModal();
       },
       // DELETE
       deleteFavLink(item, index) {
-        // stores changes in local state
-        this.favLinksArray.splice(index, 1);
-        // pushes changes to backend
-        this.axiosPATCHInit();
+        this.favoriteLinks.splice(index, 1);
+        this.applyChangesToFavoriteLinks();
       },
       onFiltered(filteredItems) {
         // Trigger pagination to update the number of buttons/pages due to filtering
         this.totalRows = filteredItems.length;
         this.currentPage = 1;
       },
-      getCookie(cname) {
-        const name = `${cname}=`;
-        const decodedCookie = decodeURIComponent(document.cookie);
-        const ca = decodedCookie.split(';');
-        for (let i = 0; i < ca.length; i++) {
-          let c = ca[i];
-          while (c.charAt(0) === ' ') {
-            c = c.substring(1);
-          }
-          if (c.indexOf(name) === 0) {
-            return c.substring(name.length, c.length);
-          }
-        }
-        return '';
+      applyChangesToFavoriteLinks() {
+        this.apiUserPatch({
+          field_favorite_links: this.favoriteLinks,
+        });
       },
-      axiosPATCHInit() {
-        if (this.userInit.length > 0 && this.userInit[0].value.indexOf('@') < 1) {
-          // pushes changes to backend
-          AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
-              init: [
-                {
-                  value: 'generated-user@e-enterprise',
-                },
-              ],
-              field_favorite_links: this.favLinksArray,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${this.token}`,
-                crossDomain: true,
-                'cache-control': 'no-cache',
-                'Content-Type': 'application/json',
-              },
-            })
-            .then(() => {
-              console.log('PATCH => success');
-            })
-            .catch(() => {
-              console.log('PATCH => failure');
-            });
-        } else {
-          // pushes changes to backend
-          AppAxios.patch(`${this.apiURL}/user/${this.uid}?_format=json`, {
-              init: this.userInit,
-              field_favorite_links: this.favLinksArray,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${this.token}`,
-                crossDomain: true,
-                'cache-control': 'no-cache',
-                'Content-Type': 'application/json',
-              },
-            })
-            .then(() => {
-              console.log('PATCH => success');
-            })
-            .catch(() => {
-              console.log('PATCH => failure');
-            });
-        }
-      },
-    },
-    beforeCreate() {
     },
     created() {
       const store = this.$store;
       if (!(store && store.state && store.state[moduleName])) {
         store.registerModule(moduleName, storeModule);
-      }
-    },
-    mounted() {
-      if (this.uid) {
-        AppAxios.get(`${this.apiURL}/user/${this.uid}?_format=json`, {
-          headers: this.$store.GETHeaders,
-          auth: {
-            username: 'api_user',
-            password: 'api4epa',
-          },
-        })
-          .then((response) => {
-            this.favLinksArray = response.data.field_favorite_links;
-            this.userInit = response.data.init;
-            this.totalRows = this.favLinksArray.length;
-          });
-      } else {
-        this.favLinksArray[0].first = 'Not logged in or no user ID found!';
       }
     },
     props: {
@@ -385,61 +337,26 @@
 
 <style scoped
   lang="scss">
-  #app {
-    margin-bottom: 7rem;
-  }
-
-  #favLinks {
-    overflow-y: scroll;
-    max-height: 100%;
-  }
-
+  @import "../../styles/favorite-links";
+  /* To import images */
   h2::before {
-    height: 50px;
-    width: 50px;
     content: url('../../assets/images/bookmark.svg');
   }
 
   .add-favorite-btn {
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-color: #0071c2;
-    width: 2.2rem;
-    height: 2.2rem;
-    border-radius: 50%;
-    background-size: 1.3rem 1.325rem;
     background-image: url('../../assets/images/favorites-add.svg');
   }
 
   .edit-favorite-btn {
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-color: #0071c2;
-    width: 2.2rem;
-    height: 2.2rem;
-    border-radius: 50%;
-    background-size: 1.3rem 1.325rem;
     background-image: url('../../assets/images/favorites-edit.svg');
   }
 
   .delete-favorite-btn {
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-color: #0071c2;
-    width: 2.2rem;
-    height: 2.2rem;
-    border-radius: 50%;
-    background-size: 1.3rem 1.325rem;
     background-image: url('../../assets/images/favorites-empty.svg');
   }
-
-  .form-group {
-    border: 0rem;
-  }
-
-  .add-favorite-btn-text, .add-favorite-btn {
-    position: relative;
-    top: .55rem;
+  /* Fixes bottom of workbench grey area */
+  #app {
+    margin-bottom: 7rem;
   }
 
 </style>

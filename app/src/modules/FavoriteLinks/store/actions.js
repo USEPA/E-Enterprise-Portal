@@ -5,4 +5,10 @@
  */
 
 
-export default {};
+export default {
+  addFavoriteLink(context, newFavorite) {
+    const store = context;
+    const { favoriteLinks } = store.rootState.user;
+    favoriteLinks.unshift(newFavorite);
+  },
+};

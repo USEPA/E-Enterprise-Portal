@@ -23,8 +23,8 @@
     <MainHeader/>
     <div
       id="nav"
-      class="region-navigation pb-2 px-3" v-bind:style="navMargin">
-
+      class="region-navigation pb-2 px-3"
+      v-bind:style="navMargin">
       <div
         id="main-navigation-container"
         class="container">
@@ -54,10 +54,21 @@
     <!-- set progressbar -->
     <vue-progress-bar/>
     <!-- Modal for cookie extension -->
-    <AppModal
-        id="cookie_modal"
-        modal-ref="cookie_modal"
-        title="Would you like to extend your session?">
+    <AppModal id="cookie_modal"
+              modal-ref="cookie_modal"
+              title="Your session is about to expire">
+        <!-- Modal content -->
+        <p>Your session will expire in {{user.timeLeftUntilLogout}} minute(s).
+            If you choose not to extend, then you will be logged out.</p>
+        <p>Would you like to extend your session?</p>
+        <template slot="footer">
+            <b-button class="usa-button usa-button-secondary" @click="exitModal">
+                Cancel
+            </b-button>
+            <b-button class="usa-button" @click="extendTheSession">
+                Extend Session
+            </b-button>
+        </template>
     </AppModal>
   </div>
 </template>
@@ -90,6 +101,7 @@
         ENV: 'getEnvironment',
         navMargin: 'getnavMargin',
         basicPages: 'getBasicPages',
+        user: 'getUser',
     }),
     // @todo clean up variable names here
     environmentName() {
@@ -118,7 +130,27 @@
         },
       },
       methods: {
-
+          openModal(){
+              const vm = this;
+              vm.$root.$emit(
+                      'bv::show::modal',
+                      'cookie_modal',
+                      vm.$refs.cookie_modal
+              );
+          },
+          exitModal(){
+              const vm = this;
+              vm.$root.$emit(
+                  'bv::hide::modal',
+                  'cookie_modal',
+                  this.$refs.cookie_modal
+              );
+              this.$store.dispatch('userLogOut');
+          },
+          extendTheSession(){
+              const vm = this
+              vm.$store.dispatch('extendSession', {vm});
+          },
       },
       beforeCreate(){
           const vm = this;
@@ -154,71 +186,12 @@
 
       },
       mounted() {
-          // Declare the main url that the page is currently on
-          const main_url = window.location.href;
           // Declare the store
           const vm = this;
           const store = vm.$store;
-          if (main_url.indexOf("token") > -1 && main_url.indexOf("uid") > -1) {
-              // Declare variables
-              let vars = {};
-              // Extracts the URL params
-              // Got this functionality from https://html-online.com/articles/get-url-parameters-javascript/
-              let parts = main_url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
-                  vars[key] = value;
-              });
-              // find the URL params for each one
-              const token = vars["token"];
-              const uid = vars["uid"];
-              // Have to do it this way for cross browser method: https://scotch.io/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
-              // Set another cookie saying they logged in
-              this.$cookie.set('userLoggedIn', true, {expires: '20m'});
-              // set user token in cookie
-              this.$cookie.set('Token', token, {expires: '20m'});
-              this.$cookie.set('uid', uid, {expires: '20m'});
 
-//              // After the user is logged in then start checking to see if the cookie has expired and if it has then log them out
-//              let set_interval_id = setInterval(checkCookieExistance, 20000);
-//
-//              // Function that is used everytime setInterval is called
-//              function checkCookieExistance(){
-//                  console.log("hit check cookie");
-//                  if(document.cookie.indexOf('Token=') === -1){
-//                      vm.$root.$emit(
-//                              'bv::show::modal',
-//                              'cookie_modal',
-//                              this.$refs.cookie_modal
-//                      );
-//                  }
-//              }
-
-              // Set user id in the store
-              store.commit(types.SET_UID, uid);
-              // Log user in
-              store.commit('IS_USER_LOGGED_IN', true);
-          }else{
-              if(this.$cookie.get('userLoggedIn')){
-                  // Log user in and set user name
-                  store.commit('IS_USER_LOGGED_IN', true);
-                  store.commit(types.SET_UID, this.$cookie.get('uid'));
-              }
-          }
-
-          if (this.$cookie.get('userLoggedIn')) {
-              AppAxios.get(`${this.$store.getters.getEnvironmentApiURL}/user/${this.$cookie.get('uid')}?_format=json`, {
-                  headers: { Authorization: `Bearer ${this.$cookie.get('Token')}` },
-              }).then((response) => {
-                  store.commit('SET_USER_OBJECT', response.data);
-              }).catch((error) => {
-                  console.warn(error)
-              });
-          }
-
-          //  [App.vue specific] When App.vue is finish loading finish the progress bar
-          this.$Progress.finish();
-        if(window.location.href.indexOf("token") > -1) {
-          this.$router.push('/workbench');
-        }
+          // Fetch cookie information from Drupal backend and log in
+          vm.$store.dispatch('getEEPConfigs', {vm});
       },
   };
 
