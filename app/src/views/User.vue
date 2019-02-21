@@ -93,8 +93,8 @@
                   <div>
                     <h6>Organization</h6>
                     <b-form-select v-model="selected" id="org-selection" class="mr-3" required>
-                      <option v-if="organisation.length === 0" v-bind:value="null">-None-</option>
-                      <option v-else v-bind:value="null">{{organisation[0].second}}</option>
+                      <option display="none" v-if="organization.length === 0" v-bind:value="null">-None-</option>
+                      <option v-else v-bind:value="null">{{organization[0].second}}</option>
                       <option>-None-</option>
                       <option v-for="option in org" v-bind:value="option.name">{{ option.name }}
                       </option>
@@ -171,7 +171,7 @@
         org: [{ first: "" }, { second: "" }],
         selectedRole: null,
         roleList: [],
-        organisations: [],
+        organizations: [],
         roles: [],
       };
     },
@@ -195,9 +195,9 @@
               return this.user.mail;
           }
       },
-      organisation: {
+      organization: {
           get() {
-              return this.user.organisation;
+              return this.user.organization;
           }
       },
       role: {
@@ -207,7 +207,7 @@
       },
     },
     mounted() {
-      AppAxios.get("sample_data/organisation.json").then(response => {
+      AppAxios.get("sample_data/organization.json").then(response => {
          this.org = response.data;
       });
       AppAxios.get("sample_data/role.json").then(response => {
@@ -242,15 +242,15 @@
         updateOrg() {
             const firstField = 'org';
             const secondField = this.selected;
-            this.organisations = this.organisations.concat({
+            this.organizations = this.organizations.concat({
                 first: firstField,
                 second: secondField
             });
             const orgParams = {
-                field_organisation: this.organisations
+                field_organisation: this.organizations
             };
             this.apiUserPatch(orgParams);
-            this.organisations=[];
+            this.organizations=[];
         },
         updateRole() {
             const firstField = 'role';
