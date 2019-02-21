@@ -117,12 +117,12 @@
       Object.keys(regex).forEach((envName) => {
         // eslint-disable-next-line no-cond-assign
         while ((m = regex[envName].exec(host)) !== null) {
-        // This is necessary to avoid infinite loops with zero-width matches
-        if (m.length) {
-          env = envName;
+            // This is necessary to avoid infinite loops with zero-width matches
+            if (m.length) {
+              env = envName;
+            }
         }
-      }
-        });
+      });
           let r = 'Local';
           r = (env === 'DEV') ? 'Development' : r;
           r = (env === 'TEST') ? 'Test' : r;

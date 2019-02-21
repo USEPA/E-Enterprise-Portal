@@ -279,6 +279,9 @@ export default {
 
     store.commit(types.SET_LOGGED_IN_TIME, new Date());
 
+    // Set timeout again to continously check the cookie
+    store.dispatch('checkCookie', payload);
+
     // Close modal
     vm.$root.$emit(
       'bv::hide::modal',
@@ -336,33 +339,10 @@ export default {
         // Log user in
         store.commit(types.IS_USER_LOGGED_IN, true);
 
-        // Set interval instance
-        const cookie_check = setInterval(() => {
-          // Comparing dates to find when there is a minute left until cookie
-          // expiration
-          let minutes_difference = 0;
+        // set timeout here
+        store.dispatch('checkCookie', payload);
 
-          if (!Vue.cookie.get('userLoggedIn')) {
-            store.dispatch('userLogOut');
-          } else {
-            if (store.getters.getUser.loggedInTime) {
-              minutes_difference = Math.floor((Math.abs(new Date((store.getters.getUser.loggedInTime.getTime() +
-                ((store.getters.getUser.cookie.time) * 60 * 1000))) - (new Date())) / 1000) / 60) % 60;
-            } else {
-              clearInterval(cookie_check);
-            }
 
-            // Check to see if there is a minute left
-            if (minutes_difference <= 1 && store.getters.getDisplayLoggedInElements) {
-              store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
-              vm.$root.$emit(
-                'bv::show::modal',
-                'cookie_modal',
-                vm.$refs.cookie_modal,
-              );
-            }
-          }
-        }, 5000);
       } else if (Vue.cookie.get('userLoggedIn')) {
         // Log user in and set user name
         store.commit('IS_USER_LOGGED_IN', true);
@@ -388,6 +368,45 @@ export default {
     }).catch((error) => {
       console.error(error);
     });
+  },
+  checkCookie(context, payload){
+      const store = context;
+      const { vm } = payload;
+      const {user} = store.state;
+
+      // Set timeout to do once
+      setTimeout(function(){
+          // Declare variables
+          let minutes_difference = 0;
+
+          if (store.getters.getUser.loggedInTime) {
+              minutes_difference = Math.floor((Math.abs(new Date((user.loggedInTime.getTime() +
+                          ((user.cookie.time) * 60 * 1000))) - (new Date())) / 1000) / 60) % 60;
+          }
+
+          // Check to see if there is a minute left
+          if (minutes_difference <= 1 && store.getters.getDisplayLoggedInElements) {
+              store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
+              vm.$root.$emit(
+                  'bv::show::modal',
+                  'cookie_modal',
+                  vm.$refs.cookie_modal,
+              );
+
+              // Set interval is used to check if the user has made a selection on the modal before the cookie expires
+              // When the cookie expires and they have not made a selection then they are logged out and have to log back in
+              let cookie_modal_interval = setTimeout(function(){
+                  if(!Vue.cookie.get("userLoggedIn")){
+                      store.dispatch('userLogOut');
+                      vm.$root.$emit(
+                          'bv::hide::modal',
+                          'cookie_modal',
+                          vm.$refs.cookie_modal,
+                      );
+                  }
+              }, 65000);
+          }
+      }, (user.cookie.time - 1) * 60000);
   },
   apiUserPatch(context, body) {
     const store = context;
