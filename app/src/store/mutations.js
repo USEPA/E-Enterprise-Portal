@@ -13,7 +13,8 @@ export default {
         if (index < 2) {
           try {
             decodedString = atob(part);
-          } catch (e) {
+          }
+          catch (e) {
             console.warn(e);
           }
         }
@@ -124,11 +125,11 @@ export default {
       'init',
       init);
     Vue.set(state.user,
-        'organisation',
-         organisation);
+      'organisation',
+      organisation);
     Vue.set(state.user,
-        'role',
-        role);
+      'role',
+      role);
   },
   [types.SET_USER_OBJECT_FAV_LINKS](state, obj) {
     Vue.set(state.user.userObject,
@@ -151,13 +152,25 @@ export default {
       arr);
   },
   [types.SET_BRIDGE_URN](state, obj) {
-    state.currentBridgeUrn = obj;
+    Vue.set(
+      state,
+      'currentBridgeUrn',
+      obj,
+    );
   },
   [types.SET_LOGIN_VIEW_ACCOUNTS](state, obj) {
-    state.loginViewAccounts = obj;
+    Vue.set(
+      state,
+      'loginViewAccounts',
+      obj,
+    );
   },
   [types.SET_UID](state, int) {
-    state.user.id = int;
+    Vue.set(
+      state.user,
+      'id',
+      int,
+    );
   },
   [types.IS_USER_LOGGED_IN](state, IsLoggedIn) {
     Vue.set(state.user,
@@ -184,19 +197,26 @@ export default {
       'cookie',
       obj);
   },
-  [types.SET_OPTIONS_AFTER_INPUT](state, obj){
-      Vue.set(state.user,
-          'optionsAfterInput',
-          obj);
+  [types.SET_OPTIONS_AFTER_INPUT](state, obj) {
+    Vue.set(state.user,
+      'optionsAfterInput',
+      obj);
   },
-  [types.SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED](state, isDisplayed){
-      Vue.set(state.user,
-          'IsAfterInputDropdownDisplayed',
-          isDisplayed);
+  [types.SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED](state, isDisplayed) {
+    Vue.set(state.user,
+      'IsAfterInputDropdownDisplayed',
+      isDisplayed);
   },
-  [types.SET_INPUT_BOX_TEXT_AFTER_SUBMIT](state, newText){
-      Vue.set(state.user,
-          'inputBoxTextAfterSubmit',
-          newText);
+  [types.SET_INPUT_BOX_TEXT_AFTER_SUBMIT](state, newText) {
+    Vue.set(state.user,
+      'inputBoxTextAfterSubmit',
+      newText);
+  },
+  [types.SET_DEEP_LINK](state, deepLink) {
+    Vue.set(
+      state,
+      'deepLink',
+      deepLink,
+    );
   },
 };

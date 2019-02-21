@@ -1,11 +1,17 @@
 /* eslint-disable import/prefer-default-export */
 
 const state = {
+  api: {
+    urls: {
+      locationSearch: 'eep/proxy/service/location',
+      geolocationSearch: 'eep/proxy/service/geolocation',
+      workbenchApplications: 'api/view/workbench-applications',
+    },
+  },
   app: null,
   basicPages: {
     pagesArray: [],
   },
-  currentBridgeUrn: '',
   bridgeSettings: {
     LOCAL: {
       relyingParty: 'https://apidev2.e-enterprise.gov/',
@@ -26,15 +32,10 @@ const state = {
       signInMethod: 'wsignin1.0',
     },
   },
+  currentBridgeUrn: '',
+  deepLinking: null,
   ui: {
     hasLocationSearch: true,
-  },
-  api: {
-    urls: {
-      locationSearch: 'eep/proxy/service/location',
-      geolocationSearch: 'eep/proxy/service/geolocation',
-      workbenchApplications: 'api/view/workbench-applications',
-    },
   },
   token: {
     raw: '',
@@ -54,12 +55,10 @@ const state = {
     favoriteLinks: [],
     IsAfterInputDropdownDisplayed: 'none',
     optionsAfterInput: [],
-    organisation: '',
-    role:'',
     loaded: false,
     init: [],
     organisation: [],
-    role:[],
+    role: [],
     location: {
       zipcode: '',
       city: '',
@@ -68,9 +67,9 @@ const state = {
     tAndCCookieDismiss: false,
     UserPolicyCookieDismiss: false,
     userObject: {},
-    cookie:{
+    cookie: {
       time: '',
-      time_units: ''
+      time_units: '',
     },
     inputBoxTextAfterSubmit: '',
   },
@@ -79,11 +78,10 @@ const state = {
     'margin-top': 0,
   },
   loginViewAccounts: [],
-
   GETHeaders: {
-      'crossDomain': true,
-      'cache-control': 'no-cache',
-      'Content-Type': 'application/hal+json',
+    'crossDomain': true,
+    'cache-control': 'no-cache',
+    'Content-Type': 'application/hal+json',
   },
 };
 

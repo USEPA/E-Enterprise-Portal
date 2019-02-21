@@ -6,7 +6,7 @@ import Workbench from './views/Workbench.vue';
 Vue.use(Router);
 
 function getCookie(cname) {
-  const name = cname + '=';
+  const name = `${cname}=`;
   const decodedCookie = decodeURIComponent(document.cookie);
   const ca = decodedCookie.split(';');
   for (let i = 0; i < ca.length; i++) {
@@ -35,6 +35,12 @@ export default new Router({
       path: '/workbench',
       name: 'workbench',
       component: Workbench,
+    },
+    {
+      path: '/workbench/:link',
+      name: 'workbench',
+      component: Workbench,
+      props: route => ({ link: { query: route.query.q, params: route.params }}),
     },
     {
       path: '/login',

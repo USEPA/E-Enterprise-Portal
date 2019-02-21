@@ -7,6 +7,9 @@ export default {
   getApp(state) {
     return state.app;
   },
+  getDeepLink(state) {
+    return state.deepLink;
+  },
   getIsLoggedIn(state) {
     const logInCookie = document.cookie.match('(^|;) ?Token=([^;]*)(;|$)');
     return !!logInCookie;
@@ -68,7 +71,7 @@ export default {
     let url = '#';
     const bridgeSettings = state.bridgeSettings[env];
     if (bridgeSettings) {
-      url = `${bridgeSettings.issuer}?wtrealm=${encodeURI(bridgeSettings.relyingParty) 
+      url = `${bridgeSettings.issuer}?wtrealm=${encodeURI(bridgeSettings.relyingParty)
         }&wreply=${encodeURI(bridgeSettings.sendBridgeBackTo)}&whr=urn:${state.currentBridgeUrn
         }&wa=${bridgeSettings.signInMethod}`;
     }
@@ -101,17 +104,17 @@ export default {
   getBasicPagesArray(state) {
     return state.basicPages.pagesArray;
   },
-  getLoginViewAccounts(state){
-      return state.loginViewAccounts;
+  getLoginViewAccounts(state) {
+    return state.loginViewAccounts;
   },
-  getDisplayLoggedInElements(state){
-      let loggedIn = false;
-      if(state.user){
-          loggedIn = state.user.isLoggedIn;
-      }
-      return loggedIn;
+  getDisplayLoggedInElements(state) {
+    let loggedIn = false;
+    if (state.user) {
+      loggedIn = state.user.isLoggedIn;
+    }
+    return loggedIn;
   },
-  getLoggedInToken(state){
+  getLoggedInToken(state) {
     return state.token.raw;
   },
   getEEPAPIURL: (state, ref) => (variables) => {

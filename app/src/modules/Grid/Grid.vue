@@ -1,13 +1,8 @@
 <template>
   <div class="workbench-grid">
-    <div v-show="false">
-      <button
-        @click="autoPositionWapps">autoPositionWapps</button>
-      <button
-        @click="validateWappPositions(layout)">validateWappPositions</button>
-    </div>
     <template v-if="isLayoutReady">
       <grid-layout
+        ref="gridRoot"
         :layout.sync="layout"
         :responsive="true"
         :breakpoints="{ lg: 992, md: 768, sm: 576, xs: 380, xxs: 0 }"
@@ -21,6 +16,7 @@
         :vertical-compact="false"
         :margin="[10, 10]"
         :use-css-transforms="true"
+        @layout-ready="layoutReadyEvent"
       >
         <grid-item
           v-for="(wapp, index) in layout"
@@ -107,20 +103,26 @@
       vm.initializeLayout();
     },
     data() {
-      return {
-        modalOpen: false,
-        modalIn: '',
-        modalEepApp: {},
-      };
+      return {};
     },
-    mounted() {
+    updated() {
       const vm = this;
+      const gridRef = vm.$refs.gridRoot;
     },
     computed: {
       ...mapGetters({
+        getDeepLink: 'getDeepLink',
         getLayout: `${moduleName}/getLayout`,
         isLayoutReady: `${moduleName}/isLayoutReady`,
       }),
+      deepLink: {
+        get() {
+          return this.getDeepLink;
+        },
+        set(newValue) {
+          return this.setDeepLink(newValue);
+        },
+      },
       layout: {
         get() {
           return this.getLayout;
@@ -131,6 +133,9 @@
       },
     },
     methods: {
+      ...mapActions([
+        'setDeepLink',
+      ]),
       ...mapActions(moduleName, [
         'autoPositionWapps',
         'initializeLayout',
@@ -138,6 +143,14 @@
         'sortWappBySizes',
         'validateWappPositions',
       ]),
+      layoutReadyEvent(newLayout) {
+        console.log("Updated layout: ", newLayout)
+        const vm = this;
+        if (vm.isLayoutReady && !vm.deepLink.isResolved && vm.deepLink.params.link) {
+          vm.deepLink.isResolved = true;
+          vm.$scrollTo(`#${vm.deepLink.params.link}`, 1000);
+        }
+      },
     },
   };
 </script>
