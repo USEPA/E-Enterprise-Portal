@@ -1,5 +1,5 @@
 <template ref="favoriteLinks">
-  <div>
+  <div id="favLinks">
     <AppWrapper
       :eep-app="eepApp">
       <div v-html="eepApp.field_html_content.mainCard"/>
@@ -54,9 +54,7 @@
       <b-table
         hover
         id="favorite-links-table"
-        class="bootstrap-vue-table-fav-scroll"
-        thead-class="thead-fav-fixed"
-        tbody-class="tbody-fav-scroll"
+        class="bootstrap-vue-fav-table-scroll"
         :items="favoriteLinks"
         :fields="fields"
         :current-page="currentPage"

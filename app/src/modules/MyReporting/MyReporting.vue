@@ -88,8 +88,6 @@
                 show-empty
                 id="my-reporting-table"
                 class="bootstrap-vue-table-scroll"
-                thead-class="thead-fixed"
-                tbody-class="tbody-scroll"
                 stacked="md"
                 :items="items"
                 :fields="fields"
