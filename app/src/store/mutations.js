@@ -108,6 +108,7 @@ export default {
     const loaded = true;
     const organization = obj.field_organisation;
     const role = obj.field_role;
+    const zipcode = obj.field_zipcode;
     Vue.set(state.user,
       'name',
       name);
@@ -129,6 +130,9 @@ export default {
     Vue.set(state.user,
       'role',
       role);
+    Vue.set(state.user,
+      'zipcode',
+      zipcode);
   },
   [types.SET_USER_OBJECT_ORGANIZATION](state, obj) {
     Vue.set(state.user.userObject,
@@ -138,6 +142,11 @@ export default {
   [types.SET_USER_OBJECT_ROLE](state, obj) {
     Vue.set(state.user.userObject,
       'field_role',
+      obj);
+  },
+  [types.SET_USER_OBJECT_ZIPCODE](state, obj) {
+    Vue.set(state.user.userObject,
+      'field_zipcode',
       obj);
   },
   [types.SET_BASIC_PAGES](state, arr) {

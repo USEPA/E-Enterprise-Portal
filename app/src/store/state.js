@@ -58,6 +58,7 @@ const state = {
     init: [],
     organisation: [],
     role: [],
+    zipcode:[],
     location: {
       zipcode: '',
       city: '',
