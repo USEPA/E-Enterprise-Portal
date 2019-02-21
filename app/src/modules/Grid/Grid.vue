@@ -21,6 +21,7 @@
         <grid-item
           v-for="(wapp, index) in layout"
           :min-w="275"
+          :dragIgnoreFrom="`.wapp-inner-wrapper`"
           :is-resizable="false"
           :x="wapp.x"
           :y="wapp.y"

@@ -117,7 +117,9 @@ export default {
   getLoggedInToken(state) {
     return state.token.raw;
   },
-  getEEPAPIURL: (state, ref) => (variables) => {
-    return variables.endpoint + '?' + variables.params;
+  getEEPAPIURL: (state, ref) => variables => `${variables.endpoint}?${variables.params}`,
+  getUserInitValidation(state) {
+    const userInit = state.user.init;
+    return (userInit.length > 0 && userInit[0].value.indexOf('@') < 1);
   },
 };

@@ -159,14 +159,6 @@ export default {
     Vue.cookie.set('userPolicy', true, { expires: '1Y' });
     store.commit('USER_POLICY_COOKIE_DISMISS');
   },
-  setUserObject(context, userObject) {
-    const store = context;
-    store.commit('SET_USER_OBJECT', userObject);
-  },
-  setUserObjectFavLinks(context, userObjectFavLinks) {
-    const store = context;
-    store.commit('SET_USER_OBJECT_FAV_LINKS', userObjectFavLinks);
-  },
   /**
    * API GET request function
    * Stores basic pages from Drupal in state
@@ -404,7 +396,18 @@ export default {
     const apiURL = store.getters.getEnvironmentApiURL;
     const { id } = store.getters.getUser;
     const token = Vue.cookie.get('Token');
-    AppAxios.patch(`${apiURL}/user/${id}?_format=json`, body, {
+    const userInit = store.getters.getUser.init;
+    const updatedBody = body;
+    const userInitValid = store.getters.getUserInitValidation;
+    if (userInitValid) {
+      updatedBody.init =
+        {
+          value: 'generated-user@e-enterprise',
+        };
+    } else {
+      updatedBody.init = userInit;
+    }
+    AppAxios.patch(`${apiURL}/user/${id}?_format=json`, updatedBody, {
       headers: {
         Authorization: `Bearer ${token}`,
         crossDomain: true,
@@ -464,14 +467,36 @@ export default {
 
       // Commit all of the information to the store
       store.commit('SET_OPTIONS_AFTER_INPUT', formattedResponseInformation);
-
-      store.commit('SET_INPUT_BOX_TEXT_AFTER_SUBMIT', userInput);
-
+      store.commit('SET_INPUT_BOX_TEXT', store.getters.getUser.inputBoxText);
       // Reset the display none for the populated dropdown
       store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', '');
+
     }).catch((error) => {
       console.warn(error);
     });
+  },
+  handleSelectButtonClickForLocation(context) {
+    const store = context;
+
+    store.commit('SAVE_USER_SELECTED_LOCATIONS', {
+      typed_in_location: store.getters.getUser.inputBoxText,
+      selected_location_from_dropdown: store.getters.getUser.dropDownSelection
+    });
+
+    // Clear the inputbox text
+    store.commit('SET_INPUT_BOX_TEXT', '');
+
+    // Clear the dropdown list options
+    store.commit('SET_OPTIONS_AFTER_INPUT', '');
+
+    store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', 'none');
+
+    store.commit('SET_DISPLAY_WHEN_LOCATION_IS_CLICKED', 'none');
+
+  },
+  handleBackButtonClickForLocation(context) {
+    const store = context;
+    console.log("back clicked");
   },
   setDeepLink(context, link) {
     const store = context;

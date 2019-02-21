@@ -13,8 +13,7 @@ export default {
         if (index < 2) {
           try {
             decodedString = atob(part);
-          }
-          catch (e) {
+          } catch (e) {
             console.warn(e);
           }
         }
@@ -96,13 +95,17 @@ export default {
     );
   },
   [types.SET_MARGIN_TOP_NAV](state, obj) {
-    state.navMargin = obj;
+    Vue.set(
+      state,
+      'navMargin',
+      obj,
+    );
   },
   [types.SET_USER_OBJECT](state, obj) {
     const name = obj.name[0].value;
     const { init } = obj;
     let { mail } = state.user;
-    if (!!obj.mail[0]) {
+    if (obj.mail[0]) {
       mail = obj.mail[0].value;
     }
     const favoriteLinks = obj.field_favorite_links;
@@ -130,11 +133,6 @@ export default {
     Vue.set(state.user,
       'role',
       role);
-  },
-  [types.SET_USER_OBJECT_FAV_LINKS](state, obj) {
-    Vue.set(state.user.userObject,
-      'field_favorite_links',
-      obj);
   },
   [types.SET_USER_OBJECT_ORGANISATION](state, obj) {
     Vue.set(state.user.userObject,
@@ -207,9 +205,9 @@ export default {
       'IsAfterInputDropdownDisplayed',
       isDisplayed);
   },
-  [types.SET_INPUT_BOX_TEXT_AFTER_SUBMIT](state, newText) {
+  [types.SET_INPUT_BOX_TEXT](state, newText) {
     Vue.set(state.user,
-      'inputBoxTextAfterSubmit',
+      'inputBoxText',
       newText);
   },
   [types.SET_DEEP_LINK](state, deepLink) {
@@ -218,5 +216,29 @@ export default {
       'deepLink',
       deepLink,
     );
+  },
+  [types.SET_DROPDOWN_SELECTION](state, dropdownSelection) {
+    Vue.set(state.user,
+      'dropDownSelection',
+      dropdownSelection);
+  },
+  [types.SAVE_USER_SELECTED_LOCATIONS](state, newLocation) {
+    state.user.userSavedLocations.push(newLocation);
+  },
+  [types.DELETE_USER_SELECTED_LOCATION](state, deletedSelection) {
+    // Filter the array with the location that they want deleted
+    const filteredLocation = state.user.userSavedLocations
+      .filter(location => location.typed_in_location !== deletedSelection.typed_in_location
+        && location.selected_location_from_dropdown !== deletedSelection.selected_location_from_dropdown);
+
+    // Save back to state
+    Vue.set(state.user,
+      'userSavedLocations',
+      filteredLocation);
+  },
+  [types.SET_DISPLAY_WHEN_LOCATION_IS_CLICKED](state, css_prop) {
+    Vue.set(state.user,
+      'displayWhenNewLocationIsClicked',
+      css_prop);
   },
 };

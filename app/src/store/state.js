@@ -54,6 +54,7 @@ const state = {
     mail: '',
     favoriteLinks: [],
     IsAfterInputDropdownDisplayed: 'none',
+    displayWhenNewLocationIsClicked: 'none',
     optionsAfterInput: [],
     loaded: false,
     init: [],
@@ -71,7 +72,9 @@ const state = {
       time: '',
       time_units: '',
     },
-    inputBoxTextAfterSubmit: '',
+    inputBoxText: '',
+    dropDownSelection: '',
+    userSavedLocations: [],
   },
   loginBtnHoverMessage: 'Use an EPA, CDX, or a social media account to login',
   navMargin: {
