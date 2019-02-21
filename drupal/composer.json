@@ -29,7 +29,7 @@
     "drupal/console": "^1.0.2",
     "drupal/content_access": "^1.0@alpha",
     "drupal/content_sync": "^2.0",
-    "drupal/core": "8.6.7",
+    "drupal/core": "8.6.10er",
     "drupal/ctools": "^3.0",
     "drupal/default_content": "^1.0@alpha",
     "drupal/devel": "^1.2",
@@ -67,7 +67,7 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^6.5",
-    "webflo/drupal-core-require-dev": "8.6.7"
+    "webflo/drupal-core-require-dev": "8.6.10"
   },
   "conflict": {
     "drupal/drupal": "*"
