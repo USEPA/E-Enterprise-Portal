@@ -464,8 +464,8 @@ export default {
     }).then((response) => {
 
       // Declare variables
-      let formatted_response_information = [];
-      let drop_down_label_text = "Select a zipcode for";
+      let formattedResponseInformation = [];
+      let dropDownLabelText = "Select a zipcode for";
 
       const return_data = response.data;
       if (params.indexOf('tribe') !== -1) {
@@ -474,7 +474,7 @@ export default {
             let i;
 
             // Push name onto array
-            formatted_response_information.push(key);
+            formattedResponseInformation.push(key);
 
             // Push each zipcode on array
             return_data.tribal_information[key].forEach((item) => {
@@ -488,26 +488,26 @@ export default {
 
           // The if statement handles the case of if a zipcode exist in more than one place
           if(return_data.cities_and_states){
-              formatted_response_information = return_data.cities_and_states;
+              formattedResponseInformation = return_data.cities_and_states;
           }else{
               // Loop through cities array and build new array to commit to store
               for(let i = 0; i < cities.length; i++){
-                  formatted_response_information.push(cities[i] + ", " + return_data.state[0]);
+                  formattedResponseInformation.push(cities[i] + ", " + return_data.state[0]);
               }
           }
-          drop_down_label_text = "Select a location for";
+          dropDownLabelText = "Select a location for";
 
       } else if (params.indexOf('city') !== -1 && params.indexOf('state') !== -1) {
-          formatted_response_information = return_data.zipcode;
+          formattedResponseInformation = return_data.zipcode;
       }
 
       // Commit all of the information to the store
-      store.commit('SET_OPTIONS_AFTER_INPUT', formatted_response_information);
+      store.commit('SET_OPTIONS_AFTER_INPUT', formattedResponseInformation);
       store.commit('SET_INPUT_BOX_TEXT', store.getters.getUser.inputBoxText);
       // Reset the display none for the populated dropdown
       store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', '');
       // Change the label for the dropdown
-      store.commit('SET_DROPDOWN_LABEL', drop_down_label_text);
+      store.commit('SET_DROPDOWN_LABEL', dropDownLabelText);
 
     }).catch((error) => {
 
