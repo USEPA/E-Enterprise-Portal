@@ -1,4 +1,3 @@
-<!-- Go through this folder and rename all of the occurrences to be specific to the app that you are building -->
 <template>
   <div class="container">
     <h3>Login</h3>

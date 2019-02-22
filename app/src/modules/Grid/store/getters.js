@@ -16,6 +16,11 @@ export default {
     }
     return ready;
   },
+  /**
+   * Matching the alias (direct link) with the wapp id needed to jump to the app
+   * @param state
+   * @returns {function(*=) : any}
+   */
   getDirectLinksMappings: (state) => (alias) => {
     const keys = Object.keys(state.direct_link_mappings);
     const links = keys.filter(key => state.direct_link_mappings[key].indexOf(alias) > -1);

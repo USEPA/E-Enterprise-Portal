@@ -1,6 +1,6 @@
-/* eslint-disable */
+/* eslint-disable no-param-reassign */
 import types from './types';
-import { AppAxios } from "../../wadk/WADK";
+import { AppAxios } from '../../wadk/WADK';
 // import { EventBus } from '../../../EventBus';
 
 /**
@@ -47,9 +47,9 @@ export default {
         });
 
         // Setup the html content
-        let html = rawWapp.field_html_content.reduce((acc, html_content, idx) => {
-          acc[html_content.field_key] = html_content.field_html;
-          return acc;
+        const html = rawWapp.field_html_content.reduce((accHtmlContent, htmlContent) => {
+          accHtmlContent[htmlContent.field_key] = htmlContent.field_html;
+          return accHtmlContent;
         }, {});
         wapp.eepApp.field_html_content = html;
 
@@ -100,11 +100,11 @@ export default {
    */
   sortWappBySizes(context) {
     const store = context;
-    let layout = store.state.layout;
+    const { layout } = store.state;
     const sizes = { small: [], medium: [], large: [] };
 
     // Sort wapp to make ordering them easier
-    layout.map((wapp) => {
+    layout.forEach((wapp) => {
       sizes[wapp.eepApp.size].push(wapp);
     });
 
@@ -149,15 +149,15 @@ export default {
       let columnPosition = 0;
       let rowPosition = 0;
 
-      const calculatePosition = (wapp, idx) => {
+      const calculatePosition = (wapp) => {
         // set new values and sync layout settings
-        const width = wapp.eepApp.field_grid.width;
-        const height = wapp.eepApp.field_grid.height;
+        const { width } = wapp.eepApp.field_grid;
+        const { height } = wapp.eepApp.field_grid;
         wapp.eepApp.field_grid = {
           x: columnPosition,
           y: rowPosition,
-          width: width,
-          height: height,
+          width,
+          height,
         };
         wapp.x = columnPosition;
         wapp.y = rowPosition;
@@ -166,9 +166,9 @@ export default {
 
         newLayout.push(wapp);
         //
-        columnPosition = columnPosition + wapp.eepApp.field_grid.width;
+        columnPosition += wapp.eepApp.field_grid.width;
         if (columnPosition > columnCount - 1) {
-          rowPosition = rowPosition + wapp.eepApp.field_grid.height;
+          rowPosition += wapp.eepApp.field_grid.height;
           columnPosition = 0;
         }
       };

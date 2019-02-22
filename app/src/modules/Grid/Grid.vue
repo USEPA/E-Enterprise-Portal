@@ -149,15 +149,33 @@
         'sortWappBySizes',
         'validateWappPositions',
       ]),
+      /**
+       * things to do once the grid is ready for us to work with.
+       * @param newLayout
+       */
       layoutReadyEvent(newLayout) {
         const vm = this;
+        // Check for the layout to be ready and that we actually need to resolve a deep link
         if (vm.isLayoutReady && !vm.deepLink.isResolved && vm.deepLink.params.link) {
           vm.deepLink.isResolved = true;
+
+          // CSS transitions on the grid items are pretty but take an additional 200ms to perform
+          // this causes the positioning to not be static enough to get accurate positions so we
+          // wait just a bit longer to get them.
           setTimeout(() => {
+            /*
+             * The position of the wapps is impossible for the scrollTo function to find because of
+             * the abosolute positioning. We capture the position inside of the grid and pass it as
+             * an additional offset so we get an accurate scroll position.
+             */
+            // position of the grid layout
             const gridRect = vm.$refs.gridRoot.$el.getBoundingClientRect();
+            // Get the id of the wapp using the direct link mappings
             const wappId = vm.$store.getters['Grid/getDirectLinksMappings'](vm.deepLink.params.link);
-            const elemRect = vm.$refs[wappId][0].$el.getBoundingClientRect();
-            const offset = elemRect.top - gridRect.top;
+            // position of the wapp inside the grid
+            const wappRect = vm.$refs[wappId][0].$el.getBoundingClientRect();
+            // Calculate the offset
+            const offset = wappRect.top - gridRect.top;
             vm.$scrollTo(`#${wappId}`, 1000, { container: 'body', offset });
           }, 250);
         }

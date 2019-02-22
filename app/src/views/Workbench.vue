@@ -15,9 +15,5 @@
     components: {
       Grid,
     },
-    created() {
-    },
-    methods: {
-    },
   };
 </script>
