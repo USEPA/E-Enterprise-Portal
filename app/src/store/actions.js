@@ -491,7 +491,7 @@ export default {
               formatted_response_information = return_data.cities_and_states;
           }else{
               // Loop through cities array and build new array to commit to store
-              for(let i; = 0; i < cities.length; i++){
+              for(let i = 0; i < cities.length; i++){
                   formatted_response_information.push(cities[i] + ", " + return_data.state[0]);
               }
           }

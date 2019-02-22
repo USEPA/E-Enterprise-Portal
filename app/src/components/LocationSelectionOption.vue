@@ -13,8 +13,7 @@
                 <label class="col-12 font-weight-bold">{{user.dropDownLabel}} {{user.inputBoxText}}</label>
                 <b-form-select class="col-4 ml-3" v-model="user.dropDownSelection">
                     <template v-for="afterInputOption in user.optionsAfterInput">
-                        <template v-if="/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(afterInputOption)
-                                        || /[A-Z][a-zA-Z]+,[ ]?[A-Z]{2}/.test(afterInputOption)">
+                        <template v-if="isValidLocation(afterInputOption)">
                             <option>
                                 {{afterInputOption}}
                             </option>
@@ -88,7 +87,15 @@
            },
           handleBackButton(){
                 this.$store.dispatch('handleBackButtonClickForLocation');
-          }
+          },
+          isValidLocation(afterInputOption){
+                let isValid = false;
+                if(/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(afterInputOption) ||
+                        /[A-Z][a-zA-Z]+,[ ]?[A-Z]{2}/.test(afterInputOption)){
+                    isValid = true;
+                }
+                return isValid;
+          },
         },
     };
 </script>
