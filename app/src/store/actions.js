@@ -483,8 +483,7 @@ export default {
 
           });
       } else if (params.indexOf('zipcode') !== -1) {
-          
-          let i;
+
           let cities = return_data.city;
 
           // The if statement handles the case of if a zipcode exist in more than one place
@@ -492,7 +491,7 @@ export default {
               formatted_response_information = return_data.cities_and_states;
           }else{
               // Loop through cities array and build new array to commit to store
-              for(i = 0; i < cities.length; i++){
+              for(let i; = 0; i < cities.length; i++){
                   formatted_response_information.push(cities[i] + ", " + return_data.state[0]);
               }
           }
