@@ -347,6 +347,8 @@ export default {
         // Log user in and set user name
         store.commit('IS_USER_LOGGED_IN', true);
         store.commit(types.SET_UID, Vue.cookie.get('uid'));
+      } else if(!Vue.cookie.get('Token')){
+          store.dispatch('userLogOut');
       }
 
       if (Vue.cookie.get('userLoggedIn')) {
