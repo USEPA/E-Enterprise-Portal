@@ -478,7 +478,7 @@ export default {
 
             // Push each zipcode on array
             return_data.tribal_information[key].forEach((item) => {
-                formatted_response_information.push(item);
+                formattedResponseInformation.push(item);
             });
 
           });
