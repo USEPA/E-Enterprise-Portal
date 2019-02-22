@@ -244,8 +244,8 @@
       bottom: auto;
       left: auto;
       z-index: 10;
-      padding-top: 0.8rem;
-      padding-bottom: 0.8rem;
+      padding-top: 1.25rem;
+      padding-bottom: 1.25rem;
       color: #fff;
     }
     .carousel-item {
