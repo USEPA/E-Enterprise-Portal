@@ -62,3 +62,23 @@ h2::before {
     left: 3.2rem;
   }
 }
+
+  .favorite-links-filter .input-group {
+    width: 100%;
+  }
+
+}
+
+@media all and (min-width: 1200px) {
+  .favorite-links-filter .input-group {
+    width: 140%;
+  }
+
+  .add-favorite-btn-text, .add-favorite-btn {
+    left: 2.8rem;
+  }
+
+  .favorite-links-rows-column label {
+    left: 3.2rem;
+  }
+}

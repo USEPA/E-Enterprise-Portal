@@ -101,7 +101,7 @@ export default {
     const name = obj.name[0].value;
     const { init } = obj;
     let { mail } = state.user;
-    if (!!obj.mail[0]) {
+    if (obj.mail[0]) {
       mail = obj.mail[0].value;
     }
     const favoriteLinks = obj.field_favorite_links;
@@ -124,16 +124,11 @@ export default {
       'init',
       init);
     Vue.set(state.user,
-        'organisation',
-         organisation);
+      'organisation',
+      organisation);
     Vue.set(state.user,
-        'role',
-        role);
-  },
-  [types.SET_USER_OBJECT_FAV_LINKS](state, obj) {
-    Vue.set(state.user.userObject,
-      'field_favorite_links',
-      obj);
+      'role',
+      role);
   },
   [types.SET_USER_OBJECT_ORGANISATION](state, obj) {
     Vue.set(state.user.userObject,
@@ -194,9 +189,33 @@ export default {
           'IsAfterInputDropdownDisplayed',
           isDisplayed);
   },
-  [types.SET_INPUT_BOX_TEXT_AFTER_SUBMIT](state, newText){
+  [types.SET_INPUT_BOX_TEXT](state, newText){
       Vue.set(state.user,
-          'inputBoxTextAfterSubmit',
+          'inputBoxText',
           newText);
+  },
+  [types.SET_DROPDOWN_SELECTION](state, dropdownSelection){
+      Vue.set(state.user,
+          'dropDownSelection',
+          dropdownSelection);
+  },
+  [types.SAVE_USER_SELECTED_LOCATIONS](state, new_location){
+      state.user.userSavedLocations.push(new_location);
+  },
+  [types.DELETE_USER_SELECTED_LOCATION](state, deleted_selection){
+      // Filter the array with the location that they want deleted
+      let filtered_location_array = state.user.userSavedLocations
+              .filter(location => location.typed_in_location != deleted_selection.typed_in_location
+          && location.selected_location_from_dropdown != deleted_selection.selected_location_from_dropdown);
+
+      // Save back to state
+      Vue.set(state.user,
+          'userSavedLocations',
+          filtered_location_array);
+  },
+  [types.SET_DISPLAY_WHEN_LOCATION_IS_CLICKED](state, css_prop){
+      Vue.set(state.user,
+          'displayWhenNewLocationIsClicked',
+          css_prop);
   },
 };

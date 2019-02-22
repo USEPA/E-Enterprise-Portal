@@ -38,6 +38,10 @@ class AuthenticatedUser {
     return $this->name;
   }
 
+  function get_email() {
+    return $this->userDetails->attributes['email'][0];
+  }
+
   function get_source_username() {
     return $this->source_username;
   }
