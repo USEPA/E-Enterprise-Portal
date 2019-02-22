@@ -380,6 +380,7 @@
         const vm = this;
 
         if (roleIds) {
+          this.$Progress.start()
           AppAxios.get(
             `${vm.apiURL}/api/cdx/link-details-json/${roleIds}`,
             {
@@ -395,6 +396,7 @@
               vm.organization = null;
               vm.$root.$emit('bv::show::modal', 'my-reporting-link-details', button);
               vm.linkDetails = response.data;
+              this.$Progress.finish()
             });
         }
       },
