@@ -1,21 +1,13 @@
 #favLinks .modal-content {
   overflow-y: hidden;
 }
-
-#favLinks {
-  overflow-y: scroll;
-  max-height: 100%;
-}
-
 #row-results {
   max-width: 3.8rem;
 }
-
 h2::before {
   height: 50px;
   width: 50px;
 }
-
 .add-favorite-btn, .edit-favorite-btn, .delete-favorite-btn {
   top: -0.1rem;
   background-repeat: no-repeat;
@@ -28,15 +20,12 @@ h2::before {
   border-width: 0;
   background-size: .8rem;
 }
-
 .form-group {
   border: 0;
 }
-
 .favorite-links-rows-column label {
   left: 1rem;
 }
-
 @media all and (min-width: 768px) {
 
   .add-favorite-btn-text {
@@ -49,7 +38,6 @@ h2::before {
   }
 
 }
-
 @media all and (min-width: 768px) and (max-width: 1200px) {
   .favorite-links-filter, .add-fav-column, .favorite-links-rows-column {
     flex-basis: 100%;
@@ -61,7 +49,6 @@ h2::before {
   }
 
 }
-
 @media all and (min-width: 1200px) {
   .favorite-links-filter .input-group {
     width: 140%;
