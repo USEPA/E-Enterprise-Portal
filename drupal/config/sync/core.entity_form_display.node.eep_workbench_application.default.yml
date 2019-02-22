@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.eep_workbench_application.field_default_grid_size
     - field.field.node.eep_workbench_application.field_description
+    - field.field.node.eep_workbench_application.field_direct_links
     - field.field.node.eep_workbench_application.field_grid
     - field.field.node.eep_workbench_application.field_grid_sizes
     - field.field.node.eep_workbench_application.field_html_content
@@ -44,6 +45,14 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: text_textarea
+    region: content
+  field_direct_links:
+    weight: 28
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
     region: content
   field_grid:
     weight: 10

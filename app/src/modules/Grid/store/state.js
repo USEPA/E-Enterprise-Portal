@@ -8,4 +8,5 @@
 export default {
   // @todo Remove POC "user" and add meaningful intial state values
   layout: [],
+  direct_link_mappings: {},
 };

@@ -25,6 +25,7 @@
           :is-resizable="false"
           :ref="wapp.eepApp.id"
           :id="wapp.eepApp.id"
+          :direct-link="wapp.eepApp.field_direct_links.join(' ')"
           :x="wapp.x"
           :y="wapp.y"
           :w="wapp.w"
@@ -116,6 +117,7 @@
     computed: {
       ...mapGetters({
         getDeepLink: 'getDeepLink',
+        directLinksMappings: 'getDirectLinksMappings',
         getLayout: `${moduleName}/getLayout`,
         isLayoutReady: `${moduleName}/isLayoutReady`,
       }),
@@ -153,9 +155,10 @@
           vm.deepLink.isResolved = true;
           setTimeout(() => {
             const gridRect = vm.$refs.gridRoot.$el.getBoundingClientRect();
-            const elemRect = vm.$refs[vm.deepLink.params.link][0].$el.getBoundingClientRect();
+            const wappId = vm.$store.getters['Grid/getDirectLinksMappings'](vm.deepLink.params.link);
+            const elemRect = vm.$refs[wappId][0].$el.getBoundingClientRect();
             const offset = elemRect.top - gridRect.top;
-            vm.$scrollTo(`#${vm.deepLink.params.link}`, 1000, { container: 'body', offset });
+            vm.$scrollTo(`#${wappId}`, 1000, { container: 'body', offset });
           }, 250);
         }
       },

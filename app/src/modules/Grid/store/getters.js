@@ -16,4 +16,9 @@ export default {
     }
     return ready;
   },
+  getDirectLinksMappings: (state) => (alias) => {
+    const keys = Object.keys(state.direct_link_mappings);
+    const links = keys.filter(key => state.direct_link_mappings[key].indexOf(alias) > -1);
+    return (links.length) ? links[0] : null;
+  },
 };

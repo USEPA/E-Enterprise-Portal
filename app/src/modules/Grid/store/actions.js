@@ -1,3 +1,4 @@
+/* eslint-disable */
 import types from './types';
 import { AppAxios } from "../../wadk/WADK";
 // import { EventBus } from '../../../EventBus';
@@ -24,10 +25,17 @@ export default {
     const generateWappsFromRawWapps = (rawWapps) => {
       const wapps = rawWapps.reduce((acc, rawWapp, idx) => {
         const wapp = {};
+        // Assign all initial values
         wapp.eepApp = rawWapp;
+        // Begin to clean up values
         // eslint-disable-next-line no-useless-escape
         wapp.eepApp.id = rawWapp.title.toLowerCase().replace(/[`~!@#$%^&*()_|+=?;:'",.<>\{\}\[\]\\\/\s]/gi, '-');
 
+        // Register direct links
+        store.commit(types.PUSH_DIRECT_LINKS_REGISTRATION, {
+          id: wapp.eepApp.id,
+          direct_links: wapp.eepApp.field_direct_links,
+        });
         // Setup the sources
         wapp.eepApp.source = [];
         const keys = Object.keys(rawWapp.field_sources);
@@ -197,7 +205,9 @@ export default {
 
     const getFootprint = (wapp) => {
       const footprint = [];
+      // eslint-disable-next-line no-plusplus,max-len
       for (let columnPosition = wapp.eepApp.field_grid.x; columnPosition < wapp.eepApp.field_grid.x + wapp.eepApp.field_grid.width; columnPosition++) {
+        // eslint-disable-next-line no-plusplus,max-len
         for (let rowPosition = wapp.eepApp.field_grid.y; rowPosition < wapp.eepApp.field_grid.y + wapp.eepApp.field_grid.height; rowPosition++) {
           // Originally used an array but Vue makes if difficult to compare
           // them. So we use a concatenated string.
@@ -209,15 +219,15 @@ export default {
 
     let isValid = true;
 
-    layout.reduce((acc, wapp, idx, arr) => {
+    layout.forEach((wapp, idx, arr) => {
       // check the remaining array items for conflicts, We don't need to check
       // previous times as that would be redundant.
       if (idx < arr.length - 1) {
-        const wapp_footprint = getFootprint(wapp);
+        const wappFootprint = getFootprint(wapp);
 
-        arr.slice(idx).forEach((other_wapp) => {
-          const other_wapp_footprint = getFootprint(other_wapp);
-          const intersection = intersect(wapp_footprint, other_wapp_footprint);
+        arr.slice(idx).forEach((otherWapp) => {
+          const otherWappFootprint = getFootprint(otherWapp);
+          const intersection = intersect(wappFootprint, otherWappFootprint);
           if (intersection.length > 0) {
             isValid = false;
           }

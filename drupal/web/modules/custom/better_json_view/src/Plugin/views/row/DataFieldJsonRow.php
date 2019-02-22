@@ -95,7 +95,15 @@ class DataFieldJsonRow extends DataFieldRow {
       // Otherwise, pass this through the field
       else {
         $value = $row->_entity->get($id)->getValue();
-        if(is_array($value) && count($value) === 1 && isset($value[0]['value'])) {
+        // Clean up arrays of values
+        if($field->multiple) {
+          $tmpValues = [];
+          foreach ($value as $index => $element) {
+            $tmpValues[] = $this->autoCastValue($element['value']);
+          }
+          $value = $tmpValues;
+          // Clean up single values
+        } else if(is_array($value) && count($value) === 1 && isset($value[0]['value'])) {
           $value = $this->autoCastValue($value[0]['value']);
         }
       }

@@ -28,4 +28,14 @@ export default {
       obj, // <- new value to set on that property
     );
   },
+  [types.PUSH_DIRECT_LINKS_REGISTRATION](state, registration) {
+    // synchronise changes to the state of the store
+
+    // Example of how to change properties on the state object
+    Vue.set(
+      state.direct_link_mappings, // <- state value to change
+      registration.id, // <- the name of the property on the object the line above
+      registration.direct_links, // <- new value to set on that property
+    );
+  },
 };
