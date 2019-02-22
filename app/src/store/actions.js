@@ -518,23 +518,23 @@ export default {
   handleSelectButtonClickForLocation(context){
       const store = context;
 
-      let input_box_text = store.getters.getUser.inputBoxText;
-      let drop_down_selection = store.getters.getUser.dropDownSelection
-      let typed_in_location_to_commit = '';
-      let selected_location_from_dropdown_to_commit = '';
+      let inputBoxText = store.getters.getUser.inputBoxText;
+      let dropDownSelection = store.getters.getUser.dropDownSelection
+      let typedInLocationToCommit = '';
+      let selectedLocationFromDropdownToCommit = '';
 
 
-      if(/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(input_box_text)){
-          selected_location_from_dropdown_to_commit = input_box_text;
-          typed_in_location_to_commit = drop_down_selection;
+      if(/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(inputBoxText)){
+          selectedLocationFromDropdownToCommit = inputBoxText;
+          typedInLocationToCommit = dropDownSelection;
       }else{
-          selected_location_from_dropdown_to_commit = drop_down_selection;
-          typed_in_location_to_commit = input_box_text;
+          selectedLocationFromDropdownToCommit = dropDownSelection;
+          typedInLocationToCommit = inputBoxText;
       }
 
       store.commit('SAVE_USER_SELECTED_LOCATIONS', {
-          typed_in_location: typed_in_location_to_commit,
-          selected_location_from_dropdown: selected_location_from_dropdown_to_commit
+          typed_in_location: typedInLocationToCommit,
+          selected_location_from_dropdown: selectedLocationFromDropdownToCommit
       });
 
       // Clear the inputbox text

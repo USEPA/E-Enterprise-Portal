@@ -68,7 +68,7 @@
                       </template>
                   </div>
                 <LocationSelectionOption></LocationSelectionOption>
-                <div v-if="user.displayWhenNewLocationIsClicked == ''">
+                <div v-if="user.displayWhenNewLocationIsClicked === ''">
                     <button class="usa-button pt-2" @click="revealLocationInputBox">New Location</button>
                 </div>
               </div>
