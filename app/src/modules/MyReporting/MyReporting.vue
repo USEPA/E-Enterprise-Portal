@@ -88,8 +88,6 @@
                 show-empty
                 id="my-reporting-table"
                 class="bootstrap-vue-table-scroll"
-                thead-class="thead-fixed"
-                tbody-class="tbody-scroll"
                 stacked="md"
                 :items="items"
                 :fields="fields"
@@ -382,6 +380,7 @@
         const vm = this;
 
         if (roleIds) {
+          this.$Progress.start()
           AppAxios.get(
             `${vm.apiURL}/api/cdx/link-details-json/${roleIds}`,
             {
@@ -397,6 +396,7 @@
               vm.organization = null;
               vm.$root.$emit('bv::show::modal', 'my-reporting-link-details', button);
               vm.linkDetails = response.data;
+              this.$Progress.finish()
             });
         }
       },
