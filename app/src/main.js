@@ -35,7 +35,7 @@ const VueScrollToDefaultSettings = {
   easing: 'ease',
   offset: 0,
   force: true,
-  cancelable: true,
+  cancelable: false,
   onStart: false,
   onDone: false,
   onCancel: false,

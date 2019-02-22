@@ -21,8 +21,10 @@
         <grid-item
           v-for="(wapp, index) in layout"
           :min-w="275"
-          :dragIgnoreFrom="`.wapp-inner-wrapper`"
+          :drag-ignore-from="`.wapp-inner-wrapper`"
           :is-resizable="false"
+          :ref="wapp.eepApp.id"
+          :id="wapp.eepApp.id"
           :x="wapp.x"
           :y="wapp.y"
           :w="wapp.w"
@@ -39,21 +41,21 @@
     <template v-if="!isLayoutReady">
       <AppPlaceholderContent>
         <div class="row">
-          <div class="col-lg-3 col-6 square pulse"></div>
-          <div class="col-lg-3 col-6 square pulse"></div>
-          <div class="col-lg-3 col-6 square pulse"></div>
-          <div class="col-lg-3 col-6 square pulse"></div>
+          <div class="col-lg-3 col-6 square pulse"/>
+          <div class="col-lg-3 col-6 square pulse"/>
+          <div class="col-lg-3 col-6 square pulse"/>
+          <div class="col-lg-3 col-6 square pulse"/>
         </div>
         <div class="row">
           <div class="col-6">
             <div class="row">
-              <div class="col-12 rectangle pulse"></div>
-              <div class="col-12 rectangle pulse"></div>
+              <div class="col-12 rectangle pulse"/>
+              <div class="col-12 rectangle pulse"/>
             </div>
           </div>
           <div class="col-6">
             <div class="row">
-              <div class="col-12 square pulse"></div>
+              <div class="col-12 square pulse"/>
             </div>
           </div>
         </div>
@@ -71,7 +73,8 @@
   import MyReporting from '@/modules/MyReporting/MyReporting.vue';
 
   import { mapActions, mapGetters } from 'vuex';
-  import { GridLayout, GridItem } from 'vue-grid-layout';
+  import GridLayout from './vue-grid-layout/components/GridLayout.vue';
+  import GridItem from './vue-grid-layout/components/GridItem.vue';
   import { AppPlaceholderContent, AppModalManager } from '../wadk/WADK';
   import storeModule from './store/index';
   import { EventBus } from '../../EventBus';
@@ -145,11 +148,15 @@
         'validateWappPositions',
       ]),
       layoutReadyEvent(newLayout) {
-        console.log("Updated layout: ", newLayout)
         const vm = this;
         if (vm.isLayoutReady && !vm.deepLink.isResolved && vm.deepLink.params.link) {
           vm.deepLink.isResolved = true;
-          vm.$scrollTo(`#${vm.deepLink.params.link}`, 1000);
+          setTimeout(() => {
+            const gridRect = vm.$refs.gridRoot.$el.getBoundingClientRect();
+            const elemRect = vm.$refs[vm.deepLink.params.link][0].$el.getBoundingClientRect();
+            const offset = elemRect.top - gridRect.top;
+            vm.$scrollTo(`#${vm.deepLink.params.link}`, 1000, { container: 'body', offset });
+          }, 250);
         }
       },
     },

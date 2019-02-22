@@ -26,7 +26,7 @@ export default {
         const wapp = {};
         wapp.eepApp = rawWapp;
         // eslint-disable-next-line no-useless-escape
-        wapp.eepApp.id = rawWapp.title.toLowerCase().replace(/[`~!@#$%^&*()_|+=?;:'",.<>\{\}\[\]\\\/]/gi, '-');
+        wapp.eepApp.id = rawWapp.title.toLowerCase().replace(/[`~!@#$%^&*()_|+=?;:'",.<>\{\}\[\]\\\/\s]/gi, '-');
 
         // Setup the sources
         wapp.eepApp.source = [];

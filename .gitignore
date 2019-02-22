@@ -247,3 +247,4 @@ $RECYCLE.BIN/
 .idea/
 /.idea/
 /_.idea/
+!/drupal/keys/jwt.key
