@@ -218,4 +218,17 @@ export default {
           'displayWhenNewLocationIsClicked',
           css_prop);
   },
+  [types.SET_DROPDOWN_LABEL](state, newText){
+      Vue.set(state.user,
+          'dropDownLabel',
+          newText);
+  },
+  [types.SET_IS_MAIN_INPUT_DISPLAYED](state, css_prop){
+      Vue.set(state.user,
+          'IsMainInputDisplayed',
+          css_prop);
+  },
+  [types.SET_FIRST_TIME_SELECT_BUTTON_CLICKED](state, amount){
+      state.user.firstTimeSelectButtonClicked += amount;
+  },
 };

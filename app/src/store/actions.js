@@ -458,12 +458,15 @@ export default {
             params = 'tribe=' + store.getters.getUser.inputBoxText.toUpperCase().trim();
         }
     }
+
     AppAxios.get(store.getters.getEEPAPIURL({endpoint: store.getters.getApiUrl('locationSearch'), params: params}), {
         headers: store.getters.getGETHeaders,
     }).then((response) => {
 
       // Declare variables
       let formatted_response_information = [];
+      let drop_down_label_text = "Select a zipcode for";
+
       const return_data = response.data;
       if (params.indexOf('tribe') !== -1) {
           Object.keys(return_data.tribal_information).forEach((key) => {
@@ -480,8 +483,21 @@ export default {
 
           });
       } else if (params.indexOf('zipcode') !== -1) {
-          console.log('hit zipcode');
-          console.log(return_data);
+          // Declare variables
+          let i;
+          let cities = return_data.city;
+
+          // The if statement handles the case of if a zipcode exist in more than one place
+          if(return_data.cities_and_states){
+              formatted_response_information = return_data.cities_and_states;
+          }else{
+              // Loop through cities array and build new array to commit to store
+              for(i = 0; i < cities.length; i++){
+                  formatted_response_information.push(cities[i] + ", " + return_data.state[0]);
+              }
+          }
+          drop_down_label_text = "Select a location for";
+
       } else if (params.indexOf('city') !== -1 && params.indexOf('state') !== -1) {
           formatted_response_information = return_data.zipcode;
       }
@@ -491,6 +507,8 @@ export default {
       store.commit('SET_INPUT_BOX_TEXT', store.getters.getUser.inputBoxText);
       // Reset the display none for the populated dropdown
       store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', '');
+      // Change the label for the dropdown
+      store.commit('SET_DROPDOWN_LABEL', drop_down_label_text);
 
     }).catch((error) => {
 
@@ -501,9 +519,23 @@ export default {
   handleSelectButtonClickForLocation(context){
       const store = context;
 
+      let input_box_text = store.getters.getUser.inputBoxText;
+      let drop_down_selection = store.getters.getUser.dropDownSelection
+      let typed_in_location_to_commit = '';
+      let selected_location_from_dropdown_to_commit = '';
+
+
+      if(/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(input_box_text)){
+          selected_location_from_dropdown_to_commit = input_box_text;
+          typed_in_location_to_commit = drop_down_selection;
+      }else{
+          selected_location_from_dropdown_to_commit = drop_down_selection;
+          typed_in_location_to_commit = input_box_text;
+      }
+
       store.commit('SAVE_USER_SELECTED_LOCATIONS', {
-          typed_in_location: store.getters.getUser.inputBoxText,
-          selected_location_from_dropdown: store.getters.getUser.dropDownSelection
+          typed_in_location: typed_in_location_to_commit,
+          selected_location_from_dropdown: selected_location_from_dropdown_to_commit
       });
 
       // Clear the inputbox text
@@ -514,11 +546,21 @@ export default {
 
       store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', 'none');
 
-      store.commit('SET_DISPLAY_WHEN_LOCATION_IS_CLICKED', 'none');
+      store.commit('SET_IS_MAIN_INPUT_DISPLAYED', 'none');
 
+      if(store.getters.getUser.firstTimeSelectButtonClicked == 1){
+          store.commit('SET_DISPLAY_WHEN_LOCATION_IS_CLICKED', '');
+      }
   },
   handleBackButtonClickForLocation(context){
       const store = context;
-      console.log("back clicked");
+
+      // Clear the inputbox text
+      store.commit('SET_INPUT_BOX_TEXT', '');
+
+      // Clear the dropdown list options
+      store.commit('SET_OPTIONS_AFTER_INPUT', '');
+
+      store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', 'none');
   },
 };
