@@ -107,7 +107,7 @@
     environmentName() {
       let env = 'LOCAL';
       const { host } = window.location;
-      let m;
+      let match;
       const regex = {
         LOCAL: /(localhost|local|^e-enterprise$)/gm,
         DEV: /dev\d?\.e-enterprise/gm,
@@ -116,13 +116,13 @@
       };
       Object.keys(regex).forEach((envName) => {
         // eslint-disable-next-line no-cond-assign
-        while ((m = regex[envName].exec(host)) !== null) {
-        // This is necessary to avoid infinite loops with zero-width matches
-        if (m.length) {
-          env = envName;
+        while ((match = regex[envName].exec(host)) !== null) {
+            // This is necessary to avoid infinite loops with zero-width matches
+            if (match.length) {
+              env = envName;
+            }
         }
-      }
-        });
+      });
           let r = 'Local';
           r = (env === 'DEV') ? 'Development' : r;
           r = (env === 'TEST') ? 'Test' : r;
