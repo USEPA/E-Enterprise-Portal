@@ -1,15 +1,34 @@
-.bootstrap-vue-table-scroll {
-  width: 100%;
-  table-layout: fixed;
-}
-td:nth-child(1), th:nth-child(1) { min-width: 200px; }
-td:nth-child(2), th:nth-child(2) { min-width: 160px; }
-td:nth-child(3), th:nth-child(3) { width: 80px; }
-.thead-fixed {
-  display: block;
-}
-.tbody-scroll {
-  display: block;
+.bootstrap-vue-table-scroll > tbody {
+  height: 90px;
   overflow-y: auto;
-  height: 95px;
+  width: 100%;
 }
+.bootstrap-vue-table-scroll > thead, tbody {
+  display: block;
+}
+.bootstrap-vue-table-scroll > tbody > td {
+  width: 33%;
+}
+.bootstrap-vue-table-scroll > thead th {
+  width: 65%;
+}
+.bootstrap-vue-fav-table-scroll > tbody {
+  height: 200px;
+  overflow-y: auto;
+  width: 100%;
+}
+.bootstrap-vue-fav-table-scroll > thead, tbody {
+  display: block;
+}
+.bootstrap-vue-fav-table-scroll > tbody td,
+.bootstrap-vue-fav-table-scroll > thead th,
+.bootstrap-vue-fav-table-scroll > table,
+.bootstrap-vue-table-scroll > table {
+  width: 100%;
+}
+.bootstrap-vue-fav-table-scroll > thead tr,
+.bootstrap-vue-fav-table-scroll > tbody tr {
+  display: flex;
+}
+
+
