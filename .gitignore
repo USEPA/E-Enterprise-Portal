@@ -251,4 +251,4 @@ $RECYCLE.BIN/
 /drupal/web/web.config
 /drupal/composer.lock
 /drupal/keys/.gitkeep
-/drupal/web/sites/development.services.yml
+/drupal/web/sites/default/default.services.yml
