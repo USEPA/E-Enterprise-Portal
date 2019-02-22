@@ -250,3 +250,4 @@ $RECYCLE.BIN/
 /drupal/keys/jwt.key
 /drupal/web/web.config
 /drupal/composer.lock
+/drupal/keys/.gitkeep
