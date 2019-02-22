@@ -81,7 +81,7 @@
           handleSelectButton(){
                 if(this.$store.getters.getUser.inputBoxText != '' &&
                         this.$store.getters.getUser.dropDownSelection != ''){
-                    this.$store.commit('SET_FIRST_TIME_SELECT_BUTTON_CLICKED', 1);
+                    this.$store.commit('ITERATE_FIRST_TIME_SELECT_BUTTON', 1);
                     this.$store.dispatch('handleSelectButtonClickForLocation');
                     this.$store.commit('SET_DISPLAY_WHEN_LOCATION_IS_CLICKED', '');
                 }

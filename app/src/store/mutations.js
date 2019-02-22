@@ -228,7 +228,7 @@ export default {
           'IsMainInputDisplayed',
           css_prop);
   },
-  [types.SET_FIRST_TIME_SELECT_BUTTON_CLICKED](state, amount){
+  [types.ITERATE_FIRST_TIME_SELECT_BUTTON](state, amount){
       state.user.firstTimeSelectButtonClicked += amount;
   },
 };

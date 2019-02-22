@@ -483,7 +483,7 @@ export default {
 
           });
       } else if (params.indexOf('zipcode') !== -1) {
-          // Declare variables
+          
           let i;
           let cities = return_data.city;
 
