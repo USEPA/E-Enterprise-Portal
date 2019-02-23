@@ -6,8 +6,8 @@ dependencies:
     - core.entity_view_mode.user.compact
     - field.field.user.user.field_cdx_user_id
     - field.field.user.user.field_favorite_links
-    - field.field.user.user.field_organisation
     - field.field.user.user.field_role
+    - field.field.user.user.field_userlocation
     - field.field.user.user.user_picture
     - image.style.thumbnail
   module:
@@ -39,26 +39,6 @@ content:
   field_favorite_links:
     type: double_field_unformatted_list
     weight: 2
-    region: content
-    label: above
-    settings:
-      inline: true
-      first:
-        hidden: false
-        prefix: ''
-        suffix: ''
-        link: false
-        format_type: medium
-      second:
-        hidden: false
-        prefix: ''
-        suffix: ''
-        link: false
-        format_type: medium
-    third_party_settings: {  }
-  field_organisation:
-    type: double_field_unformatted_list
-    weight: 3
     region: content
     label: above
     settings:
@@ -110,4 +90,5 @@ content:
     third_party_settings: {  }
     label: hidden
 hidden:
+  field_userlocation: true
   member_for: true

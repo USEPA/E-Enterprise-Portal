@@ -5,8 +5,9 @@ dependencies:
   config:
     - field.field.user.user.field_cdx_user_id
     - field.field.user.user.field_favorite_links
-    - field.field.user.user.field_organisation
+    - field.field.user.user.field_organization
     - field.field.user.user.field_role
+    - field.field.user.user.field_userlocation
     - field.field.user.user.user_picture
     - image.style.thumbnail
   module:
@@ -60,6 +61,56 @@ content:
     third_party_settings: {  }
     type: double_field
     region: content
+  field_organization:
+    weight: 34
+    settings:
+      first:
+        type: textfield
+        prefix: ''
+        suffix: ''
+        size: 10
+        placeholder: ''
+        label: Ok
+        cols: 10
+        rows: 5
+      second:
+        type: textfield
+        prefix: ''
+        suffix: ''
+        size: 10
+        placeholder: ''
+        label: Ok
+        cols: 10
+        rows: 5
+      inline: false
+    third_party_settings: {  }
+    type: double_field
+    region: content
+  field_userlocation:
+    weight: 33
+    settings:
+      first:
+        type: textfield
+        prefix: ''
+        suffix: ''
+        size: 10
+        placeholder: ''
+        label: Ok
+        cols: 10
+        rows: 5
+      second:
+        type: textfield
+        prefix: ''
+        suffix: ''
+        size: 10
+        placeholder: ''
+        label: Ok
+        cols: 10
+        rows: 5
+      inline: false
+    third_party_settings: {  }
+    type: double_field
+    region: content
   language:
     weight: 0
     region: content
@@ -81,5 +132,4 @@ content:
     weight: -1
     region: content
 hidden:
-  field_organisation: true
   field_role: true

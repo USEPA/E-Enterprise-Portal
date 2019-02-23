@@ -99,16 +99,17 @@ export default {
   },
   [types.SET_USER_OBJECT](state, obj) {
     const name = obj.name[0].value;
-    const { init } = obj;
-    let { mail } = state.user;
+    const {init} = obj;
+    let {mail} = state.user;
     if (obj.mail[0]) {
       mail = obj.mail[0].value;
     }
     const favoriteLinks = obj.field_favorite_links;
     const loaded = true;
-    const organization = obj.field_organisation;
+    const organization = obj.field_organization;
     const role = obj.field_role;
-    const zipcode = obj.field_zipcode;
+    const userlocation = obj.field_userlocation;
+
     Vue.set(state.user,
       'name',
       name);
@@ -131,12 +132,12 @@ export default {
       'role',
       role);
     Vue.set(state.user,
-      'zipcode',
-      zipcode);
+      'userlocation',
+      userlocation);
   },
   [types.SET_USER_OBJECT_ORGANIZATION](state, obj) {
     Vue.set(state.user.userObject,
-      'field_organisation',
+      'field_organization',
       obj);
   },
   [types.SET_USER_OBJECT_ROLE](state, obj) {
@@ -144,11 +145,12 @@ export default {
       'field_role',
       obj);
   },
-  [types.SET_USER_OBJECT_ZIPCODE](state, obj) {
+  [types.SET_USER_OBJECT_USERLOCATION](state, obj) {
     Vue.set(state.user.userObject,
-      'field_zipcode',
+      'field_userlocation',
       obj);
   },
+
   [types.SET_BASIC_PAGES](state, arr) {
     Vue.set(state.basicPages,
       'pagesArray',

@@ -44,11 +44,37 @@
                   <p>Until a location is specified, the default location is set to
                   Durham, North Carolina.</p>
                 </div>
-                  <!-- format this to output the users inputted locations -->
+                <div  v-if="user.userlocation.length > 0">
+                  <template v-for="(second,index) in user.userlocation">
+                    <b-input-group class="pl-2 pb-2 pt-2">
+                      <b-form-input ref="selectedLocation" v-model="userlocation[index].second"
+                                    type="text"
+                                    class="col-4 ml-3"
+                                    disabled/>
+                      <div class="col-1 cursor-pointer">
+                        <template v-if="index == 0">
+                          <i :ref="'click-star-' + index" @click="starClick('click-star-' + index)" class="fas fa-star"/>
+                        </template>
+                        <template v-else>
+                          <i :ref="'click-star-' + index" @click="starClick('click-star-' + index)" class="far fa-star"/>
+                        </template>
+                      </div>
+                      <button class="usa-button" value="x" @click="deleteSelectedLocation({
+                                typed_in_location: location.typed_in_location,
+                                selected_location_from_dropdown: location.selected_location_from_dropdown})">X
+                      </button>
+                      <span class="col-md-12 pt-1 small"  >{{userlocation[index].first}}</span>
+                    </b-input-group>
+                  </template>
+
+                </div>
+
+                <!-- format this to output the users inputted locations -->
                   <div id="user-input-locations" v-if="user.userSavedLocations.length > 0">
                       <template v-for="(location, index) in user.userSavedLocations">
                           <b-input-group class="pl-2 pb-2 pt-2">
-                              <b-form-input v-model="location.selected_location_from_dropdown"
+                              <b-form-input ref="selectedLocation" v-model="location.selected_location_from_dropdown"
+                                            value="hello"
                                             type="text"
                                             class="col-4 ml-3"
                                             disabled/>
@@ -161,6 +187,7 @@
     data() {
       return {
         locations: [{}],
+        somethingElse:'',
         UserDeleteModalInfo: { title:'Delete User' },
         selected: null,
         org: [{ first: "" }, { second: "" }],
@@ -168,6 +195,11 @@
         roleList: [],
         organizations: [],
         roles: [],
+        selectedLocation:[],
+        inputLocation:[]
+
+
+
       };
     },
     computed: {
@@ -182,6 +214,7 @@
       },
       username: {
         get() {
+          console.warn(this.user.name);
             return this.user.name;
         }
       },
@@ -200,6 +233,33 @@
             return this.user.role;
         }
       },
+      location: {
+        get() {
+          return this.user.location;
+        }
+      },
+      inputBoxText: {
+        get() {
+          return this.user.inputBoxText;
+        }
+      },
+      dropDownSelection:{
+        get() {
+          return this.user.dropDownSelection;
+        }
+      },
+      userSavedLocations: {
+        get() {
+          return this.user.userSavedLocations;
+        }
+      },
+      userlocation: {
+        get() {
+          return this.user.userlocation;
+        }
+      },
+
+
     },
     mounted() {
       AppAxios.get("sample_data/organization.json").then(response => {
@@ -236,18 +296,20 @@
           if (this.selectedRole != '') {
               this.updateRole();
           }
+        this.updateUserLocation();
       },
       updateOrg() {
           const firstField = 'org';
           const secondField = this.selected;
-          this.organisations = this.organisations.concat({
+          this.organizations = this.organizations.concat({
               first: firstField,
               second: secondField
           });
           const orgParams = {
-              field_organisation: this.organisations
+              field_organization: this.organizations
           };
           this.apiUserPatch(orgParams);
+          this.organization=[];
       },
       updateRole() {
           const firstField = 'role';
@@ -260,7 +322,42 @@
               field_role: this.roles
           };
           this.apiUserPatch(params);
+          this.roles=[];
       },
+      updateUserLocation(){
+
+        var i;
+        var params;
+
+        if (this.userlocation.length > 0) {
+          this. selectedLocation=this.userlocation;
+          console.warn(this.selectedLocation)
+          for (i = 0; i < this.userSavedLocations.length; i++) {
+            const sl = this.userSavedLocations[i].selected_location_from_dropdown;
+
+            this.selectedLocation = this.selectedLocation.concat({
+              first: this.userSavedLocations[i].typed_in_location,
+              second: parseInt(sl, 10)
+
+            });
+          }
+        }else{
+          for (i = 0; i < this.userSavedLocations.length; i++) {
+            const sl = this.userSavedLocations[i].selected_location_from_dropdown;
+
+            this.selectedLocation = this.selectedLocation.concat({
+              first: this.userSavedLocations[i].typed_in_location,
+              second: parseInt(sl, 10)
+
+            });
+          }
+        }
+        params = {
+                  field_userlocation: this.selectedLocation,
+                  };
+
+        this.apiUserPatch(params);
+        },
       deleteSelectedLocation(location){
           this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
       },
