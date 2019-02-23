@@ -6,6 +6,10 @@
     border-radius: .2rem;
     padding: .5rem;
 
+    & > div {
+      overflow-x: hidden;
+    }
+
     &.vue-grid-placeholder {
       background: $blue;
     }

@@ -1,5 +1,5 @@
 <template>
-  <div id="reportingrow">
+  <div>
     <AppWrapper
       class="pb-5"
       :eep-app="eepApp">
@@ -87,6 +87,9 @@
               <b-table
                 show-empty
                 id="my-reporting-table"
+                class="bootstrap-vue-table-scroll"
+                thead-class="thead-fixed"
+                tbody-class="tbody-scroll"
                 stacked="md"
                 :items="items"
                 :fields="fields"
@@ -433,10 +436,6 @@
   #app {
     margin-bottom: 7rem;
   }
-  #reportingrow {
-    overflow-y: scroll;
-    max-height: 100%;
-  }
   #my-reporting-flows-container .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
     color: #000;
     font-weight: bold;
@@ -558,4 +557,7 @@
     background-size: 1.3rem 1.325rem;
     background-image: url('/images/minus-circle-solid.svg')
   }
+</style>
+<style>
+  @import '../../styles/bootstrap-table-scroll.scss';
 </style>

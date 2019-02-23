@@ -44,40 +44,33 @@
                   <p>Until a location is specified, the default location is set to
                   Durham, North Carolina.</p>
                 </div>
-                <div class="pt-3 d-flex">
-                  <b-input-group>
-                    <label class="col-12 font-weight-bold">
-                      Enter city, state; tribe; or ZIP code
-                    </label>
-                    <b-form-input id="locationInput" v-model="inputBoxText" @keydown.native="submitInput" class="col-4 ml-3"/>
-                    <div class="col-6 cursor-pointer">
-                      <i ref="click-star" @click="starClick" class="fas fa-star"/>
-                    </div>
-                  </b-input-group>
-                </div>
-                <div id="input-box-results-drop-down" class="pt-3 d-flex">
-                    <b-input-group :style="{display: user.IsAfterInputDropdownDisplayed}">
-                        <label class="col-12 font-weight-bold">Select a zipcode for {{user.inputBoxTextAfterSubmit}}</label>
-                        <b-form-select class="col-4 ml-3">
-                            <template v-for="afterInputOption in user.optionsAfterInput">
-                                <template v-if="/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(afterInputOption)">
-                                    <option>
-                                        {{afterInputOption}}
-                                    </option>
-                                </template>
-                                <template v-else>
-                                    <option disabled>
-                                        {{afterInputOption}}
-                                    </option>
-                                </template>
-                            </template>
-                        </b-form-select>
-                    </b-input-group>
-                </div>
-                  <div class="locations-btn-wrapper pt-2 ml-3" :style="{display: user.IsAfterInputDropdownDisplayed}">
-                      <button class="usa-button">Select</button>
-                      <button class="usa-button">Back</button>
+                  <!-- format this to output the users inputted locations -->
+                  <div id="user-input-locations" v-if="user.userSavedLocations.length > 0">
+                      <template v-for="(location, index) in user.userSavedLocations">
+                          <b-input-group class="pl-2 pb-2 pt-2">
+                              <b-form-input v-model="location.selected_location_from_dropdown"
+                                            type="text"
+                                            class="col-4 ml-3"
+                                            disabled/>
+                              <div class="col-1 cursor-pointer">
+                                  <template v-if="index == 0">
+                                      <i :ref="'click-star-' + index" @click="starClick('click-star-' + index)" class="fas fa-star"/>
+                                  </template>
+                                  <template v-else>
+                                      <i :ref="'click-star-' + index" @click="starClick('click-star-' + index)" class="far fa-star"/>
+                                  </template>
+                              </div>
+                              <button class="usa-button" value="x" @click="deleteSelectedLocation({
+                                typed_in_location: location.typed_in_location,
+                                selected_location_from_dropdown: location.selected_location_from_dropdown})">X</button>
+                              <span class="col-md-12 pt-1 small">{{location.typed_in_location}}</span>
+                          </b-input-group>
+                      </template>
                   </div>
+                <LocationSelectionOption></LocationSelectionOption>
+                <div v-if="user.displayWhenNewLocationIsClicked == 'none'">
+                    <button class="usa-button pt-2" @click="revealLocationInputBox">New Location</button>
+                </div>
               </div>
             </div>
           </b-container>
@@ -155,16 +148,18 @@
 <script>
   import AppAxios from "axios";
   import { mapActions, mapGetters } from "vuex";
+  import LocationSelectionOption from '@/components/LocationSelectionOption.vue';
 
   const moduleName = 'User';
 
   export default {
     name: moduleName,
-    components: {},
+    components: {
+        LocationSelectionOption,
+    },
     beforeCreate() {},
     data() {
       return {
-        inputBoxText: '',
         locations: [{}],
         UserDeleteModalInfo: { title:'Delete User' },
         selected: null,
@@ -181,19 +176,19 @@
         user: 'getUser',
       }),
       userInit: {
-          get() {
-              return this.user.init;
-          }
+        get() {
+            return this.user.init;
+        }
       },
       username: {
-          get() {
-              return this.user.name;
-          }
+        get() {
+            return this.user.name;
+        }
       },
       mail: {
-          get() {
-              return this.user.mail;
-          }
+        get() {
+            return this.user.mail;
+        }
       },
       organization: {
           get() {
@@ -201,9 +196,9 @@
           }
       },
       role: {
-          get() {
-              return this.user.role;
-          }
+        get() {
+            return this.user.role;
+        }
       },
     },
     mounted() {
@@ -215,61 +210,63 @@
       });
     },
     methods: {
-        ...mapActions(['apiUserPatch']),
-        hideUserDeleteModal() {
-          this.$refs.UserDeleteModal.hide();
-        },
-        starClick() {
-          if (this.$refs['click-star'].classList.contains('fas')) {
-            this.$refs['click-star'].classList.remove('fas');
-            this.$refs['click-star'].classList.add('far');
+      ...mapActions([
+        'apiUserPatch'
+      ]),
+      hideUserDeleteModal() {
+        this.$refs.UserDeleteModal.hide();
+      },
+      DeleteEEPUserProfile() {
+        console.warn('DELETE PROFILE');
+      },
+      starClick(ref_index){
+          // redo logic for star click
+          if (this.$refs[ref_index][0].classList.contains('fas')) {
+              this.$refs[ref_index][0].classList.remove('fas');
+              this.$refs[ref_index][0].classList.add('far');
           } else {
-            this.$refs['click-star'].classList.remove('far');
-            this.$refs['click-star'].classList.add('fas');
+              this.$refs[ref_index][0].classList.remove('far');
+              this.$refs[ref_index][0].classList.add('fas');
           }
-        },
-        DeleteEEPUserProfile() {
-          console.warn('DELETE PROFILE');
-        },
-        save() {
-            if (this.selected != '') {
-                this.updateOrg();
-            }
-            if (this.selectedRole != '') {
-                this.updateRole();
-            }
-        },
-        updateOrg() {
-            const firstField = 'org';
-            const secondField = this.selected;
-            this.organizations = this.organizations.concat({
-                first: firstField,
-                second: secondField
-            });
-            const orgParams = {
-                field_organisation: this.organizations
-            };
-            this.apiUserPatch(orgParams);
-            this.organizations=[];
-        },
-        updateRole() {
-            const firstField = 'role';
-            const secondField = this.selectedRole;
-            this.roles = this.roles.concat({
-                first: firstField,
-                second: secondField
-            });
-            const params = {
-                field_role: this.roles
-            };
-            this.apiUserPatch(params);
-            this.roles=[];
-        },
-        submitInput(event){
-            if(event.which === 13){
-                this.$store.dispatch('populateDropdownForUserInput', this.inputBoxText);
-            }
-        }
+      },
+      save() {
+          if (this.selected != '') {
+              this.updateOrg();
+          }
+          if (this.selectedRole != '') {
+              this.updateRole();
+          }
+      },
+      updateOrg() {
+          const firstField = 'org';
+          const secondField = this.selected;
+          this.organisations = this.organisations.concat({
+              first: firstField,
+              second: secondField
+          });
+          const orgParams = {
+              field_organisation: this.organisations
+          };
+          this.apiUserPatch(orgParams);
+      },
+      updateRole() {
+          const firstField = 'role';
+          const secondField = this.selectedRole;
+          this.roles = this.roles.concat({
+              first: firstField,
+              second: secondField
+          });
+          const params = {
+              field_role: this.roles
+          };
+          this.apiUserPatch(params);
+      },
+      deleteSelectedLocation(location){
+          this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
+      },
+      revealLocationInputBox(){
+          this.$store.commit('SET_DISPLAY_WHEN_LOCATION_IS_CLICKED', '');
+      },
     },
   };
 </script>
