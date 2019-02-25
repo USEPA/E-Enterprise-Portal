@@ -95,7 +95,11 @@ export default {
     );
   },
   [types.SET_MARGIN_TOP_NAV](state, obj) {
-    state.navMargin = obj;
+    Vue.set(
+      state,
+      'navMargin',
+      obj,
+    );
   },
   [types.SET_USER_OBJECT](state, obj) {
     const name = obj.name[0].value;
@@ -146,13 +150,25 @@ export default {
       arr);
   },
   [types.SET_BRIDGE_URN](state, obj) {
-    state.currentBridgeUrn = obj;
+    Vue.set(
+      state,
+      'currentBridgeUrn',
+      obj,
+    );
   },
   [types.SET_LOGIN_VIEW_ACCOUNTS](state, obj) {
-    state.loginViewAccounts = obj;
+    Vue.set(
+      state,
+      'loginViewAccounts',
+      obj,
+    );
   },
   [types.SET_UID](state, int) {
-    state.user.id = int;
+    Vue.set(
+      state.user,
+      'id',
+      int,
+    );
   },
   [types.IS_USER_LOGGED_IN](state, IsLoggedIn) {
     Vue.set(state.user,
@@ -179,56 +195,63 @@ export default {
       'cookie',
       obj);
   },
-  [types.SET_OPTIONS_AFTER_INPUT](state, obj){
-      Vue.set(state.user,
-          'optionsAfterInput',
-          obj);
+  [types.SET_OPTIONS_AFTER_INPUT](state, obj) {
+    Vue.set(state.user,
+      'optionsAfterInput',
+      obj);
   },
-  [types.SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED](state, isDisplayed){
-      Vue.set(state.user,
-          'IsAfterInputDropdownDisplayed',
-          isDisplayed);
+  [types.SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED](state, isDisplayed) {
+    Vue.set(state.user,
+      'IsAfterInputDropdownDisplayed',
+      isDisplayed);
   },
-  [types.SET_INPUT_BOX_TEXT](state, newText){
-      Vue.set(state.user,
-          'inputBoxText',
-          newText);
+  [types.SET_INPUT_BOX_TEXT](state, newText) {
+    Vue.set(state.user,
+      'inputBoxText',
+      newText);
   },
-  [types.SET_DROPDOWN_SELECTION](state, dropdownSelection){
-      Vue.set(state.user,
-          'dropDownSelection',
-          dropdownSelection);
+  [types.SET_DEEP_LINK](state, deepLink) {
+    Vue.set(
+      state,
+      'deepLink',
+      deepLink,
+    );
   },
-  [types.SAVE_USER_SELECTED_LOCATIONS](state, new_location){
-      state.user.userSavedLocations.push(new_location);
+  [types.SET_DROPDOWN_SELECTION](state, dropdownSelection) {
+    Vue.set(state.user,
+      'dropDownSelection',
+      dropdownSelection);
   },
-  [types.DELETE_USER_SELECTED_LOCATION](state, deleted_selection){
-      // Filter the array with the location that they want deleted
-      let filtered_location_array = state.user.userSavedLocations
-              .filter(location => location.typed_in_location != deleted_selection.typed_in_location
-          && location.selected_location_from_dropdown != deleted_selection.selected_location_from_dropdown);
+  [types.SAVE_USER_SELECTED_LOCATIONS](state, newLocation) {
+    state.user.userSavedLocations.push(newLocation);
+  },
+  [types.DELETE_USER_SELECTED_LOCATION](state, deletedSelection) {
+    // Filter the array with the location that they want deleted
+    const filteredLocation = state.user.userSavedLocations
+      .filter(location => location.typed_in_location !== deletedSelection.typed_in_location
+        && location.selected_location_from_dropdown !== deletedSelection.selected_location_from_dropdown);
 
-      // Save back to state
-      Vue.set(state.user,
-          'userSavedLocations',
-          filtered_location_array);
+    // Save back to state
+    Vue.set(state.user,
+      'userSavedLocations',
+      filteredLocation);
   },
-  [types.SET_DISPLAY_WHEN_LOCATION_IS_CLICKED](state, css_prop){
-      Vue.set(state.user,
-          'displayWhenNewLocationIsClicked',
-          css_prop);
+  [types.SET_DISPLAY_WHEN_LOCATION_IS_CLICKED](state, css_prop) {
+    Vue.set(state.user,
+      'displayWhenNewLocationIsClicked',
+      css_prop);
   },
-  [types.SET_DROPDOWN_LABEL](state, newText){
-      Vue.set(state.user,
-          'dropDownLabel',
-          newText);
+  [types.SET_DROPDOWN_LABEL](state, newText) {
+    Vue.set(state.user,
+      'dropDownLabel',
+      newText);
   },
-  [types.SET_IS_MAIN_INPUT_DISPLAYED](state, css_prop){
-      Vue.set(state.user,
-          'IsMainInputDisplayed',
-          css_prop);
+  [types.SET_IS_MAIN_INPUT_DISPLAYED](state, css_prop) {
+    Vue.set(state.user,
+      'IsMainInputDisplayed',
+      css_prop);
   },
-  [types.ITERATE_FIRST_TIME_SELECT_BUTTON](state, amount){
-      state.user.firstTimeSelectButtonClicked += amount;
+  [types.ITERATE_FIRST_TIME_SELECT_BUTTON](state, amount) {
+    state.user.firstTimeSelectButtonClicked += amount;
   },
 };
