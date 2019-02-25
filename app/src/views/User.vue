@@ -209,8 +209,7 @@
       },
       username: {
         get() {
-          console.warn(this.user.name);
-            return this.user.name;
+          return this.user.name;
         }
       },
       mail: {
@@ -326,7 +325,6 @@
 
         if (this.userlocation.length > 0) {
           this. selectedLocation=this.userlocation;
-          console.warn(this.selectedLocation)
           for (i = 0; i < this.userSavedLocations.length; i++) {
             const sl = this.userSavedLocations[i].selected_location_from_dropdown;
 
