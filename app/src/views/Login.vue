@@ -13,25 +13,7 @@
         <b-tabs class="epa-tabs" pills card vertical nav-wrapper-class="w-25">
             <b-tab title="EPA" active>
                 <h6 class="tabText font-weight-bold">Use your EPA account...</h6>
-                <b-container class="ml-2">
-                    <b-row class="tabContainer">
-                        <div v-for="(account, index) in loginViewAccounts">
-                            <!-- v-if -->
-                            <template v-if="account.weight == 0">
-                                <b-col class="pb-1 col-md-auto">
-                                    <div class="link-wrapper">
-                                        <a class="link" href="javascript:void(0);"
-                                           @click="navigateToBridge(account.data.field_urn[0].value)">
-                                            <img :src="account.data.field_option_image[0].url" alt="not found">
-                                            <span class="pl-2">{{account.data.title[0].value}}</span>
-                                        </a>
-                                    </div>
-                                </b-col>
-                                <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
-                            </template>
-                        </div>
-                    </b-row>
-                </b-container>
+                <LoginType index="0"></LoginType>
                 <div class="mt-4">
                     You can <a href="https://cdx.epa.gov/">create a free CDX account </a> within the Exchange Network.
                     You only need to provide some basic information.
@@ -39,52 +21,17 @@
             </b-tab>
             <b-tab class="tab" title="Social Media">
                 <h6 class="tabText font-weight-bold">Use your social media account to log in...</h6>
-                <b-container class="ml-2">
-                    <b-row class="tabContainer">
-                        <div v-for="(account, index) in loginViewAccounts" >
-                            <!-- v-if -->
-                            <template v-if="account.weight == 1">
-                                <b-col class="pb-1 col-md-auto">
-                                    <div class="link-wrapper">
-                                        <a class="link" href="javascript:void(0);"
-                                           @click="navigateToBridge(account.data.field_urn[0].value)">
-                                            <img :src="account.data.field_option_image[0].url" alt="not found">
-                                            <span class="pl-2">{{account.data.title[0].value}}</span>
-                                        </a>
-                                    </div>
-                                </b-col>
-                                <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
-                            </template>
-                        </div>
-                    </b-row>
-                </b-container>
+                <LoginType index="1"></LoginType>
             </b-tab>
             <b-tab class="tab" title="State">
                 <!-- Once we get more states then it can be optimized with using a v-for to loop through -->
                 <!-- and create each <b-row> and each <b-col> -->
                 <h6 class="tabText font-weight-bold">Use your state account to log in...</h6>
-                <b-container class="ml-2">
-                    <b-row class="tabContainer">
-                        <div v-for="(account, index) in loginViewAccounts" >
-                            <!-- v-if -->
-                            <template v-if="account.weight == 2">
-                                <b-col class="pb-1 col-md-auto">
-                                    <div class="link-wrapper state">
-                                        <a class="link" href="javascript:void(0);"
-                                           @click="navigateToBridge(account.data.field_urn[0].value)">
-                                            <img :src="account.data.field_option_image[0].url" alt="not found">
-                                            <span class="pl-2">{{account.data.title[0].value}}</span>
-                                        </a>
-                                    </div>
-                                </b-col>
-                                <div class="w-100 d-block d-md-none py-1" v-if="index % 3 == 0"></div>
-                            </template>
-                        </div>
-                    </b-row>
-                </b-container>
+                <LoginType index="2"></LoginType>
             </b-tab>
             <b-tab class="tab" title="Tribal">
-
+                <!-- uncomment when a tribal node is added for the content type-->
+                <!--<LoginType index="3"></LoginType>-->
             </b-tab>
         </b-tabs>
     </div>
@@ -92,10 +39,13 @@
 
 <script>
     import {mapGetters, mapActions} from 'vuex';
+    import LoginType from '@/components/LoginType.vue';
 
     export default{
         name: 'Login',
-        components: {},
+        components: {
+            LoginType,
+        },
         data() {
             return {};
         },
@@ -110,7 +60,6 @@
         computed: {
             ...mapGetters({
                 bridgeURL: 'getBridgeURL',
-                loginViewAccounts: 'getLoginViewAccounts',
             }),
         },
     };
@@ -128,58 +77,37 @@
 
     .epa-tabs {
 
-    ul {
-        border-right: 1px solid lightgrey;
-        background-color: #FFFFFF;
+        ul {
+            border-right: 1px solid lightgrey;
+            background-color: #FFFFFF;
+        }
 
-    li.nav-item a {
-        background-color: #F1F1F1;
-        color: #094e7a;
-        text-decoration: none;
-
-        &:hover{
-             background-color: #094e7a;
-             color: #ffffff;
-         }
-    }
-
-    li.nav-item a.active {
-        background-color: #094e7a;
-        color: #ffffff;
-    }
-
-    li.nav-item a.active, li.nav-item a {
-        margin-bottom: 10px;
-        -webkit-border-radius: 0;
-        -moz-border-radius: 0;
-        border-radius: 0;
-        height: 4rem;
-        padding-top: 20px;
-
-    }
-
-    }
-
-    }
-    .link-wrapper {
-        background-color: #AEB0B6;
-        cursor: pointer;
-        width: 232px;
-        padding: 15px;
-
-        &:hover{
-            background-color: #094E7A;
-         }
-
-        .link {
-            color: #ffffff;
+        li.nav-item a {
+            background-color: #F1F1F1;
+            color: #094e7a;
             text-decoration: none;
+
+            &:hover{
+                 background-color: #094e7a;
+                 color: #ffffff;
+             }
         }
 
-        img {
-            height: 24px;
-            width: 24px;
+        li.nav-item a.active {
+            background-color: #094e7a;
+            color: #ffffff;
         }
+
+        li.nav-item a.active, li.nav-item a {
+            margin-bottom: 10px;
+            -webkit-border-radius: 0;
+            -moz-border-radius: 0;
+            border-radius: 0;
+            height: 4rem;
+            padding-top: 20px;
+
+        }
+
     }
 
     .caption-wrapper > p{
