@@ -77,37 +77,40 @@
 
   .epa-tabs {
 
-    ul {
+  ul {
       border-right: 1px solid lightgrey;
       background-color: #fff;
 
-      li.nav-item a {
-        background-color: #f1f1f1;
-        color: #094e7a;
-        text-decoration: none;
+  li.nav-item a {
+      background-color: #f1f1f1;
+      color: #094e7a;
+      text-decoration: none;
 
-        &:hover {
-          background-color: #094e7a;
-          color: #fff;
-        }
-      }
+  &
+  :hover {
+      background-color: #094e7a;
+      color: #fff;
+  }
 
-      li.nav-item a.active {
-        background-color: #094e7a;
-        color: #fff;
-      }
+  }
 
-      li.nav-item a.active, li.nav-item a {
-        margin-bottom: 10px;
-        -webkit-border-radius: 0;
-        -moz-border-radius: 0;
-        border-radius: 0;
-        height: 4rem;
-        padding-top: 20px;
+  li.nav-item a.active {
+      background-color: #094e7a;
+      color: #fff;
+  }
 
-      }
+  li.nav-item a.active, li.nav-item a {
+      margin-bottom: 10px;
+      -webkit-border-radius: 0;
+      -moz-border-radius: 0;
+      border-radius: 0;
+      height: 4rem;
+      padding-top: 20px;
 
-    }
+  }
+
+  }
+  }
 
     .caption-wrapper > p{
         max-width: 100%;
