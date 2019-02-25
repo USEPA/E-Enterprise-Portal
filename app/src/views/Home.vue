@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home mt-2">
     <b-carousel
       id="home-carousel"
       background="#ababab"
