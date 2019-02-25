@@ -75,7 +75,7 @@
         </div>
         <b-tooltip
           v-if="!displayLoggedInElements"
-          target="try-it"
+          target="try-it-header-button"
           class="tryit-tooltip"
           placement="bottom">
           Want to just try it? No log in needed.
