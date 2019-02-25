@@ -3,19 +3,21 @@
     <h3>Login</h3>
     <div class="pt-2 caption-wrapper">
       <p class="pt-2 font-weight-bold">Select your preferred login method to access E-Enterprise
-        using one of
-        your existing accounts. Choose a
-        preferred login type and option to get started.</p>
+      using one of
+      your existing accounts. Choose a
+      preferred login type and option to get started.</p>
 
     </div>
-    <div class="pt-3"></div>
+    <div class="pt-3"/>
     <h6 class="ml-4 font-weight-bold ">Use this account:</h6>
-    <b-tabs class="epa-tabs"
+    <b-tabs
+      class="epa-tabs"
       pills
       card
       vertical
       nav-wrapper-class="w-25">
-      <b-tab title="EPA"
+      <b-tab
+        title="EPA"
         active>
         <h6 class="tabText font-weight-bold">Use your EPA account...</h6>
         <b-container class="ml-2">
@@ -25,17 +27,20 @@
               <template v-if="account.weight == 0">
                 <b-col class="pb-1 col-md-auto">
                   <div class="link-wrapper">
-                    <a class="link"
+                    <a
+                      class="link"
                       href="javascript:void(0);"
                       @click="navigateToBridge(account.data.field_urn[0].value)">
-                      <img :src="account.data.field_option_image[0].url"
+                      <img
+                        :src="account.data.field_option_image[0].url"
                         alt="not found">
-                      <span class="pl-2">{{account.data.title[0].value}}</span>
+                      <span class="pl-2">{{ account.data.title[0].value }}</span>
                     </a>
                   </div>
                 </b-col>
-                <div class="w-100 d-block d-md-none py-1"
-                  v-if="index % 3 == 0"></div>
+                <div
+                  class="w-100 d-block d-md-none py-1"
+                  v-if="index % 3 == 0"/>
               </template>
             </div>
           </b-row>
@@ -46,7 +51,8 @@
           You only need to provide some basic information.
         </div>
       </b-tab>
-      <b-tab class="tab"
+      <b-tab
+        class="tab"
         title="Social Media">
         <h6 class="tabText font-weight-bold">Use your social media account to log in...</h6>
         <b-container class="ml-2">
@@ -56,23 +62,27 @@
               <template v-if="account.weight == 1">
                 <b-col class="pb-1 col-md-auto">
                   <div class="link-wrapper">
-                    <a class="link"
+                    <a
+                      class="link"
                       href="javascript:void(0);"
                       @click="navigateToBridge(account.data.field_urn[0].value)">
-                      <img :src="account.data.field_option_image[0].url"
+                      <img
+                        :src="account.data.field_option_image[0].url"
                         alt="not found">
-                      <span class="pl-2">{{account.data.title[0].value}}</span>
+                      <span class="pl-2">{{ account.data.title[0].value }}</span>
                     </a>
                   </div>
                 </b-col>
-                <div class="w-100 d-block d-md-none py-1"
-                  v-if="index % 3 == 0"></div>
+                <div
+                  class="w-100 d-block d-md-none py-1"
+                  v-if="index % 3 == 0"/>
               </template>
             </div>
           </b-row>
         </b-container>
       </b-tab>
-      <b-tab class="tab"
+      <b-tab
+        class="tab"
         title="State">
         <!-- Once we get more states then it can be optimized with using a v-for to loop through -->
         <!-- and create each <b-row> and each <b-col> -->
@@ -84,26 +94,28 @@
               <template v-if="account.weight == 2">
                 <b-col class="pb-1 col-md-auto">
                   <div class="link-wrapper state">
-                    <a class="link"
+                    <a
+                      class="link"
                       href="javascript:void(0);"
                       @click="navigateToBridge(account.data.field_urn[0].value)">
-                      <img :src="account.data.field_option_image[0].url"
+                      <img
+                        :src="account.data.field_option_image[0].url"
                         alt="not found">
-                      <span class="pl-2">{{account.data.title[0].value}}</span>
+                      <span class="pl-2">{{ account.data.title[0].value }}</span>
                     </a>
                   </div>
                 </b-col>
-                <div class="w-100 d-block d-md-none py-1"
-                  v-if="index % 3 == 0"></div>
+                <div
+                  class="w-100 d-block d-md-none py-1"
+                  v-if="index % 3 == 0"/>
               </template>
             </div>
           </b-row>
         </b-container>
       </b-tab>
-      <b-tab class="tab"
-        title="Tribal">
-
-      </b-tab>
+      <b-tab
+        class="tab"
+        title="Tribal"/>
     </b-tabs>
   </div>
 </template>

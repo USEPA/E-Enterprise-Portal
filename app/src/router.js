@@ -40,7 +40,7 @@ export default new Router({
       path: '/workbench/:link',
       name: 'workbench',
       component: Workbench,
-      props: route => ({ link: { query: route.query.q, params: route.params }}),
+      props: route => ({ link: { query: route.query.q, params: route.params } }),
     },
     {
       path: '/login',

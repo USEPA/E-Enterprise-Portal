@@ -8,7 +8,6 @@
 <script>
   // @ is an alias to /src
   import Grid from '@/modules/Grid/Grid.vue';
-  import { mapGetters, mapActions } from 'vuex';
 
   export default {
     name: 'Workbench',

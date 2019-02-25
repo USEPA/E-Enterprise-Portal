@@ -40,7 +40,6 @@
           </div>
           <LocationSearch/>
         </div>
-
       </div>
     </div>
     <div class="container px-0 pb-5">
