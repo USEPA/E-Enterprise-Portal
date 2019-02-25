@@ -180,8 +180,7 @@ export default {
         if (error.response) {
           const errorHeaders = error.response.headers;
           const errorData = error.response.data;
-          console.warn(`Headers: ${errorHeaders
-          }\n` + `Message: ${errorData}`);
+          console.warn(`Headers: ${errorHeaders}\n Message: ${errorData}`);
         } else {
           console.warn('abnormal error response type');
         }
@@ -213,6 +212,7 @@ export default {
         return response;
       }
       console.warn('abnormal response type');
+      return null;
     })
       .catch((error) => {
         if (error.response) {
@@ -232,32 +232,32 @@ export default {
       headers: store.getters.getGETHeaders,
     }).then((response) => {
       // Declare variables
-      const formatted_option_array = [];
+      const formattedOption = [];
 
       // Ajax call to retrieve all of the Login information from
       // /api/authentication-category-options
       AppAxios.get(`${store.getters.getEnvironmentApiURL}/api/authentication-category-options`, {
         headers: store.getters.getGETHeaders,
-      }).then((response_inner) => {
+      }).then((responseInner) => {
         // Loop through response and match each taxonomy up with each
         // authentication option
-        response_inner.data.forEach((resp_item) => {
-          const associated_taxonomy_weight = response.data.find(x => x.tid[0].value ===
-            resp_item.field_authentication_category[0].target_id).weight[0].value;
+        responseInner.data.forEach((respItem) => {
+          const associatedTaxonomyWeight = response.data.find(x => x.tid[0].value ===
+            respItem.field_authentication_category[0].target_id).weight[0].value;
 
           // save each option to the formatted array variable to pass to
           // mutation
-          formatted_option_array.push({
-            weight: associated_taxonomy_weight,
-            tab_order: resp_item.field_tab_order[0].value,
-            data: resp_item,
+          formattedOption.push({
+            weight: associatedTaxonomyWeight,
+            tab_order: respItem.field_tab_order[0].value,
+            data: respItem,
           });
         });
 
-        formatted_option_array.sort((a, b) => a.weight - b.weight || a.tab_order - b.tab_order);
+        formattedOption.sort((a, b) => a.weight - b.weight || a.tab_order - b.tab_order);
 
         // Commit formatted array to the store
-        store.commit('SET_LOGIN_VIEW_ACCOUNTS', formatted_option_array);
+        store.commit('SET_LOGIN_VIEW_ACCOUNTS', formattedOption);
       }).catch((error) => {
         console.error(error.response);
       });
@@ -279,6 +279,9 @@ export default {
 
     store.commit(types.SET_LOGGED_IN_TIME, new Date());
 
+    // Set timeout again to continously check the cookie
+    store.dispatch('checkCookie', payload);
+
     // Close modal
     vm.$root.$emit(
       'bv::hide::modal',
@@ -294,6 +297,8 @@ export default {
     AppAxios.get(`${store.getters.getEnvironmentApiURL}/eep/configurations`, {
       headers: store.getters.getGETHeaders,
     }).then((response) => {
+      const { user } = store.state;
+      const { cookie } = user;
       // Set the cookie information in the store
       store.commit(types.SET_COOKIE, {
         time: response.data.eepcookieconfig.cookie_expiration_time,
@@ -302,29 +307,29 @@ export default {
 
       // do log in stuff here
       // Declare the main url that the page is currently on
-      const main_url = window.location.href;
+      const currentUrl = window.location.href;
 
-      if (main_url.indexOf('token') > -1 && main_url.indexOf('uid') > -1) {
+      if (currentUrl.indexOf('token') > -1 && currentUrl.indexOf('uid') > -1) {
         // Declare variables
         const vars = {};
         // Extracts the URL params
         // Got this functionality from
         // https://html-online.com/articles/get-url-parameters-javascript/
-        const parts = main_url.replace(/[?&]+([^=&]+)=([^&]*)/gi, (m, key, value) => {
+        currentUrl.replace(/[?&]+([^=&]+)=([^&]*)/gi, (m, key, value) => {
           vars[key] = value;
         });
         // find the URL params for each one
-        const token = vars.token;
-        const uid = vars.uid;
+        const { token } = vars;
+        const { uid } = vars;
 
         // Grabs the static cookie time from the store
-        const COOKIE_EXPIRATION_TIME = store.getters.getUser.cookie.time + store.getters.getUser.cookie.time_units;
+        const cookieExpiration = cookie.time + cookie.time_units;
 
         // Set another cookie saying they logged in
-        Vue.cookie.set('userLoggedIn', true, { expires: COOKIE_EXPIRATION_TIME });
+        Vue.cookie.set('userLoggedIn', true, { expires: cookieExpiration });
         // set user token in cookie
-        Vue.cookie.set('Token', token, { expires: COOKIE_EXPIRATION_TIME });
-        Vue.cookie.set('uid', uid, { expires: COOKIE_EXPIRATION_TIME });
+        Vue.cookie.set('Token', token, { expires: cookieExpiration });
+        Vue.cookie.set('uid', uid, { expires: cookieExpiration });
 
         // Set login time and token in the store
         store.commit(types.SET_LOGGED_IN_TOKEN, token);
@@ -336,44 +341,23 @@ export default {
         // Log user in
         store.commit(types.IS_USER_LOGGED_IN, true);
 
-        // Set interval instance
-        const cookie_check = setInterval(() => {
-          // Comparing dates to find when there is a minute left until cookie
-          // expiration
-          let minutes_difference = 0;
+        // set timeout here
+        store.dispatch('checkCookie', payload);
 
-          if (!Vue.cookie.get('userLoggedIn')) {
-            store.dispatch('userLogOut');
-          } else {
-            if (store.getters.getUser.loggedInTime) {
-              minutes_difference = Math.floor((Math.abs(new Date((store.getters.getUser.loggedInTime.getTime() +
-                ((store.getters.getUser.cookie.time) * 60 * 1000))) - (new Date())) / 1000) / 60) % 60;
-            } else {
-              clearInterval(cookie_check);
-            }
 
-            // Check to see if there is a minute left
-            if (minutes_difference <= 1 && store.getters.getDisplayLoggedInElements) {
-              store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
-              vm.$root.$emit(
-                'bv::show::modal',
-                'cookie_modal',
-                vm.$refs.cookie_modal,
-              );
-            }
-          }
-        }, 5000);
       } else if (Vue.cookie.get('userLoggedIn')) {
         // Log user in and set user name
         store.commit('IS_USER_LOGGED_IN', true);
         store.commit(types.SET_UID, Vue.cookie.get('uid'));
+      } else if (!Vue.cookie.get('Token')) {
+        store.dispatch('userLogOut');
       }
 
       if (Vue.cookie.get('userLoggedIn')) {
         AppAxios.get(`${store.getters.getEnvironmentApiURL}/user/${Vue.cookie.get('uid')}?_format=json`, {
           headers: { Authorization: `Bearer ${Vue.cookie.get('Token')}` },
-        }).then((response) => {
-          store.commit('SET_USER_OBJECT', response.data);
+        }).then((userLoggedInResponse) => {
+          store.commit('SET_USER_OBJECT', userLoggedInResponse.data);
         }).catch((error) => {
           console.warn(error);
         });
@@ -389,6 +373,47 @@ export default {
       console.error(error);
     });
   },
+  checkCookie(context, payload) {
+    const store = context;
+    const { vm } = payload;
+    const { user } = store.state;
+
+    // Set timeout to do once
+    setTimeout(function () {
+      // Declare variables
+      let minutes_difference = 0;
+
+      if (store.getters.getUser.loggedInTime) {
+        minutes_difference = Math.floor((Math.abs(new Date((user.loggedInTime.getTime() +
+          ((user.cookie.time) * 60 * 1000))) - (new Date())) / 1000) / 60) % 60;
+      }
+
+      // Check to see if there is a minute left
+      if (minutes_difference <= 1 && store.getters.getDisplayLoggedInElements) {
+        store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
+        vm.$root.$emit(
+          'bv::show::modal',
+          'cookie_modal',
+          vm.$refs.cookie_modal,
+        );
+
+        // Set interval is used to check if the user has made a selection on
+        // the modal before the cookie expires When the cookie expires and they
+        // have not made a selection then they are logged out and have to log
+        // back in
+        let cookie_modal_interval = setTimeout(function () {
+          if (!Vue.cookie.get("userLoggedIn")) {
+            store.dispatch('userLogOut');
+            vm.$root.$emit(
+              'bv::hide::modal',
+              'cookie_modal',
+              vm.$refs.cookie_modal,
+            );
+          }
+        }, 65000);
+      }
+    }, (user.cookie.time - 1) * 60000);
+  },
   apiUserPatch(context, body) {
     const store = context;
     const apiURL = store.getters.getEnvironmentApiURL;
@@ -399,9 +424,9 @@ export default {
     const userInitValid = store.getters.getUserInitValidation;
     if (userInitValid) {
       updatedBody.init =
-          {
-            value: 'generated-user@e-enterprise',
-          };
+        {
+          value: 'generated-user@e-enterprise',
+        };
     } else {
       updatedBody.init = userInit;
     }
@@ -413,91 +438,132 @@ export default {
         'Content-Type': 'application/json',
       },
     }).then(() => {
-      console.log('PATCH => success');
+      console.warn('PATCH => success');
     }).catch(() => {
-      console.log('PATCH => failure');
+      console.warn('PATCH => failure');
     });
   },
-  populateDropdownForUserInput(context){
+  populateDropdownForUserInput(context, userInput) {
     // Declare variables
     const store = context;
     let params = '';
 
-    if(/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(store.getters.getUser.inputBoxText)) {
-        // handle zipcode
-        params = 'zipcode=' + store.getters.getUser.inputBoxText;
+    if (/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(userInput)) {
+      // handle zipcode
+      params = `zipcode=${userInput}`;
+    } else if (userInput.indexOf(',') > -1) {
+      // handle city and state
+      const cityAndState = userInput.split(',');
+      const city = cityAndState[0].toUpperCase().trim();
+      const state = cityAndState[1].toUpperCase().trim();
+      params = `city=${city}&state=${state}`;
     } else {
-        if (store.getters.getUser.inputBoxText.indexOf(',') > -1) {
-            // handle city and state
-            let split_city_and_state = store.getters.getUser.inputBoxText.split(',');
-            let city = split_city_and_state[0].toUpperCase().trim();
-            let state = split_city_and_state[1].toUpperCase().trim();
-            params = 'city=' + city + '&state=' + state;
-        } else {
-            params = 'tribe=' + store.getters.getUser.inputBoxText.toUpperCase().trim();
-        }
+      params = `tribe=${userInput.toUpperCase().trim()}`;
     }
-    AppAxios.get(store.getters.getEEPAPIURL({endpoint: store.getters.getApiUrl('locationSearch'), params: params}), {
-        headers: store.getters.getGETHeaders,
-    }).then((response) => {
 
+    AppAxios.get(store.getters.getEEPAPIURL({
+      endpoint: store.getters.getApiUrl('locationSearch'),
+      params,
+    }), {
+      headers: store.getters.getGETHeaders,
+    }).then((response) => {
       // Declare variables
-      let formatted_response_information = [];
+      let formattedResponseInformation = [];
+      let dropDownLabelText = "Select a zipcode for";
+
       const return_data = response.data;
       if (params.indexOf('tribe') !== -1) {
-          Object.keys(return_data.tribal_information).forEach((key) => {
-            // Declare variables
-            let i;
+        Object.keys(return_data.tribal_information).forEach((key) => {
+          // Push name onto array
+          formattedResponseInformation.push(key);
 
-            // Push name onto array
-            formatted_response_information.push(key);
-
-            // Push each zipcode on array
-            return_data.tribal_information[key].forEach((item) => {
-                formatted_response_information.push(item);
-            });
-
+          // Push each zipcode on array
+          return_data.tribal_information[key].forEach((item) => {
+            formattedResponseInformation.push(item);
           });
+
+        });
       } else if (params.indexOf('zipcode') !== -1) {
-          console.log('hit zipcode');
-          console.log(return_data);
+
+        let cities = return_data.city;
+
+        // The if statement handles the case of if a zipcode exist in more than
+        // one place
+        if (return_data.cities_and_states) {
+          formattedResponseInformation = return_data.cities_and_states;
+        } else {
+          // Loop through cities array and build new array to commit to store
+          for (let i = 0; i < cities.length; i++) {
+            formattedResponseInformation.push(cities[i] + ", " + return_data.state[0]);
+          }
+        }
+        dropDownLabelText = "Select a location for";
+
       } else if (params.indexOf('city') !== -1 && params.indexOf('state') !== -1) {
-          formatted_response_information = return_data.zipcode;
+        formattedResponseInformation = return_data.zipcode;
       }
 
       // Commit all of the information to the store
-      store.commit('SET_OPTIONS_AFTER_INPUT', formatted_response_information);
+      store.commit('SET_OPTIONS_AFTER_INPUT', formattedResponseInformation);
       store.commit('SET_INPUT_BOX_TEXT', store.getters.getUser.inputBoxText);
       // Reset the display none for the populated dropdown
       store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', '');
+      // Change the label for the dropdown
+      store.commit('SET_DROPDOWN_LABEL', dropDownLabelText);
 
     }).catch((error) => {
-
       console.warn(error);
-
     });
   },
-  handleSelectButtonClickForLocation(context){
-      const store = context;
+  handleSelectButtonClickForLocation(context) {
+    const store = context;
 
-      store.commit('SAVE_USER_SELECTED_LOCATIONS', {
-          typed_in_location: store.getters.getUser.inputBoxText,
-          selected_location_from_dropdown: store.getters.getUser.dropDownSelection
-      });
+    let inputBoxText = store.getters.getUser.inputBoxText;
+    let dropDownSelection = store.getters.getUser.dropDownSelection
+    let typedInLocationToCommit = '';
+    let selectedLocationFromDropdownToCommit = '';
 
-      // Clear the inputbox text
-      store.commit('SET_INPUT_BOX_TEXT', '');
 
-      // Clear the dropdown list options
-      store.commit('SET_OPTIONS_AFTER_INPUT', '');
+    if (/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(inputBoxText)) {
+      selectedLocationFromDropdownToCommit = inputBoxText;
+      typedInLocationToCommit = dropDownSelection;
+    } else {
+      selectedLocationFromDropdownToCommit = dropDownSelection;
+      typedInLocationToCommit = inputBoxText;
+    }
 
-      store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', 'none');
+    store.commit('SAVE_USER_SELECTED_LOCATIONS', {
+      typed_in_location: typedInLocationToCommit,
+      selected_location_from_dropdown: selectedLocationFromDropdownToCommit
+    });
 
-      store.commit('SET_DISPLAY_WHEN_LOCATION_IS_CLICKED', 'none');
+    // Clear the inputbox text
+    store.commit('SET_INPUT_BOX_TEXT', '');
 
+    // Clear the dropdown list options
+    store.commit('SET_OPTIONS_AFTER_INPUT', '');
+
+    store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', 'none');
+
+    store.commit('SET_IS_MAIN_INPUT_DISPLAYED', 'none');
+
+    if (store.getters.getUser.firstTimeSelectButtonClicked == 1) {
+      store.commit('SET_DISPLAY_WHEN_LOCATION_IS_CLICKED', '');
+    }
   },
-  handleBackButtonClickForLocation(context){
-      const store = context;
-      console.log("back clicked");
+  handleBackButtonClickForLocation(context) {
+    const store = context;
+
+    // Clear the inputbox text
+    store.commit('SET_INPUT_BOX_TEXT', '');
+
+    // Clear the dropdown list options
+    store.commit('SET_OPTIONS_AFTER_INPUT', '');
+
+    store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', 'none');
+  },
+  setDeepLink(context, link) {
+    const store = context;
+    store.commit('SET_DEEP_LINK', link);
   },
 };

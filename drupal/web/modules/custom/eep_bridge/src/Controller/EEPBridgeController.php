@@ -56,6 +56,7 @@ class EEPBridgeController extends ControllerBase {
         [
           'name' => $authenticated_user->get_name(),
           'init' => $authenticated_user->get_authentication_domain(),
+          'mail' => $authenticated_user->get_email(),
           'status' => 1,
           'access' => (int) $_SERVER['REQUEST_TIME'],
           'field_cdx_user_id' => $authenticated_user->get_source_username(),
@@ -73,7 +74,8 @@ class EEPBridgeController extends ControllerBase {
       user_login_finalize($account_search[0]);
     }
     $uid = \Drupal::currentUser()->id();
-    $this->add_cdx_name_if_needed($uid, $authenticated_user->get_source_username());
+    $this->add_field_if_needed($uid, 'field_cdx_user_id', $authenticated_user->get_source_username());
+    $this->add_field_if_needed($uid, 'mail', $authenticated_user->get_email());
     $jwt_token = $this->auth->generateToken();
     if ($jwt_token === FALSE) {
       $error_msg = "Error. Please set a key in the JWT admin page.";
@@ -134,11 +136,11 @@ class EEPBridgeController extends ControllerBase {
     return $userDetails;
   }
 
-  private function add_cdx_name_if_needed($uid, $cdx_username) {
+  private function add_field_if_needed($uid, $field_name, $field_value) {
     $user = \Drupal\user\Entity\User::load($uid);
-    $stored_username =  $user->get('field_cdx_user_id')->getString();
-    if (empty($stored_username) || $stored_username !== $cdx_username) {
-      $user->set('field_cdx_user_id', trim($cdx_username));
+    $stored_value = $user->get($field_name)->getString();
+    if (empty($stored_value) || $stored_value !== $field_value) {
+      $user->set($field_name, trim($field_value));
       $user->save();
     }
   }

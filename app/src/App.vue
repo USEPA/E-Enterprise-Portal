@@ -24,7 +24,7 @@
     <div
       id="nav"
       class="region-navigation pb-2 px-3"
-      v-bind:style="navMargin">
+      :style="navMargin">
       <div
         id="main-navigation-container"
         class="container">
@@ -40,7 +40,6 @@
           </div>
           <LocationSearch/>
         </div>
-
       </div>
     </div>
     <div class="container px-0 pb-5">
@@ -54,21 +53,26 @@
     <!-- set progressbar -->
     <vue-progress-bar/>
     <!-- Modal for cookie extension -->
-    <AppModal id="cookie_modal"
-              modal-ref="cookie_modal"
-              title="Your session is about to expire">
-        <!-- Modal content -->
-        <p>Your session will expire in {{user.timeLeftUntilLogout}} minute(s).
-            If you choose not to extend, then you will be logged out.</p>
-        <p>Would you like to extend your session?</p>
-        <template slot="footer">
-            <b-button class="usa-button usa-button-secondary" @click="exitModal">
-                Cancel
-            </b-button>
-            <b-button class="usa-button" @click="extendTheSession">
-                Extend Session
-            </b-button>
-        </template>
+    <AppModal
+      id="cookie_modal"
+      modal-ref="cookie_modal"
+      title="Your session is about to expire">
+      <!-- Modal content -->
+      <p>Your session will expire in {{ user.timeLeftUntilLogout }} minute(s).
+        If you choose not to extend, then you will be logged out.</p>
+      <p>Would you like to extend your session?</p>
+      <template slot="footer">
+        <b-button
+          class="usa-button usa-button-secondary"
+          @click="exitModal">
+          Cancel
+        </b-button>
+        <b-button
+          class="usa-button"
+          @click="extendTheSession">
+          Extend Session
+        </b-button>
+      </template>
     </AppModal>
   </div>
 </template>
@@ -82,10 +86,10 @@
   import LocationSearch from '@/components/LocationSearch.vue';
   import VueProgessBar from 'vue-progressbar';
   import types from './store/types';
-  import {EventBus} from './EventBus';
-  import {AppModal} from './modules/wadk/WADK';
+  import { EventBus } from './EventBus';
+  import { AppModal } from './modules/wadk/WADK';
 
-  const moduleName = "App";
+  const moduleName = 'App';
 
   export default {
     name: 'App',
@@ -97,102 +101,111 @@
       AppModal,
     },
     computed: {
-    ...mapGetters({
+      ...mapGetters({
+        deepLink: 'getDeepLink',
         ENV: 'getEnvironment',
         navMargin: 'getnavMargin',
         basicPages: 'getBasicPages',
         user: 'getUser',
-    }),
-    // @todo clean up variable names here
-    environmentName() {
-      let env = 'LOCAL';
-      const { host } = window.location;
-      let m;
-      const regex = {
-        LOCAL: /(localhost|local|^e-enterprise$)/gm,
-        DEV: /dev\d?\.e-enterprise/gm,
-        TEST: /test\d?\.e-enterprise/gm,
-        PROD: /^e-enterprise\.gov/gm,
-      };
-      Object.keys(regex).forEach((envName) => {
-        // eslint-disable-next-line no-cond-assign
-        while ((m = regex[envName].exec(host)) !== null) {
-        // This is necessary to avoid infinite loops with zero-width matches
-        if (m.length) {
-          env = envName;
-        }
-      }
+      }),
+      // @todo clean up variable names here
+      environmentName() {
+        let env = 'LOCAL';
+        const { host } = window.location;
+        let match;
+        const regex = {
+          LOCAL: /(localhost|local|^e-enterprise$)/gm,
+          DEV: /dev\d?\.e-enterprise/gm,
+          TEST: /test\d?\.e-enterprise/gm,
+          PROD: /^e-enterprise\.gov/gm,
+        };
+        Object.keys(regex).forEach((envName) => {
+          // eslint-disable-next-line no-cond-assign
+          while ((match = regex[envName].exec(host)) !== null) {
+            // This is necessary to avoid infinite loops with zero-width matches
+            if (match.length) {
+              env = envName;
+            }
+          }
         });
-          let r = 'Local';
-          r = (env === 'DEV') ? 'Development' : r;
-          r = (env === 'TEST') ? 'Test' : r;
-          return r;
-        },
+        let r = 'Local';
+        r = (env === 'DEV') ? 'Development' : r;
+        r = (env === 'TEST') ? 'Test' : r;
+        return r;
       },
-      methods: {
-          openModal(){
-              const vm = this;
-              vm.$root.$emit(
-                      'bv::show::modal',
-                      'cookie_modal',
-                      vm.$refs.cookie_modal
-              );
-          },
-          exitModal(){
-              const vm = this;
-              vm.$root.$emit(
-                  'bv::hide::modal',
-                  'cookie_modal',
-                  this.$refs.cookie_modal
-              );
-              this.$store.dispatch('userLogOut');
-          },
-          extendTheSession(){
-              const vm = this
-              vm.$store.dispatch('extendSession', {vm});
-          },
+    },
+    methods: {
+      ...mapActions([
+        'setDeepLink',
+        'setWorkbenchReadyState',
+      ]),
+      openModal() {
+        const vm = this;
+        vm.$root.$emit(
+          'bv::show::modal',
+          'cookie_modal',
+          vm.$refs.cookie_modal
+        );
       },
-      beforeCreate(){
-          const vm = this;
-          vm.$store.dispatch('EEPBasicPagesToState');
+      exitModal() {
+        const vm = this;
+        vm.$root.$emit(
+          'bv::hide::modal',
+          'cookie_modal',
+          this.$refs.cookie_modal
+        );
+        this.$store.dispatch('userLogOut');
       },
-      created() {
-          const vm = this;
-          vm.$store.commit(types.SET_APP, vm);
-          //  [App.vue specific] When App.vue is first loaded start the progress bar
-          vm.$Progress.start();
-          //  hook the progress bar to start before we move router-view
-          vm.$router.beforeEach((
-                  to, from, next,
-          ) => {
-              //  does the page we want to go to have a meta.progress object
-              if (to.meta.progress !== undefined) {
-                  const meta = to.meta.progress;
-                  // parse meta tags
-                  vm.$Progress.parseMeta(meta);
-              }
-              //  start the progress bar
-              vm.$Progress.start();
-              //  continue to next page
-              next();
-          });
-          //  hook the progress bar to finish after we've finished moving router-view
-          vm.$router.afterEach(() => {
-              //  finish the progress bar
-              vm.$Progress.finish();
-          });
+      extendTheSession() {
+        const vm = this
+        vm.$store.dispatch('extendSession', { vm });
       },
-      beforeMount(){
+    },
+    beforeCreate() {
+      const vm = this;
+      vm.$store.dispatch('EEPBasicPagesToState');
+    },
+    created() {
+      const vm = this;
+      vm.$store.commit(types.SET_APP, vm);
+      //  [App.vue specific] When App.vue is first loaded start the progress bar
+      vm.$Progress.start();
+      //  hook the progress bar to start before we move router-view
+      vm.$router.beforeEach((
+        to, from, next,
+      ) => {
+        //  does the page we want to go to have a meta.progress object
+        if (to.meta.progress !== undefined) {
+          const meta = to.meta.progress;
+          // parse meta tags
+          vm.$Progress.parseMeta(meta);
+        }
+        //  start the progress bar
+        vm.$Progress.start();
+        //  continue to next page
+        next();
+      });
+      //  hook the progress bar to finish after we've finished moving router-view
+      vm.$router.afterEach(() => {
+        //  finish the progress bar
+        vm.$Progress.finish();
+      });
+      // workbench app
+      // Grab the params property that was passed by the router and use it to navigate to the proper
+      const currentRoute = vm.$router.history.current;
+      vm.setDeepLink({ query: currentRoute.query.q, params: currentRoute.params });
+    },
+    beforeMount() {
 
-      },
-      mounted() {
-          // Declare the store
-          const vm = this;
-          const store = vm.$store;
+    },
+    mounted() {
+      // Declare the store
+      const vm = this;
+      const store = vm.$store;
 
-          // Fetch cookie information from Drupal backend and log in
-          vm.$store.dispatch('getEEPConfigs', {vm});
-      },
+      // Fetch cookie information from Drupal backend and log in
+      vm.$store.dispatch('getEEPConfigs', { vm });
+    },
   };
 
 </script>
@@ -250,13 +263,14 @@
   @include media-breakpoint-up(md) {
     .enviroment-status {
       width: 1.5rem;
+
       span {
         font-size: 1.0rem;
       }
     }
   }
 
-  #nav{
+  #nav {
     margin-top: 20px !important;
   }
 </style>

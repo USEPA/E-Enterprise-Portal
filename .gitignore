@@ -36,7 +36,6 @@ composer.phar
 /sites/README.txt
 /sites/example.sites.php
 /sites/example.settings.local.php
-/sites/development.services.yml
 /themes/README.txt
 /vendor
 /.csslintrc
@@ -47,14 +46,12 @@ composer.phar
 /.htaccess
 /autoload.php
 /composer.json
-/composer.lock
 /example.gitignore
 /index.php
 /LICENSE.txt
 /README.txt
 /robots.txt
 /update.php
-/web.config
 
 ### Node ###
 # Logs
@@ -246,4 +243,4 @@ $RECYCLE.BIN/
 # .idea
 .idea/
 /.idea/
-/_.idea/
+/drupal/keys/jwt.key

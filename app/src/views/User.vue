@@ -93,7 +93,7 @@
                       </template>
                   </div>
                 <LocationSelectionOption></LocationSelectionOption>
-                <div v-if="user.displayWhenNewLocationIsClicked == 'none'">
+                <div v-if="user.displayWhenNewLocationIsClicked === ''">
                     <button class="usa-button pt-2" @click="revealLocationInputBox">New Location</button>
                 </div>
               </div>
@@ -262,6 +262,11 @@
       AppAxios.get("sample_data/role.json").then(response => {
          this.roleList = response.data;
       });
+
+      // Set the defaults for the locations
+      this.$store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', '');
+
+      this.$store.dispatch('populateDropdownForUserInput', this.$store.getters.getUser.inputBoxText);
     },
     methods: {
       ...mapActions([
@@ -350,7 +355,9 @@
           this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
       },
       revealLocationInputBox(){
+          this.$store.commit('SET_IS_MAIN_INPUT_DISPLAYED', '');
           this.$store.commit('SET_DISPLAY_WHEN_LOCATION_IS_CLICKED', '');
+          this.$store.commit('SET_DISPLAY_WHEN_LOCATION_IS_CLICKED', 'none');
       },
     },
   };

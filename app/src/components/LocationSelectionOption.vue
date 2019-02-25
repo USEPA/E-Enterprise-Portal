@@ -1,7 +1,7 @@
 <template>
     <div id="comp">
         <div class="pt-3 d-flex">
-            <b-input-group :style="{display: user.displayWhenNewLocationIsClicked}">
+            <b-input-group :style="{display: user.IsMainInputDisplayed}">
                 <label class="col-12 font-weight-bold">
                     Enter city, state; tribe; or ZIP code
                 </label>
@@ -10,10 +10,10 @@
         </div>
         <div id="input-box-results-drop-down" class="pt-3 d-flex">
             <b-input-group :style="{display: user.IsAfterInputDropdownDisplayed}">
-                <label class="col-12 font-weight-bold">Select a zipcode for {{user.inputBoxText}}</label>
+                <label class="col-12 font-weight-bold">{{user.dropDownLabel}} {{user.inputBoxText}}</label>
                 <b-form-select class="col-4 ml-3" v-model="user.dropDownSelection">
                     <template v-for="afterInputOption in user.optionsAfterInput">
-                        <template v-if="/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(afterInputOption)">
+                        <template v-if="isValidLocation(afterInputOption)">
                             <option>
                                 {{afterInputOption}}
                             </option>
@@ -72,17 +72,30 @@
            ...mapActions([
            ]),
            submitInput(event){
-               if(event.which === 13){
+               if(event.which === 13 &&
+                   this.$store.getters.getUser.inputBoxText !== ''){
                    this.$store.dispatch('populateDropdownForUserInput', this.inputBoxText);
                }
            },
           handleSelectButton(){
-                this.$store.dispatch('handleSelectButtonClickForLocation');
-
-          },
+                if(this.$store.getters.getUser.inputBoxText !== '' &&
+                        this.$store.getters.getUser.dropDownSelection !== ''){
+                    this.$store.commit('ITERATE_FIRST_TIME_SELECT_BUTTON', 1);
+                    this.$store.dispatch('handleSelectButtonClickForLocation');
+                    this.$store.commit('SET_DISPLAY_WHEN_LOCATION_IS_CLICKED', '');
+                }
+           },
           handleBackButton(){
                 this.$store.dispatch('handleBackButtonClickForLocation');
-          }
+          },
+          isValidLocation(afterInputOption){
+                let isValid = false;
+                if(/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(afterInputOption) ||
+                        /[A-Z][a-zA-Z]+,[ ]?[A-Z]{2}/.test(afterInputOption)){
+                    isValid = true;
+                }
+                return isValid;
+          },
         },
     };
 </script>

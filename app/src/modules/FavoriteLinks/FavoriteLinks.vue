@@ -54,6 +54,7 @@
       <b-table
         hover
         id="favorite-links-table"
+        class="bootstrap-vue-fav-table-scroll"
         :items="favoriteLinks"
         :fields="fields"
         :current-page="currentPage"
@@ -358,5 +359,5 @@
   #app {
     margin-bottom: 7rem;
   }
-
 </style>
+

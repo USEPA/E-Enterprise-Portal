@@ -1,13 +1,8 @@
 <template>
   <div class="workbench-grid">
-    <div v-show="false">
-      <button
-        @click="autoPositionWapps">autoPositionWapps</button>
-      <button
-        @click="validateWappPositions(layout)">validateWappPositions</button>
-    </div>
     <template v-if="isLayoutReady">
       <grid-layout
+        ref="gridRoot"
         :layout.sync="layout"
         :responsive="true"
         :breakpoints="{ lg: 992, md: 768, sm: 576, xs: 380, xxs: 0 }"
@@ -21,12 +16,16 @@
         :vertical-compact="false"
         :margin="[10, 10]"
         :use-css-transforms="true"
+        @layout-ready="layoutReadyEvent"
       >
         <grid-item
           v-for="(wapp, index) in layout"
           :min-w="275"
-          :dragIgnoreFrom="`.wapp-inner-wrapper`"
+          :drag-ignore-from="`.wapp-inner-wrapper`"
           :is-resizable="false"
+          :ref="wapp.eepApp.id"
+          :id="wapp.eepApp.id"
+          :direct-link="wapp.eepApp.field_direct_links.join(' ')"
           :x="wapp.x"
           :y="wapp.y"
           :w="wapp.w"
@@ -43,21 +42,21 @@
     <template v-if="!isLayoutReady">
       <AppPlaceholderContent>
         <div class="row">
-          <div class="col-lg-3 col-6 square pulse"></div>
-          <div class="col-lg-3 col-6 square pulse"></div>
-          <div class="col-lg-3 col-6 square pulse"></div>
-          <div class="col-lg-3 col-6 square pulse"></div>
+          <div class="col-lg-3 col-6 square pulse"/>
+          <div class="col-lg-3 col-6 square pulse"/>
+          <div class="col-lg-3 col-6 square pulse"/>
+          <div class="col-lg-3 col-6 square pulse"/>
         </div>
         <div class="row">
           <div class="col-6">
             <div class="row">
-              <div class="col-12 rectangle pulse"></div>
-              <div class="col-12 rectangle pulse"></div>
+              <div class="col-12 rectangle pulse"/>
+              <div class="col-12 rectangle pulse"/>
             </div>
           </div>
           <div class="col-6">
             <div class="row">
-              <div class="col-12 square pulse"></div>
+              <div class="col-12 square pulse"/>
             </div>
           </div>
         </div>
@@ -75,7 +74,8 @@
   import MyReporting from '@/modules/MyReporting/MyReporting.vue';
 
   import { mapActions, mapGetters } from 'vuex';
-  import { GridLayout, GridItem } from 'vue-grid-layout';
+  import GridLayout from './vue-grid-layout/components/GridLayout.vue';
+  import GridItem from './vue-grid-layout/components/GridItem.vue';
   import { AppPlaceholderContent, AppModalManager } from '../wadk/WADK';
   import storeModule from './store/index';
   import { EventBus } from '../../EventBus';
@@ -108,20 +108,27 @@
       vm.initializeLayout();
     },
     data() {
-      return {
-        modalOpen: false,
-        modalIn: '',
-        modalEepApp: {},
-      };
+      return {};
     },
-    mounted() {
+    updated() {
       const vm = this;
+      const gridRef = vm.$refs.gridRoot;
     },
     computed: {
       ...mapGetters({
+        getDeepLink: 'getDeepLink',
+        directLinksMappings: 'getDirectLinksMappings',
         getLayout: `${moduleName}/getLayout`,
         isLayoutReady: `${moduleName}/isLayoutReady`,
       }),
+      deepLink: {
+        get() {
+          return this.getDeepLink;
+        },
+        set(newValue) {
+          return this.setDeepLink(newValue);
+        },
+      },
       layout: {
         get() {
           return this.getLayout;
@@ -132,6 +139,9 @@
       },
     },
     methods: {
+      ...mapActions([
+        'setDeepLink',
+      ]),
       ...mapActions(moduleName, [
         'autoPositionWapps',
         'initializeLayout',
@@ -139,6 +149,37 @@
         'sortWappBySizes',
         'validateWappPositions',
       ]),
+      /**
+       * things to do once the grid is ready for us to work with.
+       * @param newLayout
+       */
+      layoutReadyEvent(newLayout) {
+        const vm = this;
+        // Check for the layout to be ready and that we actually need to resolve a deep link
+        if (vm.isLayoutReady && !vm.deepLink.isResolved && vm.deepLink.params.link) {
+          vm.deepLink.isResolved = true;
+
+          // CSS transitions on the grid items are pretty but take an additional 200ms to perform
+          // this causes the positioning to not be static enough to get accurate positions so we
+          // wait just a bit longer to get them.
+          setTimeout(() => {
+            /*
+             * The position of the wapps is impossible for the scrollTo function to find because of
+             * the abosolute positioning. We capture the position inside of the grid and pass it as
+             * an additional offset so we get an accurate scroll position.
+             */
+            // position of the grid layout
+            const gridRect = vm.$refs.gridRoot.$el.getBoundingClientRect();
+            // Get the id of the wapp using the direct link mappings
+            const wappId = vm.$store.getters['Grid/getDirectLinksMappings'](vm.deepLink.params.link);
+            // position of the wapp inside the grid
+            const wappRect = vm.$refs[wappId][0].$el.getBoundingClientRect();
+            // Calculate the offset
+            const offset = wappRect.top - gridRect.top;
+            vm.$scrollTo(`#${wappId}`, 1000, { container: 'body', offset });
+          }, 250);
+        }
+      },
     },
   };
 </script>

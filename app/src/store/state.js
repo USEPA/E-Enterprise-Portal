@@ -1,11 +1,17 @@
 /* eslint-disable import/prefer-default-export */
 
 const state = {
+  api: {
+    urls: {
+      locationSearch: 'eep/proxy/service/location',
+      geolocationSearch: 'eep/proxy/service/geolocation',
+      workbenchApplications: 'api/view/workbench-applications',
+    },
+  },
   app: null,
   basicPages: {
     pagesArray: [],
   },
-  currentBridgeUrn: '',
   bridgeSettings: {
     LOCAL: {
       relyingParty: 'https://apidev2.e-enterprise.gov/',
@@ -26,15 +32,10 @@ const state = {
       signInMethod: 'wsignin1.0',
     },
   },
+  currentBridgeUrn: '',
+  deepLinking: null,
   ui: {
     hasLocationSearch: true,
-  },
-  api: {
-    urls: {
-      locationSearch: 'eep/proxy/service/location',
-      geolocationSearch: 'eep/proxy/service/geolocation',
-      workbenchApplications: 'api/view/workbench-applications',
-    },
   },
   token: {
     raw: '',
@@ -52,7 +53,9 @@ const state = {
     name: '',
     mail: '',
     favoriteLinks: [],
-    IsAfterInputDropdownDisplayed: 'none',
+    isAfterInputDropdownDisplayed: 'none',
+    isMainInputDisplayed: '',
+    firstTimeSelectButtonClicked: 0,
     displayWhenNewLocationIsClicked: 'none',
     optionsAfterInput: [],
     loaded: false,
@@ -72,16 +75,16 @@ const state = {
       time: '',
       time_units: '',
     },
-    inputBoxText: '',
+    inputBoxText: 'Durham, NC',
     dropDownSelection: '',
     userSavedLocations: [],
+    dropDownLabel: '',
   },
   loginBtnHoverMessage: 'Use an EPA, CDX, or a social media account to login',
   navMargin: {
     'margin-top': 0,
   },
   loginViewAccounts: [],
-
   GETHeaders: {
     'crossDomain': true,
     'cache-control': 'no-cache',

@@ -52,17 +52,25 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
       $city_and_state_response = $this->gpo_zip_code_to_city_state($query['zipcode']);
       $this->payload['gpo_zip_code_to_city_state'] = json_decode($city_and_state_response->getBody(), FALSE);
 
+      $number_of_states = $this->count_number_of_states($this->payload['gpo_zip_code_to_city_state']);
+
       // Cycle through features and extract the city and states values
       foreach ($this->payload["gpo_zip_code_to_city_state"]->features as $feature) {
         // Check for existing matches, and add if it is a new unique value
+
+        // Declare variables
         $city_state = explode(', ', $feature->attributes->NAME_LABEL);
         $city = $city_state[0];
         $state = $city_state[1];
+
         if (!ArrayHelper::in_array($city, $this->payload['city'])) {
           $this->payload['city'][] = ucwords(trim($city));
         }
         if (!ArrayHelper::in_array($state, $this->payload['state'])) {
           $this->payload['state'][] = strtoupper(trim($state));
+        }
+        if($number_of_states > 1){
+          $this->payload['cities_and_states'][] = trim($feature->attributes->NAME_LABEL);
         }
       }
     }
@@ -101,6 +109,7 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
     }
   }
 
+
   /**
    * @param \GuzzleHttp\Psr7\Response $response
    *
@@ -111,12 +120,21 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
     $content = [];
 
     // Build content
-    if(!isset($this->payload['tribe'])){
-        $content = [
-          'city' => $this->payload['city'],
-          'state' => $this->payload['state'],
-          'zipcode' => $this->payload['zipcode'],
-        ];
+    if(!isset($this->payload['tribe'])) {
+        if(sizeof($this->payload['state']) > 1){
+            $content = [
+                'city' => $this->payload['city'],
+                'state' => $this->payload['state'],
+                'zipcode' => $this->payload['zipcode'],
+                'cities_and_states' => $this->payload['cities_and_states'],
+            ];
+        }else{
+            $content = [
+                'city' => $this->payload['city'],
+                'state' => $this->payload['state'],
+                'zipcode' => $this->payload['zipcode'],
+            ];
+        }
     }else{
         $content = [
             'tribal_information' => $this->payload['tribes'],
@@ -335,5 +353,19 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
       $tribe_url = $this->request->getUri() . '/ZipToTribalLookups_WFL/FeatureServer/1/query?where=UPPER%28TRIBE_NAME_CLEAN%29+LIKE+%27%25' . $tribe . '%25%27&outFields=*&orderByFields=ZCTA&f=pjson';
       $response = $this->make_request_and_receive_response($tribe_url);
       return $response;
+  }
+
+  /**
+  * Helper function that returns the number of states in a given array
+  */
+  private function count_number_of_states($city_and_state_array){
+      $state_array = [];
+      foreach ($this->payload["gpo_zip_code_to_city_state"]->features as $feature) {
+          $city_state = explode(', ', $feature->attributes->NAME_LABEL);
+          if(!ArrayHelper::in_array(trim($city_state[1]), $state_array)){
+              $state_array[] = trim($city_state[1]);
+          }
+      }
+      return sizeof($state_array);
   }
 }
