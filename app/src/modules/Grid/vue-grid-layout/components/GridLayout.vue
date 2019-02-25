@@ -161,6 +161,8 @@
       self.eventBus = self._provided.eventBus;
       self.eventBus.$on('resizeEvent', self.resizeEventHandler);
       self.eventBus.$on('dragEvent', self.dragEventHandler);
+
+      // EEP TEAM: Added the "layout-created" event
       self.$emit('layout-created', this.layout);
     },
     beforeDestroy() {
@@ -170,9 +172,11 @@
       removeWindowEventListener('resize', this.onWindowResize);
     },
     beforeMount() {
+      // EEP TEAM: Added the "layout-before-mount" event
       this.$emit('layout-before-mount', this.layout);
     },
     mounted() {
+      // EEP TEAM: Added the "layout-mounted" event
       this.$emit('layout-mounted', this.layout);
       this.$nextTick(function () {
         validateLayout(this.layout);
@@ -199,6 +203,7 @@
               self.onWindowResize();
             });
 
+            // EEP TEAM: Added the "layout-ready" event
             self.$nextTick(function () {
               self.$emit('layout-ready', this.layout);
             });
