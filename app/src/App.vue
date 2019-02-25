@@ -41,7 +41,6 @@
           </div>
           <LocationSearch/>
         </div>
-
       </div>
     </div>
     <div class="container px-0 pb-5">
@@ -88,6 +87,8 @@
   import VueProgessBar from 'vue-progressbar';
   import types from './store/types';
   import { AppModal } from './modules/wadk/WADK';
+  import { EventBus } from './EventBus';
+  import { AppModal } from './modules/wadk/WADK';
 
   const moduleName = 'App';
 
@@ -102,6 +103,7 @@
     },
     computed: {
       ...mapGetters({
+        deepLink: 'getDeepLink',
         ENV: 'getEnvironment',
         navMargin: 'getnavMargin',
         basicPages: 'getBasicPages',
@@ -139,12 +141,16 @@
       },
     },
     methods: {
+      ...mapActions([
+        'setDeepLink',
+        'setWorkbenchReadyState',
+      ]),
       openModal() {
         const vm = this;
         vm.$root.$emit(
           'bv::show::modal',
           'cookie_modal',
-          vm.$refs.cookie_modal,
+          vm.$refs.cookie_modal
         );
       },
       exitModal() {
@@ -152,12 +158,12 @@
         vm.$root.$emit(
           'bv::hide::modal',
           'cookie_modal',
-          this.$refs.cookie_modal,
+          this.$refs.cookie_modal
         );
         this.$store.dispatch('userLogOut');
       },
       extendTheSession() {
-        const vm = this;
+        const vm = this
         vm.$store.dispatch('extendSession', { vm });
       },
     },
@@ -190,6 +196,10 @@
         //  finish the progress bar
         vm.$Progress.finish();
       });
+      // workbench app
+      // Grab the params property that was passed by the router and use it to navigate to the proper
+      const currentRoute = vm.$router.history.current;
+      vm.setDeepLink({ query: currentRoute.query.q, params: currentRoute.params });
     },
     beforeMount() {
 

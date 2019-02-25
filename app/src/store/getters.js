@@ -7,6 +7,9 @@ export default {
   getApp(state) {
     return state.app;
   },
+  getDeepLink(state) {
+    return state.deepLink;
+  },
   getIsLoggedIn(state) {
     const logInCookie = document.cookie.match('(^|;) ?Token=([^;]*)(;|$)');
     return !!logInCookie;
@@ -69,8 +72,8 @@ export default {
     const bridgeSettings = state.bridgeSettings[env];
     if (bridgeSettings) {
       url = `${bridgeSettings.issuer}?wtrealm=${encodeURI(bridgeSettings.relyingParty)
-      }&wreply=${encodeURI(bridgeSettings.sendBridgeBackTo)}&whr=urn:${state.currentBridgeUrn
-      }&wa=${bridgeSettings.signInMethod}`;
+        }&wreply=${encodeURI(bridgeSettings.sendBridgeBackTo)}&whr=urn:${state.currentBridgeUrn
+        }&wa=${bridgeSettings.signInMethod}`;
     }
     return url;
   },

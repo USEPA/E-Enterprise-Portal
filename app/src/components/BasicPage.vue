@@ -58,7 +58,18 @@
         basicPages: 'getBasicPagesArray',
       }),
       page() {
-        return this.basicPages.find(page => page.path[0].alias.replace(/\\|\//g, '') === this.urlAlias);
+        const vm = this;
+
+        return vm.basicPages.find((page) => {
+          let isValid = false;
+          if (page.path
+            && page.path[0]
+            && page.path[0].alias
+            && page.path[0].alias.replace(/\\|\//g, '') === this.urlAlias) {
+            isValid = true;
+          }
+          return isValid;
+        });
       },
     },
   };
