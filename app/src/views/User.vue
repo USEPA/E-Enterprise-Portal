@@ -74,7 +74,6 @@
                       <template v-for="(location, index) in user.userSavedLocations">
                           <b-input-group class="pl-2 pb-2 pt-2">
                               <b-form-input ref="selectedLocation" v-model="location.selected_location_from_dropdown"
-                                            value="hello"
                                             type="text"
                                             class="col-4 ml-3"
                                             disabled/>
