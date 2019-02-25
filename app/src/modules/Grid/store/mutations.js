@@ -27,7 +27,7 @@ export default {
   },
   [types.PUSH_DIRECT_LINKS_REGISTRATION](state, registration) {
     Vue.set(
-      state.direct_link_mappings,
+      state.directLinkMappings,
       registration.id,
       registration.direct_links,
     );

@@ -1,3 +1,6 @@
+// IMPORTANT: EEP TEAM, DO NOT REVIEW
+// This file is from the repo https://github.com/jbaysolutions/vue-grid-layout
+// with minimum changes.
 <template>
   <div
     ref="item"

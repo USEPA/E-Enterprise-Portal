@@ -1,3 +1,6 @@
+// IMPORTANT: EEP TEAM, DO NOT REVIEW
+// This file is from the repo https://github.com/jbaysolutions/vue-grid-layout
+// with minimum changes.
 // @flow
 export type LayoutItemRequired = {w: number, h: number, x: number, y: number, i: string};
 export type LayoutItem = LayoutItemRequired &
