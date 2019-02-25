@@ -60,7 +60,7 @@
       title="Your session is about to expire">
       <!-- Modal content -->
       <p>Your session will expire in {{ user.timeLeftUntilLogout }} minute(s).
-      If you choose not to extend, then you will be logged out.</p>
+        If you choose not to extend, then you will be logged out.</p>
       <p>Would you like to extend your session?</p>
       <template slot="footer">
         <b-button
@@ -113,7 +113,7 @@
       environmentName() {
         let env = 'LOCAL';
         const { host } = window.location;
-        let m;
+        let match;
         const regex = {
           LOCAL: /(localhost|local|^e-enterprise$)/gm,
           DEV: /dev\d?\.e-enterprise/gm,
@@ -122,9 +122,9 @@
         };
         Object.keys(regex).forEach((envName) => {
           // eslint-disable-next-line no-cond-assign
-          while ((m = regex[envName].exec(host)) !== null) {
+          while ((match = regex[envName].exec(host)) !== null) {
             // This is necessary to avoid infinite loops with zero-width matches
-            if (m.length) {
+            if (match.length) {
               env = envName;
             }
           }
@@ -145,7 +145,7 @@
         vm.$root.$emit(
           'bv::show::modal',
           'cookie_modal',
-          vm.$refs.cookie_modal,
+          vm.$refs.cookie_modal
         );
       },
       exitModal() {
@@ -153,12 +153,12 @@
         vm.$root.$emit(
           'bv::hide::modal',
           'cookie_modal',
-          this.$refs.cookie_modal,
+          this.$refs.cookie_modal
         );
         this.$store.dispatch('userLogOut');
       },
       extendTheSession() {
-        const vm = this;
+        const vm = this
         vm.$store.dispatch('extendSession', { vm });
       },
     },
