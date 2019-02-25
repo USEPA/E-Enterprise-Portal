@@ -279,6 +279,9 @@ export default {
 
     store.commit(types.SET_LOGGED_IN_TIME, new Date());
 
+    // Set timeout again to continously check the cookie
+    store.dispatch('checkCookie', payload);
+
     // Close modal
     vm.$root.$emit(
       'bv::hide::modal',
@@ -336,37 +339,16 @@ export default {
         // Log user in
         store.commit(types.IS_USER_LOGGED_IN, true);
 
-        // Set interval instance
-        const cookie_check = setInterval(() => {
-          // Comparing dates to find when there is a minute left until cookie
-          // expiration
-          let minutes_difference = 0;
+        // set timeout here
+        store.dispatch('checkCookie', payload);
 
-          if (!Vue.cookie.get('userLoggedIn')) {
-            store.dispatch('userLogOut');
-          } else {
-            if (store.getters.getUser.loggedInTime) {
-              minutes_difference = Math.floor((Math.abs(new Date((store.getters.getUser.loggedInTime.getTime() +
-                ((store.getters.getUser.cookie.time) * 60 * 1000))) - (new Date())) / 1000) / 60) % 60;
-            } else {
-              clearInterval(cookie_check);
-            }
 
-            // Check to see if there is a minute left
-            if (minutes_difference <= 1 && store.getters.getDisplayLoggedInElements) {
-              store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
-              vm.$root.$emit(
-                'bv::show::modal',
-                'cookie_modal',
-                vm.$refs.cookie_modal,
-              );
-            }
-          }
-        }, 5000);
       } else if (Vue.cookie.get('userLoggedIn')) {
         // Log user in and set user name
         store.commit('IS_USER_LOGGED_IN', true);
         store.commit(types.SET_UID, Vue.cookie.get('uid'));
+      } else if(!Vue.cookie.get('Token')){
+          store.dispatch('userLogOut');
       }
 
       if (Vue.cookie.get('userLoggedIn')) {
@@ -388,6 +370,45 @@ export default {
     }).catch((error) => {
       console.error(error);
     });
+  },
+  checkCookie(context, payload){
+      const store = context;
+      const { vm } = payload;
+      const {user} = store.state;
+
+      // Set timeout to do once
+      setTimeout(function(){
+          // Declare variables
+          let minutes_difference = 0;
+
+          if (store.getters.getUser.loggedInTime) {
+              minutes_difference = Math.floor((Math.abs(new Date((user.loggedInTime.getTime() +
+                          ((user.cookie.time) * 60 * 1000))) - (new Date())) / 1000) / 60) % 60;
+          }
+
+          // Check to see if there is a minute left
+          if (minutes_difference <= 1 && store.getters.getDisplayLoggedInElements) {
+              store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
+              vm.$root.$emit(
+                  'bv::show::modal',
+                  'cookie_modal',
+                  vm.$refs.cookie_modal,
+              );
+
+              // Set interval is used to check if the user has made a selection on the modal before the cookie expires
+              // When the cookie expires and they have not made a selection then they are logged out and have to log back in
+              let cookie_modal_interval = setTimeout(function(){
+                  if(!Vue.cookie.get("userLoggedIn")){
+                      store.dispatch('userLogOut');
+                      vm.$root.$emit(
+                          'bv::hide::modal',
+                          'cookie_modal',
+                          vm.$refs.cookie_modal,
+                      );
+                  }
+              }, 65000);
+          }
+      }, (user.cookie.time - 1) * 60000);
   },
   apiUserPatch(context, body) {
     const store = context;
@@ -437,12 +458,15 @@ export default {
             params = 'tribe=' + store.getters.getUser.inputBoxText.toUpperCase().trim();
         }
     }
+
     AppAxios.get(store.getters.getEEPAPIURL({endpoint: store.getters.getApiUrl('locationSearch'), params: params}), {
         headers: store.getters.getGETHeaders,
     }).then((response) => {
 
       // Declare variables
-      let formatted_response_information = [];
+      let formattedResponseInformation = [];
+      let dropDownLabelText = "Select a zipcode for";
+
       const return_data = response.data;
       if (params.indexOf('tribe') !== -1) {
           Object.keys(return_data.tribal_information).forEach((key) => {
@@ -450,26 +474,40 @@ export default {
             let i;
 
             // Push name onto array
-            formatted_response_information.push(key);
+            formattedResponseInformation.push(key);
 
             // Push each zipcode on array
             return_data.tribal_information[key].forEach((item) => {
-                formatted_response_information.push(item);
+                formattedResponseInformation.push(item);
             });
 
           });
       } else if (params.indexOf('zipcode') !== -1) {
-          console.log('hit zipcode');
-          console.log(return_data);
+
+          let cities = return_data.city;
+
+          // The if statement handles the case of if a zipcode exist in more than one place
+          if(return_data.cities_and_states){
+              formattedResponseInformation = return_data.cities_and_states;
+          }else{
+              // Loop through cities array and build new array to commit to store
+              for(let i = 0; i < cities.length; i++){
+                  formattedResponseInformation.push(cities[i] + ", " + return_data.state[0]);
+              }
+          }
+          dropDownLabelText = "Select a location for";
+
       } else if (params.indexOf('city') !== -1 && params.indexOf('state') !== -1) {
-          formatted_response_information = return_data.zipcode;
+          formattedResponseInformation = return_data.zipcode;
       }
 
       // Commit all of the information to the store
-      store.commit('SET_OPTIONS_AFTER_INPUT', formatted_response_information);
+      store.commit('SET_OPTIONS_AFTER_INPUT', formattedResponseInformation);
       store.commit('SET_INPUT_BOX_TEXT', store.getters.getUser.inputBoxText);
       // Reset the display none for the populated dropdown
       store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', '');
+      // Change the label for the dropdown
+      store.commit('SET_DROPDOWN_LABEL', dropDownLabelText);
 
     }).catch((error) => {
 
@@ -480,9 +518,23 @@ export default {
   handleSelectButtonClickForLocation(context){
       const store = context;
 
+      let inputBoxText = store.getters.getUser.inputBoxText;
+      let dropDownSelection = store.getters.getUser.dropDownSelection
+      let typedInLocationToCommit = '';
+      let selectedLocationFromDropdownToCommit = '';
+
+
+      if(/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(inputBoxText)){
+          selectedLocationFromDropdownToCommit = inputBoxText;
+          typedInLocationToCommit = dropDownSelection;
+      }else{
+          selectedLocationFromDropdownToCommit = dropDownSelection;
+          typedInLocationToCommit = inputBoxText;
+      }
+
       store.commit('SAVE_USER_SELECTED_LOCATIONS', {
-          typed_in_location: store.getters.getUser.inputBoxText,
-          selected_location_from_dropdown: store.getters.getUser.dropDownSelection
+          typed_in_location: typedInLocationToCommit,
+          selected_location_from_dropdown: selectedLocationFromDropdownToCommit
       });
 
       // Clear the inputbox text
@@ -493,11 +545,21 @@ export default {
 
       store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', 'none');
 
-      store.commit('SET_DISPLAY_WHEN_LOCATION_IS_CLICKED', 'none');
+      store.commit('SET_IS_MAIN_INPUT_DISPLAYED', 'none');
 
+      if(store.getters.getUser.firstTimeSelectButtonClicked == 1){
+          store.commit('SET_DISPLAY_WHEN_LOCATION_IS_CLICKED', '');
+      }
   },
   handleBackButtonClickForLocation(context){
       const store = context;
-      console.log("back clicked");
+
+      // Clear the inputbox text
+      store.commit('SET_INPUT_BOX_TEXT', '');
+
+      // Clear the dropdown list options
+      store.commit('SET_OPTIONS_AFTER_INPUT', '');
+
+      store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', 'none');
   },
 };
