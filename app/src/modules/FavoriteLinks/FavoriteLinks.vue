@@ -240,7 +240,7 @@
       },
       favoriteLinksLoaded: {
         get() {
-          return this.getUser.userLoaded;
+          return this.getUser.loaded;
         },
       },
       userInit: {

@@ -56,7 +56,7 @@
     <vue-progress-bar/>
     <!-- Modal for cookie extension -->
     <AppModal
-      id="cookie_modal"
+      id="cookie-modal"
       modal-ref="cookie_modal"
       title="Your session is about to expire">
       <!-- Modal content -->
@@ -200,7 +200,7 @@
       const store = vm.$store;
 
       // Fetch cookie information from Drupal backend and log in
-      vm.$store.dispatch('getEEPConfigs', { vm });
+      store.dispatch('getEEPConfigs', { vm });
     },
   };
 
