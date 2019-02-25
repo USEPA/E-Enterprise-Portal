@@ -193,7 +193,7 @@
         roleList: [],
         organizations: [],
         roles: [],
-        selectedLocation:[],
+        selectedLocation:[{first:'', second:''}],
         inputLocation:[]
       };
     },
@@ -319,37 +319,32 @@
           this.roles=[];
       },
       updateUserLocation(){
-
-        var i;
-        var params;
-
-        if (this.userlocation.length > 0) {
-          this. selectedLocation=this.userlocation;
-          for (i = 0; i < this.userSavedLocations.length; i++) {
+        let i;
+        let params;
+        console.warn(this.userlocation)
+          for (i = 0; i <this.userSavedLocations.length; i++) {
             const sl = this.userSavedLocations[i].selected_location_from_dropdown;
+            const first = this.userSavedLocations[i].typed_in_location;
 
-            this.selectedLocation = this.selectedLocation.concat({
-              first: this.userSavedLocations[i].typed_in_location,
-              second: parseInt(sl, 10)
+            console.warn(this.userSavedLocations);
+            this.userlocation.push({first: first, second: parseInt(sl, 10)});
+            console.warn(this.userlocation);
+            params = {
+              field_userlocation: this.userlocation,
+            };
+            console.warn(this.userlocation);
 
-            });
+            console.warn(params );
+
+            this.apiUserPatch(params);
+            this.deleteSelectedLocation({
+              typed_in_location: this.userSavedLocations[i].typed_in_location,
+              selected_location_from_dropdown: this.userSavedLocations[i].selected_location_from_dropdown});
+
           }
-        } else {
-          for (i = 0; i < this.userSavedLocations.length; i++) {
-            const sl = this.userSavedLocations[i].selected_location_from_dropdown;
 
-            this.selectedLocation = this.selectedLocation.concat({
-              first: this.userSavedLocations[i].typed_in_location,
-              second: parseInt(sl, 10)
 
-            });
-          }
-        }
-        params = {
-                  field_userlocation: this.selectedLocation,
-                  };
 
-        this.apiUserPatch(params);
         },
       deleteSelectedLocation(location){
           this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
