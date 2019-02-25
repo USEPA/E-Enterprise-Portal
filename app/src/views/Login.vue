@@ -1,11 +1,11 @@
-<!-- Go through this folder and rename all of the occurances to be specific to the app that you are building -->
 <template>
-    <div class="container">
-        <h3>Login</h3>
-        <div class="pt-2 caption-wrapper">
-            <p class="pt-2 font-weight-bold">Select your preferred login method to access E-Enterprise using one of
-                your existing accounts. Choose a
-                preferred login type and option to get started.</p>
+  <div class="container">
+    <h3>Login</h3>
+    <div class="pt-2 caption-wrapper">
+      <p class="pt-2 font-weight-bold">Select your preferred login method to access E-Enterprise
+      using one of
+      your existing accounts. Choose a
+      preferred login type and option to get started.</p>
 
         </div>
         <div class="pt-3"></div>
@@ -68,45 +68,44 @@
 <!-- do not include scope to modify the bootstrap elements -->
 <style lang="scss">
 
-    @media only screen and (min-width: 500px) {
-        .tabText {
-            position: relative;
-            top: -2.9rem;
-        }
+  @media only screen and (min-width: 500px) {
+    .tabText {
+      position: relative;
+      top: -2.9rem;
     }
+  }
 
-    .epa-tabs {
+  .epa-tabs {
 
-        ul {
-            border-right: 1px solid lightgrey;
-            background-color: #FFFFFF;
+    ul {
+      border-right: 1px solid lightgrey;
+      background-color: #fff;
+
+      li.nav-item a {
+        background-color: #f1f1f1;
+        color: #094e7a;
+        text-decoration: none;
+
+        &:hover {
+          background-color: #094e7a;
+          color: #fff;
         }
+      }
 
-        li.nav-item a {
-            background-color: #F1F1F1;
-            color: #094e7a;
-            text-decoration: none;
+      li.nav-item a.active {
+        background-color: #094e7a;
+        color: #fff;
+      }
 
-            &:hover{
-                 background-color: #094e7a;
-                 color: #ffffff;
-             }
-        }
+      li.nav-item a.active, li.nav-item a {
+        margin-bottom: 10px;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        border-radius: 0;
+        height: 4rem;
+        padding-top: 20px;
 
-        li.nav-item a.active {
-            background-color: #094e7a;
-            color: #ffffff;
-        }
-
-        li.nav-item a.active, li.nav-item a {
-            margin-bottom: 10px;
-            -webkit-border-radius: 0;
-            -moz-border-radius: 0;
-            border-radius: 0;
-            height: 4rem;
-            padding-top: 20px;
-
-        }
+      }
 
     }
 

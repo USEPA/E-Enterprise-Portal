@@ -6,12 +6,14 @@ import Vue from 'vue';
 Vue.config.productionTip = true;
 Vue.config.devtools = true;
 
+import VueScrollTo from 'vue-scrollto';
 import VueProgressBar from 'vue-progressbar';
 import 'bootstrap';
 import BootstrapVue from 'bootstrap-vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
+
 
 const VueProgressBarOptions = {
   color: '#007AC6',
@@ -27,8 +29,23 @@ const VueProgressBarOptions = {
   inverse: false,
 };
 
+const VueScrollToDefaultSettings = {
+  container: 'body',
+  duration: 500,
+  easing: 'ease',
+  offset: 0,
+  force: true,
+  cancelable: false,
+  onStart: false,
+  onDone: false,
+  onCancel: false,
+  x: false,
+  y: true,
+};
+
 Vue.use(VueProgressBar, VueProgressBarOptions);
 Vue.use(BootstrapVue);
+Vue.use(VueScrollTo, VueScrollToDefaultSettings);
 
 export default new Vue({
   router,

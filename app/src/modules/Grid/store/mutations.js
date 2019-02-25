@@ -19,13 +19,17 @@ import types from './types';
 
 export default {
   [types.SET_LAYOUT](state, obj) {
-    // synchronise changes to the state of the store
-
-    // Example of how to change properties on the state object
     Vue.set(
-      state, // <- state value to change
-      'layout', // <- the name of the property on the object the line above
-      obj, // <- new value to set on that property
+      state,
+      'layout',
+      obj,
+    );
+  },
+  [types.PUSH_DIRECT_LINKS_REGISTRATION](state, registration) {
+    Vue.set(
+      state.directLinkMappings,
+      registration.id,
+      registration.direct_links,
     );
   },
 };

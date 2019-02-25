@@ -243,7 +243,4 @@ $RECYCLE.BIN/
 # .idea
 .idea/
 /.idea/
-/_.idea/
 /drupal/keys/jwt.key
-/drupal/composer.lock
-/drupal/keys/.gitkeep
