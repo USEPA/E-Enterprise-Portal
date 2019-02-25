@@ -187,7 +187,6 @@
     data() {
       return {
         locations: [{}],
-        somethingElse:'',
         UserDeleteModalInfo: { title:'Delete User' },
         selected: null,
         org: [{ first: "" }, { second: "" }],
@@ -197,9 +196,6 @@
         roles: [],
         selectedLocation:[],
         inputLocation:[]
-
-
-
       };
     },
     computed: {
@@ -341,7 +337,7 @@
 
             });
           }
-        }else{
+        } else {
           for (i = 0; i < this.userSavedLocations.length; i++) {
             const sl = this.userSavedLocations[i].selected_location_from_dropdown;
 
