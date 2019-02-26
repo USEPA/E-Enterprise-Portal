@@ -44,10 +44,10 @@
                   <p>Until a location is specified, the default location is set to
                   Durham, North Carolina.</p>
                 </div>
-                <div  v-if="user.userlocation.length > 0">
-                  <template v-for="(second,index) in user.userlocation">
+                <div  v-if="user.userlocations.length > 0">
+                  <template v-for="(second,index) in user.userlocations">
                     <b-input-group class="pl-2 pb-2 pt-2">
-                      <b-form-input ref="selectedLocation" v-model="userlocation[index].second"
+                      <b-form-input ref="selectedLocation" v-model="userlocations[index].second"
                                     type="text"
                                     class="col-4 ml-3"
                                     disabled/>
@@ -63,7 +63,7 @@
                                 typed_in_location: location.typed_in_location,
                                 selected_location_from_dropdown: location.selected_location_from_dropdown})">X
                       </button>
-                      <span class="col-md-12 pt-1 small"  >{{userlocation[index].first}}</span>
+                      <span class="col-md-12 pt-1 small"  >{{userlocations[index].first}}</span>
                     </b-input-group>
                   </template>
 
