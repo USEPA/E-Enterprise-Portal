@@ -125,9 +125,12 @@ export default {
 
     if (!store.state.partners.length) {
       // eslint-disable-next-line vue/no-async-in-computed-properties
+
+      console.log('url: ' + store.state.urls[env].getPartners);
       AppAxios.get(store.state.urls[env].getPartners)
         .then((response) => {
           // @todo add sanity check for returned data
+          console.log(response.data);
           store.commit(types.UPDATE_PARTNERS, response.data);
         })
         .catch((...args) => {
