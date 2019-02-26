@@ -111,7 +111,7 @@
                   <div>
                     <h6>Organization</h6>
                     <b-form-select v-model="selected" id="org-selection" class="mr-3" required>
-                      <option display="none" v-if="organization.length === 0" v-bind:value="null">-None-</option>
+                      <option v-if="organization.length === 0" v-bind:value="null">-None-</option>
                       <option v-else v-bind:value="null">{{organization[0].second}}</option>
                       <option>-None-</option>
                       <option v-for="option in org" v-bind:value="option.name">{{ option.name }}
