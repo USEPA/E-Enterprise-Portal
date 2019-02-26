@@ -6,6 +6,8 @@ const state = {
       locationSearch: 'eep/proxy/service/location',
       geolocationSearch: 'eep/proxy/service/geolocation',
       workbenchApplications: 'api/view/workbench-applications',
+      authenticationOptions: 'api/authentication-category-options',
+      taxonomyTerms: 'api/authentication_category_taxonomy_terms',
     },
   },
   app: null,
