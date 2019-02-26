@@ -167,17 +167,14 @@
                       </option>
                     </template>
                   </b-form-select>
-                  <div v-if="!handoff">
-                    <b-spinner small
-                      type="grow"
-                      label="Small Spinner"/>
-                    Loading...
-                  </div>
                   <div class="my-cdx-detail-group">
+                    <span class="sr-only">Loading...</span>
                     <b-btn
                       variant="primary"
                       :disabled="!handoff"
                       @click="openPopupPage(handoff.destination_url, handoff.post_params)">
+                      <b-spinner small
+                        v-if="!handoff"/>
                       Proceed
                     </b-btn>
                   </div>
