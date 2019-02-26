@@ -110,10 +110,6 @@ export default {
     }
     const favoriteLinks = obj.field_favorite_links;
     const loaded = true;
-    const organization = obj.field_organization;
-    const role = obj.field_role;
-    const userlocation = obj.field_userlocation;
-
     Vue.set(state.user,
       'name',
       name);
@@ -131,13 +127,13 @@ export default {
       init);
     Vue.set(state.user,
       'organization',
-      organization);
+      obj.field_organization);
     Vue.set(state.user,
       'role',
-      role);
+      obj.field_role);
     Vue.set(state.user,
       'userlocation',
-      userlocation);
+      obj.field_userlocation);
   },
   [types.SET_USER_OBJECT_ORGANIZATION](state, obj) {
     Vue.set(state.user.userObject,

@@ -191,8 +191,6 @@
         org: [{ first: "" }, { second: "" }],
         selectedRole: null,
         roleList: [],
-        organizations: [],
-        roles: [],
         selectedLocation:[{first:'', second:''}],
         inputLocation:[]
       };
@@ -298,59 +296,48 @@
         this.updateUserLocation();
       },
       updateOrg() {
-          const firstField = 'org';
-          const secondField = this.selected;
-          this.organizations = this.organizations.concat({
-              first: firstField,
-              second: secondField
-          });
-          const orgParams = {
-              field_organization: this.organizations
-          };
-          this.apiUserPatch(orgParams);
-          this.organization=[];
+        let firstField = 'org';
+        let secondField = this.selected;
+        this.organization[0].push({
+          first: firstField,
+          second: secondField
+        });
+        let orgParams = {
+          field_organization: this.organization
+        };
+        this.apiUserPatch(orgParams);
+        this.organization = [];
       },
       updateRole() {
-          const firstField = 'role';
-          const secondField = this.selectedRole;
-          this.roles = this.roles.concat({
-              first: firstField,
-              second: secondField
-          });
-          const params = {
-              field_role: this.roles
-          };
-          this.apiUserPatch(params);
-          this.roles=[];
+        let firstField = 'role';
+        let secondField = this.selectedRole;
+        this.role[0].push({
+          first: firstField,
+          second: secondField
+        });
+        const roleparams = {
+          field_role: this.roles
+        };
+        this.apiUserPatch(roleparams);
+        this.roles = [];
       },
       updateUserLocation(){
         let i;
-        let params;
-        console.warn(this.userlocation)
-          for (i = 0; i <this.userSavedLocations.length; i++) {
-            const sl = this.userSavedLocations[i].selected_location_from_dropdown;
-            const first = this.userSavedLocations[i].typed_in_location;
-
-            console.warn(this.userSavedLocations);
-            this.userlocation.push({first: first, second: parseInt(sl, 10)});
-            console.warn(this.userlocation);
-            params = {
-              field_userlocation: this.userlocation,
-            };
-            console.warn(this.userlocation);
-
-            console.warn(params );
-
-            this.apiUserPatch(params);
-            this.deleteSelectedLocation({
-              typed_in_location: this.userSavedLocations[i].typed_in_location,
-              selected_location_from_dropdown: this.userSavedLocations[i].selected_location_from_dropdown});
-
-          }
-
-
-
-        },
+        let userLocationZipcode={};
+        for (i = 0; i < this.userSavedLocations.length; i++) {
+          let zipcode = this.userSavedLocations[i].selected_location_from_dropdown;
+          let typedLocation = this.userSavedLocations[i].typed_in_location;
+          this.userlocation.push({first: typedLocation, second: parseInt(zipcode, 10)});
+          userLocationZipcode = {
+            field_userlocation: this.userlocation,
+          };
+          this.apiUserPatch(userLocationZipcode);
+          this.deleteSelectedLocation({
+            typed_in_location: this.userSavedLocations[i].typed_in_location,
+            selected_location_from_dropdown: this.userSavedLocations[i].selected_location_from_dropdown
+          });
+        }
+      },
       deleteSelectedLocation(location){
           this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
       },
