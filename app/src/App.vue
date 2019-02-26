@@ -80,14 +80,12 @@
 
 <script>
   // @ is an alias to /src
-  import { mapGetters } from 'vuex';
+  import { mapGetters, mapActions } from 'vuex';
   import MainHeader from '@/components/MainHeader.vue';
   import MainFooter from '@/components/MainFooter.vue';
   import LocationSearch from '@/components/LocationSearch.vue';
   import VueProgessBar from 'vue-progressbar';
   import types from './store/types';
-  import { AppModal } from './modules/wadk/WADK';
-  import { EventBus } from './EventBus';
   import { AppModal } from './modules/wadk/WADK';
 
   const moduleName = 'App';
@@ -150,7 +148,7 @@
         vm.$root.$emit(
           'bv::show::modal',
           'cookie_modal',
-          vm.$refs.cookie_modal
+          vm.$refs.cookie_modal,
         );
       },
       exitModal() {
@@ -158,12 +156,12 @@
         vm.$root.$emit(
           'bv::hide::modal',
           'cookie_modal',
-          this.$refs.cookie_modal
+          this.$refs.cookie_modal,
         );
         this.$store.dispatch('userLogOut');
       },
       extendTheSession() {
-        const vm = this
+        const vm = this;
         vm.$store.dispatch('extendSession', { vm });
       },
     },

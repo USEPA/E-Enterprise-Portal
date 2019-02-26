@@ -2,7 +2,7 @@
   <div class="home mt-2">
     <b-carousel
       id="home-carousel"
-      background="#ababab"
+      background="#575757"
       :interval="0"
       v-model="slide"
       @sliding-start="onSlideStart"
@@ -197,9 +197,6 @@
   // @TODO - Move non scoped styles to the appropriate sass file
   @import '../styles/bootstrap-mixins-cheatsheet.scss';
   #home-carousel {
-    // overwrites inline styles applied by carousel component
-    background-color: #575757 !important;
-
     h1, h2, h3, h4, h5, h6 {
       font-weight: 300;
     }
@@ -249,8 +246,6 @@
       color: #fff;
     }
     .carousel-item {
-      background-color: #575757;
-
       & > img:first-child {
         display: none !important;
       }
