@@ -167,12 +167,13 @@
                       </option>
                     </template>
                   </b-form-select>
-                  <div class="my-cdx-detail-group">Program</div>
-                  <div class="program-acronym"/>
                   <div class="my-cdx-detail-group">
                     <b-btn
+                      variant="primary"
                       :disabled="!handoff"
                       @click="openPopupPage(handoff.destination_url, handoff.post_params)">
+                      <b-spinner small
+                        v-if="!handoff"/>
                       Proceed
                     </b-btn>
                   </div>
