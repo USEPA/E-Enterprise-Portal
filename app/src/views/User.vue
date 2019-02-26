@@ -296,12 +296,10 @@
         this.updateUserLocation();
       },
       updateOrg() {
-        let firstField = 'org';
-        let secondField = this.selected;
-        this.organization[0].push({
-          first: firstField,
-          second: secondField
-        });
+
+        this.organization[0].first='org';
+        this.organization[0].second=this.selected;;
+
         let orgParams = {
           field_organization: this.organization
         };
@@ -309,17 +307,13 @@
         this.organization = [];
       },
       updateRole() {
-        let firstField = 'role';
-        let secondField = this.selectedRole;
-        this.role[0].push({
-          first: firstField,
-          second: secondField
-        });
+        this.role[0].first='role';
+        this.role[0].second=this.selectedRole;
         const roleparams = {
-          field_role: this.roles
+          field_role: this.role
         };
         this.apiUserPatch(roleparams);
-        this.roles = [];
+        this.role= [];
       },
       updateUserLocation(){
         let i;
