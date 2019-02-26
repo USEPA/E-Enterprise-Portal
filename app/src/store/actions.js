@@ -242,8 +242,8 @@ export default {
         // Loop through response and match each taxonomy up with each
         // authentication option
         responseInner.data.forEach((respItem) => {
-          const associatedTaxonomyWeight = response.data.find(x => x.tid[0].value ===
-            respItem.field_authentication_category[0].target_id).weight[0].value;
+          const associatedTaxonomyWeight = response.data.find(x => x.tid[0].value
+              === respItem.field_authentication_category[0].target_id).weight[0].value;
 
           // save each option to the formatted array variable to pass to
           // mutation
