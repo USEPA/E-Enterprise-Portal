@@ -228,7 +228,7 @@ export default {
 
     // Do ajax call to get the correct terms for the Authentication Category
     // Taxonomy
-    AppAxios.get(`${store.getters.getEnvironmentApiURL}/api/authentication_category_taxonomy_terms`, {
+    AppAxios.get(store.getters.getEEPAPIURL({endpoint: store.getters.getApiUrl('taxonomyTerms'), params: ''}), {
       headers: store.getters.getGETHeaders,
     }).then((response) => {
       // Declare variables
@@ -236,7 +236,7 @@ export default {
 
       // Ajax call to retrieve all of the Login information from
       // /api/authentication-category-options
-      AppAxios.get(`${store.getters.getEnvironmentApiURL}/api/authentication-category-options`, {
+      AppAxios.get(store.getters.getEEPAPIURL({endpoint: store.getters.getApiUrl('authenticationOptions'), params: ''}), {
         headers: store.getters.getGETHeaders,
       }).then((responseInner) => {
         // Loop through response and match each taxonomy up with each
@@ -259,10 +259,10 @@ export default {
         // Commit formatted array to the store
         store.commit('SET_LOGIN_VIEW_ACCOUNTS', formattedOption);
       }).catch((error) => {
-        console.error(error.response);
+        console.error(error);
       });
     }).catch((error) => {
-      console.error(error.response);
+      console.error(error);
     });
   },
   extendSession(context, payload) {
