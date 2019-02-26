@@ -262,10 +262,10 @@ export default {
         // Commit formatted array to the store
         store.commit('SET_LOGIN_VIEW_ACCOUNTS', formattedOption);
       }).catch((error) => {
-        console.error(error.response);
+        console.error(error);
       });
     }).catch((error) => {
-      console.error(error.response);
+      console.error(error);
     });
   },
   extendSession(context, payload) {
