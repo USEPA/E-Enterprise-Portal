@@ -62,8 +62,9 @@ const state = {
     optionsAfterInput: [],
     loaded: false,
     init: [],
-    organisation: [],
-    role: [],
+    organizations: [],
+    roles: [],
+    userlocations:[],
     location: {
       zipcode: '',
       city: '',

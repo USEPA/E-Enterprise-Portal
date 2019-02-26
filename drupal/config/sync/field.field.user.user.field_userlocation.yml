@@ -1,40 +1,37 @@
-uuid: 5fd33bed-45d7-457e-86b7-7cc4a93744f3
+uuid: 783a0c96-7054-4880-83c5-04947a9c5ad6
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.user.field_organisation
+    - field.storage.user.field_userlocation
   module:
     - double_field
     - user
-id: user.user.field_organisation
-field_name: field_organisation
+id: user.user.field_userlocation
+field_name: field_userlocation
 entity_type: user
 bundle: user
-label: organisation
+label: userLocation
 description: ''
 required: false
 translatable: false
-default_value:
-  -
-    first: org
-    second: '--None--'
+default_value: {  }
 default_value_callback: ''
 settings:
   first:
-    required: true
+    min: null
+    max: null
     list: false
     allowed_values: {  }
-    max: null
-    min: null
+    required: true
     on_label: 'On'
     off_label: 'Off'
   second:
-    required: true
+    min: null
+    max: null
     list: false
     allowed_values: {  }
-    max: null
-    min: null
+    required: true
     on_label: 'On'
     off_label: 'Off'
 field_type: double_field

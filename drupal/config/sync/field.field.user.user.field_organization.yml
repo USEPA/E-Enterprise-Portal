@@ -1,0 +1,37 @@
+uuid: 021c5470-ac06-4948-ac99-f10e2d2514d8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_organization
+  module:
+    - double_field
+    - user
+id: user.user.field_organization
+field_name: field_organization
+entity_type: user
+bundle: user
+label: Organization
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  first:
+    required: true
+    list: false
+    allowed_values: {  }
+    max: null
+    min: null
+    on_label: 'On'
+    off_label: 'Off'
+  second:
+    required: true
+    list: false
+    allowed_values: {  }
+    max: null
+    min: null
+    on_label: 'On'
+    off_label: 'Off'
+field_type: double_field
