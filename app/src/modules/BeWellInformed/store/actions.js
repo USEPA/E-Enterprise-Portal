@@ -126,16 +126,15 @@ export default {
     if (!store.state.partners.length) {
       // eslint-disable-next-line vue/no-async-in-computed-properties
 
-        AppAxios.get(store.state.urls[env].getPartners)
-        .then((response) => {
-          // @todo add sanity check for returned data
-          store.commit(types.UPDATE_PARTNERS, response.data);
-        })
-        .catch((...args) => {
-          // @todo add sanity check for errors & visual prompt to the user
-          app.$Progress.fail();
-          console.warn('AppAxios fail: ', args);
-        });
+      AppAxios.get(store.state.urls[env].getPartners)
+      .then((response) => {
+        // @todo add sanity check for returned data
+        store.commit(types.UPDATE_PARTNERS, response.data);
+      }).catch((...args) => {
+        // @todo add sanity check for errors & visual prompt to the user
+        app.$Progress.fail();
+        console.warn('AppAxios fail: ', args);
+      });
     }
   },
   submitPartnersData(context, payload) {
