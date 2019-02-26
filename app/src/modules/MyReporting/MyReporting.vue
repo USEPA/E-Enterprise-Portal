@@ -168,7 +168,10 @@
                     </template>
                   </b-form-select>
                   <div v-if="!handoff">
-                    <b-spinner small type="grow" label="Small Spinner" />Loading...
+                    <b-spinner small
+                      type="grow"
+                      label="Small Spinner"/>
+                    Loading...
                   </div>
                   <div class="my-cdx-detail-group">
                     <b-btn
