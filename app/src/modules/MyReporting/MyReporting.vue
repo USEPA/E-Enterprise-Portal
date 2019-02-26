@@ -168,7 +168,6 @@
                     </template>
                   </b-form-select>
                   <div class="my-cdx-detail-group">
-                    <span class="sr-only">Loading...</span>
                     <b-btn
                       variant="primary"
                       :disabled="!handoff"
