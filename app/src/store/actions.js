@@ -228,7 +228,6 @@ export default {
 
     // Do ajax call to get the correct terms for the Authentication Category
     // Taxonomy
-    console.log(store.getters.getEEPAPIURL({endpoint: store.getters.getApiUrl('taxonomyTerms'), params: ''}));
     AppAxios.get(store.getters.getEEPAPIURL({endpoint: store.getters.getApiUrl('taxonomyTerms'), params: ''}), {
       headers: store.getters.getGETHeaders,
     }).then((response) => {
