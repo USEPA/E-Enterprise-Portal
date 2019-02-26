@@ -24,7 +24,8 @@
     <div
       id="nav"
       class="region-navigation pb-2 px-3"
-      :style="navMargin">
+      :style="navMargin"
+      v-if="!onHomePage">
       <div
         id="main-navigation-container"
         class="container">
@@ -54,12 +55,12 @@
     <vue-progress-bar/>
     <!-- Modal for cookie extension -->
     <AppModal
-      id="cookie_modal"
+      id="cookie-modal"
       modal-ref="cookie_modal"
       title="Your session is about to expire">
       <!-- Modal content -->
       <p>Your session will expire in {{ user.timeLeftUntilLogout }} minute(s).
-        If you choose not to extend, then you will be logged out.</p>
+      If you choose not to extend, then you will be logged out.</p>
       <p>Would you like to extend your session?</p>
       <template slot="footer">
         <b-button
@@ -80,13 +81,11 @@
 <script>
   // @ is an alias to /src
   import { mapGetters, mapActions } from 'vuex';
-  import AppAxios from 'axios';
   import MainHeader from '@/components/MainHeader.vue';
   import MainFooter from '@/components/MainFooter.vue';
   import LocationSearch from '@/components/LocationSearch.vue';
   import VueProgessBar from 'vue-progressbar';
   import types from './store/types';
-  import { EventBus } from './EventBus';
   import { AppModal } from './modules/wadk/WADK';
 
   const moduleName = 'App';
@@ -108,6 +107,11 @@
         basicPages: 'getBasicPages',
         user: 'getUser',
       }),
+      onHomePage: {
+        get() {
+          return this.$route.path === '/';
+        },
+      },
       // @todo clean up variable names here
       environmentName() {
         let env = 'LOCAL';
@@ -144,7 +148,7 @@
         vm.$root.$emit(
           'bv::show::modal',
           'cookie_modal',
-          vm.$refs.cookie_modal
+          vm.$refs.cookie_modal,
         );
       },
       exitModal() {
@@ -152,12 +156,12 @@
         vm.$root.$emit(
           'bv::hide::modal',
           'cookie_modal',
-          this.$refs.cookie_modal
+          this.$refs.cookie_modal,
         );
         this.$store.dispatch('userLogOut');
       },
       extendTheSession() {
-        const vm = this
+        const vm = this;
         vm.$store.dispatch('extendSession', { vm });
       },
     },
@@ -204,7 +208,7 @@
       const store = vm.$store;
 
       // Fetch cookie information from Drupal backend and log in
-      vm.$store.dispatch('getEEPConfigs', { vm });
+      store.dispatch('getEEPConfigs', { vm });
     },
   };
 
