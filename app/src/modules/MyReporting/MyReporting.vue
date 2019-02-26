@@ -214,7 +214,7 @@
   import { mapActions, mapGetters } from 'vuex';
   import { AppWrapper, AppModal, AppPlaceholderContent } from '../wadk/WADK';
   import storeModule from './store/index';
-  import { EventBus } from '../../EventBus'
+  import { EventBus } from '../../EventBus';
 
   const moduleName = 'MyReporting';
   const items = [];
