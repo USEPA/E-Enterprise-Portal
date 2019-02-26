@@ -287,18 +287,12 @@
           }
       },
       save() {
-          if (this.selected != '') {
-              this.updateOrg();
-          }
-          if (this.selectedRole != '') {
-              this.updateRole();
-          }
         this.updateUserLocation();
       },
       updateOrg() {
 
         this.organizations[0].first='org';
-        this.organizations[0].second=this.selected;;
+        this.organizations[0].second=this.selected;
 
         let orgParams = {
           field_organization: this.organizations
