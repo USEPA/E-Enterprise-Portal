@@ -126,26 +126,26 @@ export default {
       'init',
       init);
     Vue.set(state.user,
-      'organization',
+      'organizations',
       obj.field_organization);
     Vue.set(state.user,
-      'role',
+      'roles',
       obj.field_role);
     Vue.set(state.user,
-      'userlocation',
+      'userlocations',
       obj.field_userlocation);
   },
-  [types.SET_USER_OBJECT_ORGANIZATION](state, obj) {
+  [types.SET_USER_OBJECT_ORGANIZATIONS](state, obj) {
     Vue.set(state.user.userObject,
       'field_organization',
       obj);
   },
-  [types.SET_USER_OBJECT_ROLE](state, obj) {
+  [types.SET_USER_OBJECT_ROLES](state, obj) {
     Vue.set(state.user.userObject,
       'field_role',
       obj);
   },
-  [types.SET_USER_OBJECT_USERLOCATION](state, obj) {
+  [types.SET_USER_OBJECT_USERLOCATIONS](state, obj) {
     Vue.set(state.user.userObject,
       'field_userlocation',
       obj);

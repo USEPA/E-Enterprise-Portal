@@ -111,8 +111,8 @@
                   <div>
                     <h6>Organization</h6>
                     <b-form-select v-model="selected" id="org-selection" class="mr-3" required>
-                      <option v-if="organization.length === 0" v-bind:value="null">-None-</option>
-                      <option v-else v-bind:value="null">{{organization[0].second}}</option>
+                      <option v-if="organizations.length === 0" v-bind:value="null">-None-</option>
+                      <option v-else v-bind:value="null">{{organizations[0].second}}</option>
                       <option>-None-</option>
                       <option v-for="option in org" v-bind:value="option.name">{{ option.name }}
                       </option>
@@ -122,8 +122,8 @@
                   <div>
                     <h6>Role</h6>
                     <b-form-select v-model="selectedRole" id="role-selection" class="mr-3" required>
-                      <option v-if="role.length === 0" v-bind:value="null">-None-</option>
-                      <option v-else v-bind:value="null">{{role[0].second}}</option>
+                      <option v-if="roles.length === 0" v-bind:value="null">-None-</option>
+                      <option v-else v-bind:value="null">{{roles[0].second}}</option>
                       <option>-None-</option>
                       <option
                         v-for="option in roleList"
@@ -215,14 +215,14 @@
             return this.user.mail;
         }
       },
-      organization: {
+      organizations: {
           get() {
-              return this.user.organization;
+              return this.user.organizations;
           }
       },
-      role: {
+      roles: {
         get() {
-            return this.user.role;
+            return this.user.roles;
         }
       },
       location: {
@@ -245,9 +245,9 @@
           return this.user.userSavedLocations;
         }
       },
-      userlocation: {
+      userlocations: {
         get() {
-          return this.user.userlocation;
+          return this.user.userlocations;
         }
       },
 
@@ -297,23 +297,23 @@
       },
       updateOrg() {
 
-        this.organization[0].first='org';
-        this.organization[0].second=this.selected;;
+        this.organizations[0].first='org';
+        this.organizations[0].second=this.selected;;
 
         let orgParams = {
-          field_organization: this.organization
+          field_organization: this.organizations
         };
         this.apiUserPatch(orgParams);
-        this.organization = [];
+        this.organizations = [];
       },
       updateRole() {
-        this.role[0].first='role';
-        this.role[0].second=this.selectedRole;
+        this.roles[0].first='role';
+        this.roles[0].second=this.selectedRole;
         const roleparams = {
-          field_role: this.role
+          field_role: this.roles
         };
         this.apiUserPatch(roleparams);
-        this.role= [];
+        this.roles= [];
       },
       updateUserLocation(){
         let i;
@@ -321,9 +321,9 @@
         for (i = 0; i < this.userSavedLocations.length; i++) {
           let zipcode = this.userSavedLocations[i].selected_location_from_dropdown;
           let typedLocation = this.userSavedLocations[i].typed_in_location;
-          this.userlocation.push({first: typedLocation, second: parseInt(zipcode, 10)});
+          this.userlocations.push({first: typedLocation, second: parseInt(zipcode, 10)});
           userLocationZipcode = {
-            field_userlocation: this.userlocation,
+            field_userlocation: this.userlocations,
           };
           this.apiUserPatch(userLocationZipcode);
           this.deleteSelectedLocation({
