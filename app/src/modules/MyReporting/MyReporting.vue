@@ -167,10 +167,12 @@
                       </option>
                     </template>
                   </b-form-select>
-                  <div class="my-cdx-detail-group">Program</div>
-                  <div class="program-acronym"/>
+                  <div v-if="!handoff">
+                    <b-spinner small type="grow" label="Small Spinner" />Loading...
+                  </div>
                   <div class="my-cdx-detail-group">
                     <b-btn
+                      variant="primary"
                       :disabled="!handoff"
                       @click="openPopupPage(handoff.destination_url, handoff.post_params)">
                       Proceed
@@ -212,7 +214,7 @@
   import { mapActions, mapGetters } from 'vuex';
   import { AppWrapper, AppModal, AppPlaceholderContent } from '../wadk/WADK';
   import storeModule from './store/index';
-  import { EventBus } from '../../EventBus';
+  import { EventBus } from '../../EventBus'
 
   const moduleName = 'MyReporting';
   const items = [];
