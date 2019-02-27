@@ -338,16 +338,10 @@ export default {
         // Log user in
         store.commit(types.IS_USER_LOGGED_IN, true);
 
-        // set timeout here
-        store.dispatch('checkCookie', payload);
-
       } else if (Vue.cookie.get('userLoggedIn')) {
         // Log user in and set user name
         store.commit('IS_USER_LOGGED_IN', true);
         store.commit(types.SET_UID, Vue.cookie.get('uid'));
-
-      } else if (!Vue.cookie.get('Token')) {
-        store.dispatch('userLogOut');
       }
 
       if(Vue.cookie.get('userLoggedIn')){
@@ -361,6 +355,7 @@ export default {
           });
       }
 
+      store.dispatch('checkCookie', payload);
       //  [App.vue specific] When App.vue is finish loading finish the progress
       // bar
       vm.$Progress.finish();
@@ -380,13 +375,9 @@ export default {
     const currentTime = (new Date).getTime();
     const timeOut = user.cookie.time;
 
-    console.log("Cookie Expiration: " + (logInTime + (timeOut * 60000) - 60000) +
-                "Current time: " + currentTime);
-
 
     // logInTime is in milliseconds, timeOut is being converted to milliseconds, we subtract 60000 because that is one minute
     if((logInTime + (timeOut * 60000) - 60000) > currentTime){
-        console.log("hit here");
         setTimeout(function () {
             let minutes_difference = 0;
             if (!!Vue.cookie.get('userLogInTime')) {
@@ -401,12 +392,12 @@ export default {
                     'cookieModal',
                     vm.$refs.cookie_modal);
             }
-        }, (logInTime + timeOut - 1) * 60000);
+        }, logInTime + (timeOut * 60000) - 60000 - currentTime);
 
         setTimeout(function () {
             const currentLoginUserTime = new Date(Vue.cookie.get('userLogInTime')).getTime();
             const logOutCurrentTime = (new Date).getTime();
-            if(currentLoginUserTime > logOutCurrentTime){
+            if(!currentLoginUserTime || currentLoginUserTime > logOutCurrentTime){
                 if (!Vue.cookie.get("userLoggedIn")) {
                     vm.$root.$emit(
                         'bv::hide::modal',
@@ -416,9 +407,10 @@ export default {
                     router.push('/login');
                 }
             }
-        }, logInTime + (timeOut * 60000));
-    }else{
-        store.dispatch('userLogout');
+        }, logInTime + (timeOut * 60000) - currentTime);
+    }
+    else {
+      store.dispatch('userLogOut');
     }
   },
   apiUserPatch(context, body) {
