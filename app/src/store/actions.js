@@ -298,19 +298,18 @@ export default {
       headers: store.getters.getGETHeaders,
     }).then((response) => {
       const { user } = store.state;
-      const { cookie } = user;
+
       // Set the cookie information in the store
       store.commit(types.SET_COOKIE, {
         time: response.data.eepcookieconfig.cookie_expiration_time,
         time_units: response.data.eepcookieconfig.cookie_time_units,
       });
 
-      // do log in stuff here
       // Declare the main url that the page is currently on
       const currentUrl = window.location.href;
 
       if (currentUrl.indexOf('token') > -1 && currentUrl.indexOf('uid') > -1) {
-        // Declare variables
+
         const vars = {};
         // Extracts the URL params
         // Got this functionality from
@@ -321,6 +320,8 @@ export default {
         // find the URL params for each one
         const { token } = vars;
         const { uid } = vars;
+
+        let { cookie } = store.getters.getUser;
 
         // Grabs the static cookie time from the store
         const cookieExpiration = cookie.time + cookie.time_units;
