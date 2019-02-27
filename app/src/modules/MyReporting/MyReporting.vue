@@ -360,7 +360,7 @@
       openPopupPage(url, params) {
         this.openWindowWithPost(`${url}`, '', 'sso-handoff', params);
       },
-      openWindowWithPost(url, windowoption, name, params) {
+      openWindowWithPost(url, windowoption, params) {
         const form = document.createElement('form');
         form.setAttribute('method', 'post');
         form.setAttribute('action', url);
@@ -371,7 +371,6 @@
         keys.map((key) => {
           const input = document.createElement('input');
           input.type = 'hidden';
-          input.name = key;
           input.value = params[key];
           form.appendChild(input);
         });
@@ -421,6 +420,7 @@
           )
             .then((response) => {
               vm.handoff = response.data;
+
             });
         }
       },
