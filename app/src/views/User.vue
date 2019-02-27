@@ -100,7 +100,7 @@
             </div>
           </b-container>
         </b-tab>
-        <div class="tabHide">
+        <div class="d-none">
         <b-tab title="Interest">
           <b-container class="bv-example-row ml-2">
             <div class="interest-container">
@@ -347,7 +347,4 @@
 </script>
 
 <style lang="scss" scoped>
-  .tabHide{
-    display:none;
-  }
 </style>
