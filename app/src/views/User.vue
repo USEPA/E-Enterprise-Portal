@@ -100,7 +100,7 @@
             </div>
           </b-container>
         </b-tab>
-
+        <div class="tabHide">
         <b-tab title="Interest">
           <b-container class="bv-example-row ml-2">
             <div class="interest-container">
@@ -136,7 +136,7 @@
             </div>
           </b-container>
         </b-tab>
-
+        </div>
           <p class="ml-4 mt-4">
               All unsaved data will be lost upon navigating
               away from the Profile page.
@@ -288,6 +288,13 @@
       },
       save() {
         this.updateUserLocation();
+        if (this.selected) {
+              this.updateOrg();
+        }
+        if (this.selectedRole) {
+              this.updateRole();
+        }
+
       },
       updateOrg() {
 
@@ -339,4 +346,7 @@
 </script>
 
 <style lang="scss" scoped>
+  .tabHide{
+    display:none;
+  }
 </style>
