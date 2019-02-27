@@ -376,37 +376,44 @@ export default {
     const { vm } = payload;
     const { user } = store.state;
 
-
-    setTimeout(function () {
-
-      let minutes_difference = 0;
-
-      if (!!Vue.cookie.get('userLogInTime')) {
-        minutes_difference = ((Math.floor((Math.abs(new Date(Vue.cookie.get('userLogInTime')).getTime() +
-                    ((user.cookie.time) * 60 * 1000)) - (new Date())) / 1000) / 60) % 60);
-      }
-
-      // Check to see if there is a minute left
-      if (minutes_difference <= 1 && Vue.cookie.get("userLoggedIn")) {
-        store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
-        vm.$root.$emit(
-          'bv::show::modal',
-          'cookieModal',
-          vm.$refs.cookie_modal);
-      }
-    }, (user.cookie.time - 1) * 60000);
+    const logInTime = new Date(Vue.cookie.get('userLogInTime')).getTime();
+    const currentTime = (new Date).getTime();
+    const timeOut = user.cookie.time;
 
 
-    let cookie_modal_interval = setTimeout(function () {
-        if (!Vue.cookie.get("userLoggedIn")) {
-            vm.$root.$emit(
-                'bv::hide::modal',
-                'cookieModal',
-                vm.$refs.cookie_modal);
-            store.dispatch('userLogOut');
-            router.push('/login');
-        }
-    }, (user.cookie.time * 60000) + 5000);
+    // logInTime is in milliseconds, timeOut is being converted to milliseconds, we subtract 60000 because that is one minute
+    if((logInTime + (timeOut * 60000) - 60000) > currentTime){
+        setTimeout(function () {
+            let minutes_difference = 0;
+            if (!!Vue.cookie.get('userLogInTime')) {
+                minutes_difference = ((Math.floor((Math.abs(new Date(Vue.cookie.get('userLogInTime')).getTime() +
+                        ((user.cookie.time) * 60 * 1000)) - (new Date())) / 1000) / 60) % 60);
+            }
+            // Check to see if there is a minute left
+            if (minutes_difference <= 1 && Vue.cookie.get("userLoggedIn")) {
+                store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
+                vm.$root.$emit(
+                    'bv::show::modal',
+                    'cookieModal',
+                    vm.$refs.cookie_modal);
+            }
+        }, (logInTime + timeOut - 1) * 60000);
+
+        setTimeout(function () {
+            const currentLoginUserTime = new Date(Vue.cookie.get('userLogInTime')).getTime();
+            const logOutCurrentTime = (new Date).getTime();
+            if(currentLoginUserTime > logOutCurrentTime){
+                if (!Vue.cookie.get("userLoggedIn")) {
+                    vm.$root.$emit(
+                        'bv::hide::modal',
+                        'cookieModal',
+                        vm.$refs.cookie_modal);
+                    store.dispatch('userLogOut');
+                    router.push('/login');
+                }
+            }
+        }, logInTime + (timeOut * 60000));
+    }
   },
   apiUserPatch(context, body) {
     const store = context;

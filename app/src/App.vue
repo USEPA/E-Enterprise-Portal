@@ -56,7 +56,7 @@
     <!-- Modal for cookie extension -->
     <AppModal
       id="cookieModal"
-      ref="cookieModal"
+      modal-ref="cookieModal"
       title="Your session is about to expire">
       <!-- Modal content -->
       <p>Your session will expire in {{ user.timeLeftUntilLogout }} minute(s).
