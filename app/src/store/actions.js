@@ -309,8 +309,6 @@ export default {
       if (currentUrl.indexOf('token') > -1 && currentUrl.indexOf('uid') > -1) {
 
         const vars = {};
-        // Extracts the URL params
-        // Got this functionality from
         // https://html-online.com/articles/get-url-parameters-javascript/
         currentUrl.replace(/[?&]+([^=&]+)=([^&]*)/gi, (m, key, value) => {
           vars[key] = value;
@@ -343,22 +341,24 @@ export default {
         // set timeout here
         store.dispatch('checkCookie', payload);
 
-
       } else if (Vue.cookie.get('userLoggedIn')) {
         // Log user in and set user name
         store.commit('IS_USER_LOGGED_IN', true);
         store.commit(types.SET_UID, Vue.cookie.get('uid'));
 
-        AppAxios.get(`${store.getters.getEnvironmentApiURL}/user/${Vue.cookie.get('uid')}?_format=json`, {
-            headers: { Authorization: `Bearer ${Vue.cookie.get('Token')}` },
-        }).then((userLoggedInResponse) => {
-            store.commit('SET_USER_OBJECT', userLoggedInResponse.data);
-            router.push('/workbench');
-        }).catch((error) => {
-            console.warn(error);
-        });
       } else if (!Vue.cookie.get('Token')) {
         store.dispatch('userLogOut');
+      }
+
+      if(Vue.cookie.get('userLoggedIn')){
+          AppAxios.get(`${store.getters.getEnvironmentApiURL}/user/${Vue.cookie.get('uid')}?_format=json`, {
+              headers: { Authorization: `Bearer ${Vue.cookie.get('Token')}` },
+          }).then((userLoggedInResponse) => {
+              store.commit('SET_USER_OBJECT', userLoggedInResponse.data);
+              router.push('/workbench');
+          }).catch((error) => {
+                  console.warn(error);
+          });
       }
 
       //  [App.vue specific] When App.vue is finish loading finish the progress
@@ -393,26 +393,20 @@ export default {
           'bv::show::modal',
           'cookieModal',
           vm.$refs.cookie_modal);
-
-        console.log(vm.$refs.cookie_modal);
-
-        // Set interval is used to check if the user has made a selection on
-        // the modal before the cookie expires When the cookie expires and they
-        // have not made a selection then they are logged out and have to log
-        // back in
-        let cookie_modal_interval = setTimeout(function () {
-          if (!Vue.cookie.get("userLoggedIn")) {
-            vm.$root.$emit(
-              'bv::hide::modal',
-              'cookieModal',
-              vm.$refs.cookie_modal,
-            );
-            store.dispatch('userLogOut');
-            router.push('/login');
-          }
-        }, 65000);
       }
     }, (user.cookie.time - 1) * 60000);
+
+
+    let cookie_modal_interval = setTimeout(function () {
+        if (!Vue.cookie.get("userLoggedIn")) {
+            vm.$root.$emit(
+                'bv::hide::modal',
+                'cookieModal',
+                vm.$refs.cookie_modal);
+            store.dispatch('userLogOut');
+            router.push('/login');
+        }
+    }, (user.cookie.time * 60000) + 5000);
   },
   apiUserPatch(context, body) {
     const store = context;
