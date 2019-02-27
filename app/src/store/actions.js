@@ -380,9 +380,13 @@ export default {
     const currentTime = (new Date).getTime();
     const timeOut = user.cookie.time;
 
+    console.log("Cookie Expiration: " + (logInTime + (timeOut * 60000) - 60000) +
+                "Current time: " + currentTime);
+
 
     // logInTime is in milliseconds, timeOut is being converted to milliseconds, we subtract 60000 because that is one minute
     if((logInTime + (timeOut * 60000) - 60000) > currentTime){
+        console.log("hit here");
         setTimeout(function () {
             let minutes_difference = 0;
             if (!!Vue.cookie.get('userLogInTime')) {
@@ -413,6 +417,8 @@ export default {
                 }
             }
         }, logInTime + (timeOut * 60000));
+    }else{
+        store.dispatch('userLogout');
     }
   },
   apiUserPatch(context, body) {
