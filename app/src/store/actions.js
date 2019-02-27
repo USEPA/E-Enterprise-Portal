@@ -276,8 +276,7 @@ export default {
     Vue.cookie.set('userLoggedIn', true, { expires: COOKIE_EXPIRATION_TIME });
     Vue.cookie.set('uid', store.getters.getUser.id, { expires: COOKIE_EXPIRATION_TIME });
     Vue.cookie.set('Token', store.getters.getLoggedInToken, { expires: COOKIE_EXPIRATION_TIME });
-
-    store.commit(types.SET_LOGGED_IN_TIME, new Date());
+    Vue.cookie.set('userLogInTime', new Date(), {expires: COOKIE_EXPIRATION_TIME});
 
     // Set timeout again to continously check the cookie
     store.dispatch('checkCookie', payload);
@@ -285,9 +284,8 @@ export default {
     // Close modal
     vm.$root.$emit(
       'bv::hide::modal',
-      'cookie_modal',
-      vm.$refs.cookie_modal,
-    );
+      'cookieModal',
+      vm.$refs.cookie_modal);
   },
   getEEPConfigs(context, payload) {
     const store = context;
@@ -331,10 +329,10 @@ export default {
         // set user token in cookie
         Vue.cookie.set('Token', token, { expires: cookieExpiration });
         Vue.cookie.set('uid', uid, { expires: cookieExpiration });
+        Vue.cookie.set('userLogInTime', new Date(), {expires: cookieExpiration});
 
         // Set login time and token in the store
         store.commit(types.SET_LOGGED_IN_TOKEN, token);
-        store.commit(types.SET_LOGGED_IN_TIME, new Date());
 
         // Set user id in the store
         store.commit(types.SET_UID, uid);
@@ -378,24 +376,25 @@ export default {
     const { vm } = payload;
     const { user } = store.state;
 
-    // Set timeout to do once
+
     setTimeout(function () {
-      // Declare variables
+
       let minutes_difference = 0;
 
-      if (store.getters.getUser.loggedInTime) {
-        minutes_difference = Math.floor((Math.abs(new Date((user.loggedInTime.getTime() +
-          ((user.cookie.time) * 60 * 1000))) - (new Date())) / 1000) / 60) % 60;
+      if (!!Vue.cookie.get('userLogInTime')) {
+        minutes_difference = ((Math.floor((Math.abs(new Date(Vue.cookie.get('userLogInTime')).getTime() +
+                    ((user.cookie.time) * 60 * 1000)) - (new Date())) / 1000) / 60) % 60);
       }
 
       // Check to see if there is a minute left
-      if (minutes_difference <= 1 && store.getters.getDisplayLoggedInElements) {
+      if (minutes_difference <= 1 && Vue.cookie.get("userLoggedIn")) {
         store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
         vm.$root.$emit(
           'bv::show::modal',
-          'cookie_modal',
-          vm.$refs.cookie_modal,
-        );
+          'cookieModal',
+          vm.$refs.cookie_modal);
+
+        console.log(vm.$refs.cookie_modal);
 
         // Set interval is used to check if the user has made a selection on
         // the modal before the cookie expires When the cookie expires and they
@@ -405,7 +404,7 @@ export default {
           if (!Vue.cookie.get("userLoggedIn")) {
             vm.$root.$emit(
               'bv::hide::modal',
-              'cookie_modal',
+              'cookieModal',
               vm.$refs.cookie_modal,
             );
             store.dispatch('userLogOut');

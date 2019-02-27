@@ -55,8 +55,8 @@
     <vue-progress-bar/>
     <!-- Modal for cookie extension -->
     <AppModal
-      id="cookie-modal"
-      modal-ref="cookie_modal"
+      id="cookieModal"
+      ref="cookieModal"
       title="Your session is about to expire">
       <!-- Modal content -->
       <p>Your session will expire in {{ user.timeLeftUntilLogout }} minute(s).
@@ -155,7 +155,7 @@
         const vm = this;
         vm.$root.$emit(
           'bv::hide::modal',
-          'cookie_modal',
+          'cookieModal',
           this.$refs.cookie_modal,
         );
         this.$store.dispatch('userLogOut');

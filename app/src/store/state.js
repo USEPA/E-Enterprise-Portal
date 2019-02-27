@@ -51,7 +51,7 @@ const state = {
     id: 0,
     isLoggedIn: false,
     timeLeftUntilLogout: 0,
-    loggedInTime: null,
+    loggedInTime: '',
     name: '',
     mail: '',
     favoriteLinks: [],
