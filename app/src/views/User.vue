@@ -264,7 +264,7 @@
       //Set the defaults for the locations
       this.$store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', '');
 
-      this.$store.dispatch('populateDropdownForUserInput', this.$store.getters.getUser.inputBoxText);
+      this.$store.dispatch('populateDropdownForUserInput');
     },
     methods: {
       ...mapActions([
