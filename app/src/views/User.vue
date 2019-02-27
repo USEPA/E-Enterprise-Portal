@@ -288,6 +288,7 @@
       },
       save() {
         this.updateUserLocation();
+        //these if statements will not work as the interest tab is hidden
         if (this.selected) {
               this.updateOrg();
         }
