@@ -17,16 +17,22 @@ h2::before {
 
 // status colum styles
 #my-certifications-table {
-  .cert-needs-attn,
-  .cert-needs-attn:after {
+  .cert-needs-attn{
      color: $red;
    }
   .cert-completed {
     color: $green;
   }
-  .cert-not-completed,
-  .cert-not-completed:after {
+  .cert-not-completed {
     color: $blue;
+  }
+
+  .cert-not-completed-decoration {
+    background-color: $blue;
+  }
+
+  .cert-needs-attn-decoration {
+    background-color: $red;
   }
 }
 

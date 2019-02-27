@@ -59,11 +59,16 @@
       >
         <div
           v-if="row.value === 'Needs Attention'"
-          class="cert-needs-attn">{{ row.value }}</div>
+          class="cert-needs-attn">{{ row.value }}
+          <div class="cert-needs-attn-decoration"/>
+        </div>
         <div
           v-else-if="row.value === 'Completed'"
-          class="cert-completed">{{ row.value }}</div>
-        <div v-else>{{ row.value }}</div>
+          class="cert-completed">{{ row.value }}
+        </div>
+        <div v-else>{{ row.value }}
+          <div class="cert-not-completed-decoration"/>
+        </div>
       </template>
 
       <template
@@ -253,26 +258,31 @@
     content: url('../../assets/images/state-government.svg');
   }
 
-  .cert-needs-attn:after {
-    content: url('../../assets/images/exclamation.svg');
-  }
-  .cert-not-completed:after {
-    content: url('../../assets/images/question.svg');
-  }
-
-  .cert-needs-attn:after,
-  .cert-not-completed:after{
-    height: .75em;
-    width: .75em;
-    top: -0.1rem;
+  .cert-needs-attn-decoration,
+  .cert-not-completed-decoration{
+    height: .8rem;
+    width: .8rem;
+    color: #fff;
     background-repeat: no-repeat;
     background-position: center center;
-    background-color: #0071c2;
     border-radius: 50%;
     padding: 0;
     border-width: 0;
-    background-size: .8rem;
+    float: right;
+    position: relative;
+    top: -1rem;
+    left: .9rem;
   }
+
+  .cert-not-completed-decoration {
+    background-size: .5rem;
+    background-image: url('../../assets/images/question.svg');
+  }
+  .cert-needs-attn-decoration {
+    background-size: .35rem;
+    background-image: url('../../assets/images/exclamation.svg');
+  }
+
   /* Fixes bottom of workbench grey area */
   #app {
     margin-bottom: 7rem;
