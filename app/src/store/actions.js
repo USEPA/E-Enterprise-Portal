@@ -381,8 +381,8 @@ export default {
         setTimeout(function () {
             let minutes_difference = 0;
             if (!!Vue.cookie.get('userLogInTime')) {
-                minutes_difference = ((Math.floor((Math.abs(new Date(Vue.cookie.get('userLogInTime')).getTime() +
-                        ((user.cookie.time) * 60 * 1000)) - (new Date())) / 1000) / 60) % 60);
+                minutes_difference = (Math.floor((Math.abs(new Date(Vue.cookie.get('userLogInTime')).getTime() +
+                        ((user.cookie.time) * 60 * 1000)) - (new Date())) / 1000) / 60) % 60;
             }
             // Check to see if there is a minute left
             if (minutes_difference <= 1 && Vue.cookie.get("userLoggedIn")) {
