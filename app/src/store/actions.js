@@ -350,18 +350,17 @@ export default {
         // Log user in and set user name
         store.commit('IS_USER_LOGGED_IN', true);
         store.commit(types.SET_UID, Vue.cookie.get('uid'));
+
+        AppAxios.get(`${store.getters.getEnvironmentApiURL}/user/${Vue.cookie.get('uid')}?_format=json`, {
+            headers: { Authorization: `Bearer ${Vue.cookie.get('Token')}` },
+        }).then((userLoggedInResponse) => {
+            store.commit('SET_USER_OBJECT', userLoggedInResponse.data);
+            router.push('/workbench');
+        }).catch((error) => {
+            console.warn(error);
+        });
       } else if (!Vue.cookie.get('Token')) {
         store.dispatch('userLogOut');
-      }
-
-      if (Vue.cookie.get('userLoggedIn')) {
-        AppAxios.get(`${store.getters.getEnvironmentApiURL}/user/${Vue.cookie.get('uid')}?_format=json`, {
-          headers: { Authorization: `Bearer ${Vue.cookie.get('Token')}` },
-        }).then((userLoggedInResponse) => {
-          store.commit('SET_USER_OBJECT', userLoggedInResponse.data);
-        }).catch((error) => {
-          console.warn(error);
-        });
       }
 
       //  [App.vue specific] When App.vue is finish loading finish the progress
