@@ -443,11 +443,11 @@ export default {
       console.warn('PATCH => failure');
     });
   },
-  populateDropdownForUserInput(context, userInput) {
+  populateDropdownForUserInput(context) {
     // Declare variables
     const store = context;
     let params = '';
-
+    let userInput = store.getters.getUser.inputBoxText;
     if (/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(userInput)) {
       // handle zipcode
       params = `zipcode=${userInput}`;

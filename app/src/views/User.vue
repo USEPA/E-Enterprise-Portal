@@ -264,7 +264,7 @@
       // Set the defaults for the locations
       this.$store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', '');
 
-      this.$store.dispatch('populateDropdownForUserInput', this.$store.getters.getUser.inputBoxText);
+      this.$store.dispatch('populateDropdownForUserInput');
     },
     methods: {
       ...mapActions([
@@ -320,7 +320,8 @@
       updateUserLocation(){
         let i;
         let userLocationZipcode={};
-        for (i = 0; i < this.userSavedLocations.length; i++) {
+        let j=this.userSavedLocations.length;
+        for (i = 0; i < j ; i++) {
           let zipcode = this.userSavedLocations[i].selected_location_from_dropdown;
           let typedLocation = this.userSavedLocations[i].typed_in_location;
           this.userlocations.push({first: typedLocation, second: parseInt(zipcode, 10)});
@@ -328,9 +329,12 @@
             field_userlocation: this.userlocations,
           };
           this.apiUserPatch(userLocationZipcode);
+
+        }
+        for(i = 0; i < j ; i++) {
           this.deleteSelectedLocation({
             typed_in_location: this.userSavedLocations[i].typed_in_location,
-            selected_location_from_dropdown: this.userSavedLocations[i].selected_location_from_dropdown
+            selected_location_from_dropdown: this.userSavedLocations[i].selected_location_from_dropdown,
           });
         }
       },
