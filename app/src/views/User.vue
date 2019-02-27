@@ -59,10 +59,10 @@
                           <i :ref="'click-star-' + index" @click="starClick('click-star-' + index)" class="far fa-star"/>
                         </template>
                       </div>
-                      <button class="usa-button" value="x" @click="deleteSelectedLocation({
-                                typed_in_location: location.typed_in_location,
-                                selected_location_from_dropdown: location.selected_location_from_dropdown})">X
-                      </button>
+                      <template>
+                        <button class="usa-button" value="x" @click="deleteUserLocation(second)">X
+                        </button>
+                      </template>
                       <span class="col-md-12 pt-1 small"  >{{userlocations[index].first}}</span>
                     </b-input-group>
                   </template>
@@ -100,7 +100,7 @@
             </div>
           </b-container>
         </b-tab>
-
+        <div class="d-none">
         <b-tab title="Interest">
           <b-container class="bv-example-row ml-2">
             <div class="interest-container">
@@ -136,7 +136,7 @@
             </div>
           </b-container>
         </b-tab>
-
+        </div>
           <p class="ml-4 mt-4">
               All unsaved data will be lost upon navigating
               away from the Profile page.
@@ -288,6 +288,14 @@
       },
       save() {
         this.updateUserLocation();
+        //these if statements will not work as the interest tab is hidden
+        if (this.selected) {
+              this.updateOrg();
+        }
+        if (this.selectedRole) {
+              this.updateRole();
+        }
+
       },
       updateOrg() {
 
@@ -312,7 +320,8 @@
       updateUserLocation(){
         let i;
         let userLocationZipcode={};
-        for (i = 0; i < this.userSavedLocations.length; i++) {
+        let j=this.userSavedLocations.length;
+        for (i = 0; i < j ; i++) {
           let zipcode = this.userSavedLocations[i].selected_location_from_dropdown;
           let typedLocation = this.userSavedLocations[i].typed_in_location;
           this.userlocations.push({first: typedLocation, second: parseInt(zipcode, 10)});
@@ -320,14 +329,24 @@
             field_userlocation: this.userlocations,
           };
           this.apiUserPatch(userLocationZipcode);
+
+        }
+        for(i = 0; i < j ; i++) {
           this.deleteSelectedLocation({
             typed_in_location: this.userSavedLocations[i].typed_in_location,
-            selected_location_from_dropdown: this.userSavedLocations[i].selected_location_from_dropdown
+            selected_location_from_dropdown: this.userSavedLocations[i].selected_location_from_dropdown,
           });
         }
       },
       deleteSelectedLocation(location){
           this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
+      },
+      deleteUserLocation(deletedValue) {
+        var index=this.userlocations.indexOf(deletedValue)
+        this.userlocations.splice(index, 1);
+        this.apiUserPatch({
+          field_userlocation: this.userlocations,
+        });
       },
       revealLocationInputBox(){
           this.$store.commit('SET_IS_MAIN_INPUT_DISPLAYED', '');

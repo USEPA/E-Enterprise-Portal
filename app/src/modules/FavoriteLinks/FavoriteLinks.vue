@@ -225,7 +225,6 @@
         editModalInfo: { title: 'Edit Favorite', first: '', second: '' },
         editModalIndex: null,
         addModalInfo: { title: 'Add Favorite', first: '', second: '' },
-        totalRows: null,
         noFavs: 'No Favorites...',
       };
     },
@@ -246,6 +245,11 @@
       userInit: {
         get() {
           return this.getUser.init;
+        },
+      },
+      totalRows: {
+        get() {
+          return this.getUser.favoriteLinks.length;
         },
       },
     },

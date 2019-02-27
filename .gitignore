@@ -246,3 +246,4 @@ $RECYCLE.BIN/
 /drupal/keys/jwt.key
 !/drupal/package-lock.json
 /app/package-lock.json
+/app/package.json

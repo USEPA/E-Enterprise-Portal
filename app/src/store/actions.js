@@ -242,8 +242,8 @@ export default {
         // Loop through response and match each taxonomy up with each
         // authentication option
         responseInner.data.forEach((respItem) => {
-          const associatedTaxonomyWeight = response.data.find(x => x.tid[0].value ===
-            respItem.field_authentication_category[0].target_id).weight[0].value;
+          const associatedTaxonomyWeight = response.data.find(x => x.tid[0].value
+            === respItem.field_authentication_category[0].target_id).weight[0].value;
 
           // save each option to the formatted array variable to pass to
           // mutation
@@ -446,9 +446,7 @@ export default {
     // Declare variables
     const store = context;
     let params = '';
-
     let userInput = store.getters.getUser.inputBoxText;
-
     if (/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(userInput)) {
       // handle zipcode
       params = `zipcode=${userInput}`;

@@ -89,7 +89,7 @@
                 We will continue to add partners in the future.
               </p>
               <button
-                to="/login"
+                @click="goToLogin"
                 class="usa-button float-right"
                 ref="loginBtn"
                 v-if='!authenticated'>
@@ -185,6 +185,9 @@
       },
       onSlideEnd() {
         this.sliding = false;
+      },
+      goToLogin(){
+        this.$router.push('/login');
       },
     },
     mounted() {
