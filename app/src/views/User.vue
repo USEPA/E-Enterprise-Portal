@@ -59,10 +59,10 @@
                           <i :ref="'click-star-' + index" @click="starClick('click-star-' + index)" class="far fa-star"/>
                         </template>
                       </div>
-                      <button class="usa-button" value="x" @click="deleteSelectedLocation({
-                                typed_in_location: location.typed_in_location,
-                                selected_location_from_dropdown: location.selected_location_from_dropdown})">X
-                      </button>
+                      <template>
+                        <button class="usa-button" value="x" @click="deleteUserLocation(second)">X
+                        </button>
+                      </template>
                       <span class="col-md-12 pt-1 small"  >{{userlocations[index].first}}</span>
                     </b-input-group>
                   </template>
@@ -336,6 +336,13 @@
       },
       deleteSelectedLocation(location){
           this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
+      },
+      deleteUserLocation(deletedValue) {
+        var index=this.userlocations.indexOf(deletedValue)
+        this.userlocations.splice(index, 1);
+        this.apiUserPatch({
+          field_userlocation: this.userlocations,
+        });
       },
       revealLocationInputBox(){
           this.$store.commit('SET_IS_MAIN_INPUT_DISPLAYED', '');
