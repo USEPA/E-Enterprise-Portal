@@ -364,7 +364,7 @@
         const form = document.createElement('form');
         form.setAttribute('method', 'post');
         form.setAttribute('action', url);
-        form.setAttribute('target', name);
+        form.setAttribute('target', '_blank');
         const keys = Object.keys(params);
 
         // eslint-disable-next-line array-callback-return
@@ -376,7 +376,6 @@
           form.appendChild(input);
         });
         document.body.appendChild(form);
-        window.open('sso-handoff.htm', name, windowoption);
         form.submit();
         document.body.removeChild(form);
       },
