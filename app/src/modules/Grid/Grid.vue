@@ -72,6 +72,7 @@
   import TrendingAir from '@/modules/TrendingAir/TrendingAir.vue';
   import FavoriteLinks from '@/modules/FavoriteLinks/FavoriteLinks.vue';
   import MyReporting from '@/modules/MyReporting/MyReporting.vue';
+  import MyCertifications from '@/modules/MyCertifications/MyCertifications.vue';
 
   import { mapActions, mapGetters } from 'vuex';
   import GridLayout from './vue-grid-layout/components/GridLayout.vue';
@@ -93,6 +94,7 @@
       TrendingAir,
       FavoriteLinks,
       MyReporting,
+      MyCertifications,
     },
     beforeCreate() {
       const vm = this;

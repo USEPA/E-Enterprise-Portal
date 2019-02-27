@@ -293,7 +293,8 @@
       },
       setEditModalIndex() {
         for (let i = 0; i < this.favoriteLinks.length; i++) {
-          if (this.favoriteLinks[i].first === this.editModalInfo.first && this.favoriteLinks[i].second === this.editModalInfo.second) {
+          if (this.favoriteLinks[i].first === this.editModalInfo.first &&
+            this.favoriteLinks[i].second === this.editModalInfo.second) {
             this.editModalIndex = i;
           }
         }

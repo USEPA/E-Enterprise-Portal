@@ -1,0 +1,32 @@
+@import "bootstrap-variable-overrides";
+
+h2::before {
+  height: 50px;
+  width: 50px;
+}
+
+// small styles
+.wapp-small {
+  table{
+    font-size: 0.75em;
+  }
+  .datatable-controls {
+    display: none;
+  }
+}
+
+// status colum styles
+#my-certifications-table {
+  .cert-needs-attn,
+  .cert-needs-attn:after {
+     color: $red;
+   }
+  .cert-completed {
+    color: $green;
+  }
+  .cert-not-completed,
+  .cert-not-completed:after {
+    color: $blue;
+  }
+}
+
