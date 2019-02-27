@@ -2,15 +2,14 @@
   <div class="container">
     <h3>Login</h3>
     <div class="pt-2 caption-wrapper">
-      <p class="pt-2 font-weight-bold">Select your preferred login method to access E-Enterprise
-      using one of
-      your existing accounts. Choose a
-      preferred login type and option to get started.</p>
-
+        <p class="pt-2 font-weight-bold">Select your preferred login method to access E-Enterprise
+        using one of
+        your existing accounts. Choose a
+        preferred login type and option to get started.</p>
         </div>
         <div class="pt-3"></div>
         <h6 class="ml-4 font-weight-bold ">Use this account:</h6>
-        <b-tabs class="epa-tabs" pills card vertical nav-wrapper-class="w-25">
+        <b-tabs class="epa-tabs" pills card vertical>
             <b-tab title="EPA" active>
                 <h6 class="tabText font-weight-bold">Use your EPA account...</h6>
                 <LoginType index="0"></LoginType>
@@ -76,44 +75,55 @@
   }
 
   .epa-tabs {
+      .col-auto{
+          width: 25%;
+      }
+      ul {
+          border-right: 1px solid lightgrey;
+          background-color: #fff;
 
-  ul {
-      border-right: 1px solid lightgrey;
-      background-color: #fff;
+          li.nav-item a {
+              background-color: #f1f1f1;
+              color: #094e7a;
+              text-decoration: none;
 
-  li.nav-item a {
-      background-color: #f1f1f1;
-      color: #094e7a;
-      text-decoration: none;
+              &:hover {
+                  background-color: #094e7a;
+                  color: #fff;
+              }
+          }
 
-  &
-  :hover {
-      background-color: #094e7a;
-      color: #fff;
+          li.nav-item a.active {
+              background-color: #094e7a;
+              color: #fff;
+          }
+
+          li.nav-item a.active, li.nav-item a {
+              margin-bottom: 10px;
+              -webkit-border-radius: 0;
+              -moz-border-radius: 0;
+              border-radius: 0;
+              height: 4rem;
+              padding-top: 20px;
+
+          }
+
+      }
   }
 
+  .caption-wrapper > p{
+      max-width: 100%;
   }
 
-  li.nav-item a.active {
-      background-color: #094e7a;
-      color: #fff;
-  }
-
-  li.nav-item a.active, li.nav-item a {
-      margin-bottom: 10px;
-      -webkit-border-radius: 0;
-      -moz-border-radius: 0;
-      border-radius: 0;
-      height: 4rem;
-      padding-top: 20px;
-
-  }
-
-  }
-  }
-
-    .caption-wrapper > p{
-        max-width: 100%;
+  @media only screen and (max-width: 444px) {
+    .epa-tabs {
+      .col-auto{
+        width: 100%;
+      }
+      ul{
+        border: none;
+      }
     }
+  }
 
 </style>
