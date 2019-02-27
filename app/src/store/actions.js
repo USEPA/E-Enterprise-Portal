@@ -403,12 +403,13 @@ export default {
         // back in
         let cookie_modal_interval = setTimeout(function () {
           if (!Vue.cookie.get("userLoggedIn")) {
-            store.dispatch('userLogOut');
             vm.$root.$emit(
               'bv::hide::modal',
               'cookie_modal',
               vm.$refs.cookie_modal,
             );
+            store.dispatch('userLogOut');
+            router.push('/login');
           }
         }, 65000);
       }
