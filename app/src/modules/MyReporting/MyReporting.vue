@@ -211,9 +211,8 @@
 <script>
   import AppAxios from 'axios';
   import { mapActions, mapGetters } from 'vuex';
-  import { AppWrapper, AppModal, AppPlaceholderContent } from '../wadk/WADK';
+  import { AppWrapper, AppModal } from '../wadk/WADK';
   import storeModule from './store/index';
-  import { EventBus } from '../../EventBus';
 
   const moduleName = 'MyReporting';
   const items = [];
@@ -243,7 +242,6 @@
         ],
         currentPage: 1,
         perPage: 5,
-        totalRows: items.length,
         pageOptions: [
           { value: 5, text: '5' },
           { value: 10, text: '10' },
@@ -314,6 +312,11 @@
       }),
       token() {
         return this.$cookie.get('Token');
+      },
+      totalRows: {
+        get() {
+          return this.items.length;
+        },
       },
     },
     methods: {
