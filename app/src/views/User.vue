@@ -261,7 +261,7 @@
          this.roleList = response.data;
       });
 
-      // Set the defaults for the locations
+      //Set the defaults for the locations
       this.$store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', '');
 
       this.$store.dispatch('populateDropdownForUserInput', this.$store.getters.getUser.inputBoxText);
