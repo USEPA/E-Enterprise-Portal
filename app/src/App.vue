@@ -75,6 +75,13 @@
         </b-button>
       </template>
     </AppModal>
+    <!-- This AppModal below will be used to tell the user that they have been logged out after the session expires -->
+    <AppModal
+    id="userLogOutNotification"
+    modal-ref="userLogOutNotification"
+    title="Logout Notice">
+        <p>You have been logged out.</p>
+    </AppModal>
   </div>
 </template>
 

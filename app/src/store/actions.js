@@ -403,7 +403,21 @@ export default {
                     vm.$root.$emit(
                         'bv::hide::modal',
                         'cookieModal',
-                        vm.$refs.cookie_modal);
+                        vm.$refs.cookie_modal
+                    );
+                    // Show the modal that lets the user know that he has been logged out
+                    vm.$root.$emit(
+                        'bv::show::modal',
+                        'userLogOutNotification',
+                        vm.$refs.userLogOutNotification
+                    );
+                    setTimeOut(function(){
+                        vm.$root.$emit(
+                            'bv::hide::modal',
+                            'userLogOutNotification',
+                            vm.$refs.userLogOutNotification
+                        );
+                    }, 5000);
                     store.dispatch('userLogOut');
                     router.push('/login');
                 }
