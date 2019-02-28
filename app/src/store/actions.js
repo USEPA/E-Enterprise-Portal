@@ -448,6 +448,9 @@ export default {
     const store = context;
     let params = '';
     let userInput = store.getters.getUser.inputBoxText;
+
+    store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', false);
+      
     if (/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(userInput)) {
       // handle zipcode
       params = `zipcode=${userInput}`;
@@ -504,8 +507,6 @@ export default {
                 formattedResponseInformation.push(tribes[i]);
             }
             store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', true);
-        }else{
-            store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', false);
         }
         dropDownLabelText = "Select a location for";
 
