@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - action
+    - node_import_export
+id: bulk_node_import_export
+label: 'Node Import-Export'
+type: node
+plugin: bulk_node_import_export
