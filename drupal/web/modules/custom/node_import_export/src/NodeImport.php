@@ -121,8 +121,8 @@ class NodeImport {
       // Remap the array target_id with the matching content by UUIDs
       if(isset($_metadata)) {
         foreach ($_metadata as $entity_type_id => $entities) {
-          foreach ($entities as $old_nid => $uuid) {
-            $entity = \Drupal::service('entity.repository')->loadEntityByUuid($entity_type_id, $uuid);
+          foreach ($entities as $old_nid => $entity_uuid) {
+            $entity = \Drupal::service('entity.repository')->loadEntityByUuid($entity_type_id, $entity_uuid);
             if($entity) {
               $_metadata["$entity_type_id-remapped"][$old_nid] = $entity->id();
             }
@@ -145,9 +145,9 @@ class NodeImport {
               foreach ($fieldValues as $field => $values) {
                 // If the key is a field, check if it is a target_id and map the uuid
                 if(stripos($field, 'field_') === 0) {
-                  $target_type = $current_fields[$field]->getSetting('target_type');
                   foreach ($values as $idx => $v) {
                     if (isset($v['target_id'])) {
+                      $target_type = $current_fields[$field]->getSetting('target_type');
                       if($_metadata["$target_type-remapped"][$v['target_id']]) {
                         $values[$idx]['target_id'] = $_metadata["$target_type-remapped"][$v['target_id']];
                       }
