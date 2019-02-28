@@ -210,7 +210,8 @@
             <b-row>
               <a
                 href="https://www.epa.gov/lead/renovation-repair-and-painting-program-contractors"
-                target="_blank">
+                target="_blank"
+                class="font-weight-bold">
                 Visit the EPA Lead website for next steps
               </a>
             </b-row>
