@@ -261,4 +261,9 @@ export default {
   [types.ITERATE_FIRST_TIME_SELECT_BUTTON](state, amount) {
     state.user.firstTimeSelectButtonClicked += amount;
   },
+  [types.IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES](state, choice){
+      Vue.set(state.user,
+          'isCurrentDropdownZipcodeWithTribes',
+          choice);
+  },
 };

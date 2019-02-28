@@ -122,7 +122,7 @@ export default {
     store.commit(types.SET_LOGGED_IN_TIME, '');
 
     // Use router.push here to get rid of the token in the redirect URL
-    router.push('/login');
+    router.push('/');
   },
   // Function to process the payload of the JWT token, which contains the user
   // info. This will set the state, verify the path exists and is defined then
@@ -485,17 +485,27 @@ export default {
         });
       } else if (params.indexOf('zipcode') !== -1) {
 
-        let cities = return_data.city;
-
         // The if statement handles the case of if a zipcode exist in more than
         // one place
         if (return_data.cities_and_states) {
           formattedResponseInformation = return_data.cities_and_states;
         } else {
+
+          let cities = return_data.city;
+
           // Loop through cities array and build new array to commit to store
           for (let i = 0; i < cities.length; i++) {
             formattedResponseInformation.push(cities[i] + ", " + return_data.state[0]);
           }
+        }
+        if(return_data.associated_tribes){
+            let tribes = return_data.associated_tribes;
+            for (let i = 0; i < tribes.length; i++) {
+                formattedResponseInformation.push(tribes[i]);
+            }
+            store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', true);
+        }else{
+            store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', false);
         }
         dropDownLabelText = "Select a location for";
 
