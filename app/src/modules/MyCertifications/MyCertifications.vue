@@ -108,56 +108,56 @@
       <div class="my-cert-modal-base-info pb-1">
         <b-row class="pb-1">
           <b-col md="4">
-            <b-row class="font-weight-bold">
+            <b-row>
               Application #
             </b-row>
-            <b-row>
+            <b-row class="font-weight-bold">
               {{ modalSettings.info.number }}
             </b-row>
           </b-col>
           <b-col md="4">
-            <b-row class="font-weight-bold">
+            <b-row>
               Application Type
             </b-row>
-            <b-row>
+            <b-row class="font-weight-bold">
               {{ modalSettings.info.type }}
             </b-row>
           </b-col>
         </b-row>
         <b-row class="pb-1">
           <b-col md="4">
-            <b-row class="font-weight-bold">
+            <b-row>
               Status
             </b-row>
             <b-row
               v-if="modalSettings.info.status === 'Needs Attention'"
-              class="cert-needs-attn">
+              class="font-weight-bold color-red">
               {{ modalSettings.info.status }}
             </b-row>
             <b-row
               v-else-if="modalSettings.info.status === 'Complete'"
-              class="cert-completed">
+              class="font-weight-bold">
               {{ modalSettings.info.status }}
             </b-row>
             <b-row
               v-else
-              class="cert-not-completed">
+              class="font-weight-bold">
               {{ modalSettings.info.status }}
             </b-row>
           </b-col>
           <b-col md="4">
-            <b-row class="font-weight-bold">
+            <b-row>
               Submitted
             </b-row>
-            <b-row>
+            <b-row class="font-weight-bold">
               {{ modalSettings.info.submitted }}
             </b-row>
           </b-col>
           <b-col md="4">
-            <b-row class="font-weight-bold">
+            <b-row>
               Updated
             </b-row>
-            <b-row>
+            <b-row class="font-weight-bold">
               {{ modalSettings.info.updated }}
             </b-row>
           </b-col>
@@ -188,8 +188,14 @@
         <b-row v-else-if="modalSettings.info.status === 'Needs Attention'">
           <b-col>
             <b-row>
-              Please use the My Reporting Widget to access the
-              <a>CDX Website</a>
+              Please use the&nbsp;
+              <span class="font-weight-bold color-blue text-decoration-underline">
+                My Reporting Widget
+              </span>
+              to access the&nbsp;
+              <a
+                href="https://cdx.epa.gov/"
+                target="_blank">CDX Website</a>
               and correct the items.
             </b-row>
           </b-col>
@@ -198,11 +204,13 @@
       <div class="my-cert-modal-footer">
         <b-row>
           <b-col>
-            <b-row class="font-weight-bold">
+            <b-row>
               What's Next?
             </b-row>
             <b-row>
-              <a>Visit the EPA Lead website for next steps</a>
+              <span class="font-weight-bold color-blue text-decoration-underline">
+                Visit the EPA Lead website for next steps
+              </span>
             </b-row>
           </b-col>
         </b-row>
@@ -366,11 +374,7 @@
           this.modalSettings.info.certificateDownloadUrl = item.certificateDownloadUrl;
           this.modalSettings.info.logoUrl = item.logoUrl;
         }
-
         this.$root.$emit('bv::show::modal', 'my-certs-details-modal', button);
-      },
-      closeCertsDecriptionModal() {
-        this.$root.$emit('bv::hide::modal', 'my-certs-details-modal');
       },
     },
     created() {
@@ -381,7 +385,6 @@
     },
     mounted() {
       this.loadMyCertifications();
-      console.log(this.certifications);
     },
     props: {
       eepApp: {
@@ -425,7 +428,7 @@
     background-image: url('../../assets/images/mycert-question.svg');
   }
   .cert-needs-attn-decoration {
-    background-size: .35rem;
+    background-size: .25rem;
     background-image: url('../../assets/images/mycert-exclamation.svg');
   }
 
