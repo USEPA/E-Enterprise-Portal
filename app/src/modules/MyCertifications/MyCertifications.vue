@@ -105,63 +105,64 @@
       modal-ref="my-certs-details-modal"
       :hide-footer="true"
       :title="modalSettings.title">
-      <b-row>
-        <b-col md="4">
-          <b-row class="font-weight-bold">
-            Application #
-          </b-row>
-          <b-row>
-            {{ modalSettings.info.number }}
-          </b-row>
-        </b-col>
-        <b-col md="4">
-          <b-row class="font-weight-bold">
-            Application Type
-          </b-row>
-          <b-row>
-            {{ modalSettings.info.type }}
-          </b-row>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col md="4">
-          <b-row class="font-weight-bold">
-            Status
-          </b-row>
-          <b-row
-            v-if="modalSettings.info.status === 'Needs Attention'"
-            class="cert-needs-attn">
-            {{ modalSettings.info.status }}
-          </b-row>
-          <b-row
-            v-else-if="modalSettings.info.status === 'Complete'"
-            class="cert-completed">
-            {{ modalSettings.info.status }}
-          </b-row>
-          <b-row
-            v-else
-            class="cert-not-completed">
-            {{ modalSettings.info.status }}
-          </b-row>
-        </b-col>
-        <b-col md="4">
-          <b-row class="font-weight-bold">
-            Submitted
-          </b-row>
-          <b-row>
-            {{ modalSettings.info.submitted }}
-          </b-row>
-        </b-col>
-        <b-col md="4">
-          <b-row class="font-weight-bold">
-            Updated
-          </b-row>
-          <b-row>
-            {{ modalSettings.info.updated }}
-          </b-row>
-        </b-col>
-
-      </b-row>
+      <div class="my-cert-modal-base-info">
+        <b-row>
+          <b-col md="4">
+            <b-row class="font-weight-bold">
+              Application #
+            </b-row>
+            <b-row>
+              {{ modalSettings.info.number }}
+            </b-row>
+          </b-col>
+          <b-col md="4">
+            <b-row class="font-weight-bold">
+              Application Type
+            </b-row>
+            <b-row>
+              {{ modalSettings.info.type }}
+            </b-row>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col md="4">
+            <b-row class="font-weight-bold">
+              Status
+            </b-row>
+            <b-row
+              v-if="modalSettings.info.status === 'Needs Attention'"
+              class="cert-needs-attn">
+              {{ modalSettings.info.status }}
+            </b-row>
+            <b-row
+              v-else-if="modalSettings.info.status === 'Complete'"
+              class="cert-completed">
+              {{ modalSettings.info.status }}
+            </b-row>
+            <b-row
+              v-else
+              class="cert-not-completed">
+              {{ modalSettings.info.status }}
+            </b-row>
+          </b-col>
+          <b-col md="4">
+            <b-row class="font-weight-bold">
+              Submitted
+            </b-row>
+            <b-row>
+              {{ modalSettings.info.submitted }}
+            </b-row>
+          </b-col>
+          <b-col md="4">
+            <b-row class="font-weight-bold">
+              Updated
+            </b-row>
+            <b-row>
+              {{ modalSettings.info.updated }}
+            </b-row>
+          </b-col>
+        </b-row>
+      </div>
     </AppModal>
 
     <!--if No Certifications-->
