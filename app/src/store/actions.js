@@ -113,6 +113,7 @@ export default {
     Vue.cookie.set('Token', false, { expires: '-99s' });
     Vue.cookie.set('uid', false, { expires: '-99s' });
     Vue.cookie.set('userLoggedIn', false, { expires: '-99s' });
+    Vue.cookie.set('userLogInTime', '', {expires: '-99s'});
 
     store.commit('IS_USER_LOGGED_IN', false);
 
@@ -121,7 +122,7 @@ export default {
     store.commit(types.SET_LOGGED_IN_TIME, '');
 
     // Use router.push here to get rid of the token in the redirect URL
-    router.push('/');
+    router.push('/login');
   },
   // Function to process the payload of the JWT token, which contains the user
   // info. This will set the state, verify the path exists and is defined then
