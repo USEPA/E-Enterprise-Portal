@@ -88,14 +88,15 @@
                 My Reporting, permits, and more.
                 We will continue to add partners in the future.
               </p>
-              <button
-                @click="goToLogin"
+              <router-link
+                to="/login"
                 class="usa-button float-right"
                 ref="loginBtn"
+                :title="loginTitle"
                 v-if='!authenticated'>
                 <i class="fas fa-lock pr-1"/>
                 Login
-              </button>
+              </router-link>
             </div>
             <div class="col-md-5 align-self-center">
               <img
@@ -171,6 +172,9 @@
       tryitTitle() {
         return 'Want to just try it? No log in needed.';
       },
+      loginTitle() {
+        return this.$store.state.loginBtnHoverMessage;
+      },
     },
     data() {
       return {
@@ -185,9 +189,6 @@
       },
       onSlideEnd() {
         this.sliding = false;
-      },
-      goToLogin(){
-        this.$router.push('/login');
       },
     },
     mounted() {
