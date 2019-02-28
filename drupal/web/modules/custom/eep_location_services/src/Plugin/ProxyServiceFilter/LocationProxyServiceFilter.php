@@ -120,15 +120,6 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
     }
   }
 
-  // Put on line 261
-  function gpo_zipcode_to_tribal_information($zipcode){
-    // Get Zip Code to Census Place/Population Lookup table as json
-    $zip_tribal_url = $this->request->getUri() . '/ZipToTribalLookups_WFL/FeatureServer/1/query?where=ZCTA%3D%27' . $zipcode . '%27&outFields=*&orderByFields=ZCTA&f=pjson';
-    $response = $this->make_request_and_receive_response($zip_tribal_url);
-    return $response;
-  }
-
-
   /**
    * @param \GuzzleHttp\Psr7\Response $response
    *
@@ -253,6 +244,17 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
     }
 
     return $response;
+  }
+
+  /**
+  * @param $zipcode
+  * @return mixed|\Psr\Http\Message\ResponseInterface
+  */
+  function gpo_zipcode_to_tribal_information($zipcode){
+      // Get Zip Code to Census Place/Population Lookup table as json
+      $zip_tribal_url = $this->request->getUri() . '/ZipToTribalLookups_WFL/FeatureServer/1/query?where=ZCTA%3D%27' . $zipcode . '%27&outFields=*&orderByFields=ZCTA&f=pjson';
+      $response = $this->make_request_and_receive_response($zip_tribal_url);
+      return $response;
   }
 
 

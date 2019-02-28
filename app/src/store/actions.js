@@ -450,7 +450,7 @@ export default {
     let userInput = store.getters.getUser.inputBoxText;
 
     store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', false);
-      
+
     if (/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(userInput)) {
       // handle zipcode
       params = `zipcode=${userInput}`;
