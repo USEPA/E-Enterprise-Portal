@@ -39,6 +39,7 @@
     "drupal/entity_reference_revisions": "^1.5",
     "drupal/formatter_field": "^1.0",
     "drupal/jwt": "^1.0@alpha",
+    "drupal/node_export": "1.x-dev",
     "drupal/openapi": "^1.0@beta",
     "drupal/openapi_ui": "^1.0@RC",
     "drupal/openapi_ui_swagger": "^1.0@RC",

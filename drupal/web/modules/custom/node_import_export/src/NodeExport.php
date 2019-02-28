@@ -43,7 +43,9 @@ class NodeExport {
           foreach ($nodesArray[$index][$key] as $idx => $v) {
             if (isset($v['target_id'])) {
               $node_reference = Node::load($v['target_id']);
-              $nodesArray[$index]['_metadata']['node'][$v['target_id']] = $node_reference->get('uuid')->value;
+              if($node_reference) {
+                $nodesArray[$index]['_metadata']['node'][$v['target_id']] = $node_reference->get('uuid')->value;
+              }
             }
           }
         }

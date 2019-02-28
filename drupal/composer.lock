@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "66f138bc882427609ac320deff19076d",
+    "content-hash": "8ca8f33ec26194dc01af5888689d3cc1",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -4015,6 +4015,75 @@
                 "source": "http://cgit.drupalcode.org/key",
                 "issues": "http://drupal.org/project/key"
             }
+        },
+        {
+            "name": "drupal/node_export",
+            "version": "dev-1.x",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/node_export",
+                "reference": "a3f17a13d24892a153d418b24c5010be54074729"
+            },
+            "require": {
+                "drupal/core": "*",
+                "ext-json": "*",
+                "php": ">7.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.x-dev",
+                    "datestamp": "1546495680",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Dev releases are not covered by Drupal security advisories."
+                    }
+                },
+                "drush": {
+                    "services": {
+                        "drush.services.yml": "^9"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "James Andres",
+                    "homepage": "https://www.drupal.org/user/33827"
+                },
+                {
+                    "name": "cgmonroe",
+                    "homepage": "https://www.drupal.org/user/563114"
+                },
+                {
+                    "name": "chia",
+                    "homepage": "https://www.drupal.org/user/398572"
+                },
+                {
+                    "name": "danielb",
+                    "homepage": "https://www.drupal.org/user/134005"
+                },
+                {
+                    "name": "gaurav.kapoor",
+                    "homepage": "https://www.drupal.org/user/3495331"
+                }
+            ],
+            "description": "Allows users to export content and then import into another Drupal installation.",
+            "homepage": "https://www.drupal.org/project/node_export",
+            "keywords": [
+                "Drupal"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/node_export",
+                "issues": "https://www.drupal.org/project/issues/node_export"
+            },
+            "time": "2019-01-03T06:09:07+00:00"
         },
         {
             "name": "drupal/openapi",
@@ -11766,6 +11835,7 @@
         "drupal/default_content": 15,
         "drupal/diff": 5,
         "drupal/jwt": 15,
+        "drupal/node_export": 20,
         "drupal/openapi": 10,
         "drupal/openapi_ui": 5,
         "drupal/openapi_ui_swagger": 5,
