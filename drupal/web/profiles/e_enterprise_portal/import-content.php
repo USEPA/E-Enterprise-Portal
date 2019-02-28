@@ -7,6 +7,7 @@
  */
 
 use Drupal\node_import_export\NodeManager;
+use Drupal\node_import_export\NodeImport;
 
 require_once DRUPAL_WEB_DIR . '/core/modules/search/search.module';
 require_once DRUPAL_WEB_DIR . '/core/modules/node/node.module';
@@ -16,8 +17,8 @@ $default_content_paths = [
   'modules/custom/eep_proxy_service/content/location-service.json',
   'modules/custom/eep_proxy_service/content/geolocation.json',
   'modules/custom/eep_proxy_service/content/village-green.json',
-  // 'profiles/e_enterprise_portal/content/page-faqs.json',
-  // 'profiles/e_enterprise_portal/content/page-about-eep.json',
+  'profiles/e_enterprise_portal/content/page-faqs.json',
+  'profiles/e_enterprise_portal/content/page-about-eep.json',
   'profiles/e_enterprise_portal/content/wapp-be-well-informed.json',
   'profiles/e_enterprise_portal/content/wapp-favorite-links.json',
   'profiles/e_enterprise_portal/content/wapp-my-reporting.json',
@@ -28,5 +29,5 @@ $default_content_paths = [
 ];
 
 foreach ($default_content_paths as $path) {
-  NodeManager::getNodesFromFile($path);
+  NodeImport::importNode($path);
 }
