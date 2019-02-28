@@ -105,8 +105,8 @@
       modal-ref="my-certs-details-modal"
       :hide-footer="true"
       :title="modalSettings.title">
-      <div class="my-cert-modal-base-info">
-        <b-row>
+      <div class="my-cert-modal-base-info pb-1">
+        <b-row class="pb-1">
           <b-col md="4">
             <b-row class="font-weight-bold">
               Application #
@@ -124,7 +124,7 @@
             </b-row>
           </b-col>
         </b-row>
-        <b-row>
+        <b-row class="pb-1">
           <b-col md="4">
             <b-row class="font-weight-bold">
               Status
@@ -159,6 +159,60 @@
             </b-row>
             <b-row>
               {{ modalSettings.info.updated }}
+            </b-row>
+          </b-col>
+        </b-row>
+      </div>
+      <div
+        v-if="modalSettings.info.status !== 'Received'"
+        class="my-cert-inner-switch pb-1">
+        <b-row v-if="modalSettings.info.status === 'Complete'">
+          <b-col>
+            <b-row>
+              Download
+            </b-row>
+            <b-row>
+              <a
+                :href="modalSettings.info.certificateDownloadUrl"
+                target="_blank"
+                download>Certificate</a>
+            </b-row>
+            <b-row>
+              <a
+                :href="modalSettings.info.logoUrl"
+                target="_blank"
+                download>Logo</a>
+            </b-row>
+          </b-col>
+        </b-row>
+        <b-row v-else-if="modalSettings.info.status === 'Needs Attention'">
+          <b-col>
+            <b-row>
+              Please use the My Reporting Widget to access the
+              <a>CDX Website</a>
+              and correct the items.
+            </b-row>
+          </b-col>
+        </b-row>
+      </div>
+      <div class="my-cert-modal-footer">
+        <b-row>
+          <b-col>
+            <b-row class="font-weight-bold">
+              What's Next?
+            </b-row>
+            <b-row>
+              <a>Visit the EPA Lead website for next steps</a>
+            </b-row>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col>
+            <b-row class="font-weight-bold">
+              Questions or need help?
+            </b-row>
+            <b-row>
+              Lead Help Desk: leadhelpdesk@epa.gov
             </b-row>
           </b-col>
         </b-row>
@@ -223,33 +277,33 @@
               sortable: true,
               sortDirection: 'desc',
             },
-            {
-              key: 'updated',
-              label: 'Updated',
-              sortable: true,
-              sortDirection: 'desc',
-              class: 'd-none',
-            },
-            {
-              key: 'type',
-              label: 'Type',
-              sortable: true,
-              sortDirection: 'desc',
-              class: 'd-none',
-            },
             // Will need these for Large view
-            /* {
+            /*
+              {
+                key: 'updated',
+                label: 'Updated',
+                sortable: true,
+                sortDirection: 'desc',
+              },
+              {
+                key: 'type',
+                label: 'Type',
+                sortable: true,
+                sortDirection: 'desc',
+              },
+             {
                 key: 'number',
                 label: 'Application #',
                 sortable: true,
                 sortDirection: 'desc',
               },
-            {
-              key: 'download',
-              label: 'Download',
-              sortable: true,
-              sortDirection: 'desc',
-            }, */
+              {
+                key: 'download',
+                label: 'Download',
+                sortable: true,
+                sortDirection: 'desc',
+              },
+            */
           ],
           currentPage: 1,
           perPage: 5,
@@ -308,6 +362,11 @@
         this.modalSettings.info.status = item.status;
         this.modalSettings.info.submitted = item.submitted;
         this.modalSettings.info.updated = item.updated;
+        if (this.modalSettings.info.status === 'Complete') {
+          this.modalSettings.info.certificateDownloadUrl = item.certificateDownloadUrl;
+          this.modalSettings.info.logoUrl = item.logoUrl;
+        }
+
         this.$root.$emit('bv::show::modal', 'my-certs-details-modal', button);
       },
       closeCertsDecriptionModal() {
