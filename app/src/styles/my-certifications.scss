@@ -17,14 +17,8 @@ h2::before {
 
 // status colum styles
 #my-certifications-table {
-  .cert-needs-attn{
-     color: $red;
-   }
   .cert-completed {
     color: $green;
-  }
-  .cert-not-completed {
-    color: $blue;
   }
 
   .cert-not-completed-decoration {

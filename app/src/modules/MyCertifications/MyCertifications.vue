@@ -58,7 +58,7 @@
         slot-scope="row">
         <div
           v-if="row.value === 'Needs Attention'"
-          class="cert-needs-attn text-decoration-underline text-bold cursor-pointer"
+          class="color-red text-decoration-underline text-bold cursor-pointer"
           @click="openCertsDecriptionModal(row.item, row.index, $event.target)">
           {{ row.value }}
           <div class="cert-needs-attn-decoration"/>
@@ -71,7 +71,7 @@
         </div>
         <div
           v-else
-          class="cert-not-completed text-decoration-underline text-bold cursor-pointer"
+          class="color-blue text-decoration-underline text-bold cursor-pointer"
           @click="openCertsDecriptionModal(row.item, row.index, $event.target)">
           {{ row.value }}
           <div class="cert-not-completed-decoration"/>
@@ -84,7 +84,7 @@
         slot-scope="row">
         <div
           v-if="row.value === 'Needs Attention'"
-          class="cert-needs-attn text-decoration-underline text-bold cursor-pointer"
+          class="color-red text-decoration-underline text-bold cursor-pointer"
           @click="openCertsDecriptionModal(row.item, row.index, $event.target)">
           {{ row.value }}
           <div class="cert-needs-attn-decoration"/>
@@ -92,8 +92,7 @@
       </template>
 
       <template
-        v-if='!certificationsLoaded'
-        class="cert-not-completed">
+        v-if='!certificationsLoaded'>
         <p>Loading your Certifications...</p>
       </template>
 
