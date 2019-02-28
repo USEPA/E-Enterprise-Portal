@@ -2,6 +2,7 @@
 
 namespace Drupal\node_export;
 
+use Drupal\Core\Entity\EntityStorageException;
 use Drupal\node\Entity\Node;
 
 /**
@@ -10,61 +11,154 @@ use Drupal\node\Entity\Node;
 class NodeImport {
 
   /**
+   * Prepares a field-value array for the node to be imported.
    *
+   * @param array $nodeArray
+   *   An exported node array.
+   *
+   * @return array|bool
+   *   Returns an array containing field-value pairs of the node or FALSE.
    */
-  public static function nodeImport($node, &$context) {
-    $message = 'Importing Nodes...';
-    $results = [];
+  protected static function unload(array $nodeArray) {
+    $fieldValues = [];
+    $contentType = $nodeArray['type'][0]['target_id'];
+    if (self::contentTypeExists($contentType)) {
+      $fieldValues['type'] = $contentType;
+      $bundleFields = \Drupal::service('entity_field.manager')->getFieldDefinitions('node', $fieldValues['type']);
+      foreach ($nodeArray as $fields => $value) {
+        if (!array_key_exists($fields, $bundleFields)) {
+          return FALSE;
+        }
+        $fieldValues[$fields] = $value;
+      }
+    }
+    return $fieldValues;
+  }
+
+  /**
+   * Checks whether a given content type exists or not.
+   *
+   * @param string $contentType
+   *   Content type to be checked.
+   *
+   * @return bool
+   *   Whether a given content type exists or not.
+   */
+  protected static function contentTypeExists($contentType) {
+    $contentTypes = \Drupal::service('entity.manager')
+      ->getStorage('node_type')
+      ->loadMultiple();
+    return array_key_exists($contentType, $contentTypes);
+  }
+
+  /**
+   * Imports a node with given field-value array.
+   *
+   * @param array $nodeArray
+   *   An exported node array.
+   *
+   * @return int|bool
+   *   Returns the ID of the imported node or FALSE if import is not possible.
+   */
+  public static function import(array $nodeArray) {
+
+    $fieldValues = self::unload($nodeArray);
+    if (!$fieldValues) {
+      return FALSE;
+    }
     $config = \Drupal::config('node_export.settings');
     $operation = $config->get('node_export_import');
-    $field_values = [];
-    foreach ($node as $fields => $value) {
-      $field_values[$fields] = $value;
-    }
-    $field_values['type'] = $node['type'][0]['target_id'];
-    unset($field_values['nid']);
-    unset($field_values['vid']);
-    unset($field_values['uuid']);
-    if($operation == 'new'){
-      // Creates an instance of node.
-      $nodenew = Node::create($field_values);
-      // Save the node into the database.
-      $nodenew->save();
-      $context['message'] = $message;
-      $context['results'][] = $results;
-    }
-    else if($operation == 'replace'){
-      if(Node::load($node['nid'][0]['value'])) {
-        $node_to_replace = Node::load($node['nid'][0]['value']);
-        foreach ($field_values as $field => $values) {
-          $node_to_replace->set($field, $values);
+    $id = $fieldValues['nid'][0]['value'];
+
+    unset($fieldValues['nid']);
+    unset($fieldValues['vid']);
+    unset($fieldValues['uuid']);
+
+    switch ($operation) {
+      case 'new':
+        $newNode = Node::create($fieldValues);
+        break;
+
+      case 'replace':
+        $newNode = Node::load($id);
+        if ($newNode) {
+          foreach ($fieldValues as $field => $values) {
+            $newNode->set($field, $values);
+          }
+          $newNode->setNewRevision(TRUE);
+          $newNode->setRevisionCreationTime(\Drupal::time()->getRequestTime());
+          $newNode->setRevisionUserId($fieldValues['uid'][0]['target_id']);
         }
-        $node_to_replace->setNewRevision(TRUE);
-        $node_to_replace->setRevisionCreationTime(REQUEST_TIME);
-        $node_to_replace->setRevisionUserId($field_values['uid'][0]['target_id']);
-        $node_to_replace->save();
-        $context['message'] = $message;
-        $context['results'][] = $results;
-      }
-      else {
-        $nodenew = Node::create($field_values);
-        $nodenew->save();
-        $context['message'] = $message;
-        $context['results'][] = $results;
-      }
+        else {
+          $newNode = Node::create($fieldValues);
+        }
+        break;
+
+      case 'skip':
+        if (Node::load($id)) {
+          return $id;
+        }
+        $newNode = Node::create($fieldValues);
+        break;
+    }
+
+    try {
+      $newNode->save();
+      $id = $newNode->id();
+    }
+    catch (EntityStorageException $e) {
+      \Drupal::logger('node_export')->error($e->getMessage());
+    }
+    return $id;
+  }
+
+  /**
+   * Batch operations method to import a given node object.
+   *
+   * @param array $nodeArray
+   *   An exported node array.
+   * @param array $context
+   *   An array of contextual key/value information for rebuild batch process.
+   */
+  public static function nodeImport(array $nodeArray, array &$context) {
+    $message = 'Importing Nodes...';
+    $context['message'] = $message;
+    $id = NodeImport::import($nodeArray);
+    if ($id) {
+      $context['results']['imported'][] = $id;
+    }
+    else {
+      $context['results']['not_imported'][] = $id;
     }
   }
+
   /**
+   * Batch finish callback method. Handles results & display messages to user.
    *
+   * @param bool $success
+   *   Whether or not any fatal PHP errors were detected.
+   * @param array $results
+   *   An array containing the results key of context array.
+   * @param array $operations
+   *   An array containing batch operations.
    */
-  public static function nodeImportFinishedCallback($success, $results, $operations) {
+  public static function nodeImportFinishedCallback($success, array $results, array $operations) {
     // The 'success' parameter means no fatal PHP errors were detected. All
     // other error management should be handled using 'results'.
     if ($success) {
-      $message = \Drupal::translation()->formatPlural(
-        count($results),
-        'One node processed.', '@count posts processed.'
-      );
+      $message = '';
+      if (count($results['imported']) > 0) {
+        $message .= \Drupal::translation()->formatPlural(
+          count($results['imported']),
+          'One node imported.', '@count nodes imported.'
+        );
+      }
+      if (count($results['not_imported']) > 0) {
+        $message .= "\n" . \Drupal::translation()->formatPlural(
+          count($results['not_imported']),
+          'One node could not be imported.', '@count nodes could not be imported.'
+        );
+      }
     }
     else {
       $message = t('Finished with an error.');

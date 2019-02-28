@@ -3,7 +3,8 @@
 namespace Drupal\node_export\Commands;
 
 use Drush\Commands\DrushCommands;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\node_export\NodeExport;
+use Drupal\node_export\NodeImport;
 
 /**
  * A Drush commandfile.
@@ -19,71 +20,70 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 class NodeExportCommands extends DrushCommands {
 
   /**
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * NodeExportCommands constructor.
-   *
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager
-   *   Entity Type Manager dependency injection.
-   */
-  public function __construct(EntityTypeManagerInterface $entity_manager) {
-    parent::__construct();
-    $this->entityTypeManager = $entity_manager->getStorage('node');
-  }
-
-  /**
    * Export nodes.
    *
-   * @param $nodes
-   *   ID of node
+   * @param string $nodes
+   *   IDs of the nodes to be exported.
+   * @param array $options
+   *   Array of options for the command.
    *
-   * @option option-name
-   *   Description
+   * @options save
+   *   An option to specify whether or not to save the file.
+   *
    * @usage node_export:nodes 1,2,3,4,5 OR all
-   *   Usage description
+   *   Export all nodes or specify the nids.
    *
    * @command node_export:nodes
    */
-  public function exportNode($nodes) {
-    if ($nodes == 'all') {
-      $node_list = $this->entityTypeManager->loadMultiple();
-    }
-    else {
-      $nodeIds = explode(',', ltrim($nodes));
-      $node_list = $this->entityTypeManager->loadMultiple($nodeIds);
-    }
-    if (count($node_list) == 0) {
-      $this->logger()->warning(dt('No nodes for export'));
-      return;
-    }
-    $this->logger()->notice(dt('Found nodes for export, starting...'));
-    $result = [];
-    $count = 0;
-    foreach ($node_list as $node) {
-      foreach ($node as $key => $value) {
-        $result[$count][$key] = $node->get($key)->getValue()[0];
+  public function exportNode($nodes, array $options = ['save' => 'n']) {
+    $save = substr(strtolower($options['save']), 0, 1) === 'y';
+    $ids = $nodes === 'all' ? [] : explode(',', ltrim($nodes));
+    $export = NodeExport::export($ids, 'json', $save);
+    if ($save) {
+      if ($export) {
+        $this->logger()->success(dt('Nodes exported to ' .
+          \Drupal::service('file_system')->realpath($export->getFileUri())));
       }
-      $count++;
-    }
-
-    $json = json_encode($result);
-
-    $path = 'public://exports/';
-    $file_name = 'export_' . time() . '.json';
-
-    // Create directory if does not exists.
-    if (file_prepare_directory($path, FILE_CREATE_DIRECTORY)) {
-      $file = file_save_data($json, $path . $file_name, 1);
+      else {
+        $this->logger()->error('Could not export the nodes.');
+      }
     }
     else {
-      $file = file_save_data($json, $path . $file_name, 1);
+      $this->writeln($export);
     }
+  }
 
-    $this->logger()->notice(dt('Exported ' . $count . ' nodes'));
-    $this->logger()->success(dt('Export complete!'));
+  /**
+   * Import nodes.
+   *
+   * @param string $file
+   *   File containing exported node code.
+   *
+   * @usage node_import:nodes '/path/to/file.json'
+   *   Import nodes from a given file.
+   *
+   * @command node_import:nodes
+   */
+  public function importNode($file) {
+    $data = file_get_contents($file);
+    if ($data) {
+      $nodes = json_decode($data, TRUE);
+      $countImported = 0;
+      $countNotImported = 0;
+      foreach ($nodes as $node) {
+        $id = NodeImport::import($node);
+        $id ? $countImported++ : $countNotImported++;
+      }
+      if ($countImported > 0) {
+        $this->logger()->success(dt('{count} nodes imported successfully.', ['count' => $countImported]));
+      }
+      if ($countNotImported > 0) {
+        $this->logger()->error(dt('{count} nodes could not be imported.', ['count' => $countNotImported]));
+      }
+    }
+    else {
+      $this->logger()->error('Could not read the file.');
+    }
   }
 
 }

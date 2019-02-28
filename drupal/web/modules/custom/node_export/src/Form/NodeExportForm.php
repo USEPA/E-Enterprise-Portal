@@ -4,7 +4,7 @@ namespace Drupal\node_Export\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\node\Entity\Node;
+use Drupal\node_export\NodeExport;
 
 /**
  * Provides a Node Export form.
@@ -24,22 +24,13 @@ class NodeExportForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     // Reads the Node id from URL.
     $nid = \Drupal::routeMatch()->getParameter('node');
-    // Load the node.
-    $node = Node::load($nid);
-    $result = [];
-    $count = 0;
-    foreach ($node as $key => $value) {
-      if (!empty($node->get($key)->getValue())) {
-        $result[$count][$key] = $node->get($key)->getValue();
-      }
-    }
-    $json = json_encode($result);
+    $json = NodeExport::export([$nid], 'json', FALSE);
     $form['export_code'] = [
       '#type' => 'textarea',
       '#value' => $json,
       '#title' => t('Node Export Code is :'),
-        '#description' =>'Copy this Code and paste to the import form of new website so as to add these nodes to your new website',
-        '#rows' => '15',
+      '#description' => 'Copy this Code and paste to the import form of new website so as to add these nodes to your new website',
+      '#rows' => '15',
     ];
     $form['submit'] = [
       '#type' => 'submit',

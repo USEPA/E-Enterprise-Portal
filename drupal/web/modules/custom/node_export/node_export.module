@@ -8,24 +8,6 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
-/**
- * Implements hook_permission().
- */
-function node_export_permission() {
-  return [
-    'export nodes' => [
-      'title' => t('Export nodes'),
-    ],
-    'export own nodes' => [
-      'title' => t('Export own nodes'),
-    ],
-    'use PHP to import nodes' => [
-      'title' => t('Use PHP to import nodes'),
-      'description' => t('Required for importing, but can allow execution of PHP.'),
-      'restrict access' => TRUE,
-    ],
-  ];
-}
 
 /**
  * Implements hook_help().

@@ -2,11 +2,8 @@
 
 namespace Drupal\node_Export\Form;
 
-use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a Node Export form.
@@ -27,6 +24,7 @@ class NodeExportConfigForm extends ConfigFormBase {
       'node_export.settings',
     ];
   }
+
   /**
    * {@inheritdoc}
    */
@@ -43,13 +41,13 @@ class NodeExportConfigForm extends ConfigFormBase {
       '#type' => 'fieldset',
       '#title' => t('General settings'),
     ];
-    $form['basic']['node_export_format'] = array(
+    $form['basic']['node_export_format'] = [
       '#type' => 'radios',
       '#title' => t('Format to use when exporting a node'),
       '#default_value' => 'JSON',
       '#options' => ['JSON' => t('JSON')],
       '#description' => t("Right Now we use only JSON Foramt."),
-    );
+    ];
     $form['basic']['node_export_existing'] = [
       '#type' => 'radios',
       '#title' => t('When importing a node that already exists'),
@@ -79,4 +77,5 @@ class NodeExportConfigForm extends ConfigFormBase {
       ->save();
     parent::submitForm($form, $form_state);
   }
+
 }

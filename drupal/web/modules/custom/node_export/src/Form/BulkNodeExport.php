@@ -6,6 +6,7 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Session\SessionManagerInterface;
+use Drupal\node_export\NodeExport;
 use Drupal\user\PrivateTempStoreFactory;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Routing\RouteBuilderInterface;
@@ -101,15 +102,7 @@ class BulkNodeExport extends FormBase {
     $this->userInput['entities'] = $this->tempStoreFactory
       ->get('node_export_ids')
       ->get($this->currentUser->id());
-    $count = 0;
-    foreach ($this->userInput['entities'] as $node) {
-      foreach ($node as $key => $value) {
-        $result[$count][$key] = $node->get($key)->getValue();
-      }
-      $count++;
-    }
-
-    $json = json_encode($result);
+    $json = NodeExport::export(array_keys($this->userInput['entities']), 'json', FALSE);
     $form['export_code'] = [
       '#type' => 'textarea',
       '#value' => $json,

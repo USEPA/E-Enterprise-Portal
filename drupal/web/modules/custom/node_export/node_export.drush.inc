@@ -1,5 +1,7 @@
 <?php
 use Drupal\node\Entity\Node;
+use Drupal\node_export\NodeExport;
+use Drupal\node_export\NodeImport;
 
 /**
  * @file
@@ -24,6 +26,17 @@ function node_export_drush_command() {
    'examples' => array(
       'drush node-export-export 45 46 47' =>
         "export nodes with node IDs 45, 46, and 47.",
+    ),
+  ];
+  $commands['import_nodes'] = [
+    'description' => 'Import nodes exported using Node export.',
+    'aliases' => ['ne-import'],
+    'arguments' => array(
+      'file' => 'File containing exported node code.',
+    ),
+    'examples' => array(
+      'drush node_import_nodes "/path/to/file"' =>
+        'Import nodes from file located at /path/to/file.',
     ),
   ];
   return $commands;
@@ -70,48 +83,45 @@ function node_export_drush_help($section) {
  * Drush command logic for command node_export_export.
  */
 function drush_node_export_export_callback() {
-  // Set up an array of nid_filters.
-  $nid_filters = array();
-
-  // The base nids.
-  $args = array_filter(func_get_args(), 'is_numeric');
-  if ($args) {
-    $nid_filters['base'] = $args;
-  }
-  foreach ($nid_filters['base'] as $key => $value) {
-    $node = \Drupal\node\Entity\Node::load($value);
-    $nodes[] = $node;
-  }
-  $result=array();
-  $count=0;
-  foreach ($nodes as $node) {
-    foreach ($node as $key=>$value) {
-      $result[$count][$key]=$node->get($key)->getValue();
-    }
-    $count++;
-  }
-  $json=json_encode($result);
-  if ($json) {
-    $filename = drush_get_option('file');
-    if ($filename) {
-      // Output data to file. Note this only takes a flat filename for the current directory.
-      // If file exists, ask for whether to overwrite.
-      if (file_exists($filename)) {
-        if (!drush_confirm(dt("File $filename exists. Do you really want to overwrite?"))) {
-          return;
-        }
-      }
-      // Write the file.
-      file_put_contents($filename, $json);
+  $ids = array_filter(func_get_args(), 'is_numeric');
+  $save = substr(strtolower(drush_get_option('file')), 0, 1) === 'y';
+  $export = NodeExport::export($ids, 'json', $save);
+  if ($save) {
+    if ($export) {
+      drush_print(dt('Nodes exported to ' .
+        \Drupal::service('file_system')->realpath($export->getFileUri())));
     }
     else {
-      // stdout.
-      drush_print_r($json);
+      drush_set_error('Could not export the nodes.');
     }
   }
   else {
-    // We have received an error message.
-    drush_set_error('DRUSH_NOT_COMPLETED',$json);
+    drush_print_r($export);
   }
 }
 
+/**
+ * Drush 8 command to import nodes.
+ */
+function drush_node_export_import_nodes() {
+  $file = drush_get_arguments()[1];
+  $data = file_get_contents($file);
+  if ($data) {
+    $nodes = json_decode($data, TRUE);
+    $countImported = 0;
+    $countNotImported = 0;
+    foreach ($nodes as $node) {
+      $id = NodeImport::import($node);
+      $id ? $countImported++ : $countNotImported++;
+    }
+    if ($countImported > 0) {
+      drush_print(dt('@count nodes imported successfully.', ['@count' => $countImported]));
+    }
+    if ($countNotImported > 0) {
+      drush_set_error(dt('@count nodes could not be imported.', ['@count' => $countNotImported]));
+    }
+  }
+  else {
+    drush_set_error('Could not read the file.');
+  }
+}

@@ -50,7 +50,7 @@ class MultipleNidsExportForm extends FormBase {
         $form_state->setErrorByName('NIDS', $this->t('Please enter valid list of Node Ids.  "' . $nid . '" is not in right format'));
       }
     }
-    if(count($array) != count(array_unique($array))) {
+    if (count($array) != count(array_unique($array))) {
       $form_state->setErrorByName('NIDS', $this->t('You have entered same Node IDs.'));
 
     }
@@ -78,7 +78,7 @@ class MultipleNidsExportForm extends FormBase {
     }
 
     batch_set($batch);
-    drupal_set_message(t('Please copy the Export Code and paste in your other drupal site.'));
+    drupal_set_message(t('The File with export code has been saved in your public directory'));
   }
 
 }
