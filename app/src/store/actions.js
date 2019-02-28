@@ -380,6 +380,7 @@ export default {
     // logInTime is in milliseconds, timeOut is being converted to milliseconds, we subtract 60000 because that is one minute
     if((logInTime + (timeOut * 60000) - 60000) > currentTime){
         setTimeout(function () {
+            console.log("hit timeout 1");
             let minutes_difference = 0;
             if (!!Vue.cookie.get('userLogInTime')) {
                 minutes_difference = (Math.floor((Math.abs(new Date(Vue.cookie.get('userLogInTime')).getTime() +
@@ -400,29 +401,15 @@ export default {
             const logOutCurrentTime = (new Date).getTime();
             if(!currentLoginUserTime || currentLoginUserTime > logOutCurrentTime){
                 if (!Vue.cookie.get("userLoggedIn")) {
-                    vm.$root.$emit(
-                        'bv::hide::modal',
-                        'cookieModal',
-                        vm.$refs.cookie_modal
-                    );
-                    // Show the modal that lets the user know that he has been logged out
-                    vm.$root.$emit(
-                        'bv::show::modal',
-                        'userLogOutNotification',
-                        vm.$refs.userLogOutNotification
-                    );
-                    setTimeOut(function(){
-                        vm.$root.$emit(
-                            'bv::hide::modal',
-                            'userLogOutNotification',
-                            vm.$refs.userLogOutNotification
-                        );
-                    }, 5000);
-                    store.dispatch('userLogOut');
-                    router.push('/login');
+                    
+                    // find out why commit is not working inside of the set timeout
+                    store.commit(types.SET_EXTEND_SESSION_MESSAGE, 'You have been logged out.');
+                    // store.dispatch('userLogOut');
+                    // router.push('/login');
+                    console.log("hit timeout 2");
                 }
             }
-        }, logInTime + (timeOut * 60000) - currentTime);
+        }, (logInTime + (timeOut * 60000) - 60000 - currentTime) + 60000);
     }
     else {
       store.dispatch('userLogOut');

@@ -59,28 +59,29 @@
       modal-ref="cookieModal"
       title="Your session is about to expire">
       <!-- Modal content -->
-      <p>Your session will expire in {{ user.timeLeftUntilLogout }} minute(s).
-      If you choose not to extend, then you will be logged out.</p>
-      <p>Would you like to extend your session?</p>
+      <p>{{user.extendSessionModalMessage}}</p>
       <template slot="footer">
         <b-button
           class="usa-button usa-button-secondary"
-          @click="exitModal">
+          @click="exitModal"
+          :style="{display: (user.displayLoginAgainButtonOnModal ===
+            'none') ? '' : user.displayLoginAgainButtonOnModal}">
           Cancel
         </b-button>
         <b-button
           class="usa-button"
-          @click="extendTheSession">
+          @click="extendTheSession"
+          :style="{display: (user.displayLoginAgainButtonOnModal ===
+            'none') ? '' : user.displayLoginAgainButtonOnModal}">
           Extend Session
         </b-button>
+        <b-button
+           class="usa-button"
+           @click="exitModal"
+           :style="{display: user.displayLoginAgainButtonOnModal}" >
+           Login Again
+        </b-button>
       </template>
-    </AppModal>
-    <!-- This AppModal below will be used to tell the user that they have been logged out after the session expires -->
-    <AppModal
-    id="userLogOutNotification"
-    modal-ref="userLogOutNotification"
-    title="Logout Notice">
-        <p>You have been logged out.</p>
     </AppModal>
   </div>
 </template>
@@ -170,6 +171,14 @@
       extendTheSession() {
         const vm = this;
         vm.$store.dispatch('extendSession', { vm });
+      },
+      exitLogOutNotificationModal(){
+        const vm = this;
+        vm.$root.$emit(
+          'bv::show::modal',
+          'userLogOutNotification',
+          vm.$refs.userLogOutNotification
+        );
       },
     },
     beforeCreate() {
