@@ -65,7 +65,7 @@
         </div>
         <div
           v-else-if="row.value === 'Complete'"
-          class="cert-completed text-decoration-underline text-bold cursor-pointer"
+          class="color-green text-decoration-underline text-bold cursor-pointer"
           @click="openCertsDecriptionModal(row.item, row.index, $event.target)">
           {{ row.value }}
         </div>

@@ -10,6 +10,7 @@ h2::before {
   table{
     font-size: 0.75em;
   }
+  
   .datatable-controls {
     display: none;
   }
@@ -17,10 +18,6 @@ h2::before {
 
 // status colum styles
 #my-certifications-table {
-  .cert-completed {
-    color: $green;
-  }
-
   .cert-not-completed-decoration {
     background-color: $blue;
   }
