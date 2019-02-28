@@ -91,7 +91,8 @@
           isValidLocation(afterInputOption){
                 let isValid = false;
                 if(/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(afterInputOption) ||
-                        /[A-Z][a-zA-Z]+,[ ]?[A-Z]{2}/.test(afterInputOption)){
+                        /[A-Z][a-zA-Z]+,[ ]?[A-Z]{2}/.test(afterInputOption) ||
+                        this.$store.getters.getUser.isCurrentDropdownZipcodeWithTribes){
                     isValid = true;
                 }
                 return isValid;

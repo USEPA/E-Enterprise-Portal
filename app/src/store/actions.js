@@ -113,6 +113,7 @@ export default {
     Vue.cookie.set('Token', false, { expires: '-99s' });
     Vue.cookie.set('uid', false, { expires: '-99s' });
     Vue.cookie.set('userLoggedIn', false, { expires: '-99s' });
+    Vue.cookie.set('userLogInTime', '', {expires: '-99s'});
 
     store.commit('IS_USER_LOGGED_IN', false);
 
@@ -447,6 +448,9 @@ export default {
     const store = context;
     let params = '';
     let userInput = store.getters.getUser.inputBoxText;
+
+    store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', false);
+
     if (/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(userInput)) {
       // handle zipcode
       params = `zipcode=${userInput}`;
@@ -484,17 +488,25 @@ export default {
         });
       } else if (params.indexOf('zipcode') !== -1) {
 
-        let cities = return_data.city;
-
         // The if statement handles the case of if a zipcode exist in more than
         // one place
         if (return_data.cities_and_states) {
           formattedResponseInformation = return_data.cities_and_states;
         } else {
+
+          let cities = return_data.city;
+
           // Loop through cities array and build new array to commit to store
           for (let i = 0; i < cities.length; i++) {
             formattedResponseInformation.push(cities[i] + ", " + return_data.state[0]);
           }
+        }
+        if(return_data.associated_tribes){
+            let tribes = return_data.associated_tribes;
+            for (let i = 0; i < tribes.length; i++) {
+                formattedResponseInformation.push(tribes[i]);
+            }
+            store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', true);
         }
         dropDownLabelText = "Select a location for";
 
