@@ -124,7 +124,7 @@ class NodeImport {
           foreach ($entities as $old_nid => $uuid) {
             $entity = \Drupal::service('entity.repository')->loadEntityByUuid($entity_type_id, $uuid);
             if($entity) {
-              $_metadata["$entity_type_id-remapped"][$old_nid] = $entity->get('nid')->value;
+              $_metadata["$entity_type_id-remapped"][$old_nid] = $entity->id();
             }
           }
         }
@@ -140,14 +140,16 @@ class NodeImport {
           // $newNode = Node::load($id);
           $newNode = \Drupal::service('entity.repository')->loadEntityByUuid('node', $uuid);
           if ($newNode) {
+            $current_fields = $newNode->getFields();
             if(isset($_metadata)){
               foreach ($fieldValues as $field => $values) {
                 // If the key is a field, check if it is a target_id and map the uuid
                 if(stripos($field, 'field_') === 0) {
+                  $target_type = $current_fields[$field]->getSetting('target_type');
                   foreach ($values as $idx => $v) {
                     if (isset($v['target_id'])) {
-                      if($_metadata["$entity_type_id-remapped"][$v['target_id']]) {
-                        $values[$idx]['target_id'] = $_metadata["$entity_type_id-remapped"][$v['target_id']];
+                      if($_metadata["$target_type-remapped"][$v['target_id']]) {
+                        $values[$idx]['target_id'] = $_metadata["$target_type-remapped"][$v['target_id']];
                       }
                     }
                   }
