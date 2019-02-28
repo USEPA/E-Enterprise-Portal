@@ -247,7 +247,7 @@
           { value: 10, text: '10' },
           { value: 25, text: '25' },
           { value: 50, text: '50' },
-          { value: -1, text: 'All' },
+          { value: 100000, text: 'All' },
         ],
         filter: null,
         modalInfo: { title: '', content: '' },
