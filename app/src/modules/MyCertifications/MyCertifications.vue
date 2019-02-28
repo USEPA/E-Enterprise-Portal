@@ -79,19 +79,6 @@
       </template>
 
       <template
-        slot="type"
-        class="disable-small"
-        slot-scope="row">
-        <div
-          v-if="row.value === 'Needs Attention'"
-          class="color-red text-decoration-underline text-bold cursor-pointer"
-          @click="openCertsDecriptionModal(row.item, row.index, $event.target)">
-          {{ row.value }}
-          <div class="cert-needs-attn-decoration"/>
-        </div>
-      </template>
-
-      <template
         v-if='!certificationsLoaded'>
         <p>Loading your Certifications...</p>
       </template>
@@ -419,10 +406,6 @@
     position: relative;
     top: -1rem;
     left: .9rem;
-  }
-
-  .disable-small {
-    display: none !important;
   }
 
   .cert-not-completed-decoration {
