@@ -36,14 +36,18 @@ class NodeExport {
     $index = 0;
     $nodesArray = [];
     foreach ($nodes as $node) {
-      foreach ($node as $key => $value) {
-        $nodesArray[$index][$key] = $node->get($key)->getValue();
+      foreach ($node as $field => $value) {
+        $nodesArray[$index][$field] = $node->get($field)->getValue();
         // If the key is a field, check if it is a target_id and map the uuid
-        if(stripos($key, 'field_') === 0) {
-          foreach ($nodesArray[$index][$key] as $idx => $v) {
+        if(stripos($field, 'field_') === 0) {
+          foreach ($nodesArray[$index][$field] as $idx => $v) {
+            $current_fields = $node->getFields();
             if (isset($v['target_id'])) {
-              $node_reference = Node::load($v['target_id']);
-              $nodesArray[$index]['_metadata']['node'][$v['target_id']] = $node_reference->get('uuid')->value;
+              $target_type = $current_fields[$field]->getSetting('target_type');
+              $node_reference = \Drupal::entityTypeManager()->getStorage($target_type)->load($v['target_id']);
+              if($node_reference) {
+                $nodesArray[$index]['_metadata'][$target_type][$v['target_id']] = $node_reference->get('uuid')->value;
+              }
             }
           }
         }

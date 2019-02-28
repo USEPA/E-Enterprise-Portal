@@ -1,13 +1,13 @@
-uuid: bece70f7-1cbb-4e87-8870-90f858ea179f
+uuid: c1bbb96e-ea86-4c69-a759-9b2f879124eb
 langcode: en
 status: true
 dependencies:
   module:
     - node_import_export
 _core:
-  default_config_hash: Rvd0kfi8qbchtn5xh_qFhIiY1OslhRBoCV0qcgn7gTg
+  default_config_hash: xRBO5E7G9Ys_VVrU8OFne5psftX1YzjqhKNp9LfnGyo
 id: bulk_node_import_export
-label: 'Node Export'
+label: 'Node Import-Export'
 type: node
 plugin: bulk_node_import_export
 configuration: {  }
