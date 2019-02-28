@@ -55,19 +55,39 @@
 
       <template
         slot="status"
-        slot-scope="row"
-      >
+        slot-scope="row">
         <div
           v-if="row.value === 'Needs Attention'"
-          class="cert-needs-attn">{{ row.value }}
+          class="cert-needs-attn text-decoration-underline text-bold cursor-pointer"
+          @click="openCertsDecriptionModal(row.item, row.index, $event.target)">
+          {{ row.value }}
           <div class="cert-needs-attn-decoration"/>
         </div>
         <div
-          v-else-if="row.value === 'Completed'"
-          class="cert-completed">{{ row.value }}
+          v-else-if="row.value === 'Complete'"
+          class="cert-completed text-decoration-underline text-bold cursor-pointer"
+          @click="openCertsDecriptionModal(row.item, row.index, $event.target)">
+          {{ row.value }}
         </div>
-        <div v-else>{{ row.value }}
+        <div
+          v-else
+          class="cert-not-completed text-decoration-underline text-bold cursor-pointer"
+          @click="openCertsDecriptionModal(row.item, row.index, $event.target)">
+          {{ row.value }}
           <div class="cert-not-completed-decoration"/>
+        </div>
+      </template>
+
+      <template
+        slot="type"
+        class="disable-small"
+        slot-scope="row">
+        <div
+          v-if="row.value === 'Needs Attention'"
+          class="cert-needs-attn text-decoration-underline text-bold cursor-pointer"
+          @click="openCertsDecriptionModal(row.item, row.index, $event.target)">
+          {{ row.value }}
+          <div class="cert-needs-attn-decoration"/>
         </div>
       </template>
 
@@ -80,45 +100,77 @@
     </b-table>
 
     <!-- details modal -->
-    <!--<AppModal
-        id="addModalInfo"
-        modal-ref="addModalInfo"
-        hide-footer
-        :title="addModalInfo.title">
-        <b-form
-          id="addModalInfoForm"
-          class="needs-validation"
-          @submit="applyAddModal"
-          novalidated>
-          <label>Title
-          </label>
-          <b-form-input
-            type="text"
-            v-model="addModalInfo.first"
-            required/>
-          <label>Website Address (URL)
-          </label>
-          <b-form-input
-            type="url"
-            v-model="addModalInfo.second"
-            required/>
-          <b-btn
-            class="mt-3"
-            variant="primary"
-            type="submit">
-            save
-          </b-btn>
-        </b-form>
+    <AppModal
+      id="my-certs-details-modal"
+      modal-ref="my-certs-details-modal"
+      :hide-footer="true"
+      :title="modalSettings.title">
+      <b-row>
+        <b-col md="4">
+          <b-row class="font-weight-bold">
+            Application #
+          </b-row>
+          <b-row>
+            {{ modalSettings.info.number }}
+          </b-row>
+        </b-col>
+        <b-col md="4">
+          <b-row class="font-weight-bold">
+            Application Type
+          </b-row>
+          <b-row>
+            {{ modalSettings.info.type }}
+          </b-row>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col md="4">
+          <b-row class="font-weight-bold">
+            Status
+          </b-row>
+          <b-row
+            v-if="modalSettings.info.status === 'Needs Attention'"
+            class="cert-needs-attn">
+            {{ modalSettings.info.status }}
+          </b-row>
+          <b-row
+            v-else-if="modalSettings.info.status === 'Complete'"
+            class="cert-completed">
+            {{ modalSettings.info.status }}
+          </b-row>
+          <b-row
+            v-else
+            class="cert-not-completed">
+            {{ modalSettings.info.status }}
+          </b-row>
+        </b-col>
+        <b-col md="4">
+          <b-row class="font-weight-bold">
+            Submitted
+          </b-row>
+          <b-row>
+            {{ modalSettings.info.submitted }}
+          </b-row>
+        </b-col>
+        <b-col md="4">
+          <b-row class="font-weight-bold">
+            Updated
+          </b-row>
+          <b-row>
+            {{ modalSettings.info.updated }}
+          </b-row>
+        </b-col>
 
-      </AppModal>
-
-      -->
+      </b-row>
+    </AppModal>
 
     <!--if No Certifications-->
     <div v-if="(certifications.length === 0 && certificationsLoaded)">No certifications...</div>
 
     <!--pagination-->
-    <b-row class="text-center">
+    <b-row
+      v-if="certificationsLoaded"
+      class="text-center">
       <b-col
         md="12"
         class="my-1">
@@ -170,6 +222,20 @@
               sortable: true,
               sortDirection: 'desc',
             },
+            {
+              key: 'updated',
+              label: 'Updated',
+              sortable: true,
+              sortDirection: 'desc',
+              class: 'd-none',
+            },
+            {
+              key: 'type',
+              label: 'Type',
+              sortable: true,
+              sortDirection: 'desc',
+              class: 'd-none',
+            },
             // Will need these for Large view
             /* {
                 key: 'number',
@@ -177,21 +243,9 @@
                 sortable: true,
                 sortDirection: 'desc',
               },
-             {
-              key: 'updated',
-              label: 'Updated',
-              sortable: true,
-              sortDirection: 'desc',
-            },
             {
               key: 'download',
               label: 'Download',
-              sortable: true,
-              sortDirection: 'desc',
-            },
-            {
-              key: 'type',
-              label: 'Type',
               sortable: true,
               sortDirection: 'desc',
             }, */
@@ -203,6 +257,17 @@
           sortDesc: false,
           sortDirection: 'asc',
           filter: null,
+        },
+        modalSettings: {
+          title: 'My Certifications',
+          index: 0,
+          info: {
+            number: '',
+            type: '',
+            status: '',
+            submitted: '',
+            updated: '',
+          },
         },
       };
     },
@@ -229,8 +294,24 @@
       ]),
       ...mapActions(moduleName, [
         'loadMyCertifications',
-        'onFiltered',
       ]),
+      onFiltered(filteredItems) {
+        // Trigger pagination to update the number of buttons/pages due to filtering
+        this.totalRows = filteredItems.length;
+        this.currentPage = 1;
+      },
+      openCertsDecriptionModal(item, index, button) {
+        this.modalSettings.index = index;
+        this.modalSettings.info.number = item.number;
+        this.modalSettings.info.type = item.type;
+        this.modalSettings.info.status = item.status;
+        this.modalSettings.info.submitted = item.submitted;
+        this.modalSettings.info.updated = item.updated;
+        this.$root.$emit('bv::show::modal', 'my-certs-details-modal', button);
+      },
+      closeCertsDecriptionModal() {
+        this.$root.$emit('bv::hide::modal', 'my-certs-details-modal');
+      },
     },
     created() {
       const store = this.$store;
@@ -240,6 +321,7 @@
     },
     mounted() {
       this.loadMyCertifications();
+      console.log(this.certifications);
     },
     props: {
       eepApp: {
@@ -274,13 +356,17 @@
     left: .9rem;
   }
 
+  .disable-small {
+    display: none !important;
+  }
+
   .cert-not-completed-decoration {
     background-size: .5rem;
-    background-image: url('../../assets/images/question.svg');
+    background-image: url('../../assets/images/mycert-question.svg');
   }
   .cert-needs-attn-decoration {
     background-size: .35rem;
-    background-image: url('../../assets/images/exclamation.svg');
+    background-image: url('../../assets/images/mycert-exclamation.svg');
   }
 
   /* Fixes bottom of workbench grey area */

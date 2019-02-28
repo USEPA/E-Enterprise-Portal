@@ -9,14 +9,8 @@ import { EventBus } from '../../../EventBus';
  */
 export default {
   ...commonAppStore.actions,
-  onFiltered(filteredItems) {
-    // Trigger pagination to update the number of buttons/pages due to filtering
-    this.totalRows = filteredItems.length;
-    this.currentPage = 1;
-  },
   loadMyCertifications(context) {
     const store = context;
-
     AppAxios.get('sample_data/mycertifications.json').then((response) => {
       store.commit(types.LOAD_CERTIFICATIONS, response.data);
     });
