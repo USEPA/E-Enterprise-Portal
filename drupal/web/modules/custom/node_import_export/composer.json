@@ -1,7 +1,7 @@
 {
   "name": "drupal/node_import_export",
   "type": "drupal-module",
-  "description": "Module to help manage default content",
+  "description": "Allows users to export content and then import into another Drupal installation.",
   "keywords": ["Drupal"],
   "license": "GPL-2.0+",
   "homepage": "https://www.drupal.org/project/node_import_export",
@@ -10,5 +10,15 @@
     "issues": "https://www.drupal.org/project/issues/node_import_export",
     "source": "http://cgit.drupalcode.org/node_import_export"
   },
-  "require": { }
+  "require": {
+    "php": ">7.0",
+    "ext-json": "*"
+  },
+  "extra": {
+    "drush": {
+      "services": {
+        "drush.services.yml": "^9"
+      }
+    }
+  }
 }

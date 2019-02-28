@@ -113,6 +113,7 @@ export default {
     Vue.cookie.set('Token', false, { expires: '-99s' });
     Vue.cookie.set('uid', false, { expires: '-99s' });
     Vue.cookie.set('userLoggedIn', false, { expires: '-99s' });
+    Vue.cookie.set('userLogInTime', '', {expires: '-99s'});
 
     store.commit('IS_USER_LOGGED_IN', false);
 
@@ -276,8 +277,7 @@ export default {
     Vue.cookie.set('userLoggedIn', true, { expires: COOKIE_EXPIRATION_TIME });
     Vue.cookie.set('uid', store.getters.getUser.id, { expires: COOKIE_EXPIRATION_TIME });
     Vue.cookie.set('Token', store.getters.getLoggedInToken, { expires: COOKIE_EXPIRATION_TIME });
-
-    store.commit(types.SET_LOGGED_IN_TIME, new Date());
+    Vue.cookie.set('userLogInTime', new Date(), {expires: COOKIE_EXPIRATION_TIME});
 
     // Set timeout again to continously check the cookie
     store.dispatch('checkCookie', payload);
@@ -285,9 +285,8 @@ export default {
     // Close modal
     vm.$root.$emit(
       'bv::hide::modal',
-      'cookie_modal',
-      vm.$refs.cookie_modal,
-    );
+      'cookieModal',
+      vm.$refs.cookie_modal);
   },
   getEEPConfigs(context, payload) {
     const store = context;
@@ -298,22 +297,19 @@ export default {
       headers: store.getters.getGETHeaders,
     }).then((response) => {
       const { user } = store.state;
-      const { cookie } = user;
+
       // Set the cookie information in the store
       store.commit(types.SET_COOKIE, {
         time: response.data.eepcookieconfig.cookie_expiration_time,
         time_units: response.data.eepcookieconfig.cookie_time_units,
       });
 
-      // do log in stuff here
       // Declare the main url that the page is currently on
       const currentUrl = window.location.href;
 
       if (currentUrl.indexOf('token') > -1 && currentUrl.indexOf('uid') > -1) {
-        // Declare variables
+
         const vars = {};
-        // Extracts the URL params
-        // Got this functionality from
         // https://html-online.com/articles/get-url-parameters-javascript/
         currentUrl.replace(/[?&]+([^=&]+)=([^&]*)/gi, (m, key, value) => {
           vars[key] = value;
@@ -321,6 +317,8 @@ export default {
         // find the URL params for each one
         const { token } = vars;
         const { uid } = vars;
+
+        let { cookie } = store.getters.getUser;
 
         // Grabs the static cookie time from the store
         const cookieExpiration = cookie.time + cookie.time_units;
@@ -330,10 +328,10 @@ export default {
         // set user token in cookie
         Vue.cookie.set('Token', token, { expires: cookieExpiration });
         Vue.cookie.set('uid', uid, { expires: cookieExpiration });
+        Vue.cookie.set('userLogInTime', new Date(), {expires: cookieExpiration});
 
         // Set login time and token in the store
         store.commit(types.SET_LOGGED_IN_TOKEN, token);
-        store.commit(types.SET_LOGGED_IN_TIME, new Date());
 
         // Set user id in the store
         store.commit(types.SET_UID, uid);
@@ -341,28 +339,24 @@ export default {
         // Log user in
         store.commit(types.IS_USER_LOGGED_IN, true);
 
-        // set timeout here
-        store.dispatch('checkCookie', payload);
-
-
       } else if (Vue.cookie.get('userLoggedIn')) {
         // Log user in and set user name
         store.commit('IS_USER_LOGGED_IN', true);
         store.commit(types.SET_UID, Vue.cookie.get('uid'));
-      } else if (!Vue.cookie.get('Token')) {
-        store.dispatch('userLogOut');
       }
 
-      if (Vue.cookie.get('userLoggedIn')) {
-        AppAxios.get(`${store.getters.getEnvironmentApiURL}/user/${Vue.cookie.get('uid')}?_format=json`, {
-          headers: { Authorization: `Bearer ${Vue.cookie.get('Token')}` },
-        }).then((userLoggedInResponse) => {
-          store.commit('SET_USER_OBJECT', userLoggedInResponse.data);
-        }).catch((error) => {
-          console.warn(error);
-        });
+      if(Vue.cookie.get('userLoggedIn')){
+          AppAxios.get(`${store.getters.getEnvironmentApiURL}/user/${Vue.cookie.get('uid')}?_format=json`, {
+              headers: { Authorization: `Bearer ${Vue.cookie.get('Token')}` },
+          }).then((userLoggedInResponse) => {
+              store.commit('SET_USER_OBJECT', userLoggedInResponse.data);
+              router.push('/workbench');
+          }).catch((error) => {
+                  console.warn(error);
+          });
       }
 
+      store.dispatch('checkCookie', payload);
       //  [App.vue specific] When App.vue is finish loading finish the progress
       // bar
       vm.$Progress.finish();
@@ -378,41 +372,47 @@ export default {
     const { vm } = payload;
     const { user } = store.state;
 
-    // Set timeout to do once
-    setTimeout(function () {
-      // Declare variables
-      let minutes_difference = 0;
+    const logInTime = new Date(Vue.cookie.get('userLogInTime')).getTime();
+    const currentTime = (new Date).getTime();
+    const timeOut = user.cookie.time;
 
-      if (store.getters.getUser.loggedInTime) {
-        minutes_difference = Math.floor((Math.abs(new Date((user.loggedInTime.getTime() +
-          ((user.cookie.time) * 60 * 1000))) - (new Date())) / 1000) / 60) % 60;
-      }
 
-      // Check to see if there is a minute left
-      if (minutes_difference <= 1 && store.getters.getDisplayLoggedInElements) {
-        store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
-        vm.$root.$emit(
-          'bv::show::modal',
-          'cookie_modal',
-          vm.$refs.cookie_modal,
-        );
+    // logInTime is in milliseconds, timeOut is being converted to milliseconds, we subtract 60000 because that is one minute
+    if((logInTime + (timeOut * 60000) - 60000) > currentTime){
+        setTimeout(function () {
+            let minutes_difference = 0;
+            if (!!Vue.cookie.get('userLogInTime')) {
+                minutes_difference = (Math.floor((Math.abs(new Date(Vue.cookie.get('userLogInTime')).getTime() +
+                        ((user.cookie.time) * 60 * 1000)) - (new Date())) / 1000) / 60) % 60;
+            }
+            // Check to see if there is a minute left
+            if (minutes_difference <= 1 && Vue.cookie.get("userLoggedIn")) {
+                store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
+                vm.$root.$emit(
+                    'bv::show::modal',
+                    'cookieModal',
+                    vm.$refs.cookie_modal);
+            }
+        }, logInTime + (timeOut * 60000) - 60000 - currentTime);
 
-        // Set interval is used to check if the user has made a selection on
-        // the modal before the cookie expires When the cookie expires and they
-        // have not made a selection then they are logged out and have to log
-        // back in
-        let cookie_modal_interval = setTimeout(function () {
-          if (!Vue.cookie.get("userLoggedIn")) {
-            store.dispatch('userLogOut');
-            vm.$root.$emit(
-              'bv::hide::modal',
-              'cookie_modal',
-              vm.$refs.cookie_modal,
-            );
-          }
-        }, 65000);
-      }
-    }, (user.cookie.time - 1) * 60000);
+        setTimeout(function () {
+            const currentLoginUserTime = new Date(Vue.cookie.get('userLogInTime')).getTime();
+            const logOutCurrentTime = (new Date).getTime();
+            if(!currentLoginUserTime || currentLoginUserTime > logOutCurrentTime){
+                if (!Vue.cookie.get("userLoggedIn")) {
+                    vm.$root.$emit(
+                        'bv::hide::modal',
+                        'cookieModal',
+                        vm.$refs.cookie_modal);
+                    store.dispatch('userLogOut');
+                    router.push('/login');
+                }
+            }
+        }, logInTime + (timeOut * 60000) - currentTime);
+    }
+    else {
+      store.dispatch('userLogOut');
+    }
   },
   apiUserPatch(context, body) {
     const store = context;
@@ -448,6 +448,9 @@ export default {
     const store = context;
     let params = '';
     let userInput = store.getters.getUser.inputBoxText;
+
+    store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', false);
+
     if (/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(userInput)) {
       // handle zipcode
       params = `zipcode=${userInput}`;
@@ -485,17 +488,25 @@ export default {
         });
       } else if (params.indexOf('zipcode') !== -1) {
 
-        let cities = return_data.city;
-
         // The if statement handles the case of if a zipcode exist in more than
         // one place
         if (return_data.cities_and_states) {
           formattedResponseInformation = return_data.cities_and_states;
         } else {
+
+          let cities = return_data.city;
+
           // Loop through cities array and build new array to commit to store
           for (let i = 0; i < cities.length; i++) {
             formattedResponseInformation.push(cities[i] + ", " + return_data.state[0]);
           }
+        }
+        if(return_data.associated_tribes){
+            let tribes = return_data.associated_tribes;
+            for (let i = 0; i < tribes.length; i++) {
+                formattedResponseInformation.push(tribes[i]);
+            }
+            store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', true);
         }
         dropDownLabelText = "Select a location for";
 

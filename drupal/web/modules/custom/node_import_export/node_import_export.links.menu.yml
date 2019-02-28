@@ -1,0 +1,27 @@
+node_import_export.config:
+  title: 'Node Import-Export Settings'
+  parent: system.admin_config_content
+  description: 'Configuration for the Node Import-Export module'
+  route_name: node_import_export.config
+node_import_export.export:
+  title: 'Export nodes'
+  parent: system.admin_content
+  description: 'Export nodes in bulk using content types or node IDs'
+  route_name: node_import_export.export_content_type
+  weight: 100
+node_import_export.import:
+  title: 'Import nodes'
+  parent: system.admin_content
+  description: 'Import nodes from a file or using exported code'
+  route_name: node_import_export.import
+  weight: 100
+node_import_export.import_file:
+  title: 'Using file'
+  parent: node_import_export.import
+  description: 'Import nodes from a file'
+  route_name: node_import_export.import_file
+node_import_export.import_text:
+  title: 'Using exported code'
+  parent: node_import_export.import
+  description: 'Import nodes using exported code'
+  route_name: node_import_export.import

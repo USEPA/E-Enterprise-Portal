@@ -51,7 +51,7 @@ const state = {
     id: 0,
     isLoggedIn: false,
     timeLeftUntilLogout: 0,
-    loggedInTime: null,
+    loggedInTime: '',
     name: '',
     mail: '',
     favoriteLinks: [],
@@ -81,6 +81,7 @@ const state = {
     dropDownSelection: '',
     userSavedLocations: [],
     dropDownLabel: '',
+    isCurrentDropdownZipcodeWithTribes: false,
   },
   loginBtnHoverMessage: 'Use an EPA, CDX, or a social media account to login',
   navMargin: {

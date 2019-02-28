@@ -54,6 +54,10 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
 
       $number_of_states = $this->count_number_of_states($this->payload['gpo_zip_code_to_city_state']);
 
+      // Complete the same here checking for tribal information
+      $tribal_information_response = $this->gpo_zipcode_to_tribal_information($query['zipcode']);
+      $this->payload['gpo_zipcode_to_tribal_information'] = json_decode($tribal_information_response->getBody(), FALSE);
+
       // Cycle through features and extract the city and states values
       foreach ($this->payload["gpo_zip_code_to_city_state"]->features as $feature) {
         // Check for existing matches, and add if it is a new unique value
@@ -71,6 +75,13 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
         }
         if($number_of_states > 1){
           $this->payload['cities_and_states'][] = trim($feature->attributes->NAME_LABEL);
+        }
+      }
+
+      // Check to see if the provided zipcode has any tribes associated with it
+      if(!empty($this->payload['gpo_zipcode_to_tribal_information']->features)){
+        foreach ($this->payload['gpo_zipcode_to_tribal_information']->features as $feature) {
+            $this->payload['associated_tribes'][] = trim($feature->attributes->TRIBE_NAME_CLEAN);
         }
       }
     }
@@ -109,7 +120,6 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
     }
   }
 
-
   /**
    * @param \GuzzleHttp\Psr7\Response $response
    *
@@ -117,31 +127,15 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
    */
   public function postfetch() {
 
-    $content = [];
-
     // Build content
-    if(!isset($this->payload['tribe'])) {
-        if(sizeof($this->payload['state']) > 1){
-            $content = [
-                'city' => $this->payload['city'],
-                'state' => $this->payload['state'],
-                'zipcode' => $this->payload['zipcode'],
-                'cities_and_states' => $this->payload['cities_and_states'],
-            ];
-        }else{
-            $content = [
-                'city' => $this->payload['city'],
-                'state' => $this->payload['state'],
-                'zipcode' => $this->payload['zipcode'],
-            ];
-        }
-    }else{
-        $content = [
-            'tribal_information' => $this->payload['tribes'],
-        ];
-    }
-
-
+    $content = [
+        'city' => $this->payload['city'],
+        'state' => $this->payload['state'],
+        'zipcode' => $this->payload['zipcode'],
+        'cities_and_states' => $this->payload['cities_and_states'],
+        'associated_tribes' => $this->payload['associated_tribes'],
+        'tribal_information' => $this->payload['tribes'],
+    ];
 
     $final_content = \GuzzleHttp\json_encode($content);
 
@@ -251,6 +245,19 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
 
     return $response;
   }
+
+  /**
+  * @param $zipcode
+  * @return mixed|\Psr\Http\Message\ResponseInterface
+  */
+  function gpo_zipcode_to_tribal_information($zipcode){
+      // Get Zip Code to Census Place/Population Lookup table as json
+      $zip_tribal_url = $this->request->getUri() . '/ZipToTribalLookups_WFL/FeatureServer/1/query?where=ZCTA%3D%27' . $zipcode . '%27&outFields=*&orderByFields=ZCTA&f=pjson';
+      $response = $this->make_request_and_receive_response($zip_tribal_url);
+      return $response;
+  }
+
+
 
   /**
    * Call arcgis with city and state information to find the related zipcodes
