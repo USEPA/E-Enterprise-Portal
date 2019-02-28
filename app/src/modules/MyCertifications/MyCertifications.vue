@@ -208,9 +208,11 @@
               What's Next?
             </b-row>
             <b-row>
-              <span class="font-weight-bold color-blue text-decoration-underline">
+              <a
+                href="https://www.epa.gov/lead/renovation-repair-and-painting-program-contractors"
+                target="_blank">
                 Visit the EPA Lead website for next steps
-              </span>
+              </a>
             </b-row>
           </b-col>
         </b-row>
