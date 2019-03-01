@@ -161,7 +161,7 @@
       },
       handleLogOut() {
         this.$store.dispatch('userLogOut');
-        router.push('/login');
+        this.$router.push('/login');
       },
       exitModal() {
         const vm = this;
