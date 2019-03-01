@@ -64,21 +64,19 @@
         <b-button
           class="usa-button usa-button-secondary"
           @click="exitModal"
-          :style="{display: (user.displayLoginAgainButtonOnModal ===
-            'none') ? '' : 'none'}">
+          v-show="(user.displayLoginAgainButtonOnModal === 'none')">
           Cancel
         </b-button>
         <b-button
           class="usa-button"
           @click="extendTheSession"
-          :style="{display: (user.displayLoginAgainButtonOnModal ===
-            'none') ? '' : 'none'}">
+          v-show="(user.displayLoginAgainButtonOnModal === 'none')">
           Extend Session
         </b-button>
         <b-button
            class="usa-button"
            @click="handleLogOut"
-           :style="{display: user.displayLoginAgainButtonOnModal}" >
+           v-show="!(user.displayLoginAgainButtonOnModal === 'none')" >
            Login Again
         </b-button>
       </template>
