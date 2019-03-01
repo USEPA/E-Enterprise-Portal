@@ -164,9 +164,9 @@
       exitModal() {
         const vm = this;
         vm.$root.$emit(
-            'bv::hide::modal',
-            'cookieModal',
-            this.$refs.cookie_modal,
+          'bv::hide::modal',
+          'cookieModal',
+          this.$refs.cookie_modal,
         );
         this.$store.dispatch('userLogOut');
         this.$router.push('/login');
