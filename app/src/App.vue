@@ -95,7 +95,6 @@
   import VueProgessBar from 'vue-progressbar';
   import types from './store/types';
   import { AppModal } from './modules/wadk/WADK';
-  import router from '@/router.js'
 
   const moduleName = 'App';
 
