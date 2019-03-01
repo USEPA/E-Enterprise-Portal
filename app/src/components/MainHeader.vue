@@ -111,9 +111,6 @@
       }),
     },
     methods: {
-      ...mapActions([
-        'userLogOut',
-      ]),
       removeTryItArrow() {
         this.$refs['tryit-arrow'].classList.remove('d-block');
         this.$refs['tryit-arrow'].classList.add('d-none');
@@ -134,8 +131,8 @@
         this.$router.push('/login');
       },
       handleUserLogOut(){
-        store.dispatch('userLogOut');
-        router.push('/');
+        this.$store.dispatch('userLogOut');
+        this.$router.push("/")
       },
     },
     data() {
