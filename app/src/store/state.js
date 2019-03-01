@@ -28,9 +28,9 @@ const state = {
       signInMethod: 'wsignin1.0',
     },
     TEST: {
-      relyingParty: 'https://apitest2.e-enterprise.gov/',
+      relyingParty: 'https://apitest.e-enterprise.gov/',
       issuer: 'https://extauthtest.epacdxnode.net',
-      sendBridgeBackTo: 'https://apitest2.e-enterprise.gov/authenticate/user',
+      sendBridgeBackTo: 'https://apitest.e-enterprise.gov/authenticate/user',
       signInMethod: 'wsignin1.0',
     },
   },
