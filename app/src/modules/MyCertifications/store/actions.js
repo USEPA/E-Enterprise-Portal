@@ -10,7 +10,7 @@ export default {
   ...commonAppStore.actions,
   loadMyCertifications(context) {
     const store = context;
-    AppAxios.get('sample_data/mycertifications.json').then((response) => {
+    AppAxios.get(store.state.apiUrl.sample).then((response) => {
       store.commit(types.LOAD_CERTIFICATIONS, response.data);
     });
   },

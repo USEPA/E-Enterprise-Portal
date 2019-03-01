@@ -6,5 +6,11 @@
  */
 
 export default {
+  apiUrl: {
+    sample: 'sample_data/mycertifications.json',
+    local: '',
+    dev: '',
+    test: '',
+  },
   certifications: [],
 };

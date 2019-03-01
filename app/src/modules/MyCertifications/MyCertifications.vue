@@ -58,20 +58,20 @@
         slot-scope="row">
         <div
           v-if="row.value === 'Needs Attention'"
-          class="color-red text-decoration-underline text-bold cursor-pointer"
+          class="text-danger text-decoration-underline text-bold cursor-pointer"
           @click="openCertsDecriptionModal(row.item, row.index, $event.target)">
           {{ row.value }}
           <div class="cert-needs-attn-decoration"/>
         </div>
         <div
           v-else-if="row.value === 'Complete'"
-          class="color-green text-decoration-underline text-bold cursor-pointer"
+          class="text-success text-decoration-underline text-bold cursor-pointer"
           @click="openCertsDecriptionModal(row.item, row.index, $event.target)">
           {{ row.value }}
         </div>
         <div
           v-else
-          class="color-blue text-decoration-underline text-bold cursor-pointer"
+          class="text-primary text-decoration-underline text-bold cursor-pointer"
           @click="openCertsDecriptionModal(row.item, row.index, $event.target)">
           {{ row.value }}
           <div class="cert-not-completed-decoration"/>
@@ -117,7 +117,7 @@
             </b-row>
             <b-row
               v-if="modalSettings.info.status === 'Needs Attention'"
-              class="font-weight-bold color-red">
+              class="font-weight-bold text-danger">
               {{ modalSettings.info.status }}
             </b-row>
             <b-row
@@ -175,7 +175,7 @@
           <b-col>
             <b-row>
               Please use the&nbsp;
-              <span class="font-weight-bold color-blue text-decoration-underline">
+              <span class="font-weight-bold text-primary text-decoration-underline">
                 My Reporting Widget
               </span>
               to access the&nbsp;
