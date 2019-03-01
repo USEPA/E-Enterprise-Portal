@@ -65,19 +65,19 @@
           class="usa-button usa-button-secondary"
           @click="exitModal"
           :style="{display: (user.displayLoginAgainButtonOnModal ===
-            'none') ? '' : user.displayLoginAgainButtonOnModal}">
+            'none') ? '' : 'none'}">
           Cancel
         </b-button>
         <b-button
           class="usa-button"
           @click="extendTheSession"
           :style="{display: (user.displayLoginAgainButtonOnModal ===
-            'none') ? '' : user.displayLoginAgainButtonOnModal}">
+            'none') ? '' : 'none'}">
           Extend Session
         </b-button>
         <b-button
            class="usa-button"
-           @click="exitModal"
+           @click="handleLogOut"
            :style="{display: user.displayLoginAgainButtonOnModal}" >
            Login Again
         </b-button>
@@ -95,6 +95,7 @@
   import VueProgessBar from 'vue-progressbar';
   import types from './store/types';
   import { AppModal } from './modules/wadk/WADK';
+  import router from '@/router.js'
 
   const moduleName = 'App';
 
@@ -159,26 +160,13 @@
           vm.$refs.cookie_modal,
         );
       },
-      exitModal() {
-        const vm = this;
-        vm.$root.$emit(
-          'bv::hide::modal',
-          'cookieModal',
-          this.$refs.cookie_modal,
-        );
+      handleLogOut() {
         this.$store.dispatch('userLogOut');
+        router.push('/login');
       },
       extendTheSession() {
         const vm = this;
         vm.$store.dispatch('extendSession', { vm });
-      },
-      exitLogOutNotificationModal(){
-        const vm = this;
-        vm.$root.$emit(
-          'bv::show::modal',
-          'userLogOutNotification',
-          vm.$refs.userLogOutNotification
-        );
       },
     },
     beforeCreate() {

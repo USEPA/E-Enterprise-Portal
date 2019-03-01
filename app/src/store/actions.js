@@ -109,6 +109,7 @@ export default {
   },
   userLogOut(context) {
     const store = context;
+
     // add additional logout logic here
     Vue.cookie.set('Token', false, { expires: '-99s' });
     Vue.cookie.set('uid', false, { expires: '-99s' });
@@ -120,9 +121,6 @@ export default {
     // Reset login token and time
     store.commit(types.SET_LOGGED_IN_TOKEN, '');
     store.commit(types.SET_LOGGED_IN_TIME, '');
-
-    // Use router.push here to get rid of the token in the redirect URL
-    router.push('/');
   },
   // Function to process the payload of the JWT token, which contains the user
   // info. This will set the state, verify the path exists and is defined then
@@ -380,7 +378,6 @@ export default {
     // logInTime is in milliseconds, timeOut is being converted to milliseconds, we subtract 60000 because that is one minute
     if((logInTime + (timeOut * 60000) - 60000) > currentTime){
         setTimeout(function () {
-            console.log("hit timeout 1");
             let minutes_difference = 0;
             if (!!Vue.cookie.get('userLogInTime')) {
                 minutes_difference = (Math.floor((Math.abs(new Date(Vue.cookie.get('userLogInTime')).getTime() +
@@ -403,16 +400,15 @@ export default {
                 if (!Vue.cookie.get("userLoggedIn")) {
                     // @TODO: change message on extend cookie modal to tell the user they have been logged out and close modal
                     // find out why commit is not working inside of the set timeout
-                    store.commit(types.SET_EXTEND_SESSION_MESSAGE, 'You have been logged out.');
-                    // store.dispatch('userLogOut');
-                    // router.push('/login');
-                    console.log("hit timeout 2");
+                    store.commit(types.SET_EXTEND_SESSION_MESSAGE, "You have been logged out.");
+                    store.commit(types.SET_DISPLAY_LOGIN_AGAIN_BUTTON_ON_MODAL, '');
                 }
             }
-        }, (logInTime + (timeOut * 60000) - 60000 - currentTime) + 60000);
+        }, (logInTime + (timeOut * 60000) - currentTime));
     }
     else {
       store.dispatch('userLogOut');
+      router.push('/');
     }
   },
   apiUserPatch(context, body) {

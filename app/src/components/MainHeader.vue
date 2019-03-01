@@ -43,7 +43,7 @@
             <button
               variant="outline-secondary"
               class="usa-button"
-              @click="userLogOut">
+              @click="handleUserLogOut">
               <i class="fas fa-lock pr-1"/>
               Logout
             </button>
@@ -95,6 +95,7 @@
 <script>
   import { mapGetters, mapActions } from 'vuex';
   import { EventBus } from '../EventBus';
+  import router from '@/router.js';
 
   // eslint-disable-next-line
   export default {
@@ -131,6 +132,10 @@
       },
       handleLogin() {
         this.$router.push('/login');
+      },
+      handleUserLogOut(){
+        store.dispatch('userLogOut');
+        router.push('/');
       },
     },
     data() {

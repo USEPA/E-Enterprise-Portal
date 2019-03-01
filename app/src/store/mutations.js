@@ -267,12 +267,11 @@ export default {
       choice);
   },
   [types.SET_EXTEND_SESSION_MESSAGE](state, message){
-    console.log('new message: ' + message)
     Vue.set(state.user,
       'extendSessionModalMessage',
       message);
   },
-  [types.SET_EXTEND_SESSION_MESSAGE](state, css_prop){
+  [types.SET_DISPLAY_LOGIN_AGAIN_BUTTON_ON_MODAL](state, css_prop){
     Vue.set(state.user,
       'displayLoginAgainButtonOnModal',
       css_prop);
