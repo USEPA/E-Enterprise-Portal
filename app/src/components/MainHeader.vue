@@ -95,7 +95,6 @@
 <script>
   import { mapGetters, mapActions } from 'vuex';
   import { EventBus } from '../EventBus';
-  import router from '@/router.js';
 
   // eslint-disable-next-line
   export default {
