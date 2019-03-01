@@ -34,10 +34,10 @@ export default {
       submitPartnersData: 'https://dev.e-enterprise.gov/TestRest/bwievaluation',
     },
     TEST: {
-      getPartners: 'sample_data/stateAndTribes.json',
-      getPartnerXML: 'https://test.e-enterprise.gov/be_well_informed/get_bwi_xml/partner-',
-      getFlowchartXML: 'https://test.e-enterprise.gov/be_well_informed/get_bwi_xml/flowchart-',
-      submitPartnersData: 'https://nodeweb.epacdxnode.net/BWIService/bwievaluation',
+        getPartners: 'sample_data/stateAndTribes.json',
+            getPartnerXML: 'https://test.e-enterprise.gov/be_well_informed/get_bwi_xml/partner-',
+            getFlowchartXML: 'https://test.e-enterprise.gov/be_well_informed/get_bwi_xml/flowchart-',
+            submitPartnersData: 'https://dev.e-enterprise.gov/TestRest/bwievaluation',
     },
     PROD: {
       getPartners: 'sample_data/stateAndTribes.json',
