@@ -59,19 +59,25 @@
       modal-ref="cookieModal"
       title="Your session is about to expire">
       <!-- Modal content -->
-      <p>Your session will expire in {{ user.timeLeftUntilLogout }} minute(s).
-      If you choose not to extend, then you will be logged out.</p>
-      <p>Would you like to extend your session?</p>
+      <p>{{user.extendSessionModalMessage}}</p>
       <template slot="footer">
         <b-button
           class="usa-button usa-button-secondary"
-          @click="exitModal">
+          @click="exitModal"
+          v-show="(user.displayLoginAgainButtonOnModal === 'none')">
           Cancel
         </b-button>
         <b-button
           class="usa-button"
-          @click="extendTheSession">
+          @click="extendTheSession"
+          v-show="(user.displayLoginAgainButtonOnModal === 'none')">
           Extend Session
+        </b-button>
+        <b-button
+           class="usa-button"
+           @click="handleLogOut"
+           v-show="!(user.displayLoginAgainButtonOnModal === 'none')" >
+           Login Again
         </b-button>
       </template>
     </AppModal>
@@ -151,6 +157,10 @@
           vm.$refs.cookie_modal,
         );
       },
+      handleLogOut() {
+        this.$store.dispatch('userLogOut');
+        this.$router.push('/login');
+      },
       exitModal() {
         const vm = this;
         vm.$root.$emit(
@@ -159,7 +169,8 @@
           this.$refs.cookie_modal,
         );
         this.$store.dispatch('userLogOut');
-      },
+        this.$router.push('/login');
+      } ,
       extendTheSession() {
         const vm = this;
         vm.$store.dispatch('extendSession', { vm });

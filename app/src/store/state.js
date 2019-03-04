@@ -82,6 +82,8 @@ const state = {
     userSavedLocations: [],
     dropDownLabel: '',
     isCurrentDropdownZipcodeWithTribes: false,
+    extendSessionModalMessage: 'Your session will expire in 1 minute(s). If you choose not to extend, then you will be logged out. Would you like to extend your session?',
+    displayLoginAgainButtonOnModal: 'none',
   },
   loginBtnHoverMessage: 'Use an EPA, CDX, or a social media account to login',
   navMargin: {
