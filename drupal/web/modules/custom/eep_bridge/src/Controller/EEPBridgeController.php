@@ -132,8 +132,12 @@ class EEPBridgeController extends ControllerBase {
       // Who is logged in currently in the session
       // Log the user out of this backend
       // Redirect the user to the bridge wit wa=signout1.0 and  with wreply redirect to front end /login
-      print "hit bridge_auth_logout";
-
+      $current_user = User::load(\Drupal::currentUser()->id());
+      \Drupal::currentUser()->setAccount($this->currentUser());
+      if(\Drupal::currentUser()->isAuthenticated()){
+          $session_manager = \Drupal::service('session_manager');
+          $session_manager->delete(\Drupal::currentUser()->id());
+      }
   }
 
   private  function eep_bridge_goto($url, $jwt_token) {
