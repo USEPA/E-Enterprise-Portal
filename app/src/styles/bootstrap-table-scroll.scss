@@ -1,5 +1,5 @@
 .bootstrap-vue-table-scroll > tbody {
-  height: 90px;
+  height: 130px;
   overflow-y: auto;
   width: 100%;
 }
@@ -31,6 +31,19 @@
 .bootstrap-vue-fav-table-scroll > thead th,
 .bootstrap-vue-fav-table-scroll > tbody td {
   display: flex;
+  flex:1;
+}
+.bootstrap-vue-table-scroll > .table th, .table td,
+.bootstrap-vue-fav-table-scroll > .table th, .table td {
+  padding: 0.3rem;
+}
+.custom-select {
+  padding:2px 10px;
+  height:auto;
+}
+.input-group > .form-control, .input-group > .form-control-plaintext, .input-group > .custom-select, .input-group > .custom-file {
+  height:auto;
+  padding:2px 10px;
 }
 
 
