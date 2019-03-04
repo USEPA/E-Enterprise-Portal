@@ -84,7 +84,7 @@ class EEPBridgeController extends ControllerBase {
     }
 
     $url = Url::fromUri($environment_name . '?token=' . $jwt_token . '&uid=' . $uid);
-    $this->eep_bridge_goto($url, $jwt_token);
+    $this->eep_bridge_goto($url);
     return;
   }
 
@@ -110,7 +110,7 @@ class EEPBridgeController extends ControllerBase {
     }
 
     $url = Url::fromUri($environment_name . '?token=' . $jwt_token . '&uid=' . $uid);
-    $this->eep_bridge_goto($url, $jwt_token);
+    $this->eep_bridge_goto($url);
     return;
   }
 
@@ -124,25 +124,27 @@ class EEPBridgeController extends ControllerBase {
   }
 
   /**
-   * @param null $uid
-   */
+    * @return JsonResponse
+    */
   public function bridge_auth_logout(){
-    // Route accesses this endpoint
-      // Frontend: cookie work is done. Redirect to this URL, probably need to pass JWT for authentication
-
       // Who is logged in currently in the session
       // Log the user out of this backend
       // Redirect the user to the bridge wit wa=signout1.0 and  with wreply redirect to front end /login
 
-      // Log the user out of the back end
-      session_destroy();
-      return new JsonResponse(['status' => 'logout worked']);
+      // Declare variables
+      $config = \Drupal::config('eep_bridge.environment_settings');
 
+      // Log the user out of the back end
+      //user_logout();
+
+      // Redirect user to bridge
+      $logout = $config->get('eep_bridge_issue') .'?wa=wsignout1.0&wreply=' . urlencode($config->get('eep_bridge_wreply'));
+      //header("Location: $logout");
+      return new JsonResponse(array('link' => $logout));
   }
 
-  private  function eep_bridge_goto($url, $jwt_token) {
+  private  function eep_bridge_goto($url) {
     $response = new RedirectResponse($url->toString());
-    $response->headers->set('token', $jwt_token);
     $response->send();
     exit;
   }
