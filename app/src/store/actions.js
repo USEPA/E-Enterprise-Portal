@@ -148,7 +148,7 @@ export default {
       store.commit('SET_DEEP_PROPERTY', payload);
     }
   },
-  setTAndCCookie(context) {
+  onTermsAndConditions(context) {
     const store = context;
     Vue.cookie.set('userTandC', true, { expires: '1Y' });
     store.commit('USER_TANDC_COOKIE_DISMISS');
