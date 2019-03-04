@@ -116,15 +116,15 @@ export default {
     Vue.cookie.set('userLoggedIn', false, { expires: '-99s' });
     Vue.cookie.set('userLogInTime', '', { expires: '-99s' });
 
-    // request to log user out to the backend =  redirect
-
-    // front end -> backend (this functions logic) ->  bridge (logout happens) -> wreply (redirect to /login on front end)
-
     store.commit('IS_USER_LOGGED_IN', false);
 
     // Reset login token and time
     store.commit(types.SET_LOGGED_IN_TOKEN, '');
     store.commit(types.SET_LOGGED_IN_TIME, '');
+
+    // request to log user out to the backend =  redirect
+    window.location.href = `${store.getters.getEnvironmentApiURL}/authenticate/dev_user/logout`;
+    // front end -> backend (this functions logic) ->  bridge (logout happens) -> wreply (redirect to /login on front end)
   },
   // Function to process the payload of the JWT token, which contains the user
   // info. This will set the state, verify the path exists and is defined then

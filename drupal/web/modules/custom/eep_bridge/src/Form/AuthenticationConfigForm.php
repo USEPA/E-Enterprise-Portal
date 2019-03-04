@@ -44,7 +44,7 @@ class AuthenticationConfigForm extends ConfigFormBase{
 
     $form['eep_bridge_wreply'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('WReply for the logout'),
+      '#title' => $this->t('wreply for the logout'),
       '#description' => $this->t('the wreply is the page that they will be redirected too after logout'),
       '#default_value' => $config->get('eep_bridge_wreply'),
     ];
@@ -58,6 +58,4 @@ class AuthenticationConfigForm extends ConfigFormBase{
       ->set('eep_bridge_wreply', $form_state->getValue('eep_bridge_wreply'))
       ->save();
   }
-
-
 }

@@ -125,13 +125,14 @@ class EEPBridgeController extends ControllerBase {
   /**
    * @param null $uid
    */
-  public function bridge_auth_logout($uid = NULL){
+  public function bridge_auth_logout(){
     // Route accesses this endpoint
       // Frontend: cookie work is done. Redirect to this URL, probably need to pass JWT for authentication
 
       // Who is logged in currently in the session
       // Log the user out of this backend
       // Redirect the user to the bridge wit wa=signout1.0 and  with wreply redirect to front end /login
+      print "hit bridge_auth_logout";
 
   }
 

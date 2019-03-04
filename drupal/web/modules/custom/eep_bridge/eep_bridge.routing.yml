@@ -30,7 +30,7 @@ eep_bridge.dev_login:
   requirements:
     _permission: 'administer site configuration'
 eep_bridge.dev_logout:
-  path: '/authenticate/dev_user/logout/{uid}'
+  path: '/authenticate/dev_user/logout'
   defaults:
     _controller: '\Drupal\eep_bridge\Controller\EEPBridgeController::bridge_auth_logout'
     _title: 'E-Enterprise Bridge Logout'
