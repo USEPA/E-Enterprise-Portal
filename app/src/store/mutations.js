@@ -80,10 +80,10 @@ export default {
     );
     EventBus.$emit('locationService::update');
   },
-  [types.USER_TANDC_COOKIE_DISMISS](state) {
+  [types.TERMS_AND_COND_COOKIE](state) {
     Vue.set(
       state.user,
-      'tAndCCookieDismiss',
+      'termsAndConditionsCookie',
       true,
     );
   },

@@ -17,7 +17,7 @@ export default {
   /**
    * gets users TAndCCookie state
    */
-  getTAndCCookieDismiss() {
+  getTermsAndConditionsCookie() {
     const cookieState = document.cookie.match('(^|;) ?userTandC=([^;]*)(;|$)');
     return cookieState;
   },
