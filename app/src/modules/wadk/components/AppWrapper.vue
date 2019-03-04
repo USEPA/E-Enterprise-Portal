@@ -97,7 +97,6 @@
           class="py-3"
           v-for="(text, title) in eepApp.field_settings_menu_items">
           <div v-html="text"/>
-
         </b-tab>
         <b-tab
           title="Source"
