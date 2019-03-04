@@ -194,15 +194,6 @@
             </b-container>
           </template>
         </b-tab>
-        <b-tab
-          title="State"
-          class="nav-item nav-link text-decoration-none"></b-tab>
-        <b-tab
-          title="Tribal"
-          class="nav-item nav-link text-decoration-none"></b-tab>
-        <b-tab
-          title="Local"
-          class="nav-item nav-link text-decoration-none"></b-tab>
       </b-tabs>
     </AppWrapper>
   </div>
