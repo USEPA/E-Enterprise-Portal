@@ -12,16 +12,14 @@
           <div class="col-12 text-center">
             <span>By using the E-Enterprise Portal, you agree to the </span>
             <a
-              href="https://www.epa.gov/privacy/privacy-and-security-notice"
+              href="https://cdx.epa.gov/Terms"
               target="_blank"
               class="text-dark font-weight-bold">
               Terms and Conditions</a>
             <span
               class="text-decoration-underline cursor-pointer font-weight-bold"
               @click="onTermsAndConditions"
-              data-dismiss="alert">
-              Continue »
-            </span>
+              data-dismiss="alert">Continue »</span>
           </div>
         </div>
       </div>
