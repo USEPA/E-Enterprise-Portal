@@ -9,7 +9,8 @@
           class="text-right mt-2 cursor-pointer"
           @click="toggleLocationSearchBar"
           v-if="hasLocation && !isLocationSearchBarEnabled">
-          {{ finalized_city }}, {{ finalized_state }} - {{ finalized_zipcode }}</div>
+          {{ finalized_city }}, {{ finalized_state }} - {{ finalized_zipcode }}
+        </div>
       </div>
       <div
         class="col-sm-12"
@@ -71,8 +72,10 @@
           <template slot="first">
             <!-- this slot appears above the options from 'options' prop -->
             <option
-              :value="null"
-              disabled>-- Please select an partner --
+              value=""
+              disabled
+              selected
+              hidden>-- Please select a zipcode --
             </option>
           </template>
         </b-form-select>
@@ -86,9 +89,10 @@
           v-model="finalized_city">
           <template slot="first">
             <!-- this slot appears above the options from 'options' prop -->
-            <option
-              :value="null"
-              disabled>-- Please select an partner --
+            <option value=""
+              disabled
+              selected
+              hidden>-- Please select a city --
             </option>
           </template>
         </b-form-select>
@@ -103,9 +107,10 @@
           v-model="finalized_state">
           <template slot="first">
             <!-- this slot appears above the options from 'options' prop -->
-            <option
-              :value="null"
-              disabled>-- Please select an partner --
+            <option value=""
+              disabled
+              selected
+              hidden>-- Please select a state --
             </option>
           </template>
         </b-form-select>

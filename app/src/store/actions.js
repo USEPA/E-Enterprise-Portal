@@ -109,19 +109,18 @@ export default {
   },
   userLogOut(context) {
     const store = context;
+
     // add additional logout logic here
     Vue.cookie.set('Token', false, { expires: '-99s' });
     Vue.cookie.set('uid', false, { expires: '-99s' });
     Vue.cookie.set('userLoggedIn', false, { expires: '-99s' });
+    Vue.cookie.set('userLogInTime', '', {expires: '-99s'});
 
     store.commit('IS_USER_LOGGED_IN', false);
 
     // Reset login token and time
     store.commit(types.SET_LOGGED_IN_TOKEN, '');
     store.commit(types.SET_LOGGED_IN_TIME, '');
-
-    // Use router.push here to get rid of the token in the redirect URL
-    router.push('/');
   },
   // Function to process the payload of the JWT token, which contains the user
   // info. This will set the state, verify the path exists and is defined then
@@ -381,8 +380,8 @@ export default {
         setTimeout(function () {
             let minutes_difference = 0;
             if (!!Vue.cookie.get('userLogInTime')) {
-                minutes_difference = ((Math.floor((Math.abs(new Date(Vue.cookie.get('userLogInTime')).getTime() +
-                        ((user.cookie.time) * 60 * 1000)) - (new Date())) / 1000) / 60) % 60);
+                minutes_difference = (Math.floor((Math.abs(new Date(Vue.cookie.get('userLogInTime')).getTime() +
+                        ((user.cookie.time) * 60 * 1000)) - (new Date())) / 1000) / 60) % 60;
             }
             // Check to see if there is a minute left
             if (minutes_difference <= 1 && Vue.cookie.get("userLoggedIn")) {
@@ -399,18 +398,17 @@ export default {
             const logOutCurrentTime = (new Date).getTime();
             if(!currentLoginUserTime || currentLoginUserTime > logOutCurrentTime){
                 if (!Vue.cookie.get("userLoggedIn")) {
-                    vm.$root.$emit(
-                        'bv::hide::modal',
-                        'cookieModal',
-                        vm.$refs.cookie_modal);
-                    store.dispatch('userLogOut');
-                    router.push('/login');
+                    // @TODO: change message on extend cookie modal to tell the user they have been logged out and close modal
+                    // find out why commit is not working inside of the set timeout
+                    store.commit(types.SET_EXTEND_SESSION_MESSAGE, "You have been logged out.");
+                    store.commit(types.SET_DISPLAY_LOGIN_AGAIN_BUTTON_ON_MODAL, '');
                 }
             }
-        }, logInTime + (timeOut * 60000) - currentTime);
+        }, (logInTime + (timeOut * 60000) - currentTime));
     }
     else {
       store.dispatch('userLogOut');
+      router.push('/');
     }
   },
   apiUserPatch(context, body) {
@@ -446,8 +444,9 @@ export default {
     // Declare variables
     const store = context;
     let params = '';
-
     let userInput = store.getters.getUser.inputBoxText;
+
+    store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', false);
 
     if (/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(userInput)) {
       // handle zipcode
@@ -486,17 +485,25 @@ export default {
         });
       } else if (params.indexOf('zipcode') !== -1) {
 
-        let cities = return_data.city;
-
         // The if statement handles the case of if a zipcode exist in more than
         // one place
         if (return_data.cities_and_states) {
           formattedResponseInformation = return_data.cities_and_states;
         } else {
+
+          let cities = return_data.city;
+
           // Loop through cities array and build new array to commit to store
           for (let i = 0; i < cities.length; i++) {
             formattedResponseInformation.push(cities[i] + ", " + return_data.state[0]);
           }
+        }
+        if(return_data.associated_tribes){
+            let tribes = return_data.associated_tribes;
+            for (let i = 0; i < tribes.length; i++) {
+                formattedResponseInformation.push(tribes[i]);
+            }
+            store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', true);
         }
         dropDownLabelText = "Select a location for";
 

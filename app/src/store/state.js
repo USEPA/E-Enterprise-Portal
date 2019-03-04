@@ -28,9 +28,9 @@ const state = {
       signInMethod: 'wsignin1.0',
     },
     TEST: {
-      relyingParty: 'https://apitest2.e-enterprise.gov/',
+      relyingParty: 'https://apitest.e-enterprise.gov/',
       issuer: 'https://extauthtest.epacdxnode.net',
-      sendBridgeBackTo: 'https://apitest2.e-enterprise.gov/authenticate/user',
+      sendBridgeBackTo: 'https://apitest.e-enterprise.gov/authenticate/user',
       signInMethod: 'wsignin1.0',
     },
   },
@@ -81,6 +81,9 @@ const state = {
     dropDownSelection: '',
     userSavedLocations: [],
     dropDownLabel: '',
+    isCurrentDropdownZipcodeWithTribes: false,
+    extendSessionModalMessage: 'Your session will expire in 1 minute(s). If you choose not to extend, then you will be logged out. Would you like to extend your session?',
+    displayLoginAgainButtonOnModal: 'none',
   },
   loginBtnHoverMessage: 'Use an EPA, CDX, or a social media account to login',
   navMargin: {
