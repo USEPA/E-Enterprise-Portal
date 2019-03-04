@@ -1,0 +1,14 @@
+uuid: 2ddbd39c-44a8-48d5-8b8f-5276385c9689
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.cdx
+  module:
+    - user
+id: user_add_role_action.cdx
+label: 'Add the CDX role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: cdx
