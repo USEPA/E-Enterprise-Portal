@@ -4,6 +4,7 @@ namespace Drupal\eep_bridge\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\eep_bridge\ADFSConf;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\Core\Url;
 use Drupal\eep_bridge\ADFSUserDetails;
@@ -132,12 +133,11 @@ class EEPBridgeController extends ControllerBase {
       // Who is logged in currently in the session
       // Log the user out of this backend
       // Redirect the user to the bridge wit wa=signout1.0 and  with wreply redirect to front end /login
-      $current_user = User::load(\Drupal::currentUser()->id());
-      \Drupal::currentUser()->setAccount($this->currentUser());
-      if(\Drupal::currentUser()->isAuthenticated()){
-          $session_manager = \Drupal::service('session_manager');
-          $session_manager->delete(\Drupal::currentUser()->id());
-      }
+
+      // Log the user out of the back end
+      session_destroy();
+      return new JsonResponse(['status' => 'logout worked']);
+
   }
 
   private  function eep_bridge_goto($url, $jwt_token) {
