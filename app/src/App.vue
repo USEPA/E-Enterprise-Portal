@@ -153,13 +153,19 @@
         const vm = this;
         vm.$root.$emit(
           'bv::show::modal',
-          'cookie_modal',
-          vm.$refs.cookie_modal,
+          'cookieModal',
+          vm.$refs.cookieModal
         );
       },
       handleLogOut() {
-        this.$store.dispatch('userLogOut');
-        this.$router.push('/login');
+        const vm = this;
+        vm.$store.dispatch('userLogOut');
+        vm.$root.$emit(
+          'bv::hide::modal',
+          'cookieModal',
+          vm.$refs.cookieModal
+        );
+        vm.$router.push('/login');
       },
       exitModal() {
         const vm = this;
