@@ -114,7 +114,11 @@ export default {
     Vue.cookie.set('Token', false, { expires: '-99s' });
     Vue.cookie.set('uid', false, { expires: '-99s' });
     Vue.cookie.set('userLoggedIn', false, { expires: '-99s' });
-    Vue.cookie.set('userLogInTime', '', {expires: '-99s'});
+    Vue.cookie.set('userLogInTime', '', { expires: '-99s' });
+
+    // request to log user out to the backend =  redirect
+
+    // front end -> backend (this functions logic) ->  bridge (logout happens) -> wreply (redirect to /login on front end)
 
     store.commit('IS_USER_LOGGED_IN', false);
 

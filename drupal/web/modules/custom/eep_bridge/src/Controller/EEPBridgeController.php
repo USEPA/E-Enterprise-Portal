@@ -112,10 +112,27 @@ class EEPBridgeController extends ControllerBase {
     $this->eep_bridge_goto($url, $jwt_token);
     return;
   }
-  
+
+  /**
+   * @param ContainerInterface $container
+   * @return static
+   */
   public static function create(ContainerInterface $container) {
     $auth = $container->get('jwt.authentication.jwt');
     return new static($auth);
+  }
+
+  /**
+   * @param null $uid
+   */
+  public function bridge_auth_logout($uid = NULL){
+    // Route accesses this endpoint
+      // Frontend: cookie work is done. Redirect to this URL, probably need to pass JWT for authentication
+
+      // Who is logged in currently in the session
+      // Log the user out of this backend
+      // Redirect the user to the bridge wit wa=signout1.0 and  with wreply redirect to front end /login
+
   }
 
   private  function eep_bridge_goto($url, $jwt_token) {
@@ -144,5 +161,4 @@ class EEPBridgeController extends ControllerBase {
       $user->save();
     }
   }
-
 }
