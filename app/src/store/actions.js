@@ -64,7 +64,9 @@ export default {
       navigator.geolocation.getCurrentPosition((position) => {
         let url = store.getters.getApiUrl('geolocationSearch');
         url = `${url}?f=pjson&location=${position.coords.longitude},${position.coords.latitude}`;
-        AppAxios.get(url).then((response) => {
+        AppAxios.get(url, {
+            headers: store.getters.getGETHeaders,
+        }).then((response) => {
           const { data } = response;
 
           // Simple sanity check before committing the change to the store
