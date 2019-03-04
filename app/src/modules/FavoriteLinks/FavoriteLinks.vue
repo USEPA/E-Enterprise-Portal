@@ -210,8 +210,6 @@
           {
             key: 'actions',
             label: 'Actions',
-            sortable: true,
-            sortDirection: 'desc',
             class: 'text-right',
           },
         ],
