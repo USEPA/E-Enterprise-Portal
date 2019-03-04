@@ -109,6 +109,7 @@ export default {
   },
   userLogOut(context) {
     const store = context;
+
     // add additional logout logic here
     Vue.cookie.set('Token', false, { expires: '-99s' });
     Vue.cookie.set('uid', false, { expires: '-99s' });
@@ -120,9 +121,6 @@ export default {
     // Reset login token and time
     store.commit(types.SET_LOGGED_IN_TOKEN, '');
     store.commit(types.SET_LOGGED_IN_TIME, '');
-
-    // Use router.push here to get rid of the token in the redirect URL
-    router.push('/');
   },
   // Function to process the payload of the JWT token, which contains the user
   // info. This will set the state, verify the path exists and is defined then
@@ -400,18 +398,17 @@ export default {
             const logOutCurrentTime = (new Date).getTime();
             if(!currentLoginUserTime || currentLoginUserTime > logOutCurrentTime){
                 if (!Vue.cookie.get("userLoggedIn")) {
-                    vm.$root.$emit(
-                        'bv::hide::modal',
-                        'cookieModal',
-                        vm.$refs.cookie_modal);
-                    store.dispatch('userLogOut');
-                    router.push('/login');
+                    // @TODO: change message on extend cookie modal to tell the user they have been logged out and close modal
+                    // find out why commit is not working inside of the set timeout
+                    store.commit(types.SET_EXTEND_SESSION_MESSAGE, "You have been logged out.");
+                    store.commit(types.SET_DISPLAY_LOGIN_AGAIN_BUTTON_ON_MODAL, '');
                 }
             }
-        }, logInTime + (timeOut * 60000) - currentTime);
+        }, (logInTime + (timeOut * 60000) - currentTime));
     }
     else {
       store.dispatch('userLogOut');
+      router.push('/');
     }
   },
   apiUserPatch(context, body) {
