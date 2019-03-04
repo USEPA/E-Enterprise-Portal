@@ -114,9 +114,8 @@ function content_access_node_access_records(NodeInterface $node) {
  * Implements hook_node_delete().
  */
 function content_access_node_delete(NodeInterface $node) {
-  \Drupal::database()->delete('content_access')
-    ->condition('nid', $node->id())
-    ->execute();
+  $node_permission_config = \Drupal::configFactory()->getEditable('content_access.permissions.'.$node->uuid());
+  $node_permission_config->delete();
 }
 
 /**
@@ -466,11 +465,6 @@ function content_access_per_node_setting($op, NodeInterface $node, $settings = N
  *   it will return an empty array.
  */
 function content_access_get_per_node_settings(NodeInterface $node) {
-  /*$query = \Drupal::database()->query("SELECT settings FROM {content_access} WHERE nid = :nid", [
-    ':nid' => $node->id(),
-  ]);
-  $result = $query->fetch(PDO::FETCH_OBJ);*/
-
   $node_permission_config = \Drupal::configFactory()->getEditable('content_access.permissions.'.$node->uuid());
 
   if (!empty($node_permission_config->get(settings))) {
@@ -484,32 +478,12 @@ function content_access_get_per_node_settings(NodeInterface $node) {
  * Saves custom per node settings in the own content_access table.
  */
 function content_access_save_per_node_settings(NodeInterface $node, $settings) {
-  $database = \Drupal::database();
   $node_permission_config = \Drupal::configFactory()->getEditable('content_access.permissions.'.$node->uuid());
 
   $node_permission_config
     // Set the submitted configuration setting.
     ->set('settings', serialize($settings))
     ->save();
-/*
-  $count = $database->select('content_access')
-    ->fields('c', ['settings'])
-    ->condition('nid', $node->id())
-    ->countQuery()
-    ->execute()
-    ->fetchField();
-
-  if ($count > 0) {
-    $database->update('content_access')
-      ->condition('nid', $node->id())
-      ->fields(['settings' => serialize($settings)])
-      ->execute();
-  }
-  else {
-    $database->insert('content_access')
-      ->fields(['nid' => $node->id(), 'settings' => serialize($settings)])
-      ->execute();
-  }*/
 
   // Make content_access_per_node_setting() use the new settings
   content_access_per_node_setting(NULL, $node, $settings);
@@ -519,9 +493,9 @@ function content_access_save_per_node_settings(NodeInterface $node, $settings) {
  * Deletes all custom per node settings, so that content type defaults are used again.
  */
 function content_access_delete_per_node_settings(NodeInterface $node) {
-  \Drupal::database()->delete('content_access')
-    ->condition('nid', $node->id())
-    ->execute();
+
+  $node_permission_config = \Drupal::configFactory()->getEditable('content_access.permissions.'.$node->uuid());
+  $node_permission_config->delete();
 
   // Clear the cache.
   content_access_per_node_setting(NULL, $node, FALSE);
