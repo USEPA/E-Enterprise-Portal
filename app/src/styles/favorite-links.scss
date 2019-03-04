@@ -29,6 +29,9 @@ h2::before {
 .bootstrap-vue-fav-table-scroll > tbody td:last-child {
   justify-content: flex-end;
 }
+.favorite-links-blank-placeholder {
+  height: 15.6875rem;
+}
 @media all and (min-width: 768px) {
 
   .add-favorite-btn-text {
