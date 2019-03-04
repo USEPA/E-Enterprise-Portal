@@ -202,3 +202,5 @@ $RECYCLE.BIN/
 !/app/package-lock.json
 !/drupal/composer.json
 !/drupal/composer.lock
+/app/web.config
+/drupal/web.config
