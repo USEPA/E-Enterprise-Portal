@@ -52,15 +52,15 @@
 
       <!-- if Favorites not yet loaded -->
       <div
-        class="bootstrap-vue-fav-table-scroll mb-3 favorite-links-blank-placeholder"
+        class="bootstrap-vue-fav-table-scroll mb-3 favorite-links-blank-placeholder text-center"
         v-if="!favoriteLinksLoaded">
-        <p>Loading you Favorites...</p>
+        <p class="pt-5">Loading you Favorites...</p>
       </div>
       <!-- if No Favorites -->
       <div
-        class="bootstrap-vue-fav-table-scroll mb-3 favorite-links-blank-placeholder"
+        class="bootstrap-vue-fav-table-scroll mb-3 favorite-links-blank-placeholder text-center"
         v-else-if="(favoriteLinks.length === 0 && favoriteLinksLoaded)">
-        <p>No Favorites...</p>
+        <p class="pt-5">No Favorites...</p>
       </div>
 
       <!-- Favorite Links datatable -->
