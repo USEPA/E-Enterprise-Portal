@@ -82,7 +82,6 @@
     methods: {
       ...mapActions([
         'onTermsAndConditions',
-        'openTermsAndConditions',
         'setUserPolicyCookie',
       ]),
     },
