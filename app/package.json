@@ -60,6 +60,20 @@
       "@vue/airbnb"
     ],
     "rules": {
+      "linebreak-style": ["error", "windows"],
+      "no-mixed-operators": [
+        "error",
+        {
+          "groups": [
+            ["+", "-", "*", "/", "%", "**"],
+            ["&", "|", "^", "~", "<<", ">>", ">>>"],
+            ["==", "!=", "===", "!==", ">", ">=", "<", "<="],
+            ["&&", "||"],
+            ["in", "instanceof"]
+          ],
+          "allowSamePrecedence": true
+        }
+      ],
       "no-console": [
         "error",
         {
