@@ -160,12 +160,12 @@
       handleLogOut() {
         const vm = this;
         vm.$store.dispatch('userLogOut');
+        vm.$router.push('/login');
         vm.$root.$emit(
           'bv::hide::modal',
           'cookieModal',
           vm.$refs.cookieModal
         );
-        vm.$router.push('/login');
       },
       exitModal() {
         const vm = this;
