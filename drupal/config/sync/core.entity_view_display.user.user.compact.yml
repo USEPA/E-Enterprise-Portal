@@ -90,5 +90,6 @@ content:
     third_party_settings: {  }
     label: hidden
 hidden:
+  field_organization: true
   field_userlocation: true
   member_for: true
