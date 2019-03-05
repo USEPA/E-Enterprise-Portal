@@ -109,7 +109,7 @@ export default {
   },
   userLogOut(context) {
     const store = context;
-      
+
     AppAxios.get(`${store.getters.getEnvironmentApiURL}/authenticate/dev_user/logout`, {
         headers: store.GETHeaders
     }).then((response) => {
@@ -121,10 +121,12 @@ export default {
         Vue.cookie.set('userLoggedIn', false, { expires: '-99s' });
         Vue.cookie.set('userLogInTime', '', { expires: '-99s' });
         store.commit('IS_USER_LOGGED_IN', false);
+
         // Reset login token and time
         store.commit(types.SET_LOGGED_IN_TOKEN, '');
         store.commit(types.SET_LOGGED_IN_TIME, '');
 
+        // Redirect window to the bridge
         window.location.href = response.logout_url;
     }).catch((error) => {
         console.warn(error.response);
