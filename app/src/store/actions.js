@@ -410,8 +410,7 @@ export default {
               }
           }
       }, (logInTime + (timeOut * 60000) - currentTime));
-    }
-    else {
+    } else {
       store.dispatch('userLogOut');
       router.push('/');
     }
