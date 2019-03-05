@@ -25,7 +25,7 @@
       </div>
     </div>
     <div
-      v-if="footerLinks.length > 0"
+      v-if="footerLinksLoaded && footerLinks.length > 0"
       class="container py-2">
       <div class="row justify-content-center small">
         <div
@@ -44,7 +44,7 @@
       </div>
     </div>
     <div
-      v-else-if="footerLinks.length === 0"
+      v-else-if="!footerLinksLoaded"
       class="container py-2">
       <div class="row justify-content-center small">
         <div
@@ -55,6 +55,21 @@
       <div class="row justify-content-center small">
         <div class="col-auto text-align-center small">
           Loading Footer...
+        </div>
+      </div>
+    </div>
+    <div
+      v-else-if="footerLinksLoaded && footerLinks.length === 0"
+      class="container py-2">
+      <div class="row justify-content-center small">
+        <div
+          class="col-auto">
+          Failed to load Footer...
+        </div>
+      </div>
+      <div class="row justify-content-center small">
+        <div class="col-auto text-align-center small">
+          Failed to load Footer...
         </div>
       </div>
     </div>
@@ -100,9 +115,9 @@
     },
     data() {
       return {
-
         footerLinks: [],
         footerVersion: [],
+        footerLinksLoaded: false,
       };
     },
     mounted() {
@@ -111,6 +126,7 @@
         .then((response) => {
           this.footerLinks = response.data[0].field_footer_link_name;
           this.footerVersion = response.data[0].field_version;
+          this.footerLinksLoaded = true;
         });
     },
   };
