@@ -359,8 +359,7 @@ export default {
       }
 
       store.dispatch('checkCookie', payload);
-      //  [App.vue specific] When App.vue is finish loading finish the progress
-      // bar
+      //  [App.vue specific] When App.vue is finish loading finish the progress bar
       vm.$Progress.finish();
       if (window.location.href.indexOf('token') > -1) {
         router.push('/workbench');
