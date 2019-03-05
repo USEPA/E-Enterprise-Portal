@@ -127,7 +127,7 @@ export default {
         store.commit(types.SET_LOGGED_IN_TIME, '');
 
         // Redirect window to the bridge
-        window.location.href = response.logout_url;
+        //window.location.href = response.logout_url;
     }).catch((error) => {
         console.warn(error.response);
     });
