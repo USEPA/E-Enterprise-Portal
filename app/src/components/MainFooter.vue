@@ -1,7 +1,7 @@
 <template>
   <footer class="footer fixed-bottom">
     <div
-      class="alert alert-footerLinks"
+      class="alert alert-info"
       role="alert"
       v-if="['workbench'].indexOf($route.name) > -1 &&
       authenticated === false && (termsAndConditionsCookie === false || termsAndConditionsCookie == undefined)">
