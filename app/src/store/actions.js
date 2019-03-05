@@ -125,7 +125,7 @@ export default {
        // Reset login token and time
        store.commit(types.SET_LOGGED_IN_TOKEN, '');
        store.commit(types.SET_LOGGED_IN_TIME, '');
-      
+
        // Redirect window to the bridge
        window.location.href = response.data.logout_url;
 
