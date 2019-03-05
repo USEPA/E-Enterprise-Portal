@@ -113,21 +113,22 @@ export default {
     AppAxios.get(`${store.getters.getEnvironmentApiURL}/authenticate/dev_user/logout`, {
         headers: store.GETHeaders
     }).then((response) => {
-        console.log(response);
 
-        // add additional logout logic here
-        Vue.cookie.set('Token', false, { expires: '-99s' });
-        Vue.cookie.set('uid', false, { expires: '-99s' });
-        Vue.cookie.set('userLoggedIn', false, { expires: '-99s' });
-        Vue.cookie.set('userLogInTime', '', { expires: '-99s' });
-        store.commit('IS_USER_LOGGED_IN', false);
+       // Reset cookies
+       Vue.cookie.set('Token', false, { expires: '-99s' });
+       Vue.cookie.set('uid', false, { expires: '-99s' });
+       Vue.cookie.set('userLoggedIn', false, { expires: '-99s' });
+       Vue.cookie.set('userLogInTime', '', { expires: '-99s' });
 
-        // Reset login token and time
-        store.commit(types.SET_LOGGED_IN_TOKEN, '');
-        store.commit(types.SET_LOGGED_IN_TIME, '');
+       store.commit('IS_USER_LOGGED_IN', false);
 
-        // Redirect window to the bridge
-        //window.location.href = response.logout_url;
+       // Reset login token and time
+       store.commit(types.SET_LOGGED_IN_TOKEN, '');
+       store.commit(types.SET_LOGGED_IN_TIME, '');
+      
+       // Redirect window to the bridge
+       window.location.href = response.data.logout_url;
+
     }).catch((error) => {
         console.warn(error.response);
     });
@@ -320,6 +321,7 @@ export default {
       const currentUrl = window.location.href;
 
       if (currentUrl.indexOf('token') > -1 && currentUrl.indexOf('uid') > -1) {
+        console.log("hit inside if");
         const vars = {};
         // https://html-online.com/articles/get-url-parameters-javascript/
         currentUrl.replace(/[?&]+([^=&]+)=([^&]*)/gi, (m, key, value) => {
@@ -350,6 +352,7 @@ export default {
         // Load EEPUser info and push to workbench if logging in
         store.dispatch('loadEEPUser').then(router.push('/workbench'));
       } else if (Vue.cookie.get('userLoggedIn')) {
+        console.log("hit inside else if");
         // Log user in and set user name
         store.commit('IS_USER_LOGGED_IN', true);
         store.commit(types.SET_UID, Vue.cookie.get('uid'));
@@ -359,11 +362,7 @@ export default {
           * unless loading homepage. This fixes footer links so they dont auto redirect
           * to workbench.
          */
-        if (router.history.current.path === '/') {
-          store.dispatch('loadEEPUser').then(router.push('/workbench'));
-        } else {
-          store.dispatch('loadEEPUser');
-        }
+       user
       }
 
       store.dispatch('checkCookie', payload);
