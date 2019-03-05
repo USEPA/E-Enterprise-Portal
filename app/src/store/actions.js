@@ -339,36 +339,29 @@ export default {
         // Set user id in the store
         store.commit(types.SET_UID, uid);
 
-        AppAxios.get(`${store.getters.getEnvironmentApiURL}/user/${Vue.cookie.get('uid')}?_format=json`, {
-          headers: { Authorization: `Bearer ${Vue.cookie.get('Token')}` },
-        }).then((userLoggedInResponse) => {
-          store.commit('SET_USER_OBJECT', userLoggedInResponse.data);
-          store.commit(types.IS_USER_LOGGED_IN, true);
-          router.push('/workbench');
-        }).catch((error) => {
-          console.warn(error);
-        });
+        // Load EEPUser info and push to workbench if logging in
+        store.dispatch('loadEEPUser').then(router.push('/workbench'));
       } else if (Vue.cookie.get('userLoggedIn')) {
         // Log user in and set user name
         store.commit('IS_USER_LOGGED_IN', true);
         store.commit(types.SET_UID, Vue.cookie.get('uid'));
-        AppAxios.get(`${store.getters.getEnvironmentApiURL}/user/${Vue.cookie.get('uid')}?_format=json`, {
-          headers: { Authorization: `Bearer ${Vue.cookie.get('Token')}` },
-        }).then((userLoggedInResponse) => {
-          store.commit('SET_USER_OBJECT', userLoggedInResponse.data);
-          store.commit(types.IS_USER_LOGGED_IN, true);
-        }).catch((error) => {
-          console.warn(error);
-        });
+
+        /*
+          * Load EEPUser info and do not push to workbench if already logged in
+          * unless loading homepage. This fixes footer links so they dont auto redirect
+          * to workbench.
+         */
+        if (router.history.current.path === '/') {
+          store.dispatch('loadEEPUser').then(router.push('/workbench'));
+        } else {
+          store.dispatch('loadEEPUser');
+        }
       }
 
       store.dispatch('checkCookie', payload);
       //  [App.vue specific] When App.vue is finish loading finish the progress
       // bar
       vm.$Progress.finish();
-      if (window.location.href.indexOf('token') > -1) {
-        router.push('/workbench');
-      }
     }).catch((error) => {
       console.error(error);
     });
@@ -576,5 +569,16 @@ export default {
   setDeepLink(context, link) {
     const store = context;
     store.commit('SET_DEEP_LINK', link);
+  },
+  loadEEPUser(context) {
+    const store = context;
+    AppAxios.get(`${store.getters.getEnvironmentApiURL}/user/${Vue.cookie.get('uid')}?_format=json`, {
+      headers: { Authorization: `Bearer ${Vue.cookie.get('Token')}` },
+    }).then((userLoggedInResponse) => {
+      store.commit('SET_USER_OBJECT', userLoggedInResponse.data);
+      store.commit(types.IS_USER_LOGGED_IN, true);
+    }).catch((error) => {
+      console.warn(error);
+    });
   },
 };
