@@ -307,7 +307,6 @@ export default {
       const currentUrl = window.location.href;
 
       if (currentUrl.indexOf('token') > -1 && currentUrl.indexOf('uid') > -1) {
-        console.log("hit inside if");
         const vars = {};
         // https://html-online.com/articles/get-url-parameters-javascript/
         currentUrl.replace(/[?&]+([^=&]+)=([^&]*)/gi, (m, key, value) => {
@@ -338,7 +337,6 @@ export default {
         // Load EEPUser info and push to workbench if logging in
         store.dispatch('loadEEPUser').then(router.push('/workbench'));
       } else if (Vue.cookie.get('userLoggedIn')) {
-        console.log("hit inside else if");
         // Log user in and set user name
         store.commit('IS_USER_LOGGED_IN', true);
         store.commit(types.SET_UID, Vue.cookie.get('uid'));
