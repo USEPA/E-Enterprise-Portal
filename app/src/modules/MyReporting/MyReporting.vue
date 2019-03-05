@@ -4,8 +4,7 @@
       class="pb-5"
       :eep-app="eepApp">
       <div
-        v-html="eepApp.field_html_content.mainCard"
-        class="pb-2"/>
+        v-html="eepApp.field_html_content.mainCard"/>
       <b-tabs>
         <b-tab
           title="US EPA"
@@ -53,7 +52,7 @@
               <b-row>
                 <b-col
                   md="8"
-                  class="my-1 pl-0">
+                  class="mb-1 pl-0">
                   <b-form-group
                     horizontal
                     label="Filter"
@@ -70,7 +69,7 @@
                 </b-col>
                 <b-col
                   md="3"
-                  class="my-1 pl-0">
+                  class="mb-1 pl-0">
                   <b-form-group
                     horizontal
                     label="Rows"
@@ -433,6 +432,7 @@
   #my-reporting-flows-container .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
     color: #000;
     font-weight: bold;
+    text-decoration:none;
   }
   #my-reporting-flows-container .nav-item {
     color: #000;
@@ -440,16 +440,10 @@
   .form-group {
     border: 0rem;
   }
-  h2::before {
-    height: 50px;
-    width: 50px;
-    content: url('/images/state-government.svg');
-  }
   .inline-cdx-links {
     display: flex;
     justify-content: space-between;
     list-style: none;
-    margin-top: 1rem;
     padding-left: 0px;
   }
   .inline-cdx-links a::before {

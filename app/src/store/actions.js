@@ -347,22 +347,23 @@ export default {
         // Set user id in the store
         store.commit(types.SET_UID, uid);
 
-        // Log user in
-        store.commit(types.IS_USER_LOGGED_IN, true);
+        // Load EEPUser info and push to workbench if logging in
+        store.dispatch('loadEEPUser').then(router.push('/workbench'));
       } else if (Vue.cookie.get('userLoggedIn')) {
         // Log user in and set user name
         store.commit('IS_USER_LOGGED_IN', true);
         store.commit(types.SET_UID, Vue.cookie.get('uid'));
-      }
 
-      if (Vue.cookie.get('userLoggedIn')) {
-        AppAxios.get(`${store.getters.getEnvironmentApiURL}/user/${Vue.cookie.get('uid')}?_format=json`, {
-          headers: { Authorization: `Bearer ${Vue.cookie.get('Token')}` },
-        }).then((userLoggedInResponse) => {
-          store.commit('SET_USER_OBJECT', userLoggedInResponse.data);
-        }).catch((error) => {
-          console.warn(error);
-        });
+        /**
+          * Load EEPUser info and do not push to workbench if already logged in
+          * unless loading homepage. This fixes footer links so they dont auto redirect
+          * to workbench.
+         */
+        if (router.history.current.path === '/') {
+          store.dispatch('loadEEPUser').then(router.push('/workbench'));
+        } else {
+          store.dispatch('loadEEPUser');
+        }
       }
 
       store.dispatch('checkCookie', payload);
@@ -406,11 +407,11 @@ export default {
         const currentLoginUserTime = new Date(Vue.cookie.get('userLogInTime')).getTime();
         const logOutCurrentTime = (new Date()).getTime();
         if (!currentLoginUserTime || currentLoginUserTime > logOutCurrentTime) {
-            if (!Vue.cookie.get('userLoggedIn')) {
-                store.dispatch('userLogOut');
-                store.commit(types.SET_EXTEND_SESSION_MESSAGE, 'You have been logged out.');
-                store.commit(types.SET_DISPLAY_LOGIN_AGAIN_BUTTON_ON_MODAL, '');
-            }
+          if (!Vue.cookie.get('userLoggedIn')) {
+            store.dispatch('userLogOut');
+            store.commit(types.SET_EXTEND_SESSION_MESSAGE, 'You have been logged out.');
+            store.commit(types.SET_DISPLAY_LOGIN_AGAIN_BUTTON_ON_MODAL, '');
+          }
         }
       }, (logInTime + (timeOut * 60000) - currentTime));
     } else {
@@ -575,5 +576,16 @@ export default {
   setDeepLink(context, link) {
     const store = context;
     store.commit('SET_DEEP_LINK', link);
+  },
+  loadEEPUser(context) {
+    const store = context;
+    AppAxios.get(`${store.getters.getEnvironmentApiURL}/user/${Vue.cookie.get('uid')}?_format=json`, {
+      headers: { Authorization: `Bearer ${Vue.cookie.get('Token')}` },
+    }).then((userLoggedInResponse) => {
+      store.commit('SET_USER_OBJECT', userLoggedInResponse.data);
+      store.commit(types.IS_USER_LOGGED_IN, true);
+    }).catch((error) => {
+      console.warn(error);
+    });
   },
 };
