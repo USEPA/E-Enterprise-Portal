@@ -43,7 +43,7 @@
             <button
               variant="outline-secondary"
               class="usa-button"
-              @click="handleUserLogOut">
+              @click="userLogOut">
               <i class="fas fa-lock pr-1"/>
               Logout
             </button>
@@ -110,6 +110,10 @@
       }),
     },
     methods: {
+      ...mapActions([
+        'navigateToBridge',
+        'userLogOut',
+      ]),
       removeTryItArrow() {
         this.$refs['tryit-arrow'].classList.remove('d-block');
         this.$refs['tryit-arrow'].classList.add('d-none');
@@ -128,10 +132,6 @@
       },
       handleLogin() {
         this.$router.push('/login');
-      },
-      handleUserLogOut(){
-        this.$store.dispatch('userLogOut');
-        this.$router.push("/")
       },
     },
     data() {
