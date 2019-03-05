@@ -24,23 +24,52 @@
         </div>
       </div>
     </div>
-    <div class="container py-2">
+    <div
+      v-if="footerLinksLoaded && footerLinks.length > 0"
+      class="container py-2">
       <div class="row justify-content-center small">
         <div
           class="col-auto"
-          v-for="item in info" >
+          v-for="item in footerLinks" >
           <a
             :href="item.second"
             target="_blank"
             class="">{{ item.first }}</a>
         </div>
       </div>
-      <div class="row">
-        <div class="col wd-100"/>
+      <div class="row justify-content-center small">
+        <div class="col-auto text-align-center small">
+          {{ this.footerVersion[0].first }} {{ this.footerVersion[0].second }}
+        </div>
+      </div>
+    </div>
+    <div
+      v-else-if="!footerLinksLoaded"
+      class="container py-2">
+      <div class="row justify-content-center small">
+        <div
+          class="col-auto">
+          Loading Footer...
+        </div>
       </div>
       <div class="row justify-content-center small">
         <div class="col-auto text-align-center small">
-          {{ this.info1[0].first }} {{ this.info1[0].second }}
+          Loading Footer...
+        </div>
+      </div>
+    </div>
+    <div
+      v-else-if="footerLinksLoaded && footerLinks.length === 0"
+      class="container py-2">
+      <div class="row justify-content-center small">
+        <div
+          class="col-auto">
+          Failed to load Footer...
+        </div>
+      </div>
+      <div class="row justify-content-center small">
+        <div class="col-auto text-align-center small">
+          Failed to load Footer...
         </div>
       </div>
     </div>
@@ -75,6 +104,7 @@
         authenticated: 'getIsLoggedIn',
         termsAndConditionsCookie: 'getTermsAndConditionsCookie',
         UserPolicyCookieDismiss: 'getUserPolicyCookieDismiss',
+        apiUrl: 'getEnvironmentApiURL',
       }),
     },
     methods: {
@@ -85,27 +115,18 @@
     },
     data() {
       return {
-
-        info: [
-          { first: '' },
-          { second: '' },
-
-
-        ],
-        info1: [
-          { first: '' },
-          { second: '' },
-
-
-        ],
+        footerLinks: [],
+        footerVersion: [],
+        footerLinksLoaded: false,
       };
     },
     mounted() {
       AppAxios
-        .get('https://apidev2.e-enterprise.gov/api/footer')
+        .get(`${this.apiUrl}/api/footer`)
         .then((response) => {
-          this.info = response.data[0].field_footer_link_name;
-          this.info1 = response.data[0].field_version;
+          this.footerLinks = response.data[0].field_footer_link_name;
+          this.footerVersion = response.data[0].field_version;
+          this.footerLinksLoaded = true;
         });
     },
   };
