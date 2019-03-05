@@ -131,7 +131,7 @@
       },
       handleUserLogOut(){
         this.$store.dispatch('userLogOut');
-        //this.$router.push("/")
+        this.$router.push("/")
       },
     },
     data() {
