@@ -131,12 +131,14 @@ class EEPBridgeController extends ControllerBase {
       // Declare variables
       $config = \Drupal::config('eep_bridge.environment_settings');
 
-      // Build logout url and redirect user to bridge
+      // Build logout url
       $logout = $config->get('eep_bridge_issuer') .'?wa=wsignout1.0&wreply=' . urlencode($config->get('eep_bridge_wreply'));
-      header("Location: $logout");
 
       // Log the user out of the back end
       user_logout();
+
+      // Redirect user to the bridge
+      header("Location: $logout");
   }
 
   private  function eep_bridge_goto($url) {
