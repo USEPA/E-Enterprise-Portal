@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8ca8f33ec26194dc01af5888689d3cc1",
+    "content-hash": "e83d6a1d9cdabc62cb67733c2af973ab",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -2042,7 +2042,7 @@
                 },
                 "drupal": {
                     "version": "8.x-1.26",
-                    "datestamp": "1549218480",
+                    "datestamp": "1549559402",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -2802,120 +2802,6 @@
             ],
             "description": "Drupal Console Extend Plugin",
             "time": "2017-07-28T17:11:54+00:00"
-        },
-        {
-            "name": "drupal/content_access",
-            "version": "1.0.0-alpha1",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupal.org/project/content_access",
-                "reference": "8.x-1.0-alpha1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/content_access-8.x-1.0-alpha1.zip",
-                "reference": "8.x-1.0-alpha1",
-                "shasum": "8ead8bd29ac8cb26731710fc03a5bde288e37bbd"
-            },
-            "require": {
-                "drupal/core": "*"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
-                "drupal": {
-                    "version": "8.x-1.0-alpha1",
-                    "datestamp": "1510069084",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Project has not opted into security advisory coverage!"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "fago",
-                    "homepage": "https://www.drupal.org/user/16747"
-                },
-                {
-                    "name": "good_man",
-                    "homepage": "https://www.drupal.org/user/265439"
-                },
-                {
-                    "name": "id.tarzanych",
-                    "homepage": "https://www.drupal.org/user/2776543"
-                }
-            ],
-            "description": "Provides flexible content access control.",
-            "homepage": "https://www.drupal.org/project/content_access",
-            "support": {
-                "source": "http://cgit.drupalcode.org/content_access"
-            }
-        },
-        {
-            "name": "drupal/content_sync",
-            "version": "2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupal.org/project/content_sync",
-                "reference": "8.x-2.0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/content_sync-8.x-2.0.zip",
-                "reference": "8.x-2.0",
-                "shasum": "8382a422c907f353bdbaad13ea788390a13038eb"
-            },
-            "require": {
-                "drupal/core": "*"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.x": "2.x-dev"
-                },
-                "drupal": {
-                    "version": "8.x-2.0",
-                    "datestamp": "1514473985",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Blanca.Esqueda",
-                    "homepage": "https://www.drupal.org/user/3082389"
-                },
-                {
-                    "name": "chris.smith",
-                    "homepage": "https://www.drupal.org/user/1812018"
-                },
-                {
-                    "name": "dabito",
-                    "homepage": "https://www.drupal.org/user/2400660"
-                },
-                {
-                    "name": "david4lim",
-                    "homepage": "https://www.drupal.org/user/934262"
-                }
-            ],
-            "description": "Allows to import/export content using YAML files",
-            "homepage": "https://www.drupal.org/project/content_sync",
-            "support": {
-                "source": "http://cgit.drupalcode.org/content_sync"
-            }
         },
         {
             "name": "drupal/core",
@@ -4015,75 +3901,6 @@
                 "source": "http://cgit.drupalcode.org/key",
                 "issues": "http://drupal.org/project/key"
             }
-        },
-        {
-            "name": "drupal/node_export",
-            "version": "dev-1.x",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupal.org/project/node_export",
-                "reference": "a3f17a13d24892a153d418b24c5010be54074729"
-            },
-            "require": {
-                "drupal/core": "*",
-                "ext-json": "*",
-                "php": ">7.0"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
-                "drupal": {
-                    "version": "8.x-1.x-dev",
-                    "datestamp": "1546495680",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Dev releases are not covered by Drupal security advisories."
-                    }
-                },
-                "drush": {
-                    "services": {
-                        "drush.services.yml": "^9"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "James Andres",
-                    "homepage": "https://www.drupal.org/user/33827"
-                },
-                {
-                    "name": "cgmonroe",
-                    "homepage": "https://www.drupal.org/user/563114"
-                },
-                {
-                    "name": "chia",
-                    "homepage": "https://www.drupal.org/user/398572"
-                },
-                {
-                    "name": "danielb",
-                    "homepage": "https://www.drupal.org/user/134005"
-                },
-                {
-                    "name": "gaurav.kapoor",
-                    "homepage": "https://www.drupal.org/user/3495331"
-                }
-            ],
-            "description": "Allows users to export content and then import into another Drupal installation.",
-            "homepage": "https://www.drupal.org/project/node_export",
-            "keywords": [
-                "Drupal"
-            ],
-            "support": {
-                "source": "http://cgit.drupalcode.org/node_export",
-                "issues": "https://www.drupal.org/project/issues/node_export"
-            },
-            "time": "2019-01-03T06:09:07+00:00"
         },
         {
             "name": "drupal/openapi",
@@ -11831,11 +11648,9 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "drupal/config_actions": 10,
-        "drupal/content_access": 15,
         "drupal/default_content": 15,
         "drupal/diff": 5,
         "drupal/jwt": 15,
-        "drupal/node_export": 20,
         "drupal/openapi": 10,
         "drupal/openapi_ui": 5,
         "drupal/openapi_ui_swagger": 5,

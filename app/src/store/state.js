@@ -70,7 +70,7 @@ const state = {
       city: '',
       state: '',
     },
-    tAndCCookieDismiss: false,
+    termsAndConditionsCookie: false,
     UserPolicyCookieDismiss: false,
     userObject: {},
     cookie: {

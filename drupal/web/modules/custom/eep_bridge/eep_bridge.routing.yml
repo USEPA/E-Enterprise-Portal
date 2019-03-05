@@ -29,3 +29,10 @@ eep_bridge.dev_login:
     _title: 'E-Enterprise Bridge Authentication'
   requirements:
     _permission: 'administer site configuration'
+eep_bridge.dev_logout:
+  path: '/authenticate/dev_user/logout'
+  defaults:
+    _controller: '\Drupal\eep_bridge\Controller\EEPBridgeController::bridge_auth_logout'
+    _title: 'E-Enterprise Bridge Logout'
+  requirements:
+    _permission: 'access content'

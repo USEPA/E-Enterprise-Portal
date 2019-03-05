@@ -4,44 +4,44 @@
       class="alert alert-info"
       role="alert"
       v-if="['workbench'].indexOf($route.name) > -1 &&
-      authenticated === false && (tAndCCookieDismiss === false || tAndCCookieDismiss == undefined)">
+      authenticated === false && (termsAndConditionsCookie === false || termsAndConditionsCookie == undefined)">
       <div
         id="terms-conditions"
         class="container w-100 d-flex text-dark">
         <div class="row align-self-center w-100">
           <div class="col-12 text-center">
             <span>By using the E-Enterprise Portal, you agree to the </span>
+            <a
+              href="https://cdx.epa.gov/Terms"
+              target="_blank"
+              class="text-dark font-weight-bold">
+              Terms and Conditions</a>
             <span
-              class="text-decoration-underline cursor-pointer"
-              @click="setTAndCCookie"
-              data-dismiss="alert">
-              Terms and Conditions.
-            </span>
-            &nbsp;&nbsp;
-            <span
-              class="text-decoration-underline cursor-pointer"
-              @click="setTAndCCookie"
-              data-dismiss="alert">
-              Continue »
-            </span>
+              class="text-decoration-underline cursor-pointer font-weight-bold"
+              @click="onTermsAndConditions"
+              data-dismiss="alert">Continue »</span>
           </div>
         </div>
       </div>
     </div>
     <div class="container py-2">
       <div class="row justify-content-center small">
-        <div class="col-auto" v-for="item in info" >
+        <div
+          class="col-auto"
+          v-for="item in info" >
           <a
             :href="item.second"
             target="_blank"
-            class="">{{item.first}}</a>
+            class="">{{ item.first }}</a>
         </div>
       </div>
       <div class="row">
-        <div class="col wd-100"></div>
+        <div class="col wd-100"/>
       </div>
-      <div class="row justify-content-center small" >
-        <div class="col-auto text-align-center small" > {{this.info1[0].first}} {{this.info1[0].second}}</div>
+      <div class="row justify-content-center small">
+        <div class="col-auto text-align-center small">
+          {{ this.info1[0].first }} {{ this.info1[0].second }}
+        </div>
       </div>
     </div>
     <div
@@ -68,21 +68,18 @@
   import AppAxios from 'axios';
   import { mapGetters, mapActions } from 'vuex';
 
-
-
-
   export default {
     name: 'MainFooter',
     computed: {
       ...mapGetters({
         authenticated: 'getIsLoggedIn',
-        tAndCCookieDismiss: 'getTAndCCookieDismiss',
+        termsAndConditionsCookie: 'getTermsAndConditionsCookie',
         UserPolicyCookieDismiss: 'getUserPolicyCookieDismiss',
       }),
     },
     methods: {
       ...mapActions([
-        'setTAndCCookie',
+        'onTermsAndConditions',
         'setUserPolicyCookie',
       ]),
     },
@@ -90,23 +87,23 @@
       return {
 
         info: [
-          { first: '', },
-          { second: '', },
+          { first: '' },
+          { second: '' },
 
 
         ],
         info1: [
-          { first: '', },
-          { second: '', },
+          { first: '' },
+          { second: '' },
 
 
-        ]
+        ],
       };
     },
     mounted() {
       AppAxios
         .get('https://apidev2.e-enterprise.gov/api/footer')
-        .then(response => {
+        .then((response) => {
           this.info = response.data[0].field_footer_link_name;
           this.info1 = response.data[0].field_version;
         });

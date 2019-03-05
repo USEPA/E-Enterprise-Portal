@@ -166,8 +166,8 @@ class NodeImport {
             $newNode = Node::create($fieldValues);
           }
           break;
-
         case 'skip':
+        default:
           if (Node::load($id)) {
             return $id;
           }

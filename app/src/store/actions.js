@@ -114,13 +114,15 @@ export default {
     Vue.cookie.set('Token', false, { expires: '-99s' });
     Vue.cookie.set('uid', false, { expires: '-99s' });
     Vue.cookie.set('userLoggedIn', false, { expires: '-99s' });
-    Vue.cookie.set('userLogInTime', '', {expires: '-99s'});
+    Vue.cookie.set('userLogInTime', '', { expires: '-99s' });
 
     store.commit('IS_USER_LOGGED_IN', false);
 
     // Reset login token and time
     store.commit(types.SET_LOGGED_IN_TOKEN, '');
     store.commit(types.SET_LOGGED_IN_TIME, '');
+
+    window.location.href = `${store.getters.getEnvironmentApiURL}/authenticate/dev_user/logout`;
   },
   // Function to process the payload of the JWT token, which contains the user
   // info. This will set the state, verify the path exists and is defined then
@@ -148,7 +150,7 @@ export default {
       store.commit('SET_DEEP_PROPERTY', payload);
     }
   },
-  setTAndCCookie(context) {
+  onTermsAndConditions(context) {
     const store = context;
     Vue.cookie.set('userTandC', true, { expires: '1Y' });
     store.commit('USER_TANDC_COOKIE_DISMISS');
@@ -212,14 +214,13 @@ export default {
       }
       console.warn('abnormal response type');
       return null;
-    })
-      .catch((error) => {
-        if (error.response) {
-          console.error(error);
-        } else {
-          console.warn('abnormal error response type');
-        }
-      });
+    }).catch((error) => {
+      if (error.response) {
+        console.error(error);
+      } else {
+        console.warn('abnormal error response type');
+      }
+    });
   },
   handleLogin(context) {
     // Declare function variables
@@ -227,7 +228,10 @@ export default {
 
     // Do ajax call to get the correct terms for the Authentication Category
     // Taxonomy
-    AppAxios.get(store.getters.getEEPAPIURL({endpoint: store.getters.getApiUrl('taxonomyTerms'), params: ''}), {
+    AppAxios.get(store.getters.getEEPAPIURL({
+      endpoint: store.getters.getApiUrl('taxonomyTerms'),
+      params: '',
+    }), {
       headers: store.getters.getGETHeaders,
     }).then((response) => {
       // Declare variables
@@ -235,7 +239,10 @@ export default {
 
       // Ajax call to retrieve all of the Login information from
       // /api/authentication-category-options
-      AppAxios.get(store.getters.getEEPAPIURL({endpoint: store.getters.getApiUrl('authenticationOptions'), params: ''}), {
+      AppAxios.get(store.getters.getEEPAPIURL({
+        endpoint: store.getters.getApiUrl('authenticationOptions'),
+        params: '',
+      }), {
         headers: store.getters.getGETHeaders,
       }).then((responseInner) => {
         // Loop through response and match each taxonomy up with each
@@ -275,7 +282,7 @@ export default {
     Vue.cookie.set('userLoggedIn', true, { expires: COOKIE_EXPIRATION_TIME });
     Vue.cookie.set('uid', store.getters.getUser.id, { expires: COOKIE_EXPIRATION_TIME });
     Vue.cookie.set('Token', store.getters.getLoggedInToken, { expires: COOKIE_EXPIRATION_TIME });
-    Vue.cookie.set('userLogInTime', new Date(), {expires: COOKIE_EXPIRATION_TIME});
+    Vue.cookie.set('userLogInTime', new Date(), { expires: COOKIE_EXPIRATION_TIME });
 
     // Set timeout again to continously check the cookie
     store.dispatch('checkCookie', payload);
@@ -284,7 +291,8 @@ export default {
     vm.$root.$emit(
       'bv::hide::modal',
       'cookieModal',
-      vm.$refs.cookie_modal);
+      vm.$refs.cookie_modal,
+    );
   },
   getEEPConfigs(context, payload) {
     const store = context;
@@ -294,8 +302,6 @@ export default {
     AppAxios.get(`${store.getters.getEnvironmentApiURL}/eep/configurations`, {
       headers: store.getters.getGETHeaders,
     }).then((response) => {
-      const { user } = store.state;
-
       // Set the cookie information in the store
       store.commit(types.SET_COOKIE, {
         time: response.data.eepcookieconfig.cookie_expiration_time,
@@ -306,7 +312,6 @@ export default {
       const currentUrl = window.location.href;
 
       if (currentUrl.indexOf('token') > -1 && currentUrl.indexOf('uid') > -1) {
-
         const vars = {};
         // https://html-online.com/articles/get-url-parameters-javascript/
         currentUrl.replace(/[?&]+([^=&]+)=([^&]*)/gi, (m, key, value) => {
@@ -316,7 +321,7 @@ export default {
         const { token } = vars;
         const { uid } = vars;
 
-        let { cookie } = store.getters.getUser;
+        const { cookie } = store.getters.getUser;
 
         // Grabs the static cookie time from the store
         const cookieExpiration = cookie.time + cookie.time_units;
@@ -326,7 +331,7 @@ export default {
         // set user token in cookie
         Vue.cookie.set('Token', token, { expires: cookieExpiration });
         Vue.cookie.set('uid', uid, { expires: cookieExpiration });
-        Vue.cookie.set('userLogInTime', new Date(), {expires: cookieExpiration});
+        Vue.cookie.set('userLogInTime', new Date(), { expires: cookieExpiration });
 
         // Set login time and token in the store
         store.commit(types.SET_LOGGED_IN_TOKEN, token);
@@ -336,22 +341,21 @@ export default {
 
         // Log user in
         store.commit(types.IS_USER_LOGGED_IN, true);
-
       } else if (Vue.cookie.get('userLoggedIn')) {
         // Log user in and set user name
         store.commit('IS_USER_LOGGED_IN', true);
         store.commit(types.SET_UID, Vue.cookie.get('uid'));
       }
 
-      if(Vue.cookie.get('userLoggedIn')){
-          AppAxios.get(`${store.getters.getEnvironmentApiURL}/user/${Vue.cookie.get('uid')}?_format=json`, {
-              headers: { Authorization: `Bearer ${Vue.cookie.get('Token')}` },
-          }).then((userLoggedInResponse) => {
-              store.commit('SET_USER_OBJECT', userLoggedInResponse.data);
-              router.push('/workbench');
-          }).catch((error) => {
-                  console.warn(error);
-          });
+      if (Vue.cookie.get('userLoggedIn')) {
+        AppAxios.get(`${store.getters.getEnvironmentApiURL}/user/${Vue.cookie.get('uid')}?_format=json`, {
+          headers: { Authorization: `Bearer ${Vue.cookie.get('Token')}` },
+        }).then((userLoggedInResponse) => {
+          store.commit('SET_USER_OBJECT', userLoggedInResponse.data);
+          router.push('/workbench');
+        }).catch((error) => {
+          console.warn(error);
+        });
       }
 
       store.dispatch('checkCookie', payload);
@@ -369,44 +373,44 @@ export default {
     const store = context;
     const { vm } = payload;
     const { user } = store.state;
+    const { isLoggedIn } = store.state.user;
 
     const logInTime = new Date(Vue.cookie.get('userLogInTime')).getTime();
-    const currentTime = (new Date).getTime();
+    const currentTime = (new Date()).getTime();
     const timeOut = user.cookie.time;
 
 
-    // logInTime is in milliseconds, timeOut is being converted to milliseconds, we subtract 60000 because that is one minute
-    if((logInTime + (timeOut * 60000) - 60000) > currentTime){
-        setTimeout(function () {
-            let minutes_difference = 0;
-            if (!!Vue.cookie.get('userLogInTime')) {
-                minutes_difference = (Math.floor((Math.abs(new Date(Vue.cookie.get('userLogInTime')).getTime() +
-                        ((user.cookie.time) * 60 * 1000)) - (new Date())) / 1000) / 60) % 60;
+    // logInTime is in milliseconds, timeOut is being converted to
+    // milliseconds, we subtract 60000 because that is one minute
+    if ((logInTime + (timeOut * 60000) - 60000) > currentTime) {
+      setTimeout(() => {
+        let minutesDifference = 0;
+        if (Vue.cookie.get('userLogInTime')) {
+          minutesDifference = (Math.floor((Math.abs(new Date(Vue.cookie.get('userLogInTime')).getTime() +
+            ((user.cookie.time) * 60 * 1000)) - (new Date())) / 1000) / 60) % 60;
+        }
+        // Check to see if there is a minute left
+        if (minutesDifference <= 1 && Vue.cookie.get('userLoggedIn')) {
+          store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
+          vm.$root.$emit(
+            'bv::show::modal',
+            'cookieModal',
+            vm.$refs.cookie_modal,
+          );
+        }
+      }, logInTime + (timeOut * 60000) - 60000 - currentTime);
+      setTimeout(() => {
+        const currentLoginUserTime = new Date(Vue.cookie.get('userLogInTime')).getTime();
+        const logOutCurrentTime = (new Date()).getTime();
+        if (!currentLoginUserTime || currentLoginUserTime > logOutCurrentTime) {
+            if (!Vue.cookie.get('userLoggedIn')) {
+                store.dispatch('userLogOut');
+                store.commit(types.SET_EXTEND_SESSION_MESSAGE, 'You have been logged out.');
+                store.commit(types.SET_DISPLAY_LOGIN_AGAIN_BUTTON_ON_MODAL, '');
             }
-            // Check to see if there is a minute left
-            if (minutes_difference <= 1 && Vue.cookie.get("userLoggedIn")) {
-                store.commit(types.TIME_LEFT_UNTIL_LOG_OUT, 1);
-                vm.$root.$emit(
-                    'bv::show::modal',
-                    'cookieModal',
-                    vm.$refs.cookie_modal);
-            }
-        }, logInTime + (timeOut * 60000) - 60000 - currentTime);
-
-        setTimeout(function () {
-            const currentLoginUserTime = new Date(Vue.cookie.get('userLogInTime')).getTime();
-            const logOutCurrentTime = (new Date).getTime();
-            if(!currentLoginUserTime || currentLoginUserTime > logOutCurrentTime){
-                if (!Vue.cookie.get("userLoggedIn")) {
-                    // @TODO: change message on extend cookie modal to tell the user they have been logged out and close modal
-                    // find out why commit is not working inside of the set timeout
-                    store.commit(types.SET_EXTEND_SESSION_MESSAGE, "You have been logged out.");
-                    store.commit(types.SET_DISPLAY_LOGIN_AGAIN_BUTTON_ON_MODAL, '');
-                }
-            }
-        }, (logInTime + (timeOut * 60000) - currentTime));
-    }
-    else {
+        }
+      }, (logInTime + (timeOut * 60000) - currentTime));
+    } else {
       store.dispatch('userLogOut');
       router.push('/');
     }
@@ -444,7 +448,7 @@ export default {
     // Declare variables
     const store = context;
     let params = '';
-    let userInput = store.getters.getUser.inputBoxText;
+    const userInput = store.getters.getUser.inputBoxText;
 
     store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', false);
 
@@ -469,46 +473,42 @@ export default {
     }).then((response) => {
       // Declare variables
       let formattedResponseInformation = [];
-      let dropDownLabelText = "Select a zipcode for";
+      let dropDownLabelText = 'Select a zipcode for';
 
-      const return_data = response.data;
+      const returnData = response.data;
       if (params.indexOf('tribe') !== -1) {
-        Object.keys(return_data.tribal_information).forEach((key) => {
+        Object.keys(returnData.tribal_information).forEach((key) => {
           // Push name onto array
           formattedResponseInformation.push(key);
 
           // Push each zipcode on array
-          return_data.tribal_information[key].forEach((item) => {
+          returnData.tribal_information[key].forEach((item) => {
             formattedResponseInformation.push(item);
           });
-
         });
       } else if (params.indexOf('zipcode') !== -1) {
-
         // The if statement handles the case of if a zipcode exist in more than
         // one place
-        if (return_data.cities_and_states) {
-          formattedResponseInformation = return_data.cities_and_states;
+        if (returnData.cities_and_states) {
+          formattedResponseInformation = returnData.cities_and_states;
         } else {
-
-          let cities = return_data.city;
+          const cities = returnData.city;
 
           // Loop through cities array and build new array to commit to store
-          for (let i = 0; i < cities.length; i++) {
-            formattedResponseInformation.push(cities[i] + ", " + return_data.state[0]);
+          for (let i = 0; i < cities.length; i += 1) {
+            formattedResponseInformation.push(`${cities[i]}, ${returnData.state[0]}`);
           }
         }
-        if(return_data.associated_tribes){
-            let tribes = return_data.associated_tribes;
-            for (let i = 0; i < tribes.length; i++) {
-                formattedResponseInformation.push(tribes[i]);
-            }
-            store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', true);
+        if (returnData.associated_tribes) {
+          const tribes = returnData.associated_tribes;
+          for (let i = 0; i < tribes.length; i += 1) {
+            formattedResponseInformation.push(tribes[i]);
+          }
+          store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', true);
         }
-        dropDownLabelText = "Select a location for";
-
+        dropDownLabelText = 'Select a location for';
       } else if (params.indexOf('city') !== -1 && params.indexOf('state') !== -1) {
-        formattedResponseInformation = return_data.zipcode;
+        formattedResponseInformation = returnData.zipcode;
       }
 
       // Commit all of the information to the store
@@ -518,7 +518,6 @@ export default {
       store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', '');
       // Change the label for the dropdown
       store.commit('SET_DROPDOWN_LABEL', dropDownLabelText);
-
     }).catch((error) => {
       console.warn(error);
     });
@@ -526,8 +525,8 @@ export default {
   handleSelectButtonClickForLocation(context) {
     const store = context;
 
-    let inputBoxText = store.getters.getUser.inputBoxText;
-    let dropDownSelection = store.getters.getUser.dropDownSelection
+    const { inputBoxText } = store.getters.getUser;
+    const { dropDownSelection } = store.getters.getUser;
     let typedInLocationToCommit = '';
     let selectedLocationFromDropdownToCommit = '';
 
@@ -542,7 +541,7 @@ export default {
 
     store.commit('SAVE_USER_SELECTED_LOCATIONS', {
       typed_in_location: typedInLocationToCommit,
-      selected_location_from_dropdown: selectedLocationFromDropdownToCommit
+      selected_location_from_dropdown: selectedLocationFromDropdownToCommit,
     });
 
     // Clear the inputbox text
@@ -555,7 +554,7 @@ export default {
 
     store.commit('SET_IS_MAIN_INPUT_DISPLAYED', 'none');
 
-    if (store.getters.getUser.firstTimeSelectButtonClicked == 1) {
+    if (store.getters.getUser.firstTimeSelectButtonClicked === 1) {
       store.commit('SET_DISPLAY_WHEN_LOCATION_IS_CLICKED', '');
     }
   },

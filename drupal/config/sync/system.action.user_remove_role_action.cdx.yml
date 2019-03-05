@@ -1,0 +1,14 @@
+uuid: 500bd300-d83f-4847-9728-dc836d425900
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.cdx
+  module:
+    - user
+id: user_remove_role_action.cdx
+label: 'Remove the CDX role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: cdx
