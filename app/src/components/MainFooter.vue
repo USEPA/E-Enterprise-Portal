@@ -24,7 +24,9 @@
         </div>
       </div>
     </div>
-    <div class="container py-2">
+    <div
+      v-if="footerLinks.length > 0"
+      class="container py-2">
       <div class="row justify-content-center small">
         <div
           class="col-auto"
@@ -35,12 +37,24 @@
             class="">{{ item.first }}</a>
         </div>
       </div>
-      <div class="row">
-        <div class="col wd-100"/>
-      </div>
       <div class="row justify-content-center small">
         <div class="col-auto text-align-center small">
           {{ this.footerVersion[0].first }} {{ this.footerVersion[0].second }}
+        </div>
+      </div>
+    </div>
+    <div
+      v-else-if="footerLinks.length === 0"
+      class="container py-2">
+      <div class="row justify-content-center small">
+        <div
+          class="col-auto">
+          Loading Footer...
+        </div>
+      </div>
+      <div class="row justify-content-center small">
+        <div class="col-auto text-align-center small">
+          Loading Footer...
         </div>
       </div>
     </div>

@@ -339,20 +339,24 @@ export default {
         // Set user id in the store
         store.commit(types.SET_UID, uid);
 
-        // Log user in
-        store.commit(types.IS_USER_LOGGED_IN, true);
-      } else if (Vue.cookie.get('userLoggedIn')) {
-        // Log user in and set user name
-        store.commit('IS_USER_LOGGED_IN', true);
-        store.commit(types.SET_UID, Vue.cookie.get('uid'));
-      }
-
-      if (Vue.cookie.get('userLoggedIn') && currentUrl.indexOf('token') > -1 && currentUrl.indexOf('uid') > -1) {
         AppAxios.get(`${store.getters.getEnvironmentApiURL}/user/${Vue.cookie.get('uid')}?_format=json`, {
           headers: { Authorization: `Bearer ${Vue.cookie.get('Token')}` },
         }).then((userLoggedInResponse) => {
           store.commit('SET_USER_OBJECT', userLoggedInResponse.data);
+          store.commit(types.IS_USER_LOGGED_IN, true);
           router.push('/workbench');
+        }).catch((error) => {
+          console.warn(error);
+        });
+      } else if (Vue.cookie.get('userLoggedIn')) {
+        // Log user in and set user name
+        store.commit('IS_USER_LOGGED_IN', true);
+        store.commit(types.SET_UID, Vue.cookie.get('uid'));
+        AppAxios.get(`${store.getters.getEnvironmentApiURL}/user/${Vue.cookie.get('uid')}?_format=json`, {
+          headers: { Authorization: `Bearer ${Vue.cookie.get('Token')}` },
+        }).then((userLoggedInResponse) => {
+          store.commit('SET_USER_OBJECT', userLoggedInResponse.data);
+          store.commit(types.IS_USER_LOGGED_IN, true);
         }).catch((error) => {
           console.warn(error);
         });
