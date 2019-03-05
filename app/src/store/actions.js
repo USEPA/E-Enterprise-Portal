@@ -400,11 +400,11 @@ export default {
       }, logInTime + (timeOut * 60000) - 60000 - currentTime);
       setTimeout(function () {
         const currentLoginUserTime = new Date(Vue.cookie.get('userLogInTime')).getTime();
-        const logOutCurrentTime = (new Date).getTime();
+        const logOutCurrentTime = (new Date()).getTime();
         if(!currentLoginUserTime || currentLoginUserTime > logOutCurrentTime){
-            if (!Vue.cookie.get("userLoggedIn")) {
+            if (!Vue.cookie.get('userLoggedIn')) {
                 store.dispatch('userLogOut');
-                store.commit(types.SET_EXTEND_SESSION_MESSAGE, "You have been logged out.");
+                store.commit(types.SET_EXTEND_SESSION_MESSAGE, 'You have been logged out.');
                 store.commit(types.SET_DISPLAY_LOGIN_AGAIN_BUTTON_ON_MODAL, '');
             }
         }
