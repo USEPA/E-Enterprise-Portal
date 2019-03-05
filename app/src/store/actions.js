@@ -217,14 +217,13 @@ export default {
       }
       console.warn('abnormal response type');
       return null;
-    })
-      .catch((error) => {
-        if (error.response) {
-          console.error(error);
-        } else {
-          console.warn('abnormal error response type');
-        }
-      });
+    }).catch((error) => {
+      if (error.response) {
+        console.error(error);
+      } else {
+        console.warn('abnormal error response type');
+      }
+    });
   },
   handleLogin(context) {
     // Declare function variables
