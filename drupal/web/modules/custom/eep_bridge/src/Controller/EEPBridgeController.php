@@ -134,7 +134,7 @@ class EEPBridgeController extends ControllerBase {
       // Build logout url
       $logout = $config->get('eep_bridge_issuer') .'?wa=wsignout1.0&wreply=' . urlencode($config->get('eep_bridge_wreply'));
 
-      // Log the user out of the back end
+      // Log current user out
       user_logout();
 
       // Redirect user to the bridge

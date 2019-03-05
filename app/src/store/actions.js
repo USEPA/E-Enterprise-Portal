@@ -122,7 +122,7 @@ export default {
     store.commit(types.SET_LOGGED_IN_TOKEN, '');
     store.commit(types.SET_LOGGED_IN_TIME, '');
 
-    //window.location.href = `${store.getters.getEnvironmentApiURL}/authenticate/dev_user/logout`;
+    window.location.href = `${store.getters.getEnvironmentApiURL}/authenticate/dev_user/logout`;
   },
   // Function to process the payload of the JWT token, which contains the user
   // info. This will set the state, verify the path exists and is defined then
@@ -359,8 +359,7 @@ export default {
       }
 
       store.dispatch('checkCookie', payload);
-      //  [App.vue specific] When App.vue is finish loading finish the progress
-      // bar
+      //  [App.vue specific] When App.vue is finish loading finish the progress bar
       vm.$Progress.finish();
       if (window.location.href.indexOf('token') > -1) {
         router.push('/workbench');
