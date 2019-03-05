@@ -29,7 +29,7 @@
                 @click="widgetMenuModalToIndex(title, $event.target, index)">{{ title }}
               </b-dropdown-item-button>
               <b-dropdown-item-button
-               v-if="eepApp.source.length > 0"
+                v-if="eepApp.source.length > 0"
                 @click="onSource">
                 Source
               </b-dropdown-item-button>
@@ -64,7 +64,7 @@
             @click="onSource($event.target)">Source</a>
           <span v-if="getSize !== 'small'">Source: </span>
           <template
-            v-show="!eepApp.source"
+            v-show="!!eepApp.source"
             v-for="(source, index) in eepApp.source">
             <span
               v-if="getSize !== 'small'"
@@ -106,6 +106,7 @@
           class="py-3"
           :disabled="!eepApp.source">
           <template
+            v-show="!!eepApp.source"
             v-for="(source, index) in eepApp.source">
             <span :key="index">
               <a
