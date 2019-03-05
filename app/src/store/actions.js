@@ -398,7 +398,7 @@ export default {
           );
         }
       }, logInTime + (timeOut * 60000) - 60000 - currentTime);
-      setTimeout(function () {
+      setTimeout(() => {
         const currentLoginUserTime = new Date(Vue.cookie.get('userLogInTime')).getTime();
         const logOutCurrentTime = (new Date()).getTime();
         if(!currentLoginUserTime || currentLoginUserTime > logOutCurrentTime){
