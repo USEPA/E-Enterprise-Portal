@@ -1,15 +1,13 @@
 .bootstrap-vue-table-scroll > tbody {
-  height: 130px;
+  height: 125px;
   overflow-y: auto;
   width: 100%;
 }
 .bootstrap-vue-table-scroll > thead, tbody {
   display: block;
 }
-.bootstrap-vue-table-scroll > tbody > td {
-  width: 33%;
-}
-.bootstrap-vue-table-scroll > thead th {
+.bootstrap-vue-table-scroll > thead th,
+.bootstrap-vue-table-scroll > tbody td {
   width: 65%;
 }
 .bootstrap-vue-fav-table-scroll > tbody {
@@ -36,11 +34,18 @@
 .bootstrap-vue-fav-table-scroll > .table th, .table td {
   padding: 0.3rem;
 }
-.custom-select {
-  padding:2px 10px;
-  height:auto;
+.bootstrap-vue-table-scroll,
+.bootstrap-vue-fav-table-scroll {
+  font-size:.875rem;
 }
-.input-group > .form-control, .input-group > .form-control-plaintext, .input-group > .custom-select, .input-group > .custom-file {
+.page-link {
+  padding: 0.25rem 0.50rem;
+}
+.input-group > .form-control {
+  height:auto;
+  padding: 2px 10px;
+}
+.custom-select {
   height:auto;
   padding:2px 10px;
 }
