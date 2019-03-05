@@ -347,7 +347,7 @@ export default {
         store.commit(types.SET_UID, Vue.cookie.get('uid'));
       }
 
-      if (Vue.cookie.get('userLoggedIn')) {
+      if (Vue.cookie.get('userLoggedIn') && currentUrl.indexOf('token') > -1 && currentUrl.indexOf('uid') > -1) {
         AppAxios.get(`${store.getters.getEnvironmentApiURL}/user/${Vue.cookie.get('uid')}?_format=json`, {
           headers: { Authorization: `Bearer ${Vue.cookie.get('Token')}` },
         }).then((userLoggedInResponse) => {
@@ -403,11 +403,11 @@ export default {
         const currentLoginUserTime = new Date(Vue.cookie.get('userLogInTime')).getTime();
         const logOutCurrentTime = (new Date()).getTime();
         if (!currentLoginUserTime || currentLoginUserTime > logOutCurrentTime) {
-            if (!Vue.cookie.get('userLoggedIn')) {
-                store.dispatch('userLogOut');
-                store.commit(types.SET_EXTEND_SESSION_MESSAGE, 'You have been logged out.');
-                store.commit(types.SET_DISPLAY_LOGIN_AGAIN_BUTTON_ON_MODAL, '');
-            }
+          if (!Vue.cookie.get('userLoggedIn')) {
+            store.dispatch('userLogOut');
+            store.commit(types.SET_EXTEND_SESSION_MESSAGE, 'You have been logged out.');
+            store.commit(types.SET_DISPLAY_LOGIN_AGAIN_BUTTON_ON_MODAL, '');
+          }
         }
       }, (logInTime + (timeOut * 60000) - currentTime));
     } else {

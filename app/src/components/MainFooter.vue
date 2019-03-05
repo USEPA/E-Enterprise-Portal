@@ -1,7 +1,7 @@
 <template>
   <footer class="footer fixed-bottom">
     <div
-      class="alert alert-info"
+      class="alert alert-footerLinks"
       role="alert"
       v-if="['workbench'].indexOf($route.name) > -1 &&
       authenticated === false && (termsAndConditionsCookie === false || termsAndConditionsCookie == undefined)">
@@ -28,7 +28,7 @@
       <div class="row justify-content-center small">
         <div
           class="col-auto"
-          v-for="item in info" >
+          v-for="item in footerLinks" >
           <a
             :href="item.second"
             target="_blank"
@@ -40,7 +40,7 @@
       </div>
       <div class="row justify-content-center small">
         <div class="col-auto text-align-center small">
-          {{ this.info1[0].first }} {{ this.info1[0].second }}
+          {{ this.footerVersion[0].first }} {{ this.footerVersion[0].second }}
         </div>
       </div>
     </div>
@@ -75,6 +75,7 @@
         authenticated: 'getIsLoggedIn',
         termsAndConditionsCookie: 'getTermsAndConditionsCookie',
         UserPolicyCookieDismiss: 'getUserPolicyCookieDismiss',
+        apiUrl: 'getEnvironmentApiURL',
       }),
     },
     methods: {
@@ -86,26 +87,16 @@
     data() {
       return {
 
-        info: [
-          { first: '' },
-          { second: '' },
-
-
-        ],
-        info1: [
-          { first: '' },
-          { second: '' },
-
-
-        ],
+        footerLinks: [],
+        footerVersion: [],
       };
     },
     mounted() {
       AppAxios
-        .get('https://apidev2.e-enterprise.gov/api/footer')
+        .get(`${this.apiUrl}/api/footer`)
         .then((response) => {
-          this.info = response.data[0].field_footer_link_name;
-          this.info1 = response.data[0].field_version;
+          this.footerLinks = response.data[0].field_footer_link_name;
+          this.footerVersion = response.data[0].field_version;
         });
     },
   };
