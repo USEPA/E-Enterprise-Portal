@@ -401,7 +401,7 @@ export default {
       setTimeout(() => {
         const currentLoginUserTime = new Date(Vue.cookie.get('userLogInTime')).getTime();
         const logOutCurrentTime = (new Date()).getTime();
-        if(!currentLoginUserTime || currentLoginUserTime > logOutCurrentTime){
+        if (!currentLoginUserTime || currentLoginUserTime > logOutCurrentTime) {
             if (!Vue.cookie.get('userLoggedIn')) {
                 store.dispatch('userLogOut');
                 store.commit(types.SET_EXTEND_SESSION_MESSAGE, 'You have been logged out.');
