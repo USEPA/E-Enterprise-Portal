@@ -346,7 +346,7 @@ export default {
         store.commit('IS_USER_LOGGED_IN', true);
         store.commit(types.SET_UID, Vue.cookie.get('uid'));
 
-        /*
+        /**
           * Load EEPUser info and do not push to workbench if already logged in
           * unless loading homepage. This fixes footer links so they dont auto redirect
           * to workbench.
