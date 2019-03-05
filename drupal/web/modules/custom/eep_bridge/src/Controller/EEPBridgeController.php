@@ -115,31 +115,27 @@ class EEPBridgeController extends ControllerBase {
   }
 
   /**
+   * @return JsonResponse
+   */
+  public function bridge_auth_logout(){
+     // Declare variables
+     $config = \Drupal::config('eep_bridge.environment_settings');
+     // Build logout url
+     $logout = $config->get('eep_bridge_issuer') .'?wa=wsignout1.0&wreply=' . urlencode($config->get('eep_bridge_wreply'));
+     // Log current user out
+     if(\Drupal::currentUser()->isAuthenticated()){
+       user_logout();
+     }
+     return new JsonResponse(array('logout_url' => $logout));
+  }
+
+  /**
    * @param ContainerInterface $container
    * @return static
    */
   public static function create(ContainerInterface $container) {
     $auth = $container->get('jwt.authentication.jwt');
     return new static($auth);
-  }
-
-  /**
-    * @return JsonResponse
-    */
-  public function bridge_auth_logout(){
-
-      // Declare variables
-      $config = \Drupal::config('eep_bridge.environment_settings');
-
-      // Build logout url
-      $logout = $config->get('eep_bridge_issuer') .'?wa=wsignout1.0&wreply=' . urlencode($config->get('eep_bridge_wreply'));
-
-      // Log current user out
-      if(\Drupal::currentUser()->isAuthenticated()){
-          user_logout();
-      }
-
-      return new JsonResponse(array('logout_url' => $logout));
   }
 
   private function eep_bridge_goto($url, $jwt_token) {

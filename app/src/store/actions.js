@@ -113,6 +113,7 @@ export default {
     AppAxios.get(`${store.getters.getEnvironmentApiURL}/authenticate/dev_user/logout`, {
         headers: store.GETHeaders
     }).then((response) => {
+      console.log(response);
 
       // Reset the cookies
       Vue.cookie.set('Token', false, { expires: '-99s' });
@@ -120,11 +121,12 @@ export default {
       Vue.cookie.set('userLoggedIn', false, { expires: '-99s' });
       Vue.cookie.set('userLogInTime', '', { expires: '-99s' });
       store.commit('IS_USER_LOGGED_IN', false);
+
       // Reset login token and time
       store.commit(types.SET_LOGGED_IN_TOKEN, '');
       store.commit(types.SET_LOGGED_IN_TIME, '');
 
-      // Redirect window to the bridge
+      // // Redirect window to the bridge
       window.location.href = response.data.logout_url;
 
     }).catch((error) => {
