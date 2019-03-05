@@ -141,7 +141,7 @@ class EEPBridgeController extends ControllerBase {
       header("Location: $logout");
   }
 
-  private  function eep_bridge_goto($url) {
+  private function eep_bridge_goto($url) {
     $response = new RedirectResponse($url->toString());
     $response->send();
     exit;
