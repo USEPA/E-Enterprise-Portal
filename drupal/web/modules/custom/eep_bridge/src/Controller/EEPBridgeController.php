@@ -119,7 +119,6 @@ class EEPBridgeController extends ControllerBase {
    */
   public function bridge_auth_logout(){
      // Declare variables
-     $jwt_token = $this->auth->generateToken();
      $config = \Drupal::config('eep_bridge.environment_settings');
      // Build logout url
      $logout = $config->get('eep_bridge_issuer') .'?wa=wsignout1.0&wreply=' . urlencode($config->get('eep_bridge_wreply'));
