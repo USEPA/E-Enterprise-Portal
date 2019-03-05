@@ -109,6 +109,7 @@ export default {
   },
   userLogOut(context) {
     const store = context;
+    let bridge_url = "";
 
     AppAxios.get(`${store.getters.getEnvironmentApiURL}/authenticate/dev_user/logout`, {
         headers: store.GETHeaders
