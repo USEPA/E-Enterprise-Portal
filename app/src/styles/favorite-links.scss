@@ -26,6 +26,9 @@ h2::before {
 .favorite-links-rows-column label {
   left: 1rem;
 }
+.bootstrap-vue-fav-table-scroll > tbody td:last-child {
+  justify-content: flex-end;
+}
 @media all and (min-width: 768px) {
 
   .add-favorite-btn-text {

@@ -27,7 +27,9 @@
   width: 100%;
 }
 .bootstrap-vue-fav-table-scroll > thead tr,
-.bootstrap-vue-fav-table-scroll > tbody tr {
+.bootstrap-vue-fav-table-scroll > tbody tr,
+.bootstrap-vue-fav-table-scroll > thead th,
+.bootstrap-vue-fav-table-scroll > tbody td {
   display: flex;
 }
 
