@@ -122,6 +122,14 @@ export default {
     store.commit(types.SET_LOGGED_IN_TOKEN, '');
     store.commit(types.SET_LOGGED_IN_TIME, '');
 
+    AppAxios.get(`${store.getters.getEnvironmentApiURL}/authenticate/dev_user/logout`, {
+        headers: store.GETHeaders
+    }).then((response) => {
+        console.log(response);
+    }).catch((error) => {
+        console.warn(error.response);
+    });
+
     window.location.href = `${store.getters.getEnvironmentApiURL}/authenticate/dev_user/logout`;
   },
   // Function to process the payload of the JWT token, which contains the user

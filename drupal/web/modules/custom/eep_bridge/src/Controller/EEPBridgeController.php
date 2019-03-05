@@ -135,10 +135,14 @@ class EEPBridgeController extends ControllerBase {
       $logout = $config->get('eep_bridge_issuer') .'?wa=wsignout1.0&wreply=' . urlencode($config->get('eep_bridge_wreply'));
 
       // Log current user out
-      user_logout();
+      if(\Drupal::currentUser()->isAuthenticated()){
+          user_logout();
+      }
 
       // Redirect user to the bridge
       header("Location: $logout");
+
+      return new JsonResponse(array('successful_logout' => \Drupal::currentUser()->isAuthenticated()));
   }
 
   private function eep_bridge_goto($url, $jwt_token) {
