@@ -7,6 +7,7 @@ dependencies:
     - field.field.user.user.field_favorite_links
     - field.field.user.user.field_organization
     - field.field.user.user.field_role
+    - field.field.user.user.field_userfavoritelocations
     - field.field.user.user.field_userlocation
     - field.field.user.user.user_picture
     - image.style.thumbnail
@@ -71,6 +72,26 @@ content:
     region: content
   field_role:
     weight: 8
+    label: above
+    settings:
+      inline: true
+      first:
+        hidden: false
+        prefix: ''
+        suffix: ''
+        link: false
+        format_type: medium
+      second:
+        hidden: false
+        prefix: ''
+        suffix: ''
+        link: false
+        format_type: medium
+    third_party_settings: {  }
+    type: double_field_unformatted_list
+    region: content
+  field_userfavoritelocations:
+    weight: 11
     label: above
     settings:
       inline: true

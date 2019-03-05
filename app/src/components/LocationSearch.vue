@@ -20,12 +20,18 @@
             class="sr-only">
             Enter Your Location as City, State, or Zip Code
           </label>
-          <b-form-input
-            id="locationInput"
-            type="text"
-            v-model="locationInputText"
-            @keyup.enter.native="submitLocation"
-            placeholder="Enter city, state; or ZIP code"/>
+          <b-form-input v-if="userfavoritelocations.length > 0"
+              id="locationInput"
+              type="text"
+              v-model="locationInputText"
+              @keyup.enter.native="submitLocation"
+              :placeholder="userfavoritelocations[0].first +'  (' +userfavoritelocations[0].second +')'"/>
+          <b-form-input v-else
+              id="locationInput"
+              type="text"
+              v-model="locationInputText"
+              @keyup.enter.native="submitLocation"
+              placeholder="Enter city, state; or ZIP code"/>
           <b-input-group-append>
             <label for="submit-geolocation"
               class="sr-only">
@@ -130,7 +136,7 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex';
+  import { mapActions, mapGetters } from 'vuex';
   import { AppModal } from '../modules/wadk/WADK';
   import { EventBus } from '../EventBus';
 
@@ -156,6 +162,15 @@
       EventBus.$on('locationSearch::showUserConfirmationModal', this.showUserConfirmationModal);
     },
     computed: {
+      ...mapGetters({
+        // map getters go here
+        user: 'getUser',
+      }),
+      userfavoritelocations: {
+        get() {
+          return this.user.userfavoritelocations;
+        }
+      },
       geolocationTitle() {
         return (!this.checkForGeolocation()) ? 'Enable Geolocation' : 'Click to use your geolocation';
       },

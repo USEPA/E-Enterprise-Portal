@@ -65,6 +65,7 @@ const state = {
     organizations: [],
     roles: [],
     userlocations:[],
+    userfavoritelocations:[],
     location: {
       zipcode: '',
       city: '',
