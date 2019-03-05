@@ -121,7 +121,7 @@ export default {
     // Reset login token and time
     store.commit(types.SET_LOGGED_IN_TOKEN, '');
     store.commit(types.SET_LOGGED_IN_TIME, '');
-      
+
     window.location.href = `${store.getters.getEnvironmentApiURL}/authenticate/dev_user/logout`;
   },
   // Function to process the payload of the JWT token, which contains the user
@@ -397,7 +397,7 @@ export default {
         setTimeout(function () {
             const currentLoginUserTime = new Date(Vue.cookie.get('userLogInTime')).getTime();
             const logOutCurrentTime = (new Date).getTime();
-            if(!currentLoginUserTime || currentLoginUserTime > logOutCurrentTime){
+            if (!currentLoginUserTime || currentLoginUserTime > logOutCurrentTime) {
                 if (!Vue.cookie.get("userLoggedIn")) {
                     // @TODO: change message on extend cookie modal to tell the user they have been logged out and close modal
                     // find out why commit is not working inside of the set timeout
