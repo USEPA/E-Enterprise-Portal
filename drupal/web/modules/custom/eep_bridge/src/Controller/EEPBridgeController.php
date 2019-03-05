@@ -139,10 +139,7 @@ class EEPBridgeController extends ControllerBase {
           user_logout();
       }
 
-      // Redirect user to the bridge
-      header("Location: $logout");
-
-      return new JsonResponse(array('successful_logout' => \Drupal::currentUser()->isAuthenticated()));
+      return new JsonResponse(array('logout_url' => $logout));
   }
 
   private function eep_bridge_goto($url, $jwt_token) {

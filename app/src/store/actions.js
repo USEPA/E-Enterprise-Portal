@@ -126,11 +126,10 @@ export default {
         headers: store.GETHeaders
     }).then((response) => {
         console.log(response);
+        window.location = response.logout_url;
     }).catch((error) => {
         console.warn(error.response);
     });
-
-    window.location.href = `${store.getters.getEnvironmentApiURL}/authenticate/dev_user/logout`;
   },
   // Function to process the payload of the JWT token, which contains the user
   // info. This will set the state, verify the path exists and is defined then
