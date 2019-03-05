@@ -110,25 +110,23 @@ export default {
   userLogOut(context) {
     const store = context;
 
-    // add additional logout logic here
-    Vue.cookie.set('Token', false, { expires: '-99s' });
-    Vue.cookie.set('uid', false, { expires: '-99s' });
-    Vue.cookie.set('userLoggedIn', false, { expires: '-99s' });
-    Vue.cookie.set('userLogInTime', '', { expires: '-99s' });
-    store.commit('IS_USER_LOGGED_IN', false);
+    AppAxios.get(`${store.getters.getEnvironmentApiURL}/authenticate/dev_user/logout`, {
+        headers: store.GETHeaders
+    }).then((response) => {
+
+      // Reset the cookies
+      Vue.cookie.set('Token', false, { expires: '-99s' });
+      Vue.cookie.set('uid', false, { expires: '-99s' });
+      Vue.cookie.set('userLoggedIn', false, { expires: '-99s' });
+      Vue.cookie.set('userLogInTime', '', { expires: '-99s' });
+      store.commit('IS_USER_LOGGED_IN', false);
       // Reset login token and time
       store.commit(types.SET_LOGGED_IN_TOKEN, '');
       store.commit(types.SET_LOGGED_IN_TIME, '');
 
+      // Redirect window to the bridge
+      window.location.href = response.data.logout_url;
 
-      AppAxios.get(`${store.getters.getEnvironmentApiURL}/authenticate/dev_user/logout`, {
-        headers: store.GETHeaders
-    }).then((response) => {
-        console.log(response);
-
-
-        // Redirect window to the bridge
-        window.location.href = response.logout_url;
     }).catch((error) => {
         console.warn(error.response);
     });
@@ -368,7 +366,7 @@ export default {
             store.dispatch('loadEEPUser');
         }
       }
-      
+
       store.dispatch('checkCookie', payload);
       //  [App.vue specific] When App.vue is finish loading finish the progress bar
       vm.$Progress.finish();
