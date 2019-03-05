@@ -29,6 +29,7 @@
                 @click="widgetMenuModalToIndex(title, $event.target, index)">{{ title }}
               </b-dropdown-item-button>
               <b-dropdown-item-button
+                v-if="eepApp.source.length > 0"
                 @click="onSource">
                 Source
               </b-dropdown-item-button>
@@ -99,6 +100,7 @@
           <div v-html="text"/>
         </b-tab>
         <b-tab
+          v-if="eepApp.source.length > 0"
           title="Source"
           ref="widgetMenuSource"
           class="py-3"
