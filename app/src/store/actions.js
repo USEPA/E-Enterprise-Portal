@@ -354,7 +354,6 @@ export default {
             store.dispatch('loadEEPUser');
         }
       }
-
       store.dispatch('checkCookie', payload);
       //  [App.vue specific] When App.vue is finish loading finish the progress bar
       vm.$Progress.finish();
