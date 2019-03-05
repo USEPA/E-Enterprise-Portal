@@ -360,7 +360,6 @@ export default {
           headers: { Authorization: `Bearer ${Vue.cookie.get('Token')}` },
         }).then((userLoggedInResponse) => {
           store.commit('SET_USER_OBJECT', userLoggedInResponse.data);
-          router.push('/workbench');
         }).catch((error) => {
           console.warn(error);
         });
@@ -369,9 +368,6 @@ export default {
       store.dispatch('checkCookie', payload);
       //  [App.vue specific] When App.vue is finish loading finish the progress bar
       vm.$Progress.finish();
-      if (window.location.href.indexOf('token') > -1) {
-        router.push('/workbench');
-      }
     }).catch((error) => {
       console.error(error);
     });
