@@ -17,7 +17,7 @@ export default {
   /**
    * gets users TAndCCookie state
    */
-  getTAndCCookieDismiss() {
+  getTermsAndConditionsCookie() {
     const cookieState = document.cookie.match('(^|;) ?userTandC=([^;]*)(;|$)');
     return cookieState;
   },
@@ -97,7 +97,7 @@ export default {
     } else if (environment === 'DEV') {
       environmentApiURL = 'https://apidev2.e-enterprise.gov';
     } else if (environment === 'TEST') {
-      environmentApiURL = 'https://apitest2.e-enterprise.gov';
+      environmentApiURL = 'https://apitest.e-enterprise.gov';
     }
     return environmentApiURL;
   },

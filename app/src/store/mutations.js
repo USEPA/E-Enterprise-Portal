@@ -80,10 +80,10 @@ export default {
     );
     EventBus.$emit('locationService::update');
   },
-  [types.USER_TANDC_COOKIE_DISMISS](state) {
+  [types.TERMS_AND_CONDITIONS_COOKIE](state) {
     Vue.set(
       state.user,
-      'tAndCCookieDismiss',
+      'termsAndConditionsCookie',
       true,
     );
   },
@@ -262,8 +262,18 @@ export default {
     state.user.firstTimeSelectButtonClicked += amount;
   },
   [types.IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES](state, choice){
-      Vue.set(state.user,
-          'isCurrentDropdownZipcodeWithTribes',
-          choice);
+    Vue.set(state.user,
+      'isCurrentDropdownZipcodeWithTribes',
+      choice);
+  },
+  [types.SET_EXTEND_SESSION_MESSAGE](state, message){
+    Vue.set(state.user,
+      'extendSessionModalMessage',
+      message);
+  },
+  [types.SET_DISPLAY_LOGIN_AGAIN_BUTTON_ON_MODAL](state, css_prop){
+    Vue.set(state.user,
+      'displayLoginAgainButtonOnModal',
+      css_prop);
   },
 };

@@ -4,44 +4,73 @@
       class="alert alert-info"
       role="alert"
       v-if="['workbench'].indexOf($route.name) > -1 &&
-      authenticated === false && (tAndCCookieDismiss === false || tAndCCookieDismiss == undefined)">
+      authenticated === false && (termsAndConditionsCookie === false || termsAndConditionsCookie == undefined)">
       <div
         id="terms-conditions"
         class="container w-100 d-flex text-dark">
         <div class="row align-self-center w-100">
           <div class="col-12 text-center">
             <span>By using the E-Enterprise Portal, you agree to the </span>
+            <a
+              href="https://cdx.epa.gov/Terms"
+              target="_blank"
+              class="text-dark font-weight-bold">
+              Terms and Conditions</a>
             <span
-              class="text-decoration-underline cursor-pointer"
-              @click="setTAndCCookie"
-              data-dismiss="alert">
-              Terms and Conditions.
-            </span>
-            &nbsp;&nbsp;
-            <span
-              class="text-decoration-underline cursor-pointer"
-              @click="setTAndCCookie"
-              data-dismiss="alert">
-              Continue »
-            </span>
+              class="text-decoration-underline cursor-pointer font-weight-bold"
+              @click="onTermsAndConditions"
+              data-dismiss="alert">Continue »</span>
           </div>
         </div>
       </div>
     </div>
-    <div class="container py-2">
+    <div
+      v-if="footerLinksLoaded && footerLinks.length > 0"
+      class="container py-2">
       <div class="row justify-content-center small">
-        <div class="col-auto" v-for="item in info" >
+        <div
+          class="col-auto"
+          v-for="item in footerLinks" >
           <a
             :href="item.second"
             target="_blank"
-            class="">{{item.first}}</a>
+            class="">{{ item.first }}</a>
         </div>
       </div>
-      <div class="row">
-        <div class="col wd-100"></div>
+      <div class="row justify-content-center small">
+        <div class="col-auto text-align-center small">
+          {{ this.footerVersion[0].first }} {{ this.footerVersion[0].second }}
+        </div>
       </div>
-      <div class="row justify-content-center small" >
-        <div class="col-auto text-align-center small" > {{this.info1[0].first}} {{this.info1[0].second}}</div>
+    </div>
+    <div
+      v-else-if="!footerLinksLoaded"
+      class="container py-2">
+      <div class="row justify-content-center small">
+        <div
+          class="col-auto">
+          Loading Footer...
+        </div>
+      </div>
+      <div class="row justify-content-center small">
+        <div class="col-auto text-align-center small">
+          Loading Footer...
+        </div>
+      </div>
+    </div>
+    <div
+      v-else-if="footerLinksLoaded && footerLinks.length === 0"
+      class="container py-2">
+      <div class="row justify-content-center small">
+        <div
+          class="col-auto">
+          Failed to load Footer...
+        </div>
+      </div>
+      <div class="row justify-content-center small">
+        <div class="col-auto text-align-center small">
+          Failed to load Footer...
+        </div>
       </div>
     </div>
     <div
@@ -68,47 +97,36 @@
   import AppAxios from 'axios';
   import { mapGetters, mapActions } from 'vuex';
 
-
-
-
   export default {
     name: 'MainFooter',
     computed: {
       ...mapGetters({
         authenticated: 'getIsLoggedIn',
-        tAndCCookieDismiss: 'getTAndCCookieDismiss',
+        termsAndConditionsCookie: 'getTermsAndConditionsCookie',
         UserPolicyCookieDismiss: 'getUserPolicyCookieDismiss',
+        apiUrl: 'getEnvironmentApiURL',
       }),
     },
     methods: {
       ...mapActions([
-        'setTAndCCookie',
+        'onTermsAndConditions',
         'setUserPolicyCookie',
       ]),
     },
     data() {
       return {
-
-        info: [
-          { first: '', },
-          { second: '', },
-
-
-        ],
-        info1: [
-          { first: '', },
-          { second: '', },
-
-
-        ]
+        footerLinks: [],
+        footerVersion: [],
+        footerLinksLoaded: false,
       };
     },
     mounted() {
       AppAxios
-        .get('https://apidev2.e-enterprise.gov/api/footer')
-        .then(response => {
-          this.info = response.data[0].field_footer_link_name;
-          this.info1 = response.data[0].field_version;
+        .get(`${this.apiUrl}/api/footer`)
+        .then((response) => {
+          this.footerLinks = response.data[0].field_footer_link_name;
+          this.footerVersion = response.data[0].field_version;
+          this.footerLinksLoaded = true;
         });
     },
   };

@@ -4,6 +4,7 @@ namespace Drupal\eep_bridge\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\eep_bridge\ADFSConf;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\Core\Url;
 use Drupal\eep_bridge\ADFSUserDetails;
@@ -112,13 +113,32 @@ class EEPBridgeController extends ControllerBase {
     $this->eep_bridge_goto($url, $jwt_token);
     return;
   }
-  
+
+  /**
+   * @return JsonResponse
+   */
+  public function bridge_auth_logout(){
+     // Declare variables
+     $config = \Drupal::config('eep_bridge.environment_settings');
+     // Build logout url
+     $logout = $config->get('eep_bridge_issuer') .'?wa=wsignout1.0&wreply=' . urlencode($config->get('eep_bridge_wreply'));
+     // Log current user out
+     user_logout();
+     // Redirect to the bridge
+     header("Location:$logout");
+     exit();
+  }
+
+  /**
+   * @param ContainerInterface $container
+   * @return static
+   */
   public static function create(ContainerInterface $container) {
     $auth = $container->get('jwt.authentication.jwt');
     return new static($auth);
   }
 
-  private  function eep_bridge_goto($url, $jwt_token) {
+  private function eep_bridge_goto($url, $jwt_token) {
     $response = new RedirectResponse($url->toString());
     $response->headers->set('token', $jwt_token);
     $response->send();
@@ -144,5 +164,4 @@ class EEPBridgeController extends ControllerBase {
       $user->save();
     }
   }
-
 }

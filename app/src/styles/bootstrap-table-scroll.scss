@@ -1,34 +1,72 @@
-.bootstrap-vue-table-scroll > tbody {
-  height: 90px;
-  overflow-y: auto;
-  width: 100%;
-}
 .bootstrap-vue-table-scroll > thead, tbody {
   display: block;
 }
-.bootstrap-vue-table-scroll > tbody > td {
-  width: 33%;
-}
-.bootstrap-vue-table-scroll > thead th {
+.bootstrap-vue-table-scroll > thead th,
+.bootstrap-vue-table-scroll > tbody td {
   width: 65%;
 }
-.bootstrap-vue-fav-table-scroll > tbody {
-  height: 200px;
+
+.bootstrap-vue-fav-table-scroll > tbody,
+.bootstrap-vue-mycerts-table-scroll > tbody,
+.bootstrap-vue-table-scroll > tbody {
   overflow-y: auto;
   width: 100%;
 }
-.bootstrap-vue-fav-table-scroll > thead, tbody {
+
+.bootstrap-vue-fav-table-scroll > thead,
+.bootstrap-vue-mycerts-table-scroll > thead,
+.wapp tbody {
   display: block;
 }
+
 .bootstrap-vue-fav-table-scroll > tbody td,
 .bootstrap-vue-fav-table-scroll > thead th,
 .bootstrap-vue-fav-table-scroll > table,
+.bootstrap-vue-mycerts-table-scroll > tbody td,
+.bootstrap-vue-mycerts-table-scroll > thead th,
+.bootstrap-vue-mycerts-table-scroll > table,
 .bootstrap-vue-table-scroll > table {
   width: 100%;
 }
+
 .bootstrap-vue-fav-table-scroll > thead tr,
-.bootstrap-vue-fav-table-scroll > tbody tr {
+.bootstrap-vue-fav-table-scroll > tbody tr,
+.bootstrap-vue-mycerts-table-scroll > thead tr,
+.bootstrap-vue-mycerts-table-scroll > tbody tr,
+.bootstrap-vue-fav-table-scroll > thead th,
+.bootstrap-vue-fav-table-scroll > tbody td {
   display: flex;
 }
+.bootstrap-vue-table-scroll > .table th, .table td,
+.bootstrap-vue-fav-table-scroll > .table th, .table td {
+  padding: 0.3rem;
+}
+.bootstrap-vue-table-scroll,
+.bootstrap-vue-fav-table-scroll {
+  font-size:.875rem;
+}
+.wapp .page-link {
+  padding: 0.25rem 0.50rem;
+}
+.wapp .input-group > .form-control {
+  height:auto;
+  padding: 2px 10px;
+}
+.wapp .custom-select {
+  height:auto;
+  padding:2px 10px;
+}
 
+// heights
+.bootstrap-vue-table-scroll > tbody {
+  height: 125px;
+}
+
+.bootstrap-vue-mycerts-table-scroll > tbody {
+  height: 45px;
+}
+
+.bootstrap-vue-fav-table-scroll > tbody {
+  height: 200px;
+}
 

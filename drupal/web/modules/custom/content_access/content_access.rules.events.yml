@@ -1,0 +1,12 @@
+content_access_content_type:
+  label: 'Content type access control was changed'
+  category: 'Content Access'
+
+content_access_per_node:
+  label: 'Per node access control was changed'
+  category: 'Content Access'
+
+content_access_user_acl:
+  label: 'User was added to ACL'
+  category: 'Content Access'
+  deriver: '\Drupal\content_access\Plugin\Deriver\RulesEventUserAclDeriver'

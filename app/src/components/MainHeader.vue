@@ -111,6 +111,7 @@
     },
     methods: {
       ...mapActions([
+        'navigateToBridge',
         'userLogOut',
       ]),
       removeTryItArrow() {
