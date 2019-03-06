@@ -13,7 +13,10 @@ import BootstrapVue from 'bootstrap-vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
+import VueAnalytics from 'vue-analytics';
+import VueGtm from 'vue-gtm';
 
+const isProd = process.env.NODE_ENV === 'production';
 
 const VueProgressBarOptions = {
   color: '#007AC6',
@@ -46,6 +49,21 @@ const VueScrollToDefaultSettings = {
 Vue.use(VueProgressBar, VueProgressBarOptions);
 Vue.use(BootstrapVue);
 Vue.use(VueScrollTo, VueScrollToDefaultSettings);
+Vue.use(VueAnalytics, {
+  id: 'UA-135645481-1',
+  router,
+  debug: {
+    enabled: !isProd,
+    sendHitTask: isProd
+  }
+});
+Vue.use(VueGtm, {
+  id: 'GTM-L8ZB',
+  enabled: true, 
+  debug: !isProd, 
+  vueRouter: router,
+  ignoredViews: [] 
+});
 
 export default new Vue({
   router,

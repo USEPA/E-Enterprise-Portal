@@ -300,6 +300,7 @@
           this.$root.$emit(
             'bv::show::modal', 'bwi-modal', this.$refs.btnCheckYourWater,
           );
+          this.$ga.event('eportal', 'click', `BWI Partner Load- ${partner.code}`, 1)
         }
       },
       getContaminantUnits(question) {
@@ -336,6 +337,7 @@
           evt.preventDefault();
           vm.submissionErrorMessage = '';
           vm.submitPartnersData({ vm, evt });
+          this.$ga.event('eportal', 'click', `BWI Submit Form- ${partner.code}`, 1)
         } else {
           this.submissionErrorMessage = 'Please enter values for some of the contaminants.';
         }
