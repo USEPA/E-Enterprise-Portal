@@ -20,13 +20,15 @@
             class="sr-only">
             Enter Your Location as City, State, or Zip Code
           </label>
-          <b-form-input v-if="userfavoritelocations.length > 0"
+          <b-form-input
+              v-if="userfavoritelocations.length > 0"
               id="locationInput"
               type="text"
               v-model="locationInputText"
               @keyup.enter.native="submitLocation"
               :placeholder="userfavoritelocations[0].first +'  (' +userfavoritelocations[0].second +')'"/>
-          <b-form-input v-else
+          <b-form-input
+              v-else
               id="locationInput"
               type="text"
               v-model="locationInputText"

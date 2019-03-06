@@ -53,8 +53,8 @@
                                     disabled/>
                       <div class="col-1 cursor-pointer">
                         <template v-if="userfavoritelocations.length ==0 ">
-                          <template v-if="index==0 ">
-                          <i  :ref="'click-star-' + index" @click="starClick('click-star-' + index, second)" class="fas fa-star"/>
+                          <template v-if="index == 0">
+                            <i :ref="'click-star-' + index" @click="starClick('click-star-' + index, second)" class="fas fa-star"/>
                           </template>
                           <template v-else>
                             <i :ref="'click-star-' + index" @click="starClick('click-star-' + index,second)" class="far fa-star"/>
@@ -62,13 +62,12 @@
                         </template>
                         <template v-else>
                           <template v-if="userlocations[index].second==userfavoritelocations[0].second">
-                          <i  :ref="'click-star-' + index" @click="starClick('click-star-' +index,second)" class="fas fa-star"/>
+                            <i :ref="'click-star-' + index" @click="starClick('click-star-' +index,second)" class="fas fa-star"/>
                           </template>
                           <template v-else>
-                            <i  :ref="'click-star-' + index" @click="starClick('click-star-' + index,second)" class="far fa-star"/>
+                            <i :ref="'click-star-' + index" @click="starClick('click-star-' + index,second)" class="far fa-star"/>
                           </template>
                         </template>
-
                       </div>
                       <template>
                         <button class="usa-button" value="x" @click="deleteUserLocation(second)">X
@@ -93,7 +92,7 @@
                                     <i :ref="'click-star-' + index" @click="starClick('click-star-' + index,second)" class="fas fa-star"/>
                                   </template>
                                   <template v-else>
-                                    <i type="radio" :ref="'click-star-' + index" @click="starClick('click-star-' + index,second)" class="far fa-star"/>
+                                    <i :ref="'click-star-' + index" @click="starClick('click-star-' + index,second)" class="far fa-star"/>
                                   </template>
                               </div>
                               <button class="usa-button" value="x" @click="deleteSelectedLocation({
@@ -268,8 +267,6 @@
           return this.user.userfavoritelocations;
         }
       },
-
-
     },
     mounted() {
       AppAxios.get("sample_data/organization.json").then(response => {
@@ -295,9 +292,6 @@
         console.warn('DELETE PROFILE');
       },
       starClick(ref_index, value){
-
-
-          // redo logic for star click
           if (this.$refs[ref_index][0].classList.contains('fas')) {
               this.$refs[ref_index][0].classList.remove('fas');
               this.$refs[ref_index][0].classList.add('far');
@@ -311,9 +305,6 @@
               this.indexValue=ref_index;
               this.locationInfo=value;
           }
-
-
-
       },
       save() {
         this.updateUserLocation();
@@ -328,10 +319,8 @@
 
       },
       updateOrg() {
-
         this.organizations[0].first='org';
         this.organizations[0].second=this.selected;
-
         let orgParams = {
           field_organization: this.organizations
         };
@@ -359,7 +348,6 @@
             field_userlocation: this.userlocations,
           };
           this.apiUserPatch(userLocationZipcode);
-
         }
         for(i = 0; i < j ; i++) {
           this.deleteSelectedLocation({
@@ -376,15 +364,11 @@
         this.userfavoritelocations.push({first: starLocation, second: starZip});
         let favLocation={
           field_userfavoritelocations: this.userfavoritelocations
-
         }
-
         this.apiUserPatch(favLocation);
-
-
       },
       deleteSelectedLocation(location){
-          this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
+        this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
       },
       deleteUserLocation(deletedValue) {
         var index=this.userlocations.indexOf(deletedValue);
