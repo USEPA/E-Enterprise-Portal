@@ -2,7 +2,7 @@
   <div
     id="app">
     <div
-      class="environment-status bg-warning text-white"
+      class="environment-status text-white"
       v-if="(ENV !='PROD')">
       <div class="container">
         <div class="row">
@@ -263,6 +263,8 @@
   }
 
   .environment-status {
+    background-color:#444;
+    font-size:.75rem;
     &:hover {
       opacity: 1.0;
     }
