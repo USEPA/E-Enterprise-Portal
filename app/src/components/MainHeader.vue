@@ -170,7 +170,7 @@
   }
   .eep_logo {
     img {
-      max-width: 100%;
+      max-width: 250px;
     }
   }
 
