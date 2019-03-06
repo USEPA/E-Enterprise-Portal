@@ -59,10 +59,11 @@
           <span v-show="!!eepApp.source && !!eepApp.field_settings_menu_items.Description">
             &#8226;&nbsp;</span>
           <a
+            v-if="eepApp.source.length > 0"
             class="text-decoration-underline cursor-pointer link-button"
             v-show="!!eepApp.source && getSize === 'small'"
             @click="onSource($event.target)">Source</a>
-          <span v-if="getSize !== 'small'">Source: </span>
+          <span v-if="getSize !== 'small' && eepApp.source.length > 0">Source: </span>
           <template
             v-show="!!eepApp.source"
             v-for="(source, index) in eepApp.source">
