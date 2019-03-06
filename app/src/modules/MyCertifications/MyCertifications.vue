@@ -404,8 +404,10 @@
     border-width: 0;
     float: right;
     position: relative;
-    top: -1rem;
-    left: .9rem;
+  }
+
+  .wapp-small .cert-needs-attn-decoration {
+    top: -1.5rem;
   }
 
   .cert-not-completed-decoration {
