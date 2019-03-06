@@ -134,6 +134,9 @@ export default {
     Vue.set(state.user,
       'userlocations',
       obj.field_userlocation);
+    Vue.set(state.user,
+      'userfavoritelocations',
+      obj.field_userfavoritelocations);
   },
   [types.SET_USER_OBJECT_ORGANIZATIONS](state, obj) {
     Vue.set(state.user.userObject,
@@ -148,6 +151,11 @@ export default {
   [types.SET_USER_OBJECT_USERLOCATIONS](state, obj) {
     Vue.set(state.user.userObject,
       'field_userlocation',
+      obj);
+  },
+  [types.SET_USER_OBJECT_USERFAVORITELOCATIONS](state, obj) {
+    Vue.set(state.user.userObject,
+      'field_userfavoritelocations',
       obj);
   },
 

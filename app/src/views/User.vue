@@ -52,11 +52,21 @@
                                     class="col-4 ml-3"
                                     disabled/>
                       <div class="col-1 cursor-pointer">
-                        <template v-if="index == 0">
-                          <i :ref="'click-star-' + index" @click="starClick('click-star-' + index)" class="fas fa-star"/>
+                        <template v-if="userfavoritelocations.length == 0 ">
+                          <template v-if="index == 0">
+                            <i :ref="'click-star-' + index" @click="starClick('click-star-' + index, second)" class="fas fa-star"/>
+                          </template>
+                          <template v-else>
+                            <i :ref="'click-star-' + index" @click="starClick('click-star-' + index,second)" class="far fa-star"/>
+                          </template>
                         </template>
                         <template v-else>
-                          <i :ref="'click-star-' + index" @click="starClick('click-star-' + index)" class="far fa-star"/>
+                          <template v-if="userlocations[index].second==userfavoritelocations[0].second">
+                            <i :ref="'click-star-' + index" @click="starClick('click-star-' +index,second)" class="fas fa-star"/>
+                          </template>
+                          <template v-else>
+                            <i :ref="'click-star-' + index" @click="starClick('click-star-' + index,second)" class="far fa-star"/>
+                          </template>
                         </template>
                       </div>
                       <template>
@@ -79,10 +89,10 @@
                                             disabled/>
                               <div class="col-1 cursor-pointer">
                                   <template v-if="index == 0">
-                                      <i :ref="'click-star-' + index" @click="starClick('click-star-' + index)" class="fas fa-star"/>
+                                    <i :ref="'click-star-' + index" @click="starClick('click-star-' + index,second)" class="fas fa-star"/>
                                   </template>
                                   <template v-else>
-                                      <i :ref="'click-star-' + index" @click="starClick('click-star-' + index)" class="far fa-star"/>
+                                    <i :ref="'click-star-' + index" @click="starClick('click-star-' + index,second)" class="far fa-star"/>
                                   </template>
                               </div>
                               <button class="usa-button" value="x" @click="deleteSelectedLocation({
@@ -93,7 +103,7 @@
                       </template>
                   </div>
                 <LocationSelectionOption></LocationSelectionOption>
-                <div v-if="user.displayWhenNewLocationIsClicked === ''">
+                <div>
                     <button class="usa-button pt-2" @click="revealLocationInputBox">New Location</button>
                 </div>
               </div>
@@ -192,7 +202,9 @@
         selectedRole: null,
         roleList: [],
         selectedLocation:[{first:'', second:''}],
-        inputLocation:[]
+        inputLocation:[],
+        indexValue:'',
+        locationInfo:[{first:'', second:null}]
       };
     },
     computed: {
@@ -250,8 +262,11 @@
           return this.user.userlocations;
         }
       },
-
-
+      userfavoritelocations: {
+        get() {
+          return this.user.userfavoritelocations;
+        }
+      },
     },
     mounted() {
       AppAxios.get("sample_data/organization.json").then(response => {
@@ -276,18 +291,24 @@
       DeleteEEPUserProfile() {
         console.warn('DELETE PROFILE');
       },
-      starClick(ref_index){
-          // redo logic for star click
+      starClick(ref_index, value){
           if (this.$refs[ref_index][0].classList.contains('fas')) {
               this.$refs[ref_index][0].classList.remove('fas');
               this.$refs[ref_index][0].classList.add('far');
+            this.indexValue='';
+            this.locationInfo=[];
+
           } else {
               this.$refs[ref_index][0].classList.remove('far');
               this.$refs[ref_index][0].classList.add('fas');
+
+              this.indexValue=ref_index;
+              this.locationInfo=value;
           }
       },
       save() {
         this.updateUserLocation();
+        this.updateFavoriteLocation();
         //these if statements will not work as the interest tab is hidden
         if (this.selected) {
               this.updateOrg();
@@ -298,10 +319,8 @@
 
       },
       updateOrg() {
-
         this.organizations[0].first='org';
         this.organizations[0].second=this.selected;
-
         let orgParams = {
           field_organization: this.organizations
         };
@@ -329,7 +348,6 @@
             field_userlocation: this.userlocations,
           };
           this.apiUserPatch(userLocationZipcode);
-
         }
         for(i = 0; i < j ; i++) {
           this.deleteSelectedLocation({
@@ -338,14 +356,33 @@
           });
         }
       },
+      updateFavoriteLocation(){
+        let starZip = this.locationInfo.second;
+        let starLocation= this.locationInfo.first;
+        this.removeFavoriteLocation();
+        this.userfavoritelocations.splice(0,1);
+        this.userfavoritelocations.push({first: starLocation, second: starZip});
+        let favLocation={
+          field_userfavoritelocations: this.userfavoritelocations
+        }
+        this.apiUserPatch(favLocation);
+      },
       deleteSelectedLocation(location){
-          this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
+        this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
       },
       deleteUserLocation(deletedValue) {
-        var index=this.userlocations.indexOf(deletedValue)
+        var index=this.userlocations.indexOf(deletedValue);
+        this.removeFavoriteLocation();
         this.userlocations.splice(index, 1);
         this.apiUserPatch({
           field_userlocation: this.userlocations,
+
+        });
+      },
+      removeFavoriteLocation(){
+        this.userfavoritelocations.splice(0,1);
+        this.apiUserPatch({
+          field_userfavoritelocations: this.userfavoritelocations
         });
       },
       revealLocationInputBox(){
