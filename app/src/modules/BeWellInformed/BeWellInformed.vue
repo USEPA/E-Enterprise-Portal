@@ -331,6 +331,7 @@
       onSubmit(evt) {
         this.interactiveModalSubmit = true;
         this.partnerModalSubmit= false;
+        const partner = this.selectedPartner;
         const vm = this;
         const isRequestEmpty = vm.isWaterAnalysisRequestEmpty();
         if (!isRequestEmpty) {
