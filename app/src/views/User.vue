@@ -52,7 +52,7 @@
                                     class="col-4 ml-3"
                                     disabled/>
                       <div class="col-1 cursor-pointer">
-                        <template v-if="userfavoritelocations.length ==0 ">
+                        <template v-if="userfavoritelocations.length == 0 ">
                           <template v-if="index == 0">
                             <i :ref="'click-star-' + index" @click="starClick('click-star-' + index, second)" class="fas fa-star"/>
                           </template>
@@ -103,7 +103,7 @@
                       </template>
                   </div>
                 <LocationSelectionOption></LocationSelectionOption>
-                <div v-if="user.displayWhenNewLocationIsClicked === ''">
+                <div>
                     <button class="usa-button pt-2" @click="revealLocationInputBox">New Location</button>
                 </div>
               </div>
