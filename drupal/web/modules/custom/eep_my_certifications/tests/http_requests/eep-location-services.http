@@ -1,0 +1,46 @@
+# For a quick start check out our HTTP Requests collection (Tools|HTTP Client|Open HTTP Requests Collection).
+#
+# Following HTTP Request Live Templates are available:
+# * 'gtrp' and 'gtr' create a GET request with or without query parameters;
+# * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
+# * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
+
+GET http://localhost:8080/eep/proxy/service/location?XDEBUG_SESSION_START=PHPSTORM&zipcode=70520
+Accept: */*
+Cache-Control: no-cache
+
+###
+
+GET http://localhost:8080/eep/proxy/service/location?XDEBUG_SESSION_START=PHPSTORM&zipcode=20001
+Accept: */*
+Cache-Control: no-cache
+
+###
+
+GET http://localhost:8080/eep/proxy/service/location?XDEBUG_SESSION_START=PHPSTORM&state=DC&city=washington
+Accept: */*
+Cache-Control: no-cache
+
+###
+
+# Should Fail "no state"
+GET http://localhost:8080/eep/proxy/service/location?XDEBUG_SESSION_START=PHPSTORM&city=washington
+Accept: */*
+Cache-Control: no-cache
+
+###
+
+# Should Fail "no city"
+GET http://localhost:8080/eep/proxy/service/location?XDEBUG_SESSION_START=PHPSTORM&state=DC
+Accept: */*
+Cache-Control: no-cache
+
+###
+
+
+# Geolocation
+GET http://localhost:8080/eep/proxy/service/geolocation?f=pjson&location=-92.0420352,30.217830399999997&XDEBUG_SESSION_START=PHPSTORM
+Accept: */*
+Cache-Control: no-cache
+
+###

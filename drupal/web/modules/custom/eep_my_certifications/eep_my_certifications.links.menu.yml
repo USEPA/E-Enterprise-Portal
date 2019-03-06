@@ -1,6 +1,0 @@
-eep_my_certifications.eep_my_certifications_form:
-  title: 'E-Enterprise My Certifications Settings'
-  route_name: 'eep_my_certifications.eep_my_certifications_form'
-  description: 'Configure Administrative settings for My Certifications'
-  parent: system.admin_config_system
-  weight: 99
