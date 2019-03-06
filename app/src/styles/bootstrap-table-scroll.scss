@@ -7,8 +7,7 @@
 }
 
 .bootstrap-vue-fav-table-scroll > tbody,
-.bootstrap-vue-mycerts-table-scroll > tbody,
-.bootstrap-vue-table-scroll > tbody {
+.bootstrap-vue-mycerts-table-scroll > tbody {
   overflow-y: auto;
   width: 100%;
 }
@@ -58,15 +57,16 @@
 }
 
 // heights
-.bootstrap-vue-table-scroll > tbody {
-  height: 125px;
-}
-
 .bootstrap-vue-mycerts-table-scroll > tbody {
   height: 45px;
 }
 
 .bootstrap-vue-fav-table-scroll > tbody {
   height: 200px;
+}
+.bootstrap-vue-table-scroll > tbody {
+  overflow-y: auto;
+  width: 100%;
+  height:125px;
 }
 
