@@ -50,8 +50,22 @@
         </b-col>
       </b-row>
 
-      <!--datatable-->
+      <!-- if Favorites not yet loaded -->
+      <div
+        class="bootstrap-vue-fav-table-scroll mb-3 favorite-links-blank-placeholder text-center"
+        v-if="!favoriteLinksLoaded">
+        <p class="pt-5">Loading you Favorites...</p>
+      </div>
+      <!-- if No Favorites -->
+      <div
+        class="bootstrap-vue-fav-table-scroll mb-3 favorite-links-blank-placeholder text-center"
+        v-else-if="(favoriteLinks.length === 0 && favoriteLinksLoaded)">
+        <p class="pt-5">No Favorites...</p>
+      </div>
+
+      <!-- Favorite Links datatable -->
       <b-table
+        v-else-if="favoriteLinksLoaded"
         hover
         id="favorite-links-table"
         class="bootstrap-vue-fav-table-scroll"
@@ -87,12 +101,21 @@
             @click="openEditModal(row.item, row.index, $event.target)"
             class="edit-favorite-btn mr-1"/>
         </template>
-        <template
-          v-if='!favoriteLinksLoaded'>
-          <p>Loading you Favorites...</p>
-        </template>
-
       </b-table>
+
+      <!-- pagination -->
+      <b-row class="text-center">
+        <b-col
+          md="12"
+          class="my-1">
+          <b-pagination
+            align="center"
+            :total-rows="totalRows"
+            :per-page="perPage"
+            v-model="currentPage"
+            class="my-0"/>
+        </b-col>
+      </b-row>
 
       <!-- add modal -->
       <AppModal
@@ -160,23 +183,6 @@
 
       </AppModal>
 
-      <!--if No Favorites-->
-      <div v-if="(favoriteLinks.length === 0 && favoriteLinksLoaded)">{{ noFavs }}</div>
-
-      <!--pagination-->
-      <b-row class="text-center">
-        <b-col
-          md="12"
-          class="my-1">
-          <b-pagination
-            align="center"
-            :total-rows="totalRows"
-            :per-page="perPage"
-            v-model="currentPage"
-            class="my-0"/>
-        </b-col>
-      </b-row>
-
     </AppWrapper>
   </div>
 </template>
@@ -223,7 +229,6 @@
         editModalInfo: { title: 'Edit Favorite', first: '', second: '' },
         editModalIndex: null,
         addModalInfo: { title: 'Add Favorite', first: '', second: '' },
-        noFavs: 'No Favorites...',
       };
     },
     computed: {
