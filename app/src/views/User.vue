@@ -292,19 +292,18 @@
         console.warn('DELETE PROFILE');
       },
       starClick(ref_index, value){
-          if (this.$refs[ref_index][0].classList.contains('fas')) {
-              this.$refs[ref_index][0].classList.remove('fas');
-              this.$refs[ref_index][0].classList.add('far');
-            this.indexValue='';
-            this.locationInfo=[];
-
-          } else {
-              this.$refs[ref_index][0].classList.remove('far');
-              this.$refs[ref_index][0].classList.add('fas');
-
-              this.indexValue=ref_index;
-              this.locationInfo=value;
-          }
+        let star = this.$refs[ref_index][0];
+        if (this.$refs[ref_index][0].classList.contains('fas')) {
+          star.classList.remove('fas');
+          star.classList.add('far');
+          this.indexValue='';
+          this.locationInfo=[];
+        } else {
+          star.classList.remove('far');
+          star.classList.add('fas');
+          this.indexValue=ref_index;
+          this.locationInfo=value;
+        }
       },
       save() {
         this.updateUserLocation();
