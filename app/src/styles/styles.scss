@@ -12,6 +12,7 @@
 
 // BS style override
 @import "bootstrap-widget-dropdown";
+@import 'bootstrap-table-scroll.scss';
 
 // Atomic Classes
 @import "cursor";
@@ -21,9 +22,7 @@
 @import "application";
 @import "workbench-grid";
 @import "workbench-application";
-@import 'bootstrap-table-scroll.scss';
 
 // Workbench Apps
 @import "favorite-links";
 @import "my-certifications";
-
