@@ -76,32 +76,32 @@
                       <span class="col-md-12 pt-1 small"  >{{userlocations[index].first}}</span>
                     </b-input-group>
                   </template>
-
                 </div>
 
                 <!-- format this to output the users inputted locations -->
-                  <div id="user-input-locations" v-if="user.userSavedLocations.length > 0">
-                      <template v-for="(location, index) in user.userSavedLocations">
-                          <b-input-group class="pl-2 pb-2 pt-2">
-                              <b-form-input ref="selectedLocation" v-model="location.selected_location_from_dropdown"
-                                            type="text"
-                                            class="col-4 ml-3"
-                                            disabled/>
-                              <div class="col-1 cursor-pointer">
-                                  <template v-if="index == 0">
-                                    <i :ref="'click-star-' + index" @click="starClick('click-star-' + index,second)" class="fas fa-star"/>
-                                  </template>
-                                  <template v-else>
-                                    <i :ref="'click-star-' + index" @click="starClick('click-star-' + index,second)" class="far fa-star"/>
-                                  </template>
-                              </div>
-                              <button class="usa-button" value="x" @click="deleteSelectedLocation({
-                                typed_in_location: location.typed_in_location,
-                                selected_location_from_dropdown: location.selected_location_from_dropdown})">X</button>
-                              <span class="col-md-12 pt-1 small">{{location.typed_in_location}}</span>
-                          </b-input-group>
-                      </template>
-                  </div>
+                  <!-- try to incorporate the users selections here -->
+                <div id="user-input-locations" v-if="user.userSavedLocations.length > 0">
+                    <template v-for="(location, index) in user.userSavedLocations">
+                        <b-input-group class="pl-2 pb-2 pt-2">
+                            <b-form-input ref="selectedLocation" v-model="location.selected_location_from_dropdown"
+                                          type="text"
+                                          class="col-4 ml-3"
+                                          disabled/>
+                            <div class="col-1 cursor-pointer">
+                                <template v-if="index == 0 || (firstLoad && user.userSavedLocations.savedStar == true)">
+                                  <i :ref="'click-star-' + index" @click="starClick('click-star-' + index,second)" class="fas fa-star"/>
+                                </template>
+                                <template v-else>
+                                  <i :ref="'click-star-' + index" @click="starClick('click-star-' + index,second)" class="far fa-star"/>
+                                </template>
+                            </div>
+                            <button class="usa-button" value="x" @click="deleteSelectedLocation({
+                              typed_in_location: location.typed_in_location,
+                              selected_location_from_dropdown: location.selected_location_from_dropdown})">X</button>
+                            <span class="col-md-12 pt-1 small">{{location.typed_in_location}}</span>
+                        </b-input-group>
+                    </template>
+                </div>
                 <LocationSelectionOption></LocationSelectionOption>
                 <div>
                     <button class="usa-button pt-2" @click="revealLocationInputBox">New Location</button>
@@ -292,15 +292,16 @@
         console.warn('DELETE PROFILE');
       },
       starClick(ref_index, value){
-        let star = this.$refs[ref_index][0];
+        // 1) Loop through and if checked then uncheck
+        // 2) check new star
         if (this.$refs[ref_index][0].classList.contains('fas')) {
-          star.classList.remove('fas');
-          star.classList.add('far');
+          this.$refs[ref_index][0].classList.remove('fas');
+          this.$refs[ref_index][0].classList.add('far');
           this.indexValue='';
           this.locationInfo=[];
         } else {
-          star.classList.remove('far');
-          star.classList.add('fas');
+          this.$refs[ref_index][0].classList.remove('far');
+          this.$refs[ref_index][0].classList.add('fas');
           this.indexValue=ref_index;
           this.locationInfo=value;
         }
@@ -328,7 +329,7 @@
       },
       updateRole() {
         this.roles[0].first='role';
-        this.roles[0].second=this.selectedRole;
+        this.roles[0].second= this.selectedRole;
         const roleparams = {
           field_role: this.roles
         };
@@ -338,7 +339,7 @@
       updateUserLocation(){
         let i;
         let userLocationZipcode={};
-        let j=this.userSavedLocations.length;
+        let j = this.userSavedLocations.length;
         for (i = 0; i < j ; i++) {
           let zipcode = this.userSavedLocations[i].selected_location_from_dropdown;
           let typedLocation = this.userSavedLocations[i].typed_in_location;
