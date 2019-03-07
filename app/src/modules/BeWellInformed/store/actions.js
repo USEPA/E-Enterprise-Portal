@@ -59,10 +59,9 @@ export default {
     const app = store.rootGetters.getApp;
     const { state } = store;
     const partner = state.selectedPartner;
-    const suffix = (env === 'LOCAL') ? '.xml' : '';
 
     if (!state.partnerXmls[partnerCode]) {
-      AppAxios.get(state.urls[env].getPartnerXML + partnerCode + suffix)
+      AppAxios.get(state.urls[env].getPartnerXML + partnerCode +  '.xml')
         .then((response) => {
           // @todo add sanity check for returned data
           const partnerJsonString = convert.xml2json(response.data, { compact: true });
@@ -89,7 +88,7 @@ export default {
           console.warn('AppAxios fail: ', args);
         });
 
-      AppAxios.get(state.urls[env].getFlowchartXML + partnerCode + suffix)
+      AppAxios.get(state.urls[env].getFlowchartXML + partnerCode +'.xml')
         .then((response) => {
           // @todo add sanity check for returned data
           const partnerJsonString = convert.xml2json(response.data, { compact: true });
@@ -185,8 +184,8 @@ export default {
               } else {
                 store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS, []);
               }
-              if (!!data.InteractivePrompts.length
-                || !!data.AdditionalContaminantRequests.length) {
+              if (data.InteractivePrompts.length
+                || data.AdditionalContaminantRequests.length) {
                 const bwiModalInteractive = vm.$refs.bwi_modal_interactive;
 
                 vm.$root.$emit(
