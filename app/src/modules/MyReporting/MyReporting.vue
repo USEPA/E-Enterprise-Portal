@@ -546,5 +546,3 @@
     background-image: url('/images/minus-circle-solid.svg')
   }
 </style>
-<style>
-</style>
