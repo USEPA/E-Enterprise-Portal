@@ -415,6 +415,7 @@
     background-size: .5rem;
     background-image: url('../../assets/images/mycert-question.svg');
   }
+
   .cert-needs-attn-decoration {
     background-size: .25rem;
     background-image: url('../../assets/images/mycert-exclamation.svg');
