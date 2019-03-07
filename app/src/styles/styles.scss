@@ -17,10 +17,13 @@
 @import "cursor";
 @import "text-decoration";
 
-// General Applications Styles
+// Applications Styles
 @import "application";
 @import "workbench-grid";
 @import "workbench-application";
+@import 'bootstrap-table-scroll.scss';
 
-// Workbench App-Specific
+// Workbench Apps
 @import "favorite-links";
+@import "my-certifications";
+

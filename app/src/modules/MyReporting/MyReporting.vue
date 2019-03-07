@@ -121,8 +121,7 @@
                 <template
                   slot="status"
                   slot-scope="data">
-                  <div
-                    :class="data.item.status"
+                  <div :class="data.item.status"
                     :title="data.item.status"/>
                 </template>
               </b-table>
@@ -172,8 +171,7 @@
                       variant="primary"
                       :disabled="!handoff"
                       @click="openPopupPage(handoff.destination_url, handoff.post_params)">
-                      <b-spinner
-                        small
+                      <b-spinner small
                         v-if="!handoff"/>
                       Proceed
                     </b-btn>
@@ -266,34 +264,34 @@
       const cookie = vm.$cookie.get('Token');
       if (vm.isUserLoggedIn) {
         AppAxios.get(
-                `${vm.apiURL}/api/cdx/dataflows`,
-                {
-                  headers: {
-                    Authorization: `Bearer ${cookie}`,
-                    crossDomain: true,
-                    'cache-control': 'no-cache',
-                    'Content-Type': 'application/json',
-                  },
-                },
+          `${vm.apiURL}/api/cdx/dataflows`,
+          {
+            headers: {
+              Authorization: `Bearer ${cookie}`,
+              crossDomain: true,
+              'cache-control': 'no-cache',
+              'Content-Type': 'application/json',
+            },
+          },
         )
-                .then((response) => {
-                  vm.items = response.data;
-                });
+          .then((response) => {
+            vm.items = response.data;
+          });
 
         AppAxios.get(
-                `${vm.apiURL}/api/cdx/configs`,
-                {
-                  headers: {
-                    Authorization: `Bearer ${cookie}`,
-                    crossDomain: true,
-                    'cache-control': 'no-cache',
-                    'Content-Type': 'application/json',
-                  },
-                },
+          `${vm.apiURL}/api/cdx/configs`,
+          {
+            headers: {
+              Authorization: `Bearer ${cookie}`,
+              crossDomain: true,
+              'cache-control': 'no-cache',
+              'Content-Type': 'application/json',
+            },
+          },
         )
-                .then((response) => {
-                  vm.cdx_configs = response.data;
-                });
+          .then((response) => {
+            vm.cdx_configs = response.data;
+          });
       }
     },
     computed: {
@@ -325,13 +323,13 @@
       },
       getReturnURLWithCdxParams(urlPathEnd) {
         let returnUrl = '';
-        const cdxParams = this.getCdxParams();
+        let cdxParams = this.getCdxParams();
         if (urlPathEnd === 'submission') {
           returnUrl = this.cdx_configs.cdx_submission_history_url;
         } else {
-          returnUrl = `${this.cdx_configs.cdx_base_url}/${urlPathEnd}`;
+          returnUrl = this.cdx_configs.cdx_base_url + '/' + urlPathEnd;
         }
-        returnUrl = `?URL=${encodeURIComponent(returnUrl)}`;
+        returnUrl = "?URL=" + encodeURIComponent(returnUrl);
         cdxParams.returnUrl = returnUrl;
         return cdxParams;
       },
@@ -375,24 +373,24 @@
         const vm = this;
 
         if (roleIds) {
-          this.$Progress.start();
+          this.$Progress.start()
           AppAxios.get(
-                  `${vm.apiURL}/api/cdx/link-details-json/${roleIds}`,
-                  {
-                    headers: {
-                      Authorization: `Bearer ${vm.token}`,
-                      crossDomain: true,
-                      'cache-control': 'no-cache',
-                      'Content-Type': 'application/json',
-                    },
-                  },
+            `${vm.apiURL}/api/cdx/link-details-json/${roleIds}`,
+            {
+              headers: {
+                Authorization: `Bearer ${vm.token}`,
+                crossDomain: true,
+                'cache-control': 'no-cache',
+                'Content-Type': 'application/json',
+              },
+            },
           )
-                  .then((response) => {
-                    vm.organization = null;
-                    vm.$root.$emit('bv::show::modal', 'my-reporting-link-details', button);
-                    vm.linkDetails = response.data;
-                    this.$Progress.finish();
-                  });
+            .then((response) => {
+              vm.organization = null;
+              vm.$root.$emit('bv::show::modal', 'my-reporting-link-details', button);
+              vm.linkDetails = response.data;
+              this.$Progress.finish()
+            });
         }
       },
       onProgramClientChange(value) {
@@ -401,19 +399,19 @@
 
         if (value) {
           AppAxios.get(
-                  `${vm.apiURL}/api/cdx/link-json-handoff/${value}`,
-                  {
-                    headers: {
-                      Authorization: `Bearer ${vm.token}`,
-                      crossDomain: true,
-                      'cache-control': 'no-cache',
-                      'Content-Type': 'application/json',
-                    },
-                  },
+            `${vm.apiURL}/api/cdx/link-json-handoff/${value}`,
+            {
+              headers: {
+                Authorization: `Bearer ${vm.token}`,
+                crossDomain: true,
+                'cache-control': 'no-cache',
+                'Content-Type': 'application/json',
+              },
+            },
           )
-                  .then((response) => {
-                    vm.handoff = response.data;
-                  });
+            .then((response) => {
+              vm.handoff = response.data;
+            });
         }
       },
     },
@@ -427,7 +425,7 @@
 </script>
 
 <style scoped
-       lang="scss">
+  lang="scss">
   #app {
     margin-bottom: 7rem;
   }
@@ -547,4 +545,6 @@
     background-size: 1.3rem 1.325rem;
     background-image: url('/images/minus-circle-solid.svg')
   }
+</style>
+<style>
 </style>

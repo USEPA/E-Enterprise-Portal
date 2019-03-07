@@ -387,7 +387,6 @@
 
 <style scoped
        lang="scss">
-  @import "../../styles/my-certifications";
   /* To import images */
   h2::before {
     content: url('../../assets/images/state-government.svg');
@@ -405,10 +404,6 @@
     border-width: 0;
     float: right;
     position: relative;
-  }
-
-  .wapp-small .cert-needs-attn-decoration {
-    top: -1.5rem;
   }
 
   .cert-not-completed-decoration {
