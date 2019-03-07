@@ -386,9 +386,7 @@
         });
       },
       revealLocationInputBox(){
-          this.$store.commit('SET_IS_MAIN_INPUT_DISPLAYED', '');
           this.$store.commit('SET_DISPLAY_WHEN_LOCATION_IS_CLICKED', '');
-          this.$store.commit('SET_DISPLAY_WHEN_LOCATION_IS_CLICKED', 'none');
       },
     },
   };
