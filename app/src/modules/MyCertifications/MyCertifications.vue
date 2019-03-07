@@ -388,10 +388,6 @@
 <style scoped
        lang="scss">
   /* To import images */
-  h2::before {
-    content: url('../../assets/images/state-government.svg');
-  }
-
   .cert-needs-attn-decoration,
   .cert-not-completed-decoration{
     height: .8rem;

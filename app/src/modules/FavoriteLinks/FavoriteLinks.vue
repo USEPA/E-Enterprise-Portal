@@ -347,10 +347,6 @@
   lang="scss">
   @import "../../styles/favorite-links";
   /* To import images */
-  h2::before {
-    content: url('../../assets/images/bookmark.svg');
-  }
-
   .add-favorite-btn {
     background-image: url('../../assets/images/favorites-add.svg');
   }
@@ -362,6 +358,7 @@
   .delete-favorite-btn {
     background-image: url('../../assets/images/favorites-empty.svg');
   }
+
   /* Fixes bottom of workbench grey area */
   #app {
     margin-bottom: 7rem;
