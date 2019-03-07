@@ -338,6 +338,11 @@
           evt.preventDefault();
           vm.submissionErrorMessage = '';
           vm.submitPartnersData({ vm, evt });
+          vm.$root.$emit(
+            'bv::hide::modal',
+            'bwi-modal-interactive',
+            vm.$refs.bwiModalInteractive
+          );
           this.$ga.event('eportal', 'click', `BWI Submit Form- ${partner.code}`, 1)
         } else {
           this.submissionErrorMessage = 'Please enter values for some of the contaminants.';
