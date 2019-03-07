@@ -59,10 +59,9 @@ export default {
     const app = store.rootGetters.getApp;
     const { state } = store;
     const partner = state.selectedPartner;
-    const suffix = (env === 'LOCAL') ? '.xml' : '';
 
     if (!state.partnerXmls[partnerCode]) {
-      AppAxios.get(state.urls[env].getPartnerXML + partnerCode + suffix)
+      AppAxios.get(state.urls[env].getPartnerXML + partnerCode + '.xml')
         .then((response) => {
           // @todo add sanity check for returned data
           const partnerJsonString = convert.xml2json(response.data, { compact: true });
@@ -89,7 +88,7 @@ export default {
           console.warn('AppAxios fail: ', args);
         });
 
-      AppAxios.get(state.urls[env].getFlowchartXML + partnerCode + suffix)
+      AppAxios.get(state.urls[env].getFlowchartXML + partnerCode + '.xml')
         .then((response) => {
           // @todo add sanity check for returned data
           const partnerJsonString = convert.xml2json(response.data, { compact: true });
@@ -127,10 +126,10 @@ export default {
       // eslint-disable-next-line vue/no-async-in-computed-properties
 
       AppAxios.get(store.state.urls[env].getPartners)
-      .then((response) => {
-        // @todo add sanity check for returned data
-        store.commit(types.UPDATE_PARTNERS, response.data);
-      }).catch((...args) => {
+        .then((response) => {
+          // @todo add sanity check for returned data
+          store.commit(types.UPDATE_PARTNERS, response.data);
+        }).catch((...args) => {
         // @todo add sanity check for errors & visual prompt to the user
         app.$Progress.fail();
         console.warn('AppAxios fail: ', args);
@@ -185,8 +184,8 @@ export default {
               } else {
                 store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS, []);
               }
-              if (!!data.InteractivePrompts.length
-                || !!data.AdditionalContaminantRequests.length) {
+              if (data.InteractivePrompts.length
+                || data.AdditionalContaminantRequests.length) {
                 const bwiModalInteractive = vm.$refs.bwi_modal_interactive;
 
                 vm.$root.$emit(
@@ -276,8 +275,8 @@ export default {
 
     // So if the dropdown is already selected we do nothing
     if (store.selectedPartner == null) {
-      // If there is an option we can update to it; the select options are driven
-      // by "partners"
+      // If there is an option we can update to it; the select options are
+      // driven by "partners"
       const { partners } = store.state;
       const { state } = rootStore.state.user.location;
       const newSelectedpartners = partners.filter(partner => partner.code == state);
