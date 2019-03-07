@@ -345,7 +345,6 @@
 
 <style scoped
   lang="scss">
-  @import "../../styles/favorite-links";
   /* To import images */
   .add-favorite-btn {
     background-image: url('../../assets/images/favorites-add.svg');
