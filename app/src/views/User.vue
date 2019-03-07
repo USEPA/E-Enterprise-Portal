@@ -302,8 +302,8 @@
         } else {
           this.$refs[ref_index][0].classList.remove('far');
           this.$refs[ref_index][0].classList.add('fas');
-          this.indexValue=ref_index;
-          this.locationInfo=value;
+          this.indexValue = ref_index;
+          this.locationInfo = value;
         }
       },
       save() {
