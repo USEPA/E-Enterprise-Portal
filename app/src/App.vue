@@ -243,7 +243,7 @@
     text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
     background-color: #0071bc;
     height: auto;
-    font-size: 1rem;
+    font-size: 1.40rem;
 
     a {
       @extend small;
