@@ -29,14 +29,14 @@ export default {
     },
     DEV: {
       getPartners: 'sample_data/stateAndTribes.json',
-      getPartnerXML: 'https://dev.e-enterprise.gov/be_well_informed/get_bwi_xml/partner-',
-      getFlowchartXML: 'https://dev.e-enterprise.gov/be_well_informed/get_bwi_xml/flowchart-',
+      getPartnerXML: 'https://dev2.e-enterprise.gov/sample_data/partner-',
+      getFlowchartXML: 'https://dev2.e-enterprise.gov/sample_data/flowchart-',
       submitPartnersData: 'https://dev.e-enterprise.gov/TestRest/bwievaluation',
     },
     TEST: {
       getPartners: 'sample_data/stateAndTribes.json',
-      getPartnerXML: 'https://dev.e-enterprise.gov/be_well_informed/get_bwi_xml/partner-',
-      getFlowchartXML: 'https://dev.e-enterprise.gov/be_well_informed/get_bwi_xml/flowchart-',
+      getPartnerXML: 'https://dev2.e-enterprise.gov/sample_data/partner-',
+      getFlowchartXML: 'https://dev2.e-enterprise.gov/sample_data/flowchart-',
       submitPartnersData: 'https://dev.e-enterprise.gov/TestRest/bwievaluation',
     },
     PROD: {
