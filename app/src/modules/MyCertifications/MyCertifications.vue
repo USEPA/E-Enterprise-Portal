@@ -387,12 +387,7 @@
 
 <style scoped
        lang="scss">
-  @import "../../styles/my-certifications";
   /* To import images */
-  h2::before {
-    content: url('../../assets/images/state-government.svg');
-  }
-
   .cert-needs-attn-decoration,
   .cert-not-completed-decoration{
     height: .8rem;
@@ -407,14 +402,11 @@
     position: relative;
   }
 
-  .wapp-small .cert-needs-attn-decoration {
-    top: -1.5rem;
-  }
-
   .cert-not-completed-decoration {
     background-size: .5rem;
     background-image: url('../../assets/images/mycert-question.svg');
   }
+
   .cert-needs-attn-decoration {
     background-size: .25rem;
     background-image: url('../../assets/images/mycert-exclamation.svg');
