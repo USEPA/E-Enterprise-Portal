@@ -57,13 +57,14 @@
 }
 
 // heights
-.bootstrap-vue-mycerts-table-scroll > tbody {
-  height: 45px;
+.wapp-small .my-certs-tbody {
+  height: 65px;
 }
 
 .bootstrap-vue-fav-table-scroll > tbody {
   height: 200px;
 }
+
 .bootstrap-vue-table-scroll > tbody {
   overflow-y: auto;
   width: 100%;

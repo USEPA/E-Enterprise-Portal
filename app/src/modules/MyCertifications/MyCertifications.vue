@@ -43,6 +43,7 @@
       hover
       id="my-certifications-table"
       class="bootstrap-vue-mycerts-table-scroll"
+      tbody-class="my-certs-tbody"
       :items="certifications"
       :fields="datatableSettings.fields"
       :current-page="datatableSettings.currentPage"
