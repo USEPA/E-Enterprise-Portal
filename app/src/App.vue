@@ -243,7 +243,7 @@
     text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
     background-color: #0071bc;
     height: auto;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
 
     a {
       @extend small;
@@ -293,6 +293,6 @@
   }
 
   #nav {
-    margin-top: 20px !important;
+    margin-top: 0px !important;
   }
 </style>

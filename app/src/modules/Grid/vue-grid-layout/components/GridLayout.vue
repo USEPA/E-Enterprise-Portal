@@ -20,7 +20,7 @@
 <style>
   .vue-grid-layout {
     position: relative;
-    transition: height 200ms ease !important;
+    transition: none;
   }
 </style>
 <script>
