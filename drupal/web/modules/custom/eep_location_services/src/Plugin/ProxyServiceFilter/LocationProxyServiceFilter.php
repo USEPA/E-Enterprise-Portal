@@ -145,7 +145,6 @@ class LocationProxyServiceFilter extends ProxyServiceFilterBase {
       ['Content-Type' => ['application/json']],
       $final_content
     );
-
     return $this->response;
   }
 
