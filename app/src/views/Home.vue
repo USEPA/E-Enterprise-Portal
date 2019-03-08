@@ -104,6 +104,9 @@
                   </h6>
                   </div>
               </div>
+              <div >
+                <a class="float-right link-color"  href="https://dev2.e-enterprise.gov/about">..and more</a>
+              </div>
             </div>
           </div>
         </div>
@@ -288,7 +291,9 @@
     .carousel-control-prev, .carousel-control-next {
       width: 2rem;
     }
-
+    .link-color{
+      color: #F0F0F0;
+    }
     // Slide 1
   .widget-button {
     width: 3rem;
