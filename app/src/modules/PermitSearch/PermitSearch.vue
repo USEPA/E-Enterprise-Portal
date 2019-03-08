@@ -9,33 +9,27 @@
           class="needs-validation"
           @submit="initialFormSubmit"
           novalidated>
-          <label
-            class="mb-0"
-            for="permit-type-selection">Select permit type</label>
-          <b-form-select
-            id="permit-type-selection"
-            :value="permitType"
-            :options="formOptions.permitType"
-            ref="permitTypeDropdown"
-            @change="setPermitType"
-            size="sm"
-            required>
-            <template slot="first">
-              <option>{{ permitType }}</option>
-            </template>
-          </b-form-select>
-          <br>
-          <label
-            class="mb-0"
-            for="facility-name-input">Facility Name</label>
+          <b-row>
+            <label
+              class="mb-0 pl-3"
+              for="permit-type-selection">Select a permit type</label>
+          </b-row>
           <b-row>
             <b-col md="8">
-              <b-form-input
-                id="facility-name-input"
-                ref="facility-name-input"
+              <b-form-select
+                id="permit-type-selection"
+                class="mb-3"
+                :value="permitType"
+                :options="formOptions.permitType"
+                ref="permitTypeDropdown"
+                @change="setPermitType"
                 size="sm"
-                class="mb-2"
-                @change="setFacilityName"/>
+                required>
+                <template slot="first">
+                  <option
+                    disabled>{{ permitType }}</option>
+                </template>
+              </b-form-select>
             </b-col>
             <b-col md="4">
               <b-btn
@@ -50,7 +44,7 @@
         </b-form>
         <b-row>
           <b-col class="permit-search-footer">
-            <a>Advanced Search</a> &#8226; <a>What permits can I find?</a>
+            <a>What permits can I find?</a>
           </b-col>
         </b-row>
 

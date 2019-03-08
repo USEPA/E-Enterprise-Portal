@@ -6,7 +6,7 @@
  */
 
 export default {
-  permitType: 'All',
+  permitType: 'Select...',
   facilityName: '',
   formOptions: {
     permitType: [
