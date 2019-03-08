@@ -9,4 +9,5 @@
 export default {
   NAMESPACE: 'ModuleTemplate/',
   SET_PERMIT_TYPE: 'SET_PERMIT_TYPE',
+  SET_FACILITY_NAME: 'SET_FACILITY_NAME',
 };

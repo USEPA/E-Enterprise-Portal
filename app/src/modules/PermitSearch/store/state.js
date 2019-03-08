@@ -7,6 +7,7 @@
 
 export default {
   permitType: 'All',
+  facilityName: '',
   formOptions: {
     permitType: [
       'Construction General Permit',

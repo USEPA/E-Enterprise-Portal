@@ -15,4 +15,7 @@ export default {
   getPermitType(state) {
     return state.permitType;
   },
+  getFacilityName(state) {
+    return state.facilityName;
+  },
 };

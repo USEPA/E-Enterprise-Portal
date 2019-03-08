@@ -15,4 +15,9 @@ export default {
 
     store.commit(types.SET_PERMIT_TYPE, payload);
   },
+  setFacilityName(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_FACILITY_NAME, payload);
+  },
 };
