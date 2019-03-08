@@ -1,7 +1,7 @@
 <template>
     <div id="comp">
         <div class="pt-3 d-flex">
-            <b-input-group v-show="user.isMainInputDisplayed !== 'none'">
+            <b-input-group v-show="user.isMainInputDisplayed">
                 <label class="col-12 font-weight-bold">
                     Enter city, state; tribe; or ZIP code
                 </label>

@@ -72,7 +72,7 @@
                     </template>
                 </div>
                 <LocationSelectionOption></LocationSelectionOption>
-                <div>
+                <div v-show="user.isAfterInputDropdownDisplayed">
                     <button class="usa-button pt-2" @click="revealLocationInputBox">New Location</button>
                 </div>
               </div>
@@ -352,8 +352,9 @@
         });
       },
       revealLocationInputBox(){
-          this.$store.commit('SET_IS_MAIN_INPUT_DISPLAYED', '');
-          this.$store.commit('SET_DISPLAY_WHEN_LOCATION_IS_CLICKED', '');
+        // Reset the display none for the populated dropdown
+        this.$store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', true);
+        this.$store.commit('SET_IS_MAIN_INPUT_DISPLAYED', true);
       },
     },
   };

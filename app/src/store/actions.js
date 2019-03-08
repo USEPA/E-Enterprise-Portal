@@ -501,7 +501,6 @@ export default {
       // Commit all of the information to the store
       store.commit('SET_OPTIONS_AFTER_INPUT', formattedResponseInformation);
       store.commit('SET_INPUT_BOX_TEXT', store.getters.getUser.inputBoxText);
-      // Reset the display none for the populated dropdown
       store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', false);
       // Change the label for the dropdown
       store.commit('SET_DROPDOWN_LABEL', dropDownLabelText);
@@ -539,7 +538,7 @@ export default {
 
     store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', 'none');
 
-    store.commit('SET_IS_MAIN_INPUT_DISPLAYED', 'none');
+    store.commit('SET_IS_MAIN_INPUT_DISPLAYED', false);
 
     if (store.getters.getUser.firstTimeSelectButtonClicked === 1) {
       store.commit('SET_DISPLAY_WHEN_LOCATION_IS_CLICKED', '');

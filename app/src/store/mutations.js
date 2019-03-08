@@ -266,7 +266,7 @@ export default {
   },
   [types.SET_IS_MAIN_INPUT_DISPLAYED](state, css_prop) {
     Vue.set(state.user,
-      'IsMainInputDisplayed',
+      'isMainInputDisplayed',
       css_prop);
   },
   [types.ITERATE_FIRST_TIME_SELECT_BUTTON](state, amount) {

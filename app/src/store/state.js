@@ -56,7 +56,7 @@ const state = {
     mail: '',
     favoriteLinks: [],
     isAfterInputDropdownDisplayed: true,
-    isMainInputDisplayed: '',
+    isMainInputDisplayed: true,
     firstTimeSelectButtonClicked: 0,
     displayWhenNewLocationIsClicked: '',
     optionsAfterInput: [],
