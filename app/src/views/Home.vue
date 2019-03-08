@@ -160,7 +160,7 @@
         img-blank>
         <div class="container">
           <div class="row">
-            <div class="slide-image col-md-6 align-self-center">
+            <div class="slide-image col-md-4 align-self-center">
                 <img
                   class="lg-carousel-highlight"
                   id="regular-finder-img"
@@ -290,15 +290,13 @@
     }
 
     // Slide 1
-
-    // Slide 2
-
-    .widget-button {
+  .widget-button {
     width: 3rem;
     height: 3rem;
     border-radius: 50%;
-    }
+  }
 
+    // Slide 2
     #my-reporting-img {
       width: 45%;
       max-width: 100%;
@@ -316,6 +314,7 @@
       padding-bottom: 1rem;
       float:right;
     }
+    // Slide 3
     #regular-finder-img {
       max-width: 55%;
     }
@@ -323,28 +322,15 @@
     #regular-finder-results-img {
       width: 85%;
       max-width: 100%;
-    }
-    .account-auth {
-      align-self: flex-end;
-    }
-    @media only screen and (min-width: 576px) and (max-width: 767px) {
-      #progress-tracker-img {
-        max-width: 40%;
-        position: absolute;
-        right: 0;
-        top: 8.75rem;
-      }
+      height: auto;
     }
 
-    // Slide 3
+
     .slide-image {
       position: relative;
       margin-bottom: 1rem;
     }
-    .lg-carousel-roles {
-      width: 85%;
-      max-width: 100%;
-    }
+
     .lg-carousel-highlight {
       border: #1c9b97 solid 0.4375rem;
       border-radius: 0.3125rem;
