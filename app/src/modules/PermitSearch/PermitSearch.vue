@@ -33,7 +33,6 @@
               <b-form-input
                 id="facility-name-input"
                 ref="facility-name-input"
-                type="string"
                 size="sm"
                 class="mb-2"
                 @change="setFacilityName"/>
