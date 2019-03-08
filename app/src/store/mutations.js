@@ -132,11 +132,14 @@ export default {
       'roles',
       obj.field_role);
     Vue.set(state.user,
-      'userlocations',
+      'userLocationsFromLoad',
       obj.field_userlocation);
     Vue.set(state.user,
-      'userfavoritelocations',
-      obj.field_userfavoritelocations);
+      'userLocationsFromLoadCopy',
+      _.cloneDeep(obj.field_userlocation));
+    // Vue.set(state.user,
+    //   'userfavoritelocations',
+    //   obj.field_userfavoritelocations);
   },
   [types.SET_USER_OBJECT_ORGANIZATIONS](state, obj) {
     Vue.set(state.user.userObject,
@@ -217,7 +220,7 @@ export default {
   },
   [types.SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED](state, isDisplayed) {
     Vue.set(state.user,
-      'IsAfterInputDropdownDisplayed',
+      'isAfterInputDropdownDisplayed',
       isDisplayed);
   },
   [types.SET_INPUT_BOX_TEXT](state, newText) {
@@ -238,17 +241,17 @@ export default {
       dropdownSelection);
   },
   [types.SAVE_USER_SELECTED_LOCATIONS](state, newLocation) {
-    state.user.userSavedLocations.push(newLocation);
+    state.user.userLocationsFromLoad.push(newLocation);
   },
   [types.DELETE_USER_SELECTED_LOCATION](state, deletedSelection) {
     // Filter the array with the location that they want deleted
-    const filteredLocation = state.user.userSavedLocations
-      .filter(location => location.typed_in_location !== deletedSelection.typed_in_location
-        && location.selected_location_from_dropdown !== deletedSelection.selected_location_from_dropdown);
+    const filteredLocation = state.user.userLocationsFromLoad
+      .filter(location => location.first !== deletedSelection.first
+        && location.second !== deletedSelection.second);
 
     // Save back to state
     Vue.set(state.user,
-      'userSavedLocations',
+      'userLocationsFromLoad',
       filteredLocation);
   },
   [types.SET_DISPLAY_WHEN_LOCATION_IS_CLICKED](state, css_prop) {

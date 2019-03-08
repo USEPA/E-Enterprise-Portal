@@ -44,61 +44,30 @@
                   <p>Until a location is specified, the default location is set to
                   Durham, North Carolina.</p>
                 </div>
-                <div  v-if="user.userlocations.length > 0">
-                  <template v-for="(second,index) in user.userlocations">
-                    <b-input-group class="pl-2 pb-2 pt-2">
-                      <b-form-input ref="selectedLocation" v-model="userlocations[index].second"
-                                    type="text"
-                                    class="col-4 ml-3"
-                                    disabled/>
-                      <div class="col-1 cursor-pointer">
-                        <template v-if="userfavoritelocations.length == 0 ">
-                          <template v-if="index == 0">
-                            <i :ref="'click-star-' + index" @click="starClick('click-star-' + index, second)" class="fas fa-star"/>
-                          </template>
-                          <template v-else>
-                            <i :ref="'click-star-' + index" @click="starClick('click-star-' + index,second)" class="far fa-star"/>
-                          </template>
-                        </template>
-                        <template v-else>
-                          <template v-if="userlocations[index].second==userfavoritelocations[0].second">
-                            <i :ref="'click-star-' + index" @click="starClick('click-star-' +index,second)" class="fas fa-star"/>
-                          </template>
-                          <template v-else>
-                            <i :ref="'click-star-' + index" @click="starClick('click-star-' + index,second)" class="far fa-star"/>
-                          </template>
-                        </template>
-                      </div>
-                      <template>
-                        <button class="usa-button" value="x" @click="deleteUserLocation(second)">X
-                        </button>
-                      </template>
-                      <span class="col-md-12 pt-1 small"  >{{userlocations[index].first}}</span>
-                    </b-input-group>
-                  </template>
-                </div>
 
                 <!-- format this to output the users inputted locations -->
                   <!-- try to incorporate the users selections here -->
-                <div id="user-input-locations" v-if="user.userSavedLocations.length > 0">
-                    <template v-for="(location, index) in user.userSavedLocations">
+                <div id="user-input-locations" v-if="user.userLocationsFromLoad.length > 0">
+                    <template v-for="(location, index) in user.userLocationsFromLoad">
                         <b-input-group class="pl-2 pb-2 pt-2">
-                            <b-form-input ref="selectedLocation" v-model="location.selected_location_from_dropdown"
+                            <b-form-input ref="selectedLocation" v-model="location.first"
                                           type="text"
                                           class="col-4 ml-3"
                                           disabled/>
                             <div class="col-1 cursor-pointer">
-                                <template v-if="index == 0 || (firstLoad && user.userSavedLocations.savedStar == true)">
-                                  <i :ref="'click-star-' + index" @click="starClick('click-star-' + index,second)" class="fas fa-star"/>
+                                <template v-if="index == 0">
+                                  <i :ref="'click-star-' + index"
+                                     @click="starClick(('click-star-' + index),location.second)" class="fas fa-star"/>
                                 </template>
                                 <template v-else>
-                                  <i :ref="'click-star-' + index" @click="starClick('click-star-' + index,second)" class="far fa-star"/>
+                                  <i :ref="'click-star-' + index"
+                                     @click="starClick(('click-star-' + index),location.second)" class="far fa-star"/>
                                 </template>
                             </div>
                             <button class="usa-button" value="x" @click="deleteSelectedLocation({
-                              typed_in_location: location.typed_in_location,
-                              selected_location_from_dropdown: location.selected_location_from_dropdown})">X</button>
-                            <span class="col-md-12 pt-1 small">{{location.typed_in_location}}</span>
+                              first: location.first,
+                              second: location.second})">X</button>
+                            <span class="col-md-12 pt-1 small">{{location.second}}</span>
                         </b-input-group>
                     </template>
                 </div>
@@ -257,10 +226,15 @@
           return this.user.userSavedLocations;
         }
       },
-      userlocations: {
+      userLocationsFromLoad: {
         get() {
-          return this.user.userlocations;
+          return this.user.userLocationsFromLoad;
         }
+      },
+      userLocationsFromLoadCopy: {
+          get() {
+              return this.user.userLocationsFromLoadCopy;
+          }
       },
       userfavoritelocations: {
         get() {
@@ -308,7 +282,7 @@
       },
       save() {
         this.updateUserLocation();
-        this.updateFavoriteLocation();
+        //this.updateFavoriteLocation();
         //these if statements will not work as the interest tab is hidden
         if (this.selected) {
               this.updateOrg();
@@ -316,7 +290,19 @@
         if (this.selectedRole) {
               this.updateRole();
         }
+      },
+      updateUserLocation(){
+        // Star logic
+        let userLocations = [];
+        let userLocationZipcode = {};
 
+        this.userLocationsFromLoad.forEach((item) => {
+          userLocations.push({first: item.first, second: parseInt(item.second, 10)});
+          userLocationZipcode = {
+             field_userlocation: this.userLocationsFromLoad,
+          };
+          this.apiUserPatch(userLocationZipcode);
+        });
       },
       updateOrg() {
         this.organizations[0].first='org';
@@ -336,26 +322,6 @@
         this.apiUserPatch(roleparams);
         this.roles= [];
       },
-      updateUserLocation(){
-        let i;
-        let userLocationZipcode={};
-        let j = this.userSavedLocations.length;
-        for (i = 0; i < j ; i++) {
-          let zipcode = this.userSavedLocations[i].selected_location_from_dropdown;
-          let typedLocation = this.userSavedLocations[i].typed_in_location;
-          this.userlocations.push({first: typedLocation, second: parseInt(zipcode, 10)});
-          userLocationZipcode = {
-            field_userlocation: this.userlocations,
-          };
-          this.apiUserPatch(userLocationZipcode);
-        }
-        for(i = 0; i < j ; i++) {
-          this.deleteSelectedLocation({
-            typed_in_location: this.userSavedLocations[i].typed_in_location,
-            selected_location_from_dropdown: this.userSavedLocations[i].selected_location_from_dropdown,
-          });
-        }
-      },
       updateFavoriteLocation(){
         let starZip = this.locationInfo.second;
         let starLocation= this.locationInfo.first;
@@ -371,11 +337,11 @@
         this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
       },
       deleteUserLocation(deletedValue) {
-        var index=this.userlocations.indexOf(deletedValue);
+        var index=this.userLocationsFromLoad.indexOf(deletedValue);
         this.removeFavoriteLocation();
-        this.userlocations.splice(index, 1);
+        this.userLocationsFromLoad.splice(index, 1);
         this.apiUserPatch({
-          field_userlocation: this.userlocations,
+          field_userlocation: this.userLocationsFromLoad,
 
         });
       },
@@ -388,7 +354,6 @@
       revealLocationInputBox(){
           this.$store.commit('SET_IS_MAIN_INPUT_DISPLAYED', '');
           this.$store.commit('SET_DISPLAY_WHEN_LOCATION_IS_CLICKED', '');
-          this.$store.commit('SET_DISPLAY_WHEN_LOCATION_IS_CLICKED', 'none');
       },
     },
   };

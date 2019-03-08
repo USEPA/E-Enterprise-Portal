@@ -1,7 +1,7 @@
 <template>
     <div id="comp">
         <div class="pt-3 d-flex">
-            <b-input-group :style="{display: user.IsMainInputDisplayed}">
+            <b-input-group v-show="user.isMainInputDisplayed !== 'none'">
                 <label class="col-12 font-weight-bold">
                     Enter city, state; tribe; or ZIP code
                 </label>
@@ -9,7 +9,7 @@
             </b-input-group>
         </div>
         <div id="input-box-results-drop-down" class="pt-3 d-flex">
-            <b-input-group :style="{display: user.IsAfterInputDropdownDisplayed}">
+            <b-input-group v-show="!user.isAfterInputDropdownDisplayed">
                 <label class="col-12 font-weight-bold">{{user.dropDownLabel}} {{user.inputBoxText}}</label>
                 <b-form-select class="col-4 ml-3" v-model="user.dropDownSelection">
                     <template v-for="afterInputOption in user.optionsAfterInput">
@@ -27,7 +27,7 @@
                 </b-form-select>
             </b-input-group>
         </div>
-        <div class="locations-btn-wrapper pt-2 ml-3 pb-3" :style="{display: user.IsAfterInputDropdownDisplayed}">
+        <div class="locations-btn-wrapper pt-2 ml-3 pb-3" v-show="!user.isAfterInputDropdownDisplayed">
             <button class="usa-button" @click="handleSelectButton">Select</button>
             <button class="usa-button" @click="handleBackButton">Back</button>
         </div>
@@ -72,8 +72,7 @@
            ...mapActions([
            ]),
            submitInput(event){
-               if(event.which === 13 &&
-                   this.$store.getters.getUser.inputBoxText !== ''){
+               if(event.which === 13 && this.$store.getters.getUser.inputBoxText !== ''){
                    this.$store.dispatch('populateDropdownForUserInput', this.inputBoxText);
                }
            },

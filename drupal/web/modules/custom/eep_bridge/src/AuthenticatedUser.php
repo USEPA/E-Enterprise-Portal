@@ -61,6 +61,7 @@ class AuthenticatedUser {
     // Source username with out Via, unaltered from identity provider
     $source_username = $username;
 
+    // @TODO: redo this to reflect SCS and Exchange network
     if ($this->authentication_method === "WAMNAAS") {
       //Trim space and double quote from WAM name attribute.
       $wam_uname = trim(trim($userDetails->attributes['name'][0]), '"');

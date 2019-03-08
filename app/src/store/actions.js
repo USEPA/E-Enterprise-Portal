@@ -502,7 +502,7 @@ export default {
       store.commit('SET_OPTIONS_AFTER_INPUT', formattedResponseInformation);
       store.commit('SET_INPUT_BOX_TEXT', store.getters.getUser.inputBoxText);
       // Reset the display none for the populated dropdown
-      store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', '');
+      store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', false);
       // Change the label for the dropdown
       store.commit('SET_DROPDOWN_LABEL', dropDownLabelText);
     }).catch((error) => {
@@ -527,8 +527,8 @@ export default {
     }
 
     store.commit('SAVE_USER_SELECTED_LOCATIONS', {
-      typed_in_location: typedInLocationToCommit,
-      selected_location_from_dropdown: selectedLocationFromDropdownToCommit,
+      first: typedInLocationToCommit,
+      second: selectedLocationFromDropdownToCommit,
     });
 
     // Clear the inputbox text
