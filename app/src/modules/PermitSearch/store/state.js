@@ -8,10 +8,18 @@
 export default {
   permitType: 'Select...',
   facilityName: '',
+  NPDESID: '',
+  cityName: '',
+  stateTerritory: '',
+  zip:'',
   formOptions: {
     permitType: [
       'Construction General Permit',
       'Multi-sector General Permit',
     ],
+    stateTerritory: [
+      'cool place',
+      'cooler place',
+    ]
   },
 };

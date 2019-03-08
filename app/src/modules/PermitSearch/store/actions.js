@@ -20,4 +20,24 @@ export default {
 
     store.commit(types.SET_FACILITY_NAME, payload);
   },
+  setNPDESID(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_NPDESID, payload);
+  },
+  setCityName(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CITY_NAME, payload);
+  },
+  setStateTerritory(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_STATE_TERRITORY, payload);
+  },
+  setZip(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_ZIP, payload);
+  },
 };

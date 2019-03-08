@@ -18,4 +18,16 @@ export default {
   getFacilityName(state) {
     return state.facilityName;
   },
+  getNPDESID(state) {
+    return state.NPDESID;
+  },
+  getCityName(state) {
+    return state.cityName;
+  },
+  getStateTerritory(state) {
+    return state.stateTerritory;
+  },
+  getZip(state) {
+    return state.zip;
+  },
 };
