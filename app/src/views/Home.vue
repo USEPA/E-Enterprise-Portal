@@ -104,7 +104,7 @@
                   </h6>
                   </div>
               </div>
-              <div >
+              <div>
                 <a class="float-right link-color"  href="https://dev2.e-enterprise.gov/about">..and more</a>
               </div>
             </div>
