@@ -98,7 +98,7 @@
               Application #
             </b-row>
             <b-row class="font-weight-bold">
-              {{ modalSettings.info.number }}
+              {{ modalSettings.info.partner_id }}
             </b-row>
           </b-col>
           <b-col md="4">
@@ -106,7 +106,7 @@
               Application Type
             </b-row>
             <b-row class="font-weight-bold">
-              {{ modalSettings.info.type }}
+              {{ modalSettings.info.report_type }}
             </b-row>
           </b-col>
         </b-row>
@@ -257,7 +257,7 @@
         datatableSettings: {
           fields: [
             {
-              key: 'number',
+              key: 'partner_id',
               label: 'Applic. #',
               sortable: true,
               sortDirection: 'desc',
@@ -314,7 +314,7 @@
           title: 'My Certifications',
           index: 0,
           info: {
-            number: '',
+            partner_id: '',
             type: '',
             status: '',
             submitted: '',
@@ -354,8 +354,8 @@
       },
       openCertsDecriptionModal(item, index, button) {
         this.modalSettings.index = index;
-        this.modalSettings.info.number = item.number;
-        this.modalSettings.info.type = item.type;
+        this.modalSettings.info.partner_id = item.partner_id;
+        this.modalSettings.info.report_type = item.report_type;
         this.modalSettings.info.status = item.status;
         this.modalSettings.info.submitted = item.submitted;
         this.modalSettings.info.updated = item.updated;

@@ -8,7 +8,7 @@
 export default {
   apiUrl: {
     sample: 'sample_data/mycertifications.json',
-    local: '',
+    local: 'http://e-enterprise/api/cdx/certifications',
     dev: '',
     test: '',
   },
