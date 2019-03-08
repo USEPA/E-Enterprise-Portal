@@ -106,7 +106,7 @@
               </div>
               <div>
                 <router-link to="/about">
-                  <a href="" class="float-right link-color">..and more</a>
+                  <a href="" class="float-right text-white">..and more</a>
                 </router-link>
               </div>
             </div>
@@ -293,9 +293,7 @@
     .carousel-control-prev, .carousel-control-next {
       width: 2rem;
     }
-    .link-color{
-      color: #F0F0F0;
-    }
+
     // Slide 1
   .widget-button {
     width: 3rem;
