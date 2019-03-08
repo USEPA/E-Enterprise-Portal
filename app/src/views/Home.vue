@@ -105,7 +105,9 @@
                   </div>
               </div>
               <div>
-                <a class="float-right link-color"  href="https://dev2.e-enterprise.gov/about">..and more</a>
+                <router-link to="/about">
+                  <a href="" class="float-right link-color">..and more</a>
+                </router-link>
               </div>
             </div>
           </div>
