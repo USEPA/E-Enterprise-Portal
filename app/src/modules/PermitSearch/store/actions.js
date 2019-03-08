@@ -9,28 +9,10 @@ import { EventBus } from '../../../EventBus';
  */
 export default {
   ...commonAppStore.actions,
-  sampleAction(context) {
+  setPermitType(context, payload) {
     const store = context;
     const { state } = store;
 
-    store.commit(types.SAMPLE_MUTATION, {});
-  },
-  sampleActionWithParmas(context, params) {
-    const store = context;
-    const { state } = store;
-
-    store.commit(types.SAMPLE_MUTATION, {});
-  },
-  /**
-   *
-   * The first parameter is always the context, by using a deconstructor we can
-   * cherry pick to properties dispatch and commit which are equivalent to
-   * context.dispatch and context.commit
-   */
-  sampleCallToOtherAction({ dispatch, commit }) {
-    dispatch('sampleAction');
-    // With params
-    // NOTE dispatch returns a promise. To additional work, you must use .then()
-    dispatch('sampleActionWithParmas', { param1, param2 });
+    store.commit(types.SET_PERMIT_TYPE, payload);
   },
 };

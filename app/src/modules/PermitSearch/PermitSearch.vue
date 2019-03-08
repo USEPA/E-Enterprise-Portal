@@ -1,10 +1,33 @@
-<!-- Go through this folder and rename all of the occurances to be specific to the app that you are building -->
 <template>
   <div>
     <AppWrapper
-      :eep-app="eepApp">
-      <!-- Here is where all of the content goes for the ModuleTemplate app -->
-    </AppWrapper>
+      :eep-app="eepApp"/>
+    <b-form
+      class="needs-validation"
+      @submit="initialFormSubmit"
+      novalidated>
+      <label for="permit-type-selection">Select permit type</label>
+      <b-form-select
+        id="permit-type-selection"
+        :value="permitType"
+        :options="formOptions.permitType"
+        ref="permitTypeDropdown"
+        @change="setPermitType"
+        class="mb-3"
+        required>
+        <template slot="first">
+          <option>{{ permitType }}</option>
+        </template>
+      </b-form-select>
+      {{ permitType }}
+      <br>
+      <b-btn
+        variant="primary"
+        ref="btnCheckYourWater"
+        type="submit">
+        Search
+      </b-btn>
+    </b-form>
   </div>
 </template>
 
@@ -39,15 +62,19 @@
 
         },
         computed: {
-            ...mapGetters({
-                localSampleGetterName: `${moduleName}/sampleGetter`,
-                localSampleGetterWithParamGetterName: `${moduleName}/sampleGetterWithParam`,
+            ...mapGetters(moduleName, {
+                formOptions: 'getFormOptions',
+                permitType: 'getPermitType',
             }),
         },
         methods: {
             ...mapActions(moduleName, [
                 'sampleAction',
+                'setPermitType',
             ]),
+          initialFormSubmit() {
+              return null;
+          },
         },
       props: {
         eepApp: {

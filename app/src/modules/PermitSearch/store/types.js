@@ -8,5 +8,5 @@
 
 export default {
   NAMESPACE: 'ModuleTemplate/',
-  SAMPLE_MUTATION: 'SAMPLE_MUTATION',
+  SET_PERMIT_TYPE: 'SET_PERMIT_TYPE',
 };

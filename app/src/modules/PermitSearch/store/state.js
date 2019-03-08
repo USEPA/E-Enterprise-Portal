@@ -6,8 +6,11 @@
  */
 
 export default {
-  // @todo Remove POC "user" and add meaningful intial state values
-  sampleProperty: {
-    name: 'Sample Property',
+  permitType: 'All',
+  formOptions: {
+    permitType: [
+      'Construction General Permit',
+      'Multi-sector General Permit',
+    ],
   },
 };
