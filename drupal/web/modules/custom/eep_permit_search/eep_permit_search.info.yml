@@ -1,0 +1,8 @@
+name: 'EEP Permit Search'
+type: module
+description: 'Permit Search proxy service'
+core: 8.x
+package: 'EEP'
+dependencies:
+  - 'eep_core'
+  - 'default_content'
