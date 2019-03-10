@@ -1,7 +1,10 @@
 {
-  "allForms": "retrieves all forms",
-  "formTypes": "retrieves all form types",
-  "formStatuses": "retrieves all form statuses",
+  "availableUtilityParams": {
+    "allForms": "retrieves all forms, no need to set value",
+    "formTypes": "retrieves all form types, no need to set value",
+    "formStatuses": "retrieves all form statuses, no need to set value",
+    "docs": "retrieves contents of this"
+  },
   "availableFormParams": {
     "usedWithMSGP": {
       "issuer":  "The permitting authority that is issuing this permit",
