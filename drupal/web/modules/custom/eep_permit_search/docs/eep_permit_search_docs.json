@@ -1,5 +1,5 @@
 {
-  "instructions": "This proxy service is driven by queries. Query any parameter(s) from this.allAvailableParameters.availableHelperParameters and/or this.allAvailableParameters.availableFormQueryParameters{ usedWithMSGP, usedWithCGP, usedWithBoth } to get an applicable JSON response.",
+  "instructions": "This proxy service is driven by queries. Query any parameter(s) from this.allAvailableParameters{ availableHelperParameters, availableFormQueryParameters{ usedWithMSGP, usedWithCGP, usedWithBoth } } to get an applicable JSON response.",
   "allAvailableParameters": {
     "availableHelperParameters": {
       "allForms": "retrieves all forms, no need to set value",
@@ -16,7 +16,7 @@
         "npdesId": "The NPDES ID of the form",
         "sector": "Applicable sectors for any co-located industrial activity",
         "subSector": "Applicable sub-sectors for any co-located industrial activity",
-        "sicCode": "Standard Industrial Classification (SIC) code appicable to facility",
+        "sicCode": "Standard Industrial Classification (SIC) code applicable to facility",
         "facilityName": "The facility's name",
         "facilityAddressLine1": "The submission type of the form",
         "facilityCity": "The city of the facility site",
