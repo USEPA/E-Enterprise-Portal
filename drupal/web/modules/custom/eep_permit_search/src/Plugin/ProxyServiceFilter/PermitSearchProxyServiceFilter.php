@@ -38,19 +38,22 @@ class PermitSearchProxyServiceFilter extends ProxyServiceFilterBase
         // Get the query values
         $query = $this->getIncomingRequest()->query->all();
 
-        // Sends to docs if no queries set
+        // Sends to docs if no queries set (check is for overall performance)
         if (sizeof($query) > 0) {
-            // Register utility queries
-            $this->payload = $this->register_utility_queries($this->payload, $query);
-
-            // Get utility queries
-            $this->payload = $this->get_utility_queries($this->payload);
+            // Register helper queries
+            $this->payload = $this->register_helper_queries($this->payload, $query);
 
             // Register query params
             $this->payload = $this->register_form_query_params($this->payload, $query);
 
-            // Get form query response
-            $this->payload = $this->get_form_query_response($this->payload);
+            // Get helper queries if any set (check is for overall performance)
+            if (isset($this->payload['helperQueries'])) {
+                $this->payload = $this->get_helper_queries($this->payload);
+            }
+            // Get form query response if any set (check is for overall performance)
+            if (isset($this->payload['formQueryParams'])) {
+                $this->payload = $this->get_form_query_response($this->payload);
+            }
         } else {
             $this->payload['docs'] = $this->get_docs();
         }
@@ -253,33 +256,33 @@ class PermitSearchProxyServiceFilter extends ProxyServiceFilterBase
     }
 
     /**
-     * Register utility queries
+     * Register helper queries
      * @param $payload
      * @param $query
      *
      * @return mixed|\Psr\Http\Message\ResponseInterface
      */
-    private function register_utility_queries($payload, $query)
+    private function register_helper_queries($payload, $query)
     {
         // Add the important query information into the payload for processing later
-        (!isset($query['allForms'])) ?: $payload['allForms'][] = trim($query['allForms']);
-        (!isset($query['formTypes'])) ?: $payload['formTypes'][] = trim($query['formTypes']);
-        (!isset($query['formStatuses'])) ?: $payload['formStatuses'][] = trim($query['formStatuses']);
-        (!isset($query['docs'])) ?: $payload['docs'][] = trim($query['docs']);
+        (!isset($query['allForms'])) ?: $payload['helperQueries']['allForms'][] = trim($query['allForms']);
+        (!isset($query['formTypes'])) ?: $payload['helperQueries']['formTypes'][] = trim($query['formTypes']);
+        (!isset($query['formStatuses'])) ?: $payload['helperQueries']['formStatuses'][] = trim($query['formStatuses']);
+        (!isset($query['docs'])) ?: $payload['helperQueries']['docs'][] = trim($query['docs']);
         return $payload;
     }
 
     /**
-     * Gets utility queries
+     * Gets helper queries
      * @param $payload
      *
      * @return mixed|\Psr\Http\Message\ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    private function get_utility_queries($payload)
+    private function get_helper_queries($payload)
     {
         // Get all forms
-        if (isset($payload['allForms'])) {
+        if (isset($payload['helperQueries']['allForms'])) {
             /**
              * @TODO determine if loading all forms is allowable
              *
@@ -290,29 +293,33 @@ class PermitSearchProxyServiceFilter extends ProxyServiceFilterBase
              * $response = json_decode($form_response->getBody(), FALSE);
              */
             $response = 'Unable to process retrieval of all forms at this time.';
-            $payload['allForms'] = $response;
+            $payload['helperQueryResponse']['allForms'] = $response;
         }
 
         // Get formTypes
-        if (isset($payload['formTypes'])) {
+        if (isset($payload['helperQueries']['formTypes'])) {
             $form_url = $this->request->getUri() . 'reference/formType';
             $form_response = $this->make_request_and_receive_response($form_url);
             $response = json_decode($form_response->getBody(), FALSE);
-            $payload['formTypes'] = $response;
+            $payload['helperQueryResponse']['formTypes'] = $response;
         }
 
         // Get formStatuses
-        if (isset($payload['formStatuses'])) {
+        if (isset($payload['helperQueries']['formStatuses'])) {
             $form_url = $this->request->getUri() . 'reference/formStatus';
             $form_response = $this->make_request_and_receive_response($form_url);
             $response = json_decode($form_response->getBody(), FALSE);
-            $payload['formStatuses'] = $response;
+            $payload['helperQueryResponse']['formStatuses'] = $response;
         }
 
         // Get docs
-        if (isset($payload['docs'])) {
-            $payload['docs'] = $this->get_docs();
+        if (isset($payload['helperQueries']['docs'])) {
+            $payload['helperQueryResponse']['docs'] = $this->get_docs();
         }
+
+        // Removes query params from response for naming purposes when loading queries into content
+        unset($payload['helperQueries']);
+
         return $payload;
     }
 
