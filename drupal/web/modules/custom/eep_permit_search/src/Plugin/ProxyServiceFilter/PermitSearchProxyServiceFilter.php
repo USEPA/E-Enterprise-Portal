@@ -4,7 +4,6 @@ namespace Drupal\eep_permit_search\Plugin\ProxyServiceFilter;
 
 use Drupal\eep_proxy_service\Plugin\ProxyServiceFilterBase;
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Stream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 
@@ -32,7 +31,8 @@ class PermitSearchProxyServiceFilter extends ProxyServiceFilterBase
     }
 
     /**
-     * @return \GuzzleHttp\Psr7\Response
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function fetch()
     {
@@ -53,14 +53,12 @@ class PermitSearchProxyServiceFilter extends ProxyServiceFilterBase
     }
 
     /**
-     * @param \GuzzleHttp\Psr7\Response $response
-     *
      * @return \GuzzleHttp\Psr7\Response
      */
     public function postfetch()
     {
-        // Load query responses into content if not null
-        $content = $this->load_queries_into_content($this->payload);
+        // Load final payload into content if not null
+        $content = $this->load_payload_into_content($this->payload);
 
         $final_content = \GuzzleHttp\json_encode($content);
 
@@ -74,7 +72,6 @@ class PermitSearchProxyServiceFilter extends ProxyServiceFilterBase
     }
 
     /**
-     *
      * @param $request_url
      *
      * @return mixed|\Psr\Http\Message\ResponseInterface
@@ -97,12 +94,12 @@ class PermitSearchProxyServiceFilter extends ProxyServiceFilterBase
     }
 
     /**
-     *
+     * Loads final payload into content
      * @param $payload
      *
      * @return mixed|\Psr\Http\Message\ResponseInterface
      */
-    private function load_queries_into_content($payload)
+    private function load_payload_into_content($payload)
     {
         $content = [];
         foreach ($payload as $query_name => $query_value) {
@@ -257,7 +254,6 @@ class PermitSearchProxyServiceFilter extends ProxyServiceFilterBase
      * @param $query
      *
      * @return mixed|\Psr\Http\Message\ResponseInterface
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     private function register_utility_queries($payload, $query)
     {
