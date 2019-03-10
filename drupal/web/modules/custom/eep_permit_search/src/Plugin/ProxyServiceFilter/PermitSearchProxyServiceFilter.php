@@ -31,7 +31,6 @@ class PermitSearchProxyServiceFilter extends ProxyServiceFilterBase
     }
 
     /**
-     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function fetch()
