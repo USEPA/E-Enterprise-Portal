@@ -38,7 +38,7 @@ class PermitSearchProxyServiceFilter extends ProxyServiceFilterBase
         // Get the query values
         $query = $this->getIncomingRequest()->query->all();
 
-        // Sends to docs if no queries set (check is for overall performance)
+        // Shows docs if no queries set (for overall performance)
         if (sizeof($query) > 0) {
             // Register helper queries
             $this->payload = $this->register_helper_queries($this->payload, $query);
