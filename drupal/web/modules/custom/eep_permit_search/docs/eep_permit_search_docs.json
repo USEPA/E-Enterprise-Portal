@@ -1,46 +1,49 @@
 {
-  "availableHelperParams": {
-    "allForms": "retrieves all forms, no need to set value",
-    "formTypes": "retrieves all form types, no need to set value",
-    "formStatuses": "retrieves all form statuses, no need to set value",
-    "docs": "retrieves contents of this, no need to set value"
-  },
-  "availableFormQueryParams": {
-    "usedWithMSGP": {
-      "issuer":  "The permitting authority that is issuing this permit",
-      "submissionType":  "The submission type of the form",
-      "coverageType":  "The coverage type of the form",
-      "coverageStatus":  "The Coverage status for the form",
-      "npdesId":  "The NPDES ID of the form",
-      "sector":  "Applicable sectors for any co-located industrial activity",
-      "subSector":  "Applicable sub-sectors for any co-located industrial activity",
-      "sicCode":  "Standard Industrial Classification (SIC) code appicable to facility",
-      "facilityName":  "The facility's name",
-      "facilityAddressLine1":  "The submission type of the form",
-      "facilityCity":  "The city of the facility site",
-      "facilityState":  "The two digit state code of the facility site",
-      "facilityZip":  "The zip code of the facility site",
-      "facilityCounty": "The county of the facility site",
-      "masterPermitNumber": "The Master General Permit (MGP) of the form"
+  "instructions": "This proxy service is driven by queries. Query any parameter(s) from this.allAvailableParams.availableHelperParams and/or this.allAvailableParams.availableFormQueryParams{ usedWithMSGP, usedWithCGP, usedWithBoth } to get an applicable JSON response.",
+  "allAvailableParams": {
+    "availableHelperParams": {
+      "allForms": "retrieves all forms, no need to set value",
+      "formTypes": "retrieves all form types, no need to set value",
+      "formStatuses": "retrieves all form statuses, no need to set value",
+      "docs": "retrieves contents of this, no need to set value"
     },
-    "usedWithCGP": {
-      "projectSiteName":  "The project's name",
-      "projectCity":  "The city of the project site",
-      "projectState":  "The two digit state code of the project site",
-      "projectZip":  "The zip code of the project site",
-      "projectCounty":  "The county of the project site",
-      "projectStatus":  "The status of the project",
-      "applicationType": "The application type"
-    },
-    "usedWithBoth": {
-      "operatorName":  "The name of the facility/project operator",
-      "federalIndicator":  "Indicator to search for federally operated facilities",
-      "submittedDateFrom":  "An ISO 8601 formatted date string",
-      "submittedDateTo":  "An ISO 8601 formatted date string",
-      "updatedFrom":  "An ISO 8601 formatted date string",
-      "updatedTo":  "An ISO 8601 formatted date string",
-      "tribalIndicator":  "Indicator to search for facilities on tribal lands",
-      "tribalName":  "The name of a tribe to search by"
+    "availableFormQueryParams": {
+      "usedWithMSGP": {
+        "issuer": "The permitting authority that is issuing this permit",
+        "submissionType": "The submission type of the form",
+        "coverageType": "The coverage type of the form",
+        "coverageStatus": "The Coverage status for the form",
+        "npdesId": "The NPDES ID of the form",
+        "sector": "Applicable sectors for any co-located industrial activity",
+        "subSector": "Applicable sub-sectors for any co-located industrial activity",
+        "sicCode": "Standard Industrial Classification (SIC) code appicable to facility",
+        "facilityName": "The facility's name",
+        "facilityAddressLine1": "The submission type of the form",
+        "facilityCity": "The city of the facility site",
+        "facilityState": "The two digit state code of the facility site",
+        "facilityZip": "The zip code of the facility site",
+        "facilityCounty": "The county of the facility site",
+        "masterPermitNumber": "The Master General Permit (MGP) of the form"
+      },
+      "usedWithCGP": {
+        "projectSiteName": "The project's name",
+        "projectCity": "The city of the project site",
+        "projectState": "The two digit state code of the project site",
+        "projectZip": "The zip code of the project site",
+        "projectCounty": "The county of the project site",
+        "projectStatus": "The status of the project",
+        "applicationType": "The application type"
+      },
+      "usedWithBoth": {
+        "operatorName": "The name of the facility/project operator",
+        "federalIndicator": "Indicator to search for federally operated facilities",
+        "submittedDateFrom": "An ISO 8601 formatted date string",
+        "submittedDateTo": "An ISO 8601 formatted date string",
+        "updatedFrom": "An ISO 8601 formatted date string",
+        "updatedTo": "An ISO 8601 formatted date string",
+        "tribalIndicator": "Indicator to search for facilities on tribal lands",
+        "tribalName": "The name of a tribe to search by"
+      }
     }
   }
 }
