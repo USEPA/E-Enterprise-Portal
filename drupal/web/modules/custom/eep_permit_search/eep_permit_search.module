@@ -16,7 +16,7 @@ function eep_permit_search_help($route_name, RouteMatchInterface $route_match) {
     case 'help.page.eep_permit_search':
       $output = '';
       $output .= '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t('Permit Search proxy service endpoint') . '</p>';
+      $output .= '<p>' . t('Permit Search proxy service endpoint. Query ?docs for documentation.') . '</p>';
       return $output;
 
     default:
