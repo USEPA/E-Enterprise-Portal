@@ -38,17 +38,22 @@ class PermitSearchProxyServiceFilter extends ProxyServiceFilterBase
         // Get the query values
         $query = $this->getIncomingRequest()->query->all();
 
-        // Register utility queries
-        $this->payload = $this->register_utility_queries($this->payload, $query);
+        if (sizeof($query) > 0) {
+            // Register utility queries
+            $this->payload = $this->register_utility_queries($this->payload, $query);
 
-        // Get utility queries
-        $this->payload = $this->get_utility_queries($this->payload);
+            // Get utility queries
+            $this->payload = $this->get_utility_queries($this->payload);
 
-        // Register query params
-        $this->payload = $this->register_form_query_params($this->payload, $query);
+            // Register query params
+            $this->payload = $this->register_form_query_params($this->payload, $query);
 
-        // Get form query response
-        $this->payload = $this->get_form_query_response($this->payload);
+            // Get form query response
+            $this->payload = $this->get_form_query_response($this->payload);
+        } else {
+            // Sends to docs if no queries set
+            $this->payload['docs'] = $this->get_docs();
+        }
     }
 
     /**
