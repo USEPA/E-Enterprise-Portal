@@ -38,6 +38,7 @@ class PermitSearchProxyServiceFilter extends ProxyServiceFilterBase
         // Get the query values
         $query = $this->getIncomingRequest()->query->all();
 
+        // Sends to docs if no queries set
         if (sizeof($query) > 0) {
             // Register utility queries
             $this->payload = $this->register_utility_queries($this->payload, $query);
@@ -51,7 +52,6 @@ class PermitSearchProxyServiceFilter extends ProxyServiceFilterBase
             // Get form query response
             $this->payload = $this->get_form_query_response($this->payload);
         } else {
-            // Sends to docs if no queries set
             $this->payload['docs'] = $this->get_docs();
         }
     }
