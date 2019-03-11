@@ -13,8 +13,15 @@
                 <label class="col-12 font-weight-bold">{{user.dropDownLabel}} {{user.inputBoxText}}</label>
                 <b-form-select class="col-4 ml-3" v-model="user.dropDownSelection">
                     <template v-for="afterInputOption in user.optionsAfterInput">
-                        <template v-if="isValidLocation(afterInputOption)">
-                            <option>
+                        <template v-if="Array.isArray(afterInputOption.tribeName)">
+                            <template v-for="tribeZipcode in afterInputOption.tribeName">
+                                <option :value="tribeZipcode">
+                                    {{tribeZipcode}}
+                                </option>
+                            </template>
+                        </template>
+                        <template v-else-if="isValidLocation(afterInputOption)">
+                            <option :value="afterInputOption">
                                 {{afterInputOption}}
                             </option>
                         </template>
@@ -82,6 +89,7 @@
                     this.$store.commit('ITERATE_FIRST_TIME_SELECT_BUTTON', 1);
                     this.$store.dispatch('handleSelectButtonClickForLocation');
                     this.$store.commit('SET_DISPLAY_WHEN_LOCATION_IS_CLICKED', '');
+                    this.$store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', false);
                 }
            },
           handleBackButton(){
@@ -90,8 +98,7 @@
           isValidLocation(afterInputOption){
                 let isValid = false;
                 if(/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(afterInputOption) ||
-                        /[A-Z][a-zA-Z]+,[ ]?[A-Z]{2}/.test(afterInputOption) ||
-                        this.$store.getters.getUser.isCurrentDropdownZipcodeWithTribes){
+                        /[A-Z][a-zA-Z]+,[ ]?[A-Z]{2}/.test(afterInputOption)){
                     isValid = true;
                 }
                 return isValid;

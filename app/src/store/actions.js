@@ -436,6 +436,7 @@ export default {
     const store = context;
     let params = '';
     const userInput = store.getters.getUser.inputBoxText;
+    let userSavedLocations = store.getters.getUser.userLocationsFromLoad;
 
     store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', false);
 
@@ -465,14 +466,29 @@ export default {
       const returnData = response.data;
       if (params.indexOf('tribe') !== -1) {
         Object.keys(returnData.tribal_information).forEach((key) => {
-          // Push name onto array
-          formattedResponseInformation.push(key);
 
-          // Push each zipcode on array
+          let tribeName = key;
+          let thisTribeZipcodes = [];
+          formattedResponseInformation.push(tribeName);
+
           returnData.tribal_information[key].forEach((item) => {
-            formattedResponseInformation.push(item);
+
+            let zipcode = item;
+
+            // once i get tribe name working then come back and make sure the zipcode is out of here
+            let zipcodeExist = userSavedLocations.some(function(location) {
+                return (parseInt(location.second) === parseInt(zipcode)
+                    && location.first === tribeName);
+            });
+
+            if(!zipcodeExist){
+               thisTribeZipcodes.push(zipcode);
+            }
           });
+          formattedResponseInformation.push({tribeName: thisTribeZipcodes});
         });
+        store.commit(types.IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES, true);
+        store.commit(types.SET_TRIBES_ARRAY, formattedResponseInformation);
       } else if (params.indexOf('zipcode') !== -1) {
         // The if statement handles the case of if a zipcode exist in more than
         // one place
@@ -517,9 +533,22 @@ export default {
     let selectedLocationFromDropdownToCommit = '';
 
 
+
     if (/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(inputBoxText)) {
       selectedLocationFromDropdownToCommit = inputBoxText;
       typedInLocationToCommit = dropDownSelection;
+    } else if(store.getters.getUser.isCurrentDropdownZipcodeWithTribes) {
+
+      selectedLocationFromDropdownToCommit = dropDownSelection;
+      let tribeArray = store.getters.getUser.tribesArray;
+      console.log(tribeArray);
+      for (let i = 0; i < tribeArray.length; i++){
+        if(Array.isArray(tribeArray[i].tribeName)) {
+          if(tribeArray[i].tribeName.indexOf(dropDownSelection) > -1){
+            typedInLocationToCommit = tribeArray[i - 1];
+          }
+        }
+      }
     } else {
       selectedLocationFromDropdownToCommit = dropDownSelection;
       typedInLocationToCommit = inputBoxText;

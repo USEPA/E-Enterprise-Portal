@@ -65,9 +65,8 @@ const state = {
     organizations: [],
     roles: [],
     userLocationsFromLoad:[],
-    userHaveFavoriteLocation: false,
     userLocationsFromLoadCopy: [],
-    x: [],
+    userHaveFavoriteLocation: false,
     location: {
       zipcode: '',
       city: '',
@@ -85,6 +84,7 @@ const state = {
     userSavedLocations: [],
     dropDownLabel: '',
     isCurrentDropdownZipcodeWithTribes: false,
+    tribesArray: [],
     extendSessionModalMessage: 'Your session will expire in 1 minute(s). If you choose not to extend, then you will be logged out. Would you like to extend your session?',
     displayLoginAgainButtonOnModal: 'none',
   },

@@ -303,4 +303,9 @@ export default {
        'userHaveFavoriteLocation',
        doesUserHaveFavLocation);
   },
+  [types.SET_TRIBES_ARRAY](state, obj){
+    Vue.set(state.user,
+      'tribesArray',
+      obj);
+  },
 };

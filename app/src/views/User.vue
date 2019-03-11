@@ -48,7 +48,7 @@
                 <div id="user-input-locations" v-if="user.userLocationsFromLoad.length > 0">
                     <template v-for="(location, index) in user.userLocationsFromLoad">
                         <b-input-group :ref="location.first + location.second" class="pl-2 pb-2 pt-2" >
-                            <b-form-input ref="selectedLocation" v-model="location.first"
+                            <b-form-input ref="selectedLocation" v-model="location.second"
                                           type="text"
                                           class="col-4 ml-3"
                                           disabled/>
@@ -63,7 +63,7 @@
                             <button class="usa-button" value="x" @click="deleteSelectedLocation({
                               first: location.first,
                               second: location.second})">X</button>
-                            <span class="col-md-12 pt-1 small">{{location.second}}</span>
+                            <span class="col-md-12 pt-1 small">{{location.first}}</span>
                         </b-input-group>
                     </template>
                 </div>
