@@ -59,7 +59,7 @@ Vue.use(VueAnalytics, {
 });
 Vue.use(VueGtm, {
   id: 'GTM-L8ZB',
-  enabled: true, 
+  enabled: true,
   debug: !isProd,
   vueRouter: router,
   ignoredViews: [] 
