@@ -348,10 +348,16 @@
       },
       deleteSelectedLocation(location){
         if(location.second === this.userLocationsFromLoad[0].second){
-            this.$store.commit('SET_DOES_USER_HAVE_FAVORITE_LOCATION', false);
-            this.apiUserPatch({
-                field_userfavoritelocations: [],
-            });
+            // Clear all the stars
+          this.$refs.favoriteStars.forEach((star) => {
+            console.log("hit here");
+            star.classList.remove('fas');
+            star.classList.add('far');
+          });
+          this.$store.commit('SET_DOES_USER_HAVE_FAVORITE_LOCATION', false);
+          this.apiUserPatch({
+              field_userfavoritelocations: [],
+          });
         }
         this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
         this.apiUserPatch({
