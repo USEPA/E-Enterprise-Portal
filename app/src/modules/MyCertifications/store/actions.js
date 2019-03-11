@@ -13,7 +13,7 @@ export default {
     if (this._vm.getIsLoggedIn) {
       const cookie = this._vm.$cookie.get('Token');
         AppAxios.get(
-            `${store.state.apiUrl.local}`,
+            `${this._vm.getEnvironmentApiURL}/api/cdx/certifications`,
             {
               headers: {
                 Authorization: `Bearer ${cookie}`,
@@ -27,6 +27,5 @@ export default {
     } else {
       store.commit(types.LOAD_CERTIFICATIONS, []);
     }
-
   },
 };

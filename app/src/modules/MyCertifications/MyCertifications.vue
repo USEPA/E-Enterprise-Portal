@@ -152,7 +152,7 @@
       <div
         v-if="modalSettings.info.status !== 'Received'"
         class="my-cert-inner-switch pb-1">
-        <b-row v-if="modalSettings.info.status === 'Complete'">
+        <b-row v-if="modalSettings.info.status === 'Approved'">
           <b-col>
             <b-row>
               Download
