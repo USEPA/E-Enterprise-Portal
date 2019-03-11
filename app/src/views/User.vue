@@ -334,8 +334,10 @@
       },
       updateFavoriteLocation(){
 
-        let starLocation = this.userFavLocation.first;
-        let starZip = this.userFavLocation.second;
+        let starLocation = (this.userFavLocation.first !== '')
+                ? this.userFavLocation.first : this.userLocationsFromLoad[0].first;
+        let starZip = (this.userFavLocation.second !== '')
+                ? this.userFavLocation.second : this.userLocationsFromLoad[0].second;
 
         let favLocation = {
             field_userfavoritelocations: [{
