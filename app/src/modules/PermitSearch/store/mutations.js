@@ -142,5 +142,12 @@ export default {
     );
   },
 
+  [types.SET_COUNTY_SELECTION](state, str) {
+    Vue.set(
+      state, // <- state value to change
+      'countySelection', // <- the name of the property on the object the line above
+      str, // <- new value to set on that property
+    );
+  },
 
 };

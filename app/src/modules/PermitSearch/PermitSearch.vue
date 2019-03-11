@@ -337,11 +337,36 @@
                     </b-form-select>
                   </b-col>
                 </b-row>
+                <br/>
+                <b-row>
+                  <b-col md="6">
+                    <label
+                      class="mb-0">County</label>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col md="6">
+                    <b-form-select
+                      id="county-selection"
+                      ref="county-selection"
+                      class="mb-3"
+                      :value="countySelection"
+                      :options="formOptions.countySelections"
+                      @change="setCountySelection"
+                      size="sm"
+                      required>
+                      <template slot="first">
+                        <option
+                          disabled>{{ countySelection }}
+                        </option>
+                      </template>
+                    </b-form-select>
+                  </b-col>
+                </b-row>
 
               </div>
               <b-col md="4">
                 <b-btn
-                  size="sm"
                   variant="primary"
                   ref="btnCheckYourWater"
                   type="submit">
@@ -365,6 +390,7 @@
             {{ endDate }}
             {{ tribalLandsConstruction }}
             {{ tribeSelection }}
+            {{ countySelection }}
           </div>
 
           <div
@@ -432,6 +458,7 @@
         endDate: 'getEndDate',
         tribalLandsConstruction: 'getTribalLandsConstruction',
         tribeSelection: 'getTribeSelection',
+        countySelection: 'getCountySelection',
       }),
     },
     methods: {
@@ -452,6 +479,7 @@
         'setEndDate',
         'setTribalLandsConstruction',
         'setTribeSelection',
+        'setCountySelection'
       ]),
       initialFormSubmit(evt) {
         evt.preventDefault();

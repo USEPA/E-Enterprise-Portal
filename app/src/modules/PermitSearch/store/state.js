@@ -21,6 +21,7 @@ export default {
   endDate: '',
   tribalLandsConstruction: '',
   tribeSelection: '',
+  countySelection: '',
   formOptions: {
     permitType: [
       'Construction General Permit',
@@ -53,6 +54,10 @@ export default {
     tribeSelections: [
       'tribe1',
       'tribe2',
+    ],
+    countySelections: [
+      'All',
+      'county1',
     ],
   },
 };

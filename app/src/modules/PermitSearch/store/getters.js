@@ -57,5 +57,8 @@ export default {
   getTribeSelection(state) {
     return state.tribeSelection;
   },
+  getCountySelection(state) {
+    return state.countySelection;
+  },
 
 };

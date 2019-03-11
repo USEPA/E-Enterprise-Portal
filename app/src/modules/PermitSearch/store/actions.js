@@ -85,6 +85,11 @@ export default {
 
     store.commit(types.SET_TRIBE_SELECTION, payload);
   },
+  setCountySelection(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_COUNTY_SELECTION, payload);
+  },
 
 
 };
