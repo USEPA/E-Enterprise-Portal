@@ -1,6 +1,8 @@
 import types from './types';
 import { AppAxios, commonAppStore } from '../../wadk/WADK';
 import { EventBus } from '../../../EventBus';
+import convert from "xml-js";
+import parseXml from "../../wadk/utils/xmlTools";
 
 /**
  * Methods added here are available to all workbench applications.  Methods
@@ -90,6 +92,85 @@ export default {
 
     store.commit(types.SET_COUNTY_SELECTION, payload);
   },
+  setMasterGeneralPermit(context, payload) {
+    const store = context;
 
+    store.commit(types.SET_MASTER_GENERAL_PERMIT, payload);
+  },
+  setIndianCountrySelection(context, payload) {
+    const store = context;
 
+    store.commit(types.SET_INDIAN_COUNTRY_SELECTION, payload);
+  },
+  setIssuer(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_ISSUER, payload);
+  },
+  setSubmissionType(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_SUBMISSION_TYPE, payload);
+  },
+  setCoverageType(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_COVERAGE_TYPEo, payload);
+  },
+  setCoverageStatus(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_COVERAGE_STATUS, payload);
+  },
+  setSector(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_SECTOR, payload);
+  },
+  setSubsector(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_SUBSECTOR, payload);
+  },
+  setPrimarySicCode(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_PRIMARY_SIC_CODE, payload);
+  },
+  setAddress(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_ADDRESS, payload);
+  },
+
+  // Note: this is not supposed to be in use yet. This is a reference
+  // for the backend work that must be linked up to the form
+  loadFormOptions(){
+    AppAxios.get(state.urls[env].getPartnerXML + partnerCode + '.xml')
+      .then((response) => {
+        // @todo add sanity check for returned data
+        const partnerJsonString = convert.xml2json(response.data, { compact: true });
+        const partnerJson = JSON.parse(partnerJsonString);
+        store.commit(types.UPDATE_PARTNER_XML, {
+          partner,
+          partnerJson,
+        });
+
+        const xml = parseXml(response.data);
+        const request = {
+          path: `BeWellInformed.partnerXmls[${partnerCode}]`,
+          property: 'infoXML',
+          value: xml,
+          defaultValue: '',
+        };
+
+        rootStore.commit('SET_DEEP_PROPERTY', request);
+        store.commit(types.UPDATE_PARTNER_RESOURCE);
+      })
+      .catch((...args) => {
+        // @todo add sanity check for errors & visual prompt to the user
+        app.$Progress.fail();
+        console.warn('AppAxios fail: ', args);
+      });
+  }
 };

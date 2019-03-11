@@ -60,5 +60,35 @@ export default {
   getCountySelection(state) {
     return state.countySelection;
   },
+  getMasterGeneralPermit(state) {
+    return state.masterGeneralPermit;
+  },
+  getIndianCountrySelection(state) {
+    return state.indianCountrySelection;
+  },
+  getIssuer(state) {
+    return state.issuer;
+  },
+  getSubmissionType(state) {
+    return state.submissionType;
+  },
+  getCoverageType(state) {
+    return state.coverageType;
+  },
+  getCoverageStatus(state) {
+    return state.coverageStatus;
+  },
+  getSector(state) {
+    return state.sector;
+  },
+  getSubsector(state) {
+    return state.subsector;
+  },
+  getPrimarySicCode(state) {
+    return state.primarySicCode;
+  },
+  getAddress(state) {
+    return state.address;
+  },
 
 };

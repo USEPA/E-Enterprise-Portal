@@ -150,4 +150,84 @@ export default {
     );
   },
 
+  [types.SET_MASTER_GENERAL_PERMIT](state, str) {
+    Vue.set(
+      state, // <- state value to change
+      'masterGeneralPermit', // <- the name of the property on the object the line above
+      str, // <- new value to set on that property
+    );
+  },
+
+  [types.SET_INDIAN_COUNTRY_SELECTION](state, str) {
+    Vue.set(
+      state, // <- state value to change
+      'indianCountrySelection', // <- the name of the property on the object the line above
+      str, // <- new value to set on that property
+    );
+  },
+
+  [types.SET_ISSUER](state, str) {
+    Vue.set(
+      state, // <- state value to change
+      'issuer', // <- the name of the property on the object the line above
+      str, // <- new value to set on that property
+    );
+  },
+
+  [types.SET_SUBMISSION_TYPE](state, str) {
+    Vue.set(
+      state, // <- state value to change
+      'submissionType', // <- the name of the property on the object the line above
+      str, // <- new value to set on that property
+    );
+  },
+
+  [types.SET_COVERAGE_TYPE](state, str) {
+    Vue.set(
+      state, // <- state value to change
+      'coverageType', // <- the name of the property on the object the line above
+      str, // <- new value to set on that property
+    );
+  },
+
+  [types.SET_COVERAGE_STATUS](state, str) {
+    Vue.set(
+      state, // <- state value to change
+      'coverageStatus', // <- the name of the property on the object the line above
+      str, // <- new value to set on that property
+    );
+  },
+
+  [types.SET_SECTOR](state, str) {
+    Vue.set(
+      state, // <- state value to change
+      'sector', // <- the name of the property on the object the line above
+      str, // <- new value to set on that property
+    );
+  },
+
+  [types.SET_SUBSECTOR](state, str) {
+    Vue.set(
+      state, // <- state value to change
+      'subsector', // <- the name of the property on the object the line above
+      str, // <- new value to set on that property
+    );
+  },
+
+  [types.SET_PRIMARY_SIC_CODE](state, str) {
+    Vue.set(
+      state, // <- state value to change
+      'primarySicCode', // <- the name of the property on the object the line above
+      str, // <- new value to set on that property
+    );
+  },
+
+  [types.SET_ADDRESS](state, str) {
+    Vue.set(
+      state, // <- state value to change
+      'address', // <- the name of the property on the object the line above
+      str, // <- new value to set on that property
+    );
+  },
+
 };

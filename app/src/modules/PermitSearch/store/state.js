@@ -22,6 +22,15 @@ export default {
   tribalLandsConstruction: '',
   tribeSelection: '',
   countySelection: '',
+  masterGeneralPermit: '',
+  indianCountrySelection: '',
+  issuer: '',
+  submissionType: '',
+  coverageType: '',
+  coverageStatus: '',
+  subsector: '',
+  primarySicCode: '',
+  address: '',
   formOptions: {
     permitType: [
       'Construction General Permit',
@@ -55,9 +64,29 @@ export default {
       'tribe1',
       'tribe2',
     ],
+    indianCountrySelections: [
+      'tribe1',
+      'tribe2',
+    ],
     countySelections: [
       'All',
       'county1',
+    ],
+    issuerSelections: [
+      'issuer1',
+      'issuer2',
+    ],
+    coverageTypeSelections: [
+      'type1',
+      'type2',
+    ],
+    coverageStatusSelections: [
+      'status1',
+      'status2',
+    ],
+    sectorSelections: [
+      'sector1',
+      'sector2',
     ],
   },
 };
