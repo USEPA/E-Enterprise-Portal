@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --mode production",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e"
@@ -24,7 +24,9 @@
     "popper.js": "^1.14.7",
     "uswds": "^2.0.0-beta.5",
     "vue": "^2.6.7",
+    "vue-analytics": "^5.16.2",
     "vue-cookie": "^1.1.4",
+    "vue-gtm": "^2.0.0",
     "vue-progressbar": "^0.7.5",
     "vue-router": "^3.0.2",
     "vue-scrollto": "^2.14.0",
@@ -60,49 +62,16 @@
       "@vue/airbnb"
     ],
     "rules": {
-      "linebreak-style": [
-        "error",
-        "windows"
-      ],
+      "linebreak-style": ["error", "windows"],
       "no-mixed-operators": [
         "error",
         {
           "groups": [
-            [
-              "+",
-              "-",
-              "*",
-              "/",
-              "%",
-              "**"
-            ],
-            [
-              "&",
-              "|",
-              "^",
-              "~",
-              "<<",
-              ">>",
-              ">>>"
-            ],
-            [
-              "==",
-              "!=",
-              "===",
-              "!==",
-              ">",
-              ">=",
-              "<",
-              "<="
-            ],
-            [
-              "&&",
-              "||"
-            ],
-            [
-              "in",
-              "instanceof"
-            ]
+            ["+", "-", "*", "/", "%", "**"],
+            ["&", "|", "^", "~", "<<", ">>", ">>>"],
+            ["==", "!=", "===", "!==", ">", ">=", "<", "<="],
+            ["&&", "||"],
+            ["in", "instanceof"]
           ],
           "allowSamePrecedence": true
         }
