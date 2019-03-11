@@ -208,6 +208,17 @@ class PermitLookupProxyServiceFilter extends ProxyServiceFilterBase
         (!isset($query['allForms'])) ?: $payload['helperQueries']['allForms'][] = trim($query['allForms']);
         (!isset($query['formTypes'])) ?: $payload['helperQueries']['formTypes'][] = trim($query['formTypes']);
         (!isset($query['formStatuses'])) ?: $payload['helperQueries']['formStatuses'][] = trim($query['formStatuses']);
+        // oeca-services with no parameters
+        (!isset($query['sectors'])) ?: $payload['helperQueries']['oecaSvc']['sectors'][] = trim($query['sectors']);
+        (!isset($query['states'])) ?: $payload['helperQueries']['oecaSvc']['states'][] = trim($query['states']);
+        // oeca-services with parameters
+        (!isset($query['counties'])) ?: $payload['helperQueries']['oecaSvcWithParams']['counties'][] = trim($query['counties']);
+        (!isset($query['sics'])) ?: $payload['helperQueries']['oecaSvcWithParams']['sics'][] = trim($query['sics']);
+        (!isset($query['subsectors'])) ?: $payload['helperQueries']['oecaSvc']['subsectors'][] = trim($query['subsectors']);
+        // oeca-services with multiple parameters (construction on trible land)
+        (!isset($query['tribes'])) ?: $payload['helperQueries']['oecaSvcWithParams']['tribes'][] = trim($query['tribes']);
+
+        // docs
         (!isset($query['docs'])) ?: $payload['helperQueries']['docs'][] = trim($query['docs']);
         return $payload;
     }
@@ -250,6 +261,32 @@ class PermitLookupProxyServiceFilter extends ProxyServiceFilterBase
             $form_response = $this->make_request_and_receive_response($form_url);
             $response = json_decode($form_response->getBody(), FALSE);
             $payload['helperQueryResponse']['formStatuses'] = $response;
+        }
+
+        // Get oecaSvcs
+        if (isset($payload['helperQueries']['oecaSvc'])) {
+            $form_responses = array();
+            foreach ($payload['helperQueries']['oecaSvc'] as $oeca_svc_key => $oeca_svc_value) {
+                $form_url = $this->request->getUri() . $oeca_svc_key;
+                $form_response = $this->make_request_and_receive_response($form_url);
+                $response = json_decode($form_response->getBody(), FALSE);
+                array_push($form_responses, $response);
+            }
+            $response = $form_responses;
+            $payload['helperQueryResponse']['oecaSvc'] = $response;
+        }
+
+        // Get oecaSvcs with parameters
+        if (isset($payload['helperQueries']['oecaSvcWithParams'])) {
+            $form_responses = array();
+            foreach ($payload['helperQueries']['oecaSvcWithParams'] as $oeca_svc_key => $oeca_svc_param) {
+                $form_url = $this->request->getUri() . $oeca_svc_key . '/' . $oeca_svc_param[0];
+                $form_response = $this->make_request_and_receive_response($form_url);
+                $response = json_decode($form_response->getBody(), FALSE);
+                array_push($form_responses, $response);
+            }
+            $response = $form_responses;
+            $payload['helperQueryResponse']['oecaSvcWithParams'] = $response;
         }
 
         // Get docs

@@ -5,6 +5,20 @@
       "allForms": "retrieves all forms, no need to set value",
       "formTypes": "retrieves all form types, no need to set value",
       "formStatuses": "retrieves all form statuses, no need to set value",
+      "allAvailableOecaSvcs": {
+        "oecaSvcWithNoParams": {
+          "sectors": "Retrieves all sectors",
+          "states": "Retrieves all states"
+        },
+        "oecaSvcWithParams": {
+          "counties": "Retrieves all counties",
+          "sics": "Retrieves all sics",
+          "subsectors": "Retrieves all subsectors. This value is camelCase in msgp docs and API"
+        },
+        "oecaSvcWithMultipleParams": {
+          "tribes": "Retrieves tribe by land name and state code. Example query would be ?tribes=CA/AUBURN"
+        }
+      },
       "docs": "retrieves contents of this, no need to set value"
     },
     "availableFormQueryParameters": {
