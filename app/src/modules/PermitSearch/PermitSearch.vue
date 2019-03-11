@@ -202,10 +202,17 @@
                 </b-col>
               </b-row>
               <div>
-                Advanced after here
+                <b-btn
+                  v-b-toggle="'cgp-advanced-search-wrapper'"
+                  class="btn-outline-primary"
+                  variant="outline-primary"
+                  ref="btnAdvancedSettings">
+                  Advanced Search Criteria
+                </b-btn>
               </div>
-              <div
+              <b-collapse
                 id="cgp-advanced-search-wrapper">
+                <br/>
                 <b-row>
                   <b-col md="6">
                     <label
@@ -364,15 +371,29 @@
                   </b-col>
                 </b-row>
 
-              </div>
-              <b-col md="4">
-                <b-btn
-                  variant="primary"
-                  ref="btnCheckYourWater"
-                  type="submit">
-                  Search
-                </b-btn>
-              </b-col>
+              </b-collapse>
+              <b-row>
+                <b-col md="6">
+                </b-col>
+                <b-col md="3">
+                  <b-btn
+                    class="btn-outline-primary btn-block"
+                    variant="outline-primary"
+                    ref="btnResetCgp"
+                    @click="clearForm">
+                    Reset
+                  </b-btn>
+                </b-col>
+                <b-col md="3">
+                  <b-btn
+                    class="btn-block"
+                    variant="primary"
+                    ref="btnSubmitCgp"
+                    type="submit">
+                    Search
+                  </b-btn>
+                </b-col>
+              </b-row>
             </b-form>
 
             <br>
@@ -436,6 +457,8 @@
       return {};
     },
     mounted() {
+      // get data for form options from axios call functions in actions file
+
       console.log(this.eepApp.size);
     },
     computed: {
@@ -503,6 +526,9 @@
         msgpAdvancedSearch = !msgpAdvancedSearch;
         console.log("msgp toggle yay!")
       },
+      clearForm() {
+        // clear every state when reset is pressed
+      }
 
     },
     props: {
