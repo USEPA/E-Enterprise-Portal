@@ -47,30 +47,69 @@
         img-blank>
         <div class="container">
           <div class="row">
-            <div class="slide-image col-md-6 align-self-center">
-              <img
-                class="lg-carousel-roles"
-                alt="Through our What Matters to You screen, you can select locations,
-                        organizations, and roles that matter to you to see relevant content,
-                        including local government resources."
-                src="../assets/images/lgc-select-role-magnified.png">
-              <img
-                class="lg-carousel-highlight"
-                alt="You can see and update topics that matter to you in our Resources for Local
-                        Communities widget also."
-                src="../assets/images/my-topics-large.png">
-            </div>
-            <div class="slide-details col-md-6 align-self-center">
+            <div class="slide-details col-md-7 align-self-center">
               <h2>A Tool Suite for Your Environmental Needs</h2>
               <p>
-                The local government component will provide powerful, easy-to-use
-                tools that will enable local governments to make better
-                decisions, save staff time and money, and provide higher levels
-                of service to community members.
+                E-Enterprise for the Environment is a new model for collaborative leadership
+                among environmental co-regulators,engaging with all interested and affected parties,
+                to achieve positive environmental,human health, and economic outcomes.
               </p>
+              <div class="align-self-center pt-5">
+                <router-link to="/workbench">
+                  <button
+                    id="try-it-carousel-button"
+                    class="usa-button float-right"
+                    variant="primary"
+                    :title="tryitTitle"
+                    v-if='!authenticated'>
+                    <i class="fas fa-arrow-circle-right pr-1"/>Try It
+                  </button>
+                </router-link>
+              </div>
             </div>
-            <p class="lg-carousel-calltoaction">Select your location, organization, and role to find
-              resources.</p>
+            <div class="slide-image col-md-5 align-self-center">
+              <div class="row pt-5">
+                <img
+                  class="widget-button"
+                  alt="Environment."
+                  src="../assets/images/environment.png">
+                <div>
+                  <h5>Environment Reporting</h5>
+                  <h6>
+                    New ways to submit information.
+                  </h6>
+                </div>
+              </div>
+              <div class="row pt-3">
+                <img
+                  class="widget-button"
+                  alt="Workbench."
+                  src="../assets/images/workbench.png">
+                <div>
+                  <h5>Workbench</h5>
+                  <h6>
+                    Tools, data, and resources to help you
+                  </h6>
+                </div>
+              </div>
+              <div class="row pt-3">
+                <img
+                  class="widget-button"
+                  alt="Maps & Dashboard."
+                  src="../assets/images/headline.png">
+                <div>
+                  <h5>Maps & Dashboard</h5>
+                  <h6>
+                    Learn more about the environment through <br/>maps and data mashups
+                  </h6>
+                  </div>
+              </div>
+              <div>
+                <router-link to="/about">
+                  <a href="" class="float-right text-white">..and more</a>
+                </router-link>
+              </div>
+            </div>
           </div>
         </div>
       </b-carousel-slide>
@@ -102,14 +141,20 @@
               <img
                 fluid
                 id="my-reporting-img"
-                src="../assets/images/my_reporting.png"
+                src="../assets/images/carousel-my-reporting.png"
                 alt="My Reporting">
               <div class="w-100 h-5"/>
               <img
                 fluid
-                id="progress-tracker-img"
-                src="../assets/images/progress_tracker.png"
-                alt="Progress Tracker">
+                id="construction-permits-img"
+                src="../assets/images/carousel-construction-permits.png"
+                alt="Construction Permits">
+              <div class="w-100 h-5"/>
+              <img
+                fluid
+                id="my-certifications-img"
+                src="../assets/images/carousel-my-certifications.png"
+                alt="My Certification">
             </div>
           </div>
         </div>
@@ -120,40 +165,30 @@
         img-blank>
         <div class="container">
           <div class="row">
-            <div class="col-md-6 align-self-center slide-details">
-              <h2>Customize your information</h2>
+            <div class="slide-image col-md-4 align-self-center">
+                <img
+                  class="lg-carousel-highlight"
+                  id="regular-finder-img"
+                  src="../assets/images/carousel-regulation-finder.png"
+                  alt="Regualtion Finder">
+                <div class="w-100 h-5"/>
+                <img
+                  id="regular-finder-results-img"
+                  src="../assets/images/carousel-regulation-finder-results.png"
+                  alt="Regulation Finder Results">
+              </div>
+            <div class="slide-details col-md mb-5 align-self-center">
+              <h2>Find Federal Regulations That Apply</h2>
               <p>
-                The E-Enterprise Portal provides an important new means by which
-                users can customize the types of information presented to them,
-                find and select tools and other resources, and conduct
-                transactions with EPA, Tribes, and States.
+                The Regulation Finder tool pulls in content from several different environmental and
+                legislative websites to make it easier to look up a chemical or topic and see what
+                rules may apply. Enter a chemical or keyword and find a list of federal regulations
+                that may apply, as well as proposed and recently finalized rules.
               </p>
-              <p>See the video <span aria-hidden="true">&gt;&gt;</span></p>
-              <router-link to="/workbench">
-                <button
-                  id="try-it-carousel-button"
-                  class="usa-button float-right"
-                  variant="primary"
-                  :title="tryitTitle"
-                  v-if='!authenticated'>
-                  <i class="fas fa-arrow-circle-right pr-1"/>Try It
-                </button>
-              </router-link>
             </div>
-            <div class="col-md mb-5 align-self-center">
-              <b-embed
-                type="iframe"
-                title="E-Enterprise for the Environment Portal"
-                aspect="16by9"
-                src="https://www.youtube.com/embed/iFv0DYnW1-A?rel=0"
-                allowfullscreen
-                frameborder="0"/>
-            </div>
-          </div>
+        </div>
         </div>
       </b-carousel-slide>
-
-
     </b-carousel>
   </div>
 </template>
@@ -260,39 +295,47 @@
     }
 
     // Slide 1
+  .widget-button {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+  }
 
     // Slide 2
-
     #my-reporting-img {
-      max-width: 55%;
+      width: 45%;
+      max-width: 100%;
       padding-bottom: 1rem;
+      padding-right: 1rem;
     }
 
-    #progress-tracker-img {
-      max-width: 62%;
-      float: right;
+    #my-certifications-img{
+      width: 45%;
+      max-width: 100%;
     }
-    .account-auth {
-      align-self: flex-end;
+    #construction-permits-img{
+      width: 45%;
+      max-width: 100%;
+      padding-bottom: 1rem;
+      float:right;
     }
-    @media only screen and (min-width: 576px) and (max-width: 767px) {
-      #progress-tracker-img {
-        max-width: 40%;
-        position: absolute;
-        right: 0;
-        top: 8.75rem;
-      }
-    }
-
     // Slide 3
+    #regular-finder-img {
+      max-width: 55%;
+    }
+
+    #regular-finder-results-img {
+      width: 85%;
+      max-width: 100%;
+      height: auto;
+    }
+
+
     .slide-image {
       position: relative;
       margin-bottom: 1rem;
     }
-    .lg-carousel-roles {
-      width: 85%;
-      max-width: 100%;
-    }
+
     .lg-carousel-highlight {
       border: #1c9b97 solid 0.4375rem;
       border-radius: 0.3125rem;

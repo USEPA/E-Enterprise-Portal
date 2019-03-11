@@ -24,12 +24,13 @@
               class="widget-dropdown widget-button"
               no-caret>
               <b-dropdown-item-button
-                v-for="(text, title, index) in eepApp.field_settings_menu_items"
-                :title="text"
+                v-for="(text,title, index) in eepApp.field_settings_menu_items"
+                :title="title"
                 @click="widgetMenuModalToIndex(title, $event.target, index)">{{ title }}
               </b-dropdown-item-button>
               <b-dropdown-item-button
                 v-if="eepApp.source.length > 0"
+                title="Source"
                 @click="onSource">
                 Source
               </b-dropdown-item-button>

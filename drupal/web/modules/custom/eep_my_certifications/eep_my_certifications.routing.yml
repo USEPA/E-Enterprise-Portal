@@ -1,0 +1,20 @@
+eep_my_certifications.my_certifications:
+  path: '/api/cdx/certifications'
+  defaults:
+    _controller: '\Drupal\eep_my_certifications\Controller\EEPMyCertificationsController::fetch_my_certifications'
+    _title: 'CDX Dataflows'
+  methods:  [GET]
+  requirements:
+    _access: 'TRUE'
+  options:
+    _auth: ['cookie', 'basic_auth','jwt_auth']
+eep_my_certifications.eep_my_certifications_form:
+  path: '/admin/config/system/eep_my_certifications_administration_form'
+  defaults:
+    _form: '\Drupal\eep_my_certifications\Form\AuthenticationConfigForm'
+    _title: 'E-Enterprise My Certifications Authentication settings'
+  description: 'Configure administration details.'
+  requirements:
+    _permission: 'access content'
+  options:
+    _admin_route: TRUE
