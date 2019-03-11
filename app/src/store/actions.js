@@ -473,17 +473,12 @@ export default {
 
           returnData.tribal_information[key].forEach((item) => {
 
+            // @TODO: filter out the zipcodes that the user has already selected
+
             let zipcode = item;
 
-            // once i get tribe name working then come back and make sure the zipcode is out of here
-            let zipcodeExist = userSavedLocations.some(function(location) {
-                return (parseInt(location.second) === parseInt(zipcode)
-                    && location.first === tribeName);
-            });
+            thisTribeZipcodes.push(zipcode);
 
-            if(!zipcodeExist){
-               thisTribeZipcodes.push(zipcode);
-            }
           });
           if(thisTribeZipcodes.length > 0){
               formattedResponseInformation.push({tribeName: thisTribeZipcodes});

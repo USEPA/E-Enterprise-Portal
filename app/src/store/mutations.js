@@ -308,4 +308,9 @@ export default {
       'tribesArray',
       obj);
   },
+  [types.SET_DISPLAY_NEW_LOCATION](state, display){
+    Vue.set(state.user,
+      'displayNewLocation',
+      display);
+  },
 };

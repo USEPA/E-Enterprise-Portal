@@ -54,14 +54,10 @@
                                           disabled/>
                             <div class="col-1 cursor-pointer">
                                 <template v-if="index == 0 && user.userHaveFavoriteLocation">
-                                  <i ref="favoriteStars" @click="starClick({
-                                    first: location.first,
-                                    second: location.second})" class="fas fa-star"/>
+                                  <i ref="favoriteStars" @click="starClick(location.first, location.second)" class="fas fa-star"/>
                                 </template>
                                 <template v-else>
-                                  <i ref="favoriteStars" @click="starClick({
-                                    first: location.first,
-                                    second: location.second})" class="far fa-star"/>
+                                  <i ref="favoriteStars" @click="starClick(location.first, location.second)" class="far fa-star"/>
                                 </template>
                             </div>
                             <button class="usa-button" value="x" @click="deleteSelectedLocation({
@@ -72,7 +68,7 @@
                     </template>
                 </div>
                 <LocationSelectionOption></LocationSelectionOption>
-                <div v-show="user.isAfterInputDropdownDisplayed">
+                <div v-show="user.displayNewLocation">
                     <button class="usa-button pt-2" @click="revealLocationInputBox">New Location</button>
                 </div>
               </div>
@@ -251,9 +247,9 @@
       });
 
       //Set the defaults for the locations
-      this.$store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', '');
+      this.$store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', 'none');
 
-      this.$store.dispatch('populateDropdownForUserInput');
+      //this.$store.dispatch('populateDropdownForUserInput');
     },
     methods: {
       ...mapActions([
@@ -265,28 +261,39 @@
       DeleteEEPUserProfile() {
         console.warn('DELETE PROFILE');
       },
-      starClick(location){
+      starClick(typedInLocation, zipcode){
         let stars = this.$refs.favoriteStars;
-
-        // Loop through all of the stars and see if it is seletced as a favorite and if so, clear it
-        stars.forEach((star) => {
-          if(star.classList.contains("fas")){
-             star.classList.remove('fas');
-             star.classList.add('far');
-          }
-        });
 
         let selectedStarParent = this.$refs[typedInLocation + zipcode];
 
-        this.userFavLocation.first = location.first;
-        this.userFavLocation.second = location.second;
+        if(stars.length === 1){
+          if(selectedStarParent[0].children[1].children[0].classList.contains("fas")){
+              selectedStarParent[0].children[1].children[0].classList.remove('fas');
+              selectedStarParent[0].children[1].children[0].classList.add('far');
+          }else{
+              selectedStarParent[0].children[1].children[0].classList.remove('far');
+              selectedStarParent[0].children[1].children[0].classList.add('fas');
+          }
+        }else{
+            // Loop through all of the stars and see if it is seletced as a favorite and if so, clear it
+          stars.forEach((star) => {
+            if(star.classList.contains("fas")){
+              star.classList.remove('fas');
+              star.classList.add('far');
+            }
+          });
+          selectedStarParent[0].children[1].children[0].classList.remove('far');
+          selectedStarParent[0].children[1].children[0].classList.add('fas');
+        }
 
-        selectedStarParent[0].children[1].children[0].classList.remove('far');
-        selectedStarParent[0].children[1].children[0].classList.add('fas');
+        this.userFavLocation.first = typedInLocation;
+        this.userFavLocation.second = zipcode;
       },
       save() {
         this.updateUserLocation();
-        this.updateFavoriteLocation();
+        if(this.userFavLocation.length > 0){
+            this.updateFavoriteLocation();
+        }
         //these if statements will not work as the interest tab is hidden
         if (this.selected) {
               this.updateOrg();
@@ -327,7 +334,7 @@
       },
       updateFavoriteLocation(){
 
-        let starLocation= this.userFavLocation.first;
+        let starLocation = this.userFavLocation.first;
         let starZip = this.userFavLocation.second;
 
         let favLocation = {
@@ -355,6 +362,7 @@
         // Reset the display none for the populated dropdown
         this.$store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', true);
         this.$store.commit('SET_IS_MAIN_INPUT_DISPLAYED', true);
+        this.$store.commit('SET_DISPLAY_NEW_LOCATION', false);
       },
     },
   };

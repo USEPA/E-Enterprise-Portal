@@ -90,6 +90,7 @@
                     this.$store.dispatch('handleSelectButtonClickForLocation');
                     this.$store.commit('SET_DISPLAY_WHEN_LOCATION_IS_CLICKED', '');
                     this.$store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', false);
+                    this.$store.commit('SET_DISPLAY_NEW_LOCATION', true);
                 }
            },
           handleBackButton(){
