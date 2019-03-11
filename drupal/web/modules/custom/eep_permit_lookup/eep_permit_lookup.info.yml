@@ -1,6 +1,6 @@
-name: 'EEP Permit Search'
+name: 'EEP Permit Lookup'
 type: module
-description: 'Permit Search proxy service'
+description: 'Permit Lookup proxy service'
 core: 8.x
 package: 'EEP'
 dependencies:

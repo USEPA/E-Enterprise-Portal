@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\eep_permit_search\Plugin\ProxyServiceFilter;
+namespace Drupal\eep_permit_lookup\Plugin\ProxyServiceFilter;
 
 use Drupal\eep_proxy_service\Plugin\ProxyServiceFilterBase;
 use GuzzleHttp\Client;
@@ -8,16 +8,16 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 
 /**
- * Class PermitSearchProxyServiceFilter
+ * Class PermitLookupProxyServiceFilter
  *
  * @ProxyServiceFilter(
- *   id = "permitsearch",
- *   label = @Translation("Permit Search Filter")
+ *   id = "permitlookup",
+ *   label = @Translation("Permit Lookup Filter")
  * )
  *
  * @package Drupal\eep_core\Plugin\ProxyServiceFilter
  */
-class PermitSearchProxyServiceFilter extends ProxyServiceFilterBase
+class PermitLookupProxyServiceFilter extends ProxyServiceFilterBase
 {
 
     /**
@@ -241,7 +241,7 @@ class PermitSearchProxyServiceFilter extends ProxyServiceFilterBase
             // Removes query params from response for naming purposes when loading queries into content
             unset($payload['formQueryParams']);
 
-            // Replaces spaces with %20 in url string
+            // Sets query parameters in url string
             $form_url = $this->request->getUri() . 'form?' . implode('&', $parameters);
 
             // Sets response based on request and JSON decodes
@@ -327,7 +327,7 @@ class PermitSearchProxyServiceFilter extends ProxyServiceFilterBase
      */
     private function get_docs()
     {
-        $docs_string = file_get_contents(__DIR__ . '/../../../docs/eep_permit_search_docs.json');
+        $docs_string = file_get_contents(__DIR__ . '/../../../docs/eep_permit_lookup_docs.json');
         return \GuzzleHttp\json_decode($docs_string);
     }
 }

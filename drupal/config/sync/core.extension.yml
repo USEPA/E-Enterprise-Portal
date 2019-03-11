@@ -37,7 +37,7 @@ module:
   eep_core: 0
   eep_location_services: 0
   eep_my_reporting: 0
-  eep_permit_search: 0
+  eep_permit_lookup: 0
   eep_proxy_service: 0
   entity_browser: 0
   entity_reference_revisions: 0
