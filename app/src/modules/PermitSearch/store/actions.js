@@ -40,4 +40,51 @@ export default {
 
     store.commit(types.SET_ZIP, payload);
   },
+  setStatus(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_STATUS, payload);
+  },
+  setFormType(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_FORM_TYPE, payload);
+  },
+  setFacilityOperator(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_FACILITY_OPERATOR, payload);
+  },
+  setFederalFacility(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_FEDERAL_FACILITY, payload);
+  },
+  setDateSelection(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_DATE_SELECTION, payload);
+  },
+  setStartDate(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_START_DATE, payload);
+  },
+  setEndDate(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_END_DATE, payload);
+  },
+  setTribalLandsConstruction(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_TRIBAL_LANDS_CONSTRUCTION, payload);
+  },
+  setTribeSelection(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_TRIBE_SELECTION, payload);
+  },
+
+
 };

@@ -70,5 +70,77 @@ export default {
     );
   },
 
+  [types.SET_STATUS](state, str) {
+    Vue.set(
+      state, // <- state value to change
+      'status', // <- the name of the property on the object the line above
+      str, // <- new value to set on that property
+    );
+  },
+
+  [types.SET_FORM_TYPE](state, str) {
+    Vue.set(
+      state, // <- state value to change
+      'formType', // <- the name of the property on the object the line above
+      str, // <- new value to set on that property
+    );
+  },
+
+  [types.SET_FACILITY_OPERATOR](state, str) {
+    Vue.set(
+      state, // <- state value to change
+      'facilityOperator', // <- the name of the property on the object the line above
+      str, // <- new value to set on that property
+    );
+  },
+
+  [types.SET_FEDERAL_FACILITY](state, str) {
+    Vue.set(
+      state, // <- state value to change
+      'federalFacility', // <- the name of the property on the object the line above
+      str, // <- new value to set on that property
+    );
+  },
+
+  [types.SET_DATE_SELECTION](state, str) {
+    Vue.set(
+      state, // <- state value to change
+      'dateSelection', // <- the name of the property on the object the line above
+      str, // <- new value to set on that property
+    );
+  },
+
+  [types.SET_START_DATE](state, str) {
+    Vue.set(
+      state, // <- state value to change
+      'startDate', // <- the name of the property on the object the line above
+      str, // <- new value to set on that property
+    );
+  },
+
+  [types.SET_END_DATE](state, str) {
+    Vue.set(
+      state, // <- state value to change
+      'endDate', // <- the name of the property on the object the line above
+      str, // <- new value to set on that property
+    );
+  },
+
+  [types.SET_TRIBAL_LANDS_CONSTRUCTION](state, str) {
+    Vue.set(
+      state, // <- state value to change
+      'tribalLandsConstruction', // <- the name of the property on the object the line above
+      str, // <- new value to set on that property
+    );
+  },
+
+  [types.SET_TRIBE_SELECTION](state, str) {
+    Vue.set(
+      state, // <- state value to change
+      'tribeSelection', // <- the name of the property on the object the line above
+      str, // <- new value to set on that property
+    );
+  },
+
 
 };

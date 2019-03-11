@@ -11,7 +11,16 @@ export default {
   NPDESID: '',
   cityName: '',
   stateTerritory: '',
-  zip:'',
+  zip: '',
+  status: '',
+  formType: '',
+  facilityOperator: '',
+  federalFacility: '',
+  dateSelection: '',
+  startDate: '',
+  endDate: '',
+  tribalLandsConstruction: '',
+  tribeSelection: '',
   formOptions: {
     permitType: [
       'Construction General Permit',
@@ -20,6 +29,30 @@ export default {
     stateTerritory: [
       'cool place',
       'cooler place',
-    ]
+    ],
+    status: [
+      'good status',
+      'bad status',
+    ],
+    formType: [
+      'form1',
+      'form2',
+    ],
+    federalFacilitySelections: [
+      {text: 'Yes', value: true},
+      {text: 'No', value: false},
+    ],
+    dateSelections: [
+      'Submitted',
+      'uuughughuguh',
+    ],
+    tribalLandsConstruction: [
+      {text: 'Yes', value: true},
+      {text: 'No', value: false},
+    ],
+    tribeSelections: [
+      'tribe1',
+      'tribe2',
+    ],
   },
 };

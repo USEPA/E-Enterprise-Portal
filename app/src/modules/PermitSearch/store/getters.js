@@ -30,4 +30,32 @@ export default {
   getZip(state) {
     return state.zip;
   },
+  getStatus(state) {
+    return state.status;
+  },
+  getFormType(state) {
+    return state.formType;
+  },
+  getFacilityOperator(state) {
+    return state.facilityOperator;
+  },
+  getFederalFacility(state) {
+    return state.federalFacility;
+  },
+  getDateSelection(state) {
+    return state.dateSelection;
+  },
+  getStartDate(state) {
+    return state.startDate;
+  },
+  getEndDate(state) {
+    return state.endDate;
+  },
+  getTribalLandsConstruction(state) {
+    return state.tribalLandsConstruction;
+  },
+  getTribeSelection(state) {
+    return state.tribeSelection;
+  },
+
 };
