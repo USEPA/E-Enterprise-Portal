@@ -235,18 +235,17 @@ class PermitSearchProxyServiceFilter extends ProxyServiceFilterBase
             // Creates array of parameters based on
             $parameters = [];
             foreach ($payload['formQueryParams'] as $param_key => $parameter) {
-                array_push($parameters, $param_key . '=' . $parameter);
+                array_push($parameters, $param_key . '=' . rawurlencode($parameter));
             }
 
             // Removes query params from response for naming purposes when loading queries into content
             unset($payload['formQueryParams']);
 
             // Replaces spaces with %20 in url string
-            $form_url_raw = $this->request->getUri() . 'form?' . implode('&', $parameters);
-            $form_url_cleaned = preg_replace('/\s+/', '%20', $form_url_raw);
+            $form_url = $this->request->getUri() . 'form?' . implode('&', $parameters);
 
             // Sets response based on request and JSON decodes
-            $form_response = $this->make_request_and_receive_response($form_url_cleaned);
+            $form_response = $this->make_request_and_receive_response($form_url);
             $response = json_decode($form_response->getBody(), FALSE);
 
             // Sets formQueryResponse in the payload
