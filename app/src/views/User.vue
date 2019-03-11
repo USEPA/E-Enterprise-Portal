@@ -54,10 +54,14 @@
                                           disabled/>
                             <div class="col-1 cursor-pointer">
                                 <template v-if="index == 0 && user.userHaveFavoriteLocation">
-                                  <i ref="favoriteStars" @click="starClick(location.first, location.second)" class="fas fa-star"/>
+                                  <i ref="favoriteStars" @click="starClick({
+                                    first: location.first,
+                                    second: location.second})" class="fas fa-star"/>
                                 </template>
                                 <template v-else>
-                                  <i ref="favoriteStars" @click="starClick(location.first, location.second)" class="far fa-star"/>
+                                  <i ref="favoriteStars" @click="starClick({
+                                    first: location.first,
+                                    second: location.second})" class="far fa-star"/>
                                 </template>
                             </div>
                             <button class="usa-button" value="x" @click="deleteSelectedLocation({
@@ -261,7 +265,7 @@
       DeleteEEPUserProfile() {
         console.warn('DELETE PROFILE');
       },
-      starClick(typedInLocation, zipcode){
+      starClick(location){
         let stars = this.$refs.favoriteStars;
 
         // Loop through all of the stars and see if it is seletced as a favorite and if so, clear it
@@ -274,8 +278,8 @@
 
         let selectedStarParent = this.$refs[typedInLocation + zipcode];
 
-        this.userFavLocation.first = typedInLocation;
-        this.userFavLocation.second = zipcode;
+        this.userFavLocation.first = location.first;
+        this.userFavLocation.second = location.second;
 
         selectedStarParent[0].children[1].children[0].classList.remove('far');
         selectedStarParent[0].children[1].children[0].classList.add('fas');
@@ -332,6 +336,7 @@
                 second: starZip
             }]
         };
+        console.log(favLocation);
         this.apiUserPatch(favLocation);
       },
       deleteSelectedLocation(location){

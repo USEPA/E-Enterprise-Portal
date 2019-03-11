@@ -485,7 +485,9 @@ export default {
                thisTribeZipcodes.push(zipcode);
             }
           });
-          formattedResponseInformation.push({tribeName: thisTribeZipcodes});
+          if(thisTribeZipcodes.length > 0){
+              formattedResponseInformation.push({tribeName: thisTribeZipcodes});
+          }
         });
         store.commit(types.IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES, true);
         store.commit(types.SET_TRIBES_ARRAY, formattedResponseInformation);
@@ -541,7 +543,6 @@ export default {
 
       selectedLocationFromDropdownToCommit = dropDownSelection;
       let tribeArray = store.getters.getUser.tribesArray;
-      console.log(tribeArray);
       for (let i = 0; i < tribeArray.length; i++){
         if(Array.isArray(tribeArray[i].tribeName)) {
           if(tribeArray[i].tribeName.indexOf(dropDownSelection) > -1){
