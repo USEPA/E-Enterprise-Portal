@@ -3,35 +3,35 @@
     "partner_id": "C363076",
     "status": "Received",
     "submitted": "11-FEB-19",
-    "type":  "Firm Certification",
+    "report_type":  "Firm Certification",
     "updated": "12-FEB-19"
   },
   {
     "partner_id": "C363077",
     "status": "Needs Attention",
     "submitted": "11-FEB-19",
-    "type":  "Firm Certification",
+    "report_type":  "Firm Certification",
     "updated": "12-FEB-19"
   },
   {
     "partner_id": "C363078",
     "status": "Received",
     "submitted": "11-FEB-19",
-    "type":  "Firm Certification",
+    "report_type":  "Firm Certification",
     "updated":  "12-FEB-19"
   },
   {
     "partner_id": "C363079",
     "status": "Needs Attention",
     "submitted": "11-FEB-19",
-    "type":  "Firm Certification",
+    "report_type":  "Firm Certification",
     "updated":  "12-FEB-19"
   },
   {
     "partner_id": "C363080",
     "status": "Complete",
     "submitted": "11-FEB-19",
-    "type":  "Firm Certification",
+    "report_type":  "Firm Certification",
     "updated":  "12-FEB-19",
     "certificateDownloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
     "logoUrl": "https://e-enterprise.gov/sites/all/themes/eenterprise/logo.svg"
@@ -40,7 +40,7 @@
     "partner_id": "C363081",
     "status": "Complete",
     "submitted": "11-FEB-19",
-    "type":  "Firm Certification",
+    "report_type":  "Firm Certification",
     "updated":  "12-FEB-19",
     "certificateDownloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
     "logoUrl": "https://e-enterprise.gov/sites/all/themes/eenterprise/logo.svg"
@@ -49,7 +49,7 @@
     "partner_id": "C363082",
     "status": "Received",
     "submitted": "11-FEB-19",
-    "type":  "Firm Certification",
+    "report_type":  "Firm Certification",
     "updated":  "12-FEB-19"
   }
 ]
