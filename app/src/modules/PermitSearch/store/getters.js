@@ -21,14 +21,14 @@ export default {
   getNPDESID(state) {
     return state.NPDESID;
   },
-  getCityName(state) {
-    return state.cityName;
+  getFacilityCity(state) {
+    return state.facilityCity;
   },
-  getStateTerritory(state) {
-    return state.stateTerritory;
+  getFacilityState(state) {
+    return state.facilityState;
   },
-  getZip(state) {
-    return state.zip;
+  getFacilityZip(state) {
+    return state.facilityZip;
   },
   getStatus(state) {
     return state.status;
@@ -36,8 +36,8 @@ export default {
   getFormType(state) {
     return state.formType;
   },
-  getFacilityOperator(state) {
-    return state.facilityOperator;
+  getOperatorName(state) {
+    return state.operatorName;
   },
   getFederalFacility(state) {
     return state.federalFacility;
@@ -46,25 +46,25 @@ export default {
     return state.dateSelection;
   },
   getStartDate(state) {
-    return state.startDate;
+    return state.submittedDateFrom;
   },
   getEndDate(state) {
-    return state.endDate;
+    return state.submittedDateTo;
   },
-  getTribalLandsConstruction(state) {
-    return state.tribalLandsConstruction;
+  getTribalIndicator(state) {
+    return state.tribalIndicator;
   },
   getTribeSelection(state) {
     return state.tribeSelection;
   },
-  getCountySelection(state) {
-    return state.countySelection;
+  getFacilityCounty(state) {
+    return state.facilityCounty;
   },
-  getMasterGeneralPermit(state) {
-    return state.masterGeneralPermit;
+  getMasterPermitNumber(state) {
+    return state.masterPermitNumber;
   },
-  getIndianCountrySelection(state) {
-    return state.indianCountrySelection;
+  getTribalName(state) {
+    return state.tribalName;
   },
   getIssuer(state) {
     return state.issuer;
@@ -72,11 +72,11 @@ export default {
   getSubmissionType(state) {
     return state.submissionType;
   },
-  getCoverageType(state) {
-    return state.coverageType;
+  getApplicationType(state) {
+    return state.applicationType;
   },
-  getCoverageStatus(state) {
-    return state.coverageStatus;
+  getFormStatus(state) {
+    return state.formStatus;
   },
   getSector(state) {
     return state.sector;
@@ -84,8 +84,8 @@ export default {
   getSubsector(state) {
     return state.subsector;
   },
-  getPrimarySicCode(state) {
-    return state.primarySicCode;
+  getSicCode(state) {
+    return state.sicCode;
   },
   getAddress(state) {
     return state.address;

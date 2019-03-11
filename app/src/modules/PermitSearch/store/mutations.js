@@ -46,26 +46,26 @@ export default {
     );
   },
 
-  [types.SET_CITY_NAME](state, str) {
+  [types.SET_FACILITY_CITY](state, str) {
     Vue.set(
       state, // <- state value to change
-      'cityName', // <- the name of the property on the object the line above
+      'facilityCity', // <- the name of the property on the object the line above
       str, // <- new value to set on that property
     );
   },
 
-  [types.SET_STATE_TERRITORY](state, str) {
+  [types.SET_FACILITY_STATE](state, str) {
     Vue.set(
       state, // <- state value to change
-      'stateTerritory', // <- the name of the property on the object the line above
+      'facilityState', // <- the name of the property on the object the line above
       str, // <- new value to set on that property
     );
   },
 
-  [types.SET_ZIP](state, str) {
+  [types.SET_FACILITY_ZIP](state, str) {
     Vue.set(
       state, // <- state value to change
-      'zip', // <- the name of the property on the object the line above
+      'facilityZip', // <- the name of the property on the object the line above
       str, // <- new value to set on that property
     );
   },
@@ -86,15 +86,15 @@ export default {
     );
   },
 
-  [types.SET_FACILITY_OPERATOR](state, str) {
+  [types.SET_OPERATOR_NAME](state, str) {
     Vue.set(
       state, // <- state value to change
-      'facilityOperator', // <- the name of the property on the object the line above
+      'operatorName', // <- the name of the property on the object the line above
       str, // <- new value to set on that property
     );
   },
 
-  [types.SET_FEDERAL_FACILITY](state, str) {
+  [types.SET_FEDERAL_INDICATOR](state, str) {
     Vue.set(
       state, // <- state value to change
       'federalFacility', // <- the name of the property on the object the line above
@@ -113,7 +113,7 @@ export default {
   [types.SET_START_DATE](state, str) {
     Vue.set(
       state, // <- state value to change
-      'startDate', // <- the name of the property on the object the line above
+      'submittedDateFrom', // <- the name of the property on the object the line above
       str, // <- new value to set on that property
     );
   },
@@ -121,15 +121,15 @@ export default {
   [types.SET_END_DATE](state, str) {
     Vue.set(
       state, // <- state value to change
-      'endDate', // <- the name of the property on the object the line above
+      'submittedDateTo', // <- the name of the property on the object the line above
       str, // <- new value to set on that property
     );
   },
 
-  [types.SET_TRIBAL_LANDS_CONSTRUCTION](state, str) {
+  [types.SET_TRIBAL_INDICATOR](state, str) {
     Vue.set(
       state, // <- state value to change
-      'tribalLandsConstruction', // <- the name of the property on the object the line above
+      'tribalIndicator', // <- the name of the property on the object the line above
       str, // <- new value to set on that property
     );
   },
@@ -142,26 +142,26 @@ export default {
     );
   },
 
-  [types.SET_COUNTY_SELECTION](state, str) {
+  [types.SET_FACILITY_COUNTY](state, str) {
     Vue.set(
       state, // <- state value to change
-      'countySelection', // <- the name of the property on the object the line above
+      'facilityCounty', // <- the name of the property on the object the line above
       str, // <- new value to set on that property
     );
   },
 
-  [types.SET_MASTER_GENERAL_PERMIT](state, str) {
+  [types.SET_MASTER_PERMIT_NUMBER](state, str) {
     Vue.set(
       state, // <- state value to change
-      'masterGeneralPermit', // <- the name of the property on the object the line above
+      'masterPermitNumber', // <- the name of the property on the object the line above
       str, // <- new value to set on that property
     );
   },
 
-  [types.SET_INDIAN_COUNTRY_SELECTION](state, str) {
+  [types.SET_TRIBAL_NAME](state, str) {
     Vue.set(
       state, // <- state value to change
-      'indianCountrySelection', // <- the name of the property on the object the line above
+      'tribalName', // <- the name of the property on the object the line above
       str, // <- new value to set on that property
     );
   },
@@ -185,15 +185,15 @@ export default {
   [types.SET_COVERAGE_TYPE](state, str) {
     Vue.set(
       state, // <- state value to change
-      'coverageType', // <- the name of the property on the object the line above
+      'applicationType', // <- the name of the property on the object the line above
       str, // <- new value to set on that property
     );
   },
 
-  [types.SET_COVERAGE_STATUS](state, str) {
+  [types.SET_FORM_STATUS](state, str) {
     Vue.set(
       state, // <- state value to change
-      'coverageStatus', // <- the name of the property on the object the line above
+      'formStatus', // <- the name of the property on the object the line above
       str, // <- new value to set on that property
     );
   },
@@ -214,10 +214,10 @@ export default {
     );
   },
 
-  [types.SET_PRIMARY_SIC_CODE](state, str) {
+  [types.SET_SIC_CODE](state, str) {
     Vue.set(
       state, // <- state value to change
-      'primarySicCode', // <- the name of the property on the object the line above
+      'sicCode', // <- the name of the property on the object the line above
       str, // <- new value to set on that property
     );
   },

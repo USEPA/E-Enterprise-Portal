@@ -9,34 +9,34 @@ export default {
   permitType: 'Select...',
   facilityName: '',
   NPDESID: '',
-  cityName: '',
-  stateTerritory: '',
-  zip: '',
+  facilityCity: '',
+  facilityState: '',
+  facilityZip: '',
   status: '',
   formType: '',
-  facilityOperator: '',
+  operatorName: '',
   federalFacility: '',
   dateSelection: '',
-  startDate: '',
-  endDate: '',
-  tribalLandsConstruction: '',
+  submittedDateFrom: '',
+  submittedDateTo: '',
+  tribalIndicator: '',
   tribeSelection: '',
-  countySelection: '',
-  masterGeneralPermit: '',
-  indianCountrySelection: '',
+  facilityCounty: '',
+  masterPermitNumber: '',
+  tribalName: '',
   issuer: '',
   submissionType: '',
-  coverageType: '',
-  coverageStatus: '',
+  applicationType: '',
+  formStatus: '',
   subsector: '',
-  primarySicCode: '',
+  sicCode: '',
   address: '',
   formOptions: {
     permitType: [
       'Construction General Permit',
       'Multi-sector General Permit',
     ],
-    stateTerritory: [
+    facilityState: [
       'cool place',
       'cooler place',
     ],
@@ -48,7 +48,7 @@ export default {
       'form1',
       'form2',
     ],
-    federalFacilitySelections: [
+    federalIndicator: [
       {text: 'Yes', value: true},
       {text: 'No', value: false},
     ],
@@ -56,7 +56,7 @@ export default {
       'Submitted',
       'uuughughuguh',
     ],
-    tribalLandsConstruction: [
+    tribalIndicator: [
       {text: 'Yes', value: true},
       {text: 'No', value: false},
     ],
@@ -64,7 +64,7 @@ export default {
       'tribe1',
       'tribe2',
     ],
-    indianCountrySelections: [
+    tribalNameSelections: [
       'tribe1',
       'tribe2',
     ],
@@ -80,7 +80,7 @@ export default {
       'type1',
       'type2',
     ],
-    coverageStatusSelections: [
+    formStatusSelections: [
       'status1',
       'status2',
     ],

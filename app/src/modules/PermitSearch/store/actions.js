@@ -27,20 +27,20 @@ export default {
 
     store.commit(types.SET_NPDESID, payload);
   },
-  setCityName(context, payload) {
+  setFacilityCity(context, payload) {
     const store = context;
 
-    store.commit(types.SET_CITY_NAME, payload);
+    store.commit(types.SET_FACILITY_CITY, payload);
   },
-  setStateTerritory(context, payload) {
+  setFacilityState(context, payload) {
     const store = context;
 
-    store.commit(types.SET_STATE_TERRITORY, payload);
+    store.commit(types.SET_FACILITY_STATE, payload);
   },
-  setZip(context, payload) {
+  setFacilityZip(context, payload) {
     const store = context;
 
-    store.commit(types.SET_ZIP, payload);
+    store.commit(types.SET_FACILITY_ZIP, payload);
   },
   setStatus(context, payload) {
     const store = context;
@@ -52,15 +52,15 @@ export default {
 
     store.commit(types.SET_FORM_TYPE, payload);
   },
-  setFacilityOperator(context, payload) {
+  setOperatorName(context, payload) {
     const store = context;
 
-    store.commit(types.SET_FACILITY_OPERATOR, payload);
+    store.commit(types.SET_OPERATOR_NAME, payload);
   },
-  setFederalFacility(context, payload) {
+  setFederalIndicator(context, payload) {
     const store = context;
 
-    store.commit(types.SET_FEDERAL_FACILITY, payload);
+    store.commit(types.SET_FEDERAL_INDICATOR, payload);
   },
   setDateSelection(context, payload) {
     const store = context;
@@ -77,30 +77,30 @@ export default {
 
     store.commit(types.SET_END_DATE, payload);
   },
-  setTribalLandsConstruction(context, payload) {
+  setTribalIndicator(context, payload) {
     const store = context;
 
-    store.commit(types.SET_TRIBAL_LANDS_CONSTRUCTION, payload);
+    store.commit(types.SET_TRIBAL_INDICATOR, payload);
   },
   setTribeSelection(context, payload) {
     const store = context;
 
     store.commit(types.SET_TRIBE_SELECTION, payload);
   },
-  setCountySelection(context, payload) {
+  setFacilityCounty(context, payload) {
     const store = context;
 
-    store.commit(types.SET_COUNTY_SELECTION, payload);
+    store.commit(types.SET_FACILITY_COUNTY, payload);
   },
-  setMasterGeneralPermit(context, payload) {
+  setMasterPermitNumber(context, payload) {
     const store = context;
 
-    store.commit(types.SET_MASTER_GENERAL_PERMIT, payload);
+    store.commit(types.SET_MASTER_PERMIT_NUMBER, payload);
   },
-  setIndianCountrySelection(context, payload) {
+  setTribalName(context, payload) {
     const store = context;
 
-    store.commit(types.SET_INDIAN_COUNTRY_SELECTION, payload);
+    store.commit(types.SET_TRIBAL_NAME, payload);
   },
   setIssuer(context, payload) {
     const store = context;
@@ -112,15 +112,15 @@ export default {
 
     store.commit(types.SET_SUBMISSION_TYPE, payload);
   },
-  setCoverageType(context, payload) {
+  setApplicationType(context, payload) {
     const store = context;
 
     store.commit(types.SET_COVERAGE_TYPEo, payload);
   },
-  setCoverageStatus(context, payload) {
+  setFormStatus(context, payload) {
     const store = context;
 
-    store.commit(types.SET_COVERAGE_STATUS, payload);
+    store.commit(types.SET_FORM_STATUS, payload);
   },
   setSector(context, payload) {
     const store = context;
@@ -132,10 +132,10 @@ export default {
 
     store.commit(types.SET_SUBSECTOR, payload);
   },
-  setPrimarySicCode(context, payload) {
+  setSicCode(context, payload) {
     const store = context;
 
-    store.commit(types.SET_PRIMARY_SIC_CODE, payload);
+    store.commit(types.SET_SIC_CODE, payload);
   },
   setAddress(context, payload) {
     const store = context;
