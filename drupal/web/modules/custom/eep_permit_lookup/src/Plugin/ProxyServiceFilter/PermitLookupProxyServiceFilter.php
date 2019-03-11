@@ -127,98 +127,39 @@ class PermitLookupProxyServiceFilter extends ProxyServiceFilterBase
     private function register_form_query_params($payload, $query)
     {
         // Used with MSGP
-        if (isset($query['issuer'])) {
-            $payload['formQueryParams']['issuer'] = trim($query['issuer']);
-        }
-        if (isset($query['submissionType'])) {
-            $payload['formQueryParams']['submissionType'] = trim($query['submissionType']);
-        }
-        if (isset($query['coverageType'])) {
-            $payload['formQueryParams']['coverageType'] = trim($query['coverageType']);
-        }
-        if (isset($query['coverageStatus'])) {
-            $payload['formQueryParams']['coverageStatus'] = trim($query['coverageStatus']);
-        }
-        if (isset($query['npdesId'])) {
-            $payload['formQueryParams']['npdesId'] = trim($query['npdesId']);
-        }
-        if (isset($query['sector'])) {
-            $payload['formQueryParams']['sector'] = trim($query['sector']);
-        }
-        if (isset($query['subSector'])) {
-            $payload['formQueryParams']['subSector'] = trim($query['subSector']);
-        }
-        if (isset($query['sicCode'])) {
-            $payload['formQueryParams']['sicCode'] = trim($query['sicCode']);
-        }
-        if (isset($query['facilityName'])) {
-            $payload['formQueryParams']['facilityName'] = trim($query['facilityName']);
-        }
-        if (isset($query['facilityAddressLine1'])) {
-            $payload['formQueryParams']['facilityAddressLine1'] = trim($query['facilityAddressLine1']);
-        }
-        if (isset($query['facilityCity'])) {
-            $payload['formQueryParams']['facilityCity'] = trim($query['facilityCity']);
-        }
-        if (isset($query['facilityState'])) {
-            $payload['formQueryParams']['facilityState'] = trim($query['facilityState']);
-        }
-        if (isset($query['facilityZip'])) {
-            $payload['formQueryParams']['facilityZip'] = trim($query['facilityZip']);
-        }
-        if (isset($query['facilityCounty'])) {
-            $payload['formQueryParams']['facilityCounty'] = trim($query['facilityCounty']);
-        }
-        if (isset($query['masterPermitNumber'])) {
-            $payload['formQueryParams']['masterPermitNumber'] = trim($query['masterPermitNumber']);
-        }
+        (!isset($query['issuer'])) ?: $payload['formQueryParams']['issuer'] = trim($query['issuer']);
+        (!isset($query['submissionType'])) ?: $payload['formQueryParams']['submissionType'] = trim($query['submissionType']);
+        (!isset($query['coverageType'])) ?: $payload['formQueryParams']['coverageType'] = trim($query['coverageType']);
+        (!isset($query['coverageStatus'])) ?: $payload['formQueryParams']['coverageStatus'] = trim($query['coverageStatus']);
+        (!isset($query['npdesId'])) ?: $payload['formQueryParams']['npdesId'] = trim($query['npdesId']);
+        (!isset($query['sector'])) ?: $payload['formQueryParams']['sector'] = trim($query['sector']);
+        (!isset($query['subSector'])) ?: $payload['formQueryParams']['subSector'] = trim($query['subSector']);
+        (!isset($query['sicCode'])) ?: $payload['formQueryParams']['sicCode'] = trim($query['sicCode']);
+        (!isset($query['facilityName'])) ?: $payload['formQueryParams']['facilityName'] = trim($query['facilityName']);
+        (!isset($query['facilityAddressLine1'])) ?: $payload['formQueryParams']['facilityAddressLine1'] = trim($query['facilityAddressLine1']);
+        (!isset($query['facilityCity'])) ?: $payload['formQueryParams']['facilityCity'] = trim($query['facilityCity']);
+        (!isset($query['facilityState'])) ?: $payload['formQueryParams']['facilityState'] = trim($query['facilityState']);
+        (!isset($query['facilityZip'])) ?: $payload['formQueryParams']['facilityZip'] = trim($query['facilityZip']);
+        (!isset($query['facilityCounty'])) ?: $payload['formQueryParams']['facilityCounty'] = trim($query['facilityCounty']);
+        (!isset($query['masterPermitNumber'])) ?: $payload['formQueryParams']['masterPermitNumber'] = trim($query['masterPermitNumber']);
         // Used with CGP
-        if (isset($query['projectSiteName'])) {
-            $payload['formQueryParams']['projectSiteName'] = trim($query['projectSiteName']);
-        }
-        if (isset($query['projectCity'])) {
-            $payload['formQueryParams']['projectCity'] = trim($query['projectCity']);
-        }
-        if (isset($query['projectState'])) {
-            $payload['formQueryParams']['projectState'] = trim($query['projectState']);
-        }
-        if (isset($query['projectZip'])) {
-            $payload['formQueryParams']['projectZip'] = trim($query['projectZip']);
-        }
-        if (isset($query['projectCounty'])) {
-            $payload['formQueryParams']['projectCounty'] = trim($query['projectCounty']);
-        }
-        if (isset($query['projectStatus'])) {
-            $payload['formQueryParams']['projectStatus'] = trim($query['projectStatus']);
-        }
-        if (isset($query['applicationType'])) {
-            $payload['formQueryParams']['applicationType'] = trim($query['applicationType']);
-        }
+        (!isset($query['projectSiteName'])) ?: $payload['formQueryParams']['projectSiteName'] = trim($query['projectSiteName']);
+        (!isset($query['projectCity'])) ?: $payload['formQueryParams']['projectCity'] = trim($query['projectCity']);
+        (!isset($query['projectState'])) ?: $payload['formQueryParams']['projectState'] = trim($query['projectState']);
+        (!isset($query['projectZip'])) ?: $payload['formQueryParams']['projectZip'] = trim($query['projectZip']);
+        (!isset($query['projectCounty'])) ?: $payload['formQueryParams']['projectCounty'] = trim($query['projectCounty']);
+        (!isset($query['projectStatus'])) ?: $payload['formQueryParams']['projectStatus'] = trim($query['projectStatus']);
+        (!isset($query['applicationType'])) ?: $payload['formQueryParams']['applicationType'] = trim($query['applicationType']);
         // Used with both
-        if (isset($query['operatorName'])) {
-            $payload['formQueryParams']['operatorName'] = trim($query['operatorName']);
-        }
-        if (isset($query['federalIndicator'])) {
-            $payload['formQueryParams']['federalIndicator'] = trim($query['federalIndicator']);
-        }
-        if (isset($query['submittedDateFrom'])) {
-            $payload['formQueryParams']['submittedDateFrom'] = trim($query['submittedDateFrom']);
-        }
-        if (isset($query['submittedDateTo'])) {
-            $payload['formQueryParams']['submittedDateTo'] = trim($query['submittedDateTo']);
-        }
-        if (isset($query['updatedFrom'])) {
-            $payload['formQueryParams']['updatedFrom'] = trim($query['updatedFrom']);
-        }
-        if (isset($query['updatedTo'])) {
-            $payload['formQueryParams']['updatedTo'] = trim($query['updatedTo']);
-        }
-        if (isset($query['tribalIndicator'])) {
-            $payload['formQueryParams']['tribalIndicator'] = trim($query['tribalIndicator']);
-        }
-        if (isset($query['tribalName'])) {
-            $payload['formQueryParams']['tribalName'] = trim($query['tribalName']);
-        }
+        (!isset($query['operatorName'])) ?: $payload['formQueryParams']['operatorName'] = trim($query['operatorName']);
+        (!isset($query['federalIndicator'])) ?: $payload['formQueryParams']['federalIndicator'] = trim($query['federalIndicator']);
+        (!isset($query['submittedDateFrom'])) ?: $payload['formQueryParams']['submittedDateFrom'] = trim($query['submittedDateFrom']);
+        (!isset($query['submittedDateTo'])) ?: $payload['formQueryParams']['submittedDateTo'] = trim($query['submittedDateTo']);
+        (!isset($query['updatedFrom'])) ?: $payload['formQueryParams']['updatedFrom'] = trim($query['updatedFrom']);
+        (!isset($query['updatedTo'])) ?: $payload['formQueryParams']['updatedTo'] = trim($query['updatedTo']);
+        (!isset($query['tribalIndicator'])) ?: $payload['formQueryParams']['tribalIndicator'] = trim($query['tribalIndicator']);
+        (!isset($query['tribalName'])) ?: $payload['formQueryParams']['tribalName'] = trim($query['tribalName']);
+
         return $payload;
     }
 
