@@ -41,7 +41,7 @@ class MyCertificationsProxyServiceFilter extends ProxyServiceFilterBase {
         $client1 = $soapHandler->connectToSOAPServerWithWSDL($wsdl, "Eenterprise Bridge Auth");
         $params1 = array(
             "userId" => $cdx_username,
-            "credential" => 'EepTest6789',
+            "credential" => 'XXXXX',
             "domain" => 'default',
             "authenticationMethod" => 'password',
         );
