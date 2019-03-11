@@ -339,14 +339,12 @@
         let starZip = (this.userFavLocation.second !== '')
                 ? this.userFavLocation.second : this.userLocationsFromLoad[0].second;
 
-        let favLocation = {
+        this.apiUserPatch({
             field_userfavoritelocations: [{
                 first: starLocation,
                 second: starZip
             }]
-        };
-        console.log(favLocation);
-        this.apiUserPatch(favLocation);
+        });
       },
       deleteSelectedLocation(location){
         if(location.second === this.userLocationsFromLoad[0].second){
