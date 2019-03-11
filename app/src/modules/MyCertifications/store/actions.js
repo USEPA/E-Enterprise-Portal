@@ -10,10 +10,11 @@ export default {
   ...commonAppStore.actions,
   loadMyCertifications(context) {
     const store = context;
-    if (this._vm.getIsLoggedIn) {
-      const cookie = this._vm.$cookie.get('Token');
+    const vm = this._vm;
+    if (vm.getIsLoggedIn) {
+      const cookie = vm.$cookie.get('Token');
         AppAxios.get(
-            `${this._vm.getEnvironmentApiURL}/api/cdx/certifications`,
+            `${vm.getEnvironmentApiURL}/api/cdx/certifications`,
             {
               headers: {
                 Authorization: `Bearer ${cookie}`,
