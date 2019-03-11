@@ -10,8 +10,23 @@ export default {
   ...commonAppStore.actions,
   loadMyCertifications(context) {
     const store = context;
-    AppAxios.get(store.state.apiUrl.sample).then((response) => {
-      store.commit(types.LOAD_CERTIFICATIONS, response.data);
-    });
+    const vm = this._vm;
+    if (vm.getIsLoggedIn) {
+      const cookie = vm.$cookie.get('Token');
+        AppAxios.get(
+            `${vm.getEnvironmentApiURL}/api/cdx/certifications`,
+            {
+              headers: {
+                Authorization: `Bearer ${cookie}`,
+                crossDomain: true,
+                'cache-control': 'no-cache',
+                'Content-Type': 'application/json',
+              },
+            }).then((response) => {
+        store.commit(types.LOAD_CERTIFICATIONS, response.data);
+      });
+    } else {
+      store.commit(types.LOAD_CERTIFICATIONS, []);
+    }
   },
 };
