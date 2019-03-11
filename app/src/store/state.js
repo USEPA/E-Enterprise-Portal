@@ -65,6 +65,7 @@ const state = {
     organizations: [],
     roles: [],
     userLocationsFromLoad:[],
+    userHaveFavoriteLocation: false,
     userLocationsFromLoadCopy: [],
     x: [],
     location: {

@@ -131,15 +131,28 @@ export default {
     Vue.set(state.user,
       'roles',
       obj.field_role);
+    // Parse the user locations to figure out if they have one saved or not
+    let finalized_locations_array = [];
+    if(obj.field_userfavoritelocations.length > 0){
+        finalized_locations_array.push(obj.field_userfavoritelocations[0]);
+
+        obj.field_userlocation = _.reject(obj.field_userlocation, function(el){
+            return el.second === obj.field_userfavoritelocations[0].second;
+        });
+
+        Vue.set(state.user,
+            'userHaveFavoriteLocation',
+            true);
+    }
+    obj.field_userlocation.forEach((location) => {
+        finalized_locations_array.push(location);
+    });
     Vue.set(state.user,
       'userLocationsFromLoad',
-      obj.field_userlocation);
+      finalized_locations_array);
     Vue.set(state.user,
       'userLocationsFromLoadCopy',
       _.cloneDeep(obj.field_userlocation));
-    // Vue.set(state.user,
-    //   'userfavoritelocations',
-    //   obj.field_userfavoritelocations);
   },
   [types.SET_USER_OBJECT_ORGANIZATIONS](state, obj) {
     Vue.set(state.user.userObject,
@@ -245,10 +258,8 @@ export default {
   },
   [types.DELETE_USER_SELECTED_LOCATION](state, deletedSelection) {
     // Filter the array with the location that they want deleted
-    const filteredLocation = state.user.userLocationsFromLoad
-      .filter(location => location.first !== deletedSelection.first
-        && location.second !== deletedSelection.second);
-
+    let filteredLocation = state.user.userLocationsFromLoad
+      .filter(location => location.second !== deletedSelection.second);
     // Save back to state
     Vue.set(state.user,
       'userLocationsFromLoad',
@@ -286,5 +297,10 @@ export default {
     Vue.set(state.user,
       'displayLoginAgainButtonOnModal',
       css_prop);
+  },
+  [types.SET_DOES_USER_HAVE_FAVORITE_LOCATION](state, doesUserHaveFavLocation){
+    Vue.set(state.user,
+       'userHaveFavoriteLocation',
+       doesUserHaveFavLocation);
   },
 };

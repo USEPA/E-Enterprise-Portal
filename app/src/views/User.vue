@@ -44,24 +44,20 @@
                   <p>Until a location is specified, the default location is set to
                   Durham, North Carolina.</p>
                 </div>
-
-                <!-- format this to output the users inputted locations -->
-                  <!-- try to incorporate the users selections here -->
+                <!-- try to incorporate the users selections here -->
                 <div id="user-input-locations" v-if="user.userLocationsFromLoad.length > 0">
                     <template v-for="(location, index) in user.userLocationsFromLoad">
-                        <b-input-group class="pl-2 pb-2 pt-2">
+                        <b-input-group :ref="location.first + location.second" class="pl-2 pb-2 pt-2" >
                             <b-form-input ref="selectedLocation" v-model="location.first"
                                           type="text"
                                           class="col-4 ml-3"
                                           disabled/>
                             <div class="col-1 cursor-pointer">
-                                <template v-if="index == 0">
-                                  <i :ref="'click-star-' + index"
-                                     @click="starClick(('click-star-' + index),location.second)" class="fas fa-star"/>
+                                <template v-if="index == 0 && user.userHaveFavoriteLocation">
+                                  <i ref="favoriteStars" @click="starClick(location.first, location.second)" class="fas fa-star"/>
                                 </template>
                                 <template v-else>
-                                  <i :ref="'click-star-' + index"
-                                     @click="starClick(('click-star-' + index),location.second)" class="far fa-star"/>
+                                  <i ref="favoriteStars" @click="starClick(location.first, location.second)" class="far fa-star"/>
                                 </template>
                             </div>
                             <button class="usa-button" value="x" @click="deleteSelectedLocation({
@@ -173,12 +169,12 @@
         selectedLocation:[{first:'', second:''}],
         inputLocation:[],
         indexValue:'',
-        locationInfo:[{first:'', second:null}]
+        locationInfo:[{first:'', second:null}],
+        userFavLocation: [{first: '', second: ''}],
       };
     },
     computed: {
       ...mapGetters({
-        // map getters go here
         user: 'getUser',
       }),
       userInit: {
@@ -265,24 +261,28 @@
       DeleteEEPUserProfile() {
         console.warn('DELETE PROFILE');
       },
-      starClick(ref_index, value){
-        // 1) Loop through and if checked then uncheck
-        // 2) check new star
-        if (this.$refs[ref_index][0].classList.contains('fas')) {
-          this.$refs[ref_index][0].classList.remove('fas');
-          this.$refs[ref_index][0].classList.add('far');
-          this.indexValue='';
-          this.locationInfo=[];
-        } else {
-          this.$refs[ref_index][0].classList.remove('far');
-          this.$refs[ref_index][0].classList.add('fas');
-          this.indexValue = ref_index;
-          this.locationInfo = value;
-        }
+      starClick(typedInLocation, zipcode){
+        let stars = this.$refs.favoriteStars;
+
+        // Loop through all of the stars and see if it is seletced as a favorite and if so, clear it
+        stars.forEach((star) => {
+          if(star.classList.contains("fas")){
+             star.classList.remove('fas');
+             star.classList.add('far');
+          }
+        });
+
+        let selectedStarParent = this.$refs[typedInLocation + zipcode];
+
+        this.userFavLocation.first = typedInLocation;
+        this.userFavLocation.second = zipcode;
+
+        selectedStarParent[0].children[1].children[0].classList.remove('far');
+        selectedStarParent[0].children[1].children[0].classList.add('fas');
       },
       save() {
         this.updateUserLocation();
-        //this.updateFavoriteLocation();
+        this.updateFavoriteLocation();
         //these if statements will not work as the interest tab is hidden
         if (this.selected) {
               this.updateOrg();
@@ -292,7 +292,6 @@
         }
       },
       updateUserLocation(){
-        // Star logic
         let userLocations = [];
         let userLocationZipcode = {};
 
@@ -323,32 +322,28 @@
         this.roles= [];
       },
       updateFavoriteLocation(){
-        let starZip = this.locationInfo.second;
-        let starLocation= this.locationInfo.first;
-        this.removeFavoriteLocation();
-        this.userfavoritelocations.splice(0,1);
-        this.userfavoritelocations.push({first: starLocation, second: starZip});
-        let favLocation={
-          field_userfavoritelocations: this.userfavoritelocations
-        }
+
+        let starLocation= this.userFavLocation.first;
+        let starZip = this.userFavLocation.second;
+
+        let favLocation = {
+            field_userfavoritelocations: [{
+                first: starLocation,
+                second: starZip
+            }]
+        };
         this.apiUserPatch(favLocation);
       },
       deleteSelectedLocation(location){
+        if(location.second === this.userLocationsFromLoad[0].second){
+            this.$store.commit('SET_DOES_USER_HAVE_FAVORITE_LOCATION', false);
+            this.apiUserPatch({
+                field_userfavoritelocations: [],
+            });
+        }
         this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
-      },
-      deleteUserLocation(deletedValue) {
-        var index=this.userLocationsFromLoad.indexOf(deletedValue);
-        this.removeFavoriteLocation();
-        this.userLocationsFromLoad.splice(index, 1);
         this.apiUserPatch({
-          field_userlocation: this.userLocationsFromLoad,
-
-        });
-      },
-      removeFavoriteLocation(){
-        this.userfavoritelocations.splice(0,1);
-        this.apiUserPatch({
-          field_userfavoritelocations: this.userfavoritelocations
+           field_userlocation: this.$store.getters.getUser.userLocationsFromLoad,
         });
       },
       revealLocationInputBox(){
