@@ -84,6 +84,7 @@ class EEPMyCertificationsController extends ControllerBase {
         foreach ($response->children('http://www.exchangenetwork.net/schema/eact/1') as $activity) {
             $res = array(
                 "PartnerExternalId" => (string)$activity->PartnerExternalId,
+                "PartnerSystemId" => (string)$activity->PartnerSystemId,
                 "PartnerSystemReportType" => (string)$activity->PartnerSystemReportType,
                 "ActivityDesc" => (string)$activity->ActivityDesc,
                 "ActivityCreateDate" => (string)$activity->ActivityCreateDate,
@@ -103,6 +104,11 @@ class EEPMyCertificationsController extends ControllerBase {
                     $eactivity_item['partner_id'] = $res['PartnerExternalId'];
                     $res_domain = $res['PartnerSystemId'];
                     $eactivity_item['submitted'] = strtoupper(date("j-M-Y", strtotime($res['ActivityCreateDate'])));
+                    if (strpos($res['PartnerSystemId'], 'lead') !== FALSE) {
+                        $res_domain = "Lead";
+                    } else if (strpos($res['PartnerSystemId'], 'cedri') !== FALSE) {
+                        $res_domain = "CEDRI";
+                    }
                     if ($res_domain == 'Lead') {
                         $eactivity_item["updated"] = strtoupper(date("j-M-Y", strtotime($res['StatusUpdateDate'])));
                         $title_parts = explode('/', $eactivity_item['title']);
