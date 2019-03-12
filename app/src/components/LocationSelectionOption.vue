@@ -1,7 +1,7 @@
 <template>
     <div id="comp">
         <div class="pt-3 d-flex">
-            <b-input-group :style="{display: user.IsMainInputDisplayed}">
+            <b-input-group v-show="user.isMainInputDisplayed">
                 <label class="col-12 font-weight-bold">
                     Enter city, state; tribe; or ZIP code
                 </label>
@@ -9,12 +9,19 @@
             </b-input-group>
         </div>
         <div id="input-box-results-drop-down" class="pt-3 d-flex">
-            <b-input-group :style="{display: user.IsAfterInputDropdownDisplayed}">
+            <b-input-group v-show="!user.isAfterInputDropdownDisplayed">
                 <label class="col-12 font-weight-bold">{{user.dropDownLabel}} {{user.inputBoxText}}</label>
                 <b-form-select class="col-4 ml-3" v-model="user.dropDownSelection">
                     <template v-for="afterInputOption in user.optionsAfterInput">
-                        <template v-if="isValidLocation(afterInputOption)">
-                            <option>
+                        <template v-if="Array.isArray(afterInputOption.tribeName)">
+                            <template v-for="tribeZipcode in afterInputOption.tribeName">
+                                <option :value="tribeZipcode">
+                                    {{tribeZipcode}}
+                                </option>
+                            </template>
+                        </template>
+                        <template v-else-if="isValidLocation(afterInputOption)">
+                            <option :value="afterInputOption">
                                 {{afterInputOption}}
                             </option>
                         </template>
@@ -27,7 +34,7 @@
                 </b-form-select>
             </b-input-group>
         </div>
-        <div class="locations-btn-wrapper pt-2 ml-3 pb-3" :style="{display: user.IsAfterInputDropdownDisplayed}">
+        <div class="locations-btn-wrapper pt-2 ml-3 pb-3" v-show="!user.isAfterInputDropdownDisplayed">
             <button class="usa-button" @click="handleSelectButton">Select</button>
             <button class="usa-button" @click="handleBackButton">Back</button>
         </div>
@@ -72,8 +79,7 @@
            ...mapActions([
            ]),
            submitInput(event){
-               if(event.which === 13 &&
-                   this.$store.getters.getUser.inputBoxText !== ''){
+               if(event.which === 13 && this.$store.getters.getUser.inputBoxText !== ''){
                    this.$store.dispatch('populateDropdownForUserInput', this.inputBoxText);
                }
            },
@@ -83,6 +89,8 @@
                     this.$store.commit('ITERATE_FIRST_TIME_SELECT_BUTTON', 1);
                     this.$store.dispatch('handleSelectButtonClickForLocation');
                     this.$store.commit('SET_DISPLAY_WHEN_LOCATION_IS_CLICKED', '');
+                    this.$store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', false);
+                    this.$store.commit('SET_DISPLAY_NEW_LOCATION', true);
                 }
            },
           handleBackButton(){
@@ -91,8 +99,7 @@
           isValidLocation(afterInputOption){
                 let isValid = false;
                 if(/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(afterInputOption) ||
-                        /[A-Z][a-zA-Z]+,[ ]?[A-Z]{2}/.test(afterInputOption) ||
-                        this.$store.getters.getUser.isCurrentDropdownZipcodeWithTribes){
+                        /[A-Z][a-zA-Z]+,[ ]?[A-Z]{2}/.test(afterInputOption)){
                     isValid = true;
                 }
                 return isValid;

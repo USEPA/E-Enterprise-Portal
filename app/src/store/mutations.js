@@ -132,11 +132,11 @@ export default {
       'roles',
       obj.field_role);
     Vue.set(state.user,
-      'userlocations',
-      obj.field_userlocation);
+      'userFavoriteLocation',
+        obj.field_userfavoritelocations);
     Vue.set(state.user,
-      'userfavoritelocations',
-      obj.field_userfavoritelocations);
+      'userLocationsFromLoad',
+      obj.field_userlocation);
   },
   [types.SET_USER_OBJECT_ORGANIZATIONS](state, obj) {
     Vue.set(state.user.userObject,
@@ -217,7 +217,7 @@ export default {
   },
   [types.SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED](state, isDisplayed) {
     Vue.set(state.user,
-      'IsAfterInputDropdownDisplayed',
+      'isAfterInputDropdownDisplayed',
       isDisplayed);
   },
   [types.SET_INPUT_BOX_TEXT](state, newText) {
@@ -238,17 +238,16 @@ export default {
       dropdownSelection);
   },
   [types.SAVE_USER_SELECTED_LOCATIONS](state, newLocation) {
-    state.user.userSavedLocations.push(newLocation);
+    console.log(newLocation);
+    state.user.userLocationsFromLoad.push(newLocation);
   },
   [types.DELETE_USER_SELECTED_LOCATION](state, deletedSelection) {
     // Filter the array with the location that they want deleted
-    const filteredLocation = state.user.userSavedLocations
-      .filter(location => location.typed_in_location !== deletedSelection.typed_in_location
-        && location.selected_location_from_dropdown !== deletedSelection.selected_location_from_dropdown);
-
+    let filteredLocation = state.user.userLocationsFromLoad
+      .filter(location => location.second !== deletedSelection.second);
     // Save back to state
     Vue.set(state.user,
-      'userSavedLocations',
+      'userLocationsFromLoad',
       filteredLocation);
   },
   [types.SET_DISPLAY_WHEN_LOCATION_IS_CLICKED](state, css_prop) {
@@ -263,7 +262,7 @@ export default {
   },
   [types.SET_IS_MAIN_INPUT_DISPLAYED](state, css_prop) {
     Vue.set(state.user,
-      'IsMainInputDisplayed',
+      'isMainInputDisplayed',
       css_prop);
   },
   [types.ITERATE_FIRST_TIME_SELECT_BUTTON](state, amount) {
@@ -283,5 +282,21 @@ export default {
     Vue.set(state.user,
       'displayLoginAgainButtonOnModal',
       css_prop);
+  },
+  [types.SET_TRIBES_ARRAY](state, obj){
+    Vue.set(state.user,
+      'tribesArray',
+      obj);
+  },
+  [types.SET_DISPLAY_NEW_LOCATION](state, display){
+    Vue.set(state.user,
+      'displayNewLocation',
+      display);
+  },
+  [types.SET_USER_FAV_LOCATION](state, userFavLocation){
+    console.log('hit here');
+    Vue.set(state.user,
+      'userFavoriteLocation',
+      userFavLocation);
   },
 };

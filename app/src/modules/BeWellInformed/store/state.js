@@ -23,20 +23,20 @@ export default {
   urls: {
     LOCAL: {
       getPartners: 'sample_data/stateAndTribes.json',
-      getPartnerXML: 'sample_data/partner-',
-      getFlowchartXML: 'sample_data/flowchart-',
+      getPartnerXML: 'get_bwi_xml/partner-',
+      getFlowchartXML: 'get_bwi_xml/flowchart-',
       submitPartnersData: 'https://dev.e-enterprise.gov/TestRest/bwievaluation',
     },
     DEV: {
       getPartners: 'sample_data/stateAndTribes.json',
-      getPartnerXML: 'https://dev.e-enterprise.gov/be_well_informed/get_bwi_xml/partner-',
-      getFlowchartXML: 'https://dev.e-enterprise.gov/be_well_informed/get_bwi_xml/flowchart-',
+      getPartnerXML: 'get_bwi_xml/partner-',
+      getFlowchartXML: 'get_bwi_xml/flowchart-',
       submitPartnersData: 'https://dev.e-enterprise.gov/TestRest/bwievaluation',
     },
     TEST: {
       getPartners: 'sample_data/stateAndTribes.json',
-      getPartnerXML: 'https://dev.e-enterprise.gov/be_well_informed/get_bwi_xml/partner-',
-      getFlowchartXML: 'https://dev.e-enterprise.gov/be_well_informed/get_bwi_xml/flowchart-',
+      getPartnerXML: 'get_bwi_xml/partner-',
+      getFlowchartXML: 'get_bwi_xml/flowchart-',
       submitPartnersData: 'https://dev.e-enterprise.gov/TestRest/bwievaluation',
     },
     PROD: {

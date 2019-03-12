@@ -1,18 +1,21 @@
 @import "bootstrap-variable-overrides";
 
-h2::before {
-  height: 50px;
-  width: 50px;
-}
-
 // small styles
 .wapp-small {
   table{
     font-size: 0.75em;
   }
-  
+
   .datatable-controls {
     display: none;
+  }
+
+  .my-certs-tbody {
+    height: 65px;
+  }
+
+  .cert-needs-attn-decoration {
+    top: -1.5rem;
   }
 }
 
@@ -26,4 +29,3 @@ h2::before {
     background-color: $red;
   }
 }
-
