@@ -10,6 +10,7 @@ namespace Drupal\eep_my_certifications\Controller;
 use Drupal\Core\Controller\ControllerBase;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 //@todo Refactor CDX SOAP services into their own custom module or proxy filter
 use Drupal\eep_my_reporting\SOAPHandler;
@@ -60,6 +61,23 @@ class EEPMyCertificationsController extends ControllerBase {
         return $user->get('field_cdx_user_id')->getString();
     }
 
+    function download_cdx_document_with_id() {
+        $response = new Response();
+        if (isset($_GET["document_download_params"])) {
+            $document_params = json_decode($_GET['document_download_params']);
+            $networkNodeService = new CDXNetworkNode2Service($this->config);
+            $networkNodeService->set_security_token($this->token);
+            $document_service_response = $networkNodeService->download_documents($document_params);
+            $document_content = $document_service_response->documents->documentContent;
+            $document_content_type = $document_content->contentType;
+            $document_content = $document_content->_;
+            $response->headers->set('Content-Type', $document_content_type);
+            $response->headers->set('Content-Disposition', 'filename=' . $document_params->name);
+            $response->setContent($document_content);
+        }
+        return $response;
+    }
+
     /**
      * Fetch My CDX data from SOAP service
      */
@@ -69,7 +87,6 @@ class EEPMyCertificationsController extends ControllerBase {
         $flows = $networkNodeService->query_dataflow();
         $parsed_flows = $this->parse_certifications($flows);
         return new JsonResponse($parsed_flows);
-
     }
 
     private function parse_certifications($flows) {
@@ -82,50 +99,44 @@ class EEPMyCertificationsController extends ControllerBase {
         $eactivity_data = [];
         // Parse progress tracker & to-do data
         foreach ($response->children('http://www.exchangenetwork.net/schema/eact/1') as $activity) {
-            $res = array(
-                "PartnerExternalId" => (string)$activity->PartnerExternalId,
-                "PartnerSystemId" => (string)$activity->PartnerSystemId,
-                "PartnerSystemReportType" => (string)$activity->PartnerSystemReportType,
-                "ActivityDesc" => (string)$activity->ActivityDesc,
-                "ActivityCreateDate" => (string)$activity->ActivityCreateDate,
-                "ActivityExpirationDate" => (string)$activity->ActivityExpirationDate,
-                "Status" => (string)$activity->Status,
-                "StatusUpdateDate" => (string)$activity->StatusUpdateDate,
-            );
+            $expiration_string = (string)$activity->ActivityExpirationDate;
+            $expiration_date = strtotime($expiration_string) + 86400;
+            $curr_date = strtotime(date("Y-m-d H:i:s"));
+            if (($expiration_date - $curr_date) > 0) {
+                foreach ($activity->Attributes->Attribute as $child) {
+                    $activity_description = (string)$activity->ActivityDesc;
+                    $title_parts = explode('/', $activity_description);
+                    $report_type = trim($title_parts[0]) . ' ' . trim($title_parts[1]);
+                    $status_string = (string)$activity->Status;
+                    $status = ($status_string == 'IN_PROGRESS') ? 'In Progress' : ucwords(strtolower($status_string));
+                    $eactivity_item = [
+                        'title' => (string)$activity->ActivityDesc,
+                        'partner_id' => (string)$activity->PartnerExternalId,
+                        'submitted' => $this->parse_and_format_certificate_date($activity->ActivityCreateDate),
+                        'updated' => $this->parse_and_format_certificate_date($activity->StatusUpdateDate),
+                        'report_type' => $report_type,
+                        'status' => $status,
+                        'documents' => []
+                    ];
 
-            foreach ($activity->Attributes->Attribute as $child) {
-                //86,400 is number of seconds in 24 hours, extend expiration date by 24 hours.
-                $expiration_date = strtotime($res['ActivityExpirationDate']) + 86400;
-                $curr_date = strtotime(date("Y-m-d H:i:s"));
-                // Do not create a node if its expiration date is already passed
-                if (($expiration_date - $curr_date) > 0) {
-                    $eactivity_item = [];
-                    $eactivity_item['title'] = $res['ActivityDesc'];
-                    $eactivity_item['partner_id'] = $res['PartnerExternalId'];
-                    $res_domain = $res['PartnerSystemId'];
-                    $eactivity_item['submitted'] = strtoupper(date("j-M-Y", strtotime($res['ActivityCreateDate'])));
-                    if (strpos($res['PartnerSystemId'], 'lead') !== FALSE) {
-                        $res_domain = "Lead";
-                    } else if (strpos($res['PartnerSystemId'], 'cedri') !== FALSE) {
-                        $res_domain = "CEDRI";
+                    foreach ($activity->Documents->Document as $document) {
+                        $document_object = [
+                            "id" => (string)$document->Id,
+                            "name" => (string)$document->Name,
+                            "transactionId" => (string)$document->TransactionId,
+                        ];
+                        $eactivity_item["documents"][] = $document_object;
                     }
-                    if ($res_domain == 'Lead') {
-                        $eactivity_item["updated"] = strtoupper(date("j-M-Y", strtotime($res['StatusUpdateDate'])));
-                        $title_parts = explode('/', $eactivity_item['title']);
-                        $eactivity_item['report_type'] = trim($title_parts[0]) . ' ' . trim($title_parts[1]);
-                    } else if ($res_domain == 'CEDRI') {
-                        $eactivity_item["updated"] = date("m/d/Y", strtotime($res['ActivityExpirationDate']));
-                        $eactivity_item['report_type'] = $res['PartnerSystemReportType'];
-                    }
-
-                    $res_status = ($res['Status'] == 'IN_PROGRESS') ? 'In Progress' : ucwords(strtolower($res['Status']));
-                    $eactivity_item["status"] = $res_status;
-
                     $eactivity_data[] = $eactivity_item;
                 }
             }
         }
         return $eactivity_data;
+    }
+
+    private function parse_and_format_certificate_date($xml_date_obj) {
+        $date_string = (string)$xml_date_obj;
+        return strtoupper(date("j-M-Y", strtotime($date_string)));
     }
 
 }

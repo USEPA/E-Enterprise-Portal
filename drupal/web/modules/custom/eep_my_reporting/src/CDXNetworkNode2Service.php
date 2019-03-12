@@ -59,5 +59,31 @@ class CDXNetworkNode2Service extends CDXNaasService {
         return $this->call_service_method('Query');
     }
 
+    function download_documents($document_object) {
+        $id = $document_object->id;
+        $transaction_id = $document_object->transactionId;
+        $document_name = $document_object->name;
+        $document_format = $document_object->format;
+        $type_id = $document_object->type_id;
+
+        $content = [
+            "_" => $id,
+            "contentType" => [$type_id]
+        ];
+        $param_doc = array(
+            "documentName" => $document_name,
+            "documentFormat" => $document_format,
+            "documentContent" => $content,
+            "documentId" => $id,
+        );
+
+        $this->params = array(
+            "securityToken" => $this->token,
+            "dataflow" => "E-ACTIVITY",
+            "transactionId" => $transaction_id,
+            "documents" => $param_doc,
+        );
+        return $this->call_service_method('Download');
+    }
 
 }
