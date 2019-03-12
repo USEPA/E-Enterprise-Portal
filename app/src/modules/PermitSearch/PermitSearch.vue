@@ -238,10 +238,11 @@
                   </b-col>
                   <b-col md="6">
                     <b-form-radio-group
+                      v-model="radioSelection4"
                       id="federal-facility-selection-cgp"
                       :options="formOptions.federalIndicator"
                       @change="setFederalIndicator"
-                      name="radioInline"
+                      name="radioInline4"
                       class="mb-3"
                       ref="federal-facility-selection-cgp">
                     </b-form-radio-group>
@@ -319,10 +320,11 @@
                 <b-row>
                   <b-col md="6">
                     <b-form-radio-group
+                      v-model="radioSelection3"
                       id="tribal-lands-construction-cgp"
                       :options="formOptions.tribalIndicator"
                       @change="setTribalIndicator"
-                      name="radioInline"
+                      name="radioInline3"
                       class="mb-3"
                       ref="tribal-lands-construction-cgp">
                     </b-form-radio-group>
@@ -710,10 +712,11 @@
                   </b-col>
                   <b-col md="6">
                     <b-form-radio-group
+                      v-model="radioSelection2"
                       id="federal-facility-selection-msgp"
                       :options="formOptions.federalIndicator"
                       @change="setFederalIndicator"
-                      name="radioInline"
+                      name="radioInline2"
                       class="mb-3"
                       ref="federal-facility-selection-msgp">
                     </b-form-radio-group>
@@ -785,10 +788,11 @@
                 <b-row>
                   <b-col md="6">
                     <b-form-radio-group
-                      id="tribal-lands-construction"
+                      v-model="radioSelection1"
+                      id="tribal-lands-construction-msgp"
                       :options="formOptions.tribalIndicator"
                       @change="setTribalIndicator"
-                      name="radioInline"
+                      name="radioInline1"
                       class="mb-3"
                       ref="tribal-lands-construction">
                     </b-form-radio-group>
@@ -912,6 +916,10 @@
       return {
         cgpAdvancedSearchWrapper: false,
         msgpAdvancedSearchWrapper: false,
+        radioSelection1: false,
+        radioSelection2: false,
+        radioSelection3: false,
+        radioSelection4: false,
       };
     },
     mounted() {
@@ -1031,6 +1039,10 @@
         store.setSubsector('');
         store.setSicCode('');
         store.setAddress('');
+        store.radioSelection1 = false;
+        store.radioSelection2 = false;
+        store.radioSelection3 = false;
+        store.radioSelection4 = false;
       }
 
     },
