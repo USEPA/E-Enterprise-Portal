@@ -115,7 +115,7 @@ export default {
   setApplicationType(context, payload) {
     const store = context;
 
-    store.commit(types.SET_COVERAGE_TYPEo, payload);
+    store.commit(types.SET_APPLICATION_TYPE, payload);
   },
   setFormStatus(context, payload) {
     const store = context;

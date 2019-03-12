@@ -334,6 +334,7 @@
                       class="mb-3"
                       :value="tribeSelection"
                       :options="formOptions.tribeSelections"
+                      :disabled="isDisabledTribe"
                       @change="setTribeSelection"
                       size="sm"
                       required>
@@ -360,6 +361,7 @@
                       class="mb-3"
                       :value="facilityCounty"
                       :options="formOptions.countySelections"
+                      :disabled="isDisabledCounty"
                       @change="setFacilityCounty"
                       size="sm"
                       required>
@@ -372,6 +374,16 @@
                   </b-col>
                 </b-row>
               </b-collapse>
+              {{ facilityName }}
+              {{ NPDESID }}
+              {{ facilityZip }}
+              {{ status }}
+              {{ formType }}
+              {{ operatorName }}
+              {{ federalFacility }}
+              {{ dateSelection}}
+              {{ tribalIndicator }}
+              {{ tribeSelection }}
               <b-row>
                 <b-col md="6">
                 </b-col>
@@ -553,6 +565,7 @@
                     ref="subsector-input"
                     class="mb-3"
                     :value="subsector"
+                    :disabled="isDisabledSubsector"
                     @change="setSubsector"
                     size="sm"
                     required>
@@ -564,6 +577,7 @@
                     ref="sic-code-input"
                     class="mb-3"
                     :value="sicCode"
+                    :disabled="isDisabledSubsector"
                     @change="setSicCode"
                     size="sm"
                     required>
@@ -787,6 +801,7 @@
                       class="mb-3"
                       :value="tribalName"
                       :options="formOptions.tribalNameSelections"
+                      :disabled="isDisabledTribe"
                       @change="setTribalName"
                       size="sm"
                       required>
@@ -813,6 +828,7 @@
                       class="mb-3"
                       :value="facilityCounty"
                       :options="formOptions.countySelections"
+                      :disabled="isDisabledCounty"
                       @change="setFacilityCounty"
                       size="sm"
                       required>
@@ -825,7 +841,18 @@
                   </b-col>
                 </b-row>
               </b-collapse>
-              <br>
+              <br/>
+              {{ facilityName }}
+              {{ NPDESID }}
+              {{ facilityZip }}
+              {{ status }}
+              {{ formType }}
+              {{ operatorName }}
+              {{ federalFacility }}
+              {{ dateSelection}}
+              {{ tribalIndicator }}
+              {{ tribeSelection }}
+              {{ sicCode }}
               <b-row>
                 <b-col md="6">
                 </b-col>
@@ -920,6 +947,15 @@
         sicCode: 'getSicCode',
         facilityAddressLine1: 'getAddress',
       }),
+      isDisabledCounty() {
+        return !this.facilityState;
+      },
+      isDisabledTribe() {
+        return (!this.facilityState || !(this.tribalIndicator === true));
+      },
+      isDisabledSubsector() {
+        return !this.sector;
+      }
     },
     methods: {
       ...mapActions(moduleName, [
@@ -944,7 +980,7 @@
         'setTribalName',
         'setIssuer',
         'setSubmissionType',
-        'setApplicationType', //#####
+        'setApplicationType',
         'setFormStatus',
         'setSector',
         'setSubsector',
@@ -967,6 +1003,32 @@
       },
       clearForm() {
         // clear every state when reset is pressed
+        const store = this;
+        store.setFacilityName('');
+        store.setNPDESID('');
+        store.setFacilityCity('');
+        store.setFacilityState('');
+        store.setFacilityZip('');
+        store.setStatus('');
+        store.setFormType('');
+        store.setOperatorName('');
+        store.setFederalIndicator('');
+        store.setDateSelection('');
+        store.setStartDate('');
+        store.setEndDate('');
+        store.setTribalIndicator('');
+        store.setTribeSelection('');
+        store.setFacilityCounty('');
+        store.setMasterPermitNumber('');
+        store.setTribalName('');
+        store.setIssuer('');
+        store.setSubmissionType('');
+        store.setApplicationType('');
+        store.setFormStatus('');
+        store.setSector('');
+        store.setSubsector('');
+        store.setSicCode('');
+        store.setAddress('');
       }
 
     },

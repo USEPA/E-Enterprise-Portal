@@ -182,7 +182,7 @@ export default {
     );
   },
 
-  [types.SET_COVERAGE_TYPE](state, str) {
+  [types.SET_APPLICATION_TYPE](state, str) {
     Vue.set(
       state, // <- state value to change
       'applicationType', // <- the name of the property on the object the line above
