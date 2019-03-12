@@ -43,9 +43,10 @@
             </b-col>
           </b-row>
         </b-form>
+        <br/>
         <b-row>
           <b-col class="permit-search-footer">
-            <a>What permits can I find?</a>
+            <a class="text-decoration-underline cursor-pointer link-button">What permits can I find?</a>
           </b-col>
         </b-row>
 
@@ -202,16 +203,15 @@
                   </b-form-select>
                 </b-col>
               </b-row>
-              <div>
-                <b-btn
-                  v-b-toggle="'cgp-advanced-search-wrapper'"
-                  class="btn-outline-primary"
-                  variant="outline-primary"
-                  ref="btnAdvancedSettings-cgp">
-                  Advanced Search Criteria
-                </b-btn>
-              </div>
+              <b-btn
+                @click="cgpAdvancedSearchWrapper = !cgpAdvancedSearchWrapper"
+                class="btn-outline-primary"
+                variant="outline-primary"
+                ref="btnAdvancedSettings-cgp">
+                Advanced Search Criteria
+              </b-btn>
               <b-collapse
+                v-model="cgpAdvancedSearchWrapper"
                 id="cgp-advanced-search-wrapper">
                 <br/>
                 <b-row>
@@ -675,16 +675,15 @@
                   </b-form-input>
                 </b-col>
               </b-row>
-              <div>
-                <b-btn
-                  v-b-toggle="'msgp-advanced-search-wrapper'"
-                  class="btn-outline-primary"
-                  variant="outline-primary"
-                  ref="btnAdvancedSettings-msgp">
-                  Advanced Search Criteria
-                </b-btn>
-              </div>
+              <b-btn
+                @click="msgpAdvancedSearchWrapper = !msgpAdvancedSearchWrapper"
+                class="btn-outline-primary"
+                variant="outline-primary"
+                ref="btnAdvancedSettings-msgp">
+                Advanced Search Criteria
+              </b-btn>
               <b-collapse
+                v-model="msgpAdvancedSearchWrapper"
                 id="msgp-advanced-search-wrapper">
                 <br/>
                 <b-row>
@@ -910,7 +909,10 @@
       }
     },
     data() {
-      return {};
+      return {
+        cgpAdvancedSearchWrapper: false,
+        msgpAdvancedSearchWrapper: false,
+      };
     },
     mounted() {
       // get data for form options from axios call functions in actions file
