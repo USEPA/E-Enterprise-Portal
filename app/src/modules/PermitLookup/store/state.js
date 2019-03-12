@@ -35,11 +35,7 @@ export default {
     permitType: [
       'Construction General Permit',
       'Multi-sector General Permit',
-    ],
-    facilityState: [
-      'cool place',
-      'cooler place',
-    ],
+    ], /*
     status: [
       'good status',
       'bad status',
@@ -49,16 +45,16 @@ export default {
       'form2',
     ],
     federalIndicator: [
-      {text: 'Yes', value: true},
-      {text: 'No', value: false},
+      { text: 'Yes', value: true },
+      { text: 'No', value: false },
     ],
     dateSelections: [
       'Submitted',
       'uuughughuguh',
     ],
     tribalIndicator: [
-      {text: 'Yes', value: true},
-      {text: 'No', value: false},
+      { text: 'Yes', value: true },
+      { text: 'No', value: false },
     ],
     tribeSelections: [
       'tribe1',
@@ -83,10 +79,11 @@ export default {
     formStatusSelections: [
       'status1',
       'status2',
-    ],
-    sectorSelections: [
-      'sector1',
-      'sector2',
-    ],
+    ],*/
+    msgpFormOptions: {},
+    cgpFormOptions: {},
+    baseFormOptions: {
+      stateNames: [],
+    },
   },
 };

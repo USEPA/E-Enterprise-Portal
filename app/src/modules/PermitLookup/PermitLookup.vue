@@ -38,7 +38,7 @@
                 variant="primary"
                 ref="btnCheckYourWater"
                 type="submit">
-                Search
+                Lookup
               </b-btn>
             </b-col>
           </b-row>
@@ -49,11 +49,11 @@
           </b-col>
         </b-row>
 
-        <!-- Main Permit Search Modal-->
+        <!-- Main Permit Lookup Modal-->
         <AppModal
           id="permit-search-modal"
           modal-ref="permit-search-modal"
-          title="Permit Search tool"
+          title="Permit Lookup tool"
           :hide-footer="true">
           <div
             v-if="permitType === 'Construction General Permit'"
@@ -84,8 +84,7 @@
                     :value="facilityName"
                     @change="setFacilityName"
                     size="sm"
-                    required>
-                  </b-form-input>
+                    required/>
                 </b-col>
                 <b-col md="6">
                   <b-form-input
@@ -95,11 +94,10 @@
                     :value="NPDESID"
                     @change="setNPDESID"
                     size="sm"
-                    required>
-                  </b-form-input>
+                    required/>
                 </b-col>
               </b-row>
-              <br/>
+              <br>
               <b-row>
                 <b-col md="6">
                   <label
@@ -123,16 +121,15 @@
                     :value="facilityCity"
                     @change="setFacilityCity"
                     size="sm"
-                    required>
-                  </b-form-input>
+                    required/>
                 </b-col>
                 <b-col md="3">
                   <b-form-select
                     id="state-territory-selection-cgp"
                     class="mb-3"
                     :value="facilityState"
-                    :options="formOptions.facilityState"
-                    ref="facilityState-Dropdown-cgp"
+                    :options="formOptions.baseFormOptions.stateNames"
+                    ref="stateOptions-Dropdown-cgp"
                     @change="setFacilityState"
                     size="sm"
                     required>
@@ -151,11 +148,10 @@
                     :value="facilityZip"
                     @change="setFacilityZip"
                     size="sm"
-                    required>
-                  </b-form-input>
+                    required/>
                 </b-col>
               </b-row>
-              <br/>
+              <br>
               <b-row>
                 <b-col md="6">
                   <label
@@ -208,12 +204,12 @@
                   class="btn-outline-primary"
                   variant="outline-primary"
                   ref="btnAdvancedSettings-cgp">
-                  Advanced Search Criteria
+                  Advanced Lookup Criteria
                 </b-btn>
               </div>
               <b-collapse
                 id="cgp-advanced-search-wrapper">
-                <br/>
+                <br>
                 <b-row>
                   <b-col md="6">
                     <label
@@ -233,8 +229,7 @@
                       @change="setOperatorName"
                       ref="facility-operator-input-cgp"
                       size="sm"
-                      required>
-                    </b-form-input>
+                      required/>
                   </b-col>
                   <b-col md="6">
                     <b-form-radio-group
@@ -243,11 +238,10 @@
                       @change="setFederalIndicator"
                       name="radioInline"
                       class="mb-3"
-                      ref="federal-facility-selection-cgp">
-                    </b-form-radio-group>
+                      ref="federal-facility-selection-cgp"/>
                   </b-col>
                 </b-row>
-                <br/>
+                <br>
                 <b-row>
                   <b-col md="4">
                     <label
@@ -289,8 +283,7 @@
                       @change="setStartDate"
                       size="sm"
                       placeholder="MM/DD/YYYY"
-                      required>
-                    </b-form-input>
+                      required/>
                   </b-col>
                   <b-col md="4">
                     <b-form-input
@@ -301,11 +294,10 @@
                       @change="setEndDate"
                       size="sm"
                       placeholder="MM/DD/YYYY"
-                      required>
-                    </b-form-input>
+                      required/>
                   </b-col>
                 </b-row>
-                <br/>
+                <br>
                 <b-row>
                   <b-col md="6">
                     <label
@@ -324,8 +316,7 @@
                       @change="setTribalIndicator"
                       name="radioInline"
                       class="mb-3"
-                      ref="tribal-lands-construction-cgp">
-                    </b-form-radio-group>
+                      ref="tribal-lands-construction-cgp"/>
                   </b-col>
                   <b-col md="6">
                     <b-form-select
@@ -345,7 +336,7 @@
                     </b-form-select>
                   </b-col>
                 </b-row>
-                <br/>
+                <br>
                 <b-row>
                   <b-col md="6">
                     <label
@@ -373,8 +364,7 @@
                 </b-row>
               </b-collapse>
               <b-row>
-                <b-col md="6">
-                </b-col>
+                <b-col md="6"/>
                 <b-col md="3">
                   <b-btn
                     class="btn-outline-primary btn-block"
@@ -390,7 +380,7 @@
                     variant="primary"
                     ref="btnSubmitCgp"
                     type="submit">
-                    Search
+                    Lookup
                   </b-btn>
                 </b-col>
               </b-row>
@@ -443,11 +433,10 @@
                     ref="submission-type-input"
                     @change="setSubmissionType"
                     size="sm"
-                    required>
-                  </b-form-input>
+                    required/>
                 </b-col>
               </b-row>
-              <br/>
+              <br>
               <b-row>
                 <b-col md="6">
                   <label
@@ -494,7 +483,7 @@
                   </b-form-select>
                 </b-col>
               </b-row>
-              <br/>
+              <br>
               <b-row>
                 <b-col md="6">
                   <label
@@ -514,8 +503,7 @@
                     :value="NPDESID"
                     @change="setNPDESID"
                     size="sm"
-                    required>
-                  </b-form-input>
+                    required/>
                 </b-col>
                 <b-col md="6">
                   <b-form-select
@@ -535,7 +523,7 @@
                   </b-form-select>
                 </b-col>
               </b-row>
-              <br/>
+              <br>
               <b-row>
                 <b-col md="6">
                   <label
@@ -555,8 +543,7 @@
                     :value="subsector"
                     @change="setSubsector"
                     size="sm"
-                    required>
-                  </b-form-input>
+                    required/>
                 </b-col>
                 <b-col md="6">
                   <b-form-input
@@ -566,11 +553,10 @@
                     :value="sicCode"
                     @change="setSicCode"
                     size="sm"
-                    required>
-                  </b-form-input>
+                    required/>
                 </b-col>
               </b-row>
-              <br/>
+              <br>
               <b-row>
                 <b-col md="6">
                   <label
@@ -590,8 +576,7 @@
                     :value="facilityName"
                     @change="setFacilityName"
                     size="sm"
-                    required>
-                  </b-form-input>
+                    required/>
                 </b-col>
                 <b-col md="6">
                   <b-form-input
@@ -601,11 +586,10 @@
                     :value="facilityAddressLine1"
                     @change="setAddress"
                     size="sm"
-                    required>
-                  </b-form-input>
+                    required/>
                 </b-col>
               </b-row>
-              <br/>
+              <br>
               <b-row>
                 <b-col md="6">
                   <label
@@ -629,16 +613,15 @@
                     :value="facilityCity"
                     @change="setFacilityCity"
                     size="sm"
-                    required>
-                  </b-form-input>
+                    required/>
                 </b-col>
                 <b-col md="3">
                   <b-form-select
                     id="state-territory-selection-msgp"
                     class="mb-3"
                     :value="facilityState"
-                    :options="formOptions.facilityState"
-                    ref="facilityState-Dropdown-msgp"
+                    :options="formOptions.baseFormOptions.stateNames"
+                    ref="stateOptions-Dropdown-msgp"
                     @change="setFacilityState"
                     size="sm"
                     required>
@@ -657,8 +640,7 @@
                     :value="facilityZip"
                     @change="setFacilityZip"
                     size="sm"
-                    required>
-                  </b-form-input>
+                    required/>
                 </b-col>
               </b-row>
               <div>
@@ -667,12 +649,12 @@
                   class="btn-outline-primary"
                   variant="outline-primary"
                   ref="btnAdvancedSettings-msgp">
-                  Advanced Search Criteria
+                  Advanced Lookup Criteria
                 </b-btn>
               </div>
               <b-collapse
                 id="msgp-advanced-search-wrapper">
-                <br/>
+                <br>
                 <b-row>
                   <b-col md="6">
                     <label
@@ -692,8 +674,7 @@
                       @change="setOperatorName"
                       ref="facility-operator-input-msgp"
                       size="sm"
-                      required>
-                    </b-form-input>
+                      required/>
                   </b-col>
                   <b-col md="6">
                     <b-form-radio-group
@@ -702,11 +683,10 @@
                       @change="setFederalIndicator"
                       name="radioInline"
                       class="mb-3"
-                      ref="federal-facility-selection-msgp">
-                    </b-form-radio-group>
+                      ref="federal-facility-selection-msgp"/>
                   </b-col>
                 </b-row>
-                <br/>
+                <br>
                 <b-row>
                   <b-col md="6">
                     <label
@@ -730,8 +710,7 @@
                       :value="masterPermitNumber"
                       @change="setMasterPermitNumber"
                       size="sm"
-                      required>
-                    </b-form-input>
+                      required/>
                   </b-col>
                   <b-col md="3">
                     <b-form-input
@@ -742,8 +721,7 @@
                       @change="setStartDate"
                       size="sm"
                       placeholder="MM/DD/YYYY"
-                      required>
-                    </b-form-input>
+                      required/>
                   </b-col>
                   <b-col md="3">
                     <b-form-input
@@ -754,11 +732,10 @@
                       @change="setEndDate"
                       size="sm"
                       placeholder="MM/DD/YYYY"
-                      required>
-                    </b-form-input>
+                      required/>
                   </b-col>
                 </b-row>
-                <br/>
+                <br>
                 <b-row>
                   <b-col md="6">
                     <label
@@ -777,8 +754,7 @@
                       @change="setTribalIndicator"
                       name="radioInline"
                       class="mb-3"
-                      ref="tribal-lands-construction">
-                    </b-form-radio-group>
+                      ref="tribal-lands-construction"/>
                   </b-col>
                   <b-col md="6">
                     <b-form-select
@@ -798,7 +774,7 @@
                     </b-form-select>
                   </b-col>
                 </b-row>
-                <br/>
+                <br>
                 <b-row>
                   <b-col md="6">
                     <label
@@ -827,8 +803,7 @@
               </b-collapse>
               <br>
               <b-row>
-                <b-col md="6">
-                </b-col>
+                <b-col md="6"/>
                 <b-col md="3">
                   <b-btn
                     class="btn-outline-primary btn-block"
@@ -844,7 +819,7 @@
                     variant="primary"
                     ref="btnSubmitCgp"
                     type="submit">
-                    Search
+                    Lookup
                   </b-btn>
                 </b-col>
               </b-row>
@@ -861,11 +836,11 @@
 
 <script>
 
-  import {mapActions, mapGetters} from 'vuex';
-  import {AppWrapper, AppModal} from '../wadk/WADK';
+  import { mapActions, mapGetters } from 'vuex';
+  import { AppWrapper, AppModal } from '../wadk/WADK';
   import storeModule from './store/index';
 
-  const moduleName = 'PermitSearch';
+  const moduleName = 'PermitLookup';
 
   export default {
     name: moduleName,
@@ -887,8 +862,9 @@
     },
     mounted() {
       // get data for form options from axios call functions in actions file
-
-      console.log(this.eepApp.size);
+      this.loadBaseFormOption();
+      this.loadMsgpFormOptions();
+      this.loadCgpFormOptions();
     },
     computed: {
       ...mapGetters(moduleName, {
@@ -944,12 +920,15 @@
         'setTribalName',
         'setIssuer',
         'setSubmissionType',
-        'setApplicationType', //#####
+        'setApplicationType', // #####
         'setFormStatus',
         'setSector',
         'setSubsector',
         'setSicCode',
         'setAddress',
+        'loadBaseFormOption',
+        'loadMsgpFormOptions',
+        'loadCgpFormOptions',
       ]),
       initialFormSubmit(evt) {
         evt.preventDefault();
@@ -957,17 +936,17 @@
       },
       cgpFormSubmit(evt) {
         evt.preventDefault();
-        //get stuff
-        console.log("cgp submit yay!")
+        // get stuff
+        console.log('cgp submit yay!');
       },
       msgpFormSubmit(evt) {
         evt.preventDefault();
-        //get stuff
-        console.log("msgp submit yay!")
+        // get stuff
+        console.log('msgp submit yay!');
       },
       clearForm() {
         // clear every state when reset is pressed
-      }
+      },
 
     },
     props: {

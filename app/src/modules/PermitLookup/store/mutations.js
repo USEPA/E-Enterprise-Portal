@@ -230,4 +230,44 @@ export default {
     );
   },
 
+  [types.SET_FORM_OPTIONS_MSGP](state, arr) {
+    Vue.set(
+      state.formOptions, // <- state value to change
+      'msgpFormOptions', // <- the name of the property on the object the line above
+      arr, // <- new value to set on that property
+    );
+  },
+
+  [types.SET_FORM_OPTIONS_CGP](state, arr) {
+    Vue.set(
+      state.formOptions, // <- state value to change
+      'cgpFormOptions', // <- the name of the property on the object the line above
+      arr, // <- new value to set on that property
+    );
+  },
+
+  [types.SET_BASE_FORM_OPTIONS](state, arr) {
+    Vue.set(
+      state.formOptions, // <- state value to change
+      'baseFormOptions', // <- the name of the property on the object the line above
+      arr, // <- new value to set on that property
+    );
+  },
+
+  [types.SET_BASE_FORM_OPTION_STATE_NAMES](state, arr) {
+    Vue.set(
+      state.formOptions.baseFormOptions, // <- state value to change
+      'stateNames', // <- the name of the property on the object the line above
+      arr, // <- new value to set on that property
+    );
+  },
+
+  [types.SET_BASE_FORM_OPTION_SECTOR_NAMES](state, arr) {
+    Vue.set(
+      state.formOptions.baseFormOptions, // <- state value to change
+      'sectorNames', // <- the name of the property on the object the line above
+      arr, // <- new value to set on that property
+    );
+  },
+
 };

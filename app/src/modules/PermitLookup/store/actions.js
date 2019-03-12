@@ -1,8 +1,8 @@
 import types from './types';
 import { AppAxios, commonAppStore } from '../../wadk/WADK';
 import { EventBus } from '../../../EventBus';
-import convert from "xml-js";
-import parseXml from "../../wadk/utils/xmlTools";
+import convert from 'xml-js';
+import parseXml from '../../wadk/utils/xmlTools';
 
 /**
  * Methods added here are available to all workbench applications.  Methods
@@ -13,7 +13,6 @@ export default {
   ...commonAppStore.actions,
   setPermitType(context, payload) {
     const store = context;
-    const { state } = store;
 
     store.commit(types.SET_PERMIT_TYPE, payload);
   },
@@ -142,35 +141,58 @@ export default {
 
     store.commit(types.SET_ADDRESS, payload);
   },
+  loadBaseFormOption(context) {
+    const store = context;
+    const { state } = store;
+    const apiURL = store.rootGetters.getEnvironmentApiURL;
 
-  // Note: this is not supposed to be in use yet. This is a reference
-  // for the backend work that must be linked up to the form
-  loadFormOptions(){
-    AppAxios.get(state.urls[env].getPartnerXML + partnerCode + '.xml')
+    AppAxios.get(`${apiURL}/eep/proxy/service/oeca-svc-ref?states&sectors`)
       .then((response) => {
-        // @todo add sanity check for returned data
-        const partnerJsonString = convert.xml2json(response.data, { compact: true });
-        const partnerJson = JSON.parse(partnerJsonString);
-        store.commit(types.UPDATE_PARTNER_XML, {
-          partner,
-          partnerJson,
+        const formOptions = response.data.helperQueryResponse.oecaSvc;
+        const formSectorOptions = formOptions[0];
+        const formStateOptions = formOptions[1];
+        const formSectorNames = [];
+        const formStateNames = [];
+
+        formSectorOptions.forEach((sectorOption) => {
+          formSectorNames.push(sectorOption.sectorName);
+        });
+        formStateOptions.forEach((stateOption) => {
+          formStateNames.push(stateOption.stateName);
         });
 
-        const xml = parseXml(response.data);
-        const request = {
-          path: `BeWellInformed.partnerXmls[${partnerCode}]`,
-          property: 'infoXML',
-          value: xml,
-          defaultValue: '',
-        };
-
-        rootStore.commit('SET_DEEP_PROPERTY', request);
-        store.commit(types.UPDATE_PARTNER_RESOURCE);
-      })
-      .catch((...args) => {
-        // @todo add sanity check for errors & visual prompt to the user
-        app.$Progress.fail();
-        console.warn('AppAxios fail: ', args);
+        console.log(formOptions);
+        console.log(formStateNames);
+        store.commit(types.SET_BASE_FORM_OPTIONS, formOptions);
+        store.commit(types.SET_BASE_FORM_OPTION_STATE_NAMES, formStateNames);
+        store.commit(types.SET_BASE_FORM_OPTION_SECTOR_NAMES, formSectorNames);
+        console.log(state.formOptions.baseFormOptions);
       });
-  }
+  },
+  loadMsgpFormOptions(context) {
+    const store = context;
+    const { state } = store;
+    const apiURL = store.rootGetters.getEnvironmentApiURL;
+
+    AppAxios.get(`${apiURL}/eep/proxy/service/oeca-msgp?formTypes&formStatuses`)
+      .then((response) => {
+        const formOptions = response.data.helperQueryResponse;
+        console.log(formOptions);
+        store.commit(types.SET_FORM_OPTIONS_MSGP, formOptions);
+        console.log(state.formOptions.msgpFormOptions);
+      });
+  },
+  loadCgpFormOptions(context) {
+    const store = context;
+    const { state } = store;
+    const apiURL = store.rootGetters.getEnvironmentApiURL;
+
+    AppAxios.get(`${apiURL}/eep/proxy/service/oeca-cgp?formTypes&formStatuses`)
+      .then((response) => {
+        const formOptions = response.data.helperQueryResponse;
+        console.log(formOptions);
+        store.commit(types.SET_FORM_OPTIONS_CGP, formOptions);
+        console.log(state.formOptions.cgpFormOptions);
+      });
+  },
 };
