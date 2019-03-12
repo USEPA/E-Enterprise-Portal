@@ -131,28 +131,12 @@ export default {
     Vue.set(state.user,
       'roles',
       obj.field_role);
-    // Parse the user locations to figure out if they have one saved or not
-    let finalized_locations_array = [];
-    if(obj.field_userfavoritelocations.length > 0){
-        finalized_locations_array.push(obj.field_userfavoritelocations[0]);
-
-        obj.field_userlocation = _.reject(obj.field_userlocation, function(el){
-            return el.second === obj.field_userfavoritelocations[0].second;
-        });
-
-        Vue.set(state.user,
-            'userHaveFavoriteLocation',
-            true);
-    }
-    obj.field_userlocation.forEach((location) => {
-        finalized_locations_array.push(location);
-    });
+    Vue.set(state.user,
+      'userFavoriteLocation',
+        obj.field_userfavoritelocations);
     Vue.set(state.user,
       'userLocationsFromLoad',
-      finalized_locations_array);
-    Vue.set(state.user,
-      'userLocationsFromLoadCopy',
-      _.cloneDeep(obj.field_userlocation));
+      obj.field_userlocation);
   },
   [types.SET_USER_OBJECT_ORGANIZATIONS](state, obj) {
     Vue.set(state.user.userObject,
@@ -254,6 +238,7 @@ export default {
       dropdownSelection);
   },
   [types.SAVE_USER_SELECTED_LOCATIONS](state, newLocation) {
+    console.log(newLocation);
     state.user.userLocationsFromLoad.push(newLocation);
   },
   [types.DELETE_USER_SELECTED_LOCATION](state, deletedSelection) {
@@ -312,5 +297,11 @@ export default {
     Vue.set(state.user,
       'displayNewLocation',
       display);
+  },
+  [types.SET_USER_FAV_LOCATION](state, userFavLocation){
+    console.log('hit here');
+    Vue.set(state.user,
+      'userFavoriteLocation',
+      userFavLocation);
   },
 };

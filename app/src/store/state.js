@@ -65,7 +65,7 @@ const state = {
     organizations: [],
     roles: [],
     userLocationsFromLoad:[],
-    userLocationsFromLoadCopy: [],
+    userFavoriteLocation: [],
     userHaveFavoriteLocation: false,
     location: {
       zipcode: '',

@@ -50,45 +50,42 @@
                   <p>Until a location is specified, the default location is set to
                   Durham, North Carolina.</p>
                 </div>
-                <!-- try to incorporate the users selections here -->
-                <div
-                  id="user-input-locations"
-                  v-if="user.userLocationsFromLoad.length > 0">
-                  <template v-for="(location, index) in user.userLocationsFromLoad">
-                    <b-input-group
-                      :ref="location.first + location.second"
-                      class="pl-2 pb-2 pt-2">
-                      <b-form-input
-                        ref="selectedLocation"
-                        v-model="location.second"
-                        type="text"
-                        class="col-4 ml-3"
-                        disabled/>
+                  <!-- try to incorporate the users selections here -->
+                <template v-for="(location, index) in user.userLocationsFromLoad">
+                  <template v-if=" user.userFavoriteLocation.length > 0 &&
+                        (location.first === user.userFavoriteLocation[0].first &&
+                            location.second === user.userFavoriteLocation[0].second)">
+                    <b-input-group :ref="user.userFavoriteLocation[0].first + user.userFavoriteLocation[0].second" class="pl-2 pb-2 pt-2">
+                      <b-form-input ref="selectedLocation" v-model="user.userFavoriteLocation[0].second" class="col-4 ml-3" disabled/>
                       <div class="col-1 cursor-pointer">
-                        <template v-if="index == 0 && user.userHaveFavoriteLocation">
-                          <i
-                            ref="favoriteStars"
-                            @click="starClick(location.first, location.second)"
-                            class="fas fa-star"/>
-                        </template>
-                        <template v-else>
-                          <i
-                            ref="favoriteStars"
-                            @click="starClick(location.first, location.second)"
-                            class="far fa-star"/>
+                        <template>
+                          <i ref="favoriteStars" @click="starClick(user.userFavoriteLocation[0].first,
+                              user.userFavoriteLocation[0].second)" class="fas fa-star"/>
                         </template>
                       </div>
-                      <button
-                        class="usa-button"
-                        value="x"
-                        @click="deleteSelectedLocation({
-                          first: location.first,
-                          second: location.second})">X
-                      </button>
-                      <span class="col-md-12 pt-1 small">{{ location.first }}</span>
+                      <button class="usa-button" value="x" @click="deleteSelectedLocation({
+                          first: user.userFavoriteLocation[0].first,
+                          second: user.userFavoriteLocation[0].second
+                      })">X</button>
+                      <span class="col-md-12 pt-1 small">{{user.userFavoriteLocation[0].first}}</span>
                     </b-input-group>
                   </template>
-                </div>
+                  <template v-else>
+                    <b-input-group :ref="location.first + location.second" class="pl-2 pb-2 pt-2">
+                      <b-form-input ref="selectedLocation" v-model="location.second" class="col-4 ml-3" disabled/>
+                      <div class="col-1 cursor-pointer">
+                        <template>
+                          <i ref="favoriteStars" @click="starClick(location.first, location.second)" class="far fa-star"/>
+                        </template>
+                      </div>
+                      <button class="usa-button" value="x" @click="deleteSelectedLocation({first: location.first,second: location.second})">
+                      X
+                      </button>
+                      <span class="col-md-12 pt-1 small">{{ location.first }}</span>
+                   </b-input-group>
+                  </template>
+                </template>
+
                 <LocationSelectionOption/>
                 <div v-show="user.displayNewLocation">
                   <button
@@ -309,8 +306,6 @@
 
       // Set the defaults for the locations
       this.$store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', 'none');
-
-      // this.$store.dispatch('populateDropdownForUserInput');
     },
     methods: {
       ...mapActions([
@@ -346,15 +341,15 @@
           selectedStarParent[0].children[1].children[0].classList.remove('far');
           selectedStarParent[0].children[1].children[0].classList.add('fas');
         }
-
-        this.userFavLocation.first = typedInLocation;
-        this.userFavLocation.second = zipcode;
+        this.$store.commit('SET_USER_FAV_LOCATION', [{
+            first: typedInLocation,
+            second: zipcode
+        }]);
       },
       save() {
         this.updateUserLocation();
-        if (this.userFavLocation.first && this.userFavLocation.second) {
-          this.updateFavoriteLocation();
-        }
+        this.updateFavoriteLocation();
+
         // these if statements will not work as the interest tab is hidden
         if (this.selected) {
           this.updateOrg();
@@ -394,23 +389,29 @@
         this.roles = [];
       },
       updateFavoriteLocation() {
-        const starLocation = (this.userFavLocation.first !== '')
-          ? this.userFavLocation.first : this.userLocationsFromLoad[0].first;
-        const starZip = (this.userFavLocation.second !== '')
-          ? this.userFavLocation.second : this.userLocationsFromLoad[0].second;
+        let {userFavoriteLocation} = this.$store.getters.getUser;
+        let newLocationToSave = [];
+
+        if(userFavoriteLocation.length === 0){
+            newLocationToSave.push({
+                first: '',
+                second: ''
+            });
+        }else{
+            newLocationToSave.push({
+                first: this.$store.getters.getUser.userFavoriteLocation[0].first,
+                second: this.$store.getters.getUser.userFavoriteLocation[0].second
+            });
+        }
 
         this.apiUserPatch({
-          field_userfavoritelocations: [{
-            first: starLocation,
-            second: starZip,
-          }],
+          field_userfavoritelocations: newLocationToSave,
         });
       },
       deleteSelectedLocation(location) {
         if (location.second === this.userLocationsFromLoad[0].second) {
           // Clear all the stars
           this.$refs.favoriteStars.forEach((star) => {
-            console.log('hit here');
             star.classList.remove('fas');
             star.classList.add('far');
           });
