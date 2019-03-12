@@ -207,6 +207,9 @@ class PermitLookupProxyServiceFilter extends ProxyServiceFilterBase
         // Add the important query information into the payload for processing later
         (!isset($query['allForms'])) ?: $payload['helperQueries']['allForms'][] = trim($query['allForms']);
         (!isset($query['formTypes'])) ?: $payload['helperQueries']['formTypes'][] = trim($query['formTypes']);
+        (!isset($query['coverageTypes'])) ?: $payload['helperQueries']['coverageTypes'][] = trim($query['coverageTypes']);
+        (!isset($query['coverageStatuses'])) ?: $payload['helperQueries']['coverageStatuses'][] = trim($query['coverageStatuses']);
+        (!isset($query['issuers'])) ?: $payload['helperQueries']['issuers'][] = trim($query['issuers']);
         (!isset($query['formStatuses'])) ?: $payload['helperQueries']['formStatuses'][] = trim($query['formStatuses']);
         // oeca-services with no parameters
         (!isset($query['sectors'])) ?: $payload['helperQueries']['oecaSvc']['sectors'][] = trim($query['sectors']);
@@ -255,12 +258,36 @@ class PermitLookupProxyServiceFilter extends ProxyServiceFilterBase
             $payload['helperQueryResponse']['formTypes'] = $response;
         }
 
+        // Get coverageTypes
+        if (isset($payload['helperQueries']['coverageTypes'])) {
+            $form_url = $this->request->getUri() . 'reference/coverageTypes';
+            $form_response = $this->make_request_and_receive_response($form_url);
+            $response = json_decode($form_response->getBody(), FALSE);
+            $payload['helperQueryResponse']['coverageTypes'] = $response;
+        }
+
+        // Get issuers
+        if (isset($payload['helperQueries']['issuers'])) {
+            $form_url = $this->request->getUri() . 'reference/issuers';
+            $form_response = $this->make_request_and_receive_response($form_url);
+            $response = json_decode($form_response->getBody(), FALSE);
+            $payload['helperQueryResponse']['issuers'] = $response;
+        }
+
         // Get formStatuses
         if (isset($payload['helperQueries']['formStatuses'])) {
             $form_url = $this->request->getUri() . 'reference/formStatus';
             $form_response = $this->make_request_and_receive_response($form_url);
             $response = json_decode($form_response->getBody(), FALSE);
             $payload['helperQueryResponse']['formStatuses'] = $response;
+        }
+
+        // Get coverageStatuses
+        if (isset($payload['helperQueries']['coverageStatuses'])) {
+            $form_url = $this->request->getUri() . 'reference/coverageStatus';
+            $form_response = $this->make_request_and_receive_response($form_url);
+            $response = json_decode($form_response->getBody(), FALSE);
+            $payload['helperQueryResponse']['coverageStatuses'] = $response;
         }
 
         // Get oecaSvcs

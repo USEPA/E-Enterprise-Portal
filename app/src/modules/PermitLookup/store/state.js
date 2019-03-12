@@ -9,8 +9,9 @@ export default {
   permitType: 'Select...',
   facilityName: '',
   NPDESID: '',
+  sector: 'Select...',
   facilityCity: '',
-  facilityState: '',
+  facilityState: 'Select...',
   facilityZip: '',
   status: '',
   formType: '',
@@ -24,13 +25,17 @@ export default {
   facilityCounty: '',
   masterPermitNumber: '',
   tribalName: '',
-  issuer: '',
+  issuer: 'Select...',
   submissionType: '',
-  applicationType: '',
-  formStatus: '',
+  coverageType: 'Select...',
+  coverageStatus: 'Select...',
   subsector: '',
   sicCode: '',
   address: '',
+  msgpFormData: {
+    sector: 'Select...',
+    facilityState: 'Select...',
+  },
   formOptions: {
     permitType: [
       'Construction General Permit',
@@ -79,7 +84,7 @@ export default {
     formStatusSelections: [
       'status1',
       'status2',
-    ],*/
+    ], */
     msgpFormOptions: {},
     cgpFormOptions: {},
     baseFormOptions: {
@@ -87,4 +92,7 @@ export default {
       sectorNames: [],
     },
   },
+  msgpFormResults: {},
+  msgpResultsLoaded: false,
+  msgpStateSelected: false,
 };

@@ -54,9 +54,9 @@ export default {
     );
   },
 
-  [types.SET_FACILITY_STATE](state, str) {
+  [types.SET_MSGP_FACILITY_STATE](state, str) {
     Vue.set(
-      state, // <- state value to change
+      state.msgpFormData, // <- state value to change
       'facilityState', // <- the name of the property on the object the line above
       str, // <- new value to set on that property
     );
@@ -185,22 +185,22 @@ export default {
   [types.SET_COVERAGE_TYPE](state, str) {
     Vue.set(
       state, // <- state value to change
-      'applicationType', // <- the name of the property on the object the line above
+      'coverageType', // <- the name of the property on the object the line above
       str, // <- new value to set on that property
     );
   },
 
-  [types.SET_FORM_STATUS](state, str) {
+  [types.SET_COVERAGE_STATUS](state, str) {
     Vue.set(
       state, // <- state value to change
-      'formStatus', // <- the name of the property on the object the line above
+      'coverageStatus', // <- the name of the property on the object the line above
       str, // <- new value to set on that property
     );
   },
 
-  [types.SET_SECTOR](state, str) {
+  [types.SET_MSGP_SECTOR](state, str) {
     Vue.set(
-      state, // <- state value to change
+      state.msgpFormData, // <- state value to change
       'sector', // <- the name of the property on the object the line above
       str, // <- new value to set on that property
     );
@@ -267,6 +267,30 @@ export default {
       state.formOptions.baseFormOptions, // <- state value to change
       'sectorNames', // <- the name of the property on the object the line above
       arr, // <- new value to set on that property
+    );
+  },
+
+  [types.SET_MSGP_RESPONSE](state, arr) {
+    Vue.set(
+      state, // <- state value to change
+      'msgpFormResults', // <- the name of the property on the object the line above
+      arr, // <- new value to set on that property
+    );
+  },
+
+  [types.SET_MSGP_STATE_SELECTED](state, bool) {
+    Vue.set(
+      state, // <- state value to change
+      'msgpStateSelected', // <- the name of the property on the object the line above
+      bool, // <- new value to set on that property
+    );
+  },
+
+  [types.SET_MSGP_RESULTS_LOADED](state, bool) {
+    Vue.set(
+      state, // <- state value to change
+      'msgpResultsLoaded', // <- the name of the property on the object the line above
+      bool, // <- new value to set on that property
     );
   },
 

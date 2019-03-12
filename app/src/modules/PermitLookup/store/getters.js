@@ -12,6 +12,15 @@ export default {
   getFormOptions(state) {
     return state.formOptions;
   },
+  getMsgpFormData(state) {
+    return state.msgpFormData;
+  },
+  getMsgpResultsLoaded(state) {
+    return state.msgpResultsLoaded;
+  },
+  getMsgpStateSelected(state) {
+    return state.msgpStateSelected;
+  },
   getPermitType(state) {
     return state.permitType;
   },
@@ -23,9 +32,6 @@ export default {
   },
   getFacilityCity(state) {
     return state.facilityCity;
-  },
-  getFacilityState(state) {
-    return state.facilityState;
   },
   getFacilityZip(state) {
     return state.facilityZip;
@@ -72,14 +78,11 @@ export default {
   getSubmissionType(state) {
     return state.submissionType;
   },
-  getApplicationType(state) {
-    return state.applicationType;
+  getCoverageType(state) {
+    return state.coverageType;
   },
-  getFormStatus(state) {
-    return state.formStatus;
-  },
-  getSector(state) {
-    return state.sector;
+  getCoverageStatus(state) {
+    return state.coverageStatus;
   },
   getSubsector(state) {
     return state.subsector;
@@ -89,6 +92,9 @@ export default {
   },
   getAddress(state) {
     return state.address;
+  },
+  getMsgpFormResults(state) {
+    return state.msgpFormResults;
   },
 
 };

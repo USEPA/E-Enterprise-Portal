@@ -31,10 +31,11 @@ export default {
 
     store.commit(types.SET_FACILITY_CITY, payload);
   },
-  setFacilityState(context, payload) {
+  setMsgpFacilityState(context, payload) {
     const store = context;
 
-    store.commit(types.SET_FACILITY_STATE, payload);
+    store.commit(types.SET_MSGP_FACILITY_STATE, payload);
+    store.commit(types.SET_MSGP_STATE_SELECTED, true);
   },
   setFacilityZip(context, payload) {
     const store = context;
@@ -111,20 +112,20 @@ export default {
 
     store.commit(types.SET_SUBMISSION_TYPE, payload);
   },
-  setApplicationType(context, payload) {
+  setCoverageType(context, payload) {
     const store = context;
 
-    store.commit(types.SET_COVERAGE_TYPEo, payload);
+    store.commit(types.SET_COVERAGE_TYPE, payload);
   },
-  setFormStatus(context, payload) {
+  setCoverageStatus(context, payload) {
     const store = context;
 
-    store.commit(types.SET_FORM_STATUS, payload);
+    store.commit(types.SET_COVERAGE_STATUS, payload);
   },
-  setSector(context, payload) {
+  setMsgpSector(context, payload) {
     const store = context;
 
-    store.commit(types.SET_SECTOR, payload);
+    store.commit(types.SET_MSGP_SECTOR, payload);
   },
   setSubsector(context, payload) {
     const store = context;
@@ -174,7 +175,7 @@ export default {
     const { state } = store;
     const apiURL = store.rootGetters.getEnvironmentApiURL;
 
-    AppAxios.get(`${apiURL}/eep/proxy/service/oeca-msgp?formTypes&formStatuses`)
+    AppAxios.get(`${apiURL}/eep/proxy/service/oeca-msgp?formTypes&formStatuses&coverageTypes&issuers&coverageStatuses`)
       .then((response) => {
         const formOptions = response.data.helperQueryResponse;
         console.log(formOptions);
@@ -193,6 +194,53 @@ export default {
         console.log(formOptions);
         store.commit(types.SET_FORM_OPTIONS_CGP, formOptions);
         console.log(state.formOptions.cgpFormOptions);
+      });
+  },
+  msgpFormGetResults(context, payload) {
+    const store = context;
+    const { vm } = payload;
+    const apiURL = store.rootGetters.getEnvironmentApiURL;
+    const { msgpFormData } = store.state;
+    const { baseFormOptions } = store.state.formOptions;
+    const axiosUrlBase = `${apiURL}/eep/proxy/service/oeca-msgp?`;
+    let urlQueries = '';
+    let queriesRemaining = Object.keys(msgpFormData).length;
+    Object.keys(msgpFormData).forEach((key) => {
+      if (msgpFormData[key] !== 'Select...' && msgpFormData[key] !== '') {
+        console.log('inside first');
+        console.log(`Key: ${key}; Value: ${msgpFormData[key]}`);
+        if (key === 'facilityState') {
+          console.log('inside second');
+          console.log(baseFormOptions[1]);
+          baseFormOptions[1].forEach((subKey) => {
+            console.log(subKey.stateName);
+            console.log(msgpFormData);
+            if (subKey.stateName === msgpFormData.facilityState) {
+              console.log('inside third');
+              urlQueries = `facilityState=${subKey.stateCode}`;
+            }
+          });
+        } else {
+          urlQueries = `${urlQueries + key}=${msgpFormData[key]}`;
+        }
+      }
+      queriesRemaining -= 1;
+      if (queriesRemaining > 0) {
+        urlQueries += '&';
+      }
+    });
+    urlQueries = encodeURI(urlQueries);
+    console.log(urlQueries);
+    const axiosUrl = axiosUrlBase + urlQueries;
+    console.log(axiosUrl);
+    vm.$root.$emit('bv::hide::modal', 'permit-search-modal');
+    // get stuff
+    AppAxios.get(axiosUrl)
+      .then((response) => {
+        const msgpResponse = response.data.formQueryResponse;
+        store.commit(types.SET_MSGP_RESPONSE, msgpResponse);
+        store.commit(types.SET_MSGP_RESULTS_LOADED, true);
+        vm.$root.$emit('bv::show::modal', 'permit-results-modal');
       });
   },
 };
