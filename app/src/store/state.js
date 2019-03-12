@@ -56,7 +56,6 @@ const state = {
     mail: '',
     favoriteLinks: [],
     isAfterInputDropdownDisplayed: true,
-    isMainInputDisplayed: false,
     firstTimeSelectButtonClicked: 0,
     displayWhenNewLocationIsClicked: '',
     optionsAfterInput: [],
@@ -66,7 +65,6 @@ const state = {
     roles: [],
     userLocationsFromLoad:[],
     userFavoriteLocation: [],
-    userHaveFavoriteLocation: false,
     location: {
       zipcode: '',
       city: '',

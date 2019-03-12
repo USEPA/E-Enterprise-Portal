@@ -283,11 +283,6 @@ export default {
       'displayLoginAgainButtonOnModal',
       css_prop);
   },
-  [types.SET_DOES_USER_HAVE_FAVORITE_LOCATION](state, doesUserHaveFavLocation){
-    Vue.set(state.user,
-       'userHaveFavoriteLocation',
-       doesUserHaveFavLocation);
-  },
   [types.SET_TRIBES_ARRAY](state, obj){
     Vue.set(state.user,
       'tribesArray',
