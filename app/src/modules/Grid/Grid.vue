@@ -73,6 +73,7 @@
   import FavoriteLinks from '@/modules/FavoriteLinks/FavoriteLinks.vue';
   import MyReporting from '@/modules/MyReporting/MyReporting.vue';
   import MyCertifications from '@/modules/MyCertifications/MyCertifications.vue';
+  import PermitSearch from '@/modules/PermitSearch/PermitSearch.vue';
 
   import { mapActions, mapGetters } from 'vuex';
   import GridLayout from './vue-grid-layout/components/GridLayout.vue';
@@ -95,6 +96,7 @@
       FavoriteLinks,
       MyReporting,
       MyCertifications,
+      PermitSearch,
     },
     beforeCreate() {
       const vm = this;
