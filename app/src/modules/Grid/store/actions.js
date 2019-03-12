@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+import Vue from 'vue';
 import types from './types';
 import { AppAxios } from '../../wadk/WADK';
 // import { EventBus } from '../../../EventBus';
@@ -82,8 +83,16 @@ export default {
 
     // Axios call to get the apps from the API (currently mimicing it)
     const url = store.rootGetters.getApiUrl('workbenchApplications');
+    const headers = store.rootState.GETHeaders;
+    const token = Vue.cookie.get('Token');
 
-    AppAxios.get(url)
+    let configs = { };
+    if (headers && token) {
+      configs = { headers };
+      configs.headers.Authorization = `Bearer ${token}`;
+    }
+
+    AppAxios.get(url, configs)
       .then((response) => {
         if (Array.isArray(response.data) && response.data.length) {
           const wapps = generateWappsFromRawWapps(response.data);
@@ -116,12 +125,13 @@ export default {
    * Medium is 2 colums wide & 1 row high
    * Large is 2 columns wide & 2 rows high
    *
-   * Each app will be added to the grid from left to right. For aesthetic reasons,
-   * The grid will only place the apps with a width of 2 columns on either the
-   * first of third column (medium and large). Large widgets will initially
-   * start on a new row.
+   * Each app will be added to the grid from left to right. For aesthetic
+   * reasons, The grid will only place the apps with a width of 2 columns on
+   * either the first of third column (medium and large). Large widgets will
+   * initially start on a new row.
    *
-   * Below is a visualization of how it should work: (S)mall, (M)edium, (L)arge,
+   * Below is a visualization of how it should work: (S)mall, (M)edium,
+   * (L)arge,
    * (E}mpty or skipped grid slots.
    *
    *    ---------------------
