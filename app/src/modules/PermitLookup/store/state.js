@@ -84,6 +84,7 @@ export default {
     cgpFormOptions: {},
     baseFormOptions: {
       stateNames: [],
+      sectorNames: [],
     },
   },
 };

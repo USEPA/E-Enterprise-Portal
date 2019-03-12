@@ -510,7 +510,7 @@
                     id="sector-selection"
                     class="mb-3"
                     :value="sector"
-                    :options="formOptions.sectorSelections"
+                    :options="formOptions.baseFormOptions.sectorNames"
                     ref="sector-Dropdown"
                     @change="setSector"
                     size="sm"
