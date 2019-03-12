@@ -170,7 +170,7 @@
         inputLocation:[],
         indexValue:'',
         locationInfo:[{first:'', second:null}],
-        userFavLocation: [{first: '', second: ''}],
+        userFavLocation: {first: '', second: ''},
       };
     },
     computed: {
@@ -334,10 +334,10 @@
       },
       updateFavoriteLocation(){
 
-        let starLocation = (this.userFavLocation.first !== '')
-                ? this.userFavLocation.first : this.userLocationsFromLoad[0].first;
-        let starZip = (this.userFavLocation.second !== '')
-                ? this.userFavLocation.second : this.userLocationsFromLoad[0].second;
+        let starLocation = (this.userFavLocation[0].first !== '')
+                ? this.userFavLocation[0].first : this.userLocationsFromLoad[0].first;
+        let starZip = (this.userFavLocation[0].second !== '')
+                ? this.userFavLocation[0].second : this.userLocationsFromLoad[0].second;
 
         this.apiUserPatch({
             field_userfavoritelocations: [{
