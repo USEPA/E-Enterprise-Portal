@@ -61,6 +61,7 @@ class AuthenticatedUser {
     // Source username with out Via, unaltered from identity provider
     $source_username = $username;
 
+    // @TODO: redo this to reflect SCS and Exchange network
     if ($this->authentication_method === "WAMNAAS") {
       //Trim space and double quote from WAM name attribute.
       $wam_uname = trim(trim($userDetails->attributes['name'][0]), '"');
@@ -69,13 +70,15 @@ class AuthenticatedUser {
       $source_username = $wam_res;
       $eportal_uname = $source_username . "_Via_WAM";
       $this->authentication_domain = $this->authentication_method;
-    }
-    else if ($this->authentication_method === "ENNAAS") {
-      $this->authentication_domain = "Exchange_Network";
+    } else if ($this->authentication_method === "ENNAAS") {
+        if (isset($this->authentication_method)) {
+            $this->authentication_domain = $this->authentication_method;
+        } else {
+            $this->authentication_domain = "Exchange_Network";
+        }
       $eportal_uname = $username . "_Via_" . $this->authentication_domain;
       $this->public_user = FALSE;
-    }
-    else {
+    } else {
       // default
       $this->authentication_domain = $this->authentication_method;
       $eportal_uname = $username . "_Via_".$this->authentication_method;
@@ -85,6 +88,4 @@ class AuthenticatedUser {
     $this->userDetails = $userDetails;
     $this->name = $eportal_uname;
   }
-
-
 }
