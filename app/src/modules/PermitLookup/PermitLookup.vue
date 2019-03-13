@@ -59,7 +59,8 @@
           <div
             v-if="permitType === 'Construction General Permit'"
             id="cgp-form-wrapper">
-            <div>
+            <div
+              id="cgp-header">
               Enter one or more search criteria
             </div>
             <b-form
@@ -76,7 +77,8 @@
                     class="mb-0">NPDES ID</label>
                 </b-col>
               </b-row>
-              <b-row>
+              <b-row
+                class="input-row">
                 <b-col md="6">
                   <b-form-input
                     id="facility-name-input-cgp"
@@ -96,7 +98,7 @@
                     size="sm"/>
                 </b-col>
               </b-row>
-              <br/>
+
               <b-row>
                 <b-col md="6">
                   <label
@@ -111,7 +113,8 @@
                     class="mb-0">Zip</label>
                 </b-col>
               </b-row>
-              <b-row>
+              <b-row
+                class="input-row">
                 <b-col md="6">
                   <b-form-input
                     id="city-input-cgp"
@@ -147,7 +150,7 @@
                     size="sm"/>
                 </b-col>
               </b-row>
-              <br/>
+
               <b-row>
                 <b-col md="6">
                   <label
@@ -158,7 +161,8 @@
                     class="mb-0">Form type</label>
                 </b-col>
               </b-row>
-              <b-row>
+              <b-row
+                class="input-row">
                 <b-col md="6">
                   <b-form-select
                     id="status-selection"
@@ -213,7 +217,8 @@
                       class="mb-0">Federal facility?</label>
                   </b-col>
                 </b-row>
-                <b-row>
+                <b-row
+                  class="input-row">
                   <b-col md="6">
                     <b-form-input
                       id="facility-operator-input-cgp"
@@ -234,7 +239,7 @@
                       ref="federal-facility-selection-cgp"/>
                   </b-col>
                 </b-row>
-                <br/>
+
                 <b-row>
                   <b-col md="4">
                     <label
@@ -249,7 +254,8 @@
                       class="mb-0">To</label>
                   </b-col>
                 </b-row>
-                <b-row>
+                <b-row
+                  class="input-row">
                   <b-col md="4">
                     <b-form-select
                       id="date-selection"
@@ -287,7 +293,7 @@
                       placeholder="MM/DD/YYYY"/>
                   </b-col>
                 </b-row>
-                <br/>
+
                 <b-row>
                   <b-col md="6">
                     <label
@@ -298,7 +304,8 @@
                       class="mb-0">Tribe</label>
                   </b-col>
                 </b-row>
-                <b-row>
+                <b-row
+                  class="input-row">
                   <b-col md="6">
                     <b-form-radio-group
                       v-model="radioSelection3"
@@ -327,14 +334,15 @@
                     </b-form-select>
                   </b-col>
                 </b-row>
-                <br/>
+
                 <b-row>
                   <b-col md="6">
                     <label
                       class="mb-0">County</label>
                   </b-col>
                 </b-row>
-                <b-row>
+                <b-row
+                  class="input-row">
                   <b-col md="6">
                     <b-form-select
                       id="county-selection-cgp"
@@ -381,7 +389,8 @@
           <div
             v-else-if="permitType === 'Multi-sector General Permit'"
             id="msgp-form-wrapper">
-            <div>
+            <div
+              id="msgp-header">
               Enter one or more search criteria
             </div>
             <b-form
@@ -398,7 +407,8 @@
                     class="mb-0">Submission type</label>
                 </b-col>
               </b-row>
-              <b-row>
+              <b-row
+                class="input-row">
                 <b-col md="6">
                   <b-form-select
                     id="issue-selection"
@@ -432,7 +442,7 @@
                   </b-form-select>
                 </b-col>
               </b-row>
-              <br/>
+
               <b-row>
                 <b-col md="6">
                   <label
@@ -443,7 +453,8 @@
                     class="mb-0">Coverage status</label>
                 </b-col>
               </b-row>
-              <b-row>
+              <b-row
+                class="input-row">
                 <b-col md="6">
                   <b-form-select
                     id="coverage-type-selection"
@@ -477,7 +488,7 @@
                   </b-form-select>
                 </b-col>
               </b-row>
-              <br/>
+
               <b-row>
                 <b-col md="6">
                   <label
@@ -488,7 +499,8 @@
                     class="mb-0">Sector</label>
                 </b-col>
               </b-row>
-              <b-row>
+              <b-row
+                class="input-row">
                 <b-col md="6">
                   <b-form-input
                     id="NPDES-ID-input-msgp"
@@ -515,7 +527,7 @@
                   </b-form-select>
                 </b-col>
               </b-row>
-              <br/>
+
               <b-row>
                 <b-col md="6">
                   <label
@@ -526,7 +538,8 @@
                     class="mb-0">Primary SIC Code</label>
                 </b-col>
               </b-row>
-              <b-row>
+              <b-row
+                class="input-row">
                 <b-col md="6">
                   <b-form-input
                     id="subsector-input"
@@ -549,7 +562,7 @@
                     size="sm"/>
                 </b-col>
               </b-row>
-              <br/>
+
               <b-row>
                 <b-col md="6">
                   <label
@@ -560,7 +573,8 @@
                     class="mb-0">Street Address</label>
                 </b-col>
               </b-row>
-              <b-row>
+              <b-row
+                class="input-row">
                 <b-col md="6">
                   <b-form-input
                     id="facility-name-input-msgp"
@@ -580,7 +594,7 @@
                     size="sm"/>
                 </b-col>
               </b-row>
-              <br/>
+
               <b-row>
                 <b-col md="6">
                   <label
@@ -595,7 +609,8 @@
                     class="mb-0">Zip</label>
                 </b-col>
               </b-row>
-              <b-row>
+              <b-row
+                class="input-row">
                 <b-col md="6">
                   <b-form-input
                     id="city-input-msgp"
@@ -652,7 +667,8 @@
                       class="mb-0">Federal operator?</label>
                   </b-col>
                 </b-row>
-                <b-row>
+                <b-row
+                  class="input-row">
                   <b-col md="6">
                     <b-form-input
                       id="facility-operator-input-msgp"
@@ -673,7 +689,7 @@
                       ref="federal-facility-selection-msgp"/>
                   </b-col>
                 </b-row>
-                <br/>
+
                 <b-row>
                   <b-col md="6">
                     <label
@@ -688,7 +704,8 @@
                       class="mb-0">Submitted to</label>
                   </b-col>
                 </b-row>
-                <b-row>
+                <b-row
+                  class="input-row">
                   <b-col md="6">
                     <b-form-input
                       id="master-general-permit-input"
@@ -719,7 +736,7 @@
                       placeholder="MM/DD/YYYY"/>
                   </b-col>
                 </b-row>
-                <br/>
+
                 <b-row>
                   <b-col md="6">
                     <label
@@ -730,7 +747,8 @@
                       class="mb-0">Indian Country Land</label>
                   </b-col>
                 </b-row>
-                <b-row>
+                <b-row
+                  class="input-row">
                   <b-col md="6">
                     <b-form-radio-group
                       v-model="radioSelection1"
@@ -759,14 +777,15 @@
                     </b-form-select>
                   </b-col>
                 </b-row>
-                <br/>
+
                 <b-row>
                   <b-col md="6">
                     <label
                       class="mb-0">County</label>
                   </b-col>
                 </b-row>
-                <b-row>
+                <b-row
+                  class="input-row">
                   <b-col md="6">
                     <b-form-select
                       id="county-selection-msgp"
@@ -793,7 +812,7 @@
                   <b-btn
                     class="btn-outline-primary btn-block"
                     variant="outline-primary"
-                    ref="btnResetCgp"
+                    ref="btnResetMsgp"
                     @click="clearForm">
                     Reset
                   </b-btn>
@@ -802,7 +821,7 @@
                   <b-btn
                     class="btn-block"
                     variant="primary"
-                    ref="btnSubmitCgp"
+                    ref="btnSubmitMsgp"
                     type="submit">
                     Lookup
                   </b-btn>
@@ -1126,51 +1145,51 @@
       },
       clearForm() {
         // clear every state when reset is pressed
-        const store = this;
-        store.setStatus('');
-        store.setFormType('');
-        store.setDateSelection('');
+        const vm = this;
+        vm.setStatus('');
+        vm.setFormType('');
+        vm.setDateSelection('');
 
-        store.setMsgpFacilityName('');
-        store.setMsgpNpdesId('');
-        store.setMsgpFacilityCity('');
-        store.setMsgpFacilityState('');
-        store.setMsgpFacilityZip('');
-        store.setMsgpOperatorName('');
-        store.setMsgpFederalIndicator('');
-        store.setMsgpStartDate('');
-        store.setMsgpEndDate('');
-        store.setMsgpTribalIndicator('');
-        store.setMsgpFacilityCounty('');
-        store.setMsgpMasterPermitNumber('');
-        store.setMsgpTribalName('');
-        store.setMsgpIssuer('');
-        store.setMsgpSubmissionType('');
-        store.setMsgpCoverageType('');
-        store.setMsgpCoverageStatus('');
-        store.setMsgpSector('');
-        store.setMsgpSubsector('');
-        store.setMsgpSicCode('');
-        store.setMsgpAddress('');
-        store.setCgpFacilityName('');
-        store.setCgpNpdesId('');
-        store.setCgpFacilityCity('');
-        store.setCgpFacilityState('');
-        store.setCgpFacilityZip('');
-        store.setCgpStatus('');
-        store.setCgpFormType('');
-        store.setCgpOperatorName('');
-        store.setCgpFederalIndicator('');
-        store.setCgpDateSelection('');
-        store.setCgpStartDate('');
-        store.setCgpEndDate('');
-        store.setCgpTribalIndicator('');
-        store.setCgpTribalName('');
-        store.setCgpFacilityCounty('');
-        store.radioSelection1 = false;
-        store.radioSelection2 = false;
-        store.radioSelection3 = false;
-        store.radioSelection4 = false;
+        vm.setMsgpFacilityName('');
+        vm.setMsgpNpdesId('');
+        vm.setMsgpFacilityCity('');
+        vm.setMsgpFacilityState('');
+        vm.setMsgpFacilityZip('');
+        vm.setMsgpOperatorName('');
+        vm.setMsgpFederalIndicator('');
+        vm.setMsgpStartDate('');
+        vm.setMsgpEndDate('');
+        vm.setMsgpTribalIndicator('');
+        vm.setMsgpFacilityCounty('');
+        vm.setMsgpMasterPermitNumber('');
+        vm.setMsgpTribalName('');
+        vm.setMsgpIssuer('');
+        vm.setMsgpSubmissionType('');
+        vm.setMsgpCoverageType('');
+        vm.setMsgpCoverageStatus('');
+        vm.setMsgpSector('');
+        vm.setMsgpSubsector('');
+        vm.setMsgpSicCode('');
+        vm.setMsgpAddress('');
+        vm.setCgpFacilityName('');
+        vm.setCgpNpdesId('');
+        vm.setCgpFacilityCity('');
+        vm.setCgpFacilityState('');
+        vm.setCgpFacilityZip('');
+        vm.setCgpStatus('');
+        vm.setCgpFormType('');
+        vm.setCgpOperatorName('');
+        vm.setCgpFederalIndicator('');
+        vm.setCgpDateSelection('');
+        vm.setCgpStartDate('');
+        vm.setCgpEndDate('');
+        vm.setCgpTribalIndicator('');
+        vm.setCgpTribalName('');
+        vm.setCgpFacilityCounty('');
+        vm.radioSelection1 = false;
+        vm.radioSelection2 = false;
+        vm.radioSelection3 = false;
+        vm.radioSelection4 = false;
       },
 
     },
