@@ -510,10 +510,7 @@ export default {
         }
         dropDownLabelText = 'Select a location for';
       } else if (params.indexOf('city') !== -1 && params.indexOf('state') !== -1) {
-
         checkIfAllZipSaved();
-        console.log(savedZipcodes.length);
-        console.log(inputlocationZipcodes.length);
         if (commonZipcodes.length == inputlocationZipcodes.length) {
           store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', true);
           store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', true);
@@ -533,11 +530,8 @@ export default {
         savedZipcodes = zipcodesFromSavedLocations.map(function (e) {
           return e.toString()
         });
-
-
         compareZipcodes(inputlocationZipcodes, savedZipcodes);
       }
-
       function compareZipcodes(inputlocationZipcodes, savedZipcodes) {
         const objMap = {};
 
@@ -548,11 +542,7 @@ export default {
           }
         ));
         commonZipcodes = Object.keys(objMap).map(e=>Number(e));
-        console.log(Object.keys(objMap).map(e=>Number(e)));
-
-
       }
-
       // Commit all of the information to the store
       store.commit('SET_OPTIONS_AFTER_INPUT', formattedResponseInformation);
       store.commit('SET_INPUT_BOX_TEXT', store.getters.getUser.inputBoxText);
