@@ -1,1 +1,4621 @@
-[{"nid":[{"value":"51"}],"uuid":[{"value":"6bf7b764-04f1-473c-8e97-00f445e35627"}],"vid":[{"value":"770"}],"langcode":[{"value":"en"}],"type":[{"target_id":"eep_proxy_service"}],"revision_timestamp":[{"value":"1552451226"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"Geolocation"}],"uid":[{"target_id":"1"}],"created":[{"value":"1542399659"}],"changed":[{"value":"1552451226"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[],"path":[{"langcode":"en"}],"menu_link":[],"field_cache_max_age":[{"value":"86400"}],"field_proxy_filter":[{"value":"generic"}],"field_proxy_service_machine_name":[{"value":"geolocation"}],"field_request_headers":[{"first":"Content-Type","second":"application\/json"}],"field_requeste_timeout":[{"value":"60"}],"field_response_headers":[{"first":"Content-Type","second":"application\/json"},{"first":"Transfer-Encoding","second":""},{"first":"X-Powered-By","second":""},{"first":"ETag","second":""},{"first":"Vary","second":""},{"first":"X-Cached","second":""},{"first":"Access-Control-Allow-Origin","second":""}],"field_service_endpoints":[{"first":"LOCAL","second":"http:\/\/geocode.arcgis.com\/arcgis\/rest\/services\/World\/GeocodeServer\/reverseGeocode"},{"first":"DEV","second":"http:\/\/geocode.arcgis.com\/arcgis\/rest\/services\/World\/GeocodeServer\/reverseGeocode"},{"first":"TEST","second":"http:\/\/geocode.arcgis.com\/arcgis\/rest\/services\/World\/GeocodeServer\/reverseGeocode"},{"first":"PROD","second":"http:\/\/geocode.arcgis.com\/arcgis\/rest\/services\/World\/GeocodeServer\/reverseGeocode"}]},{"nid":[{"value":"57"}],"uuid":[{"value":"fd23a8d8-30fe-4370-9bb8-1880e0cb6db5"}],"vid":[{"value":"765"}],"langcode":[{"value":"en"}],"type":[{"target_id":"eep_workbench_application"}],"revision_timestamp":[{"value":"1552401781"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"Permit Lookup"}],"uid":[{"target_id":"1"}],"created":[{"value":"1551992316"}],"changed":[{"value":"1552401781"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"langcode":"en"}],"menu_link":[],"field_default_grid_size":[{"value":"small"}],"field_description":[],"field_direct_links":[{"value":"permit-lookup"}],"field_grid":[{"first":"x","second":"1"},{"first":"y","second":"0"},{"first":"width","second":"1"},{"first":"height","second":"1"}],"field_grid_sizes":[{"value":"small"}],"field_html_content":[],"field_icon_name":[{"value":"bookmark.svg"}],"field_is_expandable":[{"value":"1"}],"field_settings_menu_items":[{"first":"Help","second":"Sample help text"},{"first":"Disclaimer","second":"Your basic disclaimer"},{"first":"Contact","second":"Talk to us here..."},{"first":"Description","second":"Find new Notices of Intent (NOIs) under the U.S. EPA 2015 Multi-Sector General Permit (MSGP) submitted as of April 1, 2018. At this time, search results will only include new activity with the national NPDES eReporting Tool (NeT-MSGP) for U.S. EPA lead and participating states and tribes."}],"field_sources":[{"first":"US EPA Office of Enforcement","second":"https:\/\/www.epa.gov\/"}],"field_title":[{"value":"Permit Lookup"}],"field_vue_component_name":[{"value":"PermitLookup"}]},{"nid":[{"value":"55"}],"uuid":[{"value":"15ae5dc1-58a9-493c-a3b2-440319786c4b"}],"vid":[{"value":"763"}],"langcode":[{"value":"en"}],"type":[{"target_id":"eep_proxy_service"}],"revision_timestamp":[{"value":"1552335818"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"Permit Lookup OECA Reference Service"}],"uid":[{"target_id":"1"}],"created":[{"value":"1552330917"}],"changed":[{"value":"1552335818"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"langcode":"en"}],"menu_link":[],"field_cache_max_age":[{"value":"86400"}],"field_proxy_filter":[{"value":"permitlookup"}],"field_proxy_service_machine_name":[{"value":"oeca-svc-ref"}],"field_request_headers":[{"first":"Accept","second":"application\/json"}],"field_requeste_timeout":[{"value":"360"}],"field_response_headers":[{"first":"Content-Type","second":"application\/json"}],"field_service_endpoints":[{"first":"LOCAL","second":"https:\/\/devngn.epacdxnode.net\/net-svc-ref\/api\/lookup\/v1\/"},{"first":"DEV","second":"https:\/\/devngn.epacdxnode.net\/net-svc-ref\/api\/lookup\/v1\/"}]},{"nid":[{"value":"54"}],"uuid":[{"value":"5c3a0bea-f8df-49fc-af88-8005d6b50c99"}],"vid":[{"value":"762"}],"langcode":[{"value":"en"}],"type":[{"target_id":"eep_proxy_service"}],"revision_timestamp":[{"value":"1552319632"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"Permit Lookup CGP"}],"uid":[{"target_id":"1"}],"created":[{"value":"1552195674"}],"changed":[{"value":"1552319632"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"langcode":"en"}],"menu_link":[],"field_cache_max_age":[{"value":"86400"}],"field_proxy_filter":[{"value":"permitlookup"}],"field_proxy_service_machine_name":[{"value":"oeca-cgp"}],"field_request_headers":[{"first":"Accept","second":"application\/json"}],"field_requeste_timeout":[{"value":"3600"}],"field_response_headers":[{"first":"Content-Type","second":"application\/json"}],"field_service_endpoints":[{"first":"LOCAL","second":"https:\/\/devngn.epacdxnode.net\/oeca-cgp-web\/api\/public\/v1\/"},{"first":"DEV","second":"https:\/\/devngn.epacdxnode.net\/oeca-cgp-web\/api\/public\/v1\/"}]},{"nid":[{"value":"56"}],"uuid":[{"value":"92f9f537-a1f1-4583-b38f-3dc113553811"}],"vid":[{"value":"764"}],"langcode":[{"value":"en"}],"type":[{"target_id":"eep_proxy_service"}],"revision_timestamp":[{"value":"1552319615"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"Permit Lookup MSGP"}],"uid":[{"target_id":"1"}],"created":[{"value":"1552069785"}],"changed":[{"value":"1552319615"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"langcode":"en"}],"menu_link":[],"field_cache_max_age":[{"value":"86400"}],"field_proxy_filter":[{"value":"permitlookup"}],"field_proxy_service_machine_name":[{"value":"oeca-msgp"}],"field_request_headers":[{"first":"Accept","second":"application\/json"}],"field_requeste_timeout":[{"value":"3600"}],"field_response_headers":[{"first":"Content-Type","second":"application\/json"}],"field_service_endpoints":[{"first":"LOCAL","second":"https:\/\/devngn.epacdxnode.net\/oeca-msgp-web\/api\/public\/v1\/"},{"first":"DEV","second":"https:\/\/devngn.epacdxnode.net\/oeca-msgp-web\/api\/public\/v1\/"}]},{"nid":[{"value":"53"}],"uuid":[{"value":"f6fd7e23-d388-4ef3-bc46-bfacc5f1b471"}],"vid":[{"value":"761"}],"langcode":[{"value":"en"}],"type":[{"target_id":"eep_proxy_service"}],"revision_timestamp":[{"value":"1551987130"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"OECA Services"}],"uid":[{"target_id":"1"}],"created":[{"value":"1551985611"}],"changed":[{"value":"1551987130"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"langcode":"en"}],"menu_link":[],"field_cache_max_age":[{"value":"86400"}],"field_proxy_filter":[{"value":"generic"}],"field_proxy_service_machine_name":[{"value":"oeca-services"}],"field_request_headers":[{"first":"Content-Type","second":"application\/json"}],"field_requeste_timeout":[{"value":"600"}],"field_response_headers":[{"first":"Content-Type","second":"application\/json"}],"field_service_endpoints":[{"first":"LOCAL","second":"https:\/\/devngn.epacdxnode.net\/net-svc-ref\/api\/lookup\/v1\/"}]},{"nid":[{"value":"37"}],"uuid":[{"value":"9a0e85c7-1ae8-405a-b587-6697d0490e71"}],"vid":[{"value":"753"}],"langcode":[{"value":"en"}],"type":[{"target_id":"eep_workbench_application"}],"revision_timestamp":[{"value":"1551730819"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"Favorite Links"}],"uid":[{"target_id":"1"}],"created":[{"value":"1548816422"}],"changed":[{"value":"1551730819"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"langcode":"en"}],"menu_link":[],"field_default_grid_size":[{"value":"large"}],"field_description":[{"value":"<p>Save links you find in E-Enterprise to return to them later.<\/p>\r\n","format":"basic_html"}],"field_direct_links":[{"value":"favorite-links"},{"value":"favorites"},{"value":"favs"}],"field_grid":[{"first":"x","second":"0"},{"first":"y","second":"0"},{"first":"width","second":"2"},{"first":"height","second":"2"}],"field_grid_sizes":[{"value":"small"}],"field_html_content":[],"field_icon_name":[{"value":"bookmark.svg"}],"field_is_expandable":[{"value":"0"}],"field_settings_menu_items":[{"first":"Description","second":"Save links you find in E-Enterprise to return to them later."}],"field_sources":[],"field_title":[{"value":"Favorite Links"}],"field_vue_component_name":[{"value":"FavoriteLinks"}]},{"nid":[{"value":"38"}],"uuid":[{"value":"f13242ae-bf89-4dc6-944f-b2e1bbfc6836"}],"vid":[{"value":"752"}],"langcode":[{"value":"en"}],"type":[{"target_id":"eep_workbench_application"}],"revision_timestamp":[{"value":"1551718980"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"My Reporting"}],"uid":[{"target_id":"1"}],"created":[{"value":"1548818051"}],"changed":[{"value":"1551718980"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"langcode":"en"}],"menu_link":[],"field_default_grid_size":[{"value":"large"}],"field_description":[{"value":"<p>Report directly to your CDX data flows.<\/p>\r\n","format":"basic_html"}],"field_direct_links":[{"value":"my-reporting"},{"value":"mr"}],"field_grid":[{"first":"x","second":"2"},{"first":"y","second":"1"},{"first":"width","second":"2"},{"first":"height","second":"2"}],"field_grid_sizes":[{"value":"large"}],"field_html_content":[],"field_icon_name":[{"value":"state-government.svg"}],"field_is_expandable":[{"value":"0"}],"field_settings_menu_items":[{"first":"Description","second":"Report directly to your CDX data flows."}],"field_sources":[{"first":"US Environmental Protection Agency","second":"https:\/\/www.epa.gov\/"}],"field_title":[{"value":"My Reporting"}],"field_vue_component_name":[{"value":"MyReporting"}]},{"nid":[{"value":"36"}],"uuid":[{"value":"8a8b377b-0b01-49d8-bb78-d81f5fb73810"}],"vid":[{"value":"750"}],"langcode":[{"value":"en"}],"type":[{"target_id":"eep_workbench_application"}],"revision_timestamp":[{"value":"1551718744"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"Be Well Informed"}],"uid":[{"target_id":"1"}],"created":[{"value":"1548279083"}],"changed":[{"value":"1551718744"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"langcode":"en"}],"menu_link":[],"field_default_grid_size":[{"value":"small"}],"field_description":[{"value":"<p>Be Well Informed provides feedback about the most common contaminants that affect wells.<\/p>\r\n\r\n<ul>\r\n<\/ul>\r\n","format":"full_html"}],"field_direct_links":[{"value":"bwi"},{"value":"be-well-informed"}],"field_grid":[{"first":"x","second":"0"},{"first":"y","second":"0"},{"first":"width","second":"1"},{"first":"height","second":"1"}],"field_grid_sizes":[{"value":"small"}],"field_html_content":[{"target_id":"40"}],"_metadata":{"node":{"40":"8ea6d62e-022d-4335-92c1-42cfca785056"}},"field_icon_name":[{"value":"bookmark.svg"}],"field_is_expandable":[{"value":"0"}],"field_settings_menu_items":[{"first":"Disclaimer","second":"Information provided by the participating States is for informational purposes only. It is recommended that you consult a qualified water treatment professional if you need to treat your water. They can consider other conditions or factors related to your well or home to determine the most appropriate water treatment option."},{"first":"Description","second":"Be Well Informed provides feedback about the most common contaminants that affect wells."},{"first":"Contact","second":"<strong>Massachusetts<\/strong><br \/>\r\nMassachusetts Department of Environmental Protection<br \/>\r\nDrinking Water Program<br \/>\r\n1 Winter Street<br \/>\r\nBoston, MA 02108<br \/>\r\n(617) 292-5770<br \/>\r\nProgram.Director-DWP@state.ma.us<br \/><br \/>\r\n<strong>New Hampshire<\/strong><br \/>\r\nNH Department of Environmental Service\u2019s Drinking Water and Groundwater Bureau<br \/>\r\nNH Department of Environmental Services<br \/>\r\nDrinking Water and Groundwater Bureau<br \/>\r\n29 Hazen Drive, PO Box 95<br \/>\r\nConcord, NH 03302-0095<br \/>\r\nPhone: (603) 271-2513<br \/>\r\nEmail dwgbinfo@des.nh.gov<br \/><br \/>\r\n<strong>Wyoming<\/strong><br \/>\r\nWyoming Department of Environmental Water Quality Division<br \/>\r\nWyoming DEQ WQD Division<br \/>\r\nGroundwater Section<br \/>\r\n200 W 17th St, Ste 400<br \/>\r\nCheyenne, WY 82002<br \/>\r\n(307) 777-8275<br \/>\r\nnicole.twing@wyo.gov"}],"field_sources":[{"first":"New Hampshire\u2019s Be Well Informed Guide","second":"https:\/\/xml2.des.state.nh.us\/DWITool\/Welcome.aspx"},{"first":"Massachusetts,Wyoming, Michigan","second":"https:\/\/www.epa.gov\/e-enterprise\/e-enterprise-portal"}],"field_title":[{"value":"Be Well Informed - Title"}],"field_vue_component_name":[{"value":"BeWellInformed"}]},{"nid":[{"value":"50"}],"uuid":[{"value":"2e067a7b-bd4d-47e8-b474-9cc957f18c92"}],"vid":[{"value":"742"}],"langcode":[{"value":"en"}],"type":[{"target_id":"authentication_option"}],"revision_timestamp":[{"value":"1551369542"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"WY ENV-ITE"}],"uid":[{"target_id":"1"}],"created":[{"value":"1551192962"}],"changed":[{"value":"1551369542"}],"promote":[{"value":"1"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[],"path":[{"langcode":"en"}],"menu_link":[],"field_authentication_category":[{"target_id":"27"}],"_metadata":{"taxonomy_term":{"27":"c2a67703-55c4-4672-89c5-183ae4dd0079"},"file":{"11":"d3ddc492-1122-410d-9162-2885ca242f1e"}},"field_option_image":[{"target_id":"11","alt":"Wyoming Logo","title":"","width":"28","height":"12"}],"field_tab_order":[{"value":"1"}],"field_urn":[{"value":"ENVITE"}]},{"nid":[{"value":"39"}],"uuid":[{"value":"1575e4b5-0444-4743-a562-14360f107d1e"}],"vid":[{"value":"741"}],"langcode":[{"value":"en"}],"type":[{"target_id":"eep_workbench_application"}],"revision_timestamp":[{"value":"1551369490"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"0"}],"title":[{"value":"Trending Air"}],"uid":[{"target_id":"1"}],"created":[{"value":"1548816243"}],"changed":[{"value":"1551369490"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[],"path":[{"langcode":"en"}],"menu_link":[],"field_default_grid_size":[{"value":"small"}],"field_description":[{"value":"<p>Description goes here<\/p>\r\n","format":"basic_html"}],"field_direct_links":[{"value":"trending-air"},{"value":"ta"}],"field_grid":[{"first":"x","second":"2"},{"first":"y","second":"0"},{"first":"width","second":"2"},{"first":"height","second":"1"}],"field_grid_sizes":[{"value":"small"}],"field_html_content":[],"field_icon_name":[{"value":"bookmark.svg"}],"field_is_expandable":[{"value":"1"}],"field_settings_menu_items":[{"first":"Help","second":"Sample help text"},{"first":"Disclaimer","second":"Your basic disclaimer"},{"first":"Contact","second":"Talk to us here..."}],"field_sources":[{"first":"US Environmental Protection Agency","second":"https:\/\/www.epa.gov\/"}],"field_title":[{"value":"Trending Air"}],"field_vue_component_name":[{"value":"TrendingAir"}]},{"nid":[{"value":"52"}],"uuid":[{"value":"328fe3eb-cde2-4add-92ea-48604fa6021e"}],"vid":[{"value":"754"}],"langcode":[{"value":"en"}],"type":[{"target_id":"eep_workbench_application"}],"revision_timestamp":[{"value":"1551298081"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"My Certifications"}],"uid":[{"target_id":"1"}],"created":[{"value":"1551297693"}],"changed":[{"value":"1551298081"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"langcode":"en"}],"menu_link":[],"field_default_grid_size":[{"value":"small"}],"field_description":[],"field_direct_links":[{"value":"my-certifications"}],"field_grid":[{"first":"x","second":"0"},{"first":"y","second":"0"},{"first":"width","second":"1"},{"first":"height","second":"1"}],"field_grid_sizes":[{"value":"small"}],"field_html_content":[],"field_icon_name":[{"value":"state-government.svg"}],"field_is_expandable":[{"value":"0"}],"field_settings_menu_items":[{"first":"Help","second":"Sample help text"},{"first":"Disclaimer","second":"Your basic disclaimer"},{"first":"Contact","second":"Talk to us here..."}],"field_sources":[],"field_title":[{"value":"My Certifications"}],"field_vue_component_name":[{"value":"MyCertifications"}]},{"nid":[{"value":"2"}],"uuid":[{"value":"c08fc9b7-b1dd-4c42-a441-4c54606bcb1a"}],"vid":[{"value":"725"}],"langcode":[{"value":"en"}],"type":[{"target_id":"eep_proxy_service"}],"revision_timestamp":[{"value":"1550705434"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"Locations Service"}],"uid":[{"target_id":"1"}],"created":[{"value":"1541712063"}],"changed":[{"value":"1550705434"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"langcode":"en"}],"menu_link":[],"field_cache_max_age":[{"value":"86400"}],"field_proxy_filter":[{"value":"location"}],"field_proxy_service_machine_name":[{"value":"location"}],"field_request_headers":[{"first":"content-type","second":"application\/json"}],"field_requeste_timeout":[{"value":"60"}],"field_response_headers":[{"first":"Content-Type","second":"application\/json; charset=utf-8"},{"first":"Transfer-Encoding","second":""}],"field_service_endpoints":[{"first":"LOCAL","second":"https:\/\/services.arcgis.com\/cJ9YHowT8TU7DUyn\/arcgis\/rest\/services"},{"first":"DEV","second":"https:\/\/services.arcgis.com\/cJ9YHowT8TU7DUyn\/arcgis\/rest\/services"}]},{"nid":[{"value":"47"}],"uuid":[{"value":"8d59b805-a028-4765-aab1-ec431cb2a018"}],"vid":[{"value":"692"}],"langcode":[{"value":"en"}],"type":[{"target_id":"eep_proxy_service"}],"revision_timestamp":[{"value":"1550004451"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"Environment Mapper by Coordinates "}],"uid":[{"target_id":"1"}],"created":[{"value":"1549915974"}],"changed":[{"value":"1550004451"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"langcode":"en"}],"menu_link":[],"field_cache_max_age":[{"value":"86400"}],"field_proxy_filter":[{"value":"generic"}],"field_proxy_service_machine_name":[{"value":"environment_mapper_by_coordinates"}],"field_request_headers":[],"field_requeste_timeout":[{"value":"60"}],"field_response_headers":[{"first":"Content-Type","second":"application\/json"},{"first":"Transfer-Encoding","second":""}],"field_service_endpoints":[{"first":"LOCAL","second":"https:\/\/geopub.epa.gov\/myem\/envmap\/getEF.aspx"},{"first":"DEV","second":"https:\/\/geopub.epa.gov\/myem\/envmap\/getEF.aspx"}]},{"nid":[{"value":"46"}],"uuid":[{"value":"7d77ef1a-3a16-4155-8663-fb0a82628ccf"}],"vid":[{"value":"691"}],"langcode":[{"value":"en"}],"type":[{"target_id":"eep_proxy_service"}],"revision_timestamp":[{"value":"1550004424"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"Environment Mapper by Zipcode"}],"uid":[{"target_id":"1"}],"created":[{"value":"1549912531"}],"changed":[{"value":"1550004424"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"langcode":"en"}],"menu_link":[],"field_cache_max_age":[{"value":"86400"}],"field_proxy_filter":[{"value":"generic"}],"field_proxy_service_machine_name":[{"value":"environment_mapper_by_zipcode"}],"field_request_headers":[],"field_requeste_timeout":[{"value":"60"}],"field_response_headers":[{"first":"Content-Type","second":"application\/json"},{"first":"Transfer-Encoding","second":""}],"field_service_endpoints":[{"first":"LOCAL","second":"https:\/\/geocode.arcgis.com\/arcgis\/rest\/services\/World\/GeocodeServer\/find"},{"first":"DEV","second":"https:\/\/geocode.arcgis.com\/arcgis\/rest\/services\/World\/GeocodeServer\/find"}]},{"nid":[{"value":"7"}],"uuid":[{"value":"ab7d0d3f-246e-4de6-9cdc-b748e134953b"}],"vid":[{"value":"349"}],"langcode":[{"value":"en"}],"type":[{"target_id":"eep2_footer"}],"revision_timestamp":[{"value":"1549040502"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"EEP2 Footer Links"}],"uid":[{"target_id":"1"}],"created":[{"value":"1546460294"}],"changed":[{"value":"1549040502"}],"promote":[{"value":"1"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"langcode":"en"}],"menu_link":[],"field_footer_link_name":[{"first":"E-Enterprise Home","second":"http:\/\/www2.epa.gov\/e-enterprise\/about-e-enterprise-environment"},{"first":"Privacy and Security Notice","second":"https:\/\/www.epa.gov\/privacy\/privacy-and-security-notice"},{"first":"Accessibility","second":"https:\/\/www.epa.gov\/accessibility"},{"first":"GitHub","second":"https:\/\/github.com\/USEPA\/E-Enterprise-Portal"},{"first":"FAQs","second":"https:\/\/dev2.e-enterprise.gov\/faqs"},{"first":"Partners' Area","second":"https:\/\/dev2.e-enterprise.gov\/for-partners"}],"field_version":[{"first":"Version","second":"2.0.1"}]},{"nid":[{"value":"44"}],"uuid":[{"value":"78ccf8ce-57d0-45e4-8749-a357e23723e9"}],"vid":[{"value":"246"}],"langcode":[{"value":"en"}],"type":[{"target_id":"eep_proxy_service"}],"revision_timestamp":[{"value":"1548948893"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"CDX Data Flows"}],"uid":[{"target_id":"1"}],"created":[{"value":"1548948325"}],"changed":[{"value":"1548948893"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"langcode":"en"}],"menu_link":[],"field_cache_max_age":[{"value":"86400"}],"field_proxy_filter":[{"value":"generic"}],"field_proxy_service_machine_name":[{"value":"cdxmyreporting"}],"field_request_headers":[{"first":"Content-Type","second":"application\/json"}],"field_requeste_timeout":[{"value":"60"}],"field_response_headers":[{"first":"Content-Type","second":"application\/json"},{"first":"Transfer-Encoding","second":""}],"field_service_endpoints":[{"first":"LOCAL","second":"https:\/\/devngn.epacdxnode.net\/cdx-register-II\/services\/RegisterService?wsdl"},{"first":"DEV","second":"https:\/\/devngn.epacdxnode.net\/cdx-register-II\/services\/RegisterService?wsdl"},{"first":"TEST","second":"https:\/\/devngn.epacdxnode.net\/cdx-register-II\/services\/RegisterService?wsdl"},{"first":"PROD","second":"https:\/\/devngn.epacdxnode.net\/cdx-register-II\/services\/RegisterService?wsdl"}]},{"nid":[{"value":"16"}],"uuid":[{"value":"3bd1261a-e049-408e-9da7-966c572b045b"}],"vid":[{"value":"93"}],"langcode":[{"value":"en"}],"type":[{"target_id":"page"}],"revision_timestamp":[{"value":"1548859999"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"Frequently Asked Questions (FAQ)"}],"uid":[{"target_id":"1"}],"created":[{"value":"1547004124"}],"changed":[{"value":"1548859999"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"pid":"2","source":"\/node\/16","alias":"\/faqs","langcode":"en"}],"menu_link":[],"body":[{"value":"<h2>On This Page<\/h2>\r\n\r\n<ul>\r\n\t<li><a href=\"#logging-in\">Logging In<\/a><\/li>\r\n\t<li><a href=\"#general-qs\">General<\/a><\/li>\r\n<\/ul>\r\n\r\n<h2 id=\"logging-in\">Logging In<\/h2>\r\n\r\n<ul>\r\n\t<li>\r\n\t<p>If I don't have an account, how can I use E-Enterprise?<\/p>\r\n\r\n\t<p>You can try E-Enterprise before using it, by selecting the Browse as Guest option on the Welcome page. You'll be able to use different widgets, including air quality and mapping widgets. If you need to submit, check, or review environmental data for a business or agency, you'll want to log in with your agency or CDX account credentials to see additional widgets, like a To Do list, Progress Tracker, Facility Management list, and others.<\/p>\r\n\t<\/li>\r\n\t<li>\r\n\t<p>When I log in using my Facebook credentials, what information is being sent to the E-Enterprise Portal?<\/p>\r\n\r\n\t<p>The default behavior of Facebook is to share email and basic profile information, however, the E-Enterprise Portal only uses your email address.<\/p>\r\n\t<\/li>\r\n\t<li>\r\n\t<p>How do I update my log-in password or email address?<\/p>\r\n\r\n\t<p>Password changes or email updates must be done through the provider for which your log-in credentials are associated (e.g., Facebook, CDX). The E-Enterprise Portal does not maintain this information.<\/p>\r\n\t<\/li>\r\n<\/ul>\r\n\r\n<h2 id=\"general-qs\">General<\/h2>\r\n\r\n<ul>\r\n\t<li>\r\n\t<p>How do I contact the E-Enterprise Portal Help Desk?<\/p>\r\n\r\n\t<p>Use the \"Questions?\" function within the portal to send questions\/comments to the Help Desk. If you need immediate support, you can contact the Help Desk at 888-890-1995.&nbsp;<\/p>\r\n\t<\/li>\r\n\t<li>\r\n\t<p>How do I get additional information about the status of my Lead-based paint application beyond what is displayed in the 'Progress Tracker?'<\/p>\r\n\r\n\t<p>If you have specific questions about the status of your Lead application, please contact the Lead Hotline at 1-800-424-LEAD [5323].<\/p>\r\n\t<\/li>\r\n\t<li>\r\n\t<p>What are the system requirements for using the E-Enterprise Portal?<\/p>\r\n\r\n\t<p><strong>You will need:<\/strong><\/p>\r\n\r\n\t<ul>\r\n\t\t<li>Internet access<\/li>\r\n\t\t<li>JavaScript enabled web browser<\/li>\r\n\t\t<li>Pop-ups allowed in your browser to view modals and maps<\/li>\r\n\t<\/ul>\r\n\r\n\t<p><strong>Supported Browsers:<\/strong><\/p>\r\n\r\n\t<ul>\r\n\t\t<li>Internet Explorer 11 or above<\/li>\r\n\t\t<li>Mozilla Firefox 40.0.3 or above<\/li>\r\n\t\t<li>Google Chrome 45.0.2454.93m&nbsp;or above<\/li>\r\n\t\t<li>Safari 8 or above<\/li>\r\n\t<\/ul>\r\n\r\n\t<p><strong>Screen Resolution:<\/strong><\/p>\r\n\r\n\t<ul>\r\n\t\t<li>Screen resolution should be set to 1024 x 768 or greater<\/li>\r\n\t<\/ul>\r\n\t<\/li>\r\n<\/ul>\r\n","summary":"","format":"basic_html"}]},{"nid":[{"value":"19"}],"uuid":[{"value":"087d432e-da34-410d-b739-609024aee497"}],"vid":[{"value":"92"}],"langcode":[{"value":"en"}],"type":[{"target_id":"page"}],"revision_timestamp":[{"value":"1548858175"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"For Partners"}],"uid":[{"target_id":"1"}],"created":[{"value":"1547069622"}],"changed":[{"value":"1548858175"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"pid":"5","source":"\/node\/19","alias":"\/for-partners","langcode":"en"}],"menu_link":[],"body":[{"value":"<h2>General Resources<\/h2>\r\n\r\n<ul>\r\n\t<li><a href=\"https:\/\/e-enterprise.gov\/sites\/default\/files\/Introduction%20to%20the%20E-Enterprise%20Portal.docx\">Introduction to the E-Enterprise Portal<\/a><\/li>\r\n\t<li><a href=\"https:\/\/e-enterprise.gov\/sites\/default\/files\/E-Enterprise%20Portal%20Service%20Development%20Considerations%20and%20Lessons%20Learned.docx\">E-Enterprise Portal Service Development Considerations and Lessons Learned<\/a><\/li>\r\n\t<li><a href=\"https:\/\/e-enterprise.gov\/sites\/default\/files\/E-Enterprise%20Portal%20User%20Guide.docx\">E-Enterprise Portal User Guide<\/a><\/li>\r\n<\/ul>\r\n\r\n<h2>App Resources<\/h2>\r\n\r\n<div class=\"usa-accordion\">\r\n<h3><button aria-controls=\"a1\" aria-expanded=\"true\" class=\"usa-accordion-button\">Assistance Gateway<\/button><\/h3>\r\n\r\n<div class=\"usa-accordion-content\" id=\"a1\">\r\n<ul>\r\n\t<li><strong><a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/Add%20Resources%20to%20the%20Assistance%20Gateway%20Application.zip\">Download All (ZIP File)<\/a><\/strong><\/li>\r\n\t<li>Instructions<\/li>\r\n\t<li>Template for Adding Resources<\/li>\r\n\t<li><a href=\"\/for-partners\/assistance-gateway-api\">Assistance Gateway API<\/a><\/li>\r\n<\/ul>\r\n<\/div>\r\n\r\n<h3><button aria-controls=\"a2\" aria-expanded=\"true\" class=\"usa-accordion-button\">Be Well Informed<\/button><\/h3>\r\n\r\n<div class=\"usa-accordion-content\" id=\"a2\">\r\n<div>\r\n<ul>\r\n\t<li><strong>Download All (ZIP File)<\/strong><\/li>\r\n<\/ul>\r\n\r\n<h4>Instructions<\/h4>\r\n\r\n<ul>\r\n\t<li><a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/Be%20Well%20Informed%20Onboarding%20Kit.docx_1\">Onboarding Kit<\/a><\/li>\r\n\t<li><a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/TreatmentOptions.pdf\">Treatment Options (PDF)<\/a><\/li>\r\n\t<li><a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/TreatmentOrder.pdf\">Treatment Order (PDF)<\/a><\/li>\r\n<\/ul>\r\n\r\n<h4>Sample Flowchart and Results XML Files<\/h4>\r\n\r\n<ul>\r\n\t<li>Massachusetts (MA) -&nbsp;<a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/flowchart-MA.xml\">Flowchart<\/a>&nbsp;\u2022&nbsp;<a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/partner-MA.xml\">Results<\/a>&nbsp;<\/li>\r\n\t<li>New Hampshire (NH) - <a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/flowchart-NH.xml\">Flowchart<\/a>&nbsp;\u2022&nbsp;<a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/partner-NH.xml\">Results<\/a><\/li>\r\n\t<li>Wyoming (WY) - <a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/flowchart-WY.xml\">Flowchart<\/a>&nbsp;\u2022 <a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/partner-WY.xml\">Results<\/a>&nbsp;\u2022&nbsp;<a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/BeWellInformed_Approval_WY_0.PDF\">Partner Agreement<\/a><\/li>\r\n\t<li><a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/E-Enterprise%20Portal%20Be%20Well%20Informed%20Service%20Testing%20Checklist.xlsx\">E-Enterprise BWI Service Testing Checklist (XLS)<\/a><\/li>\r\n<\/ul>\r\n\r\n<h4>Help Desk &amp; Service Level Integration<\/h4>\r\n\r\n<ul>\r\n\t<li><a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/BWI_CDXHelpdesk_diagrams_0.pptx\">Be Well Informed-CDX Help Desk Diagrams (PPT)<\/a><\/li>\r\n\t<li><a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/e-Enterprise%20Portal_CDXHelpdesk_0.docx\">E-Enterprise Portal CDX Help Desk Information (DOC)<\/a><\/li>\r\n\t<li><a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/Be%20Well%20Informed%20Service%20Level%20Information.xlsx\">Be Well Informed Service Level Information (XLS)<\/a><\/li>\r\n\t<li><a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/E-Enterprise%20Portal%20Service%20Level%20Information.xlsx\">E-Enterprise Portal Service Level Information (XLS)<\/a>&nbsp;<\/li>\r\n<\/ul>\r\n<\/div>\r\n<\/div>\r\n<\/div>\r\n","summary":"","format":"full_html"}]},{"nid":[{"value":"41"}],"uuid":[{"value":"7b4f71b0-2a0f-4deb-9a1d-aabdc79ba65d"}],"vid":[{"value":"724"}],"langcode":[{"value":"en"}],"type":[{"target_id":"eep_app_content"}],"revision_timestamp":[{"value":"1550701930"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"0"}],"title":[{"value":"My Reporting - MainCard"}],"uid":[{"target_id":"1"}],"created":[{"value":"1548817982"}],"changed":[{"value":"1548818026"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"langcode":"en"}],"menu_link":[],"field_html":[{"value":"<p>Report directly to your CDX data flows.<\/p>","format":"basic_html"}],"field_key":[{"value":"mainCard"}]},{"nid":[{"value":"43"}],"uuid":[{"value":"7d42ef50-6785-4ebc-9262-ee2408440eb6"}],"vid":[{"value":"723"}],"langcode":[{"value":"en"}],"type":[{"target_id":"eep_app_content"}],"revision_timestamp":[{"value":"1550701930"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"0"}],"title":[{"value":"Favorite Links - MainCard"}],"uid":[{"target_id":"1"}],"created":[{"value":"1548816539"}],"changed":[{"value":"1548816589"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"langcode":"en"}],"menu_link":[],"field_html":[{"value":"<p>Save links you find in E-Enterprise to return to them later.<\/p>\r\n","format":"basic_html"}],"field_key":[{"value":"mainCard"}]},{"nid":[{"value":"40"}],"uuid":[{"value":"8ea6d62e-022d-4335-92c1-42cfca785056"}],"vid":[{"value":"722"}],"langcode":[{"value":"en"}],"type":[{"target_id":"eep_app_content"}],"revision_timestamp":[{"value":"1550701930"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"0"}],"title":[{"value":"Be Well Informed - Main"}],"uid":[{"target_id":"1"}],"created":[{"value":"1548261997"}],"changed":[{"value":"1548799635"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"langcode":"en"}],"menu_link":[],"field_html":[{"value":"<p>Have a well and wonder what your water testing results mean?<\/p>\r\n\r\n<p>Be Well Informed lets you enter your test results and get feedback about health concerns and water treatment choices. Be Well Informed includes useful information about the most common contaminants that affect wells.<\/p>\r\n\r\n<p>A quick disclaimer before we start: Information provided by the participating States is for informational purposes only. It is recommended that you consult a qualified water treatment professional if you need to treat your water. They can consider other conditions or factors related to your well or home to determine the most appropriate water treatment option.<\/p>\r\n\r\n<p>Modeled After: <a href=\"https:\/\/xml2.des.state.nh.us\/DWITool\/Welcome.aspx\">New Hampshire\u2019s Be <em>Well<\/em> Informed Guide<\/a><\/p>\r\n","format":"basic_html"}],"field_key":[{"value":"mainCard"}]},{"nid":[{"value":"29"}],"uuid":[{"value":"b9cea63b-2b41-4e4f-9028-6fb201b88e48"}],"vid":[{"value":"90"}],"langcode":[{"value":"en"}],"type":[{"target_id":"authentication_option"}],"revision_timestamp":[{"value":"1548774025"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"Facebook"}],"uid":[{"target_id":"1"}],"created":[{"value":"1547141765"}],"changed":[{"value":"1548774025"}],"promote":[{"value":"1"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"langcode":"en"}],"menu_link":[],"field_authentication_category":[{"target_id":"26"}],"_metadata":{"taxonomy_term":{"26":"51a9e17f-d814-4c7b-ba33-4c1e89e1c069"},"file":{"10":"98da3ef8-8a6f-4420-bdf7-ca96a047656e"}},"field_option_image":[{"target_id":"10","alt":"Facebook Logo","title":"","width":"64","height":"64"}],"field_tab_order":[{"value":"0"}],"field_urn":[{"value":"Facebook"}]},{"nid":[{"value":"35"}],"uuid":[{"value":"f8b933bd-b517-4742-8ab4-262033a84c15"}],"vid":[{"value":"89"}],"langcode":[{"value":"en"}],"type":[{"target_id":"authentication_option"}],"revision_timestamp":[{"value":"1548706066"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"PIV Smart Card"}],"uid":[{"target_id":"1"}],"created":[{"value":"1548687558"}],"changed":[{"value":"1548706066"}],"promote":[{"value":"1"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"langcode":"en"}],"menu_link":[],"field_authentication_category":[{"target_id":"25"}],"_metadata":{"taxonomy_term":{"25":"b2d24c38-bd24-4828-ab94-241af90e6283"},"file":{"9":"68451400-62df-4c38-bbe3-96b08d12369c"}},"field_option_image":[{"target_id":"9","alt":"PIV SmartCard Icon","title":"","width":"26","height":"20"}],"field_tab_order":[{"value":"2"}],"field_urn":[{"value":"SmartCardAuth"}]},{"nid":[{"value":"32"}],"uuid":[{"value":"ef90c936-a851-40fd-bdd0-ac5a1269d66a"}],"vid":[{"value":"88"}],"langcode":[{"value":"en"}],"type":[{"target_id":"authentication_option"}],"revision_timestamp":[{"value":"1548706047"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"EPA LAN\/WAM ID"}],"uid":[{"target_id":"1"}],"created":[{"value":"1548193430"}],"changed":[{"value":"1548706047"}],"promote":[{"value":"1"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"langcode":"en"}],"menu_link":[],"field_authentication_category":[{"target_id":"25"}],"_metadata":{"taxonomy_term":{"25":"b2d24c38-bd24-4828-ab94-241af90e6283"},"file":{"8":"90b37d7b-efb9-43c6-9531-ea39736fa6e8"}},"field_option_image":[{"target_id":"8","alt":"EPA Logo","title":"","width":"25","height":"24"}],"field_tab_order":[{"value":"1"}],"field_urn":[{"value":"WAMNAAS"}]},{"nid":[{"value":"31"}],"uuid":[{"value":"78d3a1eb-ce92-4c69-b60c-0e174e7b0000"}],"vid":[{"value":"87"}],"langcode":[{"value":"en"}],"type":[{"target_id":"authentication_option"}],"revision_timestamp":[{"value":"1548706030"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"CDX\/Exchange Network"}],"uid":[{"target_id":"1"}],"created":[{"value":"1547141742"}],"changed":[{"value":"1548706030"}],"promote":[{"value":"1"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"langcode":"en"}],"menu_link":[],"field_authentication_category":[{"target_id":"25"}],"_metadata":{"taxonomy_term":{"25":"b2d24c38-bd24-4828-ab94-241af90e6283"},"file":{"7":"067d6e5a-67e3-4ca6-8d5d-753130bd2bd7"}},"field_option_image":[{"target_id":"7","alt":"CDX\/Exchange Logo","title":"","width":"29","height":"28"}],"field_tab_order":[{"value":"0"}],"field_urn":[{"value":"ENNAAS"}]},{"nid":[{"value":"30"}],"uuid":[{"value":"2bb21d55-42d5-422b-87a4-65db9fd2b2c2"}],"vid":[{"value":"86"}],"langcode":[{"value":"en"}],"type":[{"target_id":"authentication_option"}],"revision_timestamp":[{"value":"1548706001"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"New Mexico DEQ"}],"uid":[{"target_id":"1"}],"created":[{"value":"1548264568"}],"changed":[{"value":"1548706001"}],"promote":[{"value":"1"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"langcode":"en"}],"menu_link":[],"field_authentication_category":[{"target_id":"27"}],"_metadata":{"taxonomy_term":{"27":"c2a67703-55c4-4672-89c5-183ae4dd0079"},"file":{"5":"738a6ae9-3bc5-4c89-ac09-a92a5710136b"}},"field_option_image":[{"target_id":"5","alt":"NM Logo","title":"","width":"30","height":"28"}],"field_tab_order":[{"value":"0"}],"field_urn":[{"value":"NMIdP"}]},{"nid":[{"value":"28"}],"uuid":[{"value":"71fb1781-7e72-40cd-a085-11663c784bb5"}],"vid":[{"value":"84"}],"langcode":[{"value":"en"}],"type":[{"target_id":"authentication_option"}],"revision_timestamp":[{"value":"1548705941"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"Twitter"}],"uid":[{"target_id":"1"}],"created":[{"value":"1548192622"}],"changed":[{"value":"1548705941"}],"promote":[{"value":"1"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"langcode":"en"}],"menu_link":[],"field_authentication_category":[{"target_id":"26"}],"_metadata":{"taxonomy_term":{"26":"51a9e17f-d814-4c7b-ba33-4c1e89e1c069"},"file":{"3":"6e7a99ba-299b-4a76-ae36-33cc8e2d0718"}},"field_option_image":[{"target_id":"3","alt":"Twitter Logo","title":"","width":"1792","height":"1792"}],"field_tab_order":[{"value":"1"}],"field_urn":[{"value":"twitter"}]},{"nid":[{"value":"21"}],"uuid":[{"value":"acad4bb0-ad46-4292-9fba-88257e94247c"}],"vid":[{"value":"46"}],"langcode":[{"value":"en"}],"type":[{"target_id":"page"}],"revision_timestamp":[{"value":"1547081040"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"Release Notes"}],"uid":[{"target_id":"1"}],"created":[{"value":"1547080974"}],"changed":[{"value":"1547081040"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"pid":"7","source":"\/node\/21","alias":"\/release-notes","langcode":"en"}],"menu_link":[],"body":[{"value":"<h2>Version 2.0<\/h2>\r\n\r\n<ul>\r\n\t<li>Release date:&nbsp;TBD<\/li>\r\n\t<li>Migration to Drupal 8 and Vue.js framework.<\/li>\r\n\t<li>Redesign of widget \/ app&nbsp;architecture and interactions.<\/li>\r\n<\/ul>\r\n\r\n<h2>Version 1.27.01<\/h2>\r\n\r\n<p>Release date:&nbsp;February 23, 2018<\/p>\r\n\r\n<p>Assistance Gateway: Enhancements to user experience. Performance enhancements.<\/p>\r\n\r\n<h2>Version 1.26.04<\/h2>\r\n\r\n<p>Release date:&nbsp;January 26, 2018<\/p>\r\n\r\n<p>Various enhancements and refinements to improve usability.<\/p>\r\n\r\n<h2>Version 1.25.00<\/h2>\r\n\r\n<p>Release date:&nbsp;September 5, 2017<\/p>\r\n\r\n<p>Various enhancements and refinements to improve usability.<\/p>\r\n\r\n<h2>Version 1.24.00<\/h2>\r\n\r\n<p>Release date:&nbsp;July 27, 2017<\/p>\r\n\r\n<ul>\r\n\t<li>Various enhancements and refinements to improve usability<\/li>\r\n<\/ul>\r\n\r\n<h2>Version 1.23.00<\/h2>\r\n\r\n<p>Release date:&nbsp;June 9, 2017<\/p>\r\n\r\n<ul>\r\n\t<li>Various enhancements and refinements to improve usability<\/li>\r\n<\/ul>\r\n\r\n<p>&nbsp;<\/p>\r\n\r\n<h2>Version 1.22.00<\/h2>\r\n\r\n<p>Release date:&nbsp;March 15, 2017<\/p>\r\n\r\n<ul>\r\n\t<li>Various enhancements and refinements to improve usability<\/li>\r\n<\/ul>\r\n\r\n<h2>Version 1.21.00<\/h2>\r\n\r\n<p>Release date:&nbsp;February 14, 2017<\/p>\r\n\r\n<ul>\r\n\t<li>Construction General Permit: Completed the initial widget functionality and integration<\/li>\r\n\t<li>Established the new e-enterprise.gov landing page<\/li>\r\n\t<li>To Do and Progress Tracker: Added \"Last Updated\" timestamp on each widget<\/li>\r\n\t<li>Profile - Locations: Various improvements to inputting and searching for specific locations<\/li>\r\n<\/ul>\r\n\r\n<p>&nbsp;<\/p>\r\n\r\n<h2>Version 1.20.00<\/h2>\r\n\r\n<p>Release date:&nbsp;January 24, 2017<\/p>\r\n\r\n<ul>\r\n\t<li>Favorite Links: Corrected an issue that would trigger a JavaScript error in the browser upon removing a single favorited link&nbsp;<\/li>\r\n\t<li>My Facility Manager: Tweaked 'Back to Edit Facility' link in the facility widget for usability<\/li>\r\n\t<li>Developers' Area: Created a new repository of information relevant to developers<\/li>\r\n\t<li>GitHub Integration: Added 'GitHub' link in the footer to the E-Enterprise Portal GitHub space<\/li>\r\n<\/ul>\r\n\r\n<p>&nbsp;<\/p>\r\n\r\n<h2>Version 1.19.00<\/h2>\r\n\r\n<p>Release date:&nbsp;January 3, 2017<\/p>\r\n\r\n<ul>\r\n\t<li>Questions Modal: 'Email' field is now editable when accessing the modal from the 'New to E-Enterprise?' screen<\/li>\r\n\t<li>To Do\/Progress Tracker: Implemented single sign-on (SSO) separate from the 'Facility Widget;' corrected the styling of the 'Status' and 'Details' pop-up windows; corrected an issue that blocked the filter drop-down menus from being reachable<\/li>\r\n\t<li>Widget Resizing: Updated all widgets to resize to fit the content displayed<\/li>\r\n\t<li>Resources for Local Communities: Updated the sorting functionality to be consistent with other Portal widgets; corrected an issue with the favorite hearts not generating immediately on all resources pages but the first; added resources for Missouri Department of Natural Resources via the MO DNR API<\/li>\r\n\t<li>Enviromapper: Corrected an issue where clicking the 'Update Contents on Map' button was not functional<\/li>\r\n\t<li>Trending Air: Updated the Portal calls to Village Green to occur only once per site ID, per minute, across users<\/li>\r\n\t<li>Facility Widget: Updated the 'My Facility Manager' to time out with the Portal rather than timing out independently<\/li>\r\n\t<li>Profile - Interests: Corrected an issue where 'Community Type' was not saving when edited by a user<\/li>\r\n<\/ul>\r\n\r\n<h2>Version 1.18.00<\/h2>\r\n\r\n<p>Release date:&nbsp;November 22, 2016<\/p>\r\n\r\n<ul>\r\n\t<li>Log-in Performance: The time between authenticating on log-in and loading the workbench improved<\/li>\r\n\t<li>Resources for Local Communities: Additional resources added; issues with overlapping favorite hearts and duplicate 'Your Selections' options resolved<\/li>\r\n\t<li>Enviromapper: Error when clicking a facility link on a map pop-up window resolved<\/li>\r\n\t<li>Profile Favorites: Issue with ampersands in profile favorites causing errors resolved<\/li>\r\n\t<li>Section 508\/Timeout: Added code to alert the user to the impending timeout of the Portal<\/li>\r\n\t<li>ForeSee Modal: Issue preventing the ForeSee modal from displaying resolved<\/li>\r\n\t<li>To Do\/Progress Tracker: Reworked to improve performance; CEDRI part codes, sub-part codes, and report types are now auto-discovered based on table content; issues with page numbers, column sorting, and filters not functioning resolved<\/li>\r\n<\/ul>\r\n\r\n<h2>Version 1.17.00<\/h2>\r\n\r\n<p>Release date:&nbsp;October 28, 2016<\/p>\r\n\r\n<ul>\r\n\t<li>Facebook Authentication: Method updated to avoid using a link attribute to identify provider type<\/li>\r\n\t<li>WAM\/LAN Authentication: Updated the user authorization page to be consistent with the Exchange Network log-in page language and styling<\/li>\r\n\t<li>Set Location: Field is not consistent across browsers and no longer cuts off the bottom of the city name in some browsers<\/li>\r\n\t<li>Resources for Local Communities: Implemented functionality to allow resources to be associated with multiple items in each facet; corrected the ordering of the 'High,' 'Medium,' and 'Low' facet options for the 'Training Level' and 'Data Requirements' facets; resolved an issue where no topic options were displayed in the sidebar on the 'My Resources' tab after selecting interests on the new user 'Getting Started' screen; added a tool-tip to describe the widget and its purpose<\/li>\r\n\t<li>My Facility Manager: An issue where some users were not seeing the widget on the workbench has been resolved<\/li>\r\n<\/ul>\r\n\r\n<h2>Version 1.16.01<\/h2>\r\n\r\n<p>Release date:&nbsp;October 12, 2016<\/p>\r\n\r\n<ul>\r\n\t<li>Resolved an issue affecting Twitter, WAM, and PIV Card users where an error was generated regarding the user not having permission to edit the hidden Profile email field.<\/li>\r\n\t<li>Updated the Profile to keep the user on the edited tab of the Profile upon saving.<\/li>\r\n<\/ul>\r\n\r\n<h2>Version 1.16.00<\/h2>\r\n\r\n<p>Release date:&nbsp;September 30, 2016<\/p>\r\n\r\n<ul>\r\n\t<li>Federal Lead-based Paint Program: Bypass E-Enterprise Portal log-in and navigate directly to the Portal, via a link, after submitting an application in the Lead program<\/li>\r\n\t<li>Landing Page: Interface design updates<\/li>\r\n\t<li>Getting Started: Topics of interest options added to the first time users modal<\/li>\r\n\t<li>Log-in: 'EPA LAN\/WAM ID' and 'PIV Smart Card' providers added<\/li>\r\n\t<li>Profile - Interests tab: Select topics of interest to dynamically update content in the 'My Resources' tab of the 'Resources for Local Communities' widget<\/li>\r\n\t<li>Trending Air: Chicago, IL air monitor added<\/li>\r\n\t<li>Resources for Local Communities - beta version: View local government resources and filter content via faceted search options<\/li>\r\n\t<li>Section 508 Compliance: Improved screen reader functionality and keyboard accessibility<\/li>\r\n<\/ul>\r\n\r\n<h2>Version 1.08.00<\/h2>\r\n\r\n<p>Release date:&nbsp;April 21, 2016<\/p>\r\n\r\n<ul>\r\n\t<li>Location management: Ability to add tribal areas<\/li>\r\n\t<li>Progress Tracker:&nbsp;Logos now provided for approved Lead RRP and Combination applications, and status notes now reflect the date when applications are received and approved<\/li>\r\n\t<li>CIO.gov design standard improvements<\/li>\r\n\t<li>Section 508 compliance updates<\/li>\r\n<\/ul>\r\n\r\n<h2>Version 1.00.00<\/h2>\r\n\r\n<p>Release date:&nbsp;October 1, 2015<\/p>\r\n\r\n<ul>\r\n\t<li>Dynamic content based on the following user types: Guest, CDX, and Public (Facebook, Twitter)<\/li>\r\n\t<li>Location preference management<\/li>\r\n\t<li>To Do List: Submission review tasks for state reviewers for the Compliance and Emissions Data Reporting Interface (CEDRI) program<\/li>\r\n\t<li>Progress Tracker: Submission status tracking for CDX Lead and CEDRI industry submitters<\/li>\r\n\t<li>My Facility Manager: View and edit capabilities for CEDRI, Chemical Safety and Pesticide Programs (CSPP), and eDisclosure submitters<\/li>\r\n\t<li>My Air: Air quality data and map for specified locations<\/li>\r\n\t<li>Trending Air: Village Green air monitoring station data<\/li>\r\n\t<li>My Environment Mapper: View air, water, land, community, health, energy, and other data on a map<\/li>\r\n\t<li>Interactive Maps: View and interact with various air, water, and land maps<\/li>\r\n\t<li>Favorite Links: Favorite and save links of interest<\/li>\r\n<\/ul>\r\n","summary":"","format":"basic_html"}]},{"nid":[{"value":"20"}],"uuid":[{"value":"09449a70-73b8-4d38-b555-304eafe7f063"}],"vid":[{"value":"43"}],"langcode":[{"value":"en"}],"type":[{"target_id":"page"}],"revision_timestamp":[{"value":"1547080275"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"Assistance Gateway API"}],"uid":[{"target_id":"1"}],"created":[{"value":"1547080059"}],"changed":[{"value":"1547080275"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"pid":"6","source":"\/node\/20","alias":"\/for-partners\/assistance-gateway-api","langcode":"en"}],"menu_link":[],"body":[{"value":"<h2>Title: Get All Assistance Gateway Resources<\/h2>\r\n\r\n<p>This is the definition of the RESTful web service that E-Enterprise partners should expose in order to share real time resource information.<\/p>\r\n\r\n<h2>URL (path only, no root url)<\/h2>\r\n\r\n<p>\/AssistanceGateway<\/p>\r\n\r\n<h2>Method<\/h2>\r\n\r\n<p>GET<\/p>\r\n\r\n<h2>URL Params<\/h2>\r\n\r\n<p>None. Method is expected to return all resources that the E-Enterprise partner wishes to expose through the service.<\/p>\r\n\r\n<h2>Data Params (for POST)<\/h2>\r\n\r\n<p>None. POST is not currently supported.<\/p>\r\n\r\n<h2>Success Response<\/h2>\r\n\r\n<p>Code: 200<\/p>\r\n\r\n<p>Content:<\/p>\r\n\r\n<pre>\r\n{\"resources\": [\r\n     {\"topics\": [\"Emerging Technologies, Issues and Topics\", \"Stormwater\"],\r\n      \"name\":\"Sustainable Communities\",\r\n      \"link\":\"https:\/\/www.sustainablecommunities.gov\/\",\r\n      \"source\":\"Partnership for Sustainable Communities\",\r\n      \"detailed_description\":\"On June 16, 2009, the U.S. Department of Housing and Urban Development (HUD), U.S. Department of Transportation (DOT), and the U.S. Environmental Protection Agency (EPA) joined together to help communities nationwide improve access to affordable housing, increase transportation options, and lower transportation costs while protecting the environment.\",\r\n      \"summary\":\"Designed to help communities nationwide improve access to affordable housing, increase transportation options, and lower transportation costs while protecting the environment.\",\r\n      \"categories\": [\"Sustainability\", \"Asset Management\", \"Financial Assistance\", \"Capacity Development\"],\r\n      \"tool_type\":\"Guidance-Website\",\r\n      \"update_frequency\":\"Frequently\",\r\n      \"relevance\": [\"Public\", \"Policy\"]\r\n      \"training_level\":\"Low\",\r\n      \"user_friendly_rating\":\"Medium\",\r\n      \"data_resource_requirements\":\"High\",\r\n     }\r\n]}<\/pre>\r\n\r\n<h2>Error Response<\/h2>\r\n\r\n<p>Code: 400 BAD REQUEST<\/p>\r\n\r\n<p>Content (example):<\/p>\r\n\r\n<pre>\r\n{ error : \"The url in the request could not be parsed.\" }<\/pre>\r\n\r\n<p>Code: 404 NOT FOUND<\/p>\r\n\r\n<p>Content:<\/p>\r\n\r\n<pre>\r\n{ error : \"The specified resource does not exist.\" }<\/pre>\r\n\r\n<h2>Schema<\/h2>\r\n\r\n<table>\r\n\t<thead>\r\n\t\t<tr>\r\n\t\t\t<th>Element Name<\/th>\r\n\t\t\t<th>Element Type<\/th>\r\n\t\t\t<th>Element Options<\/th>\r\n\t\t\t<th>Maximum Length<\/th>\r\n\t\t\t<th>Required?<\/th>\r\n\t\t<\/tr>\r\n\t<\/thead>\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td>ID<\/td>\r\n\t\t\t<td>String<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>250 characters<\/td>\r\n\t\t\t<td>Yes<\/td>\r\n\t\t<\/tr>\r\n\t\t<tr>\r\n\t\t\t<td>Topics<\/td>\r\n\t\t\t<td>Multi-select<\/td>\r\n\t\t\t<td>\r\n\t\t\t<ol>\r\n\t\t\t\t<li>Brownfields and Redevelopment and Industrial Cleanup<\/li>\r\n\t\t\t\t<li>Climate Change<\/li>\r\n\t\t\t\t<li>Conservation and Alternative Energy<\/li>\r\n\t\t\t\t<li>Drinking Water and Wastewater<\/li>\r\n\t\t\t\t<li>Emerging Technologies, Issues and Topics<\/li>\r\n\t\t\t\t<li>Finance and Grants<\/li>\r\n\t\t\t\t<li>Indoor and Outdoor Air Quality<\/li>\r\n\t\t\t\t<li>Municipal\/Industrial Solid Waste Management<\/li>\r\n\t\t\t\t<li>Natural Disaster and Emergency Management<\/li>\r\n\t\t\t\t<li>Stormwater<\/li>\r\n\t\t\t\t<li>Water Quality and Restoration<\/li>\r\n\t\t\t<\/ol>\r\n\t\t\t<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>Yes<\/td>\r\n\t\t<\/tr>\r\n\t\t<tr>\r\n\t\t\t<td>Name<\/td>\r\n\t\t\t<td>String<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>250 characters<\/td>\r\n\t\t\t<td>Yes<\/td>\r\n\t\t<\/tr>\r\n\t\t<tr>\r\n\t\t\t<td>Link<\/td>\r\n\t\t\t<td>String<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>250 characters<\/td>\r\n\t\t\t<td>Yes<\/td>\r\n\t\t<\/tr>\r\n\t\t<tr>\r\n\t\t\t<td>Source<\/td>\r\n\t\t\t<td>String<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>250 characters<\/td>\r\n\t\t\t<td>Yes<\/td>\r\n\t\t<\/tr>\r\n\t\t<tr>\r\n\t\t\t<td>Detailed Description<\/td>\r\n\t\t\t<td>String<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>4,000 characters<\/td>\r\n\t\t\t<td>Yes<\/td>\r\n\t\t<\/tr>\r\n\t\t<tr>\r\n\t\t\t<td>Summary<\/td>\r\n\t\t\t<td>String<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>4,000 characters<\/td>\r\n\t\t\t<td>Yes<\/td>\r\n\t\t<\/tr>\r\n\t\t<tr>\r\n\t\t\t<td>Categories<\/td>\r\n\t\t\t<td>Multi-select<\/td>\r\n\t\t\t<td>\r\n\t\t\t<ol>\r\n\t\t\t\t<li>Asset Management<\/li>\r\n\t\t\t\t<li>Best Management Practices<\/li>\r\n\t\t\t\t<li>Capacity Development<\/li>\r\n\t\t\t\t<li>Emergency Preparedness<\/li>\r\n\t\t\t\t<li>Energy Efficiency<\/li>\r\n\t\t\t\t<li>Environmental Justice<\/li>\r\n\t\t\t\t<li>Financial Assistance<\/li>\r\n\t\t\t\t<li>Green Infrastructure<\/li>\r\n\t\t\t\t<li>Monitoring<\/li>\r\n\t\t\t\t<li>Nutrients and Pollution Reduction<\/li>\r\n\t\t\t\t<li>Planning<\/li>\r\n\t\t\t\t<li>Regulation<\/li>\r\n\t\t\t\t<li>Resilience<\/li>\r\n\t\t\t\t<li>Sustainability<\/li>\r\n\t\t\t\t<li>Technical Guidance<\/li>\r\n\t\t\t\t<li>Tribal<\/li>\r\n\t\t\t\t<li>Water Efficiency<\/li>\r\n\t\t\t\t<li>Water Security<\/li>\r\n\t\t\t<\/ol>\r\n\t\t\t<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>Yes<\/td>\r\n\t\t<\/tr>\r\n\t\t<tr>\r\n\t\t\t<td>Tool Type<\/td>\r\n\t\t\t<td>Single-select<\/td>\r\n\t\t\t<td>\r\n\t\t\t<ol>\r\n\t\t\t\t<li>Guidance-Website<\/li>\r\n\t\t\t\t<li>Decision Tree<\/li>\r\n\t\t\t\t<li>Data<\/li>\r\n\t\t\t\t<li>Tool<\/li>\r\n\t\t\t<\/ol>\r\n\t\t\t<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>Yes<\/td>\r\n\t\t<\/tr>\r\n\t\t<tr>\r\n\t\t\t<td>Update Frequency<\/td>\r\n\t\t\t<td>Single-select<\/td>\r\n\t\t\t<td>\r\n\t\t\t<ol>\r\n\t\t\t\t<li>Frequently<\/li>\r\n\t\t\t\t<li>One-Time<\/li>\r\n\t\t\t\t<li>Other<\/li>\r\n\t\t\t\t<li>Periodically<\/li>\r\n\t\t\t\t<li>Rarely<\/li>\r\n\t\t\t<\/ol>\r\n\t\t\t<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>No<\/td>\r\n\t\t<\/tr>\r\n\t\t<tr>\r\n\t\t\t<td>Relevance<\/td>\r\n\t\t\t<td>Multi-select<\/td>\r\n\t\t\t<td>\r\n\t\t\t<ol>\r\n\t\t\t\t<li>Manager<\/li>\r\n\t\t\t\t<li>Operator<\/li>\r\n\t\t\t\t<li>Public<\/li>\r\n\t\t\t\t<li>Policy<\/li>\r\n\t\t\t<\/ol>\r\n\t\t\t<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>No<\/td>\r\n\t\t<\/tr>\r\n\t\t<tr>\r\n\t\t\t<td>Training Level<\/td>\r\n\t\t\t<td>Single-select<\/td>\r\n\t\t\t<td>\r\n\t\t\t<ol>\r\n\t\t\t\t<li>High<\/li>\r\n\t\t\t\t<li>Medium<\/li>\r\n\t\t\t\t<li>Low<\/li>\r\n\t\t\t<\/ol>\r\n\t\t\t<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>No<\/td>\r\n\t\t<\/tr>\r\n\t\t<tr>\r\n\t\t\t<td>User Friendly Rating<\/td>\r\n\t\t\t<td>Single-select<\/td>\r\n\t\t\t<td>\r\n\t\t\t<ol>\r\n\t\t\t\t<li>High<\/li>\r\n\t\t\t\t<li>Medium<\/li>\r\n\t\t\t\t<li>Low<\/li>\r\n\t\t\t<\/ol>\r\n\t\t\t<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>No<\/td>\r\n\t\t<\/tr>\r\n\t\t<tr>\r\n\t\t\t<td>Data\/Resource Requirements<\/td>\r\n\t\t\t<td>Single-select<\/td>\r\n\t\t\t<td>\r\n\t\t\t<ol>\r\n\t\t\t\t<li>High<\/li>\r\n\t\t\t\t<li>Medium<\/li>\r\n\t\t\t\t<li>Low<\/li>\r\n\t\t\t<\/ol>\r\n\t\t\t<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>No<\/td>\r\n\t\t<\/tr>\r\n\t<\/tbody>\r\n<\/table>\r\n\r\n<h2>Notes<\/h2>\r\n\r\n<p>Additional methods and more flexible searches (invocation with search parameters) may be added in the future.<\/p>\r\n","summary":"","format":"full_html"}]},{"nid":[{"value":"18"}],"uuid":[{"value":"e20f00ed-652b-4439-9680-4b9af79411f3"}],"vid":[{"value":"40"}],"langcode":[{"value":"en"}],"type":[{"target_id":"page"}],"revision_timestamp":[{"value":"1547069494"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"Warning Notice - Authenticated Users"}],"uid":[{"target_id":"1"}],"created":[{"value":"1547069463"}],"changed":[{"value":"1547069494"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"pid":"4","source":"\/node\/18","alias":"\/warning-notice","langcode":"en"}],"menu_link":[],"body":[{"value":"<p>This is a co-governed site with applications and information created by E-Enterprise partners (US EPA, States, Tribes and Territories). In proceeding and accessing U.S. Government information and information systems, you acknowledge that you fully understand and consent to all of the following:<\/p>\r\n\r\n<ol>\r\n\t<li>Unauthorized access, unauthorized use, or unauthorized attempts to upload or change information maintained on the Web site area are strictly prohibited and may be subject to criminal and civil prosecution.<\/li>\r\n\t<li>EPA and our E-Enterprise partners (State, Tribes and Territories) have posted information on this site as a convenience to the portal users. Although EPA and our E-Enterprise partners have made every attempt to ensure the accuracy of the information posted on this site, portal users should not rely on information relating to environmental laws and regulations posted on this site. Portal users are solely responsible for ensuring that they are in compliance with all relevant environmental laws and regulations.<\/li>\r\n\t<li>The Portal may provide links to other data systems. The warnings, disclaimers, and\/or terms of use for the other systems apply when the user is interacting with another system through the Portal.<\/li>\r\n\t<li>Privacy and Security: The terms and explanations at the linked page apply to the use of this site:&nbsp;<a href=\"https:\/\/cdx.epa.gov\/PrivacyNotice\">https:\/\/cdx.epa.gov\/PrivacyNotice<\/a>. However, this term is hereby amended with respect to the Portal: \"All information submitted by visitors is voluntary except when a site user is logged in as a regulated entity.\"<\/li>\r\n<\/ol>\r\n","summary":"","format":"basic_html"}]},{"nid":[{"value":"17"}],"uuid":[{"value":"a2296557-aa34-4fba-8e76-e18a7f650444"}],"vid":[{"value":"39"}],"langcode":[{"value":"en"}],"type":[{"target_id":"page"}],"revision_timestamp":[{"value":"1547069215"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"Warning Notice - Guest Users"}],"uid":[{"target_id":"1"}],"created":[{"value":"1547068392"}],"changed":[{"value":"1547069215"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"pid":"3","source":"\/node\/17","alias":"\/warning-notice-guests","langcode":"en"}],"menu_link":[],"body":[{"value":"<p>This is a co-governed site with applications and information created by E-Enterprise partners (US EPA, States, Tribes and Territories). In proceeding and accessing U.S. Government information and information systems, you acknowledge that you fully understand and consent to all of the following:<\/p>\r\n\r\n<ol>\r\n\t<li>Unauthorized access, unauthorized use, or unauthorized attempts to upload or change information maintained on this Web site are strictly prohibited and may be subject to criminal or civil prosecution.<\/li>\r\n\t<li>EPA and our E-Enterprise partners (States, Tribes and Territories) have posted information on this site as a convenience to the portal users. Although EPA and our E-Enterprise partners have made every effort to ensure the accuracy of the information posted on this site, portal users should not rely on information relating to environmental laws and regulations posted on this site. Portal users are solely responsible for ensuring that they are in compliance with all relevant environmental laws and regulations.<\/li>\r\n\t<li>The Portal may provide links to other data systems. The warnings, disclaimers, and\/or terms of use for the other systems apply when the user is interacting with another system through the Portal.<\/li>\r\n\t<li>Privacy and Security: The terms and explanations at the linked page apply to the use of this site:&nbsp;<a href=\"https:\/\/www.epa.gov\/home\/privacy-and-security-notice\">https:\/\/www.epa.gov\/home\/privacy-and-security-notice<\/a>. However, this term is hereby amended with respect to the Portal: \"All information submitted by visitors is voluntary except when a site user is logged in as a regulated entity.\"<\/li>\r\n<\/ol>\r\n","summary":"","format":"basic_html"}]},{"nid":[{"value":"14"}],"uuid":[{"value":"bc96ea7e-b326-42b5-a777-9e5436a75039"}],"vid":[{"value":"108"}],"langcode":[{"value":"en"}],"type":[{"target_id":"page"}],"revision_timestamp":[{"value":"1548862720"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"1"}],"title":[{"value":"About the E-Enterprise Portal"}],"uid":[{"target_id":"1"}],"created":[{"value":"1546965363"}],"changed":[{"value":"1546965392"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"pid":"1","source":"\/node\/14","alias":"\/about","langcode":"en"}],"menu_link":[],"body":[{"value":"<p>The E-Enterprise for the Environment Portal is a new user-friendly web platform that will modernize the way the public, regulated community, and environmental co-regulators conduct environmental transactions and access web resources. EPA is working with states and tribes to develop an interoperable portal integrating data and functionality over time to create a dynamic tool for collaboration and innovation.<\/p>\r\n\r\n<p>The E-Enterprise for the Environment Portal will:<\/p>\r\n\r\n<ul>\r\n\t<li>Decrease the time and effort needed to perform transactions with EPA, tribal, state, and local governments<\/li>\r\n\t<li>Provide a more consistent way for environmental agencies to interact with regulated entities and the public<\/li>\r\n\t<li>Allow the regulated community and the public to discover the information that is important to them<\/li>\r\n<\/ul>\r\n","summary":"","format":"basic_html"}]},{"nid":[{"value":"4"}],"uuid":[{"value":"3a3ea270-62b7-4280-949a-73fb39e54e9a"}],"vid":[{"value":"717"}],"langcode":[{"value":"en"}],"type":[{"target_id":"eep_proxy_service"}],"revision_timestamp":[{"value":"1550701928"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"0"}],"title":[{"value":"Village Green"}],"uid":[{"target_id":"1"}],"created":[{"value":"1542747703"}],"changed":[{"value":"1542747741"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"langcode":"en"}],"menu_link":[],"field_cache_max_age":[{"value":"86400"}],"field_proxy_filter":[{"value":"generic"}],"field_proxy_service_machine_name":[{"value":"vg"}],"field_request_headers":[],"field_requeste_timeout":[{"value":"60"}],"field_response_headers":[{"first":"Content-Type","second":"application\/json"},{"first":"Transfer-Encoding","second":""}],"field_service_endpoints":[{"first":"LOCAL","second":"https:\/\/villagegreen.airnowtech.org\/welcome\/getDataForCurrentMinuteWelcomePage?"}]},{"nid":[{"value":"1"}],"uuid":[{"value":"22dc268c-71f2-465f-889d-7be13394fd9c"}],"vid":[{"value":"714"}],"langcode":[{"value":"en"}],"type":[{"target_id":"eep_proxy_service"}],"revision_timestamp":[{"value":"1550701927"}],"revision_uid":[{"target_id":"1"}],"revision_log":[],"status":[{"value":"0"}],"title":[{"value":"Be Well Informed Service"}],"uid":[{"target_id":"1"}],"created":[{"value":"1541711939"}],"changed":[{"value":"1541712034"}],"promote":[{"value":"0"}],"sticky":[{"value":"0"}],"default_langcode":[{"value":"1"}],"revision_default":[{"value":"1"}],"revision_translation_affected":[{"value":"1"}],"path":[{"langcode":"en"}],"menu_link":[],"field_cache_max_age":[{"value":"86400"}],"field_proxy_filter":[{"value":"generic"}],"field_proxy_service_machine_name":[{"value":"bwi"},{"value":"be-well-informed"}],"field_request_headers":[{"first":"content-type","second":"application\/json"}],"field_requeste_timeout":[{"value":"60"}],"field_response_headers":[{"first":"Content-Type","second":"application\/json"},{"first":"Transfer-Encoding","second":""}],"field_service_endpoints":[{"first":"LOCAL","second":"https:\/\/dev.e-enterprise.gov\/TestRest\/bwievaluation"},{"first":"DEV","second":"https:\/\/dev.e-enterprise.gov\/TestRest\/bwievaluation"}]}]
+[
+  {
+    "nid": [
+      {
+        "value": "51"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "6bf7b764-04f1-473c-8e97-00f445e35627"
+      }
+    ],
+    "vid": [
+      {
+        "value": "770"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "eep_proxy_service"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1552451226"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "Geolocation"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1542399659"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1552451226"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_cache_max_age": [
+      {
+        "value": "86400"
+      }
+    ],
+    "field_proxy_filter": [
+      {
+        "value": "generic"
+      }
+    ],
+    "field_proxy_service_machine_name": [
+      {
+        "value": "geolocation"
+      }
+    ],
+    "field_request_headers": [
+      {
+        "first": "Content-Type",
+        "second": "application\/json"
+      }
+    ],
+    "field_requeste_timeout": [
+      {
+        "value": "60"
+      }
+    ],
+    "field_response_headers": [
+      {
+        "first": "Content-Type",
+        "second": "application\/json"
+      },
+      {
+        "first": "Transfer-Encoding",
+        "second": ""
+      },
+      {
+        "first": "X-Powered-By",
+        "second": ""
+      },
+      {
+        "first": "ETag",
+        "second": ""
+      },
+      {
+        "first": "Vary",
+        "second": ""
+      },
+      {
+        "first": "X-Cached",
+        "second": ""
+      },
+      {
+        "first": "Access-Control-Allow-Origin",
+        "second": ""
+      }
+    ],
+    "field_service_endpoints": [
+      {
+        "first": "LOCAL",
+        "second": "http:\/\/geocode.arcgis.com\/arcgis\/rest\/services\/World\/GeocodeServer\/reverseGeocode"
+      },
+      {
+        "first": "DEV",
+        "second": "http:\/\/geocode.arcgis.com\/arcgis\/rest\/services\/World\/GeocodeServer\/reverseGeocode"
+      },
+      {
+        "first": "TEST",
+        "second": "http:\/\/geocode.arcgis.com\/arcgis\/rest\/services\/World\/GeocodeServer\/reverseGeocode"
+      },
+      {
+        "first": "PROD",
+        "second": "http:\/\/geocode.arcgis.com\/arcgis\/rest\/services\/World\/GeocodeServer\/reverseGeocode"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "57"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "fd23a8d8-30fe-4370-9bb8-1880e0cb6db5"
+      }
+    ],
+    "vid": [
+      {
+        "value": "765"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "eep_workbench_application"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1552401781"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "Permit Lookup"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1551992316"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1552401781"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_default_grid_size": [
+      {
+        "value": "small"
+      }
+    ],
+    "field_description": [],
+    "field_direct_links": [
+      {
+        "value": "permit-lookup"
+      }
+    ],
+    "field_grid": [
+      {
+        "first": "x",
+        "second": "1"
+      },
+      {
+        "first": "y",
+        "second": "0"
+      },
+      {
+        "first": "width",
+        "second": "1"
+      },
+      {
+        "first": "height",
+        "second": "1"
+      }
+    ],
+    "field_grid_sizes": [
+      {
+        "value": "small"
+      }
+    ],
+    "field_html_content": [],
+    "field_icon_name": [
+      {
+        "value": "bookmark.svg"
+      }
+    ],
+    "field_is_expandable": [
+      {
+        "value": "1"
+      }
+    ],
+    "field_settings_menu_items": [
+      {
+        "first": "Help",
+        "second": "Sample help text"
+      },
+      {
+        "first": "Disclaimer",
+        "second": "Your basic disclaimer"
+      },
+      {
+        "first": "Contact",
+        "second": "Talk to us here..."
+      },
+      {
+        "first": "Description",
+        "second": "Find new Notices of Intent (NOIs) under the U.S. EPA 2015 Multi-Sector General Permit (MSGP) submitted as of April 1, 2018. At this time, search results will only include new activity with the national NPDES eReporting Tool (NeT-MSGP) for U.S. EPA lead and participating states and tribes."
+      }
+    ],
+    "field_sources": [
+      {
+        "first": "US EPA Office of Enforcement",
+        "second": "https:\/\/www.epa.gov\/"
+      }
+    ],
+    "field_title": [
+      {
+        "value": "Permit Lookup"
+      }
+    ],
+    "field_vue_component_name": [
+      {
+        "value": "PermitLookup"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "55"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "15ae5dc1-58a9-493c-a3b2-440319786c4b"
+      }
+    ],
+    "vid": [
+      {
+        "value": "763"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "eep_proxy_service"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1552335818"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "Permit Lookup OECA Reference Service"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1552330917"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1552335818"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_cache_max_age": [
+      {
+        "value": "86400"
+      }
+    ],
+    "field_proxy_filter": [
+      {
+        "value": "permitlookup"
+      }
+    ],
+    "field_proxy_service_machine_name": [
+      {
+        "value": "oeca-svc-ref"
+      }
+    ],
+    "field_request_headers": [
+      {
+        "first": "Accept",
+        "second": "application\/json"
+      }
+    ],
+    "field_requeste_timeout": [
+      {
+        "value": "360"
+      }
+    ],
+    "field_response_headers": [
+      {
+        "first": "Content-Type",
+        "second": "application\/json"
+      }
+    ],
+    "field_service_endpoints": [
+      {
+        "first": "LOCAL",
+        "second": "https:\/\/devngn.epacdxnode.net\/net-svc-ref\/api\/lookup\/v1\/"
+      },
+      {
+        "first": "DEV",
+        "second": "https:\/\/devngn.epacdxnode.net\/net-svc-ref\/api\/lookup\/v1\/"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "54"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "5c3a0bea-f8df-49fc-af88-8005d6b50c99"
+      }
+    ],
+    "vid": [
+      {
+        "value": "762"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "eep_proxy_service"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1552319632"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "Permit Lookup CGP"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1552195674"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1552319632"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_cache_max_age": [
+      {
+        "value": "86400"
+      }
+    ],
+    "field_proxy_filter": [
+      {
+        "value": "permitlookup"
+      }
+    ],
+    "field_proxy_service_machine_name": [
+      {
+        "value": "oeca-cgp"
+      }
+    ],
+    "field_request_headers": [
+      {
+        "first": "Accept",
+        "second": "application\/json"
+      }
+    ],
+    "field_requeste_timeout": [
+      {
+        "value": "3600"
+      }
+    ],
+    "field_response_headers": [
+      {
+        "first": "Content-Type",
+        "second": "application\/json"
+      }
+    ],
+    "field_service_endpoints": [
+      {
+        "first": "LOCAL",
+        "second": "https:\/\/devngn.epacdxnode.net\/oeca-cgp-web\/api\/public\/v1\/"
+      },
+      {
+        "first": "DEV",
+        "second": "https:\/\/devngn.epacdxnode.net\/oeca-cgp-web\/api\/public\/v1\/"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "56"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "92f9f537-a1f1-4583-b38f-3dc113553811"
+      }
+    ],
+    "vid": [
+      {
+        "value": "764"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "eep_proxy_service"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1552319615"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "Permit Lookup MSGP"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1552069785"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1552319615"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_cache_max_age": [
+      {
+        "value": "86400"
+      }
+    ],
+    "field_proxy_filter": [
+      {
+        "value": "permitlookup"
+      }
+    ],
+    "field_proxy_service_machine_name": [
+      {
+        "value": "oeca-msgp"
+      }
+    ],
+    "field_request_headers": [
+      {
+        "first": "Accept",
+        "second": "application\/json"
+      }
+    ],
+    "field_requeste_timeout": [
+      {
+        "value": "3600"
+      }
+    ],
+    "field_response_headers": [
+      {
+        "first": "Content-Type",
+        "second": "application\/json"
+      }
+    ],
+    "field_service_endpoints": [
+      {
+        "first": "LOCAL",
+        "second": "https:\/\/devngn.epacdxnode.net\/oeca-msgp-web\/api\/public\/v1\/"
+      },
+      {
+        "first": "DEV",
+        "second": "https:\/\/devngn.epacdxnode.net\/oeca-msgp-web\/api\/public\/v1\/"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "53"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "f6fd7e23-d388-4ef3-bc46-bfacc5f1b471"
+      }
+    ],
+    "vid": [
+      {
+        "value": "761"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "eep_proxy_service"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1551987130"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "OECA Services"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1551985611"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1551987130"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_cache_max_age": [
+      {
+        "value": "86400"
+      }
+    ],
+    "field_proxy_filter": [
+      {
+        "value": "generic"
+      }
+    ],
+    "field_proxy_service_machine_name": [
+      {
+        "value": "oeca-services"
+      }
+    ],
+    "field_request_headers": [
+      {
+        "first": "Content-Type",
+        "second": "application\/json"
+      }
+    ],
+    "field_requeste_timeout": [
+      {
+        "value": "600"
+      }
+    ],
+    "field_response_headers": [
+      {
+        "first": "Content-Type",
+        "second": "application\/json"
+      }
+    ],
+    "field_service_endpoints": [
+      {
+        "first": "LOCAL",
+        "second": "https:\/\/devngn.epacdxnode.net\/net-svc-ref\/api\/lookup\/v1\/"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "37"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "9a0e85c7-1ae8-405a-b587-6697d0490e71"
+      }
+    ],
+    "vid": [
+      {
+        "value": "753"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "eep_workbench_application"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1551730819"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "Favorite Links"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1548816422"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1551730819"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_default_grid_size": [
+      {
+        "value": "large"
+      }
+    ],
+    "field_description": [
+      {
+        "value": "<p>Save links you find in E-Enterprise to return to them later.<\/p>\r\n",
+        "format": "basic_html"
+      }
+    ],
+    "field_direct_links": [
+      {
+        "value": "favorite-links"
+      },
+      {
+        "value": "favorites"
+      },
+      {
+        "value": "favs"
+      }
+    ],
+    "field_grid": [
+      {
+        "first": "x",
+        "second": "0"
+      },
+      {
+        "first": "y",
+        "second": "0"
+      },
+      {
+        "first": "width",
+        "second": "2"
+      },
+      {
+        "first": "height",
+        "second": "2"
+      }
+    ],
+    "field_grid_sizes": [
+      {
+        "value": "small"
+      }
+    ],
+    "field_html_content": [],
+    "field_icon_name": [
+      {
+        "value": "bookmark.svg"
+      }
+    ],
+    "field_is_expandable": [
+      {
+        "value": "0"
+      }
+    ],
+    "field_settings_menu_items": [
+      {
+        "first": "Description",
+        "second": "Save links you find in E-Enterprise to return to them later."
+      }
+    ],
+    "field_sources": [],
+    "field_title": [
+      {
+        "value": "Favorite Links"
+      }
+    ],
+    "field_vue_component_name": [
+      {
+        "value": "FavoriteLinks"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "38"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "f13242ae-bf89-4dc6-944f-b2e1bbfc6836"
+      }
+    ],
+    "vid": [
+      {
+        "value": "752"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "eep_workbench_application"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1551718980"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "My Reporting"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1548818051"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1551718980"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_default_grid_size": [
+      {
+        "value": "large"
+      }
+    ],
+    "field_description": [
+      {
+        "value": "<p>Report directly to your CDX data flows.<\/p>\r\n",
+        "format": "basic_html"
+      }
+    ],
+    "field_direct_links": [
+      {
+        "value": "my-reporting"
+      },
+      {
+        "value": "mr"
+      }
+    ],
+    "field_grid": [
+      {
+        "first": "x",
+        "second": "2"
+      },
+      {
+        "first": "y",
+        "second": "1"
+      },
+      {
+        "first": "width",
+        "second": "2"
+      },
+      {
+        "first": "height",
+        "second": "2"
+      }
+    ],
+    "field_grid_sizes": [
+      {
+        "value": "large"
+      }
+    ],
+    "field_html_content": [],
+    "field_icon_name": [
+      {
+        "value": "state-government.svg"
+      }
+    ],
+    "field_is_expandable": [
+      {
+        "value": "0"
+      }
+    ],
+    "field_settings_menu_items": [
+      {
+        "first": "Description",
+        "second": "Report directly to your CDX data flows."
+      }
+    ],
+    "field_sources": [
+      {
+        "first": "US Environmental Protection Agency",
+        "second": "https:\/\/www.epa.gov\/"
+      }
+    ],
+    "field_title": [
+      {
+        "value": "My Reporting"
+      }
+    ],
+    "field_vue_component_name": [
+      {
+        "value": "MyReporting"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "36"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "8a8b377b-0b01-49d8-bb78-d81f5fb73810"
+      }
+    ],
+    "vid": [
+      {
+        "value": "750"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "eep_workbench_application"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1551718744"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "Be Well Informed"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1548279083"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1551718744"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_default_grid_size": [
+      {
+        "value": "small"
+      }
+    ],
+    "field_description": [
+      {
+        "value": "<p>Be Well Informed provides feedback about the most common contaminants that affect wells.<\/p>\r\n\r\n<ul>\r\n<\/ul>\r\n",
+        "format": "full_html"
+      }
+    ],
+    "field_direct_links": [
+      {
+        "value": "bwi"
+      },
+      {
+        "value": "be-well-informed"
+      }
+    ],
+    "field_grid": [
+      {
+        "first": "x",
+        "second": "0"
+      },
+      {
+        "first": "y",
+        "second": "0"
+      },
+      {
+        "first": "width",
+        "second": "1"
+      },
+      {
+        "first": "height",
+        "second": "1"
+      }
+    ],
+    "field_grid_sizes": [
+      {
+        "value": "small"
+      }
+    ],
+    "field_html_content": [
+      {
+        "target_id": "40"
+      }
+    ],
+    "_metadata": {
+      "node": {
+        "40": "8ea6d62e-022d-4335-92c1-42cfca785056"
+      }
+    },
+    "field_icon_name": [
+      {
+        "value": "bookmark.svg"
+      }
+    ],
+    "field_is_expandable": [
+      {
+        "value": "0"
+      }
+    ],
+    "field_settings_menu_items": [
+      {
+        "first": "Disclaimer",
+        "second": "Information provided by the participating States is for informational purposes only. It is recommended that you consult a qualified water treatment professional if you need to treat your water. They can consider other conditions or factors related to your well or home to determine the most appropriate water treatment option."
+      },
+      {
+        "first": "Description",
+        "second": "Be Well Informed provides feedback about the most common contaminants that affect wells."
+      },
+      {
+        "first": "Contact",
+        "second": "<strong>Massachusetts<\/strong><br \/>\r\nMassachusetts Department of Environmental Protection<br \/>\r\nDrinking Water Program<br \/>\r\n1 Winter Street<br \/>\r\nBoston, MA 02108<br \/>\r\n(617) 292-5770<br \/>\r\nProgram.Director-DWP@state.ma.us<br \/><br \/>\r\n<strong>New Hampshire<\/strong><br \/>\r\nNH Department of Environmental Service\u2019s Drinking Water and Groundwater Bureau<br \/>\r\nNH Department of Environmental Services<br \/>\r\nDrinking Water and Groundwater Bureau<br \/>\r\n29 Hazen Drive, PO Box 95<br \/>\r\nConcord, NH 03302-0095<br \/>\r\nPhone: (603) 271-2513<br \/>\r\nEmail dwgbinfo@des.nh.gov<br \/><br \/>\r\n<strong>Wyoming<\/strong><br \/>\r\nWyoming Department of Environmental Water Quality Division<br \/>\r\nWyoming DEQ WQD Division<br \/>\r\nGroundwater Section<br \/>\r\n200 W 17th St, Ste 400<br \/>\r\nCheyenne, WY 82002<br \/>\r\n(307) 777-8275<br \/>\r\nnicole.twing@wyo.gov"
+      }
+    ],
+    "field_sources": [
+      {
+        "first": "New Hampshire\u2019s Be Well Informed Guide",
+        "second": "https:\/\/xml2.des.state.nh.us\/DWITool\/Welcome.aspx"
+      },
+      {
+        "first": "Massachusetts,Wyoming, Michigan",
+        "second": "https:\/\/www.epa.gov\/e-enterprise\/e-enterprise-portal"
+      }
+    ],
+    "field_title": [
+      {
+        "value": "Be Well Informed - Title"
+      }
+    ],
+    "field_vue_component_name": [
+      {
+        "value": "BeWellInformed"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "50"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "2e067a7b-bd4d-47e8-b474-9cc957f18c92"
+      }
+    ],
+    "vid": [
+      {
+        "value": "742"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "authentication_option"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1551369542"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "WY ENV-ITE"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1551192962"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1551369542"
+      }
+    ],
+    "promote": [
+      {
+        "value": "1"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_authentication_category": [
+      {
+        "target_id": "27"
+      }
+    ],
+    "_metadata": {
+      "taxonomy_term": {
+        "27": "c2a67703-55c4-4672-89c5-183ae4dd0079"
+      },
+      "file": {
+        "11": "d3ddc492-1122-410d-9162-2885ca242f1e"
+      }
+    },
+    "field_option_image": [
+      {
+        "target_id": "11",
+        "alt": "Wyoming Logo",
+        "title": "",
+        "width": "28",
+        "height": "12"
+      }
+    ],
+    "field_tab_order": [
+      {
+        "value": "1"
+      }
+    ],
+    "field_urn": [
+      {
+        "value": "ENVITE"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "39"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "1575e4b5-0444-4743-a562-14360f107d1e"
+      }
+    ],
+    "vid": [
+      {
+        "value": "741"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "eep_workbench_application"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1551369490"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "0"
+      }
+    ],
+    "title": [
+      {
+        "value": "Trending Air"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1548816243"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1551369490"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_default_grid_size": [
+      {
+        "value": "small"
+      }
+    ],
+    "field_description": [
+      {
+        "value": "<p>Description goes here<\/p>\r\n",
+        "format": "basic_html"
+      }
+    ],
+    "field_direct_links": [
+      {
+        "value": "trending-air"
+      },
+      {
+        "value": "ta"
+      }
+    ],
+    "field_grid": [
+      {
+        "first": "x",
+        "second": "2"
+      },
+      {
+        "first": "y",
+        "second": "0"
+      },
+      {
+        "first": "width",
+        "second": "2"
+      },
+      {
+        "first": "height",
+        "second": "1"
+      }
+    ],
+    "field_grid_sizes": [
+      {
+        "value": "small"
+      }
+    ],
+    "field_html_content": [],
+    "field_icon_name": [
+      {
+        "value": "bookmark.svg"
+      }
+    ],
+    "field_is_expandable": [
+      {
+        "value": "1"
+      }
+    ],
+    "field_settings_menu_items": [
+      {
+        "first": "Help",
+        "second": "Sample help text"
+      },
+      {
+        "first": "Disclaimer",
+        "second": "Your basic disclaimer"
+      },
+      {
+        "first": "Contact",
+        "second": "Talk to us here..."
+      }
+    ],
+    "field_sources": [
+      {
+        "first": "US Environmental Protection Agency",
+        "second": "https:\/\/www.epa.gov\/"
+      }
+    ],
+    "field_title": [
+      {
+        "value": "Trending Air"
+      }
+    ],
+    "field_vue_component_name": [
+      {
+        "value": "TrendingAir"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "52"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "328fe3eb-cde2-4add-92ea-48604fa6021e"
+      }
+    ],
+    "vid": [
+      {
+        "value": "754"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "eep_workbench_application"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1551298081"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "My Certifications"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1551297693"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1551298081"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_default_grid_size": [
+      {
+        "value": "small"
+      }
+    ],
+    "field_description": [],
+    "field_direct_links": [
+      {
+        "value": "my-certifications"
+      }
+    ],
+    "field_grid": [
+      {
+        "first": "x",
+        "second": "0"
+      },
+      {
+        "first": "y",
+        "second": "0"
+      },
+      {
+        "first": "width",
+        "second": "1"
+      },
+      {
+        "first": "height",
+        "second": "1"
+      }
+    ],
+    "field_grid_sizes": [
+      {
+        "value": "small"
+      }
+    ],
+    "field_html_content": [],
+    "field_icon_name": [
+      {
+        "value": "state-government.svg"
+      }
+    ],
+    "field_is_expandable": [
+      {
+        "value": "0"
+      }
+    ],
+    "field_settings_menu_items": [
+      {
+        "first": "Help",
+        "second": "Sample help text"
+      },
+      {
+        "first": "Disclaimer",
+        "second": "Your basic disclaimer"
+      },
+      {
+        "first": "Contact",
+        "second": "Talk to us here..."
+      }
+    ],
+    "field_sources": [],
+    "field_title": [
+      {
+        "value": "My Certifications"
+      }
+    ],
+    "field_vue_component_name": [
+      {
+        "value": "MyCertifications"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "2"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "c08fc9b7-b1dd-4c42-a441-4c54606bcb1a"
+      }
+    ],
+    "vid": [
+      {
+        "value": "725"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "eep_proxy_service"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1550705434"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "Locations Service"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1541712063"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1550705434"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_cache_max_age": [
+      {
+        "value": "86400"
+      }
+    ],
+    "field_proxy_filter": [
+      {
+        "value": "location"
+      }
+    ],
+    "field_proxy_service_machine_name": [
+      {
+        "value": "location"
+      }
+    ],
+    "field_request_headers": [
+      {
+        "first": "content-type",
+        "second": "application\/json"
+      }
+    ],
+    "field_requeste_timeout": [
+      {
+        "value": "60"
+      }
+    ],
+    "field_response_headers": [
+      {
+        "first": "Content-Type",
+        "second": "application\/json; charset=utf-8"
+      },
+      {
+        "first": "Transfer-Encoding",
+        "second": ""
+      }
+    ],
+    "field_service_endpoints": [
+      {
+        "first": "LOCAL",
+        "second": "https:\/\/services.arcgis.com\/cJ9YHowT8TU7DUyn\/arcgis\/rest\/services"
+      },
+      {
+        "first": "DEV",
+        "second": "https:\/\/services.arcgis.com\/cJ9YHowT8TU7DUyn\/arcgis\/rest\/services"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "47"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "8d59b805-a028-4765-aab1-ec431cb2a018"
+      }
+    ],
+    "vid": [
+      {
+        "value": "692"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "eep_proxy_service"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1550004451"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "Environment Mapper by Coordinates "
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1549915974"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1550004451"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_cache_max_age": [
+      {
+        "value": "86400"
+      }
+    ],
+    "field_proxy_filter": [
+      {
+        "value": "generic"
+      }
+    ],
+    "field_proxy_service_machine_name": [
+      {
+        "value": "environment_mapper_by_coordinates"
+      }
+    ],
+    "field_request_headers": [],
+    "field_requeste_timeout": [
+      {
+        "value": "60"
+      }
+    ],
+    "field_response_headers": [
+      {
+        "first": "Content-Type",
+        "second": "application\/json"
+      },
+      {
+        "first": "Transfer-Encoding",
+        "second": ""
+      }
+    ],
+    "field_service_endpoints": [
+      {
+        "first": "LOCAL",
+        "second": "https:\/\/geopub.epa.gov\/myem\/envmap\/getEF.aspx"
+      },
+      {
+        "first": "DEV",
+        "second": "https:\/\/geopub.epa.gov\/myem\/envmap\/getEF.aspx"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "46"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "7d77ef1a-3a16-4155-8663-fb0a82628ccf"
+      }
+    ],
+    "vid": [
+      {
+        "value": "691"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "eep_proxy_service"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1550004424"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "Environment Mapper by Zipcode"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1549912531"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1550004424"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_cache_max_age": [
+      {
+        "value": "86400"
+      }
+    ],
+    "field_proxy_filter": [
+      {
+        "value": "generic"
+      }
+    ],
+    "field_proxy_service_machine_name": [
+      {
+        "value": "environment_mapper_by_zipcode"
+      }
+    ],
+    "field_request_headers": [],
+    "field_requeste_timeout": [
+      {
+        "value": "60"
+      }
+    ],
+    "field_response_headers": [
+      {
+        "first": "Content-Type",
+        "second": "application\/json"
+      },
+      {
+        "first": "Transfer-Encoding",
+        "second": ""
+      }
+    ],
+    "field_service_endpoints": [
+      {
+        "first": "LOCAL",
+        "second": "https:\/\/geocode.arcgis.com\/arcgis\/rest\/services\/World\/GeocodeServer\/find"
+      },
+      {
+        "first": "DEV",
+        "second": "https:\/\/geocode.arcgis.com\/arcgis\/rest\/services\/World\/GeocodeServer\/find"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "7"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "ab7d0d3f-246e-4de6-9cdc-b748e134953b"
+      }
+    ],
+    "vid": [
+      {
+        "value": "349"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "eep2_footer"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1549040502"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "EEP2 Footer Links"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1546460294"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1549040502"
+      }
+    ],
+    "promote": [
+      {
+        "value": "1"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_footer_link_name": [
+      {
+        "first": "E-Enterprise Home",
+        "second": "http:\/\/www2.epa.gov\/e-enterprise\/about-e-enterprise-environment"
+      },
+      {
+        "first": "Privacy and Security Notice",
+        "second": "https:\/\/www.epa.gov\/privacy\/privacy-and-security-notice"
+      },
+      {
+        "first": "Accessibility",
+        "second": "https:\/\/www.epa.gov\/accessibility"
+      },
+      {
+        "first": "GitHub",
+        "second": "https:\/\/github.com\/USEPA\/E-Enterprise-Portal"
+      },
+      {
+        "first": "FAQs",
+        "second": "https:\/\/dev2.e-enterprise.gov\/faqs"
+      },
+      {
+        "first": "Partners' Area",
+        "second": "https:\/\/dev2.e-enterprise.gov\/for-partners"
+      }
+    ],
+    "field_version": [
+      {
+        "first": "Version",
+        "second": "2.0.1"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "44"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "78ccf8ce-57d0-45e4-8749-a357e23723e9"
+      }
+    ],
+    "vid": [
+      {
+        "value": "246"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "eep_proxy_service"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1548948893"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "CDX Data Flows"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1548948325"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1548948893"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_cache_max_age": [
+      {
+        "value": "86400"
+      }
+    ],
+    "field_proxy_filter": [
+      {
+        "value": "generic"
+      }
+    ],
+    "field_proxy_service_machine_name": [
+      {
+        "value": "cdxmyreporting"
+      }
+    ],
+    "field_request_headers": [
+      {
+        "first": "Content-Type",
+        "second": "application\/json"
+      }
+    ],
+    "field_requeste_timeout": [
+      {
+        "value": "60"
+      }
+    ],
+    "field_response_headers": [
+      {
+        "first": "Content-Type",
+        "second": "application\/json"
+      },
+      {
+        "first": "Transfer-Encoding",
+        "second": ""
+      }
+    ],
+    "field_service_endpoints": [
+      {
+        "first": "LOCAL",
+        "second": "https:\/\/devngn.epacdxnode.net\/cdx-register-II\/services\/RegisterService?wsdl"
+      },
+      {
+        "first": "DEV",
+        "second": "https:\/\/devngn.epacdxnode.net\/cdx-register-II\/services\/RegisterService?wsdl"
+      },
+      {
+        "first": "TEST",
+        "second": "https:\/\/devngn.epacdxnode.net\/cdx-register-II\/services\/RegisterService?wsdl"
+      },
+      {
+        "first": "PROD",
+        "second": "https:\/\/devngn.epacdxnode.net\/cdx-register-II\/services\/RegisterService?wsdl"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "16"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "3bd1261a-e049-408e-9da7-966c572b045b"
+      }
+    ],
+    "vid": [
+      {
+        "value": "93"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "page"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1548859999"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "Frequently Asked Questions (FAQ)"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1547004124"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1548859999"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "pid": "2",
+        "source": "\/node\/16",
+        "alias": "\/faqs",
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<h2>On This Page<\/h2>\r\n\r\n<ul>\r\n\t<li><a href=\"#logging-in\">Logging In<\/a><\/li>\r\n\t<li><a href=\"#general-qs\">General<\/a><\/li>\r\n<\/ul>\r\n\r\n<h2 id=\"logging-in\">Logging In<\/h2>\r\n\r\n<ul>\r\n\t<li>\r\n\t<p>If I don't have an account, how can I use E-Enterprise?<\/p>\r\n\r\n\t<p>You can try E-Enterprise before using it, by selecting the Browse as Guest option on the Welcome page. You'll be able to use different widgets, including air quality and mapping widgets. If you need to submit, check, or review environmental data for a business or agency, you'll want to log in with your agency or CDX account credentials to see additional widgets, like a To Do list, Progress Tracker, Facility Management list, and others.<\/p>\r\n\t<\/li>\r\n\t<li>\r\n\t<p>When I log in using my Facebook credentials, what information is being sent to the E-Enterprise Portal?<\/p>\r\n\r\n\t<p>The default behavior of Facebook is to share email and basic profile information, however, the E-Enterprise Portal only uses your email address.<\/p>\r\n\t<\/li>\r\n\t<li>\r\n\t<p>How do I update my log-in password or email address?<\/p>\r\n\r\n\t<p>Password changes or email updates must be done through the provider for which your log-in credentials are associated (e.g., Facebook, CDX). The E-Enterprise Portal does not maintain this information.<\/p>\r\n\t<\/li>\r\n<\/ul>\r\n\r\n<h2 id=\"general-qs\">General<\/h2>\r\n\r\n<ul>\r\n\t<li>\r\n\t<p>How do I contact the E-Enterprise Portal Help Desk?<\/p>\r\n\r\n\t<p>Use the \"Questions?\" function within the portal to send questions\/comments to the Help Desk. If you need immediate support, you can contact the Help Desk at 888-890-1995.&nbsp;<\/p>\r\n\t<\/li>\r\n\t<li>\r\n\t<p>How do I get additional information about the status of my Lead-based paint application beyond what is displayed in the 'Progress Tracker?'<\/p>\r\n\r\n\t<p>If you have specific questions about the status of your Lead application, please contact the Lead Hotline at 1-800-424-LEAD [5323].<\/p>\r\n\t<\/li>\r\n\t<li>\r\n\t<p>What are the system requirements for using the E-Enterprise Portal?<\/p>\r\n\r\n\t<p><strong>You will need:<\/strong><\/p>\r\n\r\n\t<ul>\r\n\t\t<li>Internet access<\/li>\r\n\t\t<li>JavaScript enabled web browser<\/li>\r\n\t\t<li>Pop-ups allowed in your browser to view modals and maps<\/li>\r\n\t<\/ul>\r\n\r\n\t<p><strong>Supported Browsers:<\/strong><\/p>\r\n\r\n\t<ul>\r\n\t\t<li>Internet Explorer 11 or above<\/li>\r\n\t\t<li>Mozilla Firefox 40.0.3 or above<\/li>\r\n\t\t<li>Google Chrome 45.0.2454.93m&nbsp;or above<\/li>\r\n\t\t<li>Safari 8 or above<\/li>\r\n\t<\/ul>\r\n\r\n\t<p><strong>Screen Resolution:<\/strong><\/p>\r\n\r\n\t<ul>\r\n\t\t<li>Screen resolution should be set to 1024 x 768 or greater<\/li>\r\n\t<\/ul>\r\n\t<\/li>\r\n<\/ul>\r\n",
+        "summary": "",
+        "format": "basic_html"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "19"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "087d432e-da34-410d-b739-609024aee497"
+      }
+    ],
+    "vid": [
+      {
+        "value": "92"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "page"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1548858175"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "For Partners"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1547069622"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1548858175"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "pid": "5",
+        "source": "\/node\/19",
+        "alias": "\/for-partners",
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<h2>General Resources<\/h2>\r\n\r\n<ul>\r\n\t<li><a href=\"https:\/\/e-enterprise.gov\/sites\/default\/files\/Introduction%20to%20the%20E-Enterprise%20Portal.docx\">Introduction to the E-Enterprise Portal<\/a><\/li>\r\n\t<li><a href=\"https:\/\/e-enterprise.gov\/sites\/default\/files\/E-Enterprise%20Portal%20Service%20Development%20Considerations%20and%20Lessons%20Learned.docx\">E-Enterprise Portal Service Development Considerations and Lessons Learned<\/a><\/li>\r\n\t<li><a href=\"https:\/\/e-enterprise.gov\/sites\/default\/files\/E-Enterprise%20Portal%20User%20Guide.docx\">E-Enterprise Portal User Guide<\/a><\/li>\r\n<\/ul>\r\n\r\n<h2>App Resources<\/h2>\r\n\r\n<div class=\"usa-accordion\">\r\n<h3><button aria-controls=\"a1\" aria-expanded=\"true\" class=\"usa-accordion-button\">Assistance Gateway<\/button><\/h3>\r\n\r\n<div class=\"usa-accordion-content\" id=\"a1\">\r\n<ul>\r\n\t<li><strong><a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/Add%20Resources%20to%20the%20Assistance%20Gateway%20Application.zip\">Download All (ZIP File)<\/a><\/strong><\/li>\r\n\t<li>Instructions<\/li>\r\n\t<li>Template for Adding Resources<\/li>\r\n\t<li><a href=\"\/for-partners\/assistance-gateway-api\">Assistance Gateway API<\/a><\/li>\r\n<\/ul>\r\n<\/div>\r\n\r\n<h3><button aria-controls=\"a2\" aria-expanded=\"true\" class=\"usa-accordion-button\">Be Well Informed<\/button><\/h3>\r\n\r\n<div class=\"usa-accordion-content\" id=\"a2\">\r\n<div>\r\n<ul>\r\n\t<li><strong>Download All (ZIP File)<\/strong><\/li>\r\n<\/ul>\r\n\r\n<h4>Instructions<\/h4>\r\n\r\n<ul>\r\n\t<li><a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/Be%20Well%20Informed%20Onboarding%20Kit.docx_1\">Onboarding Kit<\/a><\/li>\r\n\t<li><a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/TreatmentOptions.pdf\">Treatment Options (PDF)<\/a><\/li>\r\n\t<li><a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/TreatmentOrder.pdf\">Treatment Order (PDF)<\/a><\/li>\r\n<\/ul>\r\n\r\n<h4>Sample Flowchart and Results XML Files<\/h4>\r\n\r\n<ul>\r\n\t<li>Massachusetts (MA) -&nbsp;<a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/flowchart-MA.xml\">Flowchart<\/a>&nbsp;\u2022&nbsp;<a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/partner-MA.xml\">Results<\/a>&nbsp;<\/li>\r\n\t<li>New Hampshire (NH) - <a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/flowchart-NH.xml\">Flowchart<\/a>&nbsp;\u2022&nbsp;<a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/partner-NH.xml\">Results<\/a><\/li>\r\n\t<li>Wyoming (WY) - <a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/flowchart-WY.xml\">Flowchart<\/a>&nbsp;\u2022 <a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/partner-WY.xml\">Results<\/a>&nbsp;\u2022&nbsp;<a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/BeWellInformed_Approval_WY_0.PDF\">Partner Agreement<\/a><\/li>\r\n\t<li><a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/E-Enterprise%20Portal%20Be%20Well%20Informed%20Service%20Testing%20Checklist.xlsx\">E-Enterprise BWI Service Testing Checklist (XLS)<\/a><\/li>\r\n<\/ul>\r\n\r\n<h4>Help Desk &amp; Service Level Integration<\/h4>\r\n\r\n<ul>\r\n\t<li><a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/BWI_CDXHelpdesk_diagrams_0.pptx\">Be Well Informed-CDX Help Desk Diagrams (PPT)<\/a><\/li>\r\n\t<li><a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/e-Enterprise%20Portal_CDXHelpdesk_0.docx\">E-Enterprise Portal CDX Help Desk Information (DOC)<\/a><\/li>\r\n\t<li><a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/Be%20Well%20Informed%20Service%20Level%20Information.xlsx\">Be Well Informed Service Level Information (XLS)<\/a><\/li>\r\n\t<li><a href=\"https:\/\/dev.e-enterprise.gov\/sites\/default\/files\/E-Enterprise%20Portal%20Service%20Level%20Information.xlsx\">E-Enterprise Portal Service Level Information (XLS)<\/a>&nbsp;<\/li>\r\n<\/ul>\r\n<\/div>\r\n<\/div>\r\n<\/div>\r\n",
+        "summary": "",
+        "format": "full_html"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "41"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "7b4f71b0-2a0f-4deb-9a1d-aabdc79ba65d"
+      }
+    ],
+    "vid": [
+      {
+        "value": "724"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "eep_app_content"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1550701930"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "0"
+      }
+    ],
+    "title": [
+      {
+        "value": "My Reporting - MainCard"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1548817982"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1548818026"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_html": [
+      {
+        "value": "<p>Report directly to your CDX data flows.<\/p>",
+        "format": "basic_html"
+      }
+    ],
+    "field_key": [
+      {
+        "value": "mainCard"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "43"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "7d42ef50-6785-4ebc-9262-ee2408440eb6"
+      }
+    ],
+    "vid": [
+      {
+        "value": "723"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "eep_app_content"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1550701930"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "0"
+      }
+    ],
+    "title": [
+      {
+        "value": "Favorite Links - MainCard"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1548816539"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1548816589"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_html": [
+      {
+        "value": "<p>Save links you find in E-Enterprise to return to them later.<\/p>\r\n",
+        "format": "basic_html"
+      }
+    ],
+    "field_key": [
+      {
+        "value": "mainCard"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "40"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "8ea6d62e-022d-4335-92c1-42cfca785056"
+      }
+    ],
+    "vid": [
+      {
+        "value": "722"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "eep_app_content"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1550701930"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "0"
+      }
+    ],
+    "title": [
+      {
+        "value": "Be Well Informed - Main"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1548261997"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1548799635"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_html": [
+      {
+        "value": "<p>Have a well and wonder what your water testing results mean?<\/p>\r\n\r\n<p>Be Well Informed lets you enter your test results and get feedback about health concerns and water treatment choices. Be Well Informed includes useful information about the most common contaminants that affect wells.<\/p>\r\n\r\n<p>A quick disclaimer before we start: Information provided by the participating States is for informational purposes only. It is recommended that you consult a qualified water treatment professional if you need to treat your water. They can consider other conditions or factors related to your well or home to determine the most appropriate water treatment option.<\/p>\r\n\r\n<p>Modeled After: <a href=\"https:\/\/xml2.des.state.nh.us\/DWITool\/Welcome.aspx\">New Hampshire\u2019s Be <em>Well<\/em> Informed Guide<\/a><\/p>\r\n",
+        "format": "basic_html"
+      }
+    ],
+    "field_key": [
+      {
+        "value": "mainCard"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "29"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "b9cea63b-2b41-4e4f-9028-6fb201b88e48"
+      }
+    ],
+    "vid": [
+      {
+        "value": "90"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "authentication_option"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1548774025"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "Facebook"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1547141765"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1548774025"
+      }
+    ],
+    "promote": [
+      {
+        "value": "1"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_authentication_category": [
+      {
+        "target_id": "26"
+      }
+    ],
+    "_metadata": {
+      "taxonomy_term": {
+        "26": "51a9e17f-d814-4c7b-ba33-4c1e89e1c069"
+      },
+      "file": {
+        "10": "98da3ef8-8a6f-4420-bdf7-ca96a047656e"
+      }
+    },
+    "field_option_image": [
+      {
+        "target_id": "10",
+        "alt": "Facebook Logo",
+        "title": "",
+        "width": "64",
+        "height": "64"
+      }
+    ],
+    "field_tab_order": [
+      {
+        "value": "0"
+      }
+    ],
+    "field_urn": [
+      {
+        "value": "Facebook"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "35"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "f8b933bd-b517-4742-8ab4-262033a84c15"
+      }
+    ],
+    "vid": [
+      {
+        "value": "89"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "authentication_option"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1548706066"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "PIV Smart Card"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1548687558"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1548706066"
+      }
+    ],
+    "promote": [
+      {
+        "value": "1"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_authentication_category": [
+      {
+        "target_id": "25"
+      }
+    ],
+    "_metadata": {
+      "taxonomy_term": {
+        "25": "b2d24c38-bd24-4828-ab94-241af90e6283"
+      },
+      "file": {
+        "9": "68451400-62df-4c38-bbe3-96b08d12369c"
+      }
+    },
+    "field_option_image": [
+      {
+        "target_id": "9",
+        "alt": "PIV SmartCard Icon",
+        "title": "",
+        "width": "26",
+        "height": "20"
+      }
+    ],
+    "field_tab_order": [
+      {
+        "value": "2"
+      }
+    ],
+    "field_urn": [
+      {
+        "value": "SmartCardAuth"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "32"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "ef90c936-a851-40fd-bdd0-ac5a1269d66a"
+      }
+    ],
+    "vid": [
+      {
+        "value": "88"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "authentication_option"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1548706047"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "EPA LAN\/WAM ID"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1548193430"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1548706047"
+      }
+    ],
+    "promote": [
+      {
+        "value": "1"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_authentication_category": [
+      {
+        "target_id": "25"
+      }
+    ],
+    "_metadata": {
+      "taxonomy_term": {
+        "25": "b2d24c38-bd24-4828-ab94-241af90e6283"
+      },
+      "file": {
+        "8": "90b37d7b-efb9-43c6-9531-ea39736fa6e8"
+      }
+    },
+    "field_option_image": [
+      {
+        "target_id": "8",
+        "alt": "EPA Logo",
+        "title": "",
+        "width": "25",
+        "height": "24"
+      }
+    ],
+    "field_tab_order": [
+      {
+        "value": "1"
+      }
+    ],
+    "field_urn": [
+      {
+        "value": "WAMNAAS"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "31"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "78d3a1eb-ce92-4c69-b60c-0e174e7b0000"
+      }
+    ],
+    "vid": [
+      {
+        "value": "87"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "authentication_option"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1548706030"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "CDX\/Exchange Network"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1547141742"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1548706030"
+      }
+    ],
+    "promote": [
+      {
+        "value": "1"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_authentication_category": [
+      {
+        "target_id": "25"
+      }
+    ],
+    "_metadata": {
+      "taxonomy_term": {
+        "25": "b2d24c38-bd24-4828-ab94-241af90e6283"
+      },
+      "file": {
+        "7": "067d6e5a-67e3-4ca6-8d5d-753130bd2bd7"
+      }
+    },
+    "field_option_image": [
+      {
+        "target_id": "7",
+        "alt": "CDX\/Exchange Logo",
+        "title": "",
+        "width": "29",
+        "height": "28"
+      }
+    ],
+    "field_tab_order": [
+      {
+        "value": "0"
+      }
+    ],
+    "field_urn": [
+      {
+        "value": "ENNAAS"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "30"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "2bb21d55-42d5-422b-87a4-65db9fd2b2c2"
+      }
+    ],
+    "vid": [
+      {
+        "value": "86"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "authentication_option"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1548706001"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "New Mexico DEQ"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1548264568"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1548706001"
+      }
+    ],
+    "promote": [
+      {
+        "value": "1"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_authentication_category": [
+      {
+        "target_id": "27"
+      }
+    ],
+    "_metadata": {
+      "taxonomy_term": {
+        "27": "c2a67703-55c4-4672-89c5-183ae4dd0079"
+      },
+      "file": {
+        "5": "738a6ae9-3bc5-4c89-ac09-a92a5710136b"
+      }
+    },
+    "field_option_image": [
+      {
+        "target_id": "5",
+        "alt": "NM Logo",
+        "title": "",
+        "width": "30",
+        "height": "28"
+      }
+    ],
+    "field_tab_order": [
+      {
+        "value": "0"
+      }
+    ],
+    "field_urn": [
+      {
+        "value": "NMIdP"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "28"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "71fb1781-7e72-40cd-a085-11663c784bb5"
+      }
+    ],
+    "vid": [
+      {
+        "value": "84"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "authentication_option"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1548705941"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "Twitter"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1548192622"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1548705941"
+      }
+    ],
+    "promote": [
+      {
+        "value": "1"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_authentication_category": [
+      {
+        "target_id": "26"
+      }
+    ],
+    "_metadata": {
+      "taxonomy_term": {
+        "26": "51a9e17f-d814-4c7b-ba33-4c1e89e1c069"
+      },
+      "file": {
+        "3": "6e7a99ba-299b-4a76-ae36-33cc8e2d0718"
+      }
+    },
+    "field_option_image": [
+      {
+        "target_id": "3",
+        "alt": "Twitter Logo",
+        "title": "",
+        "width": "1792",
+        "height": "1792"
+      }
+    ],
+    "field_tab_order": [
+      {
+        "value": "1"
+      }
+    ],
+    "field_urn": [
+      {
+        "value": "twitter"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "21"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "acad4bb0-ad46-4292-9fba-88257e94247c"
+      }
+    ],
+    "vid": [
+      {
+        "value": "46"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "page"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1547081040"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "Release Notes"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1547080974"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1547081040"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "pid": "7",
+        "source": "\/node\/21",
+        "alias": "\/release-notes",
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<h2>Version 2.0<\/h2>\r\n\r\n<ul>\r\n\t<li>Release date:&nbsp;TBD<\/li>\r\n\t<li>Migration to Drupal 8 and Vue.js framework.<\/li>\r\n\t<li>Redesign of widget \/ app&nbsp;architecture and interactions.<\/li>\r\n<\/ul>\r\n\r\n<h2>Version 1.27.01<\/h2>\r\n\r\n<p>Release date:&nbsp;February 23, 2018<\/p>\r\n\r\n<p>Assistance Gateway: Enhancements to user experience. Performance enhancements.<\/p>\r\n\r\n<h2>Version 1.26.04<\/h2>\r\n\r\n<p>Release date:&nbsp;January 26, 2018<\/p>\r\n\r\n<p>Various enhancements and refinements to improve usability.<\/p>\r\n\r\n<h2>Version 1.25.00<\/h2>\r\n\r\n<p>Release date:&nbsp;September 5, 2017<\/p>\r\n\r\n<p>Various enhancements and refinements to improve usability.<\/p>\r\n\r\n<h2>Version 1.24.00<\/h2>\r\n\r\n<p>Release date:&nbsp;July 27, 2017<\/p>\r\n\r\n<ul>\r\n\t<li>Various enhancements and refinements to improve usability<\/li>\r\n<\/ul>\r\n\r\n<h2>Version 1.23.00<\/h2>\r\n\r\n<p>Release date:&nbsp;June 9, 2017<\/p>\r\n\r\n<ul>\r\n\t<li>Various enhancements and refinements to improve usability<\/li>\r\n<\/ul>\r\n\r\n<p>&nbsp;<\/p>\r\n\r\n<h2>Version 1.22.00<\/h2>\r\n\r\n<p>Release date:&nbsp;March 15, 2017<\/p>\r\n\r\n<ul>\r\n\t<li>Various enhancements and refinements to improve usability<\/li>\r\n<\/ul>\r\n\r\n<h2>Version 1.21.00<\/h2>\r\n\r\n<p>Release date:&nbsp;February 14, 2017<\/p>\r\n\r\n<ul>\r\n\t<li>Construction General Permit: Completed the initial widget functionality and integration<\/li>\r\n\t<li>Established the new e-enterprise.gov landing page<\/li>\r\n\t<li>To Do and Progress Tracker: Added \"Last Updated\" timestamp on each widget<\/li>\r\n\t<li>Profile - Locations: Various improvements to inputting and searching for specific locations<\/li>\r\n<\/ul>\r\n\r\n<p>&nbsp;<\/p>\r\n\r\n<h2>Version 1.20.00<\/h2>\r\n\r\n<p>Release date:&nbsp;January 24, 2017<\/p>\r\n\r\n<ul>\r\n\t<li>Favorite Links: Corrected an issue that would trigger a JavaScript error in the browser upon removing a single favorited link&nbsp;<\/li>\r\n\t<li>My Facility Manager: Tweaked 'Back to Edit Facility' link in the facility widget for usability<\/li>\r\n\t<li>Developers' Area: Created a new repository of information relevant to developers<\/li>\r\n\t<li>GitHub Integration: Added 'GitHub' link in the footer to the E-Enterprise Portal GitHub space<\/li>\r\n<\/ul>\r\n\r\n<p>&nbsp;<\/p>\r\n\r\n<h2>Version 1.19.00<\/h2>\r\n\r\n<p>Release date:&nbsp;January 3, 2017<\/p>\r\n\r\n<ul>\r\n\t<li>Questions Modal: 'Email' field is now editable when accessing the modal from the 'New to E-Enterprise?' screen<\/li>\r\n\t<li>To Do\/Progress Tracker: Implemented single sign-on (SSO) separate from the 'Facility Widget;' corrected the styling of the 'Status' and 'Details' pop-up windows; corrected an issue that blocked the filter drop-down menus from being reachable<\/li>\r\n\t<li>Widget Resizing: Updated all widgets to resize to fit the content displayed<\/li>\r\n\t<li>Resources for Local Communities: Updated the sorting functionality to be consistent with other Portal widgets; corrected an issue with the favorite hearts not generating immediately on all resources pages but the first; added resources for Missouri Department of Natural Resources via the MO DNR API<\/li>\r\n\t<li>Enviromapper: Corrected an issue where clicking the 'Update Contents on Map' button was not functional<\/li>\r\n\t<li>Trending Air: Updated the Portal calls to Village Green to occur only once per site ID, per minute, across users<\/li>\r\n\t<li>Facility Widget: Updated the 'My Facility Manager' to time out with the Portal rather than timing out independently<\/li>\r\n\t<li>Profile - Interests: Corrected an issue where 'Community Type' was not saving when edited by a user<\/li>\r\n<\/ul>\r\n\r\n<h2>Version 1.18.00<\/h2>\r\n\r\n<p>Release date:&nbsp;November 22, 2016<\/p>\r\n\r\n<ul>\r\n\t<li>Log-in Performance: The time between authenticating on log-in and loading the workbench improved<\/li>\r\n\t<li>Resources for Local Communities: Additional resources added; issues with overlapping favorite hearts and duplicate 'Your Selections' options resolved<\/li>\r\n\t<li>Enviromapper: Error when clicking a facility link on a map pop-up window resolved<\/li>\r\n\t<li>Profile Favorites: Issue with ampersands in profile favorites causing errors resolved<\/li>\r\n\t<li>Section 508\/Timeout: Added code to alert the user to the impending timeout of the Portal<\/li>\r\n\t<li>ForeSee Modal: Issue preventing the ForeSee modal from displaying resolved<\/li>\r\n\t<li>To Do\/Progress Tracker: Reworked to improve performance; CEDRI part codes, sub-part codes, and report types are now auto-discovered based on table content; issues with page numbers, column sorting, and filters not functioning resolved<\/li>\r\n<\/ul>\r\n\r\n<h2>Version 1.17.00<\/h2>\r\n\r\n<p>Release date:&nbsp;October 28, 2016<\/p>\r\n\r\n<ul>\r\n\t<li>Facebook Authentication: Method updated to avoid using a link attribute to identify provider type<\/li>\r\n\t<li>WAM\/LAN Authentication: Updated the user authorization page to be consistent with the Exchange Network log-in page language and styling<\/li>\r\n\t<li>Set Location: Field is not consistent across browsers and no longer cuts off the bottom of the city name in some browsers<\/li>\r\n\t<li>Resources for Local Communities: Implemented functionality to allow resources to be associated with multiple items in each facet; corrected the ordering of the 'High,' 'Medium,' and 'Low' facet options for the 'Training Level' and 'Data Requirements' facets; resolved an issue where no topic options were displayed in the sidebar on the 'My Resources' tab after selecting interests on the new user 'Getting Started' screen; added a tool-tip to describe the widget and its purpose<\/li>\r\n\t<li>My Facility Manager: An issue where some users were not seeing the widget on the workbench has been resolved<\/li>\r\n<\/ul>\r\n\r\n<h2>Version 1.16.01<\/h2>\r\n\r\n<p>Release date:&nbsp;October 12, 2016<\/p>\r\n\r\n<ul>\r\n\t<li>Resolved an issue affecting Twitter, WAM, and PIV Card users where an error was generated regarding the user not having permission to edit the hidden Profile email field.<\/li>\r\n\t<li>Updated the Profile to keep the user on the edited tab of the Profile upon saving.<\/li>\r\n<\/ul>\r\n\r\n<h2>Version 1.16.00<\/h2>\r\n\r\n<p>Release date:&nbsp;September 30, 2016<\/p>\r\n\r\n<ul>\r\n\t<li>Federal Lead-based Paint Program: Bypass E-Enterprise Portal log-in and navigate directly to the Portal, via a link, after submitting an application in the Lead program<\/li>\r\n\t<li>Landing Page: Interface design updates<\/li>\r\n\t<li>Getting Started: Topics of interest options added to the first time users modal<\/li>\r\n\t<li>Log-in: 'EPA LAN\/WAM ID' and 'PIV Smart Card' providers added<\/li>\r\n\t<li>Profile - Interests tab: Select topics of interest to dynamically update content in the 'My Resources' tab of the 'Resources for Local Communities' widget<\/li>\r\n\t<li>Trending Air: Chicago, IL air monitor added<\/li>\r\n\t<li>Resources for Local Communities - beta version: View local government resources and filter content via faceted search options<\/li>\r\n\t<li>Section 508 Compliance: Improved screen reader functionality and keyboard accessibility<\/li>\r\n<\/ul>\r\n\r\n<h2>Version 1.08.00<\/h2>\r\n\r\n<p>Release date:&nbsp;April 21, 2016<\/p>\r\n\r\n<ul>\r\n\t<li>Location management: Ability to add tribal areas<\/li>\r\n\t<li>Progress Tracker:&nbsp;Logos now provided for approved Lead RRP and Combination applications, and status notes now reflect the date when applications are received and approved<\/li>\r\n\t<li>CIO.gov design standard improvements<\/li>\r\n\t<li>Section 508 compliance updates<\/li>\r\n<\/ul>\r\n\r\n<h2>Version 1.00.00<\/h2>\r\n\r\n<p>Release date:&nbsp;October 1, 2015<\/p>\r\n\r\n<ul>\r\n\t<li>Dynamic content based on the following user types: Guest, CDX, and Public (Facebook, Twitter)<\/li>\r\n\t<li>Location preference management<\/li>\r\n\t<li>To Do List: Submission review tasks for state reviewers for the Compliance and Emissions Data Reporting Interface (CEDRI) program<\/li>\r\n\t<li>Progress Tracker: Submission status tracking for CDX Lead and CEDRI industry submitters<\/li>\r\n\t<li>My Facility Manager: View and edit capabilities for CEDRI, Chemical Safety and Pesticide Programs (CSPP), and eDisclosure submitters<\/li>\r\n\t<li>My Air: Air quality data and map for specified locations<\/li>\r\n\t<li>Trending Air: Village Green air monitoring station data<\/li>\r\n\t<li>My Environment Mapper: View air, water, land, community, health, energy, and other data on a map<\/li>\r\n\t<li>Interactive Maps: View and interact with various air, water, and land maps<\/li>\r\n\t<li>Favorite Links: Favorite and save links of interest<\/li>\r\n<\/ul>\r\n",
+        "summary": "",
+        "format": "basic_html"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "20"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "09449a70-73b8-4d38-b555-304eafe7f063"
+      }
+    ],
+    "vid": [
+      {
+        "value": "43"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "page"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1547080275"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "Assistance Gateway API"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1547080059"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1547080275"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "pid": "6",
+        "source": "\/node\/20",
+        "alias": "\/for-partners\/assistance-gateway-api",
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<h2>Title: Get All Assistance Gateway Resources<\/h2>\r\n\r\n<p>This is the definition of the RESTful web service that E-Enterprise partners should expose in order to share real time resource information.<\/p>\r\n\r\n<h2>URL (path only, no root url)<\/h2>\r\n\r\n<p>\/AssistanceGateway<\/p>\r\n\r\n<h2>Method<\/h2>\r\n\r\n<p>GET<\/p>\r\n\r\n<h2>URL Params<\/h2>\r\n\r\n<p>None. Method is expected to return all resources that the E-Enterprise partner wishes to expose through the service.<\/p>\r\n\r\n<h2>Data Params (for POST)<\/h2>\r\n\r\n<p>None. POST is not currently supported.<\/p>\r\n\r\n<h2>Success Response<\/h2>\r\n\r\n<p>Code: 200<\/p>\r\n\r\n<p>Content:<\/p>\r\n\r\n<pre>\r\n{\"resources\": [\r\n     {\"topics\": [\"Emerging Technologies, Issues and Topics\", \"Stormwater\"],\r\n      \"name\":\"Sustainable Communities\",\r\n      \"link\":\"https:\/\/www.sustainablecommunities.gov\/\",\r\n      \"source\":\"Partnership for Sustainable Communities\",\r\n      \"detailed_description\":\"On June 16, 2009, the U.S. Department of Housing and Urban Development (HUD), U.S. Department of Transportation (DOT), and the U.S. Environmental Protection Agency (EPA) joined together to help communities nationwide improve access to affordable housing, increase transportation options, and lower transportation costs while protecting the environment.\",\r\n      \"summary\":\"Designed to help communities nationwide improve access to affordable housing, increase transportation options, and lower transportation costs while protecting the environment.\",\r\n      \"categories\": [\"Sustainability\", \"Asset Management\", \"Financial Assistance\", \"Capacity Development\"],\r\n      \"tool_type\":\"Guidance-Website\",\r\n      \"update_frequency\":\"Frequently\",\r\n      \"relevance\": [\"Public\", \"Policy\"]\r\n      \"training_level\":\"Low\",\r\n      \"user_friendly_rating\":\"Medium\",\r\n      \"data_resource_requirements\":\"High\",\r\n     }\r\n]}<\/pre>\r\n\r\n<h2>Error Response<\/h2>\r\n\r\n<p>Code: 400 BAD REQUEST<\/p>\r\n\r\n<p>Content (example):<\/p>\r\n\r\n<pre>\r\n{ error : \"The url in the request could not be parsed.\" }<\/pre>\r\n\r\n<p>Code: 404 NOT FOUND<\/p>\r\n\r\n<p>Content:<\/p>\r\n\r\n<pre>\r\n{ error : \"The specified resource does not exist.\" }<\/pre>\r\n\r\n<h2>Schema<\/h2>\r\n\r\n<table>\r\n\t<thead>\r\n\t\t<tr>\r\n\t\t\t<th>Element Name<\/th>\r\n\t\t\t<th>Element Type<\/th>\r\n\t\t\t<th>Element Options<\/th>\r\n\t\t\t<th>Maximum Length<\/th>\r\n\t\t\t<th>Required?<\/th>\r\n\t\t<\/tr>\r\n\t<\/thead>\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td>ID<\/td>\r\n\t\t\t<td>String<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>250 characters<\/td>\r\n\t\t\t<td>Yes<\/td>\r\n\t\t<\/tr>\r\n\t\t<tr>\r\n\t\t\t<td>Topics<\/td>\r\n\t\t\t<td>Multi-select<\/td>\r\n\t\t\t<td>\r\n\t\t\t<ol>\r\n\t\t\t\t<li>Brownfields and Redevelopment and Industrial Cleanup<\/li>\r\n\t\t\t\t<li>Climate Change<\/li>\r\n\t\t\t\t<li>Conservation and Alternative Energy<\/li>\r\n\t\t\t\t<li>Drinking Water and Wastewater<\/li>\r\n\t\t\t\t<li>Emerging Technologies, Issues and Topics<\/li>\r\n\t\t\t\t<li>Finance and Grants<\/li>\r\n\t\t\t\t<li>Indoor and Outdoor Air Quality<\/li>\r\n\t\t\t\t<li>Municipal\/Industrial Solid Waste Management<\/li>\r\n\t\t\t\t<li>Natural Disaster and Emergency Management<\/li>\r\n\t\t\t\t<li>Stormwater<\/li>\r\n\t\t\t\t<li>Water Quality and Restoration<\/li>\r\n\t\t\t<\/ol>\r\n\t\t\t<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>Yes<\/td>\r\n\t\t<\/tr>\r\n\t\t<tr>\r\n\t\t\t<td>Name<\/td>\r\n\t\t\t<td>String<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>250 characters<\/td>\r\n\t\t\t<td>Yes<\/td>\r\n\t\t<\/tr>\r\n\t\t<tr>\r\n\t\t\t<td>Link<\/td>\r\n\t\t\t<td>String<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>250 characters<\/td>\r\n\t\t\t<td>Yes<\/td>\r\n\t\t<\/tr>\r\n\t\t<tr>\r\n\t\t\t<td>Source<\/td>\r\n\t\t\t<td>String<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>250 characters<\/td>\r\n\t\t\t<td>Yes<\/td>\r\n\t\t<\/tr>\r\n\t\t<tr>\r\n\t\t\t<td>Detailed Description<\/td>\r\n\t\t\t<td>String<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>4,000 characters<\/td>\r\n\t\t\t<td>Yes<\/td>\r\n\t\t<\/tr>\r\n\t\t<tr>\r\n\t\t\t<td>Summary<\/td>\r\n\t\t\t<td>String<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>4,000 characters<\/td>\r\n\t\t\t<td>Yes<\/td>\r\n\t\t<\/tr>\r\n\t\t<tr>\r\n\t\t\t<td>Categories<\/td>\r\n\t\t\t<td>Multi-select<\/td>\r\n\t\t\t<td>\r\n\t\t\t<ol>\r\n\t\t\t\t<li>Asset Management<\/li>\r\n\t\t\t\t<li>Best Management Practices<\/li>\r\n\t\t\t\t<li>Capacity Development<\/li>\r\n\t\t\t\t<li>Emergency Preparedness<\/li>\r\n\t\t\t\t<li>Energy Efficiency<\/li>\r\n\t\t\t\t<li>Environmental Justice<\/li>\r\n\t\t\t\t<li>Financial Assistance<\/li>\r\n\t\t\t\t<li>Green Infrastructure<\/li>\r\n\t\t\t\t<li>Monitoring<\/li>\r\n\t\t\t\t<li>Nutrients and Pollution Reduction<\/li>\r\n\t\t\t\t<li>Planning<\/li>\r\n\t\t\t\t<li>Regulation<\/li>\r\n\t\t\t\t<li>Resilience<\/li>\r\n\t\t\t\t<li>Sustainability<\/li>\r\n\t\t\t\t<li>Technical Guidance<\/li>\r\n\t\t\t\t<li>Tribal<\/li>\r\n\t\t\t\t<li>Water Efficiency<\/li>\r\n\t\t\t\t<li>Water Security<\/li>\r\n\t\t\t<\/ol>\r\n\t\t\t<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>Yes<\/td>\r\n\t\t<\/tr>\r\n\t\t<tr>\r\n\t\t\t<td>Tool Type<\/td>\r\n\t\t\t<td>Single-select<\/td>\r\n\t\t\t<td>\r\n\t\t\t<ol>\r\n\t\t\t\t<li>Guidance-Website<\/li>\r\n\t\t\t\t<li>Decision Tree<\/li>\r\n\t\t\t\t<li>Data<\/li>\r\n\t\t\t\t<li>Tool<\/li>\r\n\t\t\t<\/ol>\r\n\t\t\t<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>Yes<\/td>\r\n\t\t<\/tr>\r\n\t\t<tr>\r\n\t\t\t<td>Update Frequency<\/td>\r\n\t\t\t<td>Single-select<\/td>\r\n\t\t\t<td>\r\n\t\t\t<ol>\r\n\t\t\t\t<li>Frequently<\/li>\r\n\t\t\t\t<li>One-Time<\/li>\r\n\t\t\t\t<li>Other<\/li>\r\n\t\t\t\t<li>Periodically<\/li>\r\n\t\t\t\t<li>Rarely<\/li>\r\n\t\t\t<\/ol>\r\n\t\t\t<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>No<\/td>\r\n\t\t<\/tr>\r\n\t\t<tr>\r\n\t\t\t<td>Relevance<\/td>\r\n\t\t\t<td>Multi-select<\/td>\r\n\t\t\t<td>\r\n\t\t\t<ol>\r\n\t\t\t\t<li>Manager<\/li>\r\n\t\t\t\t<li>Operator<\/li>\r\n\t\t\t\t<li>Public<\/li>\r\n\t\t\t\t<li>Policy<\/li>\r\n\t\t\t<\/ol>\r\n\t\t\t<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>No<\/td>\r\n\t\t<\/tr>\r\n\t\t<tr>\r\n\t\t\t<td>Training Level<\/td>\r\n\t\t\t<td>Single-select<\/td>\r\n\t\t\t<td>\r\n\t\t\t<ol>\r\n\t\t\t\t<li>High<\/li>\r\n\t\t\t\t<li>Medium<\/li>\r\n\t\t\t\t<li>Low<\/li>\r\n\t\t\t<\/ol>\r\n\t\t\t<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>No<\/td>\r\n\t\t<\/tr>\r\n\t\t<tr>\r\n\t\t\t<td>User Friendly Rating<\/td>\r\n\t\t\t<td>Single-select<\/td>\r\n\t\t\t<td>\r\n\t\t\t<ol>\r\n\t\t\t\t<li>High<\/li>\r\n\t\t\t\t<li>Medium<\/li>\r\n\t\t\t\t<li>Low<\/li>\r\n\t\t\t<\/ol>\r\n\t\t\t<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>No<\/td>\r\n\t\t<\/tr>\r\n\t\t<tr>\r\n\t\t\t<td>Data\/Resource Requirements<\/td>\r\n\t\t\t<td>Single-select<\/td>\r\n\t\t\t<td>\r\n\t\t\t<ol>\r\n\t\t\t\t<li>High<\/li>\r\n\t\t\t\t<li>Medium<\/li>\r\n\t\t\t\t<li>Low<\/li>\r\n\t\t\t<\/ol>\r\n\t\t\t<\/td>\r\n\t\t\t<td>N\/A<\/td>\r\n\t\t\t<td>No<\/td>\r\n\t\t<\/tr>\r\n\t<\/tbody>\r\n<\/table>\r\n\r\n<h2>Notes<\/h2>\r\n\r\n<p>Additional methods and more flexible searches (invocation with search parameters) may be added in the future.<\/p>\r\n",
+        "summary": "",
+        "format": "full_html"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "18"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "e20f00ed-652b-4439-9680-4b9af79411f3"
+      }
+    ],
+    "vid": [
+      {
+        "value": "40"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "page"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1547069494"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "Warning Notice - Authenticated Users"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1547069463"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1547069494"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "pid": "4",
+        "source": "\/node\/18",
+        "alias": "\/warning-notice",
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<p>This is a co-governed site with applications and information created by E-Enterprise partners (US EPA, States, Tribes and Territories). In proceeding and accessing U.S. Government information and information systems, you acknowledge that you fully understand and consent to all of the following:<\/p>\r\n\r\n<ol>\r\n\t<li>Unauthorized access, unauthorized use, or unauthorized attempts to upload or change information maintained on the Web site area are strictly prohibited and may be subject to criminal and civil prosecution.<\/li>\r\n\t<li>EPA and our E-Enterprise partners (State, Tribes and Territories) have posted information on this site as a convenience to the portal users. Although EPA and our E-Enterprise partners have made every attempt to ensure the accuracy of the information posted on this site, portal users should not rely on information relating to environmental laws and regulations posted on this site. Portal users are solely responsible for ensuring that they are in compliance with all relevant environmental laws and regulations.<\/li>\r\n\t<li>The Portal may provide links to other data systems. The warnings, disclaimers, and\/or terms of use for the other systems apply when the user is interacting with another system through the Portal.<\/li>\r\n\t<li>Privacy and Security: The terms and explanations at the linked page apply to the use of this site:&nbsp;<a href=\"https:\/\/cdx.epa.gov\/PrivacyNotice\">https:\/\/cdx.epa.gov\/PrivacyNotice<\/a>. However, this term is hereby amended with respect to the Portal: \"All information submitted by visitors is voluntary except when a site user is logged in as a regulated entity.\"<\/li>\r\n<\/ol>\r\n",
+        "summary": "",
+        "format": "basic_html"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "17"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "a2296557-aa34-4fba-8e76-e18a7f650444"
+      }
+    ],
+    "vid": [
+      {
+        "value": "39"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "page"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1547069215"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "Warning Notice - Guest Users"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1547068392"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1547069215"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "pid": "3",
+        "source": "\/node\/17",
+        "alias": "\/warning-notice-guests",
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<p>This is a co-governed site with applications and information created by E-Enterprise partners (US EPA, States, Tribes and Territories). In proceeding and accessing U.S. Government information and information systems, you acknowledge that you fully understand and consent to all of the following:<\/p>\r\n\r\n<ol>\r\n\t<li>Unauthorized access, unauthorized use, or unauthorized attempts to upload or change information maintained on this Web site are strictly prohibited and may be subject to criminal or civil prosecution.<\/li>\r\n\t<li>EPA and our E-Enterprise partners (States, Tribes and Territories) have posted information on this site as a convenience to the portal users. Although EPA and our E-Enterprise partners have made every effort to ensure the accuracy of the information posted on this site, portal users should not rely on information relating to environmental laws and regulations posted on this site. Portal users are solely responsible for ensuring that they are in compliance with all relevant environmental laws and regulations.<\/li>\r\n\t<li>The Portal may provide links to other data systems. The warnings, disclaimers, and\/or terms of use for the other systems apply when the user is interacting with another system through the Portal.<\/li>\r\n\t<li>Privacy and Security: The terms and explanations at the linked page apply to the use of this site:&nbsp;<a href=\"https:\/\/www.epa.gov\/home\/privacy-and-security-notice\">https:\/\/www.epa.gov\/home\/privacy-and-security-notice<\/a>. However, this term is hereby amended with respect to the Portal: \"All information submitted by visitors is voluntary except when a site user is logged in as a regulated entity.\"<\/li>\r\n<\/ol>\r\n",
+        "summary": "",
+        "format": "basic_html"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "14"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "bc96ea7e-b326-42b5-a777-9e5436a75039"
+      }
+    ],
+    "vid": [
+      {
+        "value": "108"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "page"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1548862720"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "1"
+      }
+    ],
+    "title": [
+      {
+        "value": "About the E-Enterprise Portal"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1546965363"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1546965392"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "pid": "1",
+        "source": "\/node\/14",
+        "alias": "\/about",
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<p>The E-Enterprise for the Environment Portal is a new user-friendly web platform that will modernize the way the public, regulated community, and environmental co-regulators conduct environmental transactions and access web resources. EPA is working with states and tribes to develop an interoperable portal integrating data and functionality over time to create a dynamic tool for collaboration and innovation.<\/p>\r\n\r\n<p>The E-Enterprise for the Environment Portal will:<\/p>\r\n\r\n<ul>\r\n\t<li>Decrease the time and effort needed to perform transactions with EPA, tribal, state, and local governments<\/li>\r\n\t<li>Provide a more consistent way for environmental agencies to interact with regulated entities and the public<\/li>\r\n\t<li>Allow the regulated community and the public to discover the information that is important to them<\/li>\r\n<\/ul>\r\n",
+        "summary": "",
+        "format": "basic_html"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "4"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "3a3ea270-62b7-4280-949a-73fb39e54e9a"
+      }
+    ],
+    "vid": [
+      {
+        "value": "717"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "eep_proxy_service"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1550701928"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "0"
+      }
+    ],
+    "title": [
+      {
+        "value": "Village Green"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1542747703"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1542747741"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_cache_max_age": [
+      {
+        "value": "86400"
+      }
+    ],
+    "field_proxy_filter": [
+      {
+        "value": "generic"
+      }
+    ],
+    "field_proxy_service_machine_name": [
+      {
+        "value": "vg"
+      }
+    ],
+    "field_request_headers": [],
+    "field_requeste_timeout": [
+      {
+        "value": "60"
+      }
+    ],
+    "field_response_headers": [
+      {
+        "first": "Content-Type",
+        "second": "application\/json"
+      },
+      {
+        "first": "Transfer-Encoding",
+        "second": ""
+      }
+    ],
+    "field_service_endpoints": [
+      {
+        "first": "LOCAL",
+        "second": "https:\/\/villagegreen.airnowtech.org\/welcome\/getDataForCurrentMinuteWelcomePage?"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": "1"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "22dc268c-71f2-465f-889d-7be13394fd9c"
+      }
+    ],
+    "vid": [
+      {
+        "value": "714"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "eep_proxy_service"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1550701927"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": "0"
+      }
+    ],
+    "title": [
+      {
+        "value": "Be Well Informed Service"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1541711939"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1541712034"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "menu_link": [],
+    "field_cache_max_age": [
+      {
+        "value": "86400"
+      }
+    ],
+    "field_proxy_filter": [
+      {
+        "value": "generic"
+      }
+    ],
+    "field_proxy_service_machine_name": [
+      {
+        "value": "bwi"
+      },
+      {
+        "value": "be-well-informed"
+      }
+    ],
+    "field_request_headers": [
+      {
+        "first": "content-type",
+        "second": "application\/json"
+      }
+    ],
+    "field_requeste_timeout": [
+      {
+        "value": "60"
+      }
+    ],
+    "field_response_headers": [
+      {
+        "first": "Content-Type",
+        "second": "application\/json"
+      },
+      {
+        "first": "Transfer-Encoding",
+        "second": ""
+      }
+    ],
+    "field_service_endpoints": [
+      {
+        "first": "LOCAL",
+        "second": "https:\/\/dev.e-enterprise.gov\/TestRest\/bwievaluation"
+      },
+      {
+        "first": "DEV",
+        "second": "https:\/\/dev.e-enterprise.gov\/TestRest\/bwievaluation"
+      }
+    ]
+  }
+]
