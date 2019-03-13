@@ -499,20 +499,20 @@
                 }
             ],
             "description": "Initialize Symfony Console commands from annotated command class methods.",
-            "time": "2019-03-08T16:55:03+00:00"
+            "time": "2019-02-02T02:29:53+00:00"
         },
         {
             "name": "consolidation/config",
-            "version": "1.2.1",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/config.git",
-                "reference": "cac1279bae7efb5c7fb2ca4c3ba4b8eb741a96c1"
+                "reference": "11ab7ecd19131ce084390171b9c070eedecf7dab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/config/zipball/cac1279bae7efb5c7fb2ca4c3ba4b8eb741a96c1",
-                "reference": "cac1279bae7efb5c7fb2ca4c3ba4b8eb741a96c1",
+                "url": "https://api.github.com/repos/consolidation/config/zipball/11ab7ecd19131ce084390171b9c070eedecf7dab",
+                "reference": "11ab7ecd19131ce084390171b9c070eedecf7dab",
                 "shasum": ""
             },
             "require": {
@@ -580,7 +580,7 @@
                 }
             ],
             "description": "Provide configuration services for a commandline tool.",
-            "time": "2019-03-03T19:37:04+00:00"
+            "time": "2019-02-16T01:18:47+00:00"
         },
         {
             "name": "consolidation/filter-via-dot-access-data",
@@ -955,11 +955,11 @@
         },
         {
             "name": "consolidation/site-alias",
-            "version": "3.0.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/site-alias.git",
-                "reference": "8cfd3b6ab6d541086fc970bf850864293b284e6f"
+                "reference": "13588daf533c9a8df4c9495e3418685cd06867c4"
             },
             "dist": {
                 "type": "zip",
@@ -968,7 +968,6 @@
                 "shasum": ""
             },
             "require": {
-                "consolidation/config": "^1.2.1",
                 "php": ">=5.5.0"
             },
             "require-dev": {
@@ -1000,7 +999,7 @@
                     }
                 },
                 "branch-alias": {
-                    "dev-master": "3.x-dev"
+                    "dev-master": "2.x-dev"
                 }
             },
             "autoload": {
@@ -1023,25 +1022,25 @@
                 }
             ],
             "description": "Manage alias records for local and remote sites.",
-            "time": "2019-03-12T17:31:48+00:00"
+            "time": "2019-01-03T14:40:53+00:00"
         },
         {
             "name": "consolidation/site-process",
-            "version": "2.0.0",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/site-process.git",
-                "reference": "29d6860e65eb22c1ffaff9777a6f1ce6e7adf188"
+                "reference": "318e6d7e8bb70f97546f59fe94f95a0a17fdf3d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/site-process/zipball/29d6860e65eb22c1ffaff9777a6f1ce6e7adf188",
-                "reference": "29d6860e65eb22c1ffaff9777a6f1ce6e7adf188",
+                "url": "https://api.github.com/repos/consolidation/site-process/zipball/318e6d7e8bb70f97546f59fe94f95a0a17fdf3d6",
+                "reference": "318e6d7e8bb70f97546f59fe94f95a0a17fdf3d6",
                 "shasum": ""
             },
             "require": {
-                "consolidation/config": "^1.2.1",
-                "consolidation/site-alias": "^3",
+                "consolidation/config": "^1.1.1",
+                "consolidation/site-alias": "^2.1.1",
                 "php": ">=5.6.0",
                 "symfony/process": "^3.4"
             },
@@ -1095,7 +1094,7 @@
                 }
             ],
             "description": "A thin wrapper around the Symfony Process Component that allows applications to use the Site Alias library to specify the target for a remote call.",
-            "time": "2019-03-12T17:36:24+00:00"
+            "time": "2019-02-13T22:15:36+00:00"
         },
         {
             "name": "container-interop/container-interop",
@@ -2043,7 +2042,7 @@
                 },
                 "drupal": {
                     "version": "8.x-1.26",
-                    "datestamp": "1549218480",
+                    "datestamp": "1549559402",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -3709,17 +3708,17 @@
         },
         {
             "name": "drupal/formatter_field",
-            "version": "1.1.0",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/formatter_field",
-                "reference": "8.x-1.1"
+                "reference": "8.x-1.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/formatter_field-8.x-1.1.zip",
-                "reference": "8.x-1.1",
-                "shasum": "b1ca0c6f24e15ff7b7461a80167f815ebe9ec35c"
+                "url": "https://ftp.drupal.org/files/projects/formatter_field-8.x-1.0.zip",
+                "reference": "8.x-1.0",
+                "shasum": "15b29ea55134fb5b40bd45eb896e4e2c1d2ffabe"
             },
             "require": {
                 "drupal/core": "*"
