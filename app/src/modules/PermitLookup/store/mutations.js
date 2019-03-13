@@ -272,5 +272,13 @@ export default {
       bool,
     );
   },
+  [types.SET_DL_URL_BASE](state, bool) {
+    Vue.set(
+      state,
+      'msgpResultsLoaded',
+      bool,
+    );
+  },
+
 
 };

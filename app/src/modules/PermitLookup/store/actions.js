@@ -230,4 +230,26 @@ export default {
         vm.$root.$emit('bv::show::modal', 'permit-results-modal');
       });
   },
+  setDownloadUrlBase(context) {
+    const store = context;
+
+    const environment = store.rootGetters.getEnvironment();
+    const downloadApiUrl = store.state;
+    switch (environment) {
+      default:
+        break;
+      case 'LOCAL':
+        store.commit(types.SET_DL_URL_BASE, downloadApiUrl.LOCAL);
+        break;
+      case 'DEV':
+        store.commit(types.SET_DL_URL_BASE, downloadApiUrl.LOCAL);
+        break;
+      case 'TEST':
+        store.commit(types.SET_DL_URL_BASE, downloadApiUrl.LOCAL);
+        break;
+      case 'PROD':
+        store.commit(types.SET_DL_URL_BASE, downloadApiUrl.LOCAL);
+        break;
+    }
+  },
 };

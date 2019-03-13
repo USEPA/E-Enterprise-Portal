@@ -868,7 +868,7 @@
                   slot-scope="data">
                   <a
                     v-for="attachment in data.item.attachments"
-                    :href="`https://devngn.epacdxnode.net/net-msgp/api/public/v1/form/${data.item.id}/attachment/${attachment.id}`"
+                    :href="`${downloadUrl}/form/${data.item.id}/attachment/${attachment.id}`"
                     class="pl-2">Download</a>
                 </template>
               </b-table>
@@ -1001,12 +1001,14 @@
     },
     mounted() {
       // get data for form options from axios call functions in actions file
+      this.setDownloadUrlBase();
       this.loadBaseFormOption();
       this.loadMsgpFormOptions();
       this.loadCgpFormOptions();
     },
     computed: {
       ...mapGetters(moduleName, {
+        downloadUrl: 'getDownloadUrlBase',
         formOptions: 'getFormOptions',
         msgpFormResults: 'getMsgpFormResults',
         msgpFormData: 'getMsgpFormData',
@@ -1044,6 +1046,7 @@
     methods: {
       ...mapActions(moduleName, [
         'msgpFormGetResults',
+        'setDownloadUrlBase',
         'setPermitType',
         'setMsgpFacilityName',
         'setMsgpNpdesId',

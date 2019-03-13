@@ -72,4 +72,11 @@ export default {
   msgpFormResults: {},
   msgpResultsLoaded: false,
   msgpStateSelected: false,
+  downloadApiUrls: {
+    LOCAL: 'https://devngn.epacdxnode.net/net-msgp/api/public/v1',
+    DEV: 'https://devngn.epacdxnode.net/net-msgp/api/public/v1',
+    TEST: '',
+    PROD: '',
+  },
+  downloadApiUrl: {},
 };
