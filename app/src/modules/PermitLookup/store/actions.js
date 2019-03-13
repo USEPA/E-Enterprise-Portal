@@ -176,7 +176,7 @@ export default {
     const { state } = store;
     const apiURL = store.rootGetters.getEnvironmentApiURL;
 
-    AppAxios.get(`${apiURL}/eep/proxy/service/oeca-msgp?formTypes&formStatuses&coverageTypes&submissionTypes&issuers&coverageStatuses&form`)
+    AppAxios.get(`${apiURL}/eep/proxy/service/oeca-msgp?formTypes&formStatuses&coverageTypes&submissionTypes&issuers&coverageStatuses&form&msgpDownloadUrlBase`)
       .then((response) => {
         const formOptions = response.data.helperQueryResponse;
         store.commit(types.SET_FORM_OPTIONS_MSGP, formOptions);
@@ -229,27 +229,5 @@ export default {
         store.commit(types.SET_MSGP_RESULTS_LOADED, true);
         vm.$root.$emit('bv::show::modal', 'permit-results-modal');
       });
-  },
-  setDownloadUrlBase(context) {
-    const store = context;
-
-    const environment = store.rootGetters.getEnvironment();
-    const downloadApiUrl = store.state;
-    switch (environment) {
-      default:
-        break;
-      case 'LOCAL':
-        store.commit(types.SET_DL_URL_BASE, downloadApiUrl.LOCAL);
-        break;
-      case 'DEV':
-        store.commit(types.SET_DL_URL_BASE, downloadApiUrl.LOCAL);
-        break;
-      case 'TEST':
-        store.commit(types.SET_DL_URL_BASE, downloadApiUrl.LOCAL);
-        break;
-      case 'PROD':
-        store.commit(types.SET_DL_URL_BASE, downloadApiUrl.LOCAL);
-        break;
-    }
   },
 };

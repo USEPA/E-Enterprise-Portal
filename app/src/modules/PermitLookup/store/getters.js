@@ -105,7 +105,4 @@ export default {
   getTotalRows(state) {
     return state.msgpFormResults.length;
   },
-  getDownloadUrlBase(state) {
-    return state.downloadApiUrl;
-  },
 };

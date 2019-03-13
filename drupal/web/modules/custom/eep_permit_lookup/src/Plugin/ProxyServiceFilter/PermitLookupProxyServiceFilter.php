@@ -212,6 +212,7 @@ class PermitLookupProxyServiceFilter extends ProxyServiceFilterBase
         (!isset($query['coverageStatuses'])) ?: $payload['helperQueries']['coverageStatuses'][] = trim($query['coverageStatuses']);
         (!isset($query['issuers'])) ?: $payload['helperQueries']['issuers'][] = trim($query['issuers']);
         (!isset($query['formStatuses'])) ?: $payload['helperQueries']['formStatuses'][] = trim($query['formStatuses']);
+        (!isset($query['msgpDownloadUrlBase'])) ?: $payload['helperQueries']['msgpDownloadUrlBase'][] = trim($query['msgpDownloadUrlBase']);
         // oeca-services with no parameters
         (!isset($query['sectors'])) ?: $payload['helperQueries']['oecaSvc']['sectors'][] = trim($query['sectors']);
         (!isset($query['states'])) ?: $payload['helperQueries']['oecaSvc']['states'][] = trim($query['states']);
@@ -248,6 +249,12 @@ class PermitLookupProxyServiceFilter extends ProxyServiceFilterBase
              */
             $response = 'Unable to process retrieval of all forms at this time.';
             $payload['helperQueryResponse']['allForms'] = $response;
+        }
+
+        // Get msgpDownloadUrlBase
+        if (isset($payload['helperQueries']['msgpDownloadUrlBase'])) {
+            $msgpDownloadUrlBase = $this->request->getUri() . '';
+            $payload['helperQueryResponse']['msgpDownloadUrlBase'] = $msgpDownloadUrlBase;
         }
 
         // Get formTypes
