@@ -1,1 +1,4 @@
 eep_bridge_environment_name: 'https://e-enterprise.gov'
+eep_bridge_issuer: ''
+eep_bridge_realm: ''
+eep_bridge_wreply: ''

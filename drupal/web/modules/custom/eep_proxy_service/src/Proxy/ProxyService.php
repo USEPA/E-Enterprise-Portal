@@ -156,10 +156,10 @@ class ProxyService implements ProxyServiceInterface {
       $HFRequest = $this->request;
     }
     $this->filter->setIncomingRequest($HFRequest);
+    $this->filter->setServiceMachineName($this->service_machine_name);
 
     // @todo move allowed headers to filter plugin base
     $this->getAllowedHeaders($HFRequest);
-
 
     $this->buildRequest(
       $HFRequest->getMethod(),
