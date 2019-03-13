@@ -287,13 +287,6 @@ export default {
       arr,
     );
   },
-  [types.SET_MSGP_STATE_SELECTED](state, bool) {
-    Vue.set(
-      state,
-      'msgpStateSelected',
-      bool,
-    );
-  },
   [types.SET_MSGP_RESULTS_LOADED](state, bool) {
     Vue.set(
       state,

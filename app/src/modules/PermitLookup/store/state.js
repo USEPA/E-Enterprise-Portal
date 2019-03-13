@@ -91,5 +91,4 @@ export default {
   },
   msgpFormResults: {},
   msgpResultsLoaded: false,
-  msgpStateSelected: false,
 };

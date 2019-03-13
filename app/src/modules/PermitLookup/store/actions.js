@@ -51,7 +51,6 @@ export default {
     const store = context;
 
     store.commit(types.SET_MSGP_FACILITY_STATE, payload);
-    store.commit(types.SET_MSGP_STATE_SELECTED, true);
   },
   setMsgpFacilityZip(context, payload) {
     const store = context;

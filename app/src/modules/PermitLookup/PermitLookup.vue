@@ -1038,7 +1038,7 @@
         return !this.msgpFormData.facilityState;
       },
       isDisabledTribeMsgp() {
-        return (!this.msgpFormData.facilityState || !(this.msgp.formData.tribalIndicator === true));
+        return (!this.msgpFormData.facilityState || !(this.msgpFormData.tribalIndicator === true));
       },
       isDisabledSubsectorMsgp() {
         return !this.msgpFormData.sector;
@@ -1114,11 +1114,6 @@
       clearForm() {
         // clear every state when reset is pressed
         const store = this;
-        store.setMsgpFacilityName('');
-        store.setMsgpNpdesId('');
-        store.setMsgpFacilityCity('');
-        store.setMsgpFacilityState('');
-        store.setMsgpFacilityZip('');
         store.setStatus('');
         store.setFormType('');
         store.setDateSelection('');
@@ -1133,7 +1128,6 @@
         store.setMsgpStartDate('');
         store.setMsgpEndDate('');
         store.setMsgpTribalIndicator('');
-        store.setMsgpTribalName('');
         store.setMsgpFacilityCounty('');
         store.setMsgpMasterPermitNumber('');
         store.setMsgpTribalName('');

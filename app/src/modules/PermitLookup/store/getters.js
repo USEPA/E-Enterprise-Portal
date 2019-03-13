@@ -18,9 +18,6 @@ export default {
   getMsgpResultsLoaded(state) {
     return state.msgpResultsLoaded;
   },
-  getMsgpStateSelected(state) {
-    return state.msgpStateSelected;
-  },
   getPermitType(state) {
     return state.permitType;
   },
