@@ -462,9 +462,8 @@ export default {
       // Declare variables
       let formattedResponseInformation = [];
       let dropDownLabelText = 'Select a zipcode for';
-      let finalOutput=[];
+      let commonZipcodes=[];
       const returnData = response.data;
-      console.log(returnData);
       if (params.indexOf('tribe') !== -1) {
         Object.keys(returnData.tribal_information).forEach((key) => {
 
@@ -511,29 +510,30 @@ export default {
       } else if (params.indexOf('city') !== -1 && params.indexOf('state') !== -1) {
         const locationZipcodes = returnData.zipcode;
         checkIfAllZipSaved();
-        if(finalOutput.length== locationZipcodes.length){
+        if(commonZipcodes.length== locationZipcodes.length){
           store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', true);
           store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', true);
         } else {
           store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', false);
+          store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', false);
           formattedResponseInformation = returnData.zipcode;
         }
       }
       function checkIfAllZipSaved(){
         const savedLocation=store.getters.getUser.userLocationsFromLoad;
-        const locationZipcodes = returnData.zipcode;
-        let onlyZipcodes=[];
+        const inputlocationZipcodes = returnData.zipcode;
+        let savedZipcodes=[];
         for (let i = 0; i < savedLocation.length; i += 1) {
-          onlyZipcodes.push(savedLocation[i].second);
+          savedZipcodes.push(savedLocation[i].second);
         }
         console.log(locationZipcodes);
         console.log(savedLocation);
         console.log(onlyZipcodes);
 
-        let strArr = onlyZipcodes.map(function(e){return e.toString()});
+        let strArr = savedZipcodes.map(function(e){return e.toString()});
         console.log(strArr);
 
-        compareZipcodes(locationZipcodes,strArr);
+        compareZipcodes(inputlocationZipcodes,strArr);
 
 
 
@@ -548,7 +548,7 @@ export default {
           }
           }
         ));
-        finalOutput=Object.keys(objMap).map(e=>Number(e));
+        commonZipcodes=Object.keys(objMap).map(e=>Number(e));
         console.log(Object.keys(objMap).map(e=>Number(e)));
 
 
