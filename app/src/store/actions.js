@@ -117,7 +117,9 @@ export default {
     Vue.cookie.set('userLogInTime', '', { expires: '-99s' });
 
     // Redirect to backend
-    window.location.href = `${store.getters.getEnvironmentApiURL}/authenticate/dev_user/logout`;
+    if (store.state.user.id != 1) {
+      window.location.href = `${store.getters.getEnvironmentApiURL}/authenticate/user/logout`;
+    }
   },
   // Function to process the payload of the JWT token, which contains the user
   // info. This will set the state, verify the path exists and is defined then
@@ -343,8 +345,8 @@ export default {
 
         /**
          * Load EEPUser info and do not push to workbench if already logged in
-         * unless loading homepage. This fixes footer links so they dont auto redirect
-         * to workbench.
+         * unless loading homepage. This fixes footer links so they dont auto
+         * redirect to workbench.
          */
         if (router.history.current.path === '/') {
             store.dispatch('loadEEPUser').then(router.push('/workbench'));

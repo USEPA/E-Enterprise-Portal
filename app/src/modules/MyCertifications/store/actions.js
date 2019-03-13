@@ -29,4 +29,10 @@ export default {
       store.commit(types.LOAD_CERTIFICATIONS, []);
     }
   },
+  downloadDocument(context, documentObject) {
+    const vm = this._vm;
+    const docString = JSON.stringify(documentObject);
+    const params = encodeURIComponent(docString);
+    window.open(`${vm.getEnvironmentApiURL}/api/cdx/certifications/documents?document_download_params=` + params);
+  }
 };

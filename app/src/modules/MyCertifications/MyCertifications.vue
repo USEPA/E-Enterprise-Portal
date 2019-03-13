@@ -86,6 +86,25 @@
 
     </b-table>
 
+    <!--if No Certifications-->
+    <div v-if="(certifications.length === 0 && certificationsLoaded)">No certifications...</div>
+
+    <!--pagination-->
+    <b-row
+      v-if="certificationsLoaded"
+      class="text-center">
+      <b-col
+        md="12"
+        class="my-1">
+        <b-pagination
+          align="center"
+          :total-rows="datatableSettings.totalRows"
+          :per-page="datatableSettings.perPage"
+          v-model="datatableSettings.currentPage"
+          class="my-0"/>
+      </b-col>
+    </b-row>
+
     <!-- details modal -->
     <AppModal
       id="my-certs-details-modal"
@@ -158,17 +177,14 @@
             <b-row>
               Download
             </b-row>
-            <b-row>
+            <b-row
+                    v-for="(document) in modalSettings.info.documents"
+            >
               <a
                 :href="modalSettings.info.certificateDownloadUrl"
+                @click="downloadCertificate(document)"
                 target="_blank"
-                download>Certificate</a>
-            </b-row>
-            <b-row>
-              <a
-                :href="modalSettings.info.logoUrl"
-                target="_blank"
-                download>Logo</a>
+                download>{{document.name}}</a>
             </b-row>
           </b-col>
         </b-row>
@@ -216,25 +232,6 @@
         </b-row>
       </div>
     </AppModal>
-
-    <!--if No Certifications-->
-    <div v-if="(certifications.length === 0 && certificationsLoaded)">No certifications...</div>
-
-    <!--pagination-->
-    <b-row
-      v-if="certificationsLoaded"
-      class="text-center">
-      <b-col
-        md="12"
-        class="my-1">
-        <b-pagination
-          align="center"
-          :total-rows="datatableSettings.totalRows"
-          :per-page="datatableSettings.perPage"
-          v-model="datatableSettings.currentPage"
-          class="my-0"/>
-      </b-col>
-    </b-row>
 
   </AppWrapper>
 </template>
@@ -347,6 +344,7 @@
       ]),
       ...mapActions(moduleName, [
         'loadMyCertifications',
+        'downloadDocument',
       ]),
       onFiltered(filteredItems) {
         // Trigger pagination to update the number of buttons/pages due to filtering
@@ -360,11 +358,16 @@
         this.modalSettings.info.status = item.status;
         this.modalSettings.info.submitted = item.submitted;
         this.modalSettings.info.updated = item.updated;
+        this.modalSettings.info.documents = item.documents;
+
         if (this.modalSettings.info.status === 'Complete') {
           this.modalSettings.info.certificateDownloadUrl = item.certificateDownloadUrl;
           this.modalSettings.info.logoUrl = item.logoUrl;
         }
         this.$root.$emit('bv::show::modal', 'my-certs-details-modal', button);
+      },
+      downloadCertificate(documentObject) {
+        this.downloadDocument(documentObject);
       },
     },
     created() {

@@ -170,7 +170,7 @@
       }),
       userfavoritelocations: {
         get() {
-          return this.user.userLocationsFromLoad;
+          return this.user.userFavoriteLocation;
         }
       },
       geolocationTitle() {

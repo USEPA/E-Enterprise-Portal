@@ -53,14 +53,14 @@ Vue.use(VueAnalytics, {
   id: 'UA-135645481-1',
   router,
   debug: {
-    enabled: !isProd,
+    enabled: false,
     sendHitTask: isProd
   }
 });
 Vue.use(VueGtm, {
   id: 'GTM-L8ZB',
-  enabled: true,
-  debug: !isProd,
+  enabled: true, 
+  debug: false,
   vueRouter: router,
   ignoredViews: [] 
 });
