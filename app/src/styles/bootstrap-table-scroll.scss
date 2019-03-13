@@ -36,10 +36,17 @@
 .bootstrap-vue-fav-table-scroll > tbody td {
   display: flex;
 }
+
+.table.no-top-border > thead th {
+  border-top: 0;
+}
+
+
 .bootstrap-vue-table-scroll > .table th, .table td,
 .bootstrap-vue-fav-table-scroll > .table th, .table td {
   padding: 0.3rem;
 }
+
 .bootstrap-vue-table-scroll,
 .bootstrap-vue-fav-table-scroll {
   font-size:.875rem;
