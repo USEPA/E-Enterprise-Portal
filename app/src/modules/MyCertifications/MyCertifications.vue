@@ -125,7 +125,7 @@
             </b-row>
             <b-row class="font-weight-bold">
               <b-col>
-              {{ modalSettings.info.partner_id }}
+                {{ modalSettings.info.partner_id }}
               </b-col>
               <b-col>
                 {{ modalSettings.info.report_type }}
@@ -135,29 +135,28 @@
         </b-row>
         <b-row class="pb-1">
           <b-col>
-              <b-row>
-                  <b-col>
-                      Status
-                  </b-col>
-                  <b-col>
-                      Submitted
-                  </b-col>
-                  <b-col>
-                      Last Updated
-                  </b-col>
-              </b-row>
-              <b-row class="font-weight-bold">
-                  <b-col>
-                      {{ modalSettings.info.status }}
-                  </b-col>
-                  <b-col>
-                      {{ modalSettings.info.submitted }}
-                  </b-col>
-                  <b-col>
-                      {{ modalSettings.info.updated }}
-                  </b-col>
-
-              </b-row>
+            <b-row>
+              <b-col>
+                Status
+              </b-col>
+              <b-col>
+                Submitted
+              </b-col>
+              <b-col>
+                Last Updated
+              </b-col>
+            </b-row>
+            <b-row class="font-weight-bold">
+              <b-col>
+                {{ modalSettings.info.status }}
+              </b-col>
+              <b-col>
+                {{ modalSettings.info.submitted }}
+              </b-col>
+              <b-col>
+                {{ modalSettings.info.updated }}
+              </b-col>
+            </b-row>
           </b-col>
         </b-row>
       </div>
