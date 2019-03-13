@@ -148,7 +148,6 @@ export default {
     AppAxios.get(`${apiURL}/eep/proxy/service/oeca-svc-ref?tribes&states&sectors`)
       .then((response) => {
         const formOptions = response.data.helperQueryResponse.oecaSvc;
-        console.log(formOptions);
         const formSectorOptions = formOptions[0];
         const formStateOptions = formOptions[1];
         const formTribalOptions = formOptions[2];
@@ -165,15 +164,11 @@ export default {
         formTribalOptions.forEach((tribeOption) => {
           formTribalNames.push(tribeOption.tribalName);
         });
-
-        console.log(formOptions);
-        console.log(formStateNames);
-        console.log(formTribalNames);
+        
         store.commit(types.SET_BASE_FORM_OPTIONS, formOptions);
         store.commit(types.SET_BASE_FORM_OPTION_STATE_NAMES, formStateNames.sort());
         store.commit(types.SET_BASE_FORM_OPTION_SECTOR_NAMES, formSectorNames.sort());
         store.commit(types.SET_BASE_FORM_OPTION_TRIAL_NAMES, formTribalNames.sort());
-        console.log(state.formOptions.baseFormOptions);
       });
   },
   loadMsgpFormOptions(context) {
@@ -184,9 +179,7 @@ export default {
     AppAxios.get(`${apiURL}/eep/proxy/service/oeca-msgp?formTypes&formStatuses&coverageTypes&submissionTypes&issuers&coverageStatuses&form`)
       .then((response) => {
         const formOptions = response.data.helperQueryResponse;
-        console.log(formOptions);
         store.commit(types.SET_FORM_OPTIONS_MSGP, formOptions);
-        console.log(state.formOptions.msgpFormOptions);
       });
   },
   loadCgpFormOptions(context) {
@@ -197,9 +190,7 @@ export default {
     AppAxios.get(`${apiURL}/eep/proxy/service/oeca-cgp?formTypes&formStatuses`)
       .then((response) => {
         const formOptions = response.data.helperQueryResponse;
-        console.log(formOptions);
         store.commit(types.SET_FORM_OPTIONS_CGP, formOptions);
-        console.log(state.formOptions.cgpFormOptions);
       });
   },
   msgpFormGetResults(context, payload) {
@@ -214,17 +205,10 @@ export default {
     // Set msgp form inputs that aren't empty or default as queries
     Object.keys(msgpFormData).forEach((key) => {
       if (msgpFormData[key] !== 'Select...' && msgpFormData[key] !== '') {
-        console.log('inside first');
-        console.log(`Key: ${key}; Value: ${msgpFormData[key]}`);
         // Map State Name to State Code
         if (key === 'facilityState') {
-          console.log('inside second');
-          console.log(baseFormOptions[1]);
           baseFormOptions[1].forEach((subKeyA) => {
-            console.log(subKeyA.stateName);
-            console.log(msgpFormData);
             if (subKeyA.stateName === msgpFormData.facilityState) {
-              console.log('inside third');
               urlQueries = `facilityState=${subKeyA.stateCode}`;
             }
           });
@@ -235,9 +219,7 @@ export default {
       }
     });
     urlQueries = encodeURI(urlQueries);
-    console.log(urlQueries);
     const axiosUrl = axiosUrlBase + urlQueries;
-    console.log(axiosUrl);
     vm.$root.$emit('bv::hide::modal', 'permit-search-modal');
     // get stuff
     AppAxios.get(axiosUrl)
