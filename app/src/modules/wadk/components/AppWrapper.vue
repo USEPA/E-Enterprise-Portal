@@ -26,6 +26,7 @@
               <b-dropdown-item-button
                 v-for="(text,title, index) in eepApp.field_settings_menu_items"
                 :title="title"
+                :key="title"
                 @click="widgetMenuModalToIndex(title, $event.target, index)">{{ title }}
               </b-dropdown-item-button>
               <b-dropdown-item-button
@@ -92,15 +93,20 @@
       :id="`${eepApp.id}-widget-modal`"
       modal-ref="widgetMenuModal"
       hide-footer
-      :title="`${eepApp.title} Menu`">
-      <template>
-        <div
-          v-for="(text, title) in eepApp.field_settings_menu_items"
-          class="col-12">
-          <h3>{{title}}</h3>
-          <div v-html="text"/>
+      :title="`${eepApp.title} Menu`"
+      :icon="eepApp.field_icon_name">
+      <div class="container">
+        <div class="row">
+          <template>
+            <div
+              v-for="(text, title, index) in eepApp.field_settings_menu_items"
+              class="col-12 pb-3" v-key="index">
+              <h3>{{ title }}</h3>
+              <div v-html="text"/>
+            </div>
+          </template>
         </div>
-      </template>
+      </div>
     </AppModal>
   </div>
 </template>

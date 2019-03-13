@@ -178,8 +178,7 @@
               Download
             </b-row>
             <b-row
-                    v-for="(document) in modalSettings.info.documents"
-            >
+              v-for="(document) in modalSettings.info.documents">
               <a
                 :href="modalSettings.info.certificateDownloadUrl"
                 @click="downloadCertificate(document)"
