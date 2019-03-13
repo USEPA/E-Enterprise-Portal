@@ -165,7 +165,7 @@
                 :href="modalSettings.info.certificateDownloadUrl"
                 @click="downloadCertificate(document)"
                 target="_blank"
-                download>{{document.name}}</a>
+                >{{document.anchorName}}</a>
             </b-row>
           </b-col>
         </b-row>
@@ -358,12 +358,14 @@
         this.modalSettings.info.status = item.status;
         this.modalSettings.info.submitted = item.submitted;
         this.modalSettings.info.updated = item.updated;
+        item.documents.forEach((document, index) => {
+          if (document.name.indexOf('Certificate') >= 0) {
+            item.documents[index].anchorName = "Certificate";
+          } else {
+            item.documents[index].anchorName = "Logo";
+          }
+        });
         this.modalSettings.info.documents = item.documents;
-
-        if (this.modalSettings.info.status === 'Complete') {
-          this.modalSettings.info.certificateDownloadUrl = item.certificateDownloadUrl;
-          this.modalSettings.info.logoUrl = item.logoUrl;
-        }
         this.$root.$emit('bv::show::modal', 'my-certs-details-modal', button);
       },
       downloadCertificate(documentObject) {
