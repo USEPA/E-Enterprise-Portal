@@ -141,7 +141,9 @@
   };
 </script>
 
-<style lang="scss">
+<style
+  scoped
+  lang="scss">
   @import '../../../styles/bootstrap-mixins-cheatsheet.scss';
 
   @include media-breakpoint-up(sm) {
