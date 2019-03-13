@@ -55,6 +55,7 @@
           <a
             class="text-decoration-underline cursor-pointer link-button"
             v-show="!!eepApp.field_settings_menu_items.Description"
+            tabindex="0"
             @click="onDescription($event.target)">
             Description</a>
           <span v-show="eepApp.source.length && eepApp.field_settings_menu_items.Description">
@@ -63,6 +64,7 @@
             v-if="eepApp.source.length > 0"
             class="text-decoration-underline cursor-pointer link-button"
             v-show="eepApp.source.length && getSize === 'small'"
+            tabindex="0"
             @click="onSource($event.target)">Source</a>
           <span v-if="getSize !== 'small' && eepApp.source.length > 0">Source: </span>
           <template

@@ -4,12 +4,13 @@
 
 // BS basic configuration
 @import "bootstrap-mixins-cheatsheet";
+@import "typography";
 @import "utility";
 @import "form";
 @import "navigation";
 @import "tooltip";
 @import "links";
-@import "typography";
+@import "tabs";
 
 // BS style override
 @import "bootstrap-widget-dropdown";

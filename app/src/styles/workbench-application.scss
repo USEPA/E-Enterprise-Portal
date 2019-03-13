@@ -19,12 +19,15 @@
 
 // Medium Wapp
 .wapp-small {
+  min-height: 190px;
+
   .wapp-title {
   }
 }
 
 // Medium Wapp
 .wapp-medium {
+  min-height: 190px;
   .wapp-title {
     font-size: 1.25rem;
     padding: 0.2rem 0;
@@ -33,6 +36,7 @@
 
 // Large Wapp
 .wapp-large {
+  min-height: 410px;
   .wapp-title {
     font-size: 1.25rem;
   }
