@@ -86,6 +86,25 @@
 
     </b-table>
 
+    <!--if No Certifications-->
+    <div v-if="(certifications.length === 0 && certificationsLoaded)">No certifications...</div>
+
+    <!--pagination-->
+    <b-row
+      v-if="certificationsLoaded"
+      class="text-center">
+      <b-col
+        md="12"
+        class="my-1">
+        <b-pagination
+          align="center"
+          :total-rows="datatableSettings.totalRows"
+          :per-page="datatableSettings.perPage"
+          v-model="datatableSettings.currentPage"
+          class="my-0"/>
+      </b-col>
+    </b-row>
+
     <!-- details modal -->
     <AppModal
       id="my-certs-details-modal"
@@ -159,8 +178,7 @@
               Download
             </b-row>
             <b-row
-                    v-for="(document) in modalSettings.info.documents"
-            >
+              v-for="(document) in modalSettings.info.documents">
               <a
                 :href="modalSettings.info.certificateDownloadUrl"
                 @click="downloadCertificate(document)"
@@ -213,25 +231,6 @@
         </b-row>
       </div>
     </AppModal>
-
-    <!--if No Certifications-->
-    <div v-if="(certifications.length === 0 && certificationsLoaded)">No certifications...</div>
-
-    <!--pagination-->
-    <b-row
-      v-if="certificationsLoaded"
-      class="text-center">
-      <b-col
-        md="12"
-        class="my-1">
-        <b-pagination
-          align="center"
-          :total-rows="datatableSettings.totalRows"
-          :per-page="datatableSettings.perPage"
-          v-model="datatableSettings.currentPage"
-          class="my-0"/>
-      </b-col>
-    </b-row>
 
   </AppWrapper>
 </template>

@@ -4,11 +4,13 @@
 
 // BS basic configuration
 @import "bootstrap-mixins-cheatsheet";
+@import "typography";
 @import "utility";
 @import "form";
 @import "navigation";
 @import "tooltip";
 @import "links";
+@import "tabs";
 
 // BS style override
 @import "bootstrap-widget-dropdown";
@@ -26,3 +28,5 @@
 // Workbench Apps
 @import "favorite-links";
 @import "my-certifications";
+@import "permit-lookup";
+
