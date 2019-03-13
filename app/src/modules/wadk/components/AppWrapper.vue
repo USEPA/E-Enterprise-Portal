@@ -91,36 +91,14 @@
       modal-ref="widgetMenuModal"
       hide-footer
       :title="`${eepApp.title} Menu`">
-      <b-tabs
-        v-model="menuModalTabIndex"
-        ref="widget-menu-tabs">
-        <b-tab
-          :title="title"
-          ref="widgetMenuItems"
-          class="py-3"
-          v-for="(text, title) in eepApp.field_settings_menu_items">
+      <template>
+        <div
+          v-for="(text, title) in eepApp.field_settings_menu_items"
+          class="col-12">
+          <h3>{{title}}</h3>
           <div v-html="text"/>
-        </b-tab>
-        <b-tab
-          v-if="eepApp.source.length > 0"
-          title="Source"
-          ref="widgetMenuSource"
-          class="py-3"
-          :disabled="!eepApp.source">
-          <template
-            v-show="!!eepApp.source"
-            v-for="(source, index) in eepApp.source">
-            <span :key="index">
-              <a
-                :href="source.link"
-                target="_blank">{{ source.text }}</a>
-              <br
-                :key="index"
-                v-if="eepApp.source.length !== index + 1">
-            </span>
-          </template>
-        </b-tab>
-      </b-tabs>
+        </div>
+      </template>
     </AppModal>
   </div>
 </template>
