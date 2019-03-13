@@ -426,7 +426,7 @@
      width: 100%;
      right: 0;
      margin-right: -100%;
-    top:0;
+     top:0;
    }
   }
 </style>
