@@ -471,11 +471,9 @@ export default {
           let thisTribeZipcodes = [];
           formattedResponseInformation.push(tribeName);
 
-          returnData.tribal_information[key].forEach((item) => {
+          returnData.tribal_information[key].forEach((zipcode) => {
 
             // @TODO: filter out the zipcodes that the user has already selected
-
-            let zipcode = item;
 
             thisTribeZipcodes.push(zipcode);
 
