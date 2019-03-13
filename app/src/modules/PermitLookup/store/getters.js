@@ -27,11 +27,14 @@ export default {
   getFacilityName(state) {
     return state.facilityName;
   },
-  getNPDESID(state) {
-    return state.NPDESID;
+  getNpdesId(state) {
+    return state.npdesId;
   },
   getFacilityCity(state) {
     return state.facilityCity;
+  },
+  getFacilityState(state) {
+    return state.facilityState;
   },
   getFacilityZip(state) {
     return state.facilityZip;
@@ -75,6 +78,9 @@ export default {
   getIssuer(state) {
     return state.issuer;
   },
+  getSector(state) {
+    return state.sector;
+  },
   getSubmissionType(state) {
     return state.submissionType;
   },
@@ -96,5 +102,7 @@ export default {
   getMsgpFormResults(state) {
     return state.msgpFormResults;
   },
-
+  getTotalRows(state) {
+    return state.msgpFormResults.length;
+  },
 };

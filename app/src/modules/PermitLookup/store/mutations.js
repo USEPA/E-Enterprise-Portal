@@ -21,276 +21,248 @@ import types from './types';
 export default {
   ...commonAppStore.mutations,
   [types.SET_PERMIT_TYPE](state, str) {
-    // synchronise changes to the state of the store
-
-    // Example of how to change properties on the state object
     Vue.set(
-      state, // <- state value to change
-      'permitType', // <- the name of the property on the object the line above
-      str, // <- new value to set on that property
+      state,
+      'permitType',
+      str,
     );
   },
-  [types.SET_FACILITY_NAME](state, str) {
+  [types.SET_MSGP_FACILITY_NAME](state, str) {
     Vue.set(
-      state, // <- state value to change
-      'facilityName', // <- the name of the property on the object the line above
-      str, // <- new value to set on that property
+      state.msgpFormData,
+      'facilityName',
+      str,
     );
   },
-
-  [types.SET_NPDESID](state, str) {
+  [types.SET_MSGP_NPDESID](state, str) {
     Vue.set(
-      state, // <- state value to change
-      'NPDESID', // <- the name of the property on the object the line above
-      str, // <- new value to set on that property
+      state.msgpFormData,
+      'npdesId',
+      str,
     );
   },
-
-  [types.SET_FACILITY_CITY](state, str) {
+  [types.SET_MSGP_FACILITY_CITY](state, str) {
     Vue.set(
-      state, // <- state value to change
-      'facilityCity', // <- the name of the property on the object the line above
-      str, // <- new value to set on that property
+      state.msgpFormData,
+      'facilityCity',
+      str,
     );
   },
-
   [types.SET_MSGP_FACILITY_STATE](state, str) {
     Vue.set(
-      state.msgpFormData, // <- state value to change
-      'facilityState', // <- the name of the property on the object the line above
-      str, // <- new value to set on that property
+      state.msgpFormData,
+      'facilityState',
+      str,
     );
   },
-
-  [types.SET_FACILITY_ZIP](state, str) {
+  [types.SET_MSGP_FACILITY_ZIP](state, str) {
     Vue.set(
-      state, // <- state value to change
-      'facilityZip', // <- the name of the property on the object the line above
-      str, // <- new value to set on that property
+      state.msgpFormData,
+      'facilityZip',
+      str,
     );
   },
-
   [types.SET_STATUS](state, str) {
     Vue.set(
-      state, // <- state value to change
-      'status', // <- the name of the property on the object the line above
-      str, // <- new value to set on that property
+      state,
+      'status',
+      str,
     );
   },
-
   [types.SET_FORM_TYPE](state, str) {
     Vue.set(
-      state, // <- state value to change
-      'formType', // <- the name of the property on the object the line above
-      str, // <- new value to set on that property
+      state,
+      'formType',
+      str,
     );
   },
-
-  [types.SET_OPERATOR_NAME](state, str) {
+  [types.SET_MSGP_OPERATOR_NAME](state, str) {
     Vue.set(
-      state, // <- state value to change
-      'operatorName', // <- the name of the property on the object the line above
-      str, // <- new value to set on that property
+      state.msgpFormData,
+      'operatorName',
+      str,
     );
   },
-
   [types.SET_FEDERAL_INDICATOR](state, str) {
     Vue.set(
-      state, // <- state value to change
-      'federalFacility', // <- the name of the property on the object the line above
-      str, // <- new value to set on that property
+      state,
+      'federalFacility',
+      str,
     );
   },
-
   [types.SET_DATE_SELECTION](state, str) {
     Vue.set(
-      state, // <- state value to change
-      'dateSelection', // <- the name of the property on the object the line above
-      str, // <- new value to set on that property
+      state,
+      'dateSelection',
+      str,
     );
   },
-
   [types.SET_START_DATE](state, str) {
     Vue.set(
-      state, // <- state value to change
-      'submittedDateFrom', // <- the name of the property on the object the line above
-      str, // <- new value to set on that property
+      state,
+      'submittedDateFrom',
+      str,
     );
   },
-
   [types.SET_END_DATE](state, str) {
     Vue.set(
-      state, // <- state value to change
-      'submittedDateTo', // <- the name of the property on the object the line above
-      str, // <- new value to set on that property
+      state,
+      'submittedDateTo',
+      str,
     );
   },
-
   [types.SET_TRIBAL_INDICATOR](state, str) {
     Vue.set(
-      state, // <- state value to change
-      'tribalIndicator', // <- the name of the property on the object the line above
-      str, // <- new value to set on that property
+      state,
+      'tribalIndicator',
+      str,
     );
   },
-
   [types.SET_TRIBE_SELECTION](state, str) {
     Vue.set(
-      state, // <- state value to change
-      'tribeSelection', // <- the name of the property on the object the line above
-      str, // <- new value to set on that property
+      state,
+      'tribeSelection',
+      str,
     );
   },
-
   [types.SET_FACILITY_COUNTY](state, str) {
     Vue.set(
-      state, // <- state value to change
-      'facilityCounty', // <- the name of the property on the object the line above
-      str, // <- new value to set on that property
+      state,
+      'facilityCounty',
+      str,
     );
   },
-
-  [types.SET_MASTER_PERMIT_NUMBER](state, str) {
+  [types.SET_MSGP_MASTER_PERMIT_NUMBER](state, str) {
     Vue.set(
-      state, // <- state value to change
-      'masterPermitNumber', // <- the name of the property on the object the line above
-      str, // <- new value to set on that property
+      state.msgpFormData,
+      'masterPermitNumber',
+      str,
     );
   },
-
   [types.SET_TRIBAL_NAME](state, str) {
     Vue.set(
-      state, // <- state value to change
-      'tribalName', // <- the name of the property on the object the line above
-      str, // <- new value to set on that property
+      state.msgpFormData,
+      'tribalName',
+      str,
     );
   },
-
-  [types.SET_ISSUER](state, str) {
+  [types.SET_MSGP_ISSUER](state, str) {
     Vue.set(
-      state, // <- state value to change
-      'issuer', // <- the name of the property on the object the line above
-      str, // <- new value to set on that property
+      state.msgpFormData,
+      'issuer',
+      str,
     );
   },
-
-  [types.SET_SUBMISSION_TYPE](state, str) {
+  [types.SET_MSGP_SUBMISSION_TYPE](state, str) {
     Vue.set(
-      state, // <- state value to change
-      'submissionType', // <- the name of the property on the object the line above
-      str, // <- new value to set on that property
+      state.msgpFormData,
+      'submissionType',
+      str,
     );
   },
-
-  [types.SET_COVERAGE_TYPE](state, str) {
+  [types.SET_MSGP_COVERAGE_TYPE](state, str) {
     Vue.set(
-      state, // <- state value to change
-      'coverageType', // <- the name of the property on the object the line above
-      str, // <- new value to set on that property
+      state.msgpFormData,
+      'coverageType',
+      str,
     );
   },
-
-  [types.SET_COVERAGE_STATUS](state, str) {
+  [types.SET_MSGP_COVERAGE_STATUS](state, str) {
     Vue.set(
-      state, // <- state value to change
-      'coverageStatus', // <- the name of the property on the object the line above
-      str, // <- new value to set on that property
+      state.msgpFormData,
+      'coverageStatus',
+      str,
     );
   },
-
   [types.SET_MSGP_SECTOR](state, str) {
     Vue.set(
-      state.msgpFormData, // <- state value to change
-      'sector', // <- the name of the property on the object the line above
-      str, // <- new value to set on that property
+      state.msgpFormData,
+      'sector',
+      str,
     );
   },
-
   [types.SET_SUBSECTOR](state, str) {
     Vue.set(
-      state, // <- state value to change
-      'subsector', // <- the name of the property on the object the line above
-      str, // <- new value to set on that property
+      state,
+      'subsector',
+      str,
     );
   },
-
-  [types.SET_SIC_CODE](state, str) {
+  [types.SET_MSGP_SIC_CODE](state, str) {
     Vue.set(
-      state, // <- state value to change
-      'sicCode', // <- the name of the property on the object the line above
-      str, // <- new value to set on that property
+      state.msgpFormData,
+      'sicCode',
+      str,
     );
   },
-
-  [types.SET_ADDRESS](state, str) {
+  [types.SET_MSGP_ADDRESS](state, str) {
     Vue.set(
-      state, // <- state value to change
-      'address', // <- the name of the property on the object the line above
-      str, // <- new value to set on that property
+      state.msgpFormData,
+      'facilityAddressLine1',
+      str,
     );
   },
-
   [types.SET_FORM_OPTIONS_MSGP](state, arr) {
     Vue.set(
-      state.formOptions, // <- state value to change
-      'msgpFormOptions', // <- the name of the property on the object the line above
-      arr, // <- new value to set on that property
+      state.formOptions,
+      'msgpFormOptions',
+      arr,
     );
   },
-
   [types.SET_FORM_OPTIONS_CGP](state, arr) {
     Vue.set(
-      state.formOptions, // <- state value to change
-      'cgpFormOptions', // <- the name of the property on the object the line above
-      arr, // <- new value to set on that property
+      state.formOptions,
+      'cgpFormOptions',
+      arr,
     );
   },
-
   [types.SET_BASE_FORM_OPTIONS](state, arr) {
     Vue.set(
-      state.formOptions, // <- state value to change
-      'baseFormOptions', // <- the name of the property on the object the line above
-      arr, // <- new value to set on that property
+      state.formOptions,
+      'baseFormOptions',
+      arr,
     );
   },
-
   [types.SET_BASE_FORM_OPTION_STATE_NAMES](state, arr) {
     Vue.set(
-      state.formOptions.baseFormOptions, // <- state value to change
-      'stateNames', // <- the name of the property on the object the line above
-      arr, // <- new value to set on that property
+      state.formOptions.baseFormOptions,
+      'stateNames',
+      arr,
     );
   },
-
   [types.SET_BASE_FORM_OPTION_SECTOR_NAMES](state, arr) {
     Vue.set(
-      state.formOptions.baseFormOptions, // <- state value to change
-      'sectorNames', // <- the name of the property on the object the line above
-      arr, // <- new value to set on that property
+      state.formOptions.baseFormOptions,
+      'sectorNames',
+      arr,
     );
   },
-
+  [types.SET_BASE_FORM_OPTION_TRIAL_NAMES](state, arr) {
+    Vue.set(
+      state.formOptions.baseFormOptions,
+      'tribalNames',
+      arr,
+    );
+  },
   [types.SET_MSGP_RESPONSE](state, arr) {
     Vue.set(
-      state, // <- state value to change
-      'msgpFormResults', // <- the name of the property on the object the line above
-      arr, // <- new value to set on that property
+      state,
+      'msgpFormResults',
+      arr,
     );
   },
-
   [types.SET_MSGP_STATE_SELECTED](state, bool) {
     Vue.set(
-      state, // <- state value to change
-      'msgpStateSelected', // <- the name of the property on the object the line above
-      bool, // <- new value to set on that property
+      state,
+      'msgpStateSelected',
+      bool,
     );
   },
-
   [types.SET_MSGP_RESULTS_LOADED](state, bool) {
     Vue.set(
-      state, // <- state value to change
-      'msgpResultsLoaded', // <- the name of the property on the object the line above
-      bool, // <- new value to set on that property
+      state,
+      'msgpResultsLoaded',
+      bool,
     );
   },
 

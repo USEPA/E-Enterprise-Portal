@@ -208,18 +208,18 @@ class PermitLookupProxyServiceFilter extends ProxyServiceFilterBase
         (!isset($query['allForms'])) ?: $payload['helperQueries']['allForms'][] = trim($query['allForms']);
         (!isset($query['formTypes'])) ?: $payload['helperQueries']['formTypes'][] = trim($query['formTypes']);
         (!isset($query['coverageTypes'])) ?: $payload['helperQueries']['coverageTypes'][] = trim($query['coverageTypes']);
+        (!isset($query['submissionTypes'])) ?: $payload['helperQueries']['submissionTypes'][] = trim($query['submissionTypes']);
         (!isset($query['coverageStatuses'])) ?: $payload['helperQueries']['coverageStatuses'][] = trim($query['coverageStatuses']);
         (!isset($query['issuers'])) ?: $payload['helperQueries']['issuers'][] = trim($query['issuers']);
         (!isset($query['formStatuses'])) ?: $payload['helperQueries']['formStatuses'][] = trim($query['formStatuses']);
         // oeca-services with no parameters
         (!isset($query['sectors'])) ?: $payload['helperQueries']['oecaSvc']['sectors'][] = trim($query['sectors']);
         (!isset($query['states'])) ?: $payload['helperQueries']['oecaSvc']['states'][] = trim($query['states']);
+        (!isset($query['tribes'])) ?: $payload['helperQueries']['oecaSvc']['tribes'][] = trim($query['tribes']);
         // oeca-services with parameters
         (!isset($query['counties'])) ?: $payload['helperQueries']['oecaSvcWithParams']['counties'][] = trim($query['counties']);
         (!isset($query['sics'])) ?: $payload['helperQueries']['oecaSvcWithParams']['sics'][] = trim($query['sics']);
         (!isset($query['subsectors'])) ?: $payload['helperQueries']['oecaSvc']['subsectors'][] = trim($query['subsectors']);
-        // oeca-services with multiple parameters (construction on trible land)
-        (!isset($query['tribes'])) ?: $payload['helperQueries']['oecaSvcWithParams']['tribes'][] = trim($query['tribes']);
 
         // docs
         (!isset($query['docs'])) ?: $payload['helperQueries']['docs'][] = trim($query['docs']);
@@ -264,6 +264,14 @@ class PermitLookupProxyServiceFilter extends ProxyServiceFilterBase
             $form_response = $this->make_request_and_receive_response($form_url);
             $response = json_decode($form_response->getBody(), FALSE);
             $payload['helperQueryResponse']['coverageTypes'] = $response;
+        }
+
+        // Get submissionTypes
+        if (isset($payload['helperQueries']['submissionTypes'])) {
+            $form_url = $this->request->getUri() . 'reference/submissionTypes';
+            $form_response = $this->make_request_and_receive_response($form_url);
+            $response = json_decode($form_response->getBody(), FALSE);
+            $payload['helperQueryResponse']['submissionTypes'] = $response;
         }
 
         // Get issuers

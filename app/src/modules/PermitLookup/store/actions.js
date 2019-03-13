@@ -1,8 +1,6 @@
 import types from './types';
 import { AppAxios, commonAppStore } from '../../wadk/WADK';
 import { EventBus } from '../../../EventBus';
-import convert from 'xml-js';
-import parseXml from '../../wadk/utils/xmlTools';
 
 /**
  * Methods added here are available to all workbench applications.  Methods
@@ -16,20 +14,20 @@ export default {
 
     store.commit(types.SET_PERMIT_TYPE, payload);
   },
-  setFacilityName(context, payload) {
+  setMsgpFacilityName(context, payload) {
     const store = context;
 
-    store.commit(types.SET_FACILITY_NAME, payload);
+    store.commit(types.SET_MSGP_FACILITY_NAME, payload);
   },
-  setNPDESID(context, payload) {
+  setMsgpNpdesId(context, payload) {
     const store = context;
 
-    store.commit(types.SET_NPDESID, payload);
+    store.commit(types.SET_MSGP_NPDESID, payload);
   },
-  setFacilityCity(context, payload) {
+  setMsgpFacilityCity(context, payload) {
     const store = context;
 
-    store.commit(types.SET_FACILITY_CITY, payload);
+    store.commit(types.SET_MSGP_FACILITY_CITY, payload);
   },
   setMsgpFacilityState(context, payload) {
     const store = context;
@@ -37,10 +35,10 @@ export default {
     store.commit(types.SET_MSGP_FACILITY_STATE, payload);
     store.commit(types.SET_MSGP_STATE_SELECTED, true);
   },
-  setFacilityZip(context, payload) {
+  setMsgpFacilityZip(context, payload) {
     const store = context;
 
-    store.commit(types.SET_FACILITY_ZIP, payload);
+    store.commit(types.SET_MSGP_FACILITY_ZIP, payload);
   },
   setStatus(context, payload) {
     const store = context;
@@ -52,10 +50,10 @@ export default {
 
     store.commit(types.SET_FORM_TYPE, payload);
   },
-  setOperatorName(context, payload) {
+  setMsgpOperatorName(context, payload) {
     const store = context;
 
-    store.commit(types.SET_OPERATOR_NAME, payload);
+    store.commit(types.SET_MSGP_OPERATOR_NAME, payload);
   },
   setFederalIndicator(context, payload) {
     const store = context;
@@ -92,10 +90,10 @@ export default {
 
     store.commit(types.SET_FACILITY_COUNTY, payload);
   },
-  setMasterPermitNumber(context, payload) {
+  setMsgpMasterPermitNumber(context, payload) {
     const store = context;
 
-    store.commit(types.SET_MASTER_PERMIT_NUMBER, payload);
+    store.commit(types.SET_MSGP_MASTER_PERMIT_NUMBER, payload);
   },
   setTribalName(context, payload) {
     const store = context;
@@ -105,22 +103,22 @@ export default {
   setIssuer(context, payload) {
     const store = context;
 
-    store.commit(types.SET_ISSUER, payload);
+    store.commit(types.SET_MSGP_ISSUER, payload);
   },
-  setSubmissionType(context, payload) {
+  setMsgpSubmissionType(context, payload) {
     const store = context;
 
-    store.commit(types.SET_SUBMISSION_TYPE, payload);
+    store.commit(types.SET_MSGP_SUBMISSION_TYPE, payload);
   },
-  setCoverageType(context, payload) {
+  setMsgpCoverageType(context, payload) {
     const store = context;
 
-    store.commit(types.SET_COVERAGE_TYPE, payload);
+    store.commit(types.SET_MSGP_COVERAGE_TYPE, payload);
   },
-  setCoverageStatus(context, payload) {
+  setMsgpCoverageStatus(context, payload) {
     const store = context;
 
-    store.commit(types.SET_COVERAGE_STATUS, payload);
+    store.commit(types.SET_MSGP_COVERAGE_STATUS, payload);
   },
   setMsgpSector(context, payload) {
     const store = context;
@@ -132,28 +130,31 @@ export default {
 
     store.commit(types.SET_SUBSECTOR, payload);
   },
-  setSicCode(context, payload) {
+  setMsgpSicCode(context, payload) {
     const store = context;
 
-    store.commit(types.SET_SIC_CODE, payload);
+    store.commit(types.SET_MSGP_SIC_CODE, payload);
   },
-  setAddress(context, payload) {
+  setMsgpAddress(context, payload) {
     const store = context;
 
-    store.commit(types.SET_ADDRESS, payload);
+    store.commit(types.SET_MSGP_ADDRESS, payload);
   },
   loadBaseFormOption(context) {
     const store = context;
     const { state } = store;
     const apiURL = store.rootGetters.getEnvironmentApiURL;
 
-    AppAxios.get(`${apiURL}/eep/proxy/service/oeca-svc-ref?states&sectors`)
+    AppAxios.get(`${apiURL}/eep/proxy/service/oeca-svc-ref?tribes&states&sectors`)
       .then((response) => {
         const formOptions = response.data.helperQueryResponse.oecaSvc;
+        console.log(formOptions);
         const formSectorOptions = formOptions[0];
         const formStateOptions = formOptions[1];
+        const formTribalOptions = formOptions[2];
         const formSectorNames = [];
         const formStateNames = [];
+        const formTribalNames = [];
 
         formSectorOptions.forEach((sectorOption) => {
           formSectorNames.push(sectorOption.sectorName);
@@ -161,12 +162,17 @@ export default {
         formStateOptions.forEach((stateOption) => {
           formStateNames.push(stateOption.stateName);
         });
+        formTribalOptions.forEach((tribeOption) => {
+          formTribalNames.push(tribeOption.tribalName);
+        });
 
         console.log(formOptions);
         console.log(formStateNames);
+        console.log(formTribalNames);
         store.commit(types.SET_BASE_FORM_OPTIONS, formOptions);
-        store.commit(types.SET_BASE_FORM_OPTION_STATE_NAMES, formStateNames);
-        store.commit(types.SET_BASE_FORM_OPTION_SECTOR_NAMES, formSectorNames);
+        store.commit(types.SET_BASE_FORM_OPTION_STATE_NAMES, formStateNames.sort());
+        store.commit(types.SET_BASE_FORM_OPTION_SECTOR_NAMES, formSectorNames.sort());
+        store.commit(types.SET_BASE_FORM_OPTION_TRIAL_NAMES, formTribalNames.sort());
         console.log(state.formOptions.baseFormOptions);
       });
   },
@@ -175,7 +181,7 @@ export default {
     const { state } = store;
     const apiURL = store.rootGetters.getEnvironmentApiURL;
 
-    AppAxios.get(`${apiURL}/eep/proxy/service/oeca-msgp?formTypes&formStatuses&coverageTypes&issuers&coverageStatuses`)
+    AppAxios.get(`${apiURL}/eep/proxy/service/oeca-msgp?formTypes&formStatuses&coverageTypes&submissionTypes&issuers&coverageStatuses&form`)
       .then((response) => {
         const formOptions = response.data.helperQueryResponse;
         console.log(formOptions);
@@ -204,28 +210,27 @@ export default {
     const { baseFormOptions } = store.state.formOptions;
     const axiosUrlBase = `${apiURL}/eep/proxy/service/oeca-msgp?`;
     let urlQueries = '';
-    let queriesRemaining = Object.keys(msgpFormData).length;
+
+    // Set msgp form inputs that aren't empty or default as queries
     Object.keys(msgpFormData).forEach((key) => {
       if (msgpFormData[key] !== 'Select...' && msgpFormData[key] !== '') {
         console.log('inside first');
         console.log(`Key: ${key}; Value: ${msgpFormData[key]}`);
+        // Map State Name to State Code
         if (key === 'facilityState') {
           console.log('inside second');
           console.log(baseFormOptions[1]);
-          baseFormOptions[1].forEach((subKey) => {
-            console.log(subKey.stateName);
+          baseFormOptions[1].forEach((subKeyA) => {
+            console.log(subKeyA.stateName);
             console.log(msgpFormData);
-            if (subKey.stateName === msgpFormData.facilityState) {
+            if (subKeyA.stateName === msgpFormData.facilityState) {
               console.log('inside third');
-              urlQueries = `facilityState=${subKey.stateCode}`;
+              urlQueries = `facilityState=${subKeyA.stateCode}`;
             }
           });
         } else {
           urlQueries = `${urlQueries + key}=${msgpFormData[key]}`;
         }
-      }
-      queriesRemaining -= 1;
-      if (queriesRemaining > 0) {
         urlQueries += '&';
       }
     });
