@@ -42,7 +42,7 @@
       v-if="certificationsLoaded"
       hover
       id="my-certifications-table"
-      class="bootstrap-vue-mycerts-table-scroll"
+      class="no-top-border bootstrap-vue-mycerts-table-scroll"
       tbody-class="my-certs-tbody"
       :items="certifications"
       :fields="datatableSettings.fields"
@@ -108,124 +108,112 @@
     <!-- details modal -->
     <AppModal
       id="my-certs-details-modal"
+      class="m-1"
       modal-ref="my-certs-details-modal"
       :hide-footer="true"
       :title="modalSettings.title">
-      <div class="my-cert-modal-base-info pb-1">
-        <b-row class="pb-1">
-          <b-col md="4">
+      <div class="my-cert-modal-base-info mb-3">
+        <b-row class="mb-2">
+          <b-col md="8">
             <b-row>
+              <b-col>
               Application #
+              </b-col>
+              <b-col>
+                Application Type
+              </b-col>
             </b-row>
             <b-row class="font-weight-bold">
-              {{ modalSettings.info.partner_id }}
-            </b-row>
-          </b-col>
-          <b-col md="4">
-            <b-row>
-              Application Type
-            </b-row>
-            <b-row class="font-weight-bold">
-              {{ modalSettings.info.report_type }}
+              <b-col>
+                {{ modalSettings.info.partner_id }}
+              </b-col>
+              <b-col>
+                {{ modalSettings.info.report_type }}
+              </b-col>
             </b-row>
           </b-col>
         </b-row>
         <b-row class="pb-1">
-          <b-col md="4">
+          <b-col>
             <b-row>
-              Status
-            </b-row>
-            <b-row
-              v-if="modalSettings.info.status === 'Needs Attention'"
-              class="font-weight-bold text-danger">
-              {{ modalSettings.info.status }}
-            </b-row>
-            <b-row
-              v-else-if="modalSettings.info.status === 'Complete'"
-              class="font-weight-bold">
-              {{ modalSettings.info.status }}
-            </b-row>
-            <b-row
-              v-else
-              class="font-weight-bold">
-              {{ modalSettings.info.status }}
-            </b-row>
-          </b-col>
-          <b-col md="4">
-            <b-row>
-              Submitted
+              <b-col>
+                Status
+              </b-col>
+              <b-col>
+                Submitted
+              </b-col>
+              <b-col>
+                Last Updated
+              </b-col>
             </b-row>
             <b-row class="font-weight-bold">
-              {{ modalSettings.info.submitted }}
-            </b-row>
-          </b-col>
-          <b-col md="4">
-            <b-row>
-              Updated
-            </b-row>
-            <b-row class="font-weight-bold">
-              {{ modalSettings.info.updated }}
+              <b-col>
+                {{ modalSettings.info.status }}
+              </b-col>
+              <b-col>
+                {{ modalSettings.info.submitted }}
+              </b-col>
+              <b-col>
+                {{ modalSettings.info.updated }}
+              </b-col>
             </b-row>
           </b-col>
         </b-row>
       </div>
       <div
         v-if="modalSettings.info.status !== 'Received'"
-        class="my-cert-inner-switch pb-1">
+        class="my-cert-inner-switch  mb-5">
         <b-row v-if="modalSettings.info.status === 'Approved'">
           <b-col>
             <b-row>
-              Download
+              <b-col class="mb-1">
+                Download
+              </b-col>
             </b-row>
             <b-row
               v-for="(document) in modalSettings.info.documents">
-              <a
-                :href="modalSettings.info.certificateDownloadUrl"
-                @click="downloadCertificate(document)"
-                target="_blank"
-                download>{{document.name}}</a>
-            </b-row>
-          </b-col>
-        </b-row>
-        <b-row v-else-if="modalSettings.info.status === 'Needs Attention'">
-          <b-col>
-            <b-row>
-              Please use the&nbsp;
-              <span class="font-weight-bold text-primary text-decoration-underline">
-                My Reporting Widget
-              </span>
-              to access the&nbsp;
-              <a
-                href="https://cdx.epa.gov/"
-                target="_blank">CDX Website</a>
-              and correct the items.
+              <b-col>
+                <a
+                  :href="modalSettings.info.certificateDownloadUrl"
+                  @click="downloadCertificate(document)"
+                  class="text-primary text-decoration-underline text-bold cursor-pointer"
+                  >{{document.anchorName}}</a>
+              </b-col>
             </b-row>
           </b-col>
         </b-row>
       </div>
       <div class="my-cert-modal-footer">
-        <b-row>
+        <b-row class="mb-3">
           <b-col>
             <b-row>
+              <b-col>
               What's Next?
+              </b-col>
             </b-row>
             <b-row>
-              <a
-                href="https://www.epa.gov/lead/renovation-repair-and-painting-program-contractors"
-                target="_blank"
-                class="font-weight-bold">
-                Visit the EPA Lead website for next steps
-              </a>
+              <b-col>
+                <a
+                  href="https://www.epa.gov/lead/renovation-repair-and-painting-program-contractors"
+                  target="_blank"
+                  class="font-weight-bold">
+                  Visit the EPA Lead website for next steps
+                </a>
+              </b-col>
             </b-row>
           </b-col>
         </b-row>
         <b-row>
           <b-col>
-            <b-row class="font-weight-bold">
+            <b-row>
+              <b-col>
               Questions or need help?
+              </b-col>
             </b-row>
             <b-row>
+              <b-col>
               Lead Help Desk: leadhelpdesk@epa.gov
+              </b-col>
             </b-row>
           </b-col>
         </b-row>
@@ -357,12 +345,14 @@
         this.modalSettings.info.status = item.status;
         this.modalSettings.info.submitted = item.submitted;
         this.modalSettings.info.updated = item.updated;
+        item.documents.forEach((document, index) => {
+          if (document.name.indexOf('Certificate') >= 0) {
+            item.documents[index].anchorName = "Certificate";
+          } else {
+            item.documents[index].anchorName = "Logo";
+          }
+        });
         this.modalSettings.info.documents = item.documents;
-
-        if (this.modalSettings.info.status === 'Complete') {
-          this.modalSettings.info.certificateDownloadUrl = item.certificateDownloadUrl;
-          this.modalSettings.info.logoUrl = item.logoUrl;
-        }
         this.$root.$emit('bv::show::modal', 'my-certs-details-modal', button);
       },
       downloadCertificate(documentObject) {
