@@ -14,6 +14,24 @@ export default {
 
     store.commit(types.SET_PERMIT_TYPE, payload);
   },
+
+  setStatus(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_STATUS, payload);
+  },
+  setFormType(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_FORM_TYPE, payload);
+  },
+
+  setDateSelection(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_DATE_SELECTION, payload);
+  },
+
   setMsgpFacilityName(context, payload) {
     const store = context;
 
@@ -40,67 +58,37 @@ export default {
 
     store.commit(types.SET_MSGP_FACILITY_ZIP, payload);
   },
-  setStatus(context, payload) {
+  setMsgpStartDate(context, payload) {
     const store = context;
 
-    store.commit(types.SET_STATUS, payload);
+    store.commit(types.SET_MSGP_START_DATE, payload);
   },
-  setFormType(context, payload) {
+  setMsgpEndDate(context, payload) {
     const store = context;
 
-    store.commit(types.SET_FORM_TYPE, payload);
+    store.commit(types.SET_MSGP_END_DATE, payload);
   },
-  setMsgpOperatorName(context, payload) {
+  setMsgpTribalIndicator(context, payload) {
     const store = context;
 
-    store.commit(types.SET_MSGP_OPERATOR_NAME, payload);
+    store.commit(types.SET_MSGP_TRIBAL_INDICATOR, payload);
   },
-  setFederalIndicator(context, payload) {
+  setMsgpFacilityCounty(context, payload) {
     const store = context;
 
-    store.commit(types.SET_FEDERAL_INDICATOR, payload);
-  },
-  setDateSelection(context, payload) {
-    const store = context;
-
-    store.commit(types.SET_DATE_SELECTION, payload);
-  },
-  setStartDate(context, payload) {
-    const store = context;
-
-    store.commit(types.SET_START_DATE, payload);
-  },
-  setEndDate(context, payload) {
-    const store = context;
-
-    store.commit(types.SET_END_DATE, payload);
-  },
-  setTribalIndicator(context, payload) {
-    const store = context;
-
-    store.commit(types.SET_TRIBAL_INDICATOR, payload);
-  },
-  setTribeSelection(context, payload) {
-    const store = context;
-
-    store.commit(types.SET_TRIBE_SELECTION, payload);
-  },
-  setFacilityCounty(context, payload) {
-    const store = context;
-
-    store.commit(types.SET_FACILITY_COUNTY, payload);
+    store.commit(types.SET_MSGP_FACILITY_COUNTY, payload);
   },
   setMsgpMasterPermitNumber(context, payload) {
     const store = context;
 
     store.commit(types.SET_MSGP_MASTER_PERMIT_NUMBER, payload);
   },
-  setTribalName(context, payload) {
+  setMsgpTribalName(context, payload) {
     const store = context;
 
-    store.commit(types.SET_TRIBAL_NAME, payload);
+    store.commit(types.SET_MSGP_TRIBAL_NAME, payload);
   },
-  setIssuer(context, payload) {
+  setMsgpIssuer(context, payload) {
     const store = context;
 
     store.commit(types.SET_MSGP_ISSUER, payload);
@@ -125,10 +113,10 @@ export default {
 
     store.commit(types.SET_MSGP_SECTOR, payload);
   },
-  setSubsector(context, payload) {
+  setMsgpSubsector(context, payload) {
     const store = context;
 
-    store.commit(types.SET_SUBSECTOR, payload);
+    store.commit(types.SET_MSGP_SUBSECTOR, payload);
   },
   setMsgpSicCode(context, payload) {
     const store = context;
@@ -140,6 +128,17 @@ export default {
 
     store.commit(types.SET_MSGP_ADDRESS, payload);
   },
+  setMsgpOperatorName(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_MSGP_OPERATOR_NAME, payload);
+  },
+  setMsgpFederalIndicator(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_MSGP_FEDERAL_INDICATOR, payload);
+  },
+
   loadBaseFormOption(context) {
     const store = context;
     const { state } = store;

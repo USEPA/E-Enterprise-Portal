@@ -27,41 +27,6 @@ export default {
       str,
     );
   },
-  [types.SET_MSGP_FACILITY_NAME](state, str) {
-    Vue.set(
-      state.msgpFormData,
-      'facilityName',
-      str,
-    );
-  },
-  [types.SET_MSGP_NPDESID](state, str) {
-    Vue.set(
-      state.msgpFormData,
-      'npdesId',
-      str,
-    );
-  },
-  [types.SET_MSGP_FACILITY_CITY](state, str) {
-    Vue.set(
-      state.msgpFormData,
-      'facilityCity',
-      str,
-    );
-  },
-  [types.SET_MSGP_FACILITY_STATE](state, str) {
-    Vue.set(
-      state.msgpFormData,
-      'facilityState',
-      str,
-    );
-  },
-  [types.SET_MSGP_FACILITY_ZIP](state, str) {
-    Vue.set(
-      state.msgpFormData,
-      'facilityZip',
-      str,
-    );
-  },
   [types.SET_STATUS](state, str) {
     Vue.set(
       state,
@@ -76,13 +41,7 @@ export default {
       str,
     );
   },
-  [types.SET_MSGP_OPERATOR_NAME](state, str) {
-    Vue.set(
-      state.msgpFormData,
-      'operatorName',
-      str,
-    );
-  },
+
   [types.SET_FEDERAL_INDICATOR](state, str) {
     Vue.set(
       state,
@@ -132,6 +91,48 @@ export default {
       str,
     );
   },
+  [types.SET_MSGP_FACILITY_NAME](state, str) {
+    Vue.set(
+      state.msgpFormData,
+      'facilityName',
+      str,
+    );
+  },
+  [types.SET_MSGP_NPDESID](state, str) {
+    Vue.set(
+      state.msgpFormData,
+      'npdesId',
+      str,
+    );
+  },
+  [types.SET_MSGP_FACILITY_CITY](state, str) {
+    Vue.set(
+      state.msgpFormData,
+      'facilityCity',
+      str,
+    );
+  },
+  [types.SET_MSGP_FACILITY_STATE](state, str) {
+    Vue.set(
+      state.msgpFormData,
+      'facilityState',
+      str,
+    );
+  },
+  [types.SET_MSGP_FACILITY_ZIP](state, str) {
+    Vue.set(
+      state.msgpFormData,
+      'facilityZip',
+      str,
+    );
+  },
+  [types.SET_MSGP_OPERATOR_NAME](state, str) {
+    Vue.set(
+      state.msgpFormData,
+      'operatorName',
+      str,
+    );
+  },
   [types.SET_MSGP_MASTER_PERMIT_NUMBER](state, str) {
     Vue.set(
       state.msgpFormData,
@@ -139,7 +140,7 @@ export default {
       str,
     );
   },
-  [types.SET_TRIBAL_NAME](state, str) {
+  [types.SET_MSGP_TRIBAL_NAME](state, str) {
     Vue.set(
       state.msgpFormData,
       'tribalName',
@@ -181,9 +182,9 @@ export default {
       str,
     );
   },
-  [types.SET_SUBSECTOR](state, str) {
+  [types.SET_MSGP_SUBSECTOR](state, str) {
     Vue.set(
-      state,
+      state.msgpFormData,
       'subsector',
       str,
     );
@@ -199,6 +200,41 @@ export default {
     Vue.set(
       state.msgpFormData,
       'facilityAddressLine1',
+      str,
+    );
+  },
+  [types.SET_MSGP_FACILITY_COUNTY](state, str) {
+    Vue.set(
+      state.msgpFormData,
+      'facilityCounty',
+      str,
+    );
+  },
+  [types.SET_MSGP_FEDERAL_INDICATOR](state, str) {
+    Vue.set(
+      state.msgpFormData,
+      'federalIndicator',
+      str,
+    );
+  },
+  [types.SET_MSGP_TRIBAL_INDICATOR](state, str) {
+    Vue.set(
+      state.msgpFormData,
+      'tribalIndicator',
+      str,
+    );
+  },
+  [types.SET_MSGP_START_DATE](state, str) {
+    Vue.set(
+      state.msgpFormData,
+      'submittedDateFrom',
+      str,
+    );
+  },
+  [types.SET_MSGP_END_DATE](state, str) {
+    Vue.set(
+      state.msgpFormData,
+      'submittedDateTo',
       str,
     );
   },

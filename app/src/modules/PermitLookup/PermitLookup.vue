@@ -403,10 +403,10 @@
                   <b-form-select
                     id="issue-selection"
                     class="mb-3"
-                    :value="issuer"
+                    :value="msgpFormData.issuer"
                     :options="formOptions.msgpFormOptions.issuers"
                     ref="issuer-Dropdown"
-                    @change="setIssuer"
+                    @change="setMsgpIssuer"
                     size="sm">
                     <template slot="first">
                       <option
@@ -419,7 +419,7 @@
                   <b-form-select
                     id="submission-type-Dropdown"
                     class="mb-3"
-                    :value="submissionType"
+                    :value="msgpFormData.submissionType"
                     :options="formOptions.msgpFormOptions.submissionTypes"
                     ref="submission-type-Dropdown"
                     @change="setMsgpSubmissionType"
@@ -448,7 +448,7 @@
                   <b-form-select
                     id="coverage-type-selection"
                     class="mb-3"
-                    :value="coverageType"
+                    :value="msgpFormData.coverageType"
                     :options="formOptions.msgpFormOptions.coverageTypes"
                     ref="coverage-type-selection"
                     @change="setMsgpCoverageType"
@@ -464,7 +464,7 @@
                   <b-form-select
                     id="form-status-selection"
                     class="mb-3"
-                    :value="coverageStatus"
+                    :value="msgpFormData.coverageStatus"
                     :options="formOptions.msgpFormOptions.coverageStatuses"
                     ref="form-type-selection"
                     @change="setMsgpCoverageStatus"
@@ -494,7 +494,7 @@
                     id="NPDES-ID-input-msgp"
                     ref="NPDES-ID-input-msgp"
                     class="mb-3"
-                    :value="npdesId"
+                    :value="msgpFormData.npdesId"
                     @change="setMsgpNpdesId"
                     size="sm"/>
                 </b-col>
@@ -502,7 +502,7 @@
                   <b-form-select
                     id="sector-selection"
                     class="mb-3"
-                    :value="sector"
+                    :value="msgpFormData.sector"
                     :options="formOptions.baseFormOptions.sectorNames"
                     ref="sector-Dropdown"
                     @change="setMsgpSector"
@@ -532,9 +532,9 @@
                     id="subsector-input"
                     ref="subsector-input"
                     class="mb-3"
-                    :value="subsector"
+                    :value="msgpFormData.subsector"
                     :disabled="isDisabledSubsectorMsgp"
-                    @change="setSubsector"
+                    @change="setMsgpSubsector"
                     size="sm"
                     required/>
                 </b-col>
@@ -543,7 +543,7 @@
                     id="sic-code-input"
                     ref="sic-code-input"
                     class="mb-3"
-                    :value="sicCode"
+                    :value="msgpFormData.sicCode"
                     :disabled="isDisabledSubsectorMsgp"
                     @change="setMsgpSicCode"
                     size="sm"/>
@@ -566,7 +566,7 @@
                     id="facility-name-input-msgp"
                     ref="facility-name-input-msgp"
                     class="mb-3"
-                    :value="facilityName"
+                    :value="msgpFormData.facilityName"
                     @change="setMsgpFacilityName"
                     size="sm"/>
                 </b-col>
@@ -575,7 +575,7 @@
                     id="address-input"
                     ref="address-input"
                     class="mb-3"
-                    :value="facilityAddressLine1"
+                    :value="msgpFormData.facilityAddressLine1"
                     @change="setMsgpAddress"
                     size="sm"/>
                 </b-col>
@@ -601,7 +601,7 @@
                     id="city-input-msgp"
                     ref="city-input-msgp"
                     class="mb-3"
-                    :value="facilityCity"
+                    :value="msgpFormData.facilityCity"
                     @change="setMsgpFacilityCity"
                     size="sm"/>
                 </b-col>
@@ -609,7 +609,7 @@
                   <b-form-select
                     id="state-territory-selection-msgp"
                     class="mb-3"
-                    :value="facilityState"
+                    :value="msgpFormData.facilityState"
                     :options="formOptions.baseFormOptions.stateNames"
                     ref="stateOptions-Dropdown-msgp"
                     @change="setMsgpFacilityState"
@@ -626,7 +626,7 @@
                     id="zip-input-msgp"
                     ref="zip-input-msgp"
                     class="mb-3"
-                    :value="facilityZip"
+                    :value="msgpFormData.facilityZip"
                     @change="setMsgpFacilityZip"
                     size="sm"/>
                 </b-col>
@@ -657,7 +657,7 @@
                     <b-form-input
                       id="facility-operator-input-msgp"
                       class="mb-3"
-                      :value="operatorName"
+                      :value="msgpFormData.operatorName"
                       @change="setMsgpOperatorName"
                       ref="facility-operator-input-msgp"
                       size="sm"/>
@@ -667,7 +667,7 @@
                       v-model="radioSelection2"
                       id="federal-facility-selection-msgp"
                       :options="formOptions.federalIndicator"
-                      @change="setFederalIndicator"
+                      @change="setMsgpFederalIndicator"
                       name="radioInline2"
                       class="mb-3"
                       ref="federal-facility-selection-msgp"/>
@@ -694,7 +694,7 @@
                       id="master-general-permit-input"
                       ref="master-general-permit-input"
                       class="mb-3"
-                      :value="masterPermitNumber"
+                      :value="msgpFormData.masterPermitNumber"
                       @change="setMsgpMasterPermitNumber"
                       size="sm"/>
                   </b-col>
@@ -702,9 +702,9 @@
                     <b-form-input
                       id="start-date-input-msgp"
                       class="mb-3"
-                      :value="submittedDateFrom"
+                      :value="msgpFormData.submittedDateFrom"
                       ref="start-date-input-msgp"
-                      @change="setStartDate"
+                      @change="setMsgpStartDate"
                       size="sm"
                       placeholder="MM/DD/YYYY"/>
                   </b-col>
@@ -713,8 +713,8 @@
                       id="end-date-input-msgp"
                       ref="end-date-input-msgp"
                       class="mb-3"
-                      :value="submittedDateTo"
-                      @change="setEndDate"
+                      :value="msgpFormData.submittedDateTo"
+                      @change="setMsgpEndDate"
                       size="sm"
                       placeholder="MM/DD/YYYY"/>
                   </b-col>
@@ -736,7 +736,7 @@
                       v-model="radioSelection1"
                       id="tribal-lands-construction-msgp"
                       :options="formOptions.tribalIndicator"
-                      @change="setTribalIndicator"
+                      @change="setMsgpTribalIndicator"
                       name="radioInline1"
                       class="mb-3"
                       ref="tribal-lands-construction"/>
@@ -746,10 +746,10 @@
                       id="indian-country-selection"
                       ref="indian-country-selection"
                       class="mb-3"
-                      :value="tribalName"
+                      :value="msgpFormData.tribalName"
                       :options="formOptions.baseFormOptions.tribalNames"
                       :disabled="isDisabledTribeMsgp"
-                      @change="setTribalName"
+                      @change="setMsgpTribalName"
                       size="sm">
                       <template slot="first">
                         <option
@@ -772,10 +772,10 @@
                       id="county-selection-msgp"
                       ref="county-selection-msgp"
                       class="mb-3"
-                      :value="facilityCounty"
+                      :value="msgpFormData.facilityCounty"
                       :options="formOptions.countySelections"
                       :disabled="isDisabledCountyMsgp"
-                      @change="setFacilityCounty"
+                      @change="setMsgpFacilityCounty"
                       size="sm">
                       <template slot="first">
                         <option
@@ -1038,7 +1038,7 @@
         return !this.msgpFormData.facilityState;
       },
       isDisabledTribeMsgp() {
-        return (!this.msgpFormData.facilityState || !(this.tribalIndicator === true));
+        return (!this.msgpFormData.facilityState || !(this.msgp.formData.tribalIndicator === true));
       },
       isDisabledSubsectorMsgp() {
         return !this.msgpFormData.sector;
@@ -1056,14 +1056,8 @@
       ...mapActions(moduleName, [
         'msgpFormGetResults',
         'setPermitType',
-        'setMsgpFacilityName',
-        'setMsgpNpdesId',
-        'setMsgpFacilityCity',
-        'setMsgpFacilityState',
-        'setMsgpFacilityZip',
         'setStatus',
         'setFormType',
-        'setMsgpOperatorName',
         'setFederalIndicator',
         'setDateSelection',
         'setStartDate',
@@ -1071,16 +1065,30 @@
         'setTribalIndicator',
         'setTribeSelection',
         'setFacilityCounty',
-        'setMsgpMasterPermitNumber',
         'setTribalName',
-        'setIssuer',
+
+        'setMsgpTribalIndicator',
+        'setMsgpIssuer',
+        'setMsgpFederalIndicator',
+        'setMsgpFacilityCounty',
+        'setMsgpStartDate',
+        'setMsgpEndDate',
+        'setMsgpTribalName',
         'setMsgpSubmissionType',
         'setMsgpCoverageType',
         'setMsgpCoverageStatus',
         'setMsgpSector',
-        'setSubsector',
+        'setMsgpSubsector',
         'setMsgpSicCode',
         'setMsgpAddress',
+        'setMsgpFacilityName',
+        'setMsgpNpdesId',
+        'setMsgpFacilityCity',
+        'setMsgpFacilityState',
+        'setMsgpFacilityZip',
+        'setMsgpOperatorName',
+        'setMsgpMasterPermitNumber',
+
         'loadBaseFormOption',
         'loadMsgpFormOptions',
         'loadCgpFormOptions',
@@ -1113,22 +1121,28 @@
         store.setMsgpFacilityZip('');
         store.setStatus('');
         store.setFormType('');
-        store.setMsgpOperatorName('');
-        store.setFederalIndicator('');
         store.setDateSelection('');
-        store.setStartDate('');
-        store.setEndDate('');
-        store.setTribalIndicator('');
-        store.setTribeSelection('');
-        store.setFacilityCounty('');
+
+        store.setMsgpFacilityName('');
+        store.setMsgpNpdesId('');
+        store.setMsgpFacilityCity('');
+        store.setMsgpFacilityState('');
+        store.setMsgpFacilityZip('');
+        store.setMsgpOperatorName('');
+        store.setMsgpFederalIndicator('');
+        store.setMsgpStartDate('');
+        store.setMsgpEndDate('');
+        store.setMsgpTribalIndicator('');
+        store.setMsgpTribalName('');
+        store.setMsgpFacilityCounty('');
         store.setMsgpMasterPermitNumber('');
-        store.setTribalName('');
-        store.setIssuer('');
+        store.setMsgpTribalName('');
+        store.setMsgpIssuer('');
         store.setMsgpSubmissionType('');
         store.setMsgpCoverageType('');
         store.setMsgpCoverageStatus('');
         store.setMsgpSector('');
-        store.setSubsector('');
+        store.setMsgpSubsector('');
         store.setMsgpSicCode('');
         store.setMsgpAddress('');
         store.radioSelection1 = false;
