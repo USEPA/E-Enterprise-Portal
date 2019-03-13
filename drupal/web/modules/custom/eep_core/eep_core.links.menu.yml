@@ -15,7 +15,19 @@ eep_core.eep_workbench_application:
   description: 'example of how to make an admin settings page link'
   parent: eep_core.admin
   route_name: eep_core.eep_workbench_application
+  url: internal:/admin/content?title=&type=eep_proxy_service&status=All&langcode=All
+eep_core.eep_proxy_service:
+  title: 'EEP Proxy Services'
+  description: 'example of how to make an admin settings page link'
+  parent: eep_core.admin
+  route_name: eep_core.eep_workbench_application
   url: internal:/admin/content?title=&type=eep_workbench_application&status=All&langcode=All
+eep_core.eep_app_content:
+  title: 'EEP App Content'
+  description: 'example of how to make an admin settings page link'
+  parent: eep_core.admin
+  route_name: eep_core.eep_workbench_application
+  url: internal:/admin/content?title=&type=eep_app_content&status=All&langcode=All
 eep_core.eep_cookie_config_form:
   title: 'EEP Cookie Configuration Form'
   route_name: eep_core.eep_cookie_config_form
