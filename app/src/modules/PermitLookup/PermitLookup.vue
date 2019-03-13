@@ -1035,13 +1035,21 @@
         totalRows: 'getTotalRows',
       }),
       isDisabledCounty() {
-        return !this.facilityState;
+        if (this.facilityState === 'Select...'){
+          return true;
+        } else {
+          return false;
+        }
       },
       isDisabledTribe() {
-        return (!this.facilityState || !(this.tribalIndicator === true));
+        return (!(this.facilityState === 'Select...') || !(this.tribalIndicator === true));
       },
       isDisabledSubsector() {
-        return !this.sector;
+        if (this.sector === 'Select...'){
+          return true;
+        } else {
+          return false;
+        }
       }
     },
     methods: {

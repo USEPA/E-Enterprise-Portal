@@ -54,6 +54,14 @@ export default {
       'Construction General Permit',
       'Multi-sector General Permit',
     ],
+    tribalIndicator: [
+      {text: 'Yes', value: true},
+      {text: 'No', value: false},
+    ],
+    federalIndicator: [
+      {text: 'Yes', value: true},
+      {text: 'No', value: false},
+    ],
     baseFormOptions: {},
     msgpFormOptions: {},
     cgpFormOptions: {},
