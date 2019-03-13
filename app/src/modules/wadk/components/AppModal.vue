@@ -170,5 +170,7 @@
 
   .modal-title {
     background-repeat: no-repeat;
+    background-position: left;
+    background-size: 1.2rem 1.2rem;
   }
 </style>
