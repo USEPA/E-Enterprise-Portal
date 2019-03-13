@@ -462,10 +462,10 @@ export default {
       // Declare variables
       let formattedResponseInformation = [];
       let dropDownLabelText = 'Select a zipcode for';
-      let savedZipcodes=[];
+      let savedZipcodes = [];
       const returnData = response.data;
-      const inputlocationZipcodes= returnData.zipcode;
-      let commonZipcodes=[];
+      const inputlocationZipcodes = returnData.zipcode;
+      let commonZipcodes = [];
       if (params.indexOf('tribe') !== -1) {
         Object.keys(returnData.tribal_information).forEach((key) => {
 
@@ -482,8 +482,8 @@ export default {
             thisTribeZipcodes.push(zipcode);
 
           });
-          if(thisTribeZipcodes.length > 0){
-              formattedResponseInformation.push({tribeName: thisTribeZipcodes});
+          if (thisTribeZipcodes.length > 0) {
+            formattedResponseInformation.push({tribeName: thisTribeZipcodes});
           }
         });
         store.commit(types.IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES, true);
@@ -514,7 +514,7 @@ export default {
         checkIfAllZipSaved();
         console.log(savedZipcodes.length);
         console.log(inputlocationZipcodes.length);
-        if(commonZipcodes.length== inputlocationZipcodes.length){
+        if (commonZipcodes.length == inputlocationZipcodes.length) {
           store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', true);
           store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', true);
         } else {
@@ -523,31 +523,36 @@ export default {
           formattedResponseInformation = returnData.zipcode;
         }
       }
-      function checkIfAllZipSaved(){
-        const savedLocation=store.getters.getUser.userLocationsFromLoad;
+      function checkIfAllZipSaved() {
+        const savedLocation = store.getters.getUser.userLocationsFromLoad;
         const inputlocationZipcodes = returnData.zipcode;
-        let zipcodesFromSavedLocations=[];
+        let zipcodesFromSavedLocations = [];
         for (let i = 0; i < savedLocation.length; i += 1) {
           zipcodesFromSavedLocations.push(savedLocation[i].second);
         }
-        savedZipcodes = zipcodesFromSavedLocations.map(function(e){return e.toString()});
+        savedZipcodes = zipcodesFromSavedLocations.map(function (e) {
+          return e.toString()
+        });
 
 
-        compareZipcodes(inputlocationZipcodes,savedZipcodes);
+        compareZipcodes(inputlocationZipcodes, savedZipcodes);
       }
-      function compareZipcodes(inputlocationZipcodes,savedZipcodes){
-        const objMap={};
 
-        inputlocationZipcodes.forEach((e1)=>savedZipcodes.forEach((e2)=> {if(e1 === e2){
-            objMap[e1]=objMap[e1]+1||1 ;
-          }
+      function compareZipcodes(inputlocationZipcodes, savedZipcodes) {
+        const objMap = {};
+
+        inputlocationZipcodes.forEach((e1)=>savedZipcodes.forEach((e2)=> {
+            if (e1 === e2) {
+              objMap[e1] = objMap[e1] + 1 || 1;
+            }
           }
         ));
-        commonZipcodes=Object.keys(objMap).map(e=>Number(e));
+        commonZipcodes = Object.keys(objMap).map(e=>Number(e));
         console.log(Object.keys(objMap).map(e=>Number(e)));
 
 
       }
+
       // Commit all of the information to the store
       store.commit('SET_OPTIONS_AFTER_INPUT', formattedResponseInformation);
       store.commit('SET_INPUT_BOX_TEXT', store.getters.getUser.inputBoxText);
