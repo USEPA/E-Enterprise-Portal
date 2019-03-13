@@ -486,6 +486,7 @@ export default {
             formattedResponseInformation.push({tribeName: thisTribeZipcodes});
           }
         });
+        store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', false);
         store.commit(types.IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES, true);
         store.commit(types.SET_TRIBES_ARRAY, formattedResponseInformation);
       } else if (params.indexOf('zipcode') !== -1) {
@@ -506,6 +507,7 @@ export default {
           for (let i = 0; i < tribes.length; i += 1) {
             formattedResponseInformation.push(tribes[i]);
           }
+          store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', false);
           store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', true);
         }
         dropDownLabelText = 'Select a location for';
