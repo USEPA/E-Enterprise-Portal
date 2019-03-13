@@ -537,13 +537,13 @@ export default {
       function compareZipcodes(inputlocationZipcodes, savedZipcodes) {
         const objMap = {};
 
-        inputlocationZipcodes.forEach((e1)=>savedZipcodes.forEach((e2)=> {
-            if (e1 === e2) {
-              objMap[e1] = objMap[e1] + 1 || 1;
+        inputlocationZipcodes.forEach((inputZipcode)=>savedZipcodes.forEach((storedZipcode)=> {
+            if (inputZipcode === storedZipcode) {
+              objMap[inputZipcode] = objMap[storedZipcode] + 1 || 1;
             }
           }
         ));
-        commonZipcodes = Object.keys(objMap).map(e=>Number(e));
+        commonZipcodes = Object.keys(objMap).map(zipcodes=>Number(zipcodes));
       }
       // Commit all of the information to the store
       store.commit('SET_OPTIONS_AFTER_INPUT', formattedResponseInformation);
