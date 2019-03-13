@@ -42,7 +42,7 @@
       v-if="certificationsLoaded"
       hover
       id="my-certifications-table"
-      class="no-top-border bootstrap-vue-mycerts-table-scroll"
+      class="no-top-border no-bottom-border no-sort-images bootstrap-vue-mycerts-table-scroll"
       tbody-class="my-certs-tbody"
       :items="certifications"
       :fields="datatableSettings.fields"
@@ -58,14 +58,7 @@
         slot="status"
         slot-scope="row">
         <div
-          v-if="row.value === 'Needs Attention'"
-          class="text-danger text-decoration-underline text-bold cursor-pointer"
-          @click="openCertsDecriptionModal(row.item, row.index, $event.target)">
-          {{ row.value }}
-          <div class="cert-needs-attn-decoration"/>
-        </div>
-        <div
-          v-else-if="row.value === 'Complete'"
+          v-if="row.value === 'Complete'"
           class="text-success text-decoration-underline text-bold cursor-pointer"
           @click="openCertsDecriptionModal(row.item, row.index, $event.target)">
           {{ row.value }}
@@ -78,12 +71,19 @@
           <div class="cert-not-completed-decoration"/>
         </div>
       </template>
-
+      <template
+              slot="partner_id"
+              slot-scope="row">
+        <div
+                class="text-primary text-decoration-underline text-bold cursor-pointer"
+                @click="openCertsDecriptionModal(row.item, row.index, $event.target)">
+          {{ row.value }}
+        </div>
+      </template>
       <template
         v-if='!certificationsLoaded'>
         <p>Loading your Certifications...</p>
       </template>
-
     </b-table>
 
     <!--if No Certifications-->
@@ -91,14 +91,14 @@
 
     <!--pagination-->
     <b-row
-      v-if="certificationsLoaded"
+      v-if="totalRows > datatableSettings.perPage"
       class="text-center">
       <b-col
         md="12"
         class="my-1">
         <b-pagination
           align="center"
-          :total-rows="datatableSettings.totalRows"
+          :total-rows="totalRows"
           :per-page="datatableSettings.perPage"
           v-model="datatableSettings.currentPage"
           class="my-0"/>
@@ -243,7 +243,7 @@
           fields: [
             {
               key: 'partner_id',
-              label: 'Applic. #',
+              label: 'Application #',
               sortable: true,
               sortDirection: 'desc',
             },
@@ -259,33 +259,6 @@
               sortable: true,
               sortDirection: 'desc',
             },
-            // Will need these for Large view
-            /*
-              {
-                key: 'updated',
-                label: 'Updated',
-                sortable: true,
-                sortDirection: 'desc',
-              },
-              {
-                key: 'type',
-                label: 'Type',
-                sortable: true,
-                sortDirection: 'desc',
-              },
-             {
-                key: 'number',
-                label: 'Application #',
-                sortable: true,
-                sortDirection: 'desc',
-              },
-              {
-                key: 'download',
-                label: 'Download',
-                sortable: true,
-                sortDirection: 'desc',
-              },
-            */
           ],
           currentPage: 1,
           perPage: 5,
@@ -294,6 +267,7 @@
           sortDesc: false,
           sortDirection: 'asc',
           filter: null,
+          totalRows: (this.certifications ? this.certifications.length : 0)
         },
         modalSettings: {
           title: 'My Certifications',
