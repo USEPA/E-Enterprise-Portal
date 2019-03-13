@@ -462,8 +462,9 @@ export default {
       // Declare variables
       let formattedResponseInformation = [];
       let dropDownLabelText = 'Select a zipcode for';
-
+      let finalOutput=[];
       const returnData = response.data;
+      console.log(returnData);
       if (params.indexOf('tribe') !== -1) {
         Object.keys(returnData.tribal_information).forEach((key) => {
 
@@ -508,19 +509,61 @@ export default {
         }
         dropDownLabelText = 'Select a location for';
       } else if (params.indexOf('city') !== -1 && params.indexOf('state') !== -1) {
-        formattedResponseInformation = returnData.zipcode;
+        const locationZipcodes = returnData.zipcode;
+        checkIfAllZipSaved();
+        if(finalOutput.length== locationZipcodes.length){
+          store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', true);
+          store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', true);
+        } else {
+          store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', false);
+          formattedResponseInformation = returnData.zipcode;
+        }
       }
+      function checkIfAllZipSaved(){
+        const savedLocation=store.getters.getUser.userLocationsFromLoad;
+        const locationZipcodes = returnData.zipcode;
+        let onlyZipcodes=[];
+        for (let i = 0; i < savedLocation.length; i += 1) {
+          onlyZipcodes.push(savedLocation[i].second);
+        }
+        console.log(locationZipcodes);
+        console.log(savedLocation);
+        console.log(onlyZipcodes);
 
+        let strArr = onlyZipcodes.map(function(e){return e.toString()});
+        console.log(strArr);
+
+        compareZipcodes(locationZipcodes,strArr);
+
+
+
+
+
+      }
+      function compareZipcodes(locationZipcodes,strArr){
+        const objMap={};
+
+        locationZipcodes.forEach((e1)=>strArr.forEach((e2)=> {if(e1 === e2){
+            objMap[e1]=objMap[e1]+1||1 ;
+          }
+          }
+        ));
+        finalOutput=Object.keys(objMap).map(e=>Number(e));
+        console.log(Object.keys(objMap).map(e=>Number(e)));
+
+
+      }
       // Commit all of the information to the store
       store.commit('SET_OPTIONS_AFTER_INPUT', formattedResponseInformation);
       store.commit('SET_INPUT_BOX_TEXT', store.getters.getUser.inputBoxText);
-      store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', false);
+
       // Change the label for the dropdown
       store.commit('SET_DROPDOWN_LABEL', dropDownLabelText);
     }).catch((error) => {
       console.warn(error);
     });
   },
+
   handleSelectButtonClickForLocation(context) {
     const store = context;
 
