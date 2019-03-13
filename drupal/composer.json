@@ -58,7 +58,6 @@
     "drupal/wincachedrupal": "^1.11",
     "drush/drush": "^9.5",
     "mnsami/composer-custom-directory-installer": "^1.1",
-    "twig/twig": "1.37.1",
     "vlucas/phpdotenv": "^2.4",
     "webflo/drupal-finder": "^1.0.0",
     "webmozart/path-util": "^2.3"

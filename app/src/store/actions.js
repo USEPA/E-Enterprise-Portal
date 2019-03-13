@@ -464,10 +464,8 @@ export default {
       // Declare variables
       let formattedResponseInformation = [];
       let dropDownLabelText = 'Select a zipcode for';
-      let savedZipcodes = [];
+
       const returnData = response.data;
-      const inputlocationZipcodes = returnData.zipcode;
-      let commonZipcodes = [];
       if (params.indexOf('tribe') !== -1) {
         Object.keys(returnData.tribal_information).forEach((key) => {
 
@@ -480,17 +478,17 @@ export default {
               thisTribeZipcodes.push(zipcode);
             }
           });
-          if (thisTribeZipcodes.length > 0) {
-            formattedResponseInformation.push({tribeName: thisTribeZipcodes});
+          if(thisTribeZipcodes.length > 0){
+              formattedResponseInformation.push({tribeName: thisTribeZipcodes});
           }
         });
-        store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', false);
         store.commit(types.IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES, true);
         store.commit(types.SET_TRIBES_ARRAY, formattedResponseInformation);
       } else if (params.indexOf('zipcode') !== -1) {
         // The if statement handles the case of if a zipcode exist in more than
         // one place
         if (returnData.cities_and_states) {
+          console.log("hit if");
           let cities_and_states_return_from_ajax = returnData.cities_and_states;
           let cities_and_states = [];
           cities_and_states_return_from_ajax.forEach(function(city_and_state){
@@ -500,6 +498,7 @@ export default {
           });
           formattedResponseInformation = cities_and_states;
         } else {
+          console.log("hit else");
           const cities = returnData.city;
 
           for (let i = 0; i < cities.length; i += 1) {
@@ -517,7 +516,6 @@ export default {
               formattedResponseInformation.push(tribe);
             }
           }
-          store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', false);
           store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', true);
         }
         dropDownLabelText = 'Select a location for';
@@ -537,50 +535,18 @@ export default {
             return parseInt(location.second) === parseInt(zipcode)
                 && location.first.trim() === name.trim();
         });
-        checkIfAllZipSaved();
-        if (commonZipcodes.length == inputlocationZipcodes.length) {
-          store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', true);
-          store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', true);
-        } else {
-          store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', false);
-          store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', false);
-          formattedResponseInformation = returnData.zipcode;
-        }
       }
-      function checkIfAllZipSaved() {
-        const savedLocation = store.getters.getUser.userLocationsFromLoad;
-        const inputlocationZipcodes = returnData.zipcode;
-        let zipcodesFromSavedLocations = [];
-        for (let i = 0; i < savedLocation.length; i += 1) {
-          zipcodesFromSavedLocations.push(savedLocation[i].second);
-        }
-        savedZipcodes = zipcodesFromSavedLocations.map(function (e) {
-          return e.toString()
-        });
-        compareZipcodes(inputlocationZipcodes, savedZipcodes);
-      }
-      function compareZipcodes(inputlocationZipcodes, savedZipcodes) {
-        const objMap = {};
 
-        inputlocationZipcodes.forEach((inputZipcode)=>savedZipcodes.forEach((storedZipcode)=> {
-            if (inputZipcode === storedZipcode) {
-              objMap[inputZipcode] = objMap[storedZipcode] + 1 || 1;
-            }
-          }
-        ));
-        commonZipcodes = Object.keys(objMap).map(zipcodes=>Number(zipcodes));
-      }
       // Commit all of the information to the store
       store.commit('SET_OPTIONS_AFTER_INPUT', formattedResponseInformation);
       store.commit('SET_INPUT_BOX_TEXT', store.getters.getUser.inputBoxText);
-
+      store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', false);
       // Change the label for the dropdown
       store.commit('SET_DROPDOWN_LABEL', dropDownLabelText);
     }).catch((error) => {
       console.warn(error);
     });
   },
-
   handleSelectButtonClickForLocation(context) {
     const store = context;
 
