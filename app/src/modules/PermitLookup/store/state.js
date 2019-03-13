@@ -22,6 +22,7 @@ export default {
   submittedDateFrom: '',
   submittedDateTo: '',
   tribalIndicator: '',
+  federalIndicator: '',
   tribalName: 'Select...',
   facilityCounty: '',
   masterPermitNumber: '',
@@ -48,11 +49,21 @@ export default {
     facilityZip: '',
     operatorName: '',
     masterPermitNumber: '',
+    tribalIndicator: '',
+    federalIndicator: '',
   },
   formOptions: {
     permitType: [
       'Construction General Permit',
       'Multi-sector General Permit',
+    ],
+    tribalIndicator: [
+      { text: 'Yes', value: true },
+      { text: 'No', value: false },
+    ],
+    federalIndicator: [
+      { text: 'Yes', value: true },
+      { text: 'No', value: false },
     ],
     baseFormOptions: {},
     msgpFormOptions: {},

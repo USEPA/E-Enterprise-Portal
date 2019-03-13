@@ -862,7 +862,16 @@
                 :sort-by.sync="sortBy"
                 :sort-desc.sync="sortDesc"
                 :sort-direction="sortDirection"
-                :filtered="onFiltered"/>
+                :filtered="onFiltered">
+                <template
+                  slot="documents"
+                  slot-scope="data">
+                  <a
+                    v-for="attachment in data.item.attachments"
+                    :href="`https://devngn.epacdxnode.net/net-msgp/api/public/v1/form/${data.item.id}/attachment/${attachment.id}`"
+                    class="pl-2">Download</a>
+                </template>
+              </b-table>
             </b-col>
             <!-- pagination -->
             <b-row class="text-center">
@@ -974,6 +983,11 @@
             label: 'Effective Date',
             sortable: false,
             sortDirection: 'desc',
+          },
+          {
+            key: 'documents',
+            label: 'Corresponding Documents',
+            sortable: false,
           },
         ],
         currentPage: 1,

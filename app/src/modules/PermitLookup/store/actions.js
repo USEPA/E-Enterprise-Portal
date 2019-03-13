@@ -164,7 +164,7 @@ export default {
         formTribalOptions.forEach((tribeOption) => {
           formTribalNames.push(tribeOption.tribalName);
         });
-        
+
         store.commit(types.SET_BASE_FORM_OPTIONS, formOptions);
         store.commit(types.SET_BASE_FORM_OPTION_STATE_NAMES, formStateNames.sort());
         store.commit(types.SET_BASE_FORM_OPTION_SECTOR_NAMES, formSectorNames.sort());

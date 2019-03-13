@@ -258,6 +258,13 @@ export default {
       bool,
     );
   },
+  [types.SET_DOCUMENT_LINKS](state, arr) {
+    Vue.set(
+      state.msgpFormResults,
+      'documents',
+      arr,
+    );
+  },
   [types.SET_MSGP_RESULTS_LOADED](state, bool) {
     Vue.set(
       state,
