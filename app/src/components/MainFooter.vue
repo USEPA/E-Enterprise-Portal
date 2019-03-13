@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer fixed-bottom">
+  <footer class="footer">
     <div
       class="alert alert-info"
       role="alert"
@@ -146,19 +146,8 @@
       &:hover, &:active {
         text-decoration: underline;
       }
-
     }
-
   }
-    @include media-breakpoint-down(xs) {
-      footer.fixed-bottom {
-        position: relative;
-        right: auto;
-        bottom: auto;
-        left: auto;
-        z-index: auto;
-      }
-    }
 
   #terms-conditions {
     min-height: 5em;
