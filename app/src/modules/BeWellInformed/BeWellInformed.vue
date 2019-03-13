@@ -3,10 +3,10 @@
   <div>
     <AppWrapper
       :eep-app="eepApp">
-      <template><p style="
-        font-size:.65rem;
-        line-height:.75rem;">Have a well and wonder what your water testing results mean? Enter
-        water test results and get feedback about health concerns and water treatment choices.</p>
+      <template>
+        <p class="check-water-message">
+          Have a well and wonder what your water testing results mean? Enter
+          water test results and get feedback about health concerns and water treatment choices.</p>
       </template>
       <b-form
         class="needs-validation"
@@ -393,4 +393,8 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped
   lang="scss">
+  .check-water-message {
+    font-size: .75rem;
+    line-height: .75rem;
+  }
 </style>
