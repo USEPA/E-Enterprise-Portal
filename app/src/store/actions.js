@@ -462,8 +462,10 @@ export default {
       // Declare variables
       let formattedResponseInformation = [];
       let dropDownLabelText = 'Select a zipcode for';
-      let commonZipcodes=[];
+      let savedZipcodes=[];
       const returnData = response.data;
+      const inputlocationZipcodes= returnData.zipcode;
+      let commonZipcodes=[];
       if (params.indexOf('tribe') !== -1) {
         Object.keys(returnData.tribal_information).forEach((key) => {
 
@@ -508,9 +510,11 @@ export default {
         }
         dropDownLabelText = 'Select a location for';
       } else if (params.indexOf('city') !== -1 && params.indexOf('state') !== -1) {
-        const locationZipcodes = returnData.zipcode;
+
         checkIfAllZipSaved();
-        if(commonZipcodes.length== locationZipcodes.length){
+        console.log(savedZipcodes.length);
+        console.log(inputlocationZipcodes.length);
+        if(commonZipcodes.length== inputlocationZipcodes.length){
           store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', true);
           store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', true);
         } else {
@@ -522,28 +526,19 @@ export default {
       function checkIfAllZipSaved(){
         const savedLocation=store.getters.getUser.userLocationsFromLoad;
         const inputlocationZipcodes = returnData.zipcode;
-        let savedZipcodes=[];
+        let zipcodesFromSavedLocations=[];
         for (let i = 0; i < savedLocation.length; i += 1) {
-          savedZipcodes.push(savedLocation[i].second);
+          zipcodesFromSavedLocations.push(savedLocation[i].second);
         }
-        console.log(locationZipcodes);
-        console.log(savedLocation);
-        console.log(onlyZipcodes);
-
-        let strArr = savedZipcodes.map(function(e){return e.toString()});
-        console.log(strArr);
-
-        compareZipcodes(inputlocationZipcodes,strArr);
+        savedZipcodes = zipcodesFromSavedLocations.map(function(e){return e.toString()});
 
 
-
-
-
+        compareZipcodes(inputlocationZipcodes,savedZipcodes);
       }
-      function compareZipcodes(locationZipcodes,strArr){
+      function compareZipcodes(inputlocationZipcodes,savedZipcodes){
         const objMap={};
 
-        locationZipcodes.forEach((e1)=>strArr.forEach((e2)=> {if(e1 === e2){
+        inputlocationZipcodes.forEach((e1)=>savedZipcodes.forEach((e2)=> {if(e1 === e2){
             objMap[e1]=objMap[e1]+1||1 ;
           }
           }
