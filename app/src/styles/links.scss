@@ -10,4 +10,7 @@ a.link-button:not([href]):not([tabindex]) {
     color: $link-hover-color;
     text-decoration: $link-hover-decoration;
   }
+  &:focus, &:active {
+    outline-width: 0.25rem;
+  }
 }

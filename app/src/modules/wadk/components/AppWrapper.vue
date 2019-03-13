@@ -51,18 +51,20 @@
         </div>
       </div>
       <div class="w-100 source-description-wrapper">
-        <h6 class="small">
+        <p class="small">
           <a
             class="text-decoration-underline cursor-pointer link-button"
             v-show="!!eepApp.field_settings_menu_items.Description"
+            tabindex="0"
             @click="onDescription($event.target)">
             Description</a>
-          <span v-show="!!eepApp.source && !!eepApp.field_settings_menu_items.Description">
+          <span v-show="eepApp.source.length && eepApp.field_settings_menu_items.Description">
             &#8226;&nbsp;</span>
           <a
             v-if="eepApp.source.length > 0"
             class="text-decoration-underline cursor-pointer link-button"
-            v-show="!!eepApp.source && getSize === 'small'"
+            v-show="eepApp.source.length && getSize === 'small'"
+            tabindex="0"
             @click="onSource($event.target)">Source</a>
           <span v-if="getSize !== 'small' && eepApp.source.length > 0">Source: </span>
           <template
@@ -80,7 +82,7 @@
                 v-if="eepApp.source.length !== index + 1">
             </span>
           </template>
-        </h6>
+        </p>
       </div>
       <div class="wapp-inner-wrapper">
         <slot/>
