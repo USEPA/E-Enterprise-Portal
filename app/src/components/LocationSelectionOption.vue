@@ -99,7 +99,9 @@
           isValidLocation(afterInputOption){
                 let isValid = false;
                 if(/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(afterInputOption) ||
-                        /[A-Z][a-zA-Z]+,[ ]?[A-Z]{2}/.test(afterInputOption)){
+                      /[A-Z][a-zA-Z]+,[ ]?[A-Z]{2}/.test(afterInputOption) ||
+                              (/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(this.user.inputBoxText) &&
+                      /[a-zA-Z]/.test(afterInputOption))){
                     isValid = true;
                 }
                 return isValid;

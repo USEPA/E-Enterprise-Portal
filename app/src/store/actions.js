@@ -438,7 +438,7 @@ export default {
     const store = context;
     let params = '';
     const userInput = store.getters.getUser.inputBoxText;
-    let userSavedLocations = store.getters.getUser.userLocationsFromLoad;
+    let {userLocationsFromLoad} = store.getters.getUser;
 
     store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', false);
 
@@ -474,11 +474,9 @@ export default {
           formattedResponseInformation.push(tribeName);
 
           returnData.tribal_information[key].forEach((zipcode) => {
-
-            // @TODO: filter out the zipcodes that the user has already selected
-
-            thisTribeZipcodes.push(zipcode);
-
+            if(!doesUserHaveGivenLocation(tribeName, zipcode)){
+              thisTribeZipcodes.push(zipcode);
+            }
           });
           if(thisTribeZipcodes.length > 0){
               formattedResponseInformation.push({tribeName: thisTribeZipcodes});
@@ -490,25 +488,51 @@ export default {
         // The if statement handles the case of if a zipcode exist in more than
         // one place
         if (returnData.cities_and_states) {
-          formattedResponseInformation = returnData.cities_and_states;
+          let cities_and_states_return_from_ajax = returnData.cities_and_states;
+          let cities_and_states = [];
+          cities_and_states_return_from_ajax.forEach(function(city_and_state){
+            if(!doesUserHaveGivenLocation(city_and_state, userInput.trim())){
+              cities_and_states.push(city_and_state);
+            }
+          });
+          formattedResponseInformation = cities_and_states;
         } else {
           const cities = returnData.city;
 
-          // Loop through cities array and build new array to commit to store
           for (let i = 0; i < cities.length; i += 1) {
-            formattedResponseInformation.push(`${cities[i]}, ${returnData.state[0]}`);
+            let formattedCityAndState = `${cities[i]}, ${returnData.state[0]}`;
+            if(!doesUserHaveGivenLocation(formattedCityAndState, userInput.trim())){
+              formattedResponseInformation.push(formattedCityAndState);
+            }
           }
         }
         if (returnData.associated_tribes) {
           const tribes = returnData.associated_tribes;
           for (let i = 0; i < tribes.length; i += 1) {
-            formattedResponseInformation.push(tribes[i]);
+            let tribe = tribes[i].trim();
+            if(!doesUserHaveGivenLocation(tribe, userInput.trim())){
+              formattedResponseInformation.push(tribe);
+            }
           }
           store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', true);
         }
         dropDownLabelText = 'Select a location for';
       } else if (params.indexOf('city') !== -1 && params.indexOf('state') !== -1) {
-        formattedResponseInformation = returnData.zipcode;
+        let zipcodes = [];
+        let cityAndState = params.indexOf('city') + ", " + params.indexOf('state');
+        returnData.zipcode.forEach(function(zipcode){
+          if(!doesUserHaveGivenLocation(userInput.trim(), zipcode)){
+            zipcodes.push(zipcode);
+          }
+        });
+        formattedResponseInformation = zipcodes;
+      }
+
+      function doesUserHaveGivenLocation(name, zipcode){
+        return userLocationsFromLoad.some(function(location){
+            return parseInt(location.second) === parseInt(zipcode)
+                && location.first.trim() === name.trim();
+        });
       }
 
       // Commit all of the information to the store
