@@ -2,7 +2,17 @@ eep_my_certifications.my_certifications:
   path: '/api/cdx/certifications'
   defaults:
     _controller: '\Drupal\eep_my_certifications\Controller\EEPMyCertificationsController::fetch_my_certifications'
-    _title: 'CDX Dataflows'
+    _title: 'CDX Certifications'
+  methods:  [GET]
+  requirements:
+    _access: 'TRUE'
+  options:
+    _auth: ['cookie', 'basic_auth','jwt_auth']
+eep_my_certifications.documents:
+  path: '/api/cdx/certifications/documents'
+  defaults:
+    _controller: '\Drupal\eep_my_certifications\Controller\EEPMyCertificationsController::download_cdx_document_with_id'
+    _title: 'CDX Eactivity Documents'
   methods:  [GET]
   requirements:
     _access: 'TRUE'
