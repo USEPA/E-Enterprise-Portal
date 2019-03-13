@@ -316,7 +316,7 @@
                       class="mb-3"
                       :value="tribeSelection"
                       :options="formOptions.tribeSelections"
-                      :disabled="isDisabledTribe"
+                      :disabled="isDisabledTribeCgp"
                       @change="setTribeSelection"
                       size="sm">
                       <template slot="first">
@@ -342,7 +342,7 @@
                       class="mb-3"
                       :value="facilityCounty"
                       :options="formOptions.countySelections"
-                      :disabled="isDisabledCounty"
+                      :disabled="isDisabledCountyCgp"
                       @change="setFacilityCounty"
                       size="sm">
                       <template slot="first">
@@ -533,7 +533,7 @@
                     ref="subsector-input"
                     class="mb-3"
                     :value="subsector"
-                    :disabled="isDisabledSubsector"
+                    :disabled="isDisabledSubsectorMsgp"
                     @change="setSubsector"
                     size="sm"
                     required/>
@@ -544,7 +544,7 @@
                     ref="sic-code-input"
                     class="mb-3"
                     :value="sicCode"
-                    :disabled="isDisabledSubsector"
+                    :disabled="isDisabledSubsectorMsgp"
                     @change="setMsgpSicCode"
                     size="sm"/>
                 </b-col>
@@ -748,7 +748,7 @@
                       class="mb-3"
                       :value="tribalName"
                       :options="formOptions.baseFormOptions.tribalNames"
-                      :disabled="isDisabledTribe"
+                      :disabled="isDisabledTribeMsgp"
                       @change="setTribalName"
                       size="sm">
                       <template slot="first">
@@ -774,7 +774,7 @@
                       class="mb-3"
                       :value="facilityCounty"
                       :options="formOptions.countySelections"
-                      :disabled="isDisabledCounty"
+                      :disabled="isDisabledCountyMsgp"
                       @change="setFacilityCounty"
                       size="sm">
                       <template slot="first">
@@ -1034,23 +1034,23 @@
         msgpStateSelected: 'getMsgpStateSelected',
         totalRows: 'getTotalRows',
       }),
-      isDisabledCounty() {
-        if (this.facilityState === 'Select...'){
-          return true;
-        } else {
-          return false;
-        }
+      isDisabledCountyMsgp() {
+        return !this.msgpFormData.facilityState;
       },
-      isDisabledTribe() {
-        return (!(this.facilityState === 'Select...') || !(this.tribalIndicator === true));
+      isDisabledTribeMsgp() {
+        return (!this.msgpFormData.facilityState || !(this.tribalIndicator === true));
       },
-      isDisabledSubsector() {
-        if (this.sector === 'Select...'){
-          return true;
-        } else {
-          return false;
-        }
-      }
+      isDisabledSubsectorMsgp() {
+        return !this.msgpFormData.sector;
+      },
+      isDisabledCountyCgp() {
+        return false;
+        //return !this.cgpFormData.facilityState;
+      },
+      isDisabledTribeCgp() {
+        return false;
+        //return (!this.cgpFormData.facilityState || !(this.tribalIndicator === true));
+      },
     },
     methods: {
       ...mapActions(moduleName, [
