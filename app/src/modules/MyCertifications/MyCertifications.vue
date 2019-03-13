@@ -86,6 +86,25 @@
 
     </b-table>
 
+    <!--if No Certifications-->
+    <div v-if="(certifications.length === 0 && certificationsLoaded)">No certifications...</div>
+
+    <!--pagination-->
+    <b-row
+      v-if="certificationsLoaded"
+      class="text-center">
+      <b-col
+        md="12"
+        class="my-1">
+        <b-pagination
+          align="center"
+          :total-rows="datatableSettings.totalRows"
+          :per-page="datatableSettings.perPage"
+          v-model="datatableSettings.currentPage"
+          class="my-0"/>
+      </b-col>
+    </b-row>
+
     <!-- details modal -->
     <AppModal
       id="my-certs-details-modal"
@@ -99,7 +118,7 @@
               Application #
             </b-row>
             <b-row class="font-weight-bold">
-              {{ modalSettings.info.number }}
+              {{ modalSettings.info.partner_id }}
             </b-row>
           </b-col>
           <b-col md="4">
@@ -107,7 +126,7 @@
               Application Type
             </b-row>
             <b-row class="font-weight-bold">
-              {{ modalSettings.info.type }}
+              {{ modalSettings.info.report_type }}
             </b-row>
           </b-col>
         </b-row>
@@ -153,7 +172,7 @@
       <div
         v-if="modalSettings.info.status !== 'Received'"
         class="my-cert-inner-switch pb-1">
-        <b-row v-if="modalSettings.info.status === 'Complete'">
+        <b-row v-if="modalSettings.info.status === 'Approved'">
           <b-col>
             <b-row>
               Download
@@ -217,25 +236,6 @@
       </div>
     </AppModal>
 
-    <!--if No Certifications-->
-    <div v-if="(certifications.length === 0 && certificationsLoaded)">No certifications...</div>
-
-    <!--pagination-->
-    <b-row
-      v-if="certificationsLoaded"
-      class="text-center">
-      <b-col
-        md="12"
-        class="my-1">
-        <b-pagination
-          align="center"
-          :total-rows="datatableSettings.totalRows"
-          :per-page="datatableSettings.perPage"
-          v-model="datatableSettings.currentPage"
-          class="my-0"/>
-      </b-col>
-    </b-row>
-
   </AppWrapper>
 </template>
 
@@ -258,7 +258,7 @@
         datatableSettings: {
           fields: [
             {
-              key: 'number',
+              key: 'partner_id',
               label: 'Applic. #',
               sortable: true,
               sortDirection: 'desc',
@@ -315,7 +315,7 @@
           title: 'My Certifications',
           index: 0,
           info: {
-            number: '',
+            partner_id: '',
             type: '',
             status: '',
             submitted: '',
@@ -355,8 +355,8 @@
       },
       openCertsDecriptionModal(item, index, button) {
         this.modalSettings.index = index;
-        this.modalSettings.info.number = item.number;
-        this.modalSettings.info.type = item.type;
+        this.modalSettings.info.partner_id = item.partner_id;
+        this.modalSettings.info.report_type = item.report_type;
         this.modalSettings.info.status = item.status;
         this.modalSettings.info.submitted = item.submitted;
         this.modalSettings.info.updated = item.updated;
@@ -387,12 +387,7 @@
 
 <style scoped
        lang="scss">
-  @import "../../styles/my-certifications";
   /* To import images */
-  h2::before {
-    content: url('../../assets/images/state-government.svg');
-  }
-
   .cert-needs-attn-decoration,
   .cert-not-completed-decoration{
     height: .8rem;
@@ -407,14 +402,11 @@
     position: relative;
   }
 
-  .wapp-small .cert-needs-attn-decoration {
-    top: -1.5rem;
-  }
-
   .cert-not-completed-decoration {
     background-size: .5rem;
     background-image: url('../../assets/images/mycert-question.svg');
   }
+
   .cert-needs-attn-decoration {
     background-size: .25rem;
     background-image: url('../../assets/images/mycert-exclamation.svg');

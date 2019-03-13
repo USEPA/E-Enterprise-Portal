@@ -546,6 +546,3 @@
     background-image: url('/images/minus-circle-solid.svg')
   }
 </style>
-<style>
-  @import '../../styles/bootstrap-table-scroll.scss';
-</style>
