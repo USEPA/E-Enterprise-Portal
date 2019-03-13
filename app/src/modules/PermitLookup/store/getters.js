@@ -12,14 +12,23 @@ export default {
   getFormOptions(state) {
     return state.formOptions;
   },
+  getMsgpFormData(state) {
+    return state.msgpFormData;
+  },
+  getMsgpResultsLoaded(state) {
+    return state.msgpResultsLoaded;
+  },
+  getMsgpStateSelected(state) {
+    return state.msgpStateSelected;
+  },
   getPermitType(state) {
     return state.permitType;
   },
   getFacilityName(state) {
     return state.facilityName;
   },
-  getNPDESID(state) {
-    return state.NPDESID;
+  getNpdesId(state) {
+    return state.npdesId;
   },
   getFacilityCity(state) {
     return state.facilityCity;
@@ -69,17 +78,17 @@ export default {
   getIssuer(state) {
     return state.issuer;
   },
+  getSector(state) {
+    return state.sector;
+  },
   getSubmissionType(state) {
     return state.submissionType;
   },
-  getApplicationType(state) {
-    return state.applicationType;
+  getCoverageType(state) {
+    return state.coverageType;
   },
-  getFormStatus(state) {
-    return state.formStatus;
-  },
-  getSector(state) {
-    return state.sector;
+  getCoverageStatus(state) {
+    return state.coverageStatus;
   },
   getSubsector(state) {
     return state.subsector;
@@ -90,5 +99,10 @@ export default {
   getAddress(state) {
     return state.address;
   },
-
+  getMsgpFormResults(state) {
+    return state.msgpFormResults;
+  },
+  getTotalRows(state) {
+    return state.msgpFormResults.length;
+  },
 };

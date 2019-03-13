@@ -1,0 +1,8 @@
+name: 'EEP Permit Lookup'
+type: module
+description: 'Permit Lookup proxy service'
+core: 8.x
+package: 'EEP'
+dependencies:
+  - 'eep_core'
+  - 'default_content'

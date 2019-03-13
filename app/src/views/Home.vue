@@ -104,6 +104,11 @@
                   </h6>
                   </div>
               </div>
+              <div>
+                <router-link to="/about">
+                  <a href="" class="float-right text-white">..and more</a>
+                </router-link>
+              </div>
             </div>
           </div>
         </div>

@@ -21,8 +21,6 @@
     methods: {
       registerModal(payload) {
         const vm = this;
-        // physically move the node in a smart way
-        payload.modal.$el.parentNode.removeChild(payload.modal.$el);
         vm.$el.appendChild(payload.modal.$el);
       },
     },

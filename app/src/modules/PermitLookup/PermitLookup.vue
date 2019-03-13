@@ -38,7 +38,7 @@
                 variant="primary"
                 ref="btnCheckYourWater"
                 type="submit">
-                Search
+                Lookup
               </b-btn>
             </b-col>
           </b-row>
@@ -50,11 +50,11 @@
           </b-col>
         </b-row>
 
-        <!-- Main Permit Search Modal-->
+        <!-- Permit Lookup Modal-->
         <AppModal
           id="permit-search-modal"
           modal-ref="permit-search-modal"
-          title="Permit Search tool"
+          title="Permit Lookup tool"
           :hide-footer="true">
           <div
             v-if="permitType === 'Construction General Permit'"
@@ -83,21 +83,17 @@
                     ref="facility-name-input-cgp"
                     class="mb-3"
                     :value="facilityName"
-                    @change="setFacilityName"
-                    size="sm"
-                    required>
-                  </b-form-input>
+                    @change="setMsgpFacilityName"
+                    size="sm"/>
                 </b-col>
                 <b-col md="6">
                   <b-form-input
                     id="NPDES-ID-cgp"
                     ref="NPDES-ID-input-cgp"
                     class="mb-3"
-                    :value="NPDESID"
-                    @change="setNPDESID"
-                    size="sm"
-                    required>
-                  </b-form-input>
+                    :value="npdesId"
+                    @change="setMsgpNpdesId"
+                    size="sm"/>
                 </b-col>
               </b-row>
               <br/>
@@ -122,24 +118,21 @@
                     ref="city-input-cgp"
                     class="mb-3"
                     :value="facilityCity"
-                    @change="setFacilityCity"
-                    size="sm"
-                    required>
-                  </b-form-input>
+                    @change="setMsgpFacilityCity"
+                    size="sm"/>
                 </b-col>
                 <b-col md="3">
                   <b-form-select
                     id="state-territory-selection-cgp"
                     class="mb-3"
-                    :value="facilityState"
-                    :options="formOptions.facilityState"
-                    ref="facilityState-Dropdown-cgp"
-                    @change="setFacilityState"
-                    size="sm"
-                    required>
+                    :value="msgpFormData.facilityState"
+                    :options="formOptions.baseFormOptions.stateNames"
+                    ref="stateOptions-Dropdown-cgp"
+                    @change="setMsgpFacilityState"
+                    size="sm">
                     <template slot="first">
                       <option
-                        disabled>{{ facilityState }}
+                        disabled>Select...
                       </option>
                     </template>
                   </b-form-select>
@@ -150,10 +143,8 @@
                     ref="zip-input-cgp"
                     class="mb-3"
                     :value="facilityZip"
-                    @change="setFacilityZip"
-                    size="sm"
-                    required>
-                  </b-form-input>
+                    @change="setMsgpFacilityZip"
+                    size="sm"/>
                 </b-col>
               </b-row>
               <br/>
@@ -176,8 +167,7 @@
                     :options="formOptions.status"
                     ref="status-Dropdown"
                     @change="setStatus"
-                    size="sm"
-                    required>
+                    size="sm">
                     <template slot="first">
                       <option
                         disabled>{{ status }}
@@ -193,8 +183,7 @@
                     :options="formOptions.formType"
                     ref="formType-Dropdown"
                     @change="setFormType"
-                    size="sm"
-                    required>
+                    size="sm">
                     <template slot="first">
                       <option
                         disabled>{{ formType }}
@@ -208,7 +197,7 @@
                 class="btn-outline-primary"
                 variant="outline-primary"
                 ref="btnAdvancedSettings-cgp">
-                Advanced Search Criteria
+                Advanced Lookup Criteria
               </b-btn>
               <b-collapse
                 v-model="cgpAdvancedSearchWrapper"
@@ -230,11 +219,9 @@
                       id="facility-operator-input-cgp"
                       class="mb-3"
                       :value="operatorName"
-                      @change="setOperatorName"
+                      @change="setMsgpOperatorName"
                       ref="facility-operator-input-cgp"
-                      size="sm"
-                      required>
-                    </b-form-input>
+                      size="sm"/>
                   </b-col>
                   <b-col md="6">
                     <b-form-radio-group
@@ -244,8 +231,7 @@
                       @change="setFederalIndicator"
                       name="radioInline4"
                       class="mb-3"
-                      ref="federal-facility-selection-cgp">
-                    </b-form-radio-group>
+                      ref="federal-facility-selection-cgp"/>
                   </b-col>
                 </b-row>
                 <br/>
@@ -272,8 +258,7 @@
                       :value="dateSelection"
                       :options="formOptions.dateSelections"
                       @change="setDateSelection"
-                      size="sm"
-                      required>
+                      size="sm">
                       <template slot="first">
                         <option
                           disabled>{{ dateSelection }}
@@ -289,9 +274,7 @@
                       ref="start-date-input-cgp"
                       @change="setStartDate"
                       size="sm"
-                      placeholder="MM/DD/YYYY"
-                      required>
-                    </b-form-input>
+                      placeholder="MM/DD/YYYY"/>
                   </b-col>
                   <b-col md="4">
                     <b-form-input
@@ -301,9 +284,7 @@
                       :value="submittedDateTo"
                       @change="setEndDate"
                       size="sm"
-                      placeholder="MM/DD/YYYY"
-                      required>
-                    </b-form-input>
+                      placeholder="MM/DD/YYYY"/>
                   </b-col>
                 </b-row>
                 <br/>
@@ -326,8 +307,7 @@
                       @change="setTribalIndicator"
                       name="radioInline3"
                       class="mb-3"
-                      ref="tribal-lands-construction-cgp">
-                    </b-form-radio-group>
+                      ref="tribal-lands-construction-cgp"/>
                   </b-col>
                   <b-col md="6">
                     <b-form-select
@@ -338,8 +318,7 @@
                       :options="formOptions.tribeSelections"
                       :disabled="isDisabledTribe"
                       @change="setTribeSelection"
-                      size="sm"
-                      required>
+                      size="sm">
                       <template slot="first">
                         <option
                           disabled>{{ tribeSelection }}
@@ -365,8 +344,7 @@
                       :options="formOptions.countySelections"
                       :disabled="isDisabledCounty"
                       @change="setFacilityCounty"
-                      size="sm"
-                      required>
+                      size="sm">
                       <template slot="first">
                         <option
                           disabled>{{ facilityCounty }}
@@ -376,19 +354,8 @@
                   </b-col>
                 </b-row>
               </b-collapse>
-              {{ facilityName }}
-              {{ NPDESID }}
-              {{ facilityZip }}
-              {{ status }}
-              {{ formType }}
-              {{ operatorName }}
-              {{ federalFacility }}
-              {{ dateSelection}}
-              {{ tribalIndicator }}
-              {{ tribeSelection }}
               <b-row>
-                <b-col md="6">
-                </b-col>
+                <b-col md="6"/>
                 <b-col md="3">
                   <b-btn
                     class="btn-outline-primary btn-block"
@@ -404,7 +371,7 @@
                     variant="primary"
                     ref="btnSubmitCgp"
                     type="submit">
-                    Search
+                    Lookup
                   </b-btn>
                 </b-col>
               </b-row>
@@ -437,28 +404,32 @@
                     id="issue-selection"
                     class="mb-3"
                     :value="issuer"
-                    :options="formOptions.issuerSelections"
+                    :options="formOptions.msgpFormOptions.issuers"
                     ref="issuer-Dropdown"
                     @change="setIssuer"
-                    size="sm"
-                    required>
+                    size="sm">
                     <template slot="first">
                       <option
-                        disabled>{{ issuer }}
+                        disabled>Select...
                       </option>
                     </template>
                   </b-form-select>
                 </b-col>
                 <b-col md="6">
-                  <b-form-input
-                    id="submission-type-input"
+                  <b-form-select
+                    id="submission-type-Dropdown"
                     class="mb-3"
                     :value="submissionType"
-                    ref="submission-type-input"
-                    @change="setSubmissionType"
-                    size="sm"
-                    required>
-                  </b-form-input>
+                    :options="formOptions.msgpFormOptions.submissionTypes"
+                    ref="submission-type-Dropdown"
+                    @change="setMsgpSubmissionType"
+                    size="sm">
+                    <template slot="first">
+                      <option
+                        disabled>Select...
+                      </option>
+                    </template>
+                  </b-form-select>
                 </b-col>
               </b-row>
               <br/>
@@ -475,17 +446,16 @@
               <b-row>
                 <b-col md="6">
                   <b-form-select
-                    id="application-type-selection"
+                    id="coverage-type-selection"
                     class="mb-3"
-                    :value="applicationType"
-                    :options="formOptions.coverageTypeSelections"
-                    ref="application-type-selection"
-                    @change="setApplicationType"
-                    size="sm"
-                    required>
+                    :value="coverageType"
+                    :options="formOptions.msgpFormOptions.coverageTypes"
+                    ref="coverage-type-selection"
+                    @change="setMsgpCoverageType"
+                    size="sm">
                     <template slot="first">
                       <option
-                        disabled>{{ applicationType }}
+                        disabled>Select...
                       </option>
                     </template>
                   </b-form-select>
@@ -494,15 +464,14 @@
                   <b-form-select
                     id="form-status-selection"
                     class="mb-3"
-                    :value="formStatus"
-                    :options="formOptions.formStatusSelections"
+                    :value="coverageStatus"
+                    :options="formOptions.msgpFormOptions.coverageStatuses"
                     ref="form-type-selection"
-                    @change="setFormStatus"
-                    size="sm"
-                    required>
+                    @change="setMsgpCoverageStatus"
+                    size="sm">
                     <template slot="first">
                       <option
-                        disabled>{{ formStatus }}
+                        disabled>Select...
                       </option>
                     </template>
                   </b-form-select>
@@ -525,25 +494,22 @@
                     id="NPDES-ID-input-msgp"
                     ref="NPDES-ID-input-msgp"
                     class="mb-3"
-                    :value="NPDESID"
-                    @change="setNPDESID"
-                    size="sm"
-                    required>
-                  </b-form-input>
+                    :value="npdesId"
+                    @change="setMsgpNpdesId"
+                    size="sm"/>
                 </b-col>
                 <b-col md="6">
                   <b-form-select
                     id="sector-selection"
                     class="mb-3"
                     :value="sector"
-                    :options="formOptions.sectorSelections"
+                    :options="formOptions.baseFormOptions.sectorNames"
                     ref="sector-Dropdown"
-                    @change="setSector"
-                    size="sm"
-                    required>
+                    @change="setMsgpSector"
+                    size="sm">
                     <template slot="first">
                       <option
-                        disabled>{{ sector }}
+                        disabled>Select...
                       </option>
                     </template>
                   </b-form-select>
@@ -570,8 +536,7 @@
                     :disabled="isDisabledSubsector"
                     @change="setSubsector"
                     size="sm"
-                    required>
-                  </b-form-input>
+                    required/>
                 </b-col>
                 <b-col md="6">
                   <b-form-input
@@ -580,10 +545,8 @@
                     class="mb-3"
                     :value="sicCode"
                     :disabled="isDisabledSubsector"
-                    @change="setSicCode"
-                    size="sm"
-                    required>
-                  </b-form-input>
+                    @change="setMsgpSicCode"
+                    size="sm"/>
                 </b-col>
               </b-row>
               <br/>
@@ -604,10 +567,8 @@
                     ref="facility-name-input-msgp"
                     class="mb-3"
                     :value="facilityName"
-                    @change="setFacilityName"
-                    size="sm"
-                    required>
-                  </b-form-input>
+                    @change="setMsgpFacilityName"
+                    size="sm"/>
                 </b-col>
                 <b-col md="6">
                   <b-form-input
@@ -615,10 +576,8 @@
                     ref="address-input"
                     class="mb-3"
                     :value="facilityAddressLine1"
-                    @change="setAddress"
-                    size="sm"
-                    required>
-                  </b-form-input>
+                    @change="setMsgpAddress"
+                    size="sm"/>
                 </b-col>
               </b-row>
               <br/>
@@ -643,24 +602,21 @@
                     ref="city-input-msgp"
                     class="mb-3"
                     :value="facilityCity"
-                    @change="setFacilityCity"
-                    size="sm"
-                    required>
-                  </b-form-input>
+                    @change="setMsgpFacilityCity"
+                    size="sm"/>
                 </b-col>
                 <b-col md="3">
                   <b-form-select
                     id="state-territory-selection-msgp"
                     class="mb-3"
                     :value="facilityState"
-                    :options="formOptions.facilityState"
-                    ref="facilityState-Dropdown-msgp"
-                    @change="setFacilityState"
-                    size="sm"
-                    required>
+                    :options="formOptions.baseFormOptions.stateNames"
+                    ref="stateOptions-Dropdown-msgp"
+                    @change="setMsgpFacilityState"
+                    size="sm">
                     <template slot="first">
                       <option
-                        disabled>{{ facilityState }}
+                        disabled>Select...
                       </option>
                     </template>
                   </b-form-select>
@@ -671,10 +627,8 @@
                     ref="zip-input-msgp"
                     class="mb-3"
                     :value="facilityZip"
-                    @change="setFacilityZip"
-                    size="sm"
-                    required>
-                  </b-form-input>
+                    @change="setMsgpFacilityZip"
+                    size="sm"/>
                 </b-col>
               </b-row>
               <b-btn
@@ -682,7 +636,7 @@
                 class="btn-outline-primary"
                 variant="outline-primary"
                 ref="btnAdvancedSettings-msgp">
-                Advanced Search Criteria
+                Advanced Lookup Criteria
               </b-btn>
               <b-collapse
                 v-model="msgpAdvancedSearchWrapper"
@@ -704,11 +658,9 @@
                       id="facility-operator-input-msgp"
                       class="mb-3"
                       :value="operatorName"
-                      @change="setOperatorName"
+                      @change="setMsgpOperatorName"
                       ref="facility-operator-input-msgp"
-                      size="sm"
-                      required>
-                    </b-form-input>
+                      size="sm"/>
                   </b-col>
                   <b-col md="6">
                     <b-form-radio-group
@@ -718,8 +670,7 @@
                       @change="setFederalIndicator"
                       name="radioInline2"
                       class="mb-3"
-                      ref="federal-facility-selection-msgp">
-                    </b-form-radio-group>
+                      ref="federal-facility-selection-msgp"/>
                   </b-col>
                 </b-row>
                 <br/>
@@ -744,10 +695,8 @@
                       ref="master-general-permit-input"
                       class="mb-3"
                       :value="masterPermitNumber"
-                      @change="setMasterPermitNumber"
-                      size="sm"
-                      required>
-                    </b-form-input>
+                      @change="setMsgpMasterPermitNumber"
+                      size="sm"/>
                   </b-col>
                   <b-col md="3">
                     <b-form-input
@@ -757,9 +706,7 @@
                       ref="start-date-input-msgp"
                       @change="setStartDate"
                       size="sm"
-                      placeholder="MM/DD/YYYY"
-                      required>
-                    </b-form-input>
+                      placeholder="MM/DD/YYYY"/>
                   </b-col>
                   <b-col md="3">
                     <b-form-input
@@ -769,9 +716,7 @@
                       :value="submittedDateTo"
                       @change="setEndDate"
                       size="sm"
-                      placeholder="MM/DD/YYYY"
-                      required>
-                    </b-form-input>
+                      placeholder="MM/DD/YYYY"/>
                   </b-col>
                 </b-row>
                 <br/>
@@ -794,8 +739,7 @@
                       @change="setTribalIndicator"
                       name="radioInline1"
                       class="mb-3"
-                      ref="tribal-lands-construction">
-                    </b-form-radio-group>
+                      ref="tribal-lands-construction"/>
                   </b-col>
                   <b-col md="6">
                     <b-form-select
@@ -803,14 +747,13 @@
                       ref="indian-country-selection"
                       class="mb-3"
                       :value="tribalName"
-                      :options="formOptions.tribalNameSelections"
+                      :options="formOptions.baseFormOptions.tribalNames"
                       :disabled="isDisabledTribe"
                       @change="setTribalName"
-                      size="sm"
-                      required>
+                      size="sm">
                       <template slot="first">
                         <option
-                          disabled>{{ tribalName }}
+                          disabled>Select...
                         </option>
                       </template>
                     </b-form-select>
@@ -833,8 +776,7 @@
                       :options="formOptions.countySelections"
                       :disabled="isDisabledCounty"
                       @change="setFacilityCounty"
-                      size="sm"
-                      required>
+                      size="sm">
                       <template slot="first">
                         <option
                           disabled>{{ facilityCounty }}
@@ -844,21 +786,9 @@
                   </b-col>
                 </b-row>
               </b-collapse>
-              <br/>
-              {{ facilityName }}
-              {{ NPDESID }}
-              {{ facilityZip }}
-              {{ status }}
-              {{ formType }}
-              {{ operatorName }}
-              {{ federalFacility }}
-              {{ dateSelection}}
-              {{ tribalIndicator }}
-              {{ tribeSelection }}
-              {{ sicCode }}
+              <br>
               <b-row>
-                <b-col md="6">
-                </b-col>
+                <b-col md="6"/>
                 <b-col md="3">
                   <b-btn
                     class="btn-outline-primary btn-block"
@@ -874,13 +804,85 @@
                     variant="primary"
                     ref="btnSubmitCgp"
                     type="submit">
-                    Search
+                    Lookup
                   </b-btn>
                 </b-col>
               </b-row>
             </b-form>
           </div>
         </AppModal>
+        <!-- Permit Results Modal-->
+        <AppModal
+          id="permit-results-modal"
+          modal-ref="permit-results-modal"
+          title="Permit Lookup Results"
+          :hide-footer="true">
+          <b-row>
+            <b-col
+              md="8"
+              class="my-1">
+              <b-form-group
+                horizontal
+                label="Filter"
+                label-for="filter-results"
+                class="mb-2">
+                <b-input-group>
+                  <b-form-input
+                    id="filter-results"
+                    aria-controls="permit-lookup-table"
+                    v-model="filter"/>
+                </b-input-group>
+              </b-form-group>
+            </b-col>
+            <b-col
+              md="4"
+              class="my-1">
+              <b-form-group
+                horizontal
+                label="Rows"
+                label-for="row-results"
+                class="mb-2">
+                <b-form-select
+                  aria-controls="permit-lookup-table"
+                  id="row-results"
+                  :options="pageOptions"
+                  v-model="perPage"
+                  class="float-right ml-3"/>
+              </b-form-group>
+            </b-col>
+          </b-row>
+          <b-col class="overflow-x-scroll">
+            <b-table
+              v-if="msgpResultsLoaded"
+              hover
+              id="permit-lookup-table"
+              class="bootstrap-vue-permit-table-scroll d-block"
+              :items="msgpFormResults"
+              :fields="fields"
+              :current-page="currentPage"
+              :per-page="perPage"
+              :filter="filter"
+              :sort-by.sync="sortBy"
+              :sort-desc.sync="sortDesc"
+              :sort-direction="sortDirection"
+              :filtered="onFiltered"/>
+          </b-col>
+          <!-- pagination -->
+          <b-row class="text-center">
+            <b-col
+              md="12"
+              class="my-1">
+              <b-pagination
+                align="center"
+                :total-rows="totalRows"
+                :per-page="perPage"
+                v-model="currentPage"
+                class="my-0"/>
+            </b-col>
+          </b-row>
+
+        </AppModal>
+
       </div>
       <div v-else-if="eepApp.size === 'large'">
         large
@@ -891,11 +893,11 @@
 
 <script>
 
-  import {mapActions, mapGetters} from 'vuex';
-  import {AppWrapper, AppModal} from '../wadk/WADK';
+  import { mapActions, mapGetters } from 'vuex';
+  import { AppWrapper, AppModal } from '../wadk/WADK';
   import storeModule from './store/index';
 
-  const moduleName = 'PermitSearch';
+  const moduleName = 'PermitLookup';
 
   export default {
     name: moduleName,
@@ -920,19 +922,92 @@
         radioSelection2: false,
         radioSelection3: false,
         radioSelection4: false,
+        fields: [
+          {
+            key: 'issuer',
+            label: 'Issuer',
+            sortable: false,
+            sortDirection: 'desc',
+          },
+          {
+            key: 'npdesId',
+            label: 'NPDES ID',
+            sortable: false,
+            sortDirection: 'desc',
+          },
+          {
+            key: 'coverageType',
+            label: 'Coverage Type',
+            sortable: false,
+            sortDirection: 'desc',
+          },
+          {
+            key: 'submissionType',
+            label: 'Submission Type',
+            sortable: false,
+            sortDirection: 'desc',
+          },
+          {
+            key: 'facilitySiteInformation.siteName',
+            label: 'Facility Name',
+            sortable: false,
+            sortDirection: 'desc',
+          },
+          {
+            key: 'operatorInformation.operatorName',
+            label: 'Facility Operator',
+            sortable: false,
+            sortDirection: 'desc',
+          },
+          {
+            key: 'facilitySiteInformation.siteAddress.stateCode',
+            label: 'Facility State',
+            sortable: false,
+            sortDirection: 'desc',
+          },
+          {
+            key: 'facilitySiteInformation.siteAddress.city',
+            label: 'Facility City',
+            sortable: false,
+            sortDirection: 'desc',
+          },
+          {
+            key: 'coverageStatus',
+            label: 'Coverage Status',
+            sortable: false,
+            sortDirection: 'desc',
+          },
+          {
+            key: 'certifiedDate',
+            label: 'Effective Date',
+            sortable: false,
+            sortDirection: 'desc',
+          },
+        ],
+        currentPage: 1,
+        perPage: 5,
+        pageOptions: [5, 10, 15, 20],
+        sortBy: null,
+        sortDesc: false,
+        sortDirection: 'asc',
+        filter: null,
       };
     },
     mounted() {
       // get data for form options from axios call functions in actions file
-
-      console.log(this.eepApp.size);
+      this.loadBaseFormOption();
+      this.loadMsgpFormOptions();
+      this.loadCgpFormOptions();
     },
     computed: {
       ...mapGetters(moduleName, {
         formOptions: 'getFormOptions',
+        msgpFormResults: 'getMsgpFormResults',
+        msgpFormData: 'getMsgpFormData',
         permitType: 'getPermitType',
         facilityName: 'getFacilityName',
-        NPDESID: 'getNPDESID',
+        npdesId: 'getNpdesId',
+        sector: 'getSector',
         facilityCity: 'getFacilityCity',
         facilityState: 'getFacilityState',
         facilityZip: 'getFacilityZip',
@@ -950,12 +1025,14 @@
         tribalName: 'getTribalName',
         issuer: 'getIssuer',
         submissionType: 'getSubmissionType',
-        applicationType: 'getApplicationType',
-        formStatus: 'getFormStatus',
-        sector: 'getSector',
+        coverageType: 'getCoverageType',
+        coverageStatus: 'getCoverageStatus',
         subsector: 'getSubsector',
         sicCode: 'getSicCode',
         facilityAddressLine1: 'getAddress',
+        msgpResultsLoaded: 'getMsgpResultsLoaded',
+        msgpStateSelected: 'getMsgpStateSelected',
+        totalRows: 'getTotalRows',
       }),
       isDisabledCounty() {
         return !this.facilityState;
@@ -969,16 +1046,16 @@
     },
     methods: {
       ...mapActions(moduleName, [
-        'sampleAction',
+        'msgpFormGetResults',
         'setPermitType',
-        'setFacilityName',
-        'setNPDESID',
-        'setFacilityCity',
-        'setFacilityState',
-        'setFacilityZip',
+        'setMsgpFacilityName',
+        'setMsgpNpdesId',
+        'setMsgpFacilityCity',
+        'setMsgpFacilityState',
+        'setMsgpFacilityZip',
         'setStatus',
         'setFormType',
-        'setOperatorName',
+        'setMsgpOperatorName',
         'setFederalIndicator',
         'setDateSelection',
         'setStartDate',
@@ -986,16 +1063,19 @@
         'setTribalIndicator',
         'setTribeSelection',
         'setFacilityCounty',
-        'setMasterPermitNumber',
+        'setMsgpMasterPermitNumber',
         'setTribalName',
         'setIssuer',
-        'setSubmissionType',
-        'setApplicationType',
-        'setFormStatus',
-        'setSector',
+        'setMsgpSubmissionType',
+        'setMsgpCoverageType',
+        'setMsgpCoverageStatus',
+        'setMsgpSector',
         'setSubsector',
-        'setSicCode',
-        'setAddress',
+        'setMsgpSicCode',
+        'setMsgpAddress',
+        'loadBaseFormOption',
+        'loadMsgpFormOptions',
+        'loadCgpFormOptions',
       ]),
       initialFormSubmit(evt) {
         evt.preventDefault();
@@ -1003,25 +1083,29 @@
       },
       cgpFormSubmit(evt) {
         evt.preventDefault();
-        //get stuff
-        console.log("cgp submit yay!")
+        // get stuff
       },
       msgpFormSubmit(evt) {
+        const vm = this;
         evt.preventDefault();
-        //get stuff
-        console.log("msgp submit yay!")
+        this.msgpFormGetResults({ vm });
+      },
+      onFiltered(filteredItems) {
+        // Trigger pagination to update the number of buttons/pages due to filtering
+        this.totalRows = filteredItems.length;
+        this.currentPage = 1;
       },
       clearForm() {
         // clear every state when reset is pressed
         const store = this;
-        store.setFacilityName('');
-        store.setNPDESID('');
-        store.setFacilityCity('');
-        store.setFacilityState('');
-        store.setFacilityZip('');
+        store.setMsgpFacilityName('');
+        store.setMsgpNpdesId('');
+        store.setMsgpFacilityCity('');
+        store.setMsgpFacilityState('');
+        store.setMsgpFacilityZip('');
         store.setStatus('');
         store.setFormType('');
-        store.setOperatorName('');
+        store.setMsgpOperatorName('');
         store.setFederalIndicator('');
         store.setDateSelection('');
         store.setStartDate('');
@@ -1029,21 +1113,21 @@
         store.setTribalIndicator('');
         store.setTribeSelection('');
         store.setFacilityCounty('');
-        store.setMasterPermitNumber('');
+        store.setMsgpMasterPermitNumber('');
         store.setTribalName('');
         store.setIssuer('');
-        store.setSubmissionType('');
-        store.setApplicationType('');
-        store.setFormStatus('');
-        store.setSector('');
+        store.setMsgpSubmissionType('');
+        store.setMsgpCoverageType('');
+        store.setMsgpCoverageStatus('');
+        store.setMsgpSector('');
         store.setSubsector('');
-        store.setSicCode('');
-        store.setAddress('');
+        store.setMsgpSicCode('');
+        store.setMsgpAddress('');
         store.radioSelection1 = false;
         store.radioSelection2 = false;
         store.radioSelection3 = false;
         store.radioSelection4 = false;
-      }
+      },
 
     },
     props: {
