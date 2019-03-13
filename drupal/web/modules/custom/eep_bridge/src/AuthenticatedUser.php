@@ -54,12 +54,13 @@ class AuthenticatedUser {
     $authentication_method_array = explode(':', $userDetails->attributes['authenticationMethod']);
     // String denoting where user was logged in from (SCS/CDX/Twitter/etc)
     $this->authentication_method = strtoupper(trim($authentication_method_array[count($authentication_method_array) - 1]));
+    if (isset($userDetails->attributes['authenticationdomain']) && count($userDetails->attributes['authenticationdomain']) > 0) {
+      $this->authentication_domain = $userDetails->attributes['authenticationdomain'][0];
+    }
     $username_raw = explode('/', $userDetails->attributes['name'][0]);
     // Default username if source username is not found in other UserDetails attribute, and also remove spaces and quotation marks from end and beginning of usernames.
-    $username = trim(trim(end($username_raw), '"'));
-    $username = str_replace(" ", "_", $username);
-    // Source username with out Via, unaltered from identity provider
-    $source_username = $username;
+    $source_username = trim(trim(end($username_raw), '"'));
+    $source_username = str_replace(" ", "_", $source_username);
 
     // @TODO: redo this to reflect SCS and Exchange network
     if ($this->authentication_method === "WAMNAAS") {
@@ -68,24 +69,19 @@ class AuthenticatedUser {
       $uname_pos = strrpos($wam_uname, "/");
       $wam_res = substr($wam_uname, $uname_pos + 1);
       $source_username = $wam_res;
-      $eportal_uname = $source_username . "_Via_WAM";
-      $this->authentication_domain = $this->authentication_method;
+      $this->authentication_domain = 'WAM';
     } else if ($this->authentication_method === "ENNAAS") {
-        if (isset($this->authentication_method)) {
-            $this->authentication_domain = $this->authentication_method;
-        } else {
-            $this->authentication_domain = "Exchange_Network";
+        if (!isset($this->authentication_domain)) {
+          $this->authentication_domain = "Exchange_Network";
         }
-      $eportal_uname = $username . "_Via_" . $this->authentication_domain;
       $this->public_user = FALSE;
     } else {
       // default
       $this->authentication_domain = $this->authentication_method;
-      $eportal_uname = $username . "_Via_".$this->authentication_method;
       $this->public_user = TRUE;
     }
     $this->source_username = $source_username;
     $this->userDetails = $userDetails;
-    $this->name = $eportal_uname;
+    $this->name = $source_username . "_Via_" . $this->authentication_domain;
   }
 }
