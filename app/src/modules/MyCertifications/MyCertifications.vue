@@ -266,8 +266,7 @@
           sortBy: null,
           sortDesc: false,
           sortDirection: 'asc',
-          filter: null,
-          totalRows: (this.certifications ? this.certifications.length : 0)
+          filter: null
         },
         modalSettings: {
           title: 'My Certifications',
