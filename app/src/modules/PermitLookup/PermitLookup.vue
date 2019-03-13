@@ -82,8 +82,8 @@
                     id="facility-name-input-cgp"
                     ref="facility-name-input-cgp"
                     class="mb-3"
-                    :value="facilityName"
-                    @change="setMsgpFacilityName"
+                    :value="cgpFormData.facilityName"
+                    @change="setCgpFacilityName"
                     size="sm"/>
                 </b-col>
                 <b-col md="6">
@@ -91,8 +91,8 @@
                     id="NPDES-ID-cgp"
                     ref="NPDES-ID-input-cgp"
                     class="mb-3"
-                    :value="npdesId"
-                    @change="setMsgpNpdesId"
+                    :value="cgpFormData.npdesId"
+                    @change="setCgpNpdesId"
                     size="sm"/>
                 </b-col>
               </b-row>
@@ -117,18 +117,18 @@
                     id="city-input-cgp"
                     ref="city-input-cgp"
                     class="mb-3"
-                    :value="facilityCity"
-                    @change="setMsgpFacilityCity"
+                    :value="cgpFormData.facilityCity"
+                    @change="setCgpFacilityCity"
                     size="sm"/>
                 </b-col>
                 <b-col md="3">
                   <b-form-select
                     id="state-territory-selection-cgp"
                     class="mb-3"
-                    :value="msgpFormData.facilityState"
+                    :value="cgpFormData.facilityState"
                     :options="formOptions.baseFormOptions.stateNames"
                     ref="stateOptions-Dropdown-cgp"
-                    @change="setMsgpFacilityState"
+                    @change="setCgpFacilityState"
                     size="sm">
                     <template slot="first">
                       <option
@@ -142,8 +142,8 @@
                     id="zip-input-cgp"
                     ref="zip-input-cgp"
                     class="mb-3"
-                    :value="facilityZip"
-                    @change="setMsgpFacilityZip"
+                    :value="cgpFormData.facilityZip"
+                    @change="setCgpFacilityZip"
                     size="sm"/>
                 </b-col>
               </b-row>
@@ -163,10 +163,10 @@
                   <b-form-select
                     id="status-selection"
                     class="mb-3"
-                    :value="status"
+                    :value="cgpFormData.status"
                     :options="formOptions.status"
                     ref="status-Dropdown"
-                    @change="setStatus"
+                    @change="setCgpStatus"
                     size="sm">
                     <template slot="first">
                       <option
@@ -179,10 +179,10 @@
                   <b-form-select
                     id="form-type-selection"
                     class="mb-3"
-                    :value="formType"
+                    :value="cgpFormData.formType"
                     :options="formOptions.formType"
                     ref="formType-Dropdown"
-                    @change="setFormType"
+                    @change="setCgpFormType"
                     size="sm">
                     <template slot="first">
                       <option
@@ -218,8 +218,8 @@
                     <b-form-input
                       id="facility-operator-input-cgp"
                       class="mb-3"
-                      :value="operatorName"
-                      @change="setMsgpOperatorName"
+                      :value="cgpFormData.operatorName"
+                      @change="setCgpOperatorName"
                       ref="facility-operator-input-cgp"
                       size="sm"/>
                   </b-col>
@@ -228,7 +228,7 @@
                       v-model="radioSelection4"
                       id="federal-facility-selection-cgp"
                       :options="formOptions.federalIndicator"
-                      @change="setFederalIndicator"
+                      @change="setCgpFederalIndicator"
                       name="radioInline4"
                       class="mb-3"
                       ref="federal-facility-selection-cgp"/>
@@ -255,9 +255,9 @@
                       id="date-selection"
                       ref="date-selection"
                       class="mb-3"
-                      :value="dateSelection"
+                      :value="cgpFormData.dateSelection"
                       :options="formOptions.dateSelections"
-                      @change="setDateSelection"
+                      @change="setCgpDateSelection"
                       size="sm">
                       <template slot="first">
                         <option
@@ -270,9 +270,9 @@
                     <b-form-input
                       id="start-date-input-cgp"
                       class="mb-3"
-                      :value="submittedDateFrom"
+                      :value="cgpFormData.submittedDateFrom"
                       ref="start-date-input-cgp"
-                      @change="setStartDate"
+                      @change="setCgpStartDate"
                       size="sm"
                       placeholder="MM/DD/YYYY"/>
                   </b-col>
@@ -281,8 +281,8 @@
                       id="end-date-input-cgp"
                       ref="end-date-input-cgp"
                       class="mb-3"
-                      :value="submittedDateTo"
-                      @change="setEndDate"
+                      :value="cgpFormData.submittedDateTo"
+                      @change="setCgpEndDate"
                       size="sm"
                       placeholder="MM/DD/YYYY"/>
                   </b-col>
@@ -304,7 +304,7 @@
                       v-model="radioSelection3"
                       id="tribal-lands-construction-cgp"
                       :options="formOptions.tribalIndicator"
-                      @change="setTribalIndicator"
+                      @change="setCgpTribalIndicator"
                       name="radioInline3"
                       class="mb-3"
                       ref="tribal-lands-construction-cgp"/>
@@ -314,10 +314,10 @@
                       id="tribe-selection"
                       ref="tribe-selection"
                       class="mb-3"
-                      :value="tribeSelection"
+                      :value="cgpFormData.tribeSelection"
                       :options="formOptions.tribeSelections"
                       :disabled="isDisabledTribeCgp"
-                      @change="setTribeSelection"
+                      @change="setCgpTribeSelection"
                       size="sm">
                       <template slot="first">
                         <option
@@ -340,10 +340,10 @@
                       id="county-selection-cgp"
                       ref="county-selection-cgp"
                       class="mb-3"
-                      :value="facilityCounty"
+                      :value="cgpFormData.facilityCounty"
                       :options="formOptions.countySelections"
                       :disabled="isDisabledCountyCgp"
-                      @change="setFacilityCounty"
+                      @change="setCgpFacilityCounty"
                       size="sm">
                       <template slot="first">
                         <option
@@ -1004,6 +1004,7 @@
         formOptions: 'getFormOptions',
         msgpFormResults: 'getMsgpFormResults',
         msgpFormData: 'getMsgpFormData',
+        cgpFormData: 'getCgpFormData',
         permitType: 'getPermitType',
         facilityName: 'getFacilityName',
         npdesId: 'getNpdesId',
@@ -1044,12 +1045,10 @@
         return !this.msgpFormData.sector;
       },
       isDisabledCountyCgp() {
-        return false;
-        //return !this.cgpFormData.facilityState;
+        return !this.cgpFormData.facilityState;
       },
       isDisabledTribeCgp() {
-        return false;
-        //return (!this.cgpFormData.facilityState || !(this.tribalIndicator === true));
+        return (!this.cgpFormData.facilityState || !(this.cgpFormData.tribalIndicator === true));
       },
     },
     methods: {
@@ -1066,7 +1065,21 @@
         'setTribeSelection',
         'setFacilityCounty',
         'setTribalName',
-
+        'setCgpFacilityName',
+        'setCgpNpdesId',
+        'setCgpFacilityCity',
+        'setCgpFacilityState',
+        'setCgpFacilityZip',
+        'setCgpStatus',
+        'setCgpFormType',
+        'setCgpOperatorName',
+        'setCgpFederalIndicator',
+        'setCgpDateSelection',
+        'setCgpStartDate',
+        'setCgpEndDate',
+        'setCgpTribalIndicator',
+        'setCgpTribalName',
+        'setCgpFacilityCounty',
         'setMsgpTribalIndicator',
         'setMsgpIssuer',
         'setMsgpFederalIndicator',
@@ -1139,6 +1152,21 @@
         store.setMsgpSubsector('');
         store.setMsgpSicCode('');
         store.setMsgpAddress('');
+        store.setCgpFacilityName('');
+        store.setCgpNpdesId('');
+        store.setCgpFacilityCity('');
+        store.setCgpFacilityState('');
+        store.setCgpFacilityZip('');
+        store.setCgpStatus('');
+        store.setCgpFormType('');
+        store.setCgpOperatorName('');
+        store.setCgpFederalIndicator('');
+        store.setCgpDateSelection('');
+        store.setCgpStartDate('');
+        store.setCgpEndDate('');
+        store.setCgpTribalIndicator('');
+        store.setCgpTribalName('');
+        store.setCgpFacilityCounty('');
         store.radioSelection1 = false;
         store.radioSelection2 = false;
         store.radioSelection3 = false;

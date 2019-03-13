@@ -137,6 +137,82 @@ export default {
 
     store.commit(types.SET_MSGP_FEDERAL_INDICATOR, payload);
   },
+  setCgpFacilityName(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_FACILITY_NAME, payload);
+  },
+  setCgpNpdesId(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_NPDESID, payload);
+  },
+  setCgpFacilityCity(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_FACILITY_CITY, payload);
+  },
+  setCgpFacilityState(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_FACILITY_STATE, payload);
+  },
+  setCgpFacilityZip(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_FACILITY_ZIP, payload);
+  },
+  setCgpStatus(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_STATUS, payload);
+  },
+  setCgpFormType(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_FORM_TYPE, payload);
+  },
+  setCgpOperatorName(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_OPERATOR_NAME, payload);
+  },
+  setCgpFederalIndicator(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_FEDERAL_INDICATOR, payload);
+  },
+  setCgpDateSelection(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_DATE_SELECTION, payload);
+  },
+
+  setCgpStartDate(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_START_DATE, payload);
+  },
+  setCgpEndDate(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_END_DATE, payload);
+  },
+  setCgpTribalIndicator(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_TRIBAL_INDICATOR, payload);
+  },
+  setCgpTribalName(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_TRIBAL_NAME, payload);
+  },
+  setCgpFacilityCounty(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_FACILITY_COUNTY, payload);
+  },
 
   loadBaseFormOption(context) {
     const store = context;

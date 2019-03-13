@@ -238,6 +238,115 @@ export default {
       str,
     );
   },
+
+  [types.SET_CGP_FACILITY_NAME](state, str) {
+    Vue.set(
+      state.cgpFormData,
+      'facilityName',
+      str,
+    );
+  },
+  [types.SET_CGP_NPDESID](state, str) {
+    Vue.set(
+      state.cgpFormData,
+      'npdesId',
+      str,
+    );
+  },
+  [types.SET_CGP_FACILITY_CITY](state, str) {
+    Vue.set(
+      state.cgpFormData,
+      'facilityCity',
+      str,
+    );
+  },
+  [types.SET_CGP_FACILITY_STATE](state, str) {
+    Vue.set(
+      state.cgpFormData,
+      'facilityState',
+      str,
+    );
+  },
+  [types.SET_CGP_FACILITY_ZIP](state, str) {
+    Vue.set(
+      state.cgpFormData,
+      'facilityZip',
+      str,
+    );
+  },
+  [types.SET_CGP_STATUS](state, str) {
+    Vue.set(
+      state.cgpFormData,
+      'status',
+      str,
+    );
+  },
+  [types.SET_CGP_FORM_TYPE](state, str) {
+    Vue.set(
+      state.cgpFormData,
+      'formType',
+      str,
+    );
+  },
+  [types.SET_CGP_OPERATOR_NAME](state, str) {
+    Vue.set(
+      state.cgpFormData,
+      'operatorName',
+      str,
+    );
+  },
+  [types.SET_CGP_DATE_SELECTION](state, str) {
+    Vue.set(
+      state.cgpFormData,
+      'dateSelection',
+      str,
+    );
+  },
+  [types.SET_CGP_FACILITY_COUNTY](state, str) {
+    Vue.set(
+      state.cgpFormData,
+      'facilityCounty',
+      str,
+    );
+  },
+  [types.SET_CGP_FEDERAL_INDICATOR](state, str) {
+    Vue.set(
+      state.cgpFormData,
+      'federalIndicator',
+      str,
+    );
+  },
+  [types.SET_CGP_TRIBAL_INDICATOR](state, str) {
+    Vue.set(
+      state.cgpFormData,
+      'tribalIndicator',
+      str,
+    );
+  },
+  [types.SET_CGP_TRIBAL_NAME](state, str) {
+    Vue.set(
+      state.cgpFormData,
+      'tribalName',
+      str,
+    );
+  },
+  [types.SET_CGP_START_DATE](state, str) {
+    Vue.set(
+      state.cgpFormData,
+      'submittedDateFrom',
+      str,
+    );
+  },
+  [types.SET_CGP_END_DATE](state, str) {
+    Vue.set(
+      state.cgpFormData,
+      'submittedDateTo',
+      str,
+    );
+  },
+
+
+
   [types.SET_FORM_OPTIONS_MSGP](state, arr) {
     Vue.set(
       state.formOptions,

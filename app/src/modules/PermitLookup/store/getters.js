@@ -15,6 +15,9 @@ export default {
   getMsgpFormData(state) {
     return state.msgpFormData;
   },
+  getCgpFormData(state) {
+    return state.cgpFormData;
+  },
   getMsgpResultsLoaded(state) {
     return state.msgpResultsLoaded;
   },
