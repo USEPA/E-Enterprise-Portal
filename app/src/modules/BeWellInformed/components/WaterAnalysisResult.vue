@@ -1,5 +1,6 @@
 <template>
   <div
+    id="content"
     class="be-well-informed-result-wrapper row"
     v-if="waterAnalysisResult">
 
@@ -15,6 +16,7 @@
           <template
             class="introduction"
             :html="infoXmlResults.Introduction._cdata"></template>
+          <template><b-button @click="create">Generate PDF</b-button></template>
         </div>
       </div>
     </div>
@@ -147,7 +149,6 @@
                     </div>
                   </template>
                 </div>
-                getter
               </div>
             </div>
             <div class="col-sm-2 col-md-1 wt-step bg-primary text-white">
@@ -229,10 +230,34 @@
   import { mapGetters } from 'vuex';
   import ResultLegend from './ResultLegend.vue';
   import ResultRow from './ResultRow.vue';
+  import BButton from "bootstrap-vue/src/components/button/button";
+  import pdfMake from "pdfmake/build/pdfmake";
+  import pdfFonts from 'pdfmake/build/vfs_fonts.js';
+  pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
   export default {
     name: 'WaterAnalysisResult',
-    components: { ResultRow, ResultLegend },
+    components: { BButton, ResultRow, ResultLegend },
+    data () {
+      return {
+        pdfMake,
+        pdfFonts,
+        pdfContent: {
+          content: [
+            {
+              text: 'example row 0'
+            },
+
+            {
+              text: 'example row 1'
+            },
+            {
+              text: 'example row 2'
+            }
+          ]
+        },
+      }
+    },
     props: {
       waterAnalysisResult: {
         required: true,
@@ -325,6 +350,9 @@
         }
         return r.length;
       },
+      create() {
+        this.pdfMake.createPdf(this.pdfContent).download('BWI.pdf')
+      }
     },
   };
 </script>

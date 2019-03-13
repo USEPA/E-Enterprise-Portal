@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e83d6a1d9cdabc62cb67733c2af973ab",
+    "content-hash": "31038f9ec3275f55ee81f83dadd58fd2",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -5300,6 +5300,54 @@
             "homepage": "https://www.drupal.org/project/wincachedrupal",
             "support": {
                 "source": "http://cgit.drupalcode.org/wincachedrupal"
+            }
+        },
+        {
+            "name": "drupal/wkhtmltopdf",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/wkhtmltopdf",
+                "reference": "8.x-1.2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/wkhtmltopdf-8.x-1.2.zip",
+                "reference": "8.x-1.2",
+                "shasum": "296e1304920c3ec5ff601e7f4d6e23cabd157cc5"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.2",
+                    "datestamp": "1550097180",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Júlio Hidemi Kamizato",
+                    "homepage": "https://www.drupal.org/user/2348128",
+                    "email": "jkamizato@gmail.com"
+                }
+            ],
+            "description": "Provider a integration with wkhtmltopdf.",
+            "homepage": "https://www.drupal.org/project/wkhtmltopdf",
+            "support": {
+                "source": "http://cgit.drupalcode.org/wkhtmltopdf"
             }
         },
         {

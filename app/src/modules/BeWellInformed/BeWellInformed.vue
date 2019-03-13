@@ -22,7 +22,7 @@
             <!-- this slot appears above the options from 'options' prop -->
             <option
               :value="null"
-              disabled>-- Please select an partner --
+              disabled>Select...
             </option>
           </template>
         </b-form-select>
@@ -30,7 +30,7 @@
           variant="primary"
           ref="btnCheckYourWater"
           type="submit">
-          Check Your Water
+          Go
         </b-btn>
       </b-form>
       <!-- Various Modals required for the workbench app-->
