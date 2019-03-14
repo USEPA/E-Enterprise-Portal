@@ -21,6 +21,9 @@ export default {
   getMsgpResultsLoaded(state) {
     return state.msgpResultsLoaded;
   },
+  getCgpResultsLoaded(state) {
+    return state.cgpResultsLoaded;
+  },
   getPermitType(state) {
     return state.permitType;
   },
@@ -101,6 +104,9 @@ export default {
   },
   getMsgpFormResults(state) {
     return state.msgpFormResults;
+  },
+  getCgpFormResults(state) {
+    return state.cgpFormResults;
   },
   getTotalRows(state) {
     return state.msgpFormResults.length;

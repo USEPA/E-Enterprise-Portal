@@ -310,4 +310,49 @@ export default {
         vm.$root.$emit('bv::show::modal', 'permit-results-modal');
       });
   },
+
+  cgpFormGetResults(context, payload) {
+    const store = context;
+    const { vm } = payload;
+    const apiURL = store.rootGetters.getEnvironmentApiURL;
+    const { cgpFormData } = store.state;
+    const { baseFormOptions } = store.state.formOptions;
+    const axiosUrlBase = `${apiURL}/eep/proxy/service/oeca-cgp?`;
+    let urlQueries = '';
+
+    // Set cgp form inputs that aren't empty or default as queries
+    Object.keys(cgpFormData).forEach((key) => {
+      if (cgpFormData[key] !== 'Select...' && cgpFormData[key] !== '') {
+        // Map State Name to State Code
+        if (key === 'facilityState') {
+          baseFormOptions[1].forEach((subKeyA) => {
+            if (subKeyA.stateName === cgpFormData.facilityState) {
+              urlQueries += `facilityState=${subKeyA.stateCode}`;
+            }
+          });
+        } else if (key === 'submittedDateTo') {
+          const unformattedDate = new Date(cgpFormData[key]);
+          urlQueries += `${key}=${unformattedDate.toISOString()}`;
+        } else if (key === 'submittedDateFrom') {
+          const unformattedDate = new Date(cgpFormData[key]);
+          urlQueries += `${key}=${unformattedDate.toISOString()}`;
+        } else {
+          urlQueries += `${urlQueries + key}=${cgpFormData[key]}`;
+        }
+        urlQueries += '&';
+      }
+    });
+    urlQueries = encodeURI(urlQueries);
+    const axiosUrl = axiosUrlBase + urlQueries;
+    vm.$root.$emit('bv::hide::modal', 'permit-search-modal');
+    // get stuff
+    AppAxios.get(axiosUrl)
+      .then((response) => {
+        const cgpResponse = response.data.formQueryResponse;
+        store.commit(types.SET_CGP_RESPONSE, cgpResponse);
+        store.commit(types.SET_CGP_RESULTS_LOADED, true);
+        vm.$root.$emit('bv::show::modal', 'permit-results-modal');
+      });
+  },
+
 };

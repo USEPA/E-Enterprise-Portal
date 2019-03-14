@@ -27,7 +27,7 @@
                   required>
                   <template slot="first">
                     <option
-                      disabled>{{ permitType }}
+                      disabled>Select...
                     </option>
                   </template>
                 </b-form-select>
@@ -328,7 +328,7 @@
                         :value="cgpFormData.tribeSelection"
                         :options="formOptions.tribeSelections"
                         :disabled="isDisabledTribeCgp"
-                        @change="setCgpTribeSelection"
+                        @change="setCgpTribalName"
                         size="sm">
                         <template slot="first">
                           <option
@@ -876,12 +876,35 @@
             </b-row>
             <b-col class="overflow-x-scroll">
               <b-table
-                v-if="msgpResultsLoaded"
+                v-if="cgpResultsLoaded"
                 hover
-                id="permit-lookup-table"
+                id="permit-lookup-table-cgp"
+                class="bootstrap-vue-permit-table-scroll d-block"
+                :items="cgpFormResults"
+                :fields="cgpFields"
+                :current-page="currentPage"
+                :per-page="perPage"
+                :filter="filter"
+                :sort-by.sync="sortBy"
+                :sort-desc.sync="sortDesc"
+                :sort-direction="sortDirection"
+                :filtered="onFiltered">
+                <template
+                  slot="documents"
+                  slot-scope="data">
+                  <a
+                    v-for="attachment in data.item.attachments"
+                    :href="`${formOptions.cgpFormOptions.cgpDownloadUrlBase}/form/${data.item.id}/attachment/${attachment.id}`"
+                    class="pl-2">Download</a>
+                </template>
+              </b-table>
+              <b-table
+                v-else-if="msgpResultsLoaded"
+                hover
+                id="permit-lookup-table-msgp"
                 class="bootstrap-vue-permit-table-scroll d-block"
                 :items="msgpFormResults"
-                :fields="fields"
+                :fields="msgpFields"
                 :current-page="currentPage"
                 :per-page="perPage"
                 :filter="filter"
@@ -1091,7 +1114,7 @@
         radioSelection2: false,
         radioSelection3: false,
         radioSelection4: false,
-        fields: [
+        msgpFields: [
           {
             key: 'issuer',
             label: 'Issuer',
@@ -1158,6 +1181,71 @@
             sortable: false,
           },
         ],
+        cgpFields: [
+          {
+            key: 'npdesId',
+            label: 'NPDES ID',
+            sortable: false,
+            sortDirection: 'desc',
+          },
+          {
+            key: 'documents',
+            label: 'Corresponding Documents',
+            sortable: false,
+          },
+
+
+
+
+
+
+
+
+          //
+          // {
+          //   key: 'facilitySiteInformation.siteName',
+          //   label: 'Facility Name',
+          //   sortable: false,
+          //   sortDirection: 'desc',
+          // },
+          // {
+          //   key: 'operatorInformation.operatorName',
+          //   label: 'Facility Operator',
+          //   sortable: false,
+          //   sortDirection: 'desc',
+          // },
+          // {
+          //   key: 'facilitySiteInformation.siteAddress.stateCode',
+          //   label: 'Facility State',
+          //   sortable: false,
+          //   sortDirection: 'desc',
+          // },
+          // {
+          //   key: 'facilitySiteInformation.siteAddress.city',
+          //   label: 'Facility City',
+          //   sortable: false,
+          //   sortDirection: 'desc',
+          // },
+          // {
+          //   key: 'coverageStatus',
+          //   label: 'Coverage Status',
+          //   sortable: false,
+          //   sortDirection: 'desc',
+          // },
+          // {
+          //   key: 'certifiedDate',
+          //   label: 'Effective Date',
+          //   sortable: false,
+          //   sortDirection: 'desc',
+          // },
+          //
+          // {
+          //   key: 'applicationType',
+          //   label: 'Application Type',
+          //   sortable: false,
+          //   sortDirection: 'desc',
+          // },
+        ],
         currentPage: 1,
         perPage: 5,
         pageOptions: [5, 10, 15, 20],
@@ -1177,6 +1265,7 @@
       ...mapGetters(moduleName, {
         formOptions: 'getFormOptions',
         msgpFormResults: 'getMsgpFormResults',
+        cgpFormResults: 'getCgpFormResults',
         msgpFormData: 'getMsgpFormData',
         cgpFormData: 'getCgpFormData',
         permitType: 'getPermitType',
@@ -1206,6 +1295,7 @@
         sicCode: 'getSicCode',
         facilityAddressLine1: 'getAddress',
         msgpResultsLoaded: 'getMsgpResultsLoaded',
+        cgpResultsLoaded: 'getCgpResultsLoaded',
         msgpStateSelected: 'getMsgpStateSelected',
         totalRows: 'getTotalRows',
       }),
@@ -1228,6 +1318,7 @@
     methods: {
       ...mapActions(moduleName, [
         'msgpFormGetResults',
+        'cgpFormGetResults',
         'setPermitType',
         'setStatus',
         'setFormType',
@@ -1288,8 +1379,9 @@
         this.$root.$emit('bv::show::modal', 'permit-info-modal');
       },
       cgpFormSubmit(evt) {
+        const vm = this;
         evt.preventDefault();
-        // get stuff
+        this.cgpFormGetResults({ vm });
       },
       msgpFormSubmit(evt) {
         const vm = this;

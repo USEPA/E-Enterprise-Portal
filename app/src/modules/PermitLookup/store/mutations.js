@@ -343,6 +343,13 @@ export default {
       str,
     );
   },
+  [types.SET_CGP_RESPONSE](state, arr) {
+    Vue.set(
+      state,
+      'cgpFormResults',
+      arr,
+    );
+  },
 
 
 
@@ -399,6 +406,13 @@ export default {
     Vue.set(
       state,
       'msgpResultsLoaded',
+      bool,
+    );
+  },
+  [types.SET_CGP_RESULTS_LOADED](state, bool) {
+    Vue.set(
+      state,
+      'cgpResultsLoaded',
       bool,
     );
   },

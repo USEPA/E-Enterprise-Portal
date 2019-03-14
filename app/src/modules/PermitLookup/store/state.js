@@ -91,4 +91,6 @@ export default {
   },
   msgpFormResults: {},
   msgpResultsLoaded: false,
+  cgpFormResults: {},
+  cgpResultsLoaded: false,
 };
