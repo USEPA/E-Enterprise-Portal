@@ -86,7 +86,7 @@ export default {
   [types.SET_MSGP_FEDERAL_INDICATOR](state, bool) {
     Vue.set(
       state.msgpFormData,
-      'federalIndicatior',
+      'federalIndicator',
       bool,
     );
   },

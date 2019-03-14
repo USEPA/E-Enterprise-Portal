@@ -315,7 +315,7 @@
                         class="mb-3"
                         :value="tribeSelection"
                         :options="formOptions.tribeSelections"
-                        @change="setTribeSelection"
+                        @change="setMsgpTribalName"
                         size="sm"
                       >
                         <template slot="first">

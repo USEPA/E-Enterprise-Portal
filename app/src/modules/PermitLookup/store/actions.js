@@ -58,7 +58,7 @@ export default {
   setMsgpFederalIndicator(context, payload) {
     const store = context;
 
-    store.commit(types.SET_MSGP_FEDERAL_INDICATOR, payload);
+    store.commit(types.SET_MSGP_FEDERAL_INDICATOR, payload.toString());
   },
   setDateSelection(context, payload) {
     const store = context;
@@ -78,12 +78,7 @@ export default {
   setMsgpTribalIndicator(context, payload) {
     const store = context;
 
-    store.commit(types.SET_MSGP_TRIBAL_INDICATOR, payload);
-  },
-  setTribeSelection(context, payload) {
-    const store = context;
-
-    store.commit(types.SET_TRIBE_SELECTION, payload);
+    store.commit(types.SET_MSGP_TRIBAL_INDICATOR, payload.toString());
   },
   setMsgpFacilityCounty(context, payload) {
     const store = context;
