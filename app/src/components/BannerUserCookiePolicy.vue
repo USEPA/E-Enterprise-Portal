@@ -1,6 +1,6 @@
 <template>
   <div
-    class="alert alert-info fade show"
+    class="fixed-bottom alert alert-info fade show"
     role="alert"
     v-if="showUserCookiePolicy">
     <div class="col-12 text-center p-2">

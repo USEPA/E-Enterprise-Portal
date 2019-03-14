@@ -20,7 +20,6 @@
         </div>
       </div>
     </div>
-    <BannerUserCookiePolicy/>
     <MainHeader/>
     <div
       id="nav"
@@ -52,6 +51,9 @@
       </div>
     </div>
     <MainFooter/>
+    <BannerUserCookiePolicy/>
+    <!-- END OF CONTENT -->
+    <!-- BEGINNING OF ADDITIONAL FEATURES -->
     <!-- set progressbar -->
     <vue-progress-bar/>
     <!-- Modal for cookie extension -->
