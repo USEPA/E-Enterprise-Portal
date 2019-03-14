@@ -41,6 +41,13 @@
   border-top: 0;
 }
 
+.table.no-bottom-border > thead th {
+  border-bottom: 0;
+}
+
+.table.no-sort-images > thead th:after {
+  content: none !important;
+}
 
 .bootstrap-vue-table-scroll > .table th, .table td,
 .bootstrap-vue-fav-table-scroll > .table th, .table td {
