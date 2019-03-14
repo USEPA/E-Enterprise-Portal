@@ -409,28 +409,29 @@
         });
       },
       deleteSelectedLocation(location) {
-        if(this.user.userFavoriteLocation.length > 0){
-          if (location.second === this.user.userFavoriteLocation[0].second) {
-            // Clear all the stars
-            this.$refs.favoriteStars.forEach((star) => {
-              star.classList.remove('fas');
-              star.classList.add('far');
-            });
-            let savedLocations = [];
-            this.apiUserPatch({
-              field_userfavoritelocations: [],
-            });
-          }else{
-            this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
-            this.apiUserPatch({
-              field_userfavoritelocations: this.$store.getters.getUser.userLocationsFromLoad,
-            });
-          }
-        }else{
+        // Check to see if user favorite location exist
+        if(this.user.userFavoriteLocation.length === 0){
           this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
           this.apiUserPatch({
             field_userfavoritelocations: this.$store.getters.getUser.userLocationsFromLoad,
           });
+        } else {
+          if (location.second === this.user.userFavoriteLocation[0].second) {
+             // Clear all the stars
+             this.$refs.favoriteStars.forEach((star) => {
+               star.classList.remove('fas');
+               star.classList.add('far');
+             });
+
+             this.apiUserPatch({
+               field_userfavoritelocations: [],
+             });
+          } else {
+             this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
+             this.apiUserPatch({
+               field_userfavoritelocations: this.$store.getters.getUser.userLocationsFromLoad,
+             });
+          }
         }
       },
       revealLocationInputBox() {
