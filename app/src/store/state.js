@@ -72,7 +72,7 @@ const state = {
       state: '',
     },
     termsAndConditionsCookie: false,
-    UserPolicyCookieDismiss: false,
+    UserCookiePolicyDismiss: false,
     userObject: {},
     cookie: {
       time: '',

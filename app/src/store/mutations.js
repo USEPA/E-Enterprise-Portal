@@ -90,7 +90,7 @@ export default {
   [types.USER_POLICY_COOKIE_DISMISS](state) {
     Vue.set(
       state.user,
-      'UserPolicyCookieDismiss',
+      'UserCookiePolicyDismiss',
       true,
     );
   },

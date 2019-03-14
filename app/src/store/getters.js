@@ -24,7 +24,7 @@ export default {
   /**
    * gets users login preference state
    */
-  getUserPolicyCookieDismiss() {
+  getUserCookiePolicyDismiss() {
     const cookieState = document.cookie.match('(^|;) ?userPolicy=([^;]*)(;|$)');
     return cookieState;
   },
