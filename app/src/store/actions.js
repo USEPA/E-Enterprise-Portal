@@ -497,7 +497,7 @@ export default {
               cities_and_states.push(city_and_state);
             }
           });
-          formattedResponseInformation = cities_and_states.filter(c_and_s => c_and_s !== '');
+          formattedResponseInformation = cities_and_states.filter(cityAndState => cityAndState !== '');
         } else {
           const cities = returnData.city;
 
