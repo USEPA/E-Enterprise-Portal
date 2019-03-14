@@ -409,6 +409,9 @@
         });
       },
       deleteSelectedLocation(location) {
+        // Delete selected location out of the store
+        this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
+
         if(this.user.userFavoriteLocation.length > 0){
           if (location.second === this.user.userFavoriteLocation[0].second) {
 
@@ -418,25 +421,18 @@
                star.classList.add('far');
              });
 
-             // Delete the duplicate favorite out of the locations on load
-             this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
-
              // Reset userFavoriteLocations
              this.apiUserPatch({
                field_userfavoritelocations: [],
              });
-
-             // Save new list of locations to userLocation
-             this.apiUserPatch({
-               field_userlocation: this.$store.getters.getUser.userLocationsFromLoad,
-             });
           }
-        }else{
-          this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
-          this.apiUserPatch({
-            field_userlocation: this.$store.getters.getUser.userLocationsFromLoad,
-          });
         }
+
+        // Save updated array to store
+        this.apiUserPatch({
+          field_userlocation: this.$store.getters.getUser.userLocationsFromLoad,
+        });
+
       },
       revealLocationInputBox() {
         // Reset the display none for the populated dropdown
