@@ -1189,62 +1189,52 @@
             sortDirection: 'desc',
           },
           {
+            key: 'projectSiteInformation.siteName',
+            label: 'Project Name',
+            sortable: false,
+            sortDirection: 'desc',
+          },
+          {
+            key: 'operatorInformation.operatorName',
+            label: 'Project Operator',
+            sortable: false,
+            sortDirection: 'desc',
+          },
+          {
+            key: 'projectSiteInformation.siteAddress.stateCode',
+            label: 'Project State',
+            sortable: false,
+            sortDirection: 'desc',
+          },
+          {
+            key: 'projectSiteInformation.siteAddress.city',
+            label: 'Project City',
+            sortable: false,
+            sortDirection: 'desc',
+          },
+          {
+            key: 'status',
+            label: 'Status',
+            sortable: false,
+            sortDirection: 'desc',
+          },
+          {
+            key: 'type',
+            label: 'Type',
+            sortable: false,
+            sortDirection: 'desc',
+          },
+          {
+            key: 'certifiedDate',
+            label: 'Effective Date',
+            sortable: false,
+            sortDirection: 'desc',
+          },
+          {
             key: 'documents',
             label: 'Corresponding Documents',
             sortable: false,
           },
-
-
-
-
-
-
-
-
-          //
-          // {
-          //   key: 'facilitySiteInformation.siteName',
-          //   label: 'Facility Name',
-          //   sortable: false,
-          //   sortDirection: 'desc',
-          // },
-          // {
-          //   key: 'operatorInformation.operatorName',
-          //   label: 'Facility Operator',
-          //   sortable: false,
-          //   sortDirection: 'desc',
-          // },
-          // {
-          //   key: 'facilitySiteInformation.siteAddress.stateCode',
-          //   label: 'Facility State',
-          //   sortable: false,
-          //   sortDirection: 'desc',
-          // },
-          // {
-          //   key: 'facilitySiteInformation.siteAddress.city',
-          //   label: 'Facility City',
-          //   sortable: false,
-          //   sortDirection: 'desc',
-          // },
-          // {
-          //   key: 'coverageStatus',
-          //   label: 'Coverage Status',
-          //   sortable: false,
-          //   sortDirection: 'desc',
-          // },
-          // {
-          //   key: 'certifiedDate',
-          //   label: 'Effective Date',
-          //   sortable: false,
-          //   sortDirection: 'desc',
-          // },
-          //
-          // {
-          //   key: 'applicationType',
-          //   label: 'Application Type',
-          //   sortable: false,
-          //   sortDirection: 'desc',
-          // },
         ],
         currentPage: 1,
         perPage: 5,
