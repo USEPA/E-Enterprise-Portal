@@ -100,6 +100,7 @@
   export default {
     name: 'MainHeader',
     props: {},
+    components: { },
     computed: {
       ...mapGetters({
         isLoggedIn: 'getIsLoggedIn',

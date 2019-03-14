@@ -20,6 +20,7 @@
         </div>
       </div>
     </div>
+    <BannerUserCookiePolicy/>
     <MainHeader/>
     <div
       id="nav"
@@ -59,7 +60,7 @@
       modal-ref="cookieModal"
       title="Your session is about to expire">
       <!-- Modal content -->
-      <p>{{user.extendSessionModalMessage}}</p>
+      <p>{{ user.extendSessionModalMessage }}</p>
       <template slot="footer">
         <b-button
           class="usa-button usa-button-secondary"
@@ -74,10 +75,10 @@
           Extend Session
         </b-button>
         <b-button
-           class="usa-button"
-           @click="handleLogOut"
-           v-show="!(user.displayLoginAgainButtonOnModal === 'none')" >
-           Login Again
+          class="usa-button"
+          @click="handleLogOut"
+          v-show="!(user.displayLoginAgainButtonOnModal === 'none')" >
+          Login Again
         </b-button>
       </template>
     </AppModal>
@@ -90,6 +91,8 @@
   import MainHeader from '@/components/MainHeader.vue';
   import MainFooter from '@/components/MainFooter.vue';
   import LocationSearch from '@/components/LocationSearch.vue';
+  import BannerTermsAndConditions from '@/components/BannerTermsAndConditions.vue';
+  import BannerUserCookiePolicy from '@/components/BannerUserCookiePolicy.vue';
   import VueProgessBar from 'vue-progressbar';
   import types from './store/types';
   import { AppModal } from './modules/wadk/WADK';
@@ -104,6 +107,8 @@
       VueProgessBar,
       LocationSearch,
       AppModal,
+      BannerTermsAndConditions,
+      BannerUserCookiePolicy,
     },
     computed: {
       ...mapGetters({
@@ -154,7 +159,7 @@
         vm.$root.$emit(
           'bv::show::modal',
           'cookieModal',
-          vm.$refs.cookieModal
+          vm.$refs.cookieModal,
         );
       },
       handleLogOut() {
@@ -163,7 +168,7 @@
         vm.$root.$emit(
           'bv::hide::modal',
           'cookieModal',
-          vm.$refs.cookieModal
+          vm.$refs.cookieModal,
         );
       },
       exitModal() {
@@ -175,7 +180,7 @@
         );
         this.$store.dispatch('userLogOut');
         this.$router.push('/login');
-      } ,
+      },
       extendTheSession() {
         const vm = this;
         vm.$store.dispatch('extendSession', { vm });

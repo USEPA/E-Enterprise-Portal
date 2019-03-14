@@ -152,7 +152,7 @@ export default {
     Vue.cookie.set('userTandC', true, { expires: '1Y' });
     store.commit('USER_TANDC_COOKIE_DISMISS');
   },
-  setUserPolicyCookie(context) {
+  setUserCookiePolicy(context) {
     const store = context;
     Vue.cookie.set('userPolicy', true, { expires: '1Y' });
     store.commit('USER_POLICY_COOKIE_DISMISS');
