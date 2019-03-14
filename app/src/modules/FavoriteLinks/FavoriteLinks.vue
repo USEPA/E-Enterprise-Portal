@@ -104,7 +104,9 @@
       </b-table>
 
       <!-- pagination -->
-      <b-row class="text-center">
+      <b-row class="text-center"
+             v-if="totalRows > perPage"
+      >
         <b-col
           md="12"
           class="my-1">

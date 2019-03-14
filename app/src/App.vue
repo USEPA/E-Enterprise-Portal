@@ -24,7 +24,6 @@
     <div
       id="nav"
       class="region-navigation pb-2 px-3"
-      :style="navMargin"
       v-if="!onHomePage">
       <div
         id="main-navigation-container"

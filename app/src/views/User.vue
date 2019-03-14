@@ -409,7 +409,7 @@
         });
       },
       deleteSelectedLocation(location) {
-        if (location.second === this.userLocationsFromLoad[0].second) {
+        if (location.second === this.user.userFavoriteLocation[0].second) {
           // Clear all the stars
           this.$refs.favoriteStars.forEach((star) => {
             star.classList.remove('fas');
@@ -419,11 +419,13 @@
           this.apiUserPatch({
             field_userfavoritelocations: [],
           });
+        }else{
+          this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
+          this.apiUserPatch({
+            field_userlocation: this.$store.getters.getUser.userLocationsFromLoad,
+          });
         }
-        this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
-        this.apiUserPatch({
-          field_userlocation: this.$store.getters.getUser.userLocationsFromLoad,
-        });
+
       },
       revealLocationInputBox() {
         // Reset the display none for the populated dropdown

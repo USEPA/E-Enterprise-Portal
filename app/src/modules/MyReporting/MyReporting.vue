@@ -86,7 +86,7 @@
               <b-table
                 show-empty
                 id="my-reporting-table"
-                class="bootstrap-vue-table-scroll"
+                class="bootstrap-vue-table-scroll no-top-border no-bottom-border no-sort-images"
                 stacked="md"
                 :items="items"
                 :fields="fields"
@@ -178,7 +178,9 @@
                   </div>
                 </div>
               </AppModal>
-              <b-row class="text-center">
+              <b-row class="text-center"
+                     v-if="totalRows > perPage"
+              >
                 <b-col
                   md="12"
                   class="my-1">

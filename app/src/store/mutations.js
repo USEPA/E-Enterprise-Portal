@@ -248,12 +248,20 @@ export default {
   },
   [types.DELETE_USER_SELECTED_LOCATION](state, deletedSelection) {
     // Filter the array with the location that they want deleted
-    let filteredLocation = state.user.userLocationsFromLoad
-      .filter(location => location.second !== deletedSelection.second);
+    let filteredLocations = [];
+
+    state.user.userLocationsFromLoad.forEach(function(location){
+      if(parseInt(location.second) !== parseInt(deletedSelection.second)
+          && location.first.trim !== deletedSelection.first.trim() ||
+          parseInt(location.second) === parseInt(deletedSelection.second)
+          && location.first.trim() !== deletedSelection.first.trim()){
+        filteredLocations.push(location);
+      }
+    })
     // Save back to state
     Vue.set(state.user,
       'userLocationsFromLoad',
-      filteredLocation);
+      filteredLocations);
   },
   [types.SET_DISPLAY_WHEN_LOCATION_IS_CLICKED](state, css_prop) {
     Vue.set(state.user,
