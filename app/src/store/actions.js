@@ -549,10 +549,6 @@ export default {
         }
       }
 
-      function checkToSeeIfUserHasAllCitiesForGivenZipcode(){
-
-      }
-
       function doesUserHaveGivenLocation(name, zipcode){
         return userLocationsFromLoad.some(function(location){
             return parseInt(location.second) === parseInt(zipcode)
