@@ -54,7 +54,7 @@
       <div
         class="bootstrap-vue-fav-table-scroll mb-3 favorite-links-blank-placeholder text-center"
         v-if="!favoriteLinksLoaded">
-        <p class="pt-5">Loading you Favorites...</p>
+        <p class="pt-5">Loading your Favorites...</p>
       </div>
       <!-- if No Favorites -->
       <div
