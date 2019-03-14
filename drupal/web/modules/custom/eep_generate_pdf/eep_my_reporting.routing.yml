@@ -1,0 +1,8 @@
+eep_my_reporting.my_reporting:
+  path: '/eep_generate_pdf/water_analysis_results_pdf'
+  defaults:
+    _controller: '\Drupal\eep_my_reporting\Controller\EEPMyReportingController::generate_pdf'
+    _title: 'Generate PDF'
+  methods:  [GET]
+  requirements:
+    _access: 'TRUE'
