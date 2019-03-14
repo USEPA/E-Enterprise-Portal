@@ -484,14 +484,12 @@ export default {
               formattedResponseInformation.push({tribeName: thisTribeZipcodes});
           }
         });
-        store.commit(types.SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED, false);
         store.commit(types.IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES, true);
         store.commit(types.SET_TRIBES_ARRAY, formattedResponseInformation);
       } else if (params.indexOf('zipcode') !== -1) {
         // The if statement handles the case of if a zipcode exist in more than
         // one place
         if (returnData.cities_and_states) {
-          console.log("hit if");
           let cities_and_states_return_from_ajax = returnData.cities_and_states;
           let cities_and_states = [];
           cities_and_states_return_from_ajax.forEach(function(city_and_state){
@@ -529,7 +527,7 @@ export default {
 
         checkIfAllZipSaved();
 
-        if (commonZipcodes.length == inputlocationZipcodes.length) {
+        if (commonZipcodes.length == returnData.zipcode.length) {
             store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', true);
             store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', true);
         } else {
@@ -542,6 +540,13 @@ export default {
             });
             formattedResponseInformation = zipcodes;
         }
+      }
+
+      function doesUserHaveGivenLocation(name, zipcode){
+        return userLocationsFromLoad.some(function(location){
+            return parseInt(location.second) === parseInt(zipcode)
+                && location.first.trim() === name.trim();
+        });
       }
 
       function checkIfAllZipSaved() {
@@ -557,13 +562,6 @@ export default {
         compareZipcodes(inputlocationZipcodes, savedZipcodes);
       }
 
-      function doesUserHaveGivenLocation(name, zipcode){
-        return userLocationsFromLoad.some(function(location){
-            return parseInt(location.second) === parseInt(zipcode)
-                && location.first.trim() === name.trim();
-        });
-      }
-
       function compareZipcodes(inputlocationZipcodes, savedZipcodes) {
         const objMap = {};
 
@@ -573,14 +571,16 @@ export default {
            }
           }
         ));
-        commonZipcodes = Object.keys(objMap).map(zipcodes=>Number(zipcodes));
+        commonZipcodes = Object.keys(objMap).map(zipcodes => Number(zipcodes));
       }
 
+      console.log(formattedResponseInformation);
       // Commit all of the information to the store
       store.commit('SET_OPTIONS_AFTER_INPUT', formattedResponseInformation);
       store.commit('SET_INPUT_BOX_TEXT', store.getters.getUser.inputBoxText);
       // Change the label for the dropdown
       store.commit('SET_DROPDOWN_LABEL', dropDownLabelText);
+      store.commit(types.SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED, false);
     }).catch((error) => {
       console.warn(error);
     });
