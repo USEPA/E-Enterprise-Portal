@@ -426,7 +426,6 @@
            });
           }
         }
-
         // Save updated array to store
         this.apiUserPatch({
           field_userlocation: this.$store.getters.getUser.userLocationsFromLoad,

@@ -526,7 +526,6 @@ export default {
             store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', false);
             store.commit('SET_INPUT_MESSAGE', '');
         }
-
         dropDownLabelText = 'Select a location for';
       } else if (params.indexOf('city') !== -1 && params.indexOf('state') !== -1) {
 
