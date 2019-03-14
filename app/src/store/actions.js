@@ -518,6 +518,15 @@ export default {
           }
           store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', true);
         }
+
+        if(formattedResponseInformation.length === 0){
+            store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', true);
+            store.commit('SET_INPUT_MESSAGE', 'Duplicate location name and zip code pairs are not allowed.');
+        }else{
+            store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', false);
+            store.commit('SET_INPUT_MESSAGE', '');
+        }
+
         dropDownLabelText = 'Select a location for';
       } else if (params.indexOf('city') !== -1 && params.indexOf('state') !== -1) {
 
@@ -539,6 +548,10 @@ export default {
             });
             formattedResponseInformation = zipcodes;
         }
+      }
+
+      function checkToSeeIfUserHasAllCitiesForGivenZipcode(){
+
       }
 
       function doesUserHaveGivenLocation(name, zipcode){
