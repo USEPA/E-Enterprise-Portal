@@ -409,30 +409,28 @@
         });
       },
       deleteSelectedLocation(location) {
+
         // Delete selected location out of the store
         this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
 
         if(this.user.userFavoriteLocation.length > 0){
           if (location.second === this.user.userFavoriteLocation[0].second) {
-
-             // Clear all the stars
-             this.$refs.favoriteStars.forEach((star) => {
-               star.classList.remove('fas');
-               star.classList.add('far');
-             });
-
-             // Reset userFavoriteLocations
-             this.apiUserPatch({
-               field_userfavoritelocations: [],
-             });
+           // Clear all the stars
+           this.$refs.favoriteStars.forEach((star) => {
+             star.classList.remove('fas');
+             star.classList.add('far');
+           });
+           // Reset userFavoriteLocations
+           this.apiUserPatch({
+             field_userfavoritelocations: [],
+           });
           }
         }
-
+        
         // Save updated array to store
         this.apiUserPatch({
           field_userlocation: this.$store.getters.getUser.userLocationsFromLoad,
         });
-
       },
       revealLocationInputBox() {
         // Reset the display none for the populated dropdown
