@@ -307,7 +307,6 @@ export default {
       display);
   },
   [types.SET_USER_FAV_LOCATION](state, userFavLocation){
-    console.log('hit here');
     Vue.set(state.user,
       'userFavoriteLocation',
       userFavLocation);

@@ -363,9 +363,9 @@
         let userLocationZipcode = {};
 
         this.userLocationsFromLoad.forEach((item) => {
-          userLocations.push({ first: item.first, second: parseInt(item.second, 10) });
+          userLocations.push({first: item.first, second: parseInt(item.second, 10)});
           userLocationZipcode = {
-            field_userlocation: this.userLocationsFromLoad,
+            field_userlocation: userLocations,
           };
           this.apiUserPatch(userLocationZipcode);
         });
