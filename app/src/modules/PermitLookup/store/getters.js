@@ -116,4 +116,10 @@ export default {
     }
     return 0;
   },
+  getCgpFormDataDefaults(state) {
+    return state.cgpFormDataDefaults;
+  },
+  getMsgpFormDataDefaults(state) {
+    return state.msgpFormDataDefaults;
+  },
 };

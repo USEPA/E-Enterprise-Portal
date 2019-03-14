@@ -358,5 +358,14 @@ export default {
         vm.$root.$emit('bv::show::modal', 'permit-results-modal');
       });
   },
-
+  setMsgpFormDefaults(context) {
+    const store = context;
+    const defaults = store.state.msgpFormData;
+    store.commit(types.SET_MSGP_FORM_DEFAULTS, defaults);
+  },
+  setCgpFormDefaults(context) {
+    const store = context;
+    const defaults = store.state.cgpFormData;
+    store.commit(types.SET_CGP_FORM_DEFAULTS, defaults);
+  },
 };

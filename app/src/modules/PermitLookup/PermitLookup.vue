@@ -839,6 +839,9 @@
                 </b-row>
               </b-form>
             </div>
+            <div
+              class="text-danger"
+              v-if="noFieldsToQuery">{{ noFields }}</div>
           </AppModal>
           <!-- Permit Results Modal-->
           <AppModal
@@ -1262,6 +1265,8 @@
             sortable: false,
           },
         ],
+        noFields: 'Please provide input for at least one field.',
+        noFieldsToQuery: false,
         currentPage: 1,
         perPage: 5,
         pageOptions: [5, 10, 15, 20],
@@ -1276,6 +1281,8 @@
       this.loadBaseFormOption();
       this.loadMsgpFormOptions();
       this.loadCgpFormOptions();
+      this.setMsgpFormDefaults();
+      this.setCgpFormDefaults();
     },
     computed: {
       ...mapGetters(moduleName, {
@@ -1313,22 +1320,24 @@
         msgpResultsLoaded: 'getMsgpResultsLoaded',
         cgpResultsLoaded: 'getCgpResultsLoaded',
         msgpStateSelected: 'getMsgpStateSelected',
+        msgpFormDataDefaults: 'getMsgpFormDataDefaults',
+        cgpFormDataDefaults: 'getCgpFormDataDefaults',
         totalRows: 'getTotalRows',
       }),
       isDisabledCountyMsgp() {
-        return this.msgpFormData.facilityState;
+        return this.msgpFormData.facilityState === 'Select...';
       },
       isDisabledTribeMsgp() {
-        return (this.msgpFormData.facilityState !== 'Select...' && !(this.msgpFormData.tribalIndicator === true));
+        return (this.msgpFormData.facilityState === 'Select...' && !(this.msgpFormData.tribalIndicator === true));
       },
       isDisabledSubsectorMsgp() {
-        return this.msgpFormData.facilityState !== 'Select...';
+        return this.msgpFormData.facilityState === 'Select...';
       },
       isDisabledCountyCgp() {
-        return this.cgpFormData.projectState !== 'Select...';
+        return this.cgpFormData.projectState === 'Select...';
       },
       isDisabledTribeCgp() {
-        return ((this.cgpFormData.projectState !== 'Select...') && !(this.cgpFormData.tribalIndicator === true));
+        return ((this.cgpFormData.projectState === 'Select...') && !(this.cgpFormData.tribalIndicator === true));
       },
     },
     methods: {
@@ -1386,6 +1395,8 @@
         'loadBaseFormOption',
         'loadMsgpFormOptions',
         'loadCgpFormOptions',
+        'setMsgpFormDefaults',
+        'setCgpFormDefaults',
       ]),
       initialFormSubmit(evt) {
         evt.preventDefault();
@@ -1397,16 +1408,22 @@
       cgpFormSubmit(evt) {
         const vm = this;
         evt.preventDefault();
-        this.cgpFormGetResults({ vm });
+        if (this.cgpFormData === this.cgpFormDataDefaults) {
+          this.noFieldsToQuery = true;
+        } else {
+          this.cgpFormGetResults({ vm });
+        }
       },
       msgpFormSubmit(evt) {
         const vm = this;
         evt.preventDefault();
-        if (this.msgpFormData === {}) {
-          console.log('Hi');
-        } else {
+        console.log(this.msgpFormData);
+        console.log(this.msgpFormDataDefaults);
+        /*if (this.msgpFormDataDefaults === this.msgpFormData) {
+          this.noFieldsToQuery = true;
+        } else {*/
           this.msgpFormGetResults({ vm });
-        }
+        /*}*/
       },
       onFiltered(filteredItems) {
         // Trigger pagination to update the number of buttons/pages due to filtering

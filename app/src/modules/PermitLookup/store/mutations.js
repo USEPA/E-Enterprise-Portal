@@ -415,5 +415,18 @@ export default {
       bool,
     );
   },
-
+  [types.SET_MSGP_FORM_DEFAULTS](state, obj) {
+    Vue.set(
+      state,
+      'msgpFormDataDefaults',
+      obj,
+    );
+  },
+  [types.SET_CGP_FORM_DEFAULTS](state, obj) {
+    Vue.set(
+      state,
+      'cgpFormDataDefaults',
+      obj,
+    );
+  },
 };

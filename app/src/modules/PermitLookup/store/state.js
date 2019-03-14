@@ -47,6 +47,8 @@ export default {
     tribalName: 'Select...',
     projectCounty: 'Select...',
   },
+  msgpFormDataDefaults: {},
+  cgpFormDataDefaults: {},
   formOptions: {
     permitType: [
       'Construction General Permit',
