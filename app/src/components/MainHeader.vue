@@ -100,14 +100,13 @@
   export default {
     name: 'MainHeader',
     props: {},
-    components: { },
     computed: {
       ...mapGetters({
         isLoggedIn: 'getIsLoggedIn',
         bridgeURL: 'getBridgeURL',
         loginBtnHoverMessage: 'getloginBtnHoverMessage',
         displayLoggedInElements: 'getDisplayLoggedInElements',
-        user: 'getUser'
+        user: 'getUser',
       }),
     },
     methods: {
