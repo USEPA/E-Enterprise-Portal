@@ -16,7 +16,8 @@
           <template
             class="introduction"
             :html="infoXmlResults.Introduction._cdata"></template>
-          <template><b-button @click="create">Generate PDF</b-button></template>
+          <template><a href="/eep_generate_pdf/water_analysis_results_pdf"><img
+            src="/images/pdf_icon.png"></a></template>
         </div>
       </div>
     </div>
@@ -233,12 +234,13 @@
   import BButton from "bootstrap-vue/src/components/button/button";
   import pdfMake from "pdfmake/build/pdfmake";
   import pdfFonts from 'pdfmake/build/vfs_fonts.js';
+
   pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
   export default {
     name: 'WaterAnalysisResult',
     components: { BButton, ResultRow, ResultLegend },
-    data () {
+    data() {
       return {
         pdfMake,
         pdfFonts,
@@ -350,9 +352,6 @@
         }
         return r.length;
       },
-      create() {
-        this.pdfMake.createPdf(this.pdfContent).download('BWI.pdf')
-      }
     },
   };
 </script>
