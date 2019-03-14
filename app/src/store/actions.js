@@ -493,7 +493,6 @@ export default {
           let cities_and_states_return_from_ajax = returnData.cities_and_states;
           let cities_and_states = [];
           cities_and_states_return_from_ajax.forEach(function(city_and_state){
-            console.log(city_and_state);
             if(!doesUserHaveGivenLocation(city_and_state, userInput.trim())){
               cities_and_states.push(city_and_state);
             }
@@ -575,7 +574,6 @@ export default {
         commonZipcodes = Object.keys(objMap).map(zipcodes => Number(zipcodes));
       }
 
-      console.log(formattedResponseInformation);
       // Commit all of the information to the store
       store.commit('SET_OPTIONS_AFTER_INPUT', formattedResponseInformation);
       store.commit('SET_INPUT_BOX_TEXT', store.getters.getUser.inputBoxText);
