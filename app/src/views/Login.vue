@@ -26,11 +26,28 @@
                 <!-- Once we get more states then it can be optimized with using a v-for to loop through -->
                 <!-- and create each <b-row> and each <b-col> -->
                 <h6 class="tabText font-weight-bold">Use your state account to log in...</h6>
+                <p>
+                    We're working with select state agencies so you can log in with your state account credentials. In the meantime, please use your EPA or social media accounts or the Try It option.
+                </p>
+                <h6>
+                    Interested in becoming a state partner?
+                </h6>
+                <p>
+                    Learn more about how to partner (link to /for-partners)
+                </p>
                 <LoginType index="2"></LoginType>
             </b-tab>
             <b-tab class="tab" title="Tribal">
                 <!-- uncomment when a tribal node is added for the content type-->
                 <!--<LoginType index="3"></LoginType>-->
+                <p>
+                    We would like to work with tribal nations so you can log in using your tribal nation account credentials. In the meantime, please use your EPA or social media accounts or the Try It option.      </p>
+                <h6>
+                    Interested in becoming a tribal partner?
+                </h6>
+                <p>
+                    Learn more about how to partner (link to /for-partners)
+                </p>
             </b-tab>
         </b-tabs>
     </div>
