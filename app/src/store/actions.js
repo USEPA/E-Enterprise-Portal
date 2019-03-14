@@ -497,7 +497,7 @@ export default {
               cities_and_states.push(city_and_state);
             }
           });
-          formattedResponseInformation = cities_and_states;
+          formattedResponseInformation = cities_and_states.filter(cityAndState => cityAndState !== '');
         } else {
           const cities = returnData.city;
 
@@ -574,7 +574,6 @@ export default {
         commonZipcodes = Object.keys(objMap).map(zipcodes => Number(zipcodes));
       }
 
-      console.log(formattedResponseInformation);
       // Commit all of the information to the store
       store.commit('SET_OPTIONS_AFTER_INPUT', formattedResponseInformation);
       store.commit('SET_INPUT_BOX_TEXT', store.getters.getUser.inputBoxText);

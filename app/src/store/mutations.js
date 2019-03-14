@@ -243,7 +243,6 @@ export default {
       dropdownSelection);
   },
   [types.SAVE_USER_SELECTED_LOCATIONS](state, newLocation) {
-    console.log(newLocation);
     state.user.userLocationsFromLoad.push(newLocation);
   },
   [types.DELETE_USER_SELECTED_LOCATION](state, deletedSelection) {
@@ -307,7 +306,6 @@ export default {
       display);
   },
   [types.SET_USER_FAV_LOCATION](state, userFavLocation){
-    console.log('hit here');
     Vue.set(state.user,
       'userFavoriteLocation',
       userFavLocation);

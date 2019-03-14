@@ -363,9 +363,9 @@
         let userLocationZipcode = {};
 
         this.userLocationsFromLoad.forEach((item) => {
-          userLocations.push({ first: item.first, second: parseInt(item.second, 10) });
+          userLocations.push({first: item.first, second: parseInt(item.second, 10)});
           userLocationZipcode = {
-            field_userlocation: this.userLocationsFromLoad,
+            field_userlocation: userLocations,
           };
           this.apiUserPatch(userLocationZipcode);
         });
@@ -409,23 +409,25 @@
         });
       },
       deleteSelectedLocation(location) {
-        if (location.second === this.user.userFavoriteLocation[0].second) {
-          // Clear all the stars
-          this.$refs.favoriteStars.forEach((star) => {
-            star.classList.remove('fas');
-            star.classList.add('far');
-          });
-          this.$store.commit('SET_DOES_USER_HAVE_FAVORITE_LOCATION', false);
-          this.apiUserPatch({
-            field_userfavoritelocations: [],
-          });
-        }else{
-          this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
-          this.apiUserPatch({
-            field_userlocation: this.$store.getters.getUser.userLocationsFromLoad,
-          });
-        }
+        let savedLocations = this.$store.getters.getUser.userLocationsFromLoad;
+        if(this.user.userFavoriteLocation.length > 0){
+          if (location.second === this.user.userFavoriteLocation[0].second) {
+              // Clear all the stars
+              this.$refs.favoriteStars.forEach((star) => {
+                star.classList.remove('fas');
+                star.classList.add('far');
+              });
+              let savedLocations = [];
 
+          }else{
+              this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
+          }
+        }else{
+            this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
+        }
+        this.apiUserPatch({
+           field_userfavoritelocations: savedLocations,
+        });
       },
       revealLocationInputBox() {
         // Reset the display none for the populated dropdown
