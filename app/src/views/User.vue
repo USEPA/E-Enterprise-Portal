@@ -409,25 +409,29 @@
         });
       },
       deleteSelectedLocation(location) {
-        let savedLocations = this.$store.getters.getUser.userLocationsFromLoad;
         if(this.user.userFavoriteLocation.length > 0){
           if (location.second === this.user.userFavoriteLocation[0].second) {
-              // Clear all the stars
-              this.$refs.favoriteStars.forEach((star) => {
-                star.classList.remove('fas');
-                star.classList.add('far');
-              });
-              let savedLocations = [];
-
+            // Clear all the stars
+            this.$refs.favoriteStars.forEach((star) => {
+              star.classList.remove('fas');
+              star.classList.add('far');
+            });
+            let savedLocations = [];
+            this.apiUserPatch({
+              field_userfavoritelocations: [],
+            });
           }else{
-              this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
+            this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
+            this.apiUserPatch({
+              field_userfavoritelocations: this.$store.getters.getUser.userLocationsFromLoad,
+            });
           }
         }else{
-            this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
+          this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
+          this.apiUserPatch({
+            field_userfavoritelocations: this.$store.getters.getUser.userLocationsFromLoad,
+          });
         }
-        this.apiUserPatch({
-           field_userfavoritelocations: savedLocations,
-        });
       },
       revealLocationInputBox() {
         // Reset the display none for the populated dropdown
