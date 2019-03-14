@@ -25,7 +25,8 @@ class NodeImport {
     $contentType = $nodeArray['type'][0]['target_id'];
     if (self::contentTypeExists($contentType)) {
       $fieldValues['type'] = $contentType;
-      $bundleFields = \Drupal::service('entity_field.manager')->getFieldDefinitions('node', $fieldValues['type']);
+      $bundleFields = \Drupal::service('entity_field.manager')
+        ->getFieldDefinitions('node', $fieldValues['type']);
       foreach ($nodeArray as $fields => $value) {
         if (!array_key_exists($fields, $bundleFields) && $fields !== '_metadata') {
           return FALSE;
@@ -73,14 +74,14 @@ class NodeImport {
     $id = $fieldValues['nid'][0]['value'];
     $uuid = $fieldValues['uuid'][0]['value'];
 
-    if(isset($fieldValues['_metadata'])) {
+    if (isset($fieldValues['_metadata'])) {
       $_metadata = $fieldValues['_metadata'];
     }
 
     // Remove the metadata so we don't break the imports
     unset($fieldValues['_metadata']);
 
-    if($identifier === 'nid') {
+    if ($identifier === 'nid') {
       unset($fieldValues['nid']);
       unset($fieldValues['vid']);
       unset($fieldValues['uuid']);
@@ -97,7 +98,8 @@ class NodeImport {
               $newNode->set($field, $values);
             }
             $newNode->setNewRevision(TRUE);
-            $newNode->setRevisionCreationTime(\Drupal::time()->getRequestTime());
+            $newNode->setRevisionCreationTime(\Drupal::time()
+              ->getRequestTime());
             $newNode->setRevisionUserId($fieldValues['uid'][0]['target_id']);
           }
           else {
@@ -113,17 +115,18 @@ class NodeImport {
           break;
       }
     }
-    if($identifier === 'uuid') {
+    if ($identifier === 'uuid') {
 
       unset($fieldValues['nid']);
       unset($fieldValues['vid']);
 
       // Remap the array target_id with the matching content by UUIDs
-      if(isset($_metadata)) {
+      if (isset($_metadata)) {
         foreach ($_metadata as $entity_type_id => $entities) {
           foreach ($entities as $old_nid => $entity_uuid) {
-            $entity = \Drupal::service('entity.repository')->loadEntityByUuid($entity_type_id, $entity_uuid);
-            if($entity) {
+            $entity = \Drupal::service('entity.repository')
+              ->loadEntityByUuid($entity_type_id, $entity_uuid);
+            if ($entity) {
               $_metadata["$entity_type_id-remapped"][$old_nid] = $entity->id();
             }
           }
@@ -138,29 +141,28 @@ class NodeImport {
 
         case 'replace':
           // $newNode = Node::load($id);
-          $newNode = \Drupal::service('entity.repository')->loadEntityByUuid('node', $uuid);
+          $newNode = \Drupal::service('entity.repository')
+            ->loadEntityByUuid('node', $uuid);
           if ($newNode) {
             $current_fields = $newNode->getFields();
-            if(isset($_metadata)){
-              foreach ($fieldValues as $field => $values) {
-                // If the key is a field, check if it is a target_id and map the uuid
-                if(stripos($field, 'field_') === 0) {
-                  foreach ($values as $idx => $v) {
-                    if (isset($v['target_id'])) {
-                      $target_type = $current_fields[$field]->getSetting('target_type');
-                      if($_metadata["$target_type-remapped"][$v['target_id']]) {
-                        $values[$idx]['target_id'] = $_metadata["$target_type-remapped"][$v['target_id']];
-                      }
+            foreach ($fieldValues as $field => $values) {
+              // If the key is a field, check if it is a target_id and map the uuid
+              if (stripos($field, 'field_') === 0 && isset($_metadata)) {
+                foreach ($values as $idx => $v) {
+                  if (isset($v['target_id'])) {
+                    $target_type = $current_fields[$field]->getSetting('target_type');
+                    if ($_metadata["$target_type-remapped"][$v['target_id']]) {
+                      $values[$idx]['target_id'] = $_metadata["$target_type-remapped"][$v['target_id']];
                     }
                   }
                 }
-                $newNode->set($field, $values);
               }
+              $newNode->set($field, $values);
             }
 
             $newNode->setNewRevision(TRUE);
             $newNode->setRevisionCreationTime($_SERVER['REQUEST_TIME']);
-            $newNode->setRevisionUserId($fieldValues['uid'][0]['target_id']);
+            $newNode->setRevisionUserId(0);
           }
           else {
             $newNode = Node::create($fieldValues);
@@ -168,8 +170,11 @@ class NodeImport {
           break;
         case 'skip':
         default:
-          if (Node::load($id)) {
-            return $id;
+          $newNode = \Drupal::service('entity.repository')
+            ->loadEntityByUuid('node', $uuid);
+
+          if ($newNode) {
+            return $newNode->id();
           }
           $newNode = Node::create($fieldValues);
           break;
@@ -177,10 +182,9 @@ class NodeImport {
     }
 
     try {
-      $newNode->save();
+      $saved = $newNode->save();
       $id = $newNode->id();
-    }
-    catch (EntityStorageException $e) {
+    } catch (EntityStorageException $e) {
       \Drupal::logger('node_import_export')->error($e->getMessage());
     }
     return $id;
@@ -229,9 +233,9 @@ class NodeImport {
       }
       if (count($results['not_imported']) > 0) {
         $message .= "\n" . \Drupal::translation()->formatPlural(
-          count($results['not_imported']),
-          'One node could not be imported.', '@count nodes could not be imported.'
-        );
+            count($results['not_imported']),
+            'One node could not be imported.', '@count nodes could not be imported.'
+          );
       }
     }
     else {
@@ -251,14 +255,17 @@ class NodeImport {
         $id = NodeImport::import($node);
       }
       if ($countImported > 0) {
-        \Drupal::logger('node_import_export')->info(dt('{count} nodes imported successfully.', ['count' => $countImported]));
+        \Drupal::logger('node_import_export')
+          ->info(dt('{count} nodes imported successfully.', ['count' => $countImported]));
       }
       if ($countNotImported > 0) {
-        \Drupal::logger('node_import_export')->error(dt('{count} nodes could not be imported.', ['count' => $countNotImported]));
+        \Drupal::logger('node_import_export')
+          ->error(dt('{count} nodes could not be imported.', ['count' => $countNotImported]));
       }
     }
     else {
-      \Drupal::logger('node_import_export')->error(dt('File could not be imported: {path}', ['path' => $file]));
+      \Drupal::logger('node_import_export')
+        ->error(dt('File could not be imported: {path}', ['path' => $file]));
     }
     return $id;
   }

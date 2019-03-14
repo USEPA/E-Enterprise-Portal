@@ -405,4 +405,28 @@
     padding-bottom: 1.25rem;
   }
 
+  #home-carousel {
+    background-color: #5d67ff;
+    &:before {
+       content: '';
+       display: block;
+       position: absolute;
+       background-color: rgb(87, 87, 87);;
+       height: 100%;
+       width: 100%;
+       left: 0;
+       margin-left: -100%;
+     }
+  &:after {
+     content: '';
+     display: block;
+     position: absolute;
+     background-color: rgb(87, 87, 87);;
+     height: 100%;
+     width: 100%;
+     right: 0;
+     margin-right: -100%;
+     top:0;
+   }
+  }
 </style>

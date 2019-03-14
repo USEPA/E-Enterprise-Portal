@@ -238,7 +238,7 @@ export default {
         formTribalOptions.forEach((tribeOption) => {
           formTribalNames.push(tribeOption.tribalName);
         });
-        
+
         store.commit(types.SET_BASE_FORM_OPTIONS, formOptions);
         store.commit(types.SET_BASE_FORM_OPTION_STATE_NAMES, formStateNames.sort());
         store.commit(types.SET_BASE_FORM_OPTION_SECTOR_NAMES, formSectorNames.sort());
@@ -250,7 +250,7 @@ export default {
     const { state } = store;
     const apiURL = store.rootGetters.getEnvironmentApiURL;
 
-    AppAxios.get(`${apiURL}/eep/proxy/service/oeca-msgp?formTypes&formStatuses&coverageTypes&submissionTypes&issuers&coverageStatuses&form`)
+    AppAxios.get(`${apiURL}/eep/proxy/service/oeca-msgp?formTypes&formStatuses&coverageTypes&submissionTypes&issuers&coverageStatuses&form&msgpDownloadUrlBase`)
       .then((response) => {
         const formOptions = response.data.helperQueryResponse;
         store.commit(types.SET_FORM_OPTIONS_MSGP, formOptions);
@@ -283,11 +283,17 @@ export default {
         if (key === 'facilityState') {
           baseFormOptions[1].forEach((subKeyA) => {
             if (subKeyA.stateName === msgpFormData.facilityState) {
-              urlQueries = `facilityState=${subKeyA.stateCode}`;
+              urlQueries += `facilityState=${subKeyA.stateCode}`;
             }
           });
+        } else if (key === 'submittedDateTo') {
+          const unformattedDate = new Date(msgpFormData[key]);
+          urlQueries += `${key}=${unformattedDate.toISOString()}`;
+        } else if (key === 'submittedDateFrom') {
+          const unformattedDate = new Date(msgpFormData[key]);
+          urlQueries += `${key}=${unformattedDate.toISOString()}`;
         } else {
-          urlQueries = `${urlQueries + key}=${msgpFormData[key]}`;
+          urlQueries += `${urlQueries + key}=${msgpFormData[key]}`;
         }
         urlQueries += '&';
       }

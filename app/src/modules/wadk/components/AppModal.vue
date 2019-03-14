@@ -9,7 +9,8 @@
       slot="modal-header">
       <h5
         class="modal-title"
-        id="gridModalLabel">{{ title }}</h5>
+        id="gridModalLabel"
+        :style="getIcon">{{ title }}</h5>
       <button
         type="button"
         class="close"
@@ -69,6 +70,11 @@
         default: () => true,
         required: false,
       },
+      icon: {
+        type: String,
+        required: false,
+        default: () => '',
+      },
     },
     computed: {
       inputListeners() {
@@ -106,6 +112,16 @@
           // eslint-disable-next-line function-paren-newline
         );
       },
+      getIcon() {
+        const vm = this;
+        let style = '';
+        // Using CSS to gracefully fail if the image doesn't exist
+        const padding = '1.8rem';
+        if (vm.icon) {
+          style = `background-image: url('images/${vm.icon}'); padding-left: ${padding};`;
+        }
+        return style;
+      },
     },
     mounted() {
       const vm = this;
@@ -125,7 +141,9 @@
   };
 </script>
 
-<style lang="scss">
+<style
+  scoped
+  lang="scss">
   @import '../../../styles/bootstrap-mixins-cheatsheet.scss';
 
   @include media-breakpoint-up(sm) {
@@ -150,5 +168,11 @@
     .modal-dialog {
       max-width: $modal-xl;
     }
+  }
+
+  .modal-title {
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size: 1.2rem 1.2rem;
   }
 </style>

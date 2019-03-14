@@ -147,7 +147,6 @@
                     </div>
                   </template>
                 </div>
-                getter
               </div>
             </div>
             <div class="col-sm-2 col-md-1 wt-step bg-primary text-white">

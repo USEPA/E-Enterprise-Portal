@@ -220,6 +220,11 @@ export default {
       'isAfterInputDropdownDisplayed',
       isDisplayed);
   },
+  [types.SET_IS_ALL_ZIPCODES_DISPLAYED](state, isDisplayed) {
+    Vue.set(state.user,
+      'isAllZipcodesDisplayed',
+      isDisplayed);
+  },
   [types.SET_INPUT_BOX_TEXT](state, newText) {
     Vue.set(state.user,
       'inputBoxText',

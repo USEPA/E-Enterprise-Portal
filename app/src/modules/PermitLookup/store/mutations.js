@@ -41,7 +41,6 @@ export default {
       str,
     );
   },
-
   [types.SET_FEDERAL_INDICATOR](state, str) {
     Vue.set(
       state,
