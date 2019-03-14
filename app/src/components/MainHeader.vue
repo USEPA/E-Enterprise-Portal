@@ -1,6 +1,6 @@
 <template>
   <header class="py-3 container">
-    <div class="d-flex flex-nowrap justify-content-between align-items-center">
+    <div class="row d-flex justify-content-between align-items-center">
       <div class="col-4-md justify-content-start">
         <a
           class="eep_logo"
@@ -12,31 +12,29 @@
             alt="Home - E-Enterprise for the Environment">
         </a>
       </div>
-      <div class="w-100 d-block d-md-none "/>
+      <div class="w-100 d-block d-sm-none "/>
 
-      <div class="col-4-md d-flex justify-content-lg-end align-self-end align-items-center">
+      <div class="col-sm-6 col-12 pt-4 pt-sm-0 d-flex justify-content-lg-end align-self-end-sm justify-content-between">
         <div
           id="try-it-container"
-          class="col-4-md d-flex mr-3 align-self-end align-items-center">
-          <template>
-            <router-link to="/workbench">
-              <div
-                ref="tryit-arrow"
-                class="d-none button-down-arrow"/>
-              <button
-                id="try-it-header-button"
-                class="usa-button"
-                variant="primary"
-                @mouseover="addTryItArrow"
-                @mouseleave="removeTryItArrow"
-                v-if='!displayLoggedInElements'>
-                <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left pr-1"/>Try It
-              </button>
-            </router-link>
-          </template>
+          class="container">
+          <router-link
+            to="/workbench"
+            tag="button"
+            id="try-it-header-button"
+            class="usa-button"
+            variant="primary"
+            @mouseover="addTryItArrow"
+            @mouseleave="removeTryItArrow"
+            v-if='!displayLoggedInElements'>
+            <div
+              ref="tryit-arrow"
+              class="d-none button-down-arrow"/>
+            <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left pr-1"/>Try It
+          </router-link>
         </div>
         <div
-          class="col-4-md"
+          class="container"
           id="log-in-container">
           <template v-if='displayLoggedInElements'>
             <span class="mr-3">Welcome {{ user.name }}</span>
@@ -51,26 +49,21 @@
               to="/User"
               id="my-account"
               class="usa-button ml-2"
-              variant="primary">
+              variant="primary"
+              tag="button">
               My account
             </router-link>
           </template>
           <template v-else>
-            <div
-              ref="login-arrow"
-              class="d-none button-down-arrow"/>
-            <div
-              class="router-link-wrapper pt-2"
-              id="log-in">
-              <button
-                @mouseover="addLogInArrow"
-                @mouseleave="removeLogInArrow"
-                class="usa-button"
-                @click="handleLogin">
-                <i class="fas fa-lock pr-1"/>
-                Login
-              </button>
-            </div>
+            <button
+              id="log-in"
+              @mouseover="addLogInArrow"
+              @mouseleave="removeLogInArrow"
+              class="usa-button"
+              @click="handleLogin">
+              <i class="fas fa-lock pr-1"/>
+              Login
+            </button>
           </template>
         </div>
         <b-tooltip
@@ -106,7 +99,7 @@
         bridgeURL: 'getBridgeURL',
         loginBtnHoverMessage: 'getloginBtnHoverMessage',
         displayLoggedInElements: 'getDisplayLoggedInElements',
-        user: 'getUser'
+        user: 'getUser',
       }),
     },
     methods: {
