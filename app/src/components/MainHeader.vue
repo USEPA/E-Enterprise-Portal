@@ -14,10 +14,10 @@
       </div>
       <div class="w-100 d-block d-sm-none "/>
 
-      <div class="col-sm-6 col-12 pt-4 pt-sm-0 d-flex justify-content-lg-end align-self-end-sm justify-content-between">
+      <div class="col-sm-6 col-12 pt-4 pt-sm-0 d-flex justify-content-lg-end align-self-end-lg ">
         <div
           id="try-it-container"
-          class="container">
+          class="col-sm-6 col-lg-4">
           <router-link
             to="/workbench"
             tag="button"
@@ -34,7 +34,7 @@
           </router-link>
         </div>
         <div
-          class="container"
+          class="col-sm-6 col-lg-4"
           id="log-in-container">
           <template v-if='displayLoggedInElements'>
             <span class="mr-3">Welcome {{ user.name }}</span>
