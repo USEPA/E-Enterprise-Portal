@@ -516,7 +516,6 @@ export default {
               formattedResponseInformation.push(tribe);
             }
           }
-          store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', false);
           store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', true);
         }
         dropDownLabelText = 'Select a location for';
@@ -527,12 +526,12 @@ export default {
 
         checkIfAllZipSaved();
 
-        if (commonZipcodes.length == returnData.zipcode.length) {
+        if (commonZipcodes.length === returnData.zipcode.length) {
             store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', true);
-            store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', true);
+            store.commit('SET_INPUT_MESSAGE', 'All of the zip codes for the given location have been used');
         } else {
-            store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', false);
             store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', false);
+            store.commit('SET_INPUT_MESSAGE', '');
             returnData.zipcode.forEach(function(zipcode){
                 if(!doesUserHaveGivenLocation(userInput.trim(), zipcode)){
                     zipcodes.push(zipcode);
@@ -579,7 +578,11 @@ export default {
       store.commit('SET_INPUT_BOX_TEXT', store.getters.getUser.inputBoxText);
       // Change the label for the dropdown
       store.commit('SET_DROPDOWN_LABEL', dropDownLabelText);
-      store.commit(types.SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED, false);
+      if(store.getters.getUser.isAllZipcodesDisplayed){
+        store.commit(types.SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED, true);
+      }else{
+        store.commit(types.SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED, false);
+      }
     }).catch((error) => {
       console.warn(error);
     });

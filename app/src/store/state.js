@@ -79,6 +79,7 @@ const state = {
       time_units: '',
     },
     inputBoxText: '',
+    inputMessage: '',
     displayNewLocation: true,
     dropDownSelection: '',
     userSavedLocations: [],
