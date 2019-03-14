@@ -165,7 +165,7 @@
                       :value="status"
                       :options="formOptions.status"
                       ref="status-Dropdown"
-                      @change="setStatus"
+                      @change="setCgpStatus"
                       size="sm">
                       <template slot="first">
                         <option
@@ -181,7 +181,7 @@
                       :value="formType"
                       :options="formOptions.formType"
                       ref="formType-Dropdown"
-                      @change="setFormType"
+                      @change="setCgpFormType"
                       size="sm">
                       <template slot="first">
                         <option
@@ -270,7 +270,7 @@
                       <b-form-input
                         id="start-date-input-cgp"
                         class="mb-3"
-                        :value="submittedDateFrom"
+                        :value="dateFrom"
                         ref="start-date-input-cgp"
                         @change="setStartDate"
                         size="sm"
@@ -281,7 +281,7 @@
                         id="end-date-input-cgp"
                         ref="end-date-input-cgp"
                         class="mb-3"
-                        :value="submittedDateTo"
+                        :value="dateTo"
                         @change="setEndDate"
                         size="sm"
                         placeholder="MM/DD/YYYY"/>
@@ -303,7 +303,7 @@
                       <b-form-radio-group
                         id="tribal-lands-construction-cgp"
                         :options="formOptions.tribalIndicator"
-                        @change="setTribalIndicator"
+                        @change="setMsgpTribalIndicator"
                         name="radioInline"
                         class="mb-3"
                         ref="tribal-lands-construction-cgp"/>
@@ -341,7 +341,7 @@
                         class="mb-3"
                         :value="facilityCounty"
                         :options="formOptions.countySelections"
-                        @change="setFacilityCounty"
+                        @change="setMsgpFacilityCounty"
                         size="sm"
                       >
                         <template slot="first">
@@ -664,7 +664,7 @@
                       <b-form-radio-group
                         id="federal-facility-selection-msgp"
                         :options="formOptions.federalIndicator"
-                        @change="setFederalIndicator"
+                        @change="setMsgpFederalIndicator"
                         name="radioInline"
                         class="mb-3"
                         ref="federal-facility-selection-msgp"/>
@@ -699,9 +699,9 @@
                       <b-form-input
                         id="start-date-input-msgp"
                         class="mb-3"
-                        :value="submittedDateFrom"
+                        :value="dateFrom"
                         ref="start-date-input-msgp"
-                        @change="setStartDate"
+                        @change="setMsgpDateFrom"
                         size="sm"
                         placeholder="MM/DD/YYYY"/>
                     </b-col>
@@ -710,8 +710,8 @@
                         id="end-date-input-msgp"
                         ref="end-date-input-msgp"
                         class="mb-3"
-                        :value="submittedDateTo"
-                        @change="setEndDate"
+                        :value="dateTo"
+                        @change="setMsgpDateTo"
                         size="sm"
                         placeholder="MM/DD/YYYY"/>
                     </b-col>
@@ -732,7 +732,7 @@
                       <b-form-radio-group
                         id="tribal-lands-construction"
                         :options="formOptions.tribalIndicator"
-                        @change="setTribalIndicator"
+                        @change="setMsgpTribalIndicator"
                         name="radioInline"
                         class="mb-3"
                         ref="tribal-lands-construction"/>
@@ -744,7 +744,7 @@
                         class="mb-3"
                         :value="tribalName"
                         :options="formOptions.baseFormOptions.tribalNames"
-                        @change="setTribalName"
+                        @change="setMsgpTribalName"
                         size="sm"
                       >
                         <template slot="first">
@@ -770,13 +770,13 @@
                         class="mb-3"
                         :value="facilityCounty"
                         :options="formOptions.countySelections"
-                        @change="setFacilityCounty"
+                        @change="setMsgpFacilityCounty"
                         size="sm"
                         :disabled="!msgpStateSelected"
                       >
                         <template slot="first">
                           <option
-                            disabled>{{ facilityCounty }}
+                            disabled>Select...
                           </option>
                         </template>
                       </b-form-select>
@@ -1022,8 +1022,8 @@
         operatorName: 'getOperatorName',
         federalFacility: 'getFederalFacility',
         dateSelection: 'getDateSelection',
-        submittedDateFrom: 'getStartDate',
-        submittedDateTo: 'getEndDate',
+        dateFrom: 'getStartDate',
+        dateTo: 'getEndDate',
         tribalIndicator: 'getTribalIndicator',
         tribeSelection: 'getTribeSelection',
         facilityCounty: 'getFacilityCounty',
@@ -1050,18 +1050,18 @@
         'setMsgpFacilityCity',
         'setMsgpFacilityState',
         'setMsgpFacilityZip',
-        'setStatus',
-        'setFormType',
+        'setCgpStatus',
+        'setCgpFormType',
         'setMsgpOperatorName',
-        'setFederalIndicator',
+        'setMsgpFederalIndicator',
         'setDateSelection',
-        'setStartDate',
-        'setEndDate',
-        'setTribalIndicator',
+        'setMsgpDateFrom',
+        'setMsgpDateTo',
+        'setMsgpTribalIndicator',
         'setTribeSelection',
-        'setFacilityCounty',
+        'setMsgpFacilityCounty',
         'setMsgpMasterPermitNumber',
-        'setTribalName',
+        'setMsgpTribalName',
         'setIssuer',
         'setMsgpSubmissionType',
         'setMsgpCoverageType',

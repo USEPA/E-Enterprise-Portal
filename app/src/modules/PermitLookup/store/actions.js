@@ -40,25 +40,25 @@ export default {
 
     store.commit(types.SET_MSGP_FACILITY_ZIP, payload);
   },
-  setStatus(context, payload) {
+  setCgpStatus(context, payload) {
     const store = context;
 
-    store.commit(types.SET_STATUS, payload);
+    store.commit(types.SET_CGP_STATUS, payload);
   },
-  setFormType(context, payload) {
+  setCgpFormType(context, payload) {
     const store = context;
 
-    store.commit(types.SET_FORM_TYPE, payload);
+    store.commit(types.SET_CGP_FORM_TYPE, payload);
   },
   setMsgpOperatorName(context, payload) {
     const store = context;
 
     store.commit(types.SET_MSGP_OPERATOR_NAME, payload);
   },
-  setFederalIndicator(context, payload) {
+  setMsgpFederalIndicator(context, payload) {
     const store = context;
 
-    store.commit(types.SET_FEDERAL_INDICATOR, payload);
+    store.commit(types.SET_MSGP_FEDERAL_INDICATOR, payload);
   },
   setDateSelection(context, payload) {
     const store = context;
@@ -68,37 +68,37 @@ export default {
   setStartDate(context, payload) {
     const store = context;
 
-    store.commit(types.SET_START_DATE, payload);
+    store.commit(types.SET_MSGP_START_DATE, payload);
   },
   setEndDate(context, payload) {
     const store = context;
 
-    store.commit(types.SET_END_DATE, payload);
+    store.commit(types.SET_MSGP_END_DATE, payload);
   },
-  setTribalIndicator(context, payload) {
+  setMsgpTribalIndicator(context, payload) {
     const store = context;
 
-    store.commit(types.SET_TRIBAL_INDICATOR, payload);
+    store.commit(types.SET_MSGP_TRIBAL_INDICATOR, payload);
   },
   setTribeSelection(context, payload) {
     const store = context;
 
     store.commit(types.SET_TRIBE_SELECTION, payload);
   },
-  setFacilityCounty(context, payload) {
+  setMsgpFacilityCounty(context, payload) {
     const store = context;
 
-    store.commit(types.SET_FACILITY_COUNTY, payload);
+    store.commit(types.SET_MSGP_FACILITY_COUNTY, payload);
   },
   setMsgpMasterPermitNumber(context, payload) {
     const store = context;
 
     store.commit(types.SET_MSGP_MASTER_PERMIT_NUMBER, payload);
   },
-  setTribalName(context, payload) {
+  setMsgpTribalName(context, payload) {
     const store = context;
 
-    store.commit(types.SET_TRIBAL_NAME, payload);
+    store.commit(types.SET_MSGP_TRIBAL_NAME, payload);
   },
   setIssuer(context, payload) {
     const store = context;
@@ -139,6 +139,16 @@ export default {
     const store = context;
 
     store.commit(types.SET_MSGP_ADDRESS, payload);
+  },
+  setMsgpDateTo(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_MSGP_END_DATE, payload);
+  },
+  setMsgpDateFrom(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_MSGP_START_DATE, payload);
   },
   loadBaseFormOption(context) {
     const store = context;
@@ -203,7 +213,7 @@ export default {
     let urlQueries = '';
 
     // Set msgp form inputs that aren't empty or default as queries
-    Object.keys(msgpFormData).forEach((key) => {
+    Object.keys(msgpFormData).forEach((key, value) => {
       if (msgpFormData[key] !== 'Select...' && msgpFormData[key] !== '') {
         // Map State Name to State Code
         if (key === 'facilityState') {
@@ -212,6 +222,18 @@ export default {
               urlQueries = `facilityState=${subKeyA.stateCode}`;
             }
           });
+        } else if (key === 'submittedDateTo') {
+          const date = new Date(value);
+          urlQueries = `${key}=${date.toISOString()}`;
+        } else if (key === 'submittedDateFrom') {
+          console.log(msgpFormData[key]);
+          console.log(key + ' ' + value);
+          const unformattedDate = new Date(msgpFormData[key]);/*
+          console.log(`${unformattedDate.getMonth()}/${unformattedDate.getDate()}/${unformattedDate.getFullYear()}`);
+          const date = new Date(`${unformattedDate.getMonth()}/${unformattedDate.getDate()}/${unformattedDate.getFullYear()}`);
+          console.log(date);*/
+          console.log(`${key}=${unformattedDate.toISOString()}`);
+          urlQueries = `${key}=${unformattedDate.toISOString()}`;
         } else {
           urlQueries = `${urlQueries + key}=${msgpFormData[key]}`;
         }

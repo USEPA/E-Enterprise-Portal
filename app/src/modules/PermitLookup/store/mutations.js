@@ -62,16 +62,16 @@ export default {
       str,
     );
   },
-  [types.SET_STATUS](state, str) {
+  [types.SET_CGP_STATUS](state, str) {
     Vue.set(
-      state,
+      state.cgpFormOptions,
       'status',
       str,
     );
   },
-  [types.SET_FORM_TYPE](state, str) {
+  [types.SET_CGP_FORM_TYPE](state, str) {
     Vue.set(
-      state,
+      state.cgpFormOptions,
       'formType',
       str,
     );
@@ -83,11 +83,11 @@ export default {
       str,
     );
   },
-  [types.SET_FEDERAL_INDICATOR](state, str) {
+  [types.SET_MSGP_FEDERAL_INDICATOR](state, bool) {
     Vue.set(
-      state,
-      'federalFacility',
-      str,
+      state.msgpFormData,
+      'federalIndicatior',
+      bool,
     );
   },
   [types.SET_DATE_SELECTION](state, str) {
@@ -97,37 +97,30 @@ export default {
       str,
     );
   },
-  [types.SET_START_DATE](state, str) {
+  [types.SET_MSGP_START_DATE](state, str) {
     Vue.set(
-      state,
+      state.msgpFormData,
       'submittedDateFrom',
       str,
     );
   },
-  [types.SET_END_DATE](state, str) {
+  [types.SET_MSGP_END_DATE](state, str) {
     Vue.set(
-      state,
+      state.msgpFormData,
       'submittedDateTo',
       str,
     );
   },
-  [types.SET_TRIBAL_INDICATOR](state, str) {
+  [types.SET_MSGP_TRIBAL_INDICATOR](state, bool) {
     Vue.set(
-      state,
+      state.msgpFormData,
       'tribalIndicator',
-      str,
+      bool,
     );
   },
-  [types.SET_TRIBE_SELECTION](state, str) {
+  [types.SET_MSGP_FACILITY_COUNTY](state, str) {
     Vue.set(
-      state,
-      'tribeSelection',
-      str,
-    );
-  },
-  [types.SET_FACILITY_COUNTY](state, str) {
-    Vue.set(
-      state,
+      state.msgpFormData,
       'facilityCounty',
       str,
     );
@@ -139,7 +132,7 @@ export default {
       str,
     );
   },
-  [types.SET_TRIBAL_NAME](state, str) {
+  [types.SET_MSGP_TRIBAL_NAME](state, str) {
     Vue.set(
       state.msgpFormData,
       'tribalName',
@@ -256,13 +249,6 @@ export default {
       state,
       'msgpStateSelected',
       bool,
-    );
-  },
-  [types.SET_DOCUMENT_LINKS](state, arr) {
-    Vue.set(
-      state.msgpFormResults,
-      'documents',
-      arr,
     );
   },
   [types.SET_MSGP_RESULTS_LOADED](state, bool) {
