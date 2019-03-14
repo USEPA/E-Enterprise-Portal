@@ -493,11 +493,12 @@ export default {
           let cities_and_states_return_from_ajax = returnData.cities_and_states;
           let cities_and_states = [];
           cities_and_states_return_from_ajax.forEach(function(city_and_state){
+            console.log(city_and_state);
             if(!doesUserHaveGivenLocation(city_and_state, userInput.trim())){
               cities_and_states.push(city_and_state);
             }
           });
-          formattedResponseInformation = cities_and_states;
+          formattedResponseInformation = cities_and_states.filter(c_and_s => c_and_s !== '');
         } else {
           const cities = returnData.city;
 
