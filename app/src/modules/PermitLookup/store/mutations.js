@@ -241,7 +241,7 @@ export default {
   [types.SET_CGP_FACILITY_NAME](state, str) {
     Vue.set(
       state.cgpFormData,
-      'facilityName',
+      'projectSiteName',
       str,
     );
   },
@@ -255,28 +255,28 @@ export default {
   [types.SET_CGP_FACILITY_CITY](state, str) {
     Vue.set(
       state.cgpFormData,
-      'facilityCity',
+      'projectCity',
       str,
     );
   },
   [types.SET_CGP_FACILITY_STATE](state, str) {
     Vue.set(
       state.cgpFormData,
-      'facilityState',
+      'projectState',
       str,
     );
   },
   [types.SET_CGP_FACILITY_ZIP](state, str) {
     Vue.set(
       state.cgpFormData,
-      'facilityZip',
+      'projectZip',
       str,
     );
   },
   [types.SET_CGP_STATUS](state, str) {
     Vue.set(
       state.cgpFormData,
-      'status',
+      'projectStatus',
       str,
     );
   },
@@ -304,7 +304,7 @@ export default {
   [types.SET_CGP_FACILITY_COUNTY](state, str) {
     Vue.set(
       state.cgpFormData,
-      'facilityCounty',
+      'projectCounty',
       str,
     );
   },
@@ -350,7 +350,6 @@ export default {
       arr,
     );
   },
-
 
 
   [types.SET_FORM_OPTIONS_MSGP](state, arr) {

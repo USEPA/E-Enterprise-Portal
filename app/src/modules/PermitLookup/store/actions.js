@@ -275,7 +275,6 @@ export default {
     const { baseFormOptions } = store.state.formOptions;
     const axiosUrlBase = `${apiURL}/eep/proxy/service/oeca-msgp?`;
     let urlQueries = '';
-
     // Set msgp form inputs that aren't empty or default as queries
     Object.keys(msgpFormData).forEach((key) => {
       if (msgpFormData[key] !== 'Select...' && msgpFormData[key] !== '') {
@@ -310,7 +309,6 @@ export default {
         vm.$root.$emit('bv::show::modal', 'permit-results-modal');
       });
   },
-
   cgpFormGetResults(context, payload) {
     const store = context;
     const { vm } = payload;
@@ -324,16 +322,22 @@ export default {
     Object.keys(cgpFormData).forEach((key) => {
       if (cgpFormData[key] !== 'Select...' && cgpFormData[key] !== '') {
         // Map State Name to State Code
-        if (key === 'facilityState') {
+        if (key === 'projectState') {
           baseFormOptions[1].forEach((subKeyA) => {
-            if (subKeyA.stateName === cgpFormData.facilityState) {
-              urlQueries += `facilityState=${subKeyA.stateCode}`;
+            if (subKeyA.stateName === cgpFormData.projectState) {
+              urlQueries += `projectState=${subKeyA.stateCode}`;
             }
           });
         } else if (key === 'submittedDateTo') {
           const unformattedDate = new Date(cgpFormData[key]);
           urlQueries += `${key}=${unformattedDate.toISOString()}`;
         } else if (key === 'submittedDateFrom') {
+          const unformattedDate = new Date(cgpFormData[key]);
+          urlQueries += `${key}=${unformattedDate.toISOString()}`;
+        } else if (key === 'updatedDateTo') {
+          const unformattedDate = new Date(cgpFormData[key]);
+          urlQueries += `${key}=${unformattedDate.toISOString()}`;
+        } else if (key === 'updatedDateFrom') {
           const unformattedDate = new Date(cgpFormData[key]);
           urlQueries += `${key}=${unformattedDate.toISOString()}`;
         } else {
