@@ -310,4 +310,9 @@ export default {
       'userFavoriteLocation',
       userFavLocation);
   },
+  [types.SET_INPUT_MESSAGE](state, inputMessageText){
+    Vue.set(state.user,
+      'inputMessage',
+      inputMessageText);
+  },
 };
