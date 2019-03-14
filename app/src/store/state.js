@@ -56,7 +56,7 @@ const state = {
     mail: '',
     favoriteLinks: [],
     isAfterInputDropdownDisplayed: true,
-    isAllZipcodesDisplayed:false,
+    isAllZipcodesDisplayed: false,
     firstTimeSelectButtonClicked: 0,
     displayWhenNewLocationIsClicked: '',
     optionsAfterInput: [],
