@@ -11,20 +11,21 @@
   }
 
   .my-certs-tbody {
-    height: 75px;
+    height: 85px;
   }
 
   .cert-needs-attn-decoration {
     top: -1.5rem;
   }
   .wapp-inner-wrapper {
-    font-size: 0.8em;
+    font-size: 0.85em;
     font-family: 'Source Serif Pro';
   }
 }
 
 // status colum styles
 #my-certifications-table {
+  margin-bottom: 0;
   .cert-not-completed-decoration {
     background-color: $blue;
   }

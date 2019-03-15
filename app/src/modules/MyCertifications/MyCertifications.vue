@@ -261,7 +261,7 @@
             },
           ],
           currentPage: 1,
-          perPage: 5,
+          perPage: 3,
           pageOptions: [5, 10, 15, 20],
           sortBy: null,
           sortDesc: false,
