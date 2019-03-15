@@ -1396,8 +1396,8 @@
         'loadBaseFormOption',
         'loadMsgpFormOptions',
         'loadCgpFormOptions',
-        'setMsgpFormDefaults',
-        'setCgpFormDefaults',
+        'setMsgpFormToDefaults',
+        'setCgpFormToDefaults',
       ]),
       initialFormSubmit(evt) {
         evt.preventDefault();
@@ -1427,51 +1427,12 @@
       },
       clearForm() {
         // clear every state when reset is pressed
-        const vm = this;
-        vm.setStatus('');
-        vm.setFormType('');
-        vm.setDateSelection('');
-
-        vm.setMsgpFacilityName('');
-        vm.setMsgpNpdesId('');
-        vm.setMsgpFacilityCity('');
-        vm.setMsgpFacilityState('');
-        vm.setMsgpFacilityZip('');
-        vm.setMsgpOperatorName('');
-        vm.setMsgpFederalIndicator('');
-        vm.setMsgpStartDate('');
-        vm.setMsgpEndDate('');
-        vm.setMsgpTribalIndicator('');
-        vm.setMsgpFacilityCounty('');
-        vm.setMsgpMasterPermitNumber('');
-        vm.setMsgpTribalName('');
-        vm.setMsgpIssuer('');
-        vm.setMsgpSubmissionType('');
-        vm.setMsgpCoverageType('');
-        vm.setMsgpCoverageStatus('');
-        vm.setMsgpSector('');
-        vm.setMsgpSubsector('');
-        vm.setMsgpSicCode('');
-        vm.setMsgpAddress('');
-        vm.setCgpFacilityName('');
-        vm.setCgpNpdesId('');
-        vm.setCgpFacilityCity('');
-        vm.setCgpFacilityState('');
-        vm.setCgpFacilityZip('');
-        vm.setCgpStatus('');
-        vm.setCgpFormType('');
-        vm.setCgpOperatorName('');
-        vm.setCgpFederalIndicator('');
-        vm.setCgpDateSelection('');
-        vm.setCgpStartDate('');
-        vm.setCgpEndDate('');
-        vm.setCgpTribalIndicator('');
-        vm.setCgpTribalName('');
-        vm.setCgpFacilityCounty('');
-        vm.radioSelection1 = false;
-        vm.radioSelection2 = false;
-        vm.radioSelection3 = false;
-        vm.radioSelection4 = false;
+        this.setMsgpFormToDefaults();
+        this.setCgpFormToDefaults();
+        this.radioSelection1 = false;
+        this.radioSelection2 = false;
+        this.radioSelection3 = false;
+        this.radioSelection4 = false;
       },
 
     },
