@@ -41,7 +41,7 @@
       showUserCookiePolicy() {
         const vm = this;
         return vm.$route.name.indexOf('workbench') > -1
-          && vm.authenticated === false
+          && vm.authenticated === true
           && !vm.UserCookiePolicyDismiss;
       },
     },
