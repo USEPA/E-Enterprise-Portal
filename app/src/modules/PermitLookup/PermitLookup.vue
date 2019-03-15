@@ -230,6 +230,7 @@
                         :value="cgpFormData.operatorName"
                         @change="setCgpOperatorName"
                         ref="facility-operator-input-cgp"
+                        type="string"
                         size="sm"/>
                     </b-col>
                     <b-col md="6">
@@ -284,6 +285,7 @@
                         ref="start-date-input-cgp"
                         @change="setCgpStartDate"
                         size="sm"
+                        type="date"
                         placeholder="MM/DD/YYYY"/>
                     </b-col>
                     <b-col md="4">
@@ -294,6 +296,7 @@
                         :value="cgpFormData.submittedDateTo"
                         @change="setCgpEndDate"
                         size="sm"
+                        type="date"
                         placeholder="MM/DD/YYYY"/>
                     </b-col>
                   </b-row>
@@ -691,6 +694,7 @@
                         :value="msgpFormData.operatorName"
                         @change="setMsgpOperatorName"
                         ref="facility-operator-input-msgp"
+                        type="string"
                         size="sm"/>
                     </b-col>
                     <b-col md="6">
@@ -728,6 +732,7 @@
                         class="mb-3"
                         :value="msgpFormData.masterPermitNumber"
                         @change="setMsgpMasterPermitNumber"
+                        type="string"
                         size="sm"/>
                     </b-col>
                     <b-col md="3">
@@ -738,6 +743,7 @@
                         ref="start-date-input-msgp"
                         @change="setMsgpStartDate"
                         size="sm"
+                        type="date"
                         placeholder="MM/DD/YYYY"/>
                     </b-col>
                     <b-col md="3">
@@ -748,6 +754,7 @@
                         :value="msgpFormData.submittedDateTo"
                         @change="setMsgpEndDate"
                         size="sm"
+                        type="date"
                         placeholder="MM/DD/YYYY"/>
                     </b-col>
                   </b-row>
