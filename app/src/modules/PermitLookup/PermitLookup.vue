@@ -90,6 +90,7 @@
                       class="mb-3"
                       :value="cgpFormData.projectSiteName"
                       @change="setCgpFacilityName"
+                      type="text"
                       size="sm"/>
                   </b-col>
                   <b-col md="6">
@@ -152,6 +153,7 @@
                       class="mb-3"
                       :value="cgpFormData.projectZip"
                       @change="setCgpFacilityZip"
+                      type="number"
                       size="sm"/>
                   </b-col>
                 </b-row>
@@ -602,6 +604,7 @@
                       class="mb-3"
                       :value="msgpFormData.facilityName"
                       @change="setMsgpFacilityName"
+                      type="text"
                       size="sm"/>
                   </b-col>
                   <b-col md="6">
@@ -663,6 +666,7 @@
                       class="mb-3"
                       :value="msgpFormData.facilityZip"
                       @change="setMsgpFacilityZip"
+                      type="number"
                       size="sm"/>
                   </b-col>
                 </b-row>
