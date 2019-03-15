@@ -138,6 +138,10 @@ class EEPBridgeController extends ControllerBase {
     return new static($auth);
   }
 
+  public function generate_new_token(){
+    return new JsonResponse(['message' => 'route hit']);
+  }
+
   private function eep_bridge_goto($url, $jwt_token) {
     $response = new RedirectResponse($url->toString());
     $response->headers->set('token', $jwt_token);
