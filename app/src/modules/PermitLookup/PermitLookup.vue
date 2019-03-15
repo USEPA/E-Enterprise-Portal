@@ -1091,7 +1091,7 @@
 <script>
 
   import { mapActions, mapGetters } from 'vuex';
-  import { AppWrapper, AppModal } from '../wadk/WADK';
+  import { AppWrapper, AppModal, PaginationArrows } from '../wadk/WADK';
   import storeModule from './store/index';
 
   const moduleName = 'PermitLookup';
@@ -1101,6 +1101,7 @@
     components: {
       AppWrapper,
       AppModal,
+      PaginationArrows,
     },
     beforeCreate() {
 
