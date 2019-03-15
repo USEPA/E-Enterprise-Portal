@@ -105,7 +105,7 @@ export default {
     const environment = ref.getEnvironment;
     let environmentURL = 'https://dev2.e-enterprise.gov';
     if (environment === 'LOCAL') {
-      environmentURL = 'http://localhost:8083';
+      environmentURL = 'http://localhost:8082';
     } else if (environment === 'DEV') {
       environmentURL = 'https://dev2.e-enterprise.gov';
     } else if (environment === 'TEST') {
