@@ -1441,14 +1441,24 @@
       cgpFormSubmit(evt) {
         const vm = this;
         evt.preventDefault();
-        this.cgpFormGetResults({ vm });
-        this.setCgpFormToDefaults();
+        if (JSON.stringify(this.msgpFormData) !== JSON.stringify(this.msgpFormDataDefaults)) {
+          this.noFieldsToQuery = false;
+          this.cgpFormGetResults({ vm });
+          this.setCgpFormToDefaults();
+        } else {
+          this.noFieldsToQuery = true;
+        }
       },
       msgpFormSubmit(evt) {
         const vm = this;
         evt.preventDefault();
-        this.msgpFormGetResults({ vm });
-        this.setMsgpFormToDefaults();
+        if (JSON.stringify(this.msgpFormData) !== JSON.stringify(this.msgpFormDataDefaults)) {
+          this.noFieldsToQuery = false;
+          this.msgpFormGetResults({ vm });
+          this.setMsgpFormToDefaults();
+        } else {
+          this.noFieldsToQuery = true;
+        }
       },
       onFiltered(filteredItems) {
         // Trigger pagination to update the number of buttons/pages due to filtering
