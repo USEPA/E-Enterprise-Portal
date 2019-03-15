@@ -12,12 +12,12 @@
             <b-row>
               <label
                 class="mb-0 pl-3"
-                for="permit-type-selection">Select a permit type</label>
+                for="permit-type-selection-a">Select a permit type</label>
             </b-row>
             <b-row>
               <b-col md="8">
                 <b-form-select
-                  id="permit-type-selection"
+                  id="permit-type-selection-a"
                   class="mb-3"
                   :value="permitType"
                   :options="formOptions.permitType"
@@ -60,6 +60,34 @@
             modal-ref="permit-search-modal"
             :title="`${permitType} Lookup`"
             :hide-footer="true">
+            <b-form
+              class="needs-validation"
+              @submit="initialFormSubmit"
+              novalidated>
+              <b-row>
+                <label
+                  class="mb-0 pl-3"
+                  for="permit-type-selection-b">Select a permit type</label>
+              </b-row>
+              <b-row>
+                <b-col md="6">
+                  <b-form-select
+                    id="permit-type-selection-b"
+                    class="mb-3"
+                    :value="permitType"
+                    :options="formOptions.permitType"
+                    ref="permitTypeDropdown"
+                    @change="setPermitType"
+                    required>
+                    <template slot="first">
+                      <option
+                        disabled>Select...
+                      </option>
+                    </template>
+                  </b-form-select>
+                </b-col>
+              </b-row>
+            </b-form>
             <div
               v-if="permitType === 'Construction General Permit'"
               id="cgp-form-wrapper">
