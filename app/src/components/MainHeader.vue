@@ -14,71 +14,71 @@
       </div>
       <div class="w-100 d-block d-sm-none "/>
 
-      <div class="col-sm-6 col-12 pt-4 pt-sm-0 d-flex justify-content-lg-end align-self-end-lg ">
-        <div
-          id="try-it-container"
-          class="col-sm-6 col-lg-4">
-          <router-link
-            to="/workbench"
-            tag="button"
-            id="try-it-header-button"
-            class="usa-button"
-            variant="primary"
-            @mouseover="addTryItArrow"
-            @mouseleave="removeTryItArrow"
-            v-if='!displayLoggedInElements'>
-            <div
-              ref="tryit-arrow"
-              class="d-none button-down-arrow"/>
-            <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left pr-1"/>Try It
-          </router-link>
-        </div>
-        <div
-          class="col-sm-6 col-lg-4"
-          id="log-in-container">
-          <template v-if='displayLoggedInElements'>
-            <span class="mr-3">Welcome {{ user.name }}</span>
-            <button
-              variant="outline-secondary"
-              class="usa-button"
-              @click="userLogOut">
-              <i class="fas fa-lock pr-1"/>
-              Logout
-            </button>
+      <div class="col-md-6 col-12 pt-3 d-flex justify-content-center justify-content-lg-end align-self-end-lg">
+        <div class="tryit-wrapper pr-2 float-right">
             <router-link
-              to="/User"
-              id="my-account"
-              class="usa-button ml-2"
-              variant="primary"
-              tag="button">
-              My account
+                    to="/workbench"
+                    tag="button"
+                    id="try-it-button"
+                    ref="try-it-button"
+                    class="usa-button pr-3"
+                    variant="primary"
+                    @mouseover="addTryItArrow"
+                    @mouseleave="removeTryItArrow"
+                    v-if='!displayLoggedInElements'>
+                <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left pr-1"/>Try It
             </router-link>
-          </template>
-          <template v-else>
-            <button
-              id="log-in"
-              @mouseover="addLogInArrow"
-              @mouseleave="removeLogInArrow"
-              class="usa-button"
-              @click="handleLogin">
-              <i class="fas fa-lock pr-1"/>
-              Login
-            </button>
-          </template>
         </div>
+
+        <div class="otherbtns-wrapper float-right">
+            <template v-if='displayLoggedInElements'>
+                <span class="mr-3">Welcome {{ user.name }}</span>
+                <button
+                        variant="outline-secondary"
+                        class="usa-button"
+                        @click="userLogOut">
+                    <i class="fas fa-lock pr-1"/>
+                    Logout
+                </button>
+                <router-link
+                        to="/User"
+                        id="my-account"
+                        class="usa-button ml-2"
+                        variant="primary"
+                        tag="button">
+                    My account
+                </router-link>
+            </template>
+            <template v-else>
+                <button
+                        id="log-in-button"
+                        ref="log-in-button"
+                        @mouseover="addLogInArrow"
+                        @mouseleave="removeLogInArrow"
+                        class="usa-button"
+                        @click="handleLogin">
+                    <i class="fas fa-lock pr-1"/>Login
+                </button>
+            </template>
+        </div>
+
         <b-tooltip
           v-if="!displayLoggedInElements"
-          target="try-it-header-button"
-          class="tryit-tooltip"
+          id="tryit-arrow"
+          ref="tryit-arrow"
+          target="try-it-button"
           placement="bottom">
-          Want to just try it? No log in needed.
+              Want to just try it? No log in needed.
         </b-tooltip>
         <b-tooltip
           v-if="!displayLoggedInElements"
-          target="log-in"
-          class="login-tooltip"
+          id="login-arrow"
+          ref="login-arrow"
+          target="log-in-button"
           placement="bottom">
-          Use an EPA, CDX, or a social media account to login
+            <div class="pr-3">
+                Use an EPA, CDX, or a social media account to login
+            </div>
         </b-tooltip>
       </div>
     </div>
@@ -108,20 +108,24 @@
         'userLogOut',
       ]),
       removeTryItArrow() {
-        this.$refs['tryit-arrow'].classList.remove('d-block');
-        this.$refs['tryit-arrow'].classList.add('d-none');
+        let tryItBtnArrow = this.$refs['tryit-arrow'];
+        tryItBtnArrow.classList.remove('d-block');
+        tryItBtnArrow.classList.add('d-none');
       },
       addTryItArrow() {
-        this.$refs['tryit-arrow'].classList.remove('d-none');
-        this.$refs['tryit-arrow'].classList.add('d-block');
+        let tryItBtnArrow = this.$refs['tryit-arrow'];
+        tryItBtnArrow.classList.remove('d-none');
+        tryItBtnArrow.classList.add('d-block');
       },
       removeLogInArrow() {
-        this.$refs['login-arrow'].classList.remove('d-block');
-        this.$refs['login-arrow'].classList.add('d-none');
+        let loginBtnArrow = this.$refs['login-arrow'];
+        loginBtnArrow.classList.remove('d-block');
+        loginBtnArrow.classList.add('d-none');
       },
       addLogInArrow() {
-        this.$refs['login-arrow'].classList.remove('d-none');
-        this.$refs['login-arrow'].classList.add('d-block');
+        let loginBtnArrow = this.$refs['login-arrow'];
+        loginBtnArrow.classList.remove('d-none');
+        loginBtnArrow.classList.add('d-block');
       },
       handleLogin() {
         this.$router.push('/login');
