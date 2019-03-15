@@ -8,6 +8,7 @@ const state = {
       workbenchApplications: 'api/view/workbench-applications',
       authenticationOptions: 'api/authentication-category-options',
       taxonomyTerms: 'api/authentication_category_taxonomy_terms',
+      resetToken: 'eep/resetToken',
     },
   },
   app: null,

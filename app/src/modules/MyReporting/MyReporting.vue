@@ -278,10 +278,9 @@
               'Content-Type': 'application/json',
             },
           },
-        )
-          .then((response) => {
-            vm.items = response.data;
-          });
+        ).then((response) => {
+          vm.items = response.data;
+        });
 
         AppAxios.get(
           `${vm.apiURL}/api/cdx/configs`,
@@ -293,17 +292,15 @@
               'Content-Type': 'application/json',
             },
           },
-        )
-          .then((response) => {
-            vm.cdx_configs = response.data;
-          });
+        ).then((response) => {
+          vm.cdx_configs = response.data;
+        });
       }
     },
     computed: {
       ...mapGetters({
         apiURL: 'getEnvironmentApiURL',
         isUserLoggedIn: 'getIsLoggedIn',
-        // map getters go here
       }),
       token() {
         return this.$cookie.get('Token');
