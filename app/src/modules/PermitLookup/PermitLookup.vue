@@ -1392,7 +1392,6 @@
         'setMsgpFacilityZip',
         'setMsgpOperatorName',
         'setMsgpMasterPermitNumber',
-
         'loadBaseFormOption',
         'loadMsgpFormOptions',
         'loadCgpFormOptions',
@@ -1409,16 +1408,16 @@
       cgpFormSubmit(evt) {
         const vm = this;
         evt.preventDefault();
-        if (this.cgpFormData === this.cgpFormDataDefaults) {
-          this.noFieldsToQuery = true;
-        } else {
-          this.cgpFormGetResults({ vm });
-        }
+        this.cgpFormGetResults({ vm });
+        this.setPermitType('Select...');
+        this.setCgpFormToDefaults();
       },
       msgpFormSubmit(evt) {
         const vm = this;
         evt.preventDefault();
         this.msgpFormGetResults({ vm });
+        this.setPermitType('Select...');
+        this.setMsgpFormToDefaults();
       },
       onFiltered(filteredItems) {
         // Trigger pagination to update the number of buttons/pages due to filtering
