@@ -955,12 +955,12 @@
                 <div v-else-if="resultsError">
                   <div
                     v-if="permitType === 'Multi-Sector General Permit'"
-                    class="danger text-center">
+                    class="text-danger text-center">
                     {{ msgpFormResults }}
                   </div>
                   <div
                     v-if="permitType === 'Construction General Permit'"
-                    class="danger text-center">
+                    class="text-danger text-center">
                     {{ cgpFormResults }}
                   </div>
                 </div>
