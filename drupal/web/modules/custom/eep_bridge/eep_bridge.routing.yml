@@ -41,5 +41,7 @@ eep_core.reset_token:
   defaults:
      _controller: '\Drupal\eep_bridge\Controller\EEPBridgeController::generate_new_token'
      _title: 'EEP Reset Token'
+  requirements:
+     _access: 'TRUE'
   options:
-     _auth: ['jwt_auth']
+     _auth: ['cookie', 'basic_auth','jwt_auth']
