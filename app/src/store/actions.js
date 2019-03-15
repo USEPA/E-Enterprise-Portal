@@ -271,7 +271,7 @@ export default {
   extendSession(context, payload) {
     const store = context;
     const { vm } = payload;
-    const {uid} = store.getters.getUser;
+    const { uid } = store.getters.getUser;
 
     // Cookie information from the store
     const COOKIE_EXPIRATION_TIME = store.getters.getUser.cookie.time
