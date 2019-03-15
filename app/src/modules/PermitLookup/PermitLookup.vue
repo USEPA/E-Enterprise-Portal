@@ -934,6 +934,9 @@
                       class="pl-2">Download</a>
                   </template>
                 </b-table>
+                <div v-else-if="resultsError">
+                  {{ msgpFormResults }}
+                </div>
             </b-row></b-col>
             <!-- pagination -->
             <b-row class="text-center">

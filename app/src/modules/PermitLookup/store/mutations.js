@@ -471,4 +471,11 @@ export default {
       obj,
     );
   },
+  [types.SET_RESULTS_ERROR](state, bool) {
+    Vue.set(
+      state,
+      'resultsError',
+      bool,
+    );
+  },
 };

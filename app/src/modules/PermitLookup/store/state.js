@@ -90,7 +90,7 @@ export default {
   formOptions: {
     permitType: [
       'Construction General Permit',
-      'Multi-sector General Permit',
+      'Multi-Sector General Permit',
     ],
     tribalIndicator: [
       { text: 'Yes', value: true },
@@ -108,4 +108,5 @@ export default {
   msgpResultsLoaded: false,
   cgpFormResults: {},
   cgpResultsLoaded: false,
+  resultsError: false,
 };

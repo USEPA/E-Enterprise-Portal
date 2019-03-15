@@ -377,9 +377,16 @@ export default {
     // get stuff
     AppAxios.get(axiosUrl)
       .then((response) => {
-        const msgpResponse = response.data.formQueryResponse;
-        store.commit(types.SET_MSGP_RESPONSE, msgpResponse);
-        store.commit(types.SET_MSGP_RESULTS_LOADED, true);
+        let msgpResponse = response.data.formQueryResponse;
+        if (msgpResponse.code === 'E_InternalError') {
+          msgpResponse = 'Error Loading Results';
+          store.commit(types.SET_RESULTS_ERROR, true);
+          store.commit(types.SET_MSGP_RESPONSE, msgpResponse);
+        } else {
+          store.commit(types.SET_RESULTS_ERROR, false);
+          store.commit(types.SET_MSGP_RESPONSE, msgpResponse);
+          store.commit(types.SET_MSGP_RESULTS_LOADED, true);
+        }
         vm.$root.$emit('bv::show::modal', 'permit-results-modal');
       });
   },
@@ -426,9 +433,16 @@ export default {
     // get stuff
     AppAxios.get(axiosUrl)
       .then((response) => {
-        const cgpResponse = response.data.formQueryResponse;
-        store.commit(types.SET_CGP_RESPONSE, cgpResponse);
-        store.commit(types.SET_CGP_RESULTS_LOADED, true);
+        let cgpResponse = response.data.formQueryResponse;
+        if (cgpResponse.code === 'E_InternalError') {
+          cgpResponse = 'Error Loading Results';
+          store.commit(types.SET_RESULTS_ERROR, true);
+          store.commit(types.SET_CGP_RESPONSE, cgpResponse);
+        } else {
+          store.commit(types.SET_RESULTS_ERROR, false);
+          store.commit(types.SET_CGP_RESPONSE, cgpResponse);
+          store.commit(types.SET_CGP_RESULTS_LOADED, true);
+        }
         vm.$root.$emit('bv::show::modal', 'permit-results-modal');
       });
   },
