@@ -1332,7 +1332,7 @@
         return (this.msgpFormData.facilityState === 'Select...' || this.msgpFormData.tribalIndicator === false || this.msgpFormData.tribalIndicator === 'false');
       },
       isDisabledSubsectorMsgp() {
-        return this.msgpFormData.facilityState === 'Select...';
+        return this.msgpFormData.sector === 'Select...';
       },
       isDisabledCountyCgp() {
         return this.cgpFormData.projectState === 'Select...';

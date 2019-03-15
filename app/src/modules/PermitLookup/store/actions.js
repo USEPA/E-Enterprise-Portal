@@ -132,8 +132,33 @@ export default {
   },
   setMsgpSector(context, payload) {
     const store = context;
-
+    const { vm } = payload;
+    const apiURL = store.rootGetters.getEnvironmentApiURL;
     store.commit(types.SET_MSGP_SECTOR, payload);
+    const { sector } = store.state.msgpFormData;
+    const { baseFormOptions } = store.state.formOptions;
+    let sectorCode = '';
+    console.log(sector);
+    baseFormOptions[0].forEach((key) => {
+      if (sector === key.sectorName) {
+        sectorCode = key.sectorCode;
+      }
+    });
+
+    const axiosUrlBase = `${apiURL}/eep/proxy/service/oeca-svc-ref?subsectors=${sectorCode}`;
+
+    AppAxios.get(axiosUrlBase).then((response) => {
+      const subSectors = response.data.helperQueryResponse.oecaSvcWithParams[0];
+      console.log(subSectors);
+      const subSectorNames = [];
+      subSectors.forEach((key) => {
+        if (key.sectorCode === sectorCode) {
+          subSectorNames.push(key.subsectorName);
+        }
+      });
+      console.log(subSectorNames);
+      store.commit(types.SET_BASE_FORM_OPTION_SUB_SECTOR_NAMES, subSectorNames);
+    });
   },
   setMsgpSubsector(context, payload) {
     const store = context;

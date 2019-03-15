@@ -387,6 +387,13 @@ export default {
       arr,
     );
   },
+  [types.SET_MSGP_SUBSECTORS](state, arr) {
+    Vue.set(
+      state.formOptions.msgpFormOptions,
+      'subSectorNames',
+      arr,
+    );
+  },
   [types.SET_CGP_COUNTIES](state, arr) {
     Vue.set(
       state.formOptions.cgpFormOptions,
