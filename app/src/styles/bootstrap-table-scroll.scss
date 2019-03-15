@@ -28,6 +28,14 @@
   width: 100%;
 }
 
+.bootstrap-vue-mycerts-table-scroll > thead th {
+  padding-top: .75em;
+  padding-bottom: .6em;
+  padding-left: .3em;
+  padding-right: .3em;
+  text-align: center;
+}
+
 .bootstrap-vue-fav-table-scroll > thead tr,
 .bootstrap-vue-fav-table-scroll > tbody tr,
 .bootstrap-vue-mycerts-table-scroll > thead tr,
