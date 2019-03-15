@@ -279,7 +279,7 @@ export default {
 
     // Axios call to back end to create new JWT token
     AppAxios.get(store.getters.getEEPAPIURL({
-      endpoint: store.getters.getApiUrl('resetToken') + '/' + uid,
+      endpoint: store.getters.getApiUrl('resetToken') + '/' + Vue.cookie.get("Token"),
       params: '',
     }, {
         headers: store.getters.getGETHeaders,

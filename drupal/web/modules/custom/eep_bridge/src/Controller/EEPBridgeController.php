@@ -141,15 +141,15 @@ class EEPBridgeController extends ControllerBase {
   /**
    * @return JsonResponse
    */
-  public function generate_new_token($uid){
+  public function generate_new_token($oldtoken = NULL){
     $new_jwt_token = "You need to log in in order to generate a new token.";
     $current_user = \Drupal::currentUser();
-    if(intval($current_user->id()) === intval($uid)){
+    if(!$oldtoken){
       $new_jwt_token = $this->auth->generateToken();
     }
     return new JsonResponse([
-        'current_user_id' => $current_user->id(),
-        'token' => $new_jwt_token
+      'current_user_id' => $current_user->id(),
+      'token' => $new_jwt_token
     ]);
   }
 
