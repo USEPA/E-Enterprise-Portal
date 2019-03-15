@@ -390,7 +390,7 @@
               <br>
             </div>
             <div
-              v-else-if="permitType === 'Multi-sector General Permit'"
+              v-else-if="permitType === 'Multi-Sector General Permit'"
               id="msgp-form-wrapper">
               <div
                 id="msgp-header">
@@ -887,53 +887,54 @@
               </b-col>
             </b-row>
             <b-col class="overflow-x-scroll">
-              <b-table
-                v-if="cgpResultsLoaded"
-                hover
-                id="permit-lookup-table-cgp"
-                class="bootstrap-vue-permit-table-scroll d-block"
-                :items="cgpFormResults"
-                :fields="cgpFields"
-                :current-page="currentPage"
-                :per-page="perPage"
-                :filter="filter"
-                :sort-by.sync="sortBy"
-                :sort-desc.sync="sortDesc"
-                :sort-direction="sortDirection"
-                :filtered="onFiltered">
-                <template
-                  slot="documents"
-                  slot-scope="data">
-                  <a
-                    v-for="attachment in data.item.attachments"
-                    :href="`${formOptions.cgpFormOptions.cgpDownloadUrlBase}/form/${data.item.id}/attachment/${attachment.id}`"
-                    class="pl-2">Download</a>
-                </template>
-              </b-table>
-              <b-table
-                v-else-if="msgpResultsLoaded"
-                hover
-                id="permit-lookup-table-msgp"
-                class="bootstrap-vue-permit-table-scroll d-block"
-                :items="msgpFormResults"
-                :fields="msgpFields"
-                :current-page="currentPage"
-                :per-page="perPage"
-                :filter="filter"
-                :sort-by.sync="sortBy"
-                :sort-desc.sync="sortDesc"
-                :sort-direction="sortDirection"
-                :filtered="onFiltered">
-                <template
-                  slot="documents"
-                  slot-scope="data">
-                  <a
-                    v-for="attachment in data.item.attachments"
-                    :href="`${formOptions.msgpFormOptions.msgpDownloadUrlBase}/form/${data.item.id}/attachment/${attachment.id}`"
-                    class="pl-2">Download</a>
-                </template>
-              </b-table>
-            </b-col>
+              <b-row v-if="cgpResultsLoaded || msgpResultsLoaded">
+                <b-table
+                  v-if="cgpResultsLoaded"
+                  hover
+                  id="permit-lookup-table-cgp"
+                  class="bootstrap-vue-permit-table-scroll d-block"
+                  :items="cgpFormResults"
+                  :fields="cgpFields"
+                  :current-page="currentPage"
+                  :per-page="perPage"
+                  :filter="filter"
+                  :sort-by.sync="sortBy"
+                  :sort-desc.sync="sortDesc"
+                  :sort-direction="sortDirection"
+                  :filtered="onFiltered">
+                  <template
+                    slot="documents"
+                    slot-scope="data">
+                    <a
+                      v-for="attachment in data.item.attachments"
+                      :href="`${formOptions.cgpFormOptions.cgpDownloadUrlBase}/form/${data.item.id}/attachment/${attachment.id}`"
+                      class="pl-2">Download</a>
+                  </template>
+                </b-table>
+                <b-table
+                  v-else-if="msgpResultsLoaded"
+                  hover
+                  id="permit-lookup-table-msgp"
+                  class="bootstrap-vue-permit-table-scroll d-block"
+                  :items="msgpFormResults"
+                  :fields="msgpFields"
+                  :current-page="currentPage"
+                  :per-page="perPage"
+                  :filter="filter"
+                  :sort-by.sync="sortBy"
+                  :sort-desc.sync="sortDesc"
+                  :sort-direction="sortDirection"
+                  :filtered="onFiltered">
+                  <template
+                    slot="documents"
+                    slot-scope="data">
+                    <a
+                      v-for="attachment in data.item.attachments"
+                      :href="`${formOptions.msgpFormOptions.msgpDownloadUrlBase}/form/${data.item.id}/attachment/${attachment.id}`"
+                      class="pl-2">Download</a>
+                  </template>
+                </b-table>
+            </b-row></b-col>
             <!-- pagination -->
             <b-row class="text-center">
               <b-col
@@ -946,6 +947,7 @@
                   v-model="currentPage"
                   class="my-0"/>
               </b-col>
+            </b-row>
             </b-row>
 
           </AppModal>
@@ -1409,14 +1411,12 @@
         const vm = this;
         evt.preventDefault();
         this.cgpFormGetResults({ vm });
-        this.setPermitType('Select...');
         this.setCgpFormToDefaults();
       },
       msgpFormSubmit(evt) {
         const vm = this;
         evt.preventDefault();
         this.msgpFormGetResults({ vm });
-        this.setPermitType('Select...');
         this.setMsgpFormToDefaults();
       },
       onFiltered(filteredItems) {
