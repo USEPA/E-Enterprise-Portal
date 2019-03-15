@@ -271,15 +271,26 @@ export default {
   extendSession(context, payload) {
     const store = context;
     const { vm } = payload;
+    const {uid} = store.getters.getUser;
 
     // Cookie information from the store
     const COOKIE_EXPIRATION_TIME = store.getters.getUser.cookie.time
       + store.getters.getUser.cookie.time_units;
 
-    Vue.cookie.set('userLoggedIn', true, { expires: COOKIE_EXPIRATION_TIME });
-    Vue.cookie.set('uid', store.getters.getUser.id, { expires: COOKIE_EXPIRATION_TIME });
-    Vue.cookie.set('Token', store.getters.getLoggedInToken, { expires: COOKIE_EXPIRATION_TIME });
-    Vue.cookie.set('userLogInTime', new Date(), { expires: COOKIE_EXPIRATION_TIME });
+    // Axios call to back end to create new JWT token
+    AppAxios.get(store.getters.getEEPAPIURL({
+      endpoint: store.getters.getApiUrl('resetToken') + '/' + uid,
+      params: '',
+    }, {
+        headers: store.getters.getGETHeaders,
+    })).then((response) => {
+        Vue.cookie.set('Token', response.data.token, { expires: COOKIE_EXPIRATION_TIME });
+        Vue.cookie.set('userLoggedIn', true, { expires: COOKIE_EXPIRATION_TIME });
+        Vue.cookie.set('uid', store.getters.getUser.id, { expires: COOKIE_EXPIRATION_TIME });
+        Vue.cookie.set('userLogInTime', new Date(), { expires: COOKIE_EXPIRATION_TIME });
+    }).catch((error) =>{
+        console.warn(error.response);
+    });
 
     // Set timeout again to continously check the cookie
     store.dispatch('checkCookie', payload);

@@ -37,7 +37,7 @@ eep_bridge.dev_logout:
   requirements:
     _permission: 'access content'
 eep_core.reset_token:
-  path: '/eep/resetToken'
+  path: '/eep/resetToken/{uid}'
   defaults:
      _controller: '\Drupal\eep_bridge\Controller\EEPBridgeController::generate_new_token'
      _title: 'EEP Reset Token'
