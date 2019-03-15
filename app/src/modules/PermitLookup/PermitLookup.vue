@@ -905,7 +905,7 @@
               </b-col>
             </b-row>
             <b-col class="overflow-x-scroll">
-              <b-row v-if="cgpResultsLoaded || msgpResultsLoaded">
+              <b-row v-if="cgpResultsLoaded || msgpResultsLoaded || resultsError">
                 <b-table
                   v-if="cgpResultsLoaded"
                   hover
@@ -953,7 +953,16 @@
                   </template>
                 </b-table>
                 <div v-else-if="resultsError">
-                  {{ msgpFormResults }}
+                  <div
+                    v-if="permitType === 'Multi-Sector General Permit'"
+                    class="danger text-center">
+                    {{ msgpFormResults }}
+                  </div>
+                  <div
+                    v-if="permitType === 'Construction General Permit'"
+                    class="danger text-center">
+                    {{ cgpFormResults }}
+                  </div>
                 </div>
             </b-row></b-col>
             <!-- pagination -->
@@ -1347,6 +1356,7 @@
         msgpFormDataDefaults: 'getMsgpFormDataDefaults',
         cgpFormDataDefaults: 'getCgpFormDataDefaults',
         totalRows: 'getTotalRows',
+        resultsError: 'getResultsError',
       }),
       isDisabledCountyMsgp() {
         return this.msgpFormData.facilityState === 'Select...';

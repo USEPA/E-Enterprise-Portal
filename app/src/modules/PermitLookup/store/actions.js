@@ -379,9 +379,9 @@ export default {
       .then((response) => {
         let msgpResponse = response.data.formQueryResponse;
         if (msgpResponse.code === 'E_InternalError') {
-          msgpResponse = 'Error Loading Results';
-          store.commit(types.SET_RESULTS_ERROR, true);
+          msgpResponse = 'Error Loading Results...';
           store.commit(types.SET_MSGP_RESPONSE, msgpResponse);
+          store.commit(types.SET_RESULTS_ERROR, true);
         } else {
           store.commit(types.SET_RESULTS_ERROR, false);
           store.commit(types.SET_MSGP_RESPONSE, msgpResponse);
@@ -437,9 +437,9 @@ export default {
       .then((response) => {
         let cgpResponse = response.data.formQueryResponse;
         if (cgpResponse.code === 'E_InternalError') {
-          cgpResponse = 'Error Loading Results';
-          store.commit(types.SET_RESULTS_ERROR, true);
+          cgpResponse = 'Error Loading Results...';
           store.commit(types.SET_CGP_RESPONSE, cgpResponse);
+          store.commit(types.SET_RESULTS_ERROR, true);
         } else {
           store.commit(types.SET_RESULTS_ERROR, false);
           store.commit(types.SET_CGP_RESPONSE, cgpResponse);

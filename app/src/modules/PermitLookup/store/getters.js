@@ -122,4 +122,7 @@ export default {
   getMsgpFormDataDefaults(state) {
     return state.msgpFormDataDefaults;
   },
+  getResultsError(state) {
+    return state.resultsError;
+  },
 };
