@@ -138,8 +138,16 @@ class EEPBridgeController extends ControllerBase {
     return new static($auth);
   }
 
+  /**
+   * @return JsonResponse
+   */
   public function generate_new_token(){
-    return new JsonResponse(['message' => 'route hit']);
+    $new_jwt_token = "You need to log in in order to generate a new token.";
+    if(\Drupal::currentUser()->isAuthenticated()){
+      $new_jwt_token = $this->auth->generateToken();
+
+    }
+    return new JsonResponse(['token' => $new_jwt_token]);
   }
 
   private function eep_bridge_goto($url, $jwt_token) {
