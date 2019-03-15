@@ -68,6 +68,12 @@
 }
 .wapp .page-link {
   padding: 0.25rem 0.50rem;
+  border:none;
+  font-size:.75rem;
+  font-weight:bold;
+}
+.wapp .page-item.active .page-link {
+  border-radius:5px;
 }
 .wapp .input-group > .form-control {
   height:auto;
@@ -76,6 +82,12 @@
 .wapp .custom-select {
   height:auto;
   padding:2px 10px;
+}
+
+//pagination arrows for workbench apps
+.wapp-arrows img {
+  width:15px;
+  height:15px;
 }
 
 // heights

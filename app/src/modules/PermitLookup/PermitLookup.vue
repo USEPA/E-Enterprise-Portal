@@ -932,7 +932,12 @@
                   :total-rows="totalRows"
                   :per-page="perPage"
                   v-model="currentPage"
-                  class="my-0"/>
+                  class="my-0">
+                  <div class="wapp-arrows" slot="first-text"><img src="/images/pager-first.png"></div>
+                  <div class="wapp-arrows" slot="next-text"><img src="/images/pager-next.png"></div>
+                  <div class="wapp-arrows" slot="prev-text"><img src="/images/pager-previous.png"></div>
+                  <div class="wapp-arrows" slot="last-text"><img src="/images/pager-last.png"></div>
+                </b-pagination>
               </b-col>
             </b-row>
 
@@ -1086,7 +1091,7 @@
 <script>
 
   import { mapActions, mapGetters } from 'vuex';
-  import { AppWrapper, AppModal } from '../wadk/WADK';
+  import { AppWrapper, AppModal, PaginationArrows } from '../wadk/WADK';
   import storeModule from './store/index';
 
   const moduleName = 'PermitLookup';
@@ -1096,6 +1101,7 @@
     components: {
       AppWrapper,
       AppModal,
+      PaginationArrows,
     },
     beforeCreate() {
 

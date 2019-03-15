@@ -179,7 +179,7 @@
                 </div>
               </AppModal>
               <b-row class="text-center"
-                     v-if="totalRows > perPage"
+                v-if="totalRows > perPage"
               >
                 <b-col
                   md="12"
@@ -189,7 +189,9 @@
                     :total-rows="totalRows"
                     :per-page="perPage"
                     v-model="currentPage"
-                    class="my-0"/>
+                    class="my-0">
+                    <PaginationArrows/>
+                  </b-pagination>
                 </b-col>
               </b-row>
             </b-container>
@@ -203,7 +205,7 @@
 <script>
   import AppAxios from 'axios';
   import { mapActions, mapGetters } from 'vuex';
-  import { AppWrapper, AppModal } from '../wadk/WADK';
+  import { AppWrapper, AppModal, PaginationArrows } from '../wadk/WADK';
   import storeModule from './store/index';
 
   const moduleName = 'MyReporting';
@@ -214,6 +216,7 @@
     components: {
       AppWrapper,
       AppModal,
+      PaginationArrows,
     },
     data() {
       return {
@@ -434,7 +437,7 @@
   #my-reporting-flows-container .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
     color: #000;
     font-weight: bold;
-    text-decoration:none;
+    text-decoration: none;
   }
   #my-reporting-flows-container .nav-item {
     color: #000;
