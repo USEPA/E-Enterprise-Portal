@@ -352,7 +352,7 @@
                         ref="county-selection-cgp"
                         class="mb-3"
                         :value="cgpFormData.projectCounty"
-                        :options="formOptions.baseFormOptions.countySelections"
+                        :options="formOptions.cgpFormOptions.counties"
                         :disabled="isDisabledCountyCgp"
                         @change="setCgpFacilityCounty"
                         size="sm">
@@ -499,7 +499,10 @@
                   </b-col>
                   <b-col md="6">
                     <label
-                      class="mb-0">Sector</label>
+                      class="mb-0 pr-1">Sector</label>
+                    <a
+                      class="text-decoration-underline cursor-pointer link-button"
+                      @click="openPermitInfoModal">i</a>
                   </b-col>
                 </b-row>
                 <b-row
@@ -549,7 +552,7 @@
                       ref="subsector-input"
                       class="mb-3"
                       :value="msgpFormData.subsector"
-                      :options="formOptions.baseFormOptions.sectors"
+                      :options="formOptions.baseFormOptions.subSectorNames"
                       :disabled="isDisabledSubsectorMsgp"
                       @change="setMsgpSubsector"
                       size="sm"
@@ -802,7 +805,7 @@
                         ref="county-selection-msgp"
                         class="mb-3"
                         :value="msgpFormData.facilityCounty"
-                        :options="formOptions.countySelections"
+                        :options="formOptions.msgpFormOptions.counties"
                         :disabled="isDisabledCountyMsgp"
                         @change="setMsgpFacilityCounty"
                         size="sm">
@@ -1281,8 +1284,6 @@
       this.loadBaseFormOption();
       this.loadMsgpFormOptions();
       this.loadCgpFormOptions();
-      this.setMsgpFormDefaults();
-      this.setCgpFormDefaults();
     },
     computed: {
       ...mapGetters(moduleName, {
@@ -1328,7 +1329,7 @@
         return this.msgpFormData.facilityState === 'Select...';
       },
       isDisabledTribeMsgp() {
-        return (this.msgpFormData.facilityState === 'Select...' && !(this.msgpFormData.tribalIndicator === true));
+        return (this.msgpFormData.facilityState === 'Select...' || this.msgpFormData.tribalIndicator === false || this.msgpFormData.tribalIndicator === 'false');
       },
       isDisabledSubsectorMsgp() {
         return this.msgpFormData.facilityState === 'Select...';
@@ -1337,7 +1338,7 @@
         return this.cgpFormData.projectState === 'Select...';
       },
       isDisabledTribeCgp() {
-        return ((this.cgpFormData.projectState === 'Select...') && !(this.cgpFormData.tribalIndicator === true));
+        return (this.cgpFormData.projectState === 'Select...' || this.cgpFormData.tribalIndicator === false || this.cgpFormData.tribalIndicator === 'false');
       },
     },
     methods: {
@@ -1417,13 +1418,7 @@
       msgpFormSubmit(evt) {
         const vm = this;
         evt.preventDefault();
-        console.log(this.msgpFormData);
-        console.log(this.msgpFormDataDefaults);
-        /*if (this.msgpFormDataDefaults === this.msgpFormData) {
-          this.noFieldsToQuery = true;
-        } else {*/
-          this.msgpFormGetResults({ vm });
-        /*}*/
+        this.msgpFormGetResults({ vm });
       },
       onFiltered(filteredItems) {
         // Trigger pagination to update the number of buttons/pages due to filtering

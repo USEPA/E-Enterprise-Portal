@@ -380,10 +380,31 @@ export default {
       arr,
     );
   },
+  [types.SET_MSGP_COUNTIES](state, arr) {
+    Vue.set(
+      state.formOptions.msgpFormOptions,
+      'counties',
+      arr,
+    );
+  },
+  [types.SET_CGP_COUNTIES](state, arr) {
+    Vue.set(
+      state.formOptions.cgpFormOptions,
+      'counties',
+      arr,
+    );
+  },
   [types.SET_BASE_FORM_OPTION_SECTOR_NAMES](state, arr) {
     Vue.set(
       state.formOptions.baseFormOptions,
       'sectorNames',
+      arr,
+    );
+  },
+  [types.SET_BASE_FORM_OPTION_SUB_SECTOR_NAMES](state, arr) {
+    Vue.set(
+      state.formOptions.baseFormOptions,
+      'subSectorNames',
       arr,
     );
   },

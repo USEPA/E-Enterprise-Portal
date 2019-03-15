@@ -49,8 +49,31 @@ export default {
   },
   setMsgpFacilityState(context, payload) {
     const store = context;
-
+    const { vm } = payload;
+    const apiURL = store.rootGetters.getEnvironmentApiURL;
     store.commit(types.SET_MSGP_FACILITY_STATE, payload);
+    const { facilityState } = store.state.msgpFormData;
+    const { baseFormOptions } = store.state.formOptions;
+    let stateCode = '';
+
+    baseFormOptions[1].forEach((key) => {
+      if (key.stateName === facilityState) {
+        stateCode = key.stateCode;
+      }
+    });
+
+    const axiosUrlBase = `${apiURL}/eep/proxy/service/oeca-svc-ref?counties=${stateCode}`;
+
+    AppAxios.get(axiosUrlBase).then((response) => {
+      const counties = response.data.helperQueryResponse.oecaSvcWithParams[0];
+      const countyNames = [];
+      counties.forEach((key) => {
+        if (key.stateCode === stateCode) {
+          countyNames.push(key.countyName);
+        }
+      });
+      store.commit(types.SET_MSGP_COUNTIES, countyNames);
+    });
   },
   setMsgpFacilityZip(context, payload) {
     const store = context;
@@ -154,8 +177,31 @@ export default {
   },
   setCgpFacilityState(context, payload) {
     const store = context;
-
+    const { vm } = payload;
+    const apiURL = store.rootGetters.getEnvironmentApiURL;
     store.commit(types.SET_CGP_FACILITY_STATE, payload);
+    const { projectState } = store.state.cgpFormData;
+    const { baseFormOptions } = store.state.formOptions;
+    let stateCode = '';
+
+    baseFormOptions[1].forEach((key) => {
+      if (key.stateName === projectState) {
+        stateCode = key.stateCode;
+      }
+    });
+
+    const axiosUrlBase = `${apiURL}/eep/proxy/service/oeca-svc-ref?counties=${stateCode}`;
+
+    AppAxios.get(axiosUrlBase).then((response) => {
+      const counties = response.data.helperQueryResponse.oecaSvcWithParams[0];
+      const countyNames = [];
+      counties.forEach((key) => {
+        if (key.stateCode === stateCode) {
+          countyNames.push(key.countyName);
+        }
+      });
+      store.commit(types.SET_CGP_COUNTIES, countyNames);
+    });
   },
   setCgpFacilityZip(context, payload) {
     const store = context;
@@ -219,7 +265,7 @@ export default {
     const { state } = store;
     const apiURL = store.rootGetters.getEnvironmentApiURL;
 
-    AppAxios.get(`${apiURL}/eep/proxy/service/oeca-svc-ref?tribes&states&sectors`)
+    AppAxios.get(`${apiURL}/eep/proxy/service/oeca-svc-ref?tribes&states&sectors&subsectors`)
       .then((response) => {
         const formOptions = response.data.helperQueryResponse.oecaSvc;
         const formSectorOptions = formOptions[0];
@@ -277,7 +323,7 @@ export default {
     let urlQueries = '';
     // Set msgp form inputs that aren't empty or default as queries
     Object.keys(msgpFormData).forEach((key) => {
-      if (msgpFormData[key] !== 'Select...' && msgpFormData[key] !== '') {
+      if (msgpFormData[key] !== 'Select...' && msgpFormData[key] !== '' && msgpFormData[key] !== 'false') {
         // Map State Name to State Code
         if (key === 'facilityState') {
           baseFormOptions[1].forEach((subKeyA) => {
