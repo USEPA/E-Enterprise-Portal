@@ -279,10 +279,15 @@ export default {
 
     // Axios call to back end to create new JWT token
     AppAxios.get(store.getters.getEEPAPIURL({
-      endpoint: store.getters.getApiUrl('resetToken') + '/' + Vue.cookie.get("Token"),
+      endpoint: store.getters.getApiUrl('resetToken'),
       params: '',
     }, {
-        headers: store.getters.getGETHeaders,
+      headers: {
+          'Authorization': `Bearer ${Vue.cookie.get('Token')}`,
+          'crossDomain': true,
+          'cache-control': 'no-cache',
+          'Content-Type': 'application/json',
+        },
     })).then((response) => {
         Vue.cookie.set('Token', response.data.token, { expires: COOKIE_EXPIRATION_TIME });
         Vue.cookie.set('userLoggedIn', true, { expires: COOKIE_EXPIRATION_TIME });
