@@ -1355,7 +1355,7 @@
       };
     },
     mounted() {
-      // get data for form options from axios call functions in actions file
+      // get data for form options from axios call function in actions file
       this.loadBaseFormOption();
       this.loadMsgpFormOptions();
       this.loadCgpFormOptions();
