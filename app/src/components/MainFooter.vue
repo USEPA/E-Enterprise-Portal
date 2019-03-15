@@ -1,5 +1,6 @@
 <template>
-  <footer class="footer">
+  <footer
+    v-bind:class="getClass()">
     <div
       v-if="footerLinksLoaded && footerLinks.length > 0"
       class="container py-2">
@@ -61,11 +62,19 @@
     computed: {
       ...mapGetters({
         apiUrl: 'getEnvironmentApiURL',
+        envUrl: 'getEnvironmentURL',
       }),
     },
     methods: {
       ...mapActions([
       ]),
+      getClass() {
+        if (window.location.href === (this.envUrl + '/')){
+          return 'homePageFooter';
+        } else {
+          return 'footer';
+        }
+      },
     },
     data() {
       return {
@@ -89,6 +98,18 @@
 
 <style scoped
   lang="scss">
+  .homePageFooter {
+    color: #171717;
+    background-color: #fefefe;
+    a {
+      color: #171717;
+
+      &:hover, &:active {
+        text-decoration: underline;
+      }
+    }
+  }
+
   footer {
     color: #fefefe;
     background-color: #323a45;

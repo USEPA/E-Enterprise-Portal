@@ -101,6 +101,18 @@ export default {
     }
     return environmentApiURL;
   },
+  getEnvironmentURL(state, ref) {
+    const environment = ref.getEnvironment;
+    let environmentURL = 'https://dev2.e-enterprise.gov';
+    if (environment === 'LOCAL') {
+      environmentURL = 'http://localhost:8083';
+    } else if (environment === 'DEV') {
+      environmentURL = 'https://dev2.e-enterprise.gov';
+    } else if (environment === 'TEST') {
+      environmentURL = 'https://test2.e-enterprise.gov';
+    }
+    return environmentURL;
+  },
   getBasicPagesArray(state) {
     return state.basicPages.pagesArray;
   },
