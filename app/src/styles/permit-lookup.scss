@@ -3,6 +3,10 @@
   #permit-results-modal > tbody {
     overflow: scroll;
   }
+  .permit-lookup-base-btn {
+    left: -.5rem;
+    position: relative;
+  }
 }
 %header {
   font-weight: bold;

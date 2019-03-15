@@ -36,6 +36,7 @@
                   size="sm"
                   variant="primary"
                   ref="permitTypeSubmit"
+                  class="permit-lookup-base-btn"
                   type="submit">
                   Lookup
                 </b-btn>
