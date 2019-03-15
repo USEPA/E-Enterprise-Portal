@@ -99,6 +99,7 @@
                       class="mb-3"
                       :value="cgpFormData.npdesId"
                       @change="setCgpNpdesId"
+                      type="number"
                       size="sm"/>
                   </b-col>
                 </b-row>
@@ -230,7 +231,7 @@
                         :value="cgpFormData.operatorName"
                         @change="setCgpOperatorName"
                         ref="facility-operator-input-cgp"
-                        type="string"
+                        type="text"
                         size="sm"/>
                     </b-col>
                     <b-col md="6">
@@ -519,6 +520,7 @@
                       class="mb-3"
                       :value="msgpFormData.npdesId"
                       @change="setMsgpNpdesId"
+                      type="number"
                       size="sm"/>
                   </b-col>
                   <b-col md="6">
@@ -694,7 +696,7 @@
                         :value="msgpFormData.operatorName"
                         @change="setMsgpOperatorName"
                         ref="facility-operator-input-msgp"
-                        type="string"
+                        type="text"
                         size="sm"/>
                     </b-col>
                     <b-col md="6">
@@ -732,7 +734,7 @@
                         class="mb-3"
                         :value="msgpFormData.masterPermitNumber"
                         @change="setMsgpMasterPermitNumber"
-                        type="string"
+                        type="number"
                         size="sm"/>
                     </b-col>
                     <b-col md="3">
