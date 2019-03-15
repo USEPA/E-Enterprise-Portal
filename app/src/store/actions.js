@@ -277,35 +277,35 @@ export default {
     const COOKIE_EXPIRATION_TIME = store.getters.getUser.cookie.time
       + store.getters.getUser.cookie.time_units;
 
-    // Axios call to back end to create new JWT token
-    AppAxios.get(store.getters.getEEPAPIURL({
-      endpoint: store.getters.getApiUrl('resetToken'),
-      params: '',
-    }, {
+    //Axios call to back end to create new JWT token
+    AppAxios.get(store.getters.getApiUrl('resetToken') , {
       headers: {
-          'Authorization': `Bearer ${Vue.cookie.get('Token')}`,
-          'crossDomain': true,
-          'cache-control': 'no-cache',
-          'Content-Type': 'application/json',
-        },
-    })).then((response) => {
+        Authorization: `Bearer ${Vue.cookie.get('Token')}`,
+        crossDomain: true,
+        'cache-control': 'no-cache',
+        'Content-Type': 'application/json',
+      },
+    }).then((response) => {
+
+        // Set all of the cookies after axios is successful
         Vue.cookie.set('Token', response.data.token, { expires: COOKIE_EXPIRATION_TIME });
         Vue.cookie.set('userLoggedIn', true, { expires: COOKIE_EXPIRATION_TIME });
         Vue.cookie.set('uid', store.getters.getUser.id, { expires: COOKIE_EXPIRATION_TIME });
         Vue.cookie.set('userLogInTime', new Date(), { expires: COOKIE_EXPIRATION_TIME });
+
+        // Set timeout again to continously check the cookie
+        store.dispatch('checkCookie', payload);
+
+        // Close modal
+        vm.$root.$emit(
+          'bv::hide::modal',
+          'cookieModal',
+          vm.$refs.cookie_modal,
+        );
     }).catch((error) =>{
         console.warn(error.response);
+        store.dispatch('userLogOut');
     });
-
-    // Set timeout again to continously check the cookie
-    store.dispatch('checkCookie', payload);
-
-    // Close modal
-    vm.$root.$emit(
-      'bv::hide::modal',
-      'cookieModal',
-      vm.$refs.cookie_modal,
-    );
   },
   getEEPConfigs(context, payload) {
     const store = context;

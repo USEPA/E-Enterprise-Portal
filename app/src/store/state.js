@@ -5,10 +5,10 @@ const state = {
     urls: {
       locationSearch: 'eep/proxy/service/location',
       geolocationSearch: 'eep/proxy/service/geolocation',
-      resetToken: 'eep/resetToken',
       workbenchApplications: 'api/view/workbench-applications',
       authenticationOptions: 'api/authentication-category-options',
       taxonomyTerms: 'api/authentication_category_taxonomy_terms',
+      resetToken: 'eep/resetToken',
     },
   },
   app: null,
