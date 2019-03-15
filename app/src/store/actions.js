@@ -152,7 +152,7 @@ export default {
     Vue.cookie.set('userTandC', true, { expires: '1Y' });
     store.commit('USER_TANDC_COOKIE_DISMISS');
   },
-  setUserPolicyCookie(context) {
+  setUserCookiePolicy(context) {
     const store = context;
     Vue.cookie.set('userPolicy', true, { expires: '1Y' });
     store.commit('USER_POLICY_COOKIE_DISMISS');
@@ -271,25 +271,41 @@ export default {
   extendSession(context, payload) {
     const store = context;
     const { vm } = payload;
+    const { uid } = store.getters.getUser;
 
     // Cookie information from the store
     const COOKIE_EXPIRATION_TIME = store.getters.getUser.cookie.time
       + store.getters.getUser.cookie.time_units;
 
-    Vue.cookie.set('userLoggedIn', true, { expires: COOKIE_EXPIRATION_TIME });
-    Vue.cookie.set('uid', store.getters.getUser.id, { expires: COOKIE_EXPIRATION_TIME });
-    Vue.cookie.set('Token', store.getters.getLoggedInToken, { expires: COOKIE_EXPIRATION_TIME });
-    Vue.cookie.set('userLogInTime', new Date(), { expires: COOKIE_EXPIRATION_TIME });
+    //Axios call to back end to create new JWT token
+    AppAxios.get(store.getters.getApiUrl('resetToken') , {
+      headers: {
+        Authorization: `Bearer ${Vue.cookie.get('Token')}`,
+        crossDomain: true,
+        'cache-control': 'no-cache',
+        'Content-Type': 'application/json',
+      },
+    }).then((response) => {
 
-    // Set timeout again to continously check the cookie
-    store.dispatch('checkCookie', payload);
+        // Set all of the cookies after axios is successful
+        Vue.cookie.set('Token', response.data.token, { expires: COOKIE_EXPIRATION_TIME });
+        Vue.cookie.set('userLoggedIn', true, { expires: COOKIE_EXPIRATION_TIME });
+        Vue.cookie.set('uid', store.getters.getUser.id, { expires: COOKIE_EXPIRATION_TIME });
+        Vue.cookie.set('userLogInTime', new Date(), { expires: COOKIE_EXPIRATION_TIME });
 
-    // Close modal
-    vm.$root.$emit(
-      'bv::hide::modal',
-      'cookieModal',
-      vm.$refs.cookie_modal,
-    );
+        // Set timeout again to continously check the cookie
+        store.dispatch('checkCookie', payload);
+
+        // Close modal
+        vm.$root.$emit(
+          'bv::hide::modal',
+          'cookieModal',
+          vm.$refs.cookie_modal,
+        );
+    }).catch((error) =>{
+        console.warn(error.response);
+        store.dispatch('userLogOut');
+    });
   },
   getEEPConfigs(context, payload) {
     const store = context;
@@ -497,7 +513,7 @@ export default {
               cities_and_states.push(city_and_state);
             }
           });
-          formattedResponseInformation = cities_and_states;
+          formattedResponseInformation = cities_and_states.filter(cityAndState => cityAndState !== '');
         } else {
           const cities = returnData.city;
 
@@ -516,8 +532,15 @@ export default {
               formattedResponseInformation.push(tribe);
             }
           }
-          store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', false);
           store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', true);
+        }
+
+        if(formattedResponseInformation.length === 0){
+            store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', true);
+            store.commit('SET_INPUT_MESSAGE', 'Duplicate location name and zip code pairs are not allowed.');
+        }else{
+            store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', false);
+            store.commit('SET_INPUT_MESSAGE', '');
         }
         dropDownLabelText = 'Select a location for';
       } else if (params.indexOf('city') !== -1 && params.indexOf('state') !== -1) {
@@ -527,12 +550,12 @@ export default {
 
         checkIfAllZipSaved();
 
-        if (commonZipcodes.length == returnData.zipcode.length) {
+        if (commonZipcodes.length === returnData.zipcode.length) {
             store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', true);
-            store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', true);
+            store.commit('SET_INPUT_MESSAGE', 'All of the zip codes for the given location have been used');
         } else {
-            store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', false);
             store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', false);
+            store.commit('SET_INPUT_MESSAGE', '');
             returnData.zipcode.forEach(function(zipcode){
                 if(!doesUserHaveGivenLocation(userInput.trim(), zipcode)){
                     zipcodes.push(zipcode);
@@ -574,13 +597,16 @@ export default {
         commonZipcodes = Object.keys(objMap).map(zipcodes => Number(zipcodes));
       }
 
-      console.log(formattedResponseInformation);
       // Commit all of the information to the store
       store.commit('SET_OPTIONS_AFTER_INPUT', formattedResponseInformation);
       store.commit('SET_INPUT_BOX_TEXT', store.getters.getUser.inputBoxText);
       // Change the label for the dropdown
       store.commit('SET_DROPDOWN_LABEL', dropDownLabelText);
-      store.commit(types.SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED, false);
+      if(store.getters.getUser.isAllZipcodesDisplayed){
+        store.commit(types.SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED, true);
+      }else{
+        store.commit(types.SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED, false);
+      }
     }).catch((error) => {
       console.warn(error);
     });

@@ -59,23 +59,21 @@ class EEPBridgeController extends ControllerBase {
           'init' => $authenticated_user->get_authentication_domain(),
           'mail' => $authenticated_user->get_email(),
           'status' => 1,
-          'access' => (int) $_SERVER['REQUEST_TIME'],
-          'field_cdx_user_id' => $authenticated_user->get_source_username(),
-        ],
-        $account_data
-      );
+          'access' => (int)$_SERVER['REQUEST_TIME'],
+        ], $account_data);
       $account = $entity_storage->create($account_data);
       $account->enforceIsNew();
       $account->save();
       user_login_finalize($account);
-    }
-    else {
+    } else {
       //Account already exists, just login the user
       $account_search = array_values($account_search);
       user_login_finalize($account_search[0]);
     }
     $uid = \Drupal::currentUser()->id();
-    $this->add_field_if_needed($uid, 'field_cdx_user_id', $authenticated_user->get_source_username());
+    if ($authenticated_user->get_authentication_domain() === 'CDX') {
+      $this->add_field_if_needed($uid, 'field_cdx_user_id', $authenticated_user->get_source_username());
+    }
     $this->add_field_if_needed($uid, 'mail', $authenticated_user->get_email());
     $jwt_token = $this->auth->generateToken();
     if ($jwt_token === FALSE) {
@@ -117,16 +115,16 @@ class EEPBridgeController extends ControllerBase {
   /**
    * @return JsonResponse
    */
-  public function bridge_auth_logout(){
-     // Declare variables
-     $config = \Drupal::config('eep_bridge.environment_settings');
-     // Build logout url
-     $logout = $config->get('eep_bridge_issuer') .'?wa=wsignout1.0&wreply=' . urlencode($config->get('eep_bridge_wreply'));
-     // Log current user out
-     user_logout();
-     // Redirect to the bridge
-     header("Location:$logout");
-     exit();
+  public function bridge_auth_logout() {
+    // Declare variables
+    $config = \Drupal::config('eep_bridge.environment_settings');
+    // Build logout url
+    $logout = $config->get('eep_bridge_issuer') . '?wa=wsignout1.0&wreply=' . urlencode($config->get('eep_bridge_wreply'));
+    // Log current user out
+    user_logout();
+    // Redirect to the bridge
+    header("Location:$logout");
+    exit();
   }
 
   /**
@@ -136,6 +134,17 @@ class EEPBridgeController extends ControllerBase {
   public static function create(ContainerInterface $container) {
     $auth = $container->get('jwt.authentication.jwt');
     return new static($auth);
+  }
+
+  /**
+   * @return JsonResponse
+   */
+  public function generate_new_token(){
+    $new_jwt_token = $this->auth->generateToken();
+    return new JsonResponse([
+      'current_user_id' => \Drupal::currentUser()->id(),
+      'token' => $new_jwt_token
+    ]);
   }
 
   private function eep_bridge_goto($url, $jwt_token) {

@@ -72,11 +72,11 @@
         </div>
       </template>
       <template
-              slot="partner_id"
-              slot-scope="row">
+        slot="partner_id"
+        slot-scope="row">
         <div
-                class="text-primary text-decoration-underline text-bold cursor-pointer"
-                @click="openCertsDecriptionModal(row.item, row.index, $event.target)">
+          class="text-primary text-decoration-underline text-bold cursor-pointer"
+          @click="openCertsDecriptionModal(row.item, row.index, $event.target)">
           {{ row.value }}
         </div>
       </template>
@@ -101,7 +101,9 @@
           :total-rows="totalRows"
           :per-page="datatableSettings.perPage"
           v-model="datatableSettings.currentPage"
-          class="my-0"/>
+          class="my-0">
+          <PaginationArrows/>
+        </b-pagination>
       </b-col>
     </b-row>
 
@@ -117,7 +119,7 @@
           <b-col md="8">
             <b-row>
               <b-col>
-              Application #
+                Application #
               </b-col>
               <b-col>
                 Application Type
@@ -177,7 +179,7 @@
                   :href="modalSettings.info.certificateDownloadUrl"
                   @click="downloadCertificate(document)"
                   class="text-primary text-decoration-underline text-bold cursor-pointer"
-                  >{{document.anchorName}}</a>
+                >{{document.anchorName}}</a>
               </b-col>
             </b-row>
           </b-col>
@@ -188,7 +190,7 @@
           <b-col>
             <b-row>
               <b-col>
-              What's Next?
+                What's Next?
               </b-col>
             </b-row>
             <b-row>
@@ -207,12 +209,12 @@
           <b-col>
             <b-row>
               <b-col>
-              Questions or need help?
+                Questions or need help?
               </b-col>
             </b-row>
             <b-row>
               <b-col>
-              Lead Help Desk: leadhelpdesk@epa.gov
+                Lead Help Desk: leadhelpdesk@epa.gov
               </b-col>
             </b-row>
           </b-col>
@@ -225,7 +227,7 @@
 
 <script>
   import { mapGetters, mapActions } from 'vuex';
-  import { AppWrapper, AppPlaceholderContent, AppModal } from '../wadk/WADK';
+  import { AppWrapper, AppPlaceholderContent, AppModal, PaginationArrows } from '../wadk/WADK';
   import storeModule from './store/index';
 
   const moduleName = 'MyCertifications';
@@ -236,6 +238,7 @@
       AppWrapper,
       AppPlaceholderContent,
       AppModal,
+      PaginationArrows,
     },
     data() {
       return {
@@ -261,7 +264,7 @@
             },
           ],
           currentPage: 1,
-          perPage: 5,
+          perPage: 3,
           pageOptions: [5, 10, 15, 20],
           sortBy: null,
           sortDesc: false,
@@ -300,8 +303,7 @@
       },
     },
     methods: {
-      ...mapActions([
-      ]),
+      ...mapActions([]),
       ...mapActions(moduleName, [
         'loadMyCertifications',
         'downloadDocument',
@@ -353,10 +355,10 @@
 </script>
 
 <style scoped
-       lang="scss">
+  lang="scss">
   /* To import images */
   .cert-needs-attn-decoration,
-  .cert-not-completed-decoration{
+  .cert-not-completed-decoration {
     height: .8rem;
     width: .8rem;
     color: #fff;
@@ -368,17 +370,14 @@
     float: right;
     position: relative;
   }
-
   .cert-not-completed-decoration {
     background-size: .5rem;
     background-image: url('../../assets/images/mycert-question.svg');
   }
-
   .cert-needs-attn-decoration {
     background-size: .25rem;
     background-image: url('../../assets/images/mycert-exclamation.svg');
   }
-
   /* Fixes bottom of workbench grey area */
   #app {
     margin-bottom: 7rem;

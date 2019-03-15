@@ -5,8 +5,8 @@
       :eep-app="eepApp">
       <template>
         <p class="check-water-message">
-          Have a well and wonder what your water testing results mean? Enter
-          water test results and get feedback about health concerns and water treatment choices.</p>
+          Have a well and wonder what your water testing results mean? Enter water test results and
+          get feedback about health concerns and water treatment choices.</p>
       </template>
       <b-form
         class="needs-validation"

@@ -90,7 +90,7 @@ export default {
   [types.USER_POLICY_COOKIE_DISMISS](state) {
     Vue.set(
       state.user,
-      'UserPolicyCookieDismiss',
+      'UserCookiePolicyDismiss',
       true,
     );
   },
@@ -243,7 +243,6 @@ export default {
       dropdownSelection);
   },
   [types.SAVE_USER_SELECTED_LOCATIONS](state, newLocation) {
-    console.log(newLocation);
     state.user.userLocationsFromLoad.push(newLocation);
   },
   [types.DELETE_USER_SELECTED_LOCATION](state, deletedSelection) {
@@ -307,9 +306,13 @@ export default {
       display);
   },
   [types.SET_USER_FAV_LOCATION](state, userFavLocation){
-    console.log('hit here');
     Vue.set(state.user,
       'userFavoriteLocation',
       userFavLocation);
+  },
+  [types.SET_INPUT_MESSAGE](state, inputMessageText){
+    Vue.set(state.user,
+      'inputMessage',
+      inputMessageText);
   },
 };

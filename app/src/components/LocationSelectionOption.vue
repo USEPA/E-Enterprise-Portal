@@ -9,8 +9,8 @@
             </b-input-group>
         </div>
         <b-input-group v-show="user.isAllZipcodesDisplayed" class="pt-2">
-            <b-form-input id="inputMessege"   value="All of the zip codes for the given location have been used"
-                          class="col-sm-auto col ml-3  border border-danger   inputboxHeight text-red"/>
+            <b-form-input id="inputMessege" :value="user.inputMessage"
+                          class="col-sm-auto col ml-3 border border-danger inputboxHeight text-red"/>
         </b-input-group>
         <div id="input-box-results-drop-down" class="pt-3 d-flex">
             <b-input-group v-show="!user.isAfterInputDropdownDisplayed">
