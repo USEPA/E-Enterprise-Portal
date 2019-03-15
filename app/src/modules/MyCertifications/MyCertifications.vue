@@ -179,7 +179,7 @@
                   :href="modalSettings.info.certificateDownloadUrl"
                   @click="downloadCertificate(document)"
                   class="text-primary text-decoration-underline text-bold cursor-pointer"
-                >{{document.anchorName}}</a>
+                >{{ document.anchorName }}</a>
               </b-col>
             </b-row>
           </b-col>
@@ -269,7 +269,7 @@
           sortBy: null,
           sortDesc: false,
           sortDirection: 'asc',
-          filter: null
+          filter: null,
         },
         modalSettings: {
           title: 'My Certifications',
@@ -322,18 +322,20 @@
         this.modalSettings.info.updated = item.updated;
         item.documents.forEach((document, index) => {
           if (document.name.indexOf('Certificate') >= 0) {
-            item.documents[index].anchorName = "Certificate";
+            item.documents[index].anchorName = 'Certificate';
+          } else if (document.name.indexOf('Reciept') >= 0) {
+            item.documents[index].anchorName = 'Receipt';
           } else {
-            item.documents[index].anchorName = "Logo";
+            item.documents[index].anchorName = 'Logo';
           }
         });
         this.modalSettings.info.documents = item.documents;
         this.$root.$emit('bv::show::modal', 'my-certs-details-modal', button);
-        this.$ga.event('eportal', 'click', `My Certifications Certificate Description Modal`, 1)
+        this.$ga.event('eportal', 'click', 'My Certifications Certificate Description Modal', 1);
       },
       downloadCertificate(documentObject) {
         this.downloadDocument(documentObject);
-        this.$ga.event('eportal', 'click', `My Certifications Certificate Download`, 1)
+        this.$ga.event('eportal', 'click', 'My Certifications Certificate Download', 1);
       },
     },
     created() {
@@ -355,7 +357,7 @@
 </script>
 
 <style scoped
-  lang="scss">
+       lang="scss">
   /* To import images */
   .cert-needs-attn-decoration,
   .cert-not-completed-decoration {
