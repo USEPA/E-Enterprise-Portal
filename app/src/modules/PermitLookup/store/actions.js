@@ -366,7 +366,7 @@ export default {
 
     // Set cgp form inputs that aren't empty or default as queries
     Object.keys(cgpFormData).forEach((key) => {
-      if (cgpFormData[key] !== 'Select...' && cgpFormData[key] !== '') {
+      if (cgpFormData[key] !== 'Select...' && cgpFormData[key] !== '' && cgpFormData[key] !== 'false') {
         // Map State Name to State Code
         if (key === 'projectState') {
           baseFormOptions[1].forEach((subKeyA) => {
