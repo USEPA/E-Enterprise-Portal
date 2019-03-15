@@ -933,10 +933,14 @@
                   :per-page="perPage"
                   v-model="currentPage"
                   class="my-0">
-                  <div class="wapp-arrows" slot="first-text"><img src="/images/pager-first.png"></div>
-                  <div class="wapp-arrows" slot="next-text"><img src="/images/pager-next.png"></div>
-                  <div class="wapp-arrows" slot="prev-text"><img src="/images/pager-previous.png"></div>
-                  <div class="wapp-arrows" slot="last-text"><img src="/images/pager-last.png"></div>
+                  <div class="wapp-arrows"
+                    slot="first-text"><img src="/images/pager-first.png"></div>
+                  <div class="wapp-arrows"
+                    slot="next-text"><img src="/images/pager-next.png"></div>
+                  <div class="wapp-arrows"
+                    slot="prev-text"><img src="/images/pager-previous.png"></div>
+                  <div class="wapp-arrows"
+                    slot="last-text"><img src="/images/pager-last.png"></div>
                 </b-pagination>
               </b-col>
             </b-row>
@@ -1370,23 +1374,23 @@
       initialFormSubmit(evt) {
         evt.preventDefault();
         this.$root.$emit('bv::show::modal', 'permit-search-modal');
-        this.$ga.event('eportal', 'click', `Permit Lookup Form Submission`, 1)
+        this.$ga.event('eportal', 'click', 'Permit Lookup Form Submission', 1)
       },
       openPermitInfoModal() {
         this.$root.$emit('bv::show::modal', 'permit-info-modal');
-        this.$ga.event('eportal', 'click', `Permit Lookup Permit Info Modal`, 1)
+        this.$ga.event('eportal', 'click', 'Permit Lookup Permit Info Modal', 1)
       },
       cgpFormSubmit(evt) {
         const vm = this;
         evt.preventDefault();
         this.cgpFormGetResults({ vm });
-        this.$ga.event('eportal', 'click', `Permit Lookup CGP Form Submission`, 1)
+        this.$ga.event('eportal', 'click', 'Permit Lookup CGP Form Submission', 1)
       },
       msgpFormSubmit(evt) {
         const vm = this;
         evt.preventDefault();
         this.msgpFormGetResults({ vm });
-        this.$ga.event('eportal', 'click', `Permit Lookup MSGP Form Submission`, 1)
+        this.$ga.event('eportal', 'click', 'Permit Lookup MSGP Form Submission', 1)
       },
       onFiltered(filteredItems) {
         // Trigger pagination to update the number of buttons/pages due to filtering
