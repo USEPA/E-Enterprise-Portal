@@ -102,7 +102,18 @@
           :per-page="datatableSettings.perPage"
           v-model="datatableSettings.currentPage"
           class="my-0">
-          <PaginationArrows/>
+          <div class="wapp-arrows"
+            slot="first-text"><img src="/images/pager-first.png"
+            alt="Go to first page"></div>
+          <div class="wapp-arrows"
+            slot="next-text"><img src="/images/pager-next.png"
+            alt="Go to next page"></div>
+          <div class="wapp-arrows"
+            slot="prev-text"><img src="/images/pager-previous.png"
+            alt="Go to previous page"></div>
+          <div class="wapp-arrows"
+            slot="last-text"><img src="/images/pager-last.png"
+            alt="Go to last page"></div>
         </b-pagination>
       </b-col>
     </b-row>
@@ -329,11 +340,11 @@
         });
         this.modalSettings.info.documents = item.documents;
         this.$root.$emit('bv::show::modal', 'my-certs-details-modal', button);
-        this.$ga.event('eportal', 'click', `My Certifications Certificate Description Modal`, 1)
+        this.$ga.event('eportal', 'click', 'My Certifications Certificate Description Modal', 1)
       },
       downloadCertificate(documentObject) {
         this.downloadDocument(documentObject);
-        this.$ga.event('eportal', 'click', `My Certifications Certificate Download`, 1)
+        this.$ga.event('eportal', 'click', 'My Certifications Certificate Download', 1)
       },
     },
     created() {
