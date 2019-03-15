@@ -220,7 +220,18 @@
                       :per-page="perPage"
                       v-model="currentPage"
                       class="my-0 font-weight-normal">
-                      <PaginationArrows/>
+                      <div class="wapp-arrows"
+                        slot="first-text"><img src="/images/pager-first.png"
+                        alt="Go to first page"></div>
+                      <div class="wapp-arrows"
+                        slot="next-text"><img src="/images/pager-next.png"
+                        alt="Go to next page"></div>
+                      <div class="wapp-arrows"
+                        slot="prev-text"><img src="/images/pager-previous.png"
+                        alt="Go to previous page"></div>
+                      <div class="wapp-arrows"
+                        slot="last-text"><img src="/images/pager-last.png"
+                        alt="Go to last page"></div>
                     </b-pagination>
                   </b-col>
                 </b-row>
@@ -382,6 +393,7 @@
       },
       openPopupPage(url, params) {
         this.openWindowWithPost(`${url}`, '', 'sso-handoff', params);
+        this.$ga.event('eportal', 'click', 'My Reporting SSO Handoff', 1)
       },
       openWindowWithPost(url, windowoption, name, params) {
         const form = document.createElement('form');
@@ -459,131 +471,131 @@
 </script>
 
 <style scoped
-       lang="scss">
-    #app {
-        margin-bottom: 7rem;
-    }
-    #my-reporting-flows-container .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
-        color: #000;
-        font-weight: bold;
-        text-decoration: none;
-    }
-    #my-reporting-flows-container .nav-item {
-        color: #000;
-    }
-    .my-reporting-top-line {
-        font-size: 80%;
-    }
-    .form-group {
-        border: 0rem;
-    }
-    .tab-pane, .container-fluid {
-        padding-left: 0;
-        padding-right: 0;
-    }
-    .inline-cdx-links {
-        display: flex;
-        justify-content: space-between;
-        list-style: none;
-        padding-left: 0px;
-    }
-    .inline-cdx-links a::before {
-        display: inline-flex;
-        content: '';
-        width: 1.5rem;
-        height: 1.5rem;
-        background-size: 1rem;
-        background-color: #0071c2;
-        border-radius: 50%;
-        background-repeat: no-repeat;
-        background-position: center center;
-        margin-right: 2px;
-        vertical-align: middle;
-    }
-    .inline-cdx-links a.my-cdx-login::before {
-        background-image: url('/images/mr-my-cdx.png');
-        background-color: #fff;
-        border: 1px solid #6c757d;
-    }
-    .inline-cdx-links a.my-cdx-inbox::before {
-        background-image: url('/images/mr-inbox.svg');
-    }
-    .inline-cdx-links a.my-cdx-profile::before {
-        background-image: url('/images/mr-profile.svg');
-    }
-    .inline-cdx-links a.my-cdx-alerts::before {
-        background-image: url('/images/mr-alerts.svg');
-    }
-    .inline-cdx-links a.my-cdx-submission::before {
-        background-image: url('/images/mr-history.svg');
-    }
-    .my-cdx-web-handoff-link {
-        font-size: .8rem;
-    }
-    .Active {
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-color: #fff;
-        width: 2.2rem;
-        height: 2.2rem;
-        border-radius: 50%;
-        border: none;
-        background-size: 1.3rem 1.325rem;
-        background-image: url('../../assets/images/check-circle-solid.svg');
-    }
-    .AwaitingSponsorship {
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-color: #fff;
-        width: 2.2rem;
-        height: 2.2rem;
-        border-radius: 50%;
-        border: none;
-        background-size: 1.3rem 1.325rem;
-        background-image: url('/images/my_cdx_images_awaiting-sponsor.svg')
-    }
-    .AwaitingElectronicSignatureAgreement {
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-color: #fff;
-        width: 2.2rem;
-        height: 2.2rem;
-        border-radius: 50%;
-        border: none;
-        background-size: 1.3rem 1.325rem;
-        background-image: url('/images/my_cdx_images_awaiting-esa.svg')
-    }
-    .AwaitingApproval {
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-color: #fff;
-        width: 2.2rem;
-        height: 2.2rem;
-        border-radius: 50%;
-        border: none;
-        background-size: 1.3rem 1.325rem;
-        background-image: url('/images/my_cdx_images_awaiting-approval.svg')
-    }
-    .Inactive {
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-color: #fff;
-        width: 2.2rem;
-        height: 2.2rem;
-        border-radius: 50%;
-        border: none;
-        background-size: 1.3rem 1.325rem;
-        background-image: url('/images/minus-circle-solid.svg')
-    }
-    .OfflineTemporary {
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-color: #fff;
-        width: 2.2rem;
-        height: 2.2rem;
-        border-radius: 50%;
-        border: none;
-        background-size: 1.3rem 1.325rem;
-        background-image: url('/images/minus-circle-solid.svg')
-    }
+  lang="scss">
+  #app {
+    margin-bottom: 7rem;
+  }
+  #my-reporting-flows-container .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    color: #000;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  #my-reporting-flows-container .nav-item {
+    color: #000;
+  }
+  .my-reporting-top-line {
+    font-size: 80%;
+  }
+  .form-group {
+    border: 0rem;
+  }
+  .tab-pane, .container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .inline-cdx-links {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    padding-left: 0px;
+  }
+  .inline-cdx-links a::before {
+    display: inline-flex;
+    content: '';
+    width: 1.5rem;
+    height: 1.5rem;
+    background-size: 1rem;
+    background-color: #0071c2;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin-right: 2px;
+    vertical-align: middle;
+  }
+  .inline-cdx-links a.my-cdx-login::before {
+    background-image: url('/images/mr-my-cdx.png');
+    background-color: #fff;
+    border: 1px solid #6c757d;
+  }
+  .inline-cdx-links a.my-cdx-inbox::before {
+    background-image: url('/images/mr-inbox.svg');
+  }
+  .inline-cdx-links a.my-cdx-profile::before {
+    background-image: url('/images/mr-profile.svg');
+  }
+  .inline-cdx-links a.my-cdx-alerts::before {
+    background-image: url('/images/mr-alerts.svg');
+  }
+  .inline-cdx-links a.my-cdx-submission::before {
+    background-image: url('/images/mr-history.svg');
+  }
+  .my-cdx-web-handoff-link {
+    font-size: .8rem;
+  }
+  .Active {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: #fff;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    border: none;
+    background-size: 1.3rem 1.325rem;
+    background-image: url('../../assets/images/check-circle-solid.svg');
+  }
+  .AwaitingSponsorship {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: #fff;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    border: none;
+    background-size: 1.3rem 1.325rem;
+    background-image: url('/images/my_cdx_images_awaiting-sponsor.svg')
+  }
+  .AwaitingElectronicSignatureAgreement {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: #fff;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    border: none;
+    background-size: 1.3rem 1.325rem;
+    background-image: url('/images/my_cdx_images_awaiting-esa.svg')
+  }
+  .AwaitingApproval {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: #fff;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    border: none;
+    background-size: 1.3rem 1.325rem;
+    background-image: url('/images/my_cdx_images_awaiting-approval.svg')
+  }
+  .Inactive {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: #fff;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    border: none;
+    background-size: 1.3rem 1.325rem;
+    background-image: url('/images/minus-circle-solid.svg')
+  }
+  .OfflineTemporary {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: #fff;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    border: none;
+    background-size: 1.3rem 1.325rem;
+    background-image: url('/images/minus-circle-solid.svg')
+  }
 </style>
