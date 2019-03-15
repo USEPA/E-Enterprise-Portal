@@ -90,7 +90,7 @@ export default {
   [types.USER_POLICY_COOKIE_DISMISS](state) {
     Vue.set(
       state.user,
-      'UserPolicyCookieDismiss',
+      'UserCookiePolicyDismiss',
       true,
     );
   },
@@ -309,5 +309,10 @@ export default {
     Vue.set(state.user,
       'userFavoriteLocation',
       userFavLocation);
+  },
+  [types.SET_INPUT_MESSAGE](state, inputMessageText){
+    Vue.set(state.user,
+      'inputMessage',
+      inputMessageText);
   },
 };

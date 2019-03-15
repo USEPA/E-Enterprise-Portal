@@ -21,7 +21,3 @@ eep_core.get_configs:
      _title: 'EEP Configurations'
   requirements:
      _permission: 'access content'
-
-
-
-
