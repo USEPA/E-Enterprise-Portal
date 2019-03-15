@@ -1077,16 +1077,17 @@
       initialFormSubmit(evt) {
         evt.preventDefault();
         this.$root.$emit('bv::show::modal', 'permit-search-modal');
+        this.$ga.event('eportal', 'click', `Permit Lookup Form Submission`, 1)
       },
       cgpFormSubmit(evt) {
         evt.preventDefault();
-        // get stuff
-        console.log('cgp submit yay!');
+        this.$ga.event('eportal', 'click', `Permit Lookup CGP Form Submission`, 1)
       },
       msgpFormSubmit(evt) {
         const vm = this;
         evt.preventDefault();
         this.msgpFormGetResults({ vm });
+        this.$ga.event('eportal', 'click', `Permit Lookup MSGP Form Submission`, 1)
       },
       onFiltered(filteredItems) {
         // Trigger pagination to update the number of buttons/pages due to filtering
