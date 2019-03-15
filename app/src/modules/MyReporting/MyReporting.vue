@@ -393,7 +393,7 @@
               vm.$root.$emit('bv::show::modal', 'my-reporting-link-details', button);
               vm.linkDetails = response.data;
               this.$Progress.finish()
-              this.$ga.event('eportal', 'click', `My Reporting Link Details}`, 1)
+              this.$ga.event('eportal', 'click', `My Reporting Link Details`, 1)
             });
         }
       },
