@@ -615,6 +615,7 @@
                       class="mb-3"
                       :value="msgpFormData.facilityAddressLine1"
                       @change="setMsgpAddress"
+                      type="text"
                       size="sm"/>
                   </b-col>
                 </b-row>
