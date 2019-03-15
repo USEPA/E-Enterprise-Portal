@@ -155,8 +155,8 @@ class PermitLookupProxyServiceFilter extends ProxyServiceFilterBase
         (!isset($query['federalIndicator'])) ?: $payload['formQueryParams']['federalIndicator'] = trim($query['federalIndicator']);
         (!isset($query['submittedDateFrom'])) ?: $payload['formQueryParams']['submittedDateFrom'] = trim($query['submittedDateFrom']);
         (!isset($query['submittedDateTo'])) ?: $payload['formQueryParams']['submittedDateTo'] = trim($query['submittedDateTo']);
-        (!isset($query['updatedFrom'])) ?: $payload['formQueryParams']['updatedFrom'] = trim($query['updatedFrom']);
-        (!isset($query['updatedTo'])) ?: $payload['formQueryParams']['updatedTo'] = trim($query['updatedTo']);
+        (!isset($query['updatedDateFrom'])) ?: $payload['formQueryParams']['updatedDateFrom'] = trim($query['updatedDateFrom']);
+        (!isset($query['updatedDateTo'])) ?: $payload['formQueryParams']['updatedDateTo'] = trim($query['updatedDateTo']);
         (!isset($query['tribalIndicator'])) ?: $payload['formQueryParams']['tribalIndicator'] = trim($query['tribalIndicator']);
         (!isset($query['tribalName'])) ?: $payload['formQueryParams']['tribalName'] = trim($query['tribalName']);
 

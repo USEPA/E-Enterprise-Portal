@@ -421,6 +421,8 @@ export default {
         } else if (key === 'updatedDateFrom') {
           const unformattedDate = new Date(cgpFormData[key]);
           urlQueries += `${key}=${unformattedDate.toISOString()}`;
+        } else if (key === 'dateSelection') {
+          urlQueries += '';
         } else {
           urlQueries += `${urlQueries + key}=${cgpFormData[key]}`;
         }

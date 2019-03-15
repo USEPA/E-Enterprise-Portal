@@ -330,9 +330,16 @@ export default {
     );
   },
   [types.SET_CGP_START_DATE](state, str) {
+    let stateKey = '';
+    if (state.cgpFormData.dateSelection === 'Submitted') {
+      stateKey = 'submittedDateFrom';
+    }
+    if (state.cgpFormData.dateSelection === 'Updated') {
+      stateKey = 'updatedDateFrom';
+    }
     Vue.set(
       state.cgpFormData,
-      'submittedDateFrom',
+      stateKey,
       str,
     );
   },
