@@ -128,6 +128,7 @@
                       class="mb-3"
                       :value="cgpFormData.projectCity"
                       @change="setCgpFacilityCity"
+                      type="text"
                       size="sm"/>
                   </b-col>
                   <b-col md="3">
@@ -641,6 +642,7 @@
                       class="mb-3"
                       :value="msgpFormData.facilityCity"
                       @change="setMsgpFacilityCity"
+                      type="text"
                       size="sm"/>
                   </b-col>
                   <b-col md="3">
