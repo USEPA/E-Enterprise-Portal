@@ -933,10 +933,18 @@
                   :per-page="perPage"
                   v-model="currentPage"
                   class="my-0">
-                  <div class="wapp-arrows" slot="first-text"><img src="/images/pager-first.png"></div>
-                  <div class="wapp-arrows" slot="next-text"><img src="/images/pager-next.png"></div>
-                  <div class="wapp-arrows" slot="prev-text"><img src="/images/pager-previous.png"></div>
-                  <div class="wapp-arrows" slot="last-text"><img src="/images/pager-last.png"></div>
+                  <div class="wapp-arrows"
+                    slot="first-text"><img src="/images/pager-first.png"
+                    alt="Go to first page"></div>
+                  <div class="wapp-arrows"
+                    slot="next-text"><img src="/images/pager-next.png"
+                    alt="Go to next page"></div>
+                  <div class="wapp-arrows"
+                    slot="prev-text"><img src="/images/pager-previous.png"
+                    alt="Go to previous page"></div>
+                  <div class="wapp-arrows"
+                    slot="last-text"><img src="/images/pager-last.png"
+                    alt="Go to last page"></div>
                 </b-pagination>
               </b-col>
             </b-row>
@@ -955,10 +963,13 @@
                   What permits can I find?
                 </div>
                 <div>
-                  At this time, search results will only include new activity for the following permits as reported in
+                  At this time, search results will only include new activity for the following
+                  permits as reported in
                   the
-                  national NPDES eReporting Tool (NeT) for U.S. EPA lead and participating states and tribes. For
-                  additional information about which submissions are currently made through NeT please visit:
+                  national NPDES eReporting Tool (NeT) for U.S. EPA lead and participating states
+                  and tribes. For
+                  additional information about which submissions are currently made through NeT
+                  please visit:
                   <a
                     href="https://www.epa.gov/compliance/npdes-ereporting"
                     target="_blank">
@@ -974,14 +985,16 @@
                 • Construction General Permit (CGP)
               </b-row>
               <b-row>
-                Find Notices of Intent (NOIs), Notices of Termination (NOTs), or Low Erosivity Waivers (LEWs) submitted
+                Find Notices of Intent (NOIs), Notices of Termination (NOTs), or Low Erosivity
+                Waivers (LEWs) submitted
                 under the U.S. EPA 2017 Construction General (CGP) in NET-CGP.
               </b-row>
               <b-row class="info-title">
                 • Multi-Sector General Permit (MSGP)
               </b-row>
               <b-row>
-                Find new Notices of Intent (NOIs) under the U.S. EPA 2015 Multi-Sector General Permit (MSGP) submitted
+                Find new Notices of Intent (NOIs) under the U.S. EPA 2015 Multi-Sector General
+                Permit (MSGP) submitted
                 as of April 1, 2018 in NET-MSGP.
               </b-row>
             </div>
@@ -1000,9 +1013,11 @@
                   • Active:
                 </div>
                 <div>
-                  General permit coverage that has been granted by the NPDES permitting authority. Typically, a Notice
+                  General permit coverage that has been granted by the NPDES permitting authority.
+                  Typically, a Notice
                   of
-                  Intent (NOI) or request for exclusion or waiver that has been certified, submitted, reviewed (as
+                  Intent (NOI) or request for exclusion or waiver that has been certified,
+                  submitted, reviewed (as
                   applicable) and approved by the NPDES permitting authority.
                 </div>
               </b-row>
@@ -1012,7 +1027,8 @@
                   • Administratively Continued:
                 </div>
                 <div>
-                  An active general permit coverage that has been extended to remain in force and effect for activities
+                  An active general permit coverage that has been extended to remain in force and
+                  effect for activities
                   and discharges that were covered prior to expiration of the general permit.
                 </div>
               </b-row>
@@ -1022,9 +1038,11 @@
                   • Expired:
                 </div>
                 <div>
-                  A general permit coverage, exclusion or waiver that has reached the end of the original issuance
+                  A general permit coverage, exclusion or waiver that has reached the end of the
+                  original issuance
                   period,
-                  and for which requirements to submit a notice to renew coverage were not satisfied. In most cases,
+                  and for which requirements to submit a notice to renew coverage were not
+                  satisfied. In most cases,
                   General Permits are issued for Five year periods.
                 </div>
               </b-row>
@@ -1034,9 +1052,11 @@
                   • Terminated:
                 </div>
                 <div>
-                  A general permit coverage that has been terminated. Terminations can be requested by submitting a
+                  A general permit coverage that has been terminated. Terminations can be requested
+                  by submitting a
                   Notice
-                  of Termination (NOT) request for active general permit coverages. Coverage can also be terminated by
+                  of Termination (NOT) request for active general permit coverages. Coverage can
+                  also be terminated by
                   the
                   NPDES permitting authority.
                 </div>
@@ -1047,10 +1067,13 @@
                   • Discontinued:
                 </div>
                 <div>
-                  A certified exclusion or waiver from general permit coverage that has been discontinued.
-                  Discontinuations can be requested by submitting a Notice of Termination (NOT) request for active
+                  A certified exclusion or waiver from general permit coverage that has been
+                  discontinued.
+                  Discontinuations can be requested by submitting a Notice of Termination (NOT)
+                  request for active
                   general
-                  permit coverages. Exclusions and waivers can also be discontinued by the NPDES permitting authority.
+                  permit coverages. Exclusions and waivers can also be discontinued by the NPDES
+                  permitting authority.
                 </div>
               </b-row>
               <b-row>
@@ -1059,9 +1082,12 @@
                   • Under Review:
                 </div>
                 <div>
-                  A Notice of Intent (NOI) for a new coverage, a modification request or Notice of Termination (NOT)
-                  request for existing coverage, or an exclusion/waiver request that has been submitted to the NPDES
-                  permitting authority and is currently undergoing review before decision to approve or deny the
+                  A Notice of Intent (NOI) for a new coverage, a modification request or Notice of
+                  Termination (NOT)
+                  request for existing coverage, or an exclusion/waiver request that has been
+                  submitted to the NPDES
+                  permitting authority and is currently undergoing review before decision to approve
+                  or deny the
                   coverage
                   request.
                 </div>
@@ -1072,8 +1098,10 @@
                   • Inactive:
                 </div>
                 <div>
-                  A Notice of Intent (NOI) for a new coverage or an exclusion/waiver request that has been submitted to
-                  the NPDES permitting authority and has been denied coverage under the general permit.
+                  A Notice of Intent (NOI) for a new coverage or an exclusion/waiver request that
+                  has been submitted to
+                  the NPDES permitting authority and has been denied coverage under the general
+                  permit.
                 </div>
               </b-row>
             </div>
@@ -1370,23 +1398,23 @@
       initialFormSubmit(evt) {
         evt.preventDefault();
         this.$root.$emit('bv::show::modal', 'permit-search-modal');
-        this.$ga.event('eportal', 'click', `Permit Lookup Form Submission`, 1)
+        this.$ga.event('eportal', 'click', 'Permit Lookup Form Submission', 1)
       },
       openPermitInfoModal() {
         this.$root.$emit('bv::show::modal', 'permit-info-modal');
-        this.$ga.event('eportal', 'click', `Permit Lookup Permit Info Modal`, 1)
+        this.$ga.event('eportal', 'click', 'Permit Lookup Permit Info Modal', 1)
       },
       cgpFormSubmit(evt) {
         const vm = this;
         evt.preventDefault();
         this.cgpFormGetResults({ vm });
-        this.$ga.event('eportal', 'click', `Permit Lookup CGP Form Submission`, 1)
+        this.$ga.event('eportal', 'click', 'Permit Lookup CGP Form Submission', 1)
       },
       msgpFormSubmit(evt) {
         const vm = this;
         evt.preventDefault();
         this.msgpFormGetResults({ vm });
-        this.$ga.event('eportal', 'click', `Permit Lookup MSGP Form Submission`, 1)
+        this.$ga.event('eportal', 'click', 'Permit Lookup MSGP Form Submission', 1)
       },
       onFiltered(filteredItems) {
         // Trigger pagination to update the number of buttons/pages due to filtering
@@ -1453,5 +1481,5 @@
 </script>
 
 <style scoped
-       lang="scss">
+  lang="scss">
 </style>
