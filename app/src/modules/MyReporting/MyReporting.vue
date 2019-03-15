@@ -145,19 +145,36 @@
                   <div class="my-cdx-modal">
                     <div class="my-cdx-detail-group">Organization Name</div>
                     <div class="organization-name"/>
-                    <b-form-select
-                      v-model="organization"
-                      class="mb-3">
-                      <template slot="first">
-                        <option :value="null">Choose Organization...</option>
-                        <option
-                          v-for="(item, index) in linkDetails.organizations"
-                          :value="linkDetails.organizations[index]"
-                          :key="index">
-                          {{ item.orgName }}
-                        </option>
-                      </template>
-                    </b-form-select>
+                    <template v-if="linkDetails.organizations">
+                      <b-form-select
+                        v-model="linkDetails.organizations[0].orgName"
+                        class="mb-3"
+                        v-if="linkDetails.organizations.length === 1">
+                        <template slot="first">
+                          <option :value="null">Choose Organization...</option>
+                          <option>
+                            {{ linkDetails.organizations[0].orgName }}
+                          </option>
+                        </template>
+                      </b-form-select>
+                      <b-form-select
+                        v-model="organization"
+                        class="mb-3"
+                        v-else>
+                        <template slot="first">
+                          <option :value="null">Choose Organization...</option>
+                          <option
+                            v-for="(item, index) in linkDetails.organizations"
+                            :value="linkDetails.organizations[index]"
+                            :key="index">
+                            {{ item.orgName }}
+                          </option>
+                        </template>
+                      </b-form-select>
+                    </template>
+                    <template v-else>
+                      No Organizations...
+                    </template>
                     <div class="my-cdx-detail-group">Program Client ID</div>
                     <div class="program-client-name"/>
                     <b-form-select
