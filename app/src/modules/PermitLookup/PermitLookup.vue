@@ -1374,12 +1374,13 @@
       },
       openPermitInfoModal() {
         this.$root.$emit('bv::show::modal', 'permit-info-modal');
+        this.$ga.event('eportal', 'click', `Permit Lookup Permit Info Modal`, 1)
       },
       cgpFormSubmit(evt) {
         const vm = this;
         evt.preventDefault();
-        this.$ga.event('eportal', 'click', `Permit Lookup CGP Form Submission`, 1)
         this.cgpFormGetResults({ vm });
+        this.$ga.event('eportal', 'click', `Permit Lookup CGP Form Submission`, 1)
       },
       msgpFormSubmit(evt) {
         const vm = this;
