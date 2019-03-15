@@ -138,7 +138,6 @@ export default {
     const { sector } = store.state.msgpFormData;
     const { baseFormOptions } = store.state.formOptions;
     let sectorCode = '';
-    console.log(sector);
     baseFormOptions[0].forEach((key) => {
       if (sector === key.sectorName) {
         sectorCode = key.sectorCode;
@@ -149,14 +148,12 @@ export default {
 
     AppAxios.get(axiosUrlBase).then((response) => {
       const subSectors = response.data.helperQueryResponse.oecaSvcWithParams[0];
-      console.log(subSectors);
       const subSectorNames = [];
       subSectors.forEach((key) => {
         if (key.sectorCode === sectorCode) {
           subSectorNames.push(key.subsectorName);
         }
       });
-      console.log(subSectorNames);
       store.commit(types.SET_BASE_FORM_OPTION_SUB_SECTOR_NAMES, subSectorNames);
     });
   },
@@ -351,9 +348,15 @@ export default {
       if (msgpFormData[key] !== 'Select...' && msgpFormData[key] !== '' && msgpFormData[key] !== 'false') {
         // Map State Name to State Code
         if (key === 'facilityState') {
-          baseFormOptions[1].forEach((subKeyA) => {
-            if (subKeyA.stateName === msgpFormData.facilityState) {
-              urlQueries += `facilityState=${subKeyA.stateCode}`;
+          baseFormOptions[1].forEach((subKey) => {
+            if (subKey.stateName === msgpFormData.facilityState) {
+              urlQueries += `facilityState=${subKey.stateCode}`;
+            }
+          });
+        } else if (key === 'subsector') {
+          baseFormOptions[0].forEach((subKey) => {
+            if (subKey.sectorName === msgpFormData.sector) {
+              urlQueries += `subsector=${subKey.sectorCode}`;
             }
           });
         } else if (key === 'submittedDateTo') {
@@ -394,9 +397,9 @@ export default {
       if (cgpFormData[key] !== 'Select...' && cgpFormData[key] !== '' && cgpFormData[key] !== 'false') {
         // Map State Name to State Code
         if (key === 'projectState') {
-          baseFormOptions[1].forEach((subKeyA) => {
-            if (subKeyA.stateName === cgpFormData.projectState) {
-              urlQueries += `projectState=${subKeyA.stateCode}`;
+          baseFormOptions[1].forEach((subKey) => {
+            if (subKey.stateName === cgpFormData.projectState) {
+              urlQueries += `projectState=${subKey.stateCode}`;
             }
           });
         } else if (key === 'submittedDateTo') {
