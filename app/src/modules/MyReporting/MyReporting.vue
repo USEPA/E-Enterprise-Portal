@@ -351,6 +351,7 @@
       },
       openPopupPage(url, params) {
         this.openWindowWithPost(`${url}`, '', 'sso-handoff', params);
+        this.$ga.event('eportal', 'click', `My Reporting SSO Handoff`, 1)
       },
       openWindowWithPost(url, windowoption, name, params) {
         const form = document.createElement('form');
@@ -392,6 +393,7 @@
               vm.$root.$emit('bv::show::modal', 'my-reporting-link-details', button);
               vm.linkDetails = response.data;
               this.$Progress.finish()
+              this.$ga.event('eportal', 'click', `My Reporting Link Details`, 1)
             });
         }
       },
