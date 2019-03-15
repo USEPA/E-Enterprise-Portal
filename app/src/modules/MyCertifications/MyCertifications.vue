@@ -329,9 +329,11 @@
         });
         this.modalSettings.info.documents = item.documents;
         this.$root.$emit('bv::show::modal', 'my-certs-details-modal', button);
+        this.$ga.event('eportal', 'click', `My Certifications Certificate Description Modal`, 1)
       },
       downloadCertificate(documentObject) {
         this.downloadDocument(documentObject);
+        this.$ga.event('eportal', 'click', `My Certifications Certificate Download`, 1)
       },
     },
     created() {
