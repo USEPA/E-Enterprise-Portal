@@ -24,3 +24,20 @@
 .info-title {
   font-weight: bold;
 }
+.permit-lookup-info-btn {
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: #fff;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  padding: 0;
+  border-width: 0;
+  background-size: .8rem;
+  left: -.25rem;
+  top: -.1rem;
+}
+.permit-lookup-info-btn:hover {
+  background-color: #fff;
+}

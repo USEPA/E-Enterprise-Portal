@@ -500,9 +500,10 @@
                   <b-col md="6">
                     <label
                       class="mb-0 pr-1">Sector</label>
-                    <a
-                      class="text-decoration-underline cursor-pointer link-button"
-                      @click="openPermitInfoModal">i</a>
+                    <b-button
+                      title="Information"
+                      @click="openPermitInfoModal"
+                      class="permit-lookup-info-btn mr-1"/>
                   </b-col>
                 </b-row>
                 <b-row
@@ -1449,4 +1450,7 @@
 
 <style scoped
        lang="scss">
+  .permit-lookup-info-btn {
+    background-image: url('../../assets/images/widget-info-circle.svg');
+  }
 </style>
