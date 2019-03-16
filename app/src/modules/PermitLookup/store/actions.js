@@ -401,7 +401,7 @@ export default {
 
     // Set cgp form inputs that aren't empty or default as queries
     Object.keys(cgpFormData).forEach((key) => {
-      if (cgpFormData[key] !== 'Select...' && cgpFormData[key] !== '' && cgpFormData[key] !== 'false') {
+      if (cgpFormData[key] !== 'Select...' && cgpFormData[key] !== '' && cgpFormData[key] !== 'null') {
         // Map State Name to State Code
         if (key === 'projectState') {
           baseFormOptions[1].forEach((subKey) => {
@@ -447,6 +447,12 @@ export default {
         }
         vm.$root.$emit('bv::show::modal', 'permit-results-modal');
       });
+  },
+  resetResultsLoaded(context) {
+    const store = context;
+    store.commit(types.SET_RESULTS_ERROR, false);
+    store.commit(types.SET_CGP_RESULTS_LOADED, true);
+    store.commit(types.SET_MSGP_RESULTS_LOADED, true);
   },
   setMsgpFormToDefaults(context) {
     const store = context;

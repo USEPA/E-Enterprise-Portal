@@ -58,6 +58,7 @@
           <AppModal
             id="permit-search-modal"
             modal-ref="permit-search-modal"
+            @close="clearForm"
             :title="`${permitType} Lookup`"
             :hide-footer="true">
             <b-form
@@ -896,6 +897,7 @@
           <AppModal
             id="permit-results-modal"
             modal-ref="permit-results-modal"
+            @close="clearForm"
             :title="`${permitType} Lookup Results`"
             :hide-footer="true">
             <b-row>
@@ -1222,10 +1224,10 @@
       return {
         cgpAdvancedSearchWrapper: false,
         msgpAdvancedSearchWrapper: false,
-        radioSelection1: false,
-        radioSelection2: false,
-        radioSelection3: false,
-        radioSelection4: false,
+        radioSelection1: null,
+        radioSelection2: null,
+        radioSelection3: null,
+        radioSelection4: null,
         msgpFields: [
           {
             key: 'issuer',
@@ -1410,7 +1412,7 @@
         return this.msgpFormData.facilityState === 'Select...';
       },
       isDisabledTribeMsgp() {
-        return (this.msgpFormData.facilityState === 'Select...' || this.msgpFormData.tribalIndicator === false || this.msgpFormData.tribalIndicator === 'false');
+        return (this.msgpFormData.facilityState === 'Select...' || this.msgpFormData.tribalIndicator === false || this.msgpFormData.tribalIndicator === 'null');
       },
       isDisabledSubsectorMsgp() {
         return this.msgpFormData.sector === 'Select...';
@@ -1419,7 +1421,7 @@
         return this.cgpFormData.projectState === 'Select...';
       },
       isDisabledTribeCgp() {
-        return (this.cgpFormData.projectState === 'Select...' || this.cgpFormData.tribalIndicator === false || this.cgpFormData.tribalIndicator === 'false');
+        return (this.cgpFormData.projectState === 'Select...' || this.cgpFormData.tribalIndicator === false || this.cgpFormData.tribalIndicator === 'null');
       },
     },
     methods: {
@@ -1478,6 +1480,7 @@
         'loadCgpFormOptions',
         'setMsgpFormToDefaults',
         'setCgpFormToDefaults',
+        'resetResultsLoaded',
       ]),
       initialFormSubmit(evt) {
         evt.preventDefault();
@@ -1518,10 +1521,11 @@
         // clear every state when reset is pressed
         this.setMsgpFormToDefaults();
         this.setCgpFormToDefaults();
-        this.radioSelection1 = false;
-        this.radioSelection2 = false;
-        this.radioSelection3 = false;
-        this.radioSelection4 = false;
+        this.resetResultsLoaded();
+        this.radioSelection1 = null;
+        this.radioSelection2 = null;
+        this.radioSelection3 = null;
+        this.radioSelection4 = null;
       },
 
     },
