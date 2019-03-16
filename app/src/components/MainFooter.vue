@@ -1,16 +1,16 @@
 <template>
   <footer class="footer">
     <div
-      v-if="footerLinksLoaded && footerLinks.length > 0"
-      class="container py-2">
+            v-if="footerLinksLoaded && footerLinks.length > 0"
+            class="container py-2">
       <div class="row justify-content-center small">
         <div
-          class="col-auto"
-          v-for="item in footerLinks" >
+                class="col-auto"
+                v-for="item in footerLinks" >
           <a
-            :href="item.second"
-            target="_blank"
-            class="">{{ item.first }}</a>
+                  :href="item.second"
+                  target="_blank"
+                  class="">{{ item.first }}</a>
         </div>
       </div>
       <div class="row justify-content-center small">
@@ -20,11 +20,11 @@
       </div>
     </div>
     <div
-      v-else-if="!footerLinksLoaded"
-      class="container py-2">
+            v-else-if="!footerLinksLoaded"
+            class="container py-2">
       <div class="row justify-content-center small">
         <div
-          class="col-auto">
+                class="col-auto">
           Loading Footer...
         </div>
       </div>
@@ -35,11 +35,11 @@
       </div>
     </div>
     <div
-      v-else-if="footerLinksLoaded && footerLinks.length === 0"
-      class="container py-2">
+            v-else-if="footerLinksLoaded && footerLinks.length === 0"
+            class="container py-2">
       <div class="row justify-content-center small">
         <div
-          class="col-auto">
+                class="col-auto">
           Failed to load Footer.
         </div>
       </div>
@@ -57,7 +57,7 @@
 
   export default {
     name: 'MainFooter',
-    components: { },
+    components: {  },
     computed: {
       ...mapGetters({
         apiUrl: 'getEnvironmentApiURL',
