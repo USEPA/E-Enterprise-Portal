@@ -57,7 +57,7 @@
 
   export default {
     name: 'MainFooter',
-    components: {},
+    components: {  },
     computed: {
       ...mapGetters({
         apiUrl: 'getEnvironmentApiURL',
@@ -88,7 +88,7 @@
 </script>
 
 <style scoped
-       lang="scss">
+  lang="scss">
   footer {
     color: #fefefe;
     background-color: #323a45;
