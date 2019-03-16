@@ -25,7 +25,9 @@
                   @change="setPermitType"
                   required>
                   <template slot="first">
-                    <option disabled>
+                    <option
+                      :value="null"
+                      disabled>
                       Select...
                     </option>
                   </template>
