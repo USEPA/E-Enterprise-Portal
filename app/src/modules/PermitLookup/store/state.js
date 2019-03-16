@@ -6,7 +6,7 @@
  */
 
 export default {
-  permitType: 'Select...',
+  permitType: null,
   msgpFormData: {
     submissionType: 'Select...',
     issuer: 'Select...',

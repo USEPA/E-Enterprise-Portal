@@ -25,8 +25,8 @@
                   @change="setPermitType"
                   required>
                   <template slot="first">
-                    <option
-                      disabled>Select...
+                    <option disabled>
+                      Select...
                     </option>
                   </template>
                 </b-form-select>
@@ -81,8 +81,7 @@
                     @change="setPermitType"
                     required>
                     <template slot="first">
-                      <option
-                        disabled>Select...
+                      <option disabled>Select...
                       </option>
                     </template>
                   </b-form-select>
@@ -1527,7 +1526,6 @@
         this.radioSelection3 = null;
         this.radioSelection4 = null;
       },
-
     },
     props: {
       eepApp: {
