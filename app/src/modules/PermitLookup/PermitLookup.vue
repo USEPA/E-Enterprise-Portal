@@ -1489,7 +1489,7 @@
       cgpFormSubmit(evt) {
         const vm = this;
         evt.preventDefault();
-        if (JSON.stringify(this.msgpFormData) !== JSON.stringify(this.msgpFormDataDefaults)) {
+        if (JSON.stringify(this.cgpFormData) !== JSON.stringify(this.cgpFormDataDefaults)) {
           this.noFieldsToQuery = false;
           this.cgpFormGetResults({ vm });
           this.setCgpFormToDefaults();
