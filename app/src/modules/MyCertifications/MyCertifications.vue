@@ -342,7 +342,7 @@
         item.documents.forEach((document, index) => {
           if (document.name.indexOf('Certificate') >= 0) {
             item.documents[index].anchorName = 'Certificate';
-          } else if (document.name.indexOf('Reciept') >= 0) {
+          } else if (document.name.indexOf('Receipt') >= 0) {
             item.documents[index].anchorName = 'Receipt';
           } else {
             item.documents[index].anchorName = 'Logo';
