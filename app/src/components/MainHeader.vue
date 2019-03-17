@@ -103,8 +103,8 @@
     },
     methods: {
       ...mapActions([
-          'navigateToBridge',
-          'userLogOut',
+        'navigateToBridge',
+        'userLogOut',
       ]),
       navigateToRouterLink(link){
         this.$router.push(link);
