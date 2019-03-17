@@ -114,33 +114,34 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-    .eep_logo {
-      img {
-          max-width: 250px;
-      }
+  
+  .eep_logo {
+    img {
+      max-width: 250px;
     }
+  }
 
-    .tryit-button,
-    .login-button,
-    .tryit-caption,
-    .login-caption {
-      white-space: nowrap;
-    }
+  .tryit-button,
+  .login-button,
+  .tryit-caption,
+  .login-caption {
+    white-space: nowrap;
+  }
 
-    .tryit-caption, .login-caption{
-      display: inline-block;
-    }
+  .tryit-caption, .login-caption {
+    display: inline-block;
+  }
 
-    .arrow-down-login, .arrow-down-tryit {
+  .arrow-down-login, .arrow-down-tryit {
 
-      /* Draws the triangle*/
-      width: 0;
-      height: 0;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-      border-top: 10px solid #112e51;
+    /* Draws the triangle*/
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #112e51;
 
-      /*!*Sets position of triangle*!*/
-      margin-top: -11px;
-    }
+    /*!*Sets position of triangle*!*/
+    margin-top: -11px;
+  }
 </style>
