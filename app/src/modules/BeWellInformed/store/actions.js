@@ -179,8 +179,17 @@ export default {
                 store.commit(types.UPDATE_INTERACTIVE_PROMPTS, []);
               }
               if (data.AdditionalContaminantRequests.length) {
-                store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS,
-                  data.AdditionalContaminantRequests);
+                if (data.AdditionalContaminantRequests.length > 1) {
+                  if (data.AdditionalContaminantRequests[0].symbol == data.AdditionalContaminantRequests[1].symbol) {
+                    let additionalRequests = [];
+                    additionalRequests.push(data.AdditionalContaminantRequests[0]);
+                    store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS,
+                      additionalRequests);
+                  }
+                } else {
+                  store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS,
+                    data.AdditionalContaminantRequests);
+                }
               } else {
                 store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS, []);
               }
