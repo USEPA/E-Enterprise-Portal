@@ -3,17 +3,16 @@
         <div class="row d-flex justify-content-between align-items-center">
             <div class="col-4-md justify-content-start">
                 <a
-                        class="eep_logo"
-                        href='#/home'
-                        title="Home - E-Enterprise for the Environment"
-                        rel="home">
+                  class="eep_logo"
+                  href='#/home'
+                  title="Home - E-Enterprise for the Environment"
+                  rel="home">
                     <img
-                            src="../assets/images/eenterprise.svg"
-                            alt="Home - E-Enterprise for the Environment">
+                      src="../assets/images/eenterprise.svg"
+                      alt="Home - E-Enterprise for the Environment">
                 </a>
             </div>
             <div class="w-100 d-block d-sm-none "/>
-
             <div class="col-md-6 col-12 pt-3 d-flex justify-content-center justify-content-lg-end align-self-end-lg">
                 <div class="tryit-wrapper pr-2 float-right">
                     <router-link
@@ -44,11 +43,11 @@
                             Logout
                         </button>
                         <router-link
-                                to="/User"
-                                id="my-account"
-                                class="usa-button ml-2"
-                                variant="primary"
-                                tag="button">
+                          to="/User"
+                          id="my-account"
+                          class="usa-button ml-2"
+                          variant="primary"
+                          tag="button">
                             My account
                         </router-link>
                     </template>
