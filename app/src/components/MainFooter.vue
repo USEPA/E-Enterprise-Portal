@@ -62,14 +62,13 @@
     computed: {
       ...mapGetters({
         apiUrl: 'getEnvironmentApiURL',
-        envUrl: 'getEnvironmentURL',
       }),
     },
     methods: {
       ...mapActions([
       ]),
       getClass() {
-        if (window.location.href === (this.envUrl + '/')){
+        if (this.$route.path === ('/')){
           return 'homePageFooter';
         } else {
           return 'footer';
