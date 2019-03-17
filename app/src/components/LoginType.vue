@@ -60,7 +60,7 @@
         background-color: #AEB0B6;
         cursor: pointer;
         width: 232px;
-        padding: 15px;
+        padding: 13px;
 
         &:hover{
              background-color: #094E7A;
