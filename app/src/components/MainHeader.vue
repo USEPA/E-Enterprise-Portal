@@ -18,18 +18,21 @@
                 <div class="tryit-wrapper pr-2 float-right">
                     <router-link
                             to="/workbench"
-                            tag="button"
-                            id="try-it-button"
+                            v-if='!displayLoggedInElements'
                             ref="try-it-button"
-                            class="usa-button pr-3"
+                            class="usa-button pr-3 tryit-button"
                             variant="primary"
-                            @mouseover="addTryItArrow"
-                            @mouseleave="removeTryItArrow"
-                            v-if='!displayLoggedInElements'>
+                            @mouseover="showTryitArrow=true"
+                            @mouseleave="showTryitArrow=false"
+                            v-b-tooltip.hover="{
+                                placement:'bottomleft',
+                                html: true
+                            }"
+                            :title="tryitCaptionTitle"
+                            data-container="body">
                         <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left pr-1"/>Try It
                     </router-link>
                 </div>
-
                 <div class="otherbtns-wrapper float-right">
                     <template v-if='displayLoggedInElements'>
                         <span class="mr-3">Welcome {{ user.name }}</span>
@@ -50,34 +53,22 @@
                         </router-link>
                     </template>
                     <template v-else>
-                        <router-link
-                                id="log-in-button"
-                                ref="log-in-button"
+                        <div class="login-wrapper">
+                            <router-link
                                 to="/login"
-                                @mouseover="addLogInArrow"
-                                @mouseleave="removeLogInArrow"
-                                class="usa-button">
-                            <i class="fas fa-lock pr-1"/>Login
-                        </router-link>
+                                ref="log-in-button"
+                                class="usa-button login-button"
+                                v-b-tooltip.hover="{
+                                  placement:'bottomleft',
+                                  html: true
+                                }"
+                                :title="loginCaptionTitle"
+                                data-container="body">
+                                <i class="fas fa-lock pr-1"/>Login
+                            </router-link>
+                        </div>
                     </template>
                 </div>
-
-                <b-tooltip
-                    v-show="showTryItCaption"
-                    id="tryit-arrow"
-                    ref="tryit-arrow"
-                    target="try-it-button"
-                    placement="bottom">
-                    Want to just try it? No log in needed.
-                </b-tooltip>
-                <b-tooltip
-                    v-show="showLoginCaption"
-                    id="login-arrow"
-                    ref="login-arrow"
-                    target="log-in-button"
-                    placement="bottom">
-                        Use an EPA, CDX, or a social media account to login
-                </b-tooltip>
             </div>
         </div>
     </header>
@@ -93,8 +84,12 @@
     props: {},
     data() {
       return {
-        showTryItCaption: false,
-        showLoginCaption: false,
+          loginCaptionTitle: '<div class="arrow-down-tryit float-right" v-show="showTryitArrow"></div>' +
+                '<div class=\'login-caption\'>Use an EPA, CDX, or a social media account to login.</div>',
+          tryitCaptionTitle: '<div class="arrow-down-login float-right" v-show="showLoginArrow"></div>' +
+                '<div class="tryit-caption">Want to just try it? No log in needed.</div>',
+          showTryitArrow: false,
+          showLoginArrow: false,
       };
     },
     computed: {
@@ -111,40 +106,47 @@
           'navigateToBridge',
           'userLogOut',
       ]),
-      removeTryItArrow() {
-//          let tryItBtnArrow = this.$refs['tryit-arrow'];
-//          tryItBtnArrow.classList.remove('d-block');
-//          tryItBtnArrow.classList.add('d-none');
-          this.showTryItCaption = false;
-      },
-      addTryItArrow() {
-//          let tryItBtnArrow = this.$refs['tryit-arrow'];
-//          tryItBtnArrow.classList.remove('d-none');
-//          tryItBtnArrow.classList.add('d-block');
-          this.showTryItCaption = true;
-      },
-      removeLogInArrow() {
-//          let loginBtnArrow = this.$refs['login-arrow'];
-//          loginBtnArrow.classList.remove('d-block');
-//          loginBtnArrow.classList.add('d-none');
-            this.showLoginCaption = false;
-      },
-      addLogInArrow() {
-//          let loginBtnArrow = this.$refs['login-arrow'];
-//          loginBtnArrow.classList.remove('d-none');
-//          loginBtnArrow.classList.add('d-block');
-          this.showLoginCaption = true;
+      navigateToRouterLink(link){
+        this.$router.push(link);
       },
     },
   };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped
-       lang="scss">
+<style lang="scss">
     .eep_logo {
         img {
             max-width: 250px;
         }
     }
+
+    .tryit-button,
+    .login-button,
+    .tryit-caption,
+    .login-caption {
+        white-space: nowrap;
+    }
+
+    .tryit-caption, .login-caption{
+        display: inline-block;
+    }
+
+    .arrow-down-login, .arrow-down-tryit {
+
+        /* Draws the triangle*/
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid #562b97;
+
+        /*!*Sets position of triangle*!*/
+        margin-top: -11px;
+    }
+
+
+
+
+
 </style>
