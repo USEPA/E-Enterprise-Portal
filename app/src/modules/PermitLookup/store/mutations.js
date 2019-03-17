@@ -241,7 +241,7 @@ export default {
   [types.SET_CGP_FACILITY_NAME](state, str) {
     Vue.set(
       state.cgpFormData,
-      'facilityName',
+      'projectSiteName',
       str,
     );
   },
@@ -255,28 +255,28 @@ export default {
   [types.SET_CGP_FACILITY_CITY](state, str) {
     Vue.set(
       state.cgpFormData,
-      'facilityCity',
+      'projectCity',
       str,
     );
   },
   [types.SET_CGP_FACILITY_STATE](state, str) {
     Vue.set(
       state.cgpFormData,
-      'facilityState',
+      'projectState',
       str,
     );
   },
   [types.SET_CGP_FACILITY_ZIP](state, str) {
     Vue.set(
       state.cgpFormData,
-      'facilityZip',
+      'projectZip',
       str,
     );
   },
   [types.SET_CGP_STATUS](state, str) {
     Vue.set(
       state.cgpFormData,
-      'status',
+      'projectStatus',
       str,
     );
   },
@@ -304,7 +304,7 @@ export default {
   [types.SET_CGP_FACILITY_COUNTY](state, str) {
     Vue.set(
       state.cgpFormData,
-      'facilityCounty',
+      'projectCounty',
       str,
     );
   },
@@ -330,9 +330,16 @@ export default {
     );
   },
   [types.SET_CGP_START_DATE](state, str) {
+    let stateKey = '';
+    if (state.cgpFormData.dateSelection === 'Submitted') {
+      stateKey = 'submittedDateFrom';
+    }
+    if (state.cgpFormData.dateSelection === 'Updated') {
+      stateKey = 'updatedDateFrom';
+    }
     Vue.set(
       state.cgpFormData,
-      'submittedDateFrom',
+      stateKey,
       str,
     );
   },
@@ -350,7 +357,6 @@ export default {
       arr,
     );
   },
-
 
 
   [types.SET_FORM_OPTIONS_MSGP](state, arr) {
@@ -381,10 +387,38 @@ export default {
       arr,
     );
   },
+  [types.SET_MSGP_COUNTIES](state, arr) {
+    Vue.set(
+      state.formOptions.msgpFormOptions,
+      'counties',
+      arr,
+    );
+  },
+  [types.SET_MSGP_SUBSECTORS](state, arr) {
+    Vue.set(
+      state.formOptions.msgpFormOptions,
+      'subSectorNames',
+      arr,
+    );
+  },
+  [types.SET_CGP_COUNTIES](state, arr) {
+    Vue.set(
+      state.formOptions.cgpFormOptions,
+      'counties',
+      arr,
+    );
+  },
   [types.SET_BASE_FORM_OPTION_SECTOR_NAMES](state, arr) {
     Vue.set(
       state.formOptions.baseFormOptions,
       'sectorNames',
+      arr,
+    );
+  },
+  [types.SET_BASE_FORM_OPTION_SUB_SECTOR_NAMES](state, arr) {
+    Vue.set(
+      state.formOptions.baseFormOptions,
+      'subSectorNames',
       arr,
     );
   },
@@ -416,5 +450,39 @@ export default {
       bool,
     );
   },
-
+  [types.SET_MSGP_FORM_DEFAULTS](state, obj) {
+    Vue.set(
+      state,
+      'msgpFormDataDefaults',
+      obj,
+    );
+  },
+  [types.SET_CGP_FORM_DEFAULTS](state, obj) {
+    Vue.set(
+      state,
+      'cgpFormDataDefaults',
+      obj,
+    );
+  },
+  [types.SET_MSGP_FORM_DATA](state, obj) {
+    Vue.set(
+      state,
+      'msgpFormData',
+      obj,
+    );
+  },
+  [types.SET_CGP_FORM_DATA](state, obj) {
+    Vue.set(
+      state,
+      'cgpFormData',
+      obj,
+    );
+  },
+  [types.SET_RESULTS_ERROR](state, bool) {
+    Vue.set(
+      state,
+      'resultsError',
+      bool,
+    );
+  },
 };

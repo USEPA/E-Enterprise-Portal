@@ -113,8 +113,16 @@ export default {
       return state.msgpFormResults.length;
     } else if (state.permitType === 'Construction General Permit') {
       return state.cgpFormResults.length;
-    } else {
-      return 0;
     }
+    return 0;
+  },
+  getCgpFormDataDefaults(state) {
+    return state.cgpFormDataDefaults;
+  },
+  getMsgpFormDataDefaults(state) {
+    return state.msgpFormDataDefaults;
+  },
+  getResultsError(state) {
+    return state.resultsError;
   },
 };
