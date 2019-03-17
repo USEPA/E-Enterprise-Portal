@@ -84,12 +84,12 @@
     props: {},
     data() {
       return {
-          loginCaptionTitle: '<div class="arrow-down-tryit float-right" v-show="showTryitArrow"></div>' +
-                '<div class=\'login-caption\'>Use an EPA, CDX, or a social media account to login.</div>',
-          tryitCaptionTitle: '<div class="arrow-down-login float-right" v-show="showLoginArrow"></div>' +
-                '<div class="tryit-caption">Want to just try it? No log in needed.</div>',
-          showTryitArrow: false,
-          showLoginArrow: false,
+        loginCaptionTitle: '<div class="arrow-down-tryit float-right" v-show="showTryitArrow"></div>' +
+          '<div class=\'login-caption\'>Use an EPA, CDX, or a social media account to login.</div>',
+        tryitCaptionTitle: '<div class="arrow-down-login float-right" v-show="showLoginArrow"></div>' +
+          '<div class="tryit-caption">Want to just try it? No log in needed.</div>',
+        showTryitArrow: false,
+        showLoginArrow: false,
       };
     },
     computed: {
@@ -116,37 +116,32 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
     .eep_logo {
-        img {
-            max-width: 250px;
-        }
+      img {
+          max-width: 250px;
+      }
     }
 
     .tryit-button,
     .login-button,
     .tryit-caption,
     .login-caption {
-        white-space: nowrap;
+      white-space: nowrap;
     }
 
     .tryit-caption, .login-caption{
-        display: inline-block;
+      display: inline-block;
     }
 
     .arrow-down-login, .arrow-down-tryit {
 
-        /* Draws the triangle*/
-        width: 0;
-        height: 0;
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;
-        border-top: 10px solid #562b97;
+      /* Draws the triangle*/
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid #112e51;
 
-        /*!*Sets position of triangle*!*/
-        margin-top: -11px;
+      /*!*Sets position of triangle*!*/
+      margin-top: -11px;
     }
-
-
-
-
-
 </style>

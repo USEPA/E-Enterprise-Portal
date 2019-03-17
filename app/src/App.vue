@@ -308,7 +308,7 @@
   button:focus,
   .usa-button:hover,
   button:hover{
-      border: none;
-      outline: none;
+    border: none;
+    outline: none;
   }
 </style>
