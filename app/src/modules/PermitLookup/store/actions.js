@@ -345,7 +345,7 @@ export default {
     let urlQueries = '';
     // Set msgp form inputs that aren't empty or default as queries
     Object.keys(msgpFormData).forEach((key) => {
-      if (msgpFormData[key] !== 'Select...' && msgpFormData[key] !== '' && msgpFormData[key] !== 'false') {
+      if (msgpFormData[key] !== 'Select...' && msgpFormData[key] !== '' && msgpFormData[key] !== 'null') {
         // Map State Name to State Code
         if (key === 'facilityState') {
           baseFormOptions[1].forEach((subKey) => {
