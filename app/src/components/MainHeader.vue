@@ -17,19 +17,19 @@
             <div class="col-md-6 col-12 pt-3 d-flex justify-content-center justify-content-lg-end align-self-end-lg">
                 <div class="tryit-wrapper pr-2 float-right">
                     <router-link
-                            to="/workbench"
-                            v-if='!displayLoggedInElements'
-                            ref="try-it-button"
-                            class="usa-button pr-3 tryit-button"
-                            variant="primary"
-                            @mouseover="showTryitArrow=true"
-                            @mouseleave="showTryitArrow=false"
-                            v-b-tooltip.hover="{
-                                placement:'bottomleft',
-                                html: true
-                            }"
-                            :title="tryitCaptionTitle"
-                            data-container="body">
+                      to="/workbench"
+                      v-if='!displayLoggedInElements'
+                      ref="try-it-button"
+                      class="usa-button pr-3 tryit-button"
+                      variant="primary"
+                      @mouseover="showTryitArrow=true"
+                      @mouseleave="showTryitArrow=false"
+                      v-b-tooltip.hover="{
+                        placement:'bottomleft',
+                        html: true
+                      }"
+                      :title="tryitCaptionTitle"
+                      data-container="body">
                         <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left pr-1"/>Try It
                     </router-link>
                 </div>
@@ -37,9 +37,9 @@
                     <template v-if='displayLoggedInElements'>
                         <span class="mr-3">Welcome {{ user.name }}</span>
                         <button
-                                variant="outline-secondary"
-                                class="usa-button"
-                                @click="userLogOut">
+                          variant="outline-secondary"
+                          class="usa-button"
+                          @click="userLogOut">
                             <i class="fas fa-lock pr-1"/>
                             Logout
                         </button>
@@ -55,16 +55,16 @@
                     <template v-else>
                         <div class="login-wrapper">
                             <router-link
-                                to="/login"
-                                ref="log-in-button"
-                                class="usa-button login-button"
-                                v-b-tooltip.hover="{
-                                  placement:'bottomleft',
-                                  html: true
-                                }"
-                                :title="loginCaptionTitle"
-                                data-container="body">
-                                <i class="fas fa-lock pr-1"/>Login
+                              to="/login"
+                              ref="log-in-button"
+                              class="usa-button login-button"
+                              v-b-tooltip.hover="{
+                                placement:'bottomleft',
+                                html: true
+                              }"
+                              :title="loginCaptionTitle"
+                              data-container="body">
+                              <i class="fas fa-lock pr-1"/>Login
                             </router-link>
                         </div>
                     </template>
