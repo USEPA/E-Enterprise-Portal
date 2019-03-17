@@ -63,22 +63,20 @@
                 </div>
 
                 <b-tooltip
-                        v-if="!displayLoggedInElements"
-                        id="tryit-arrow"
-                        ref="tryit-arrow"
-                        target="try-it-button"
-                        placement="bottom">
+                    v-show="showTryItCaption"
+                    id="tryit-arrow"
+                    ref="tryit-arrow"
+                    target="try-it-button"
+                    placement="bottom">
                     Want to just try it? No log in needed.
                 </b-tooltip>
                 <b-tooltip
-                        v-if="!displayLoggedInElements"
-                        id="login-arrow"
-                        ref="login-arrow"
-                        target="log-in-button"
-                        placement="bottom">
-                    <div class="pr-3">
+                    v-show="showLoginCaption"
+                    id="login-arrow"
+                    ref="login-arrow"
+                    target="log-in-button"
+                    placement="bottom">
                         Use an EPA, CDX, or a social media account to login
-                    </div>
                 </b-tooltip>
             </div>
         </div>
@@ -93,6 +91,12 @@
   export default {
     name: 'MainHeader',
     props: {},
+    data() {
+      return {
+        showTryItCaption: false,
+        showLoginCaption: false,
+      };
+    },
     computed: {
       ...mapGetters({
         isLoggedIn: 'getIsLoggedIn',
@@ -103,33 +107,33 @@
       }),
     },
     methods: {
-    ...mapActions([
-        'navigateToBridge',
-        'userLogOut',
-    ]),
-    removeTryItArrow() {
-        let tryItBtnArrow = this.$refs['tryit-arrow'];
-        tryItBtnArrow.classList.remove('d-block');
-        tryItBtnArrow.classList.add('d-none');
-    },
-    addTryItArrow() {
-        let tryItBtnArrow = this.$refs['tryit-arrow'];
-        tryItBtnArrow.classList.remove('d-none');
-        tryItBtnArrow.classList.add('d-block');
-    },
-    removeLogInArrow() {
-        let loginBtnArrow = this.$refs['login-arrow'];
-        loginBtnArrow.classList.remove('d-block');
-        loginBtnArrow.classList.add('d-none');
-    },
-    addLogInArrow() {
-        let loginBtnArrow = this.$refs['login-arrow'];
-        loginBtnArrow.classList.remove('d-none');
-        loginBtnArrow.classList.add('d-block');
-    },
-    },
-    data() {
-        return {};
+      ...mapActions([
+          'navigateToBridge',
+          'userLogOut',
+      ]),
+      removeTryItArrow() {
+//          let tryItBtnArrow = this.$refs['tryit-arrow'];
+//          tryItBtnArrow.classList.remove('d-block');
+//          tryItBtnArrow.classList.add('d-none');
+          this.showTryItCaption = false;
+      },
+      addTryItArrow() {
+//          let tryItBtnArrow = this.$refs['tryit-arrow'];
+//          tryItBtnArrow.classList.remove('d-none');
+//          tryItBtnArrow.classList.add('d-block');
+          this.showTryItCaption = true;
+      },
+      removeLogInArrow() {
+//          let loginBtnArrow = this.$refs['login-arrow'];
+//          loginBtnArrow.classList.remove('d-block');
+//          loginBtnArrow.classList.add('d-none');
+          this.showLoginCaption = false;
+      addLogInArrow() {
+//          let loginBtnArrow = this.$refs['login-arrow'];
+//          loginBtnArrow.classList.remove('d-none');
+//          loginBtnArrow.classList.add('d-block');
+          this.showLoginCaption = true;
+      },
     },
   };
 </script>
