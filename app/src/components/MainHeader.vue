@@ -1,76 +1,76 @@
 <template>
-    <header class="py-3 container">
-        <div class="row d-flex justify-content-between align-items-center">
-            <div class="col-4-md justify-content-start">
-                <a
-                  class="eep_logo"
-                  href='#/home'
-                  title="Home - E-Enterprise for the Environment"
-                  rel="home">
-                    <img
-                      src="../assets/images/eenterprise.svg"
-                      alt="Home - E-Enterprise for the Environment">
-                </a>
-            </div>
-            <div class="w-100 d-block d-sm-none "/>
-            <div class="col-md-6 col-12 pt-3 d-flex justify-content-center justify-content-lg-end align-self-end-lg">
-                <div class="tryit-wrapper pr-2 float-right">
-                    <router-link
-                      to="/workbench"
-                      v-if='!displayLoggedInElements'
-                      ref="try-it-button"
-                      class="usa-button pr-3 tryit-button"
-                      variant="primary"
-                      @mouseover="showTryitArrow=true"
-                      @mouseleave="showTryitArrow=false"
-                      v-b-tooltip.hover="{
+  <header class="py-3 container">
+    <div class="row d-flex justify-content-between align-items-center">
+      <div class="col-4-md justify-content-start">
+        <a
+          class="eep_logo"
+          href='#/home'
+          title="Home - E-Enterprise for the Environment"
+          rel="home">
+          <img
+            src="../assets/images/eenterprise.svg"
+            alt="Home - E-Enterprise for the Environment">
+        </a>
+      </div>
+      <div class="w-100 d-block d-sm-none "/>
+      <div class="col-md-6 col-12 pt-3 d-flex justify-content-center justify-content-lg-end align-self-end-lg">
+        <div class="tryit-wrapper pr-2 float-right">
+          <router-link
+            to="/workbench"
+            v-if='!displayLoggedInElements'
+            ref="try-it-button"
+            class="usa-button pr-3 tryit-button"
+            variant="primary"
+            @mouseover="showTryitArrow=true"
+            @mouseleave="showTryitArrow=false"
+            v-b-tooltip.hover="{
                         placement:'bottomleft',
                         html: true
                       }"
-                      :title="tryitCaptionTitle"
-                      data-container="body">
-                        <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left pr-1"/>Try It
-                    </router-link>
-                </div>
-                <div class="otherbtns-wrapper float-right">
-                    <template v-if='displayLoggedInElements'>
-                        <span class="mr-3">Welcome {{ user.name }}</span>
-                        <button
-                          variant="outline-secondary"
-                          class="usa-button"
-                          @click="userLogOut">
-                            <i class="fas fa-lock pr-1"/>
-                            Logout
-                        </button>
-                        <router-link
-                          to="/User"
-                          id="my-account"
-                          class="usa-button ml-2"
-                          variant="primary"
-                          tag="button">
-                            My account
-                        </router-link>
-                    </template>
-                    <template v-else>
-                        <div class="login-wrapper">
-                            <router-link
-                              to="/login"
-                              ref="log-in-button"
-                              class="usa-button login-button"
-                              v-b-tooltip.hover="{
+            :title="tryitCaptionTitle"
+            data-container="body">
+            <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left pr-1"/>Try It
+          </router-link>
+        </div>
+        <div class="otherbtns-wrapper float-right">
+          <template v-if='displayLoggedInElements'>
+            <span class="mr-3">Welcome {{ user.name }}</span>
+            <button
+              variant="outline-secondary"
+              class="usa-button"
+              @click="userLogOut">
+              <i class="fas fa-lock pr-1"/>
+              Logout
+            </button>
+            <router-link
+              to="/User"
+              id="my-account"
+              class="usa-button ml-2"
+              variant="primary"
+              tag="button">
+              My account
+            </router-link>
+          </template>
+          <template v-else>
+            <div class="login-wrapper">
+              <router-link
+                to="/login"
+                ref="log-in-button"
+                class="usa-button login-button"
+                v-b-tooltip.hover="{
                                 placement:'bottomleft',
                                 html: true
                               }"
-                              :title="loginCaptionTitle"
-                              data-container="body">
-                              <i class="fas fa-lock pr-1"/>Login
-                            </router-link>
-                        </div>
-                    </template>
-                </div>
+                :title="loginCaptionTitle"
+                data-container="body">
+                <i class="fas fa-lock pr-1"/>Login
+              </router-link>
             </div>
+          </template>
         </div>
-    </header>
+      </div>
+    </div>
+  </header>
 </template>
 
 <script>
