@@ -26,7 +26,9 @@
 .bootstrap-vue-mycerts-table-scroll > thead th,
 .bootstrap-vue-mycerts-table-scroll > table,
 .bootstrap-vue-table-scroll > table {
+  table-layout: fixed;
   width: 100%;
+  float: left;
 }
 
 .bootstrap-vue-mycerts-table-scroll > thead th {
@@ -44,6 +46,8 @@
 .bootstrap-vue-fav-table-scroll > thead th,
 .bootstrap-vue-fav-table-scroll > tbody td {
   display: flex;
+  width: 100%;
+  float: left;
 }
 
 .table.no-top-border > thead th {
