@@ -86,52 +86,52 @@
 </template>
 
 <script>
-    import { mapGetters, mapActions } from 'vuex';
-    import { EventBus } from '../EventBus';
+  import { mapGetters, mapActions } from 'vuex';
+  import { EventBus } from '../EventBus';
 
-    // eslint-disable-next-line
-    export default {
-        name: 'MainHeader',
-        props: {},
-        computed: {
-                ...mapGetters({
-                    isLoggedIn: 'getIsLoggedIn',
-                    bridgeURL: 'getBridgeURL',
-                    loginBtnHoverMessage: 'getloginBtnHoverMessage',
-                    displayLoggedInElements: 'getDisplayLoggedInElements',
-                    user: 'getUser',
-                }),
+  // eslint-disable-next-line
+  export default {
+    name: 'MainHeader',
+    props: {},
+    computed: {
+      ...mapGetters({
+        isLoggedIn: 'getIsLoggedIn',
+        bridgeURL: 'getBridgeURL',
+        loginBtnHoverMessage: 'getloginBtnHoverMessage',
+        displayLoggedInElements: 'getDisplayLoggedInElements',
+        user: 'getUser',
+      }),
     },
     methods: {
     ...mapActions([
-            'navigateToBridge',
-            'userLogOut',
-        ]),
-                removeTryItArrow() {
-            let tryItBtnArrow = this.$refs['tryit-arrow'];
-            tryItBtnArrow.classList.remove('d-block');
-            tryItBtnArrow.classList.add('d-none');
-        },
-        addTryItArrow() {
-            let tryItBtnArrow = this.$refs['tryit-arrow'];
-            tryItBtnArrow.classList.remove('d-none');
-            tryItBtnArrow.classList.add('d-block');
-        },
-        removeLogInArrow() {
-            let loginBtnArrow = this.$refs['login-arrow'];
-            loginBtnArrow.classList.remove('d-block');
-            loginBtnArrow.classList.add('d-none');
-        },
-        addLogInArrow() {
-            let loginBtnArrow = this.$refs['login-arrow'];
-            loginBtnArrow.classList.remove('d-none');
-            loginBtnArrow.classList.add('d-block');
-        },
+        'navigateToBridge',
+        'userLogOut',
+    ]),
+    removeTryItArrow() {
+        let tryItBtnArrow = this.$refs['tryit-arrow'];
+        tryItBtnArrow.classList.remove('d-block');
+        tryItBtnArrow.classList.add('d-none');
+    },
+    addTryItArrow() {
+        let tryItBtnArrow = this.$refs['tryit-arrow'];
+        tryItBtnArrow.classList.remove('d-none');
+        tryItBtnArrow.classList.add('d-block');
+    },
+    removeLogInArrow() {
+        let loginBtnArrow = this.$refs['login-arrow'];
+        loginBtnArrow.classList.remove('d-block');
+        loginBtnArrow.classList.add('d-none');
+    },
+    addLogInArrow() {
+        let loginBtnArrow = this.$refs['login-arrow'];
+        loginBtnArrow.classList.remove('d-none');
+        loginBtnArrow.classList.add('d-block');
+    },
     },
     data() {
         return {};
     },
-    };
+  };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
