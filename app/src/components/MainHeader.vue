@@ -23,8 +23,8 @@
                             ref="try-it-button"
                             class="usa-button pr-3"
                             variant="primary"
-                            @mouseover.native="addTryItArrow"
-                            @mouseleave.native="removeTryItArrow"
+                            @mouseover="addTryItArrow"
+                            @mouseleave="removeTryItArrow"
                             v-if='!displayLoggedInElements'>
                         <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left pr-1"/>Try It
                     </router-link>
@@ -54,8 +54,8 @@
                                 id="log-in-button"
                                 ref="log-in-button"
                                 to="/login"
-                                @mouseover.native="addLogInArrow"
-                                @mouseleave.native="removeLogInArrow"
+                                @mouseover="addLogInArrow"
+                                @mouseleave="removeLogInArrow"
                                 class="usa-button">
                             <i class="fas fa-lock pr-1"/>Login
                         </router-link>
@@ -127,7 +127,8 @@
 //          let loginBtnArrow = this.$refs['login-arrow'];
 //          loginBtnArrow.classList.remove('d-block');
 //          loginBtnArrow.classList.add('d-none');
-          this.showLoginCaption = false;
+            this.showLoginCaption = false;
+      },
       addLogInArrow() {
 //          let loginBtnArrow = this.$refs['login-arrow'];
 //          loginBtnArrow.classList.remove('d-none');
