@@ -13,73 +13,61 @@
         </a>
       </div>
       <div class="w-100 d-block d-sm-none "/>
-
       <div class="col-md-6 col-12 pt-3 d-flex justify-content-center justify-content-lg-end align-self-end-lg">
         <div class="tryit-wrapper pr-2 float-right">
-            <router-link
-                    to="/workbench"
-                    tag="button"
-                    id="try-it-button"
-                    ref="try-it-button"
-                    class="usa-button pr-3"
-                    variant="primary"
-                    @mouseover="addTryItArrow"
-                    @mouseleave="removeTryItArrow"
-                    v-if='!displayLoggedInElements'>
-                <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left pr-1"/>Try It
-            </router-link>
+          <router-link
+            to="/workbench"
+            v-if='!displayLoggedInElements'
+            ref="try-it-button"
+            class="usa-button pr-3 tryit-button"
+            variant="primary"
+            @mouseover="showTryitArrow=true"
+            @mouseleave="showTryitArrow=false"
+            v-b-tooltip.hover="{
+                        placement:'bottomleft',
+                        html: true
+                      }"
+            :title="tryitCaptionTitle"
+            data-container="body">
+            <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left pr-1"/>Try It
+          </router-link>
         </div>
-
         <div class="otherbtns-wrapper float-right">
-            <template v-if='displayLoggedInElements'>
-                <span class="mr-3">Welcome {{ user.name }}</span>
-                <button
-                        variant="outline-secondary"
-                        class="usa-button"
-                        @click="userLogOut">
-                    <i class="fas fa-lock pr-1"/>
-                    Logout
-                </button>
-                <router-link
-                        to="/User"
-                        id="my-account"
-                        class="usa-button ml-2"
-                        variant="primary"
-                        tag="button">
-                    My account
-                </router-link>
-            </template>
-            <template v-else>
-                <button
-                        id="log-in-button"
-                        ref="log-in-button"
-                        @mouseover="addLogInArrow"
-                        @mouseleave="removeLogInArrow"
-                        class="usa-button"
-                        @click="handleLogin">
-                    <i class="fas fa-lock pr-1"/>Login
-                </button>
-            </template>
-        </div>
-
-        <b-tooltip
-          v-if="!displayLoggedInElements"
-          id="tryit-arrow"
-          ref="tryit-arrow"
-          target="try-it-button"
-          placement="bottom">
-              Want to just try it? No log in needed.
-        </b-tooltip>
-        <b-tooltip
-          v-if="!displayLoggedInElements"
-          id="login-arrow"
-          ref="login-arrow"
-          target="log-in-button"
-          placement="bottom">
-            <div class="pr-3">
-                Use an EPA, CDX, or a social media account to login
+          <template v-if='displayLoggedInElements'>
+            <span class="mr-3">Welcome {{ user.name }}</span>
+            <button
+              variant="outline-secondary"
+              class="usa-button"
+              @click="userLogOut">
+              <i class="fas fa-lock pr-1"/>
+              Logout
+            </button>
+            <router-link
+              to="/User"
+              id="my-account"
+              class="usa-button ml-2"
+              variant="primary"
+              tag="button">
+              My account
+            </router-link>
+          </template>
+          <template v-else>
+            <div class="login-wrapper">
+              <router-link
+                to="/login"
+                ref="log-in-button"
+                class="usa-button login-button"
+                v-b-tooltip.hover="{
+                                placement:'bottomleft',
+                                html: true
+                              }"
+                :title="loginCaptionTitle"
+                data-container="body">
+                <i class="fas fa-lock pr-1"/>Login
+              </router-link>
             </div>
-        </b-tooltip>
+          </template>
+        </div>
       </div>
     </div>
   </header>
@@ -93,6 +81,16 @@
   export default {
     name: 'MainHeader',
     props: {},
+    data() {
+      return {
+        loginCaptionTitle: '<div class="arrow-down-tryit float-right" v-show="showTryitArrow"></div>' +
+          '<div class=\'login-caption\'>Use an EPA, CDX, or a social media account to login.</div>',
+        tryitCaptionTitle: '<div class="arrow-down-login float-right" v-show="showLoginArrow"></div>' +
+          '<div class="tryit-caption">Want to just try it? No log in needed.</div>',
+        showTryitArrow: false,
+        showLoginArrow: false,
+      };
+    },
     computed: {
       ...mapGetters({
         isLoggedIn: 'getIsLoggedIn',
@@ -107,69 +105,43 @@
         'navigateToBridge',
         'userLogOut',
       ]),
-      removeTryItArrow() {
-        let tryItBtnArrow = this.$refs['tryit-arrow'];
-        tryItBtnArrow.classList.remove('d-block');
-        tryItBtnArrow.classList.add('d-none');
+      navigateToRouterLink(link){
+        this.$router.push(link);
       },
-      addTryItArrow() {
-        let tryItBtnArrow = this.$refs['tryit-arrow'];
-        tryItBtnArrow.classList.remove('d-none');
-        tryItBtnArrow.classList.add('d-block');
-      },
-      removeLogInArrow() {
-        let loginBtnArrow = this.$refs['login-arrow'];
-        loginBtnArrow.classList.remove('d-block');
-        loginBtnArrow.classList.add('d-none');
-      },
-      addLogInArrow() {
-        let loginBtnArrow = this.$refs['login-arrow'];
-        loginBtnArrow.classList.remove('d-none');
-        loginBtnArrow.classList.add('d-block');
-      },
-      handleLogin() {
-        this.$router.push('/login');
-      },
-    },
-    data() {
-      return {};
     },
   };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped
-  lang="scss">
-  #try-it-container {
-    position: relative;
-  }
-  #try-it {
-    position: relative;
-  }
-  #log-in-container {
-    position: relative;
-  }
-  #log-in {
-    position: relative;
-  }
-  .button-down-arrow {
-    top: 100%;
-    left: 50%;
-    border: .7rem solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-    border-color: rgba(0, 98, 160, 0);
-    border-top-color: #1a4480;
-    margin-left: -.7rem;
-  }
+<style lang="scss">
+  
   .eep_logo {
     img {
       max-width: 250px;
     }
   }
 
+  .tryit-button,
+  .login-button,
+  .tryit-caption,
+  .login-caption {
+    white-space: nowrap;
+  }
 
+  .tryit-caption, .login-caption {
+    display: inline-block;
+  }
+
+  .arrow-down-login, .arrow-down-tryit {
+
+    /* Draws the triangle*/
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #112e51;
+
+    /*!*Sets position of triangle*!*/
+    margin-top: -11px;
+  }
 </style>
