@@ -105,23 +105,23 @@
           <div
             class="wapp-arrows"
             slot="first-text"><img
-              src="/images/pager-first.png"
-              alt="Go to first page"></div>
+            src="/images/pager-first.png"
+            alt="Go to first page"></div>
           <div
             class="wapp-arrows"
             slot="next-text"><img
-              src="/images/pager-next.png"
-              alt="Go to next page"></div>
+            src="/images/pager-next.png"
+            alt="Go to next page"></div>
           <div
             class="wapp-arrows"
             slot="prev-text"><img
-              src="/images/pager-previous.png"
-              alt="Go to previous page"></div>
+            src="/images/pager-previous.png"
+            alt="Go to previous page"></div>
           <div
             class="wapp-arrows"
             slot="last-text"><img
-              src="/images/pager-last.png"
-              alt="Go to last page"></div>
+            src="/images/pager-last.png"
+            alt="Go to last page"></div>
         </b-pagination>
       </b-col>
     </b-row>
@@ -132,7 +132,8 @@
       class="m-1"
       modal-ref="my-certs-details-modal"
       :hide-footer="true"
-      :title="modalSettings.title">
+      :title="modalSettings.title"
+      :icon="modalSettings.icon">
       <div class="my-cert-modal-base-info mb-3">
         <b-row class="mb-2">
           <b-col md="8">
@@ -245,8 +246,8 @@
 </template>
 
 <script>
-  import { mapGetters, mapActions } from 'vuex';
-  import { AppWrapper, AppPlaceholderContent, AppModal, PaginationArrows } from '../wadk/WADK';
+  import {mapGetters, mapActions} from 'vuex';
+  import {AppWrapper, AppPlaceholderContent, AppModal, PaginationArrows} from '../wadk/WADK';
   import storeModule from './store/index';
 
   const moduleName = 'MyCertifications';
@@ -291,6 +292,7 @@
           filter: null,
         },
         modalSettings: {
+          icon: 'state-government.png',
           title: 'My Certifications',
           index: 0,
           info: {
