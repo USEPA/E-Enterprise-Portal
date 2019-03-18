@@ -8,6 +8,7 @@
 namespace Drupal\eep_generate_pdf\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Symfony\Component\HttpFoundation\Response;
 
 
 /**
@@ -95,59 +96,8 @@ class EEPGeneratePDFController extends ControllerBase {
     ],
   ];
 
-  public function content() {
-
-    return [
-      '#theme' => 'eep_pdf_generate',
-    ];
-
-  }
-
-  function process_pdf() {
-    $tempstore = \Drupal::service('user.private_tempstore')->get('eep_generate_pdf');
-    $payload = $tempstore->get('bwi_pdf');
-    if (isset($payload)) {
-      $payload = \GuzzleHttp\json_decode($payload, true);
-    }
-    return [
-      '#theme' => 'eep_generate_pdf',
-      '#bwi_vars' => $payload,
-
-    ];
-  }
-
-  private function generate_guideline_icon_legend(&$variables, $hook) {
-
-    $doc_root = $_SERVER["DOCUMENT_ROOT"];
-    $image_path = $doc_root . '/' . 'sites\default\files\bwi_pdf_styles\images';
-    $state_info = $variables['state_info']['Results']['Key'];
-    $markup = [
-      "<div class=\"bwi-meets-limit one-half\">",
-      "<img src='$image_path/check.png' alt='Meets the drinking water limit' title='Meets the drinking water limit' />",
-      "{$state_info['MeetsLimit']} </div>",
-
-      "<div class=\"bwi-close-to-limit one-half\">",
-      "<img src='$image_path/exclamation.png' alt='Close to the drinking water limit' title='Close to the drinking water limit' />",
-      "{$state_info['CloseToLimit']} </div>",
-
-      "<div class=\"bwi-above-limit one-half\">",
-      "<img src='$image_path/false.png' alt='Above the drinking water limit' title='Above the drinking water limit' />",
-      "{$state_info['AboveLimit']} </div>",
-
-      "<div class=\"bwi-consult one-half\">",
-      "<img src='$image_path/orange.png' alt='Consult Fact Sheet' />",
-      "{$state_info['Consult']}</div>",
-
-      "<div class=\"bwi-no-entry one-half\">",
-      "<img src='$image_path/circle.png' alt='No Input Entered' />",
-      "No Input Entered</div>"
-    ];
-
-    $variables['guideline_icon_legend'] = implode('', $markup);
-  }
 
   private function processGuidelineIcon($icon_text) {
-    $r = '';
     switch ($icon_text) {
       case 'Images/water/check4.png':
         $r = 'MeetsLimit';
@@ -184,36 +134,25 @@ class EEPGeneratePDFController extends ControllerBase {
         }
       }
     }
-
     $step_html = $this->render_step_html($payload['results'][0]);
     // Set up email template
     $body_data = array(
       '#theme' => 'eep_generate_pdf',
-      '#bwi_vars' => $payload,
       '#infoXmlResults' => $payload['info'][$state_code]['info']['Partner']['Results'],
       '#waterAnalysisResults' => $payload['results'][0],
       '#state_code' => $state_code,
       '#base_path' => \Drupal::root(),
       '#treatment_title' => $payload['treatment_title'],
       '#step_html' => $step_html,
-      '#titles' => [
-        'Interpretation of Results:',
-        'Health Concerns:',
-        'Treatment Options:',
-      ],
     );
 
     return \Drupal::service('renderer')->render($body_data);
   }
 
   function generate_pdf() {
+    $response = new Response();
     if (isset($_POST['payload'])) {
       $html = $this->render_html($_POST['payload']);
-      if (isset($_GET['html'])) {
-        return [
-          '#markup' => $html
-        ];
-      }
       $descriptorspec = [
         0 => ['pipe', 'r'], // stdin
         1 => ['pipe', 'w'], // stdout
@@ -231,19 +170,17 @@ class EEPGeneratePDFController extends ControllerBase {
       fclose($pipes[1]);
       proc_close($process);
       // Output the results
-      if ($errors) {
-        watchdog('be_well_informed', "wkhtmltopdf PDF Generation Failed! " . $errors, WATCHDOG_ERROR);
-        return "PDF Generation Failed!!";
-      } else {
-        header('Content-Type: application/pdf');
-        header('Cache-Control: public, must-revalidate, max-age=0'); // HTTP/1.1
-        header('Pragma: public');
-        header('Expires: Sat, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-        header('Content-Length: ' . strlen($pdf));
-        echo $pdf;
+      if (!$errors) {
+        $response->headers->set('Content-Type', 'application/pdf');
+        $response->headers->set('Cache-Control', 'public, must-revalidate, max-age=0');
+        $response->headers->set('Pragma', 'public');
+        $response->headers->set('Expires', 'Sat, 26 Jul 1997 05:00:00 GMT');
+        $response->headers->set('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT');
+        $response->headers->set('Content-Length', strlen($pdf));
+        $response->setContent($pdf);
       }
     }
+    return $response;
   }
 
 
