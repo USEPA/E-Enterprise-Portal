@@ -290,6 +290,7 @@
         'updatePromptResponses',
         'updateSelectedPartner',
         'updateWaterAnalysisRequestProperty',
+        'downloadPDF',
       ]),
       onCheckYourWater(evt) {
         evt.preventDefault();

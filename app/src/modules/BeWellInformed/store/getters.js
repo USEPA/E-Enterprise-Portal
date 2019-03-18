@@ -102,4 +102,22 @@ export default {
     });
     return isEmpty;
   },
+  getWaterTreatmentTitle(state, getters) {
+    let r = 'Water Treatment Systems That Remove ';
+    const resultEvaluations = getters.getWaterAnalysisResults[0].ResultEvaluations;
+    const treatedContaminants = [];
+    Object.keys(resultEvaluations).forEach((symbol) => {
+      if (resultEvaluations[symbol].GuidelineColor === 'font-red' ||
+          resultEvaluations[symbol].TreatmentMessages) {
+        treatedContaminants.push(resultEvaluations[symbol].ContaminantFullName);
+      }
+    });
+    const lastContaminant = treatedContaminants.pop();
+    if (treatedContaminants.length > 1) {
+      r += treatedContaminants.join(', ');
+      r += ' and ';
+    }
+    r += lastContaminant;
+    return r;
+  },
 };

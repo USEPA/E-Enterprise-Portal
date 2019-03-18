@@ -16,8 +16,10 @@
           <template
             class="introduction"
             :html="infoXmlResults.Introduction._cdata"></template>
-          <template><a href="/eep_generate_pdf/water_analysis_results_pdf"><img
-            src="/images/pdf_icon.png"></a></template>
+          <template>
+            <a class="cursor-pointer"
+                    @click="buildPDF()">
+              <img src="/images/pdf_icon.png"></a></template>
         </div>
       </div>
     </div>
@@ -98,7 +100,7 @@
         <div class="col-12">
           <h4
             class="heading-bar"
-            v-html="getWaterTreatmentTitle()">
+            v-html="getWaterTreatmentTitle">
           </h4>
         </div>
       </div>
@@ -228,36 +230,26 @@
   </div>
 </template>
 <script>
-  import { mapGetters } from 'vuex';
+  import { mapActions, mapGetters } from 'vuex';
   import ResultLegend from './ResultLegend.vue';
   import ResultRow from './ResultRow.vue';
   import BButton from "bootstrap-vue/src/components/button/button";
-  import pdfMake from "pdfmake/build/pdfmake";
-  import pdfFonts from 'pdfmake/build/vfs_fonts.js';
+  import storeModule from '../store/index';
 
-  pdfMake.vfs = pdfFonts.pdfMake.vfs;
+  const componentName = 'WaterAnalysisResult';
 
   export default {
-    name: 'WaterAnalysisResult',
+    name: componentName,
     components: { BButton, ResultRow, ResultLegend },
     data() {
       return {
-        pdfMake,
-        pdfFonts,
-        pdfContent: {
-          content: [
-            {
-              text: 'example row 0'
-            },
-
-            {
-              text: 'example row 1'
-            },
-            {
-              text: 'example row 2'
-            }
-          ]
-        },
+        waterTreatmentTitle: '',
+      }
+    },
+    created() {
+      const store = this.$store;
+      if (!(store && store.state && store.state[componentName])) {
+        store.registerModule(name, storeModule);
       }
     },
     props: {
@@ -272,6 +264,7 @@
         partnerXmls: 'BeWellInformed/getPartnerXmls',
         selectedPartner: 'BeWellInformed/getSelectedPartner',
         partnerResource: 'BeWellInformed/getPartnerResource',
+        getWaterTreatmentTitle: 'BeWellInformed/getWaterTreatmentTitle',
       }),
       infoXmlResults() {
         const xmls = this.partnerXmls;
@@ -284,6 +277,9 @@
       },
     },
     methods: {
+      ...mapActions(name, [
+        'downloadPDF',
+      ]),
       isReady() {
         return !!this.infoXmlResults;
       },
@@ -310,24 +306,6 @@
         }
         return r;
       },
-      getWaterTreatmentTitle() {
-        let r = 'Water Treatment Systems That Remove ';
-        const resultEvaluations = this.waterAnalysisResult.ResultEvaluations;
-        const treatedContaminants = [];
-        Object.keys(resultEvaluations).forEach((symbol) => {
-          if (resultEvaluations[symbol].GuidelineColor === 'font-red' ||
-            resultEvaluations[symbol].TreatmentMessages) {
-            treatedContaminants.push(resultEvaluations[symbol].ContaminantFullName);
-          }
-        });
-        const lastContaminant = treatedContaminants.pop();
-        if (treatedContaminants.length > 1) {
-          r += treatedContaminants.join(', ');
-          r += ' and ';
-        }
-        r += lastContaminant;
-        return r;
-      },
       hasWholeHomeTreatment(treatment) {
         let r = [];
         const wholeHomeTreatments = ['home', 'house'];
@@ -351,6 +329,9 @@
           r = pointOfUseTreatment.filter(value => systemTypes.indexOf(value) !== -1);
         }
         return r.length;
+      },
+      buildPDF() {
+        this.downloadPDF();
       },
     },
   };

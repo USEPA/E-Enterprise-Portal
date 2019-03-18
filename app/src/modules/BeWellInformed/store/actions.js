@@ -285,4 +285,25 @@ export default {
       }
     }
   },
+  downloadPDF(context) {
+    // @todo this form submission method can be extracted because it duplicates code from My Reporting
+    const store = context;
+    const rootStore = this;
+    const apiURL = rootStore.getters.getEnvironmentApiURL;
+    let waterResults = store.getters.getWaterAnalysisResults;
+    let infoXML = store.getters.getPartnerXmls;
+    const payload = {'results': waterResults, 'info': infoXML, 'treatment_title': store.getters.getWaterTreatmentTitle}
+    const form = document.createElement('form');
+    form.setAttribute('method', 'post');
+    form.setAttribute('action', `${apiURL}/eep_generate_pdf/water_analysis_results_pdf_template`);
+    form.setAttribute('target', '_blank');
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'payload';
+    input.value = JSON.stringify(payload);
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+  }
 };

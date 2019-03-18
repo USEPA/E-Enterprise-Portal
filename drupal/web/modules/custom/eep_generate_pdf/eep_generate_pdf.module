@@ -26,10 +26,18 @@ function eep_generate_pdf_help($route_name, RouteMatchInterface $route_match) {
   }
 }
 
-function pdf_generate_theme($existing, $type, $theme, $path) {
+function eep_generate_pdf_theme($existing, $type, $theme, $path) {
   return [
-    'pdf_generate' => [
-      'variables' => ['test_var' => NULL],
+    'eep_generate_pdf' => [
+      'variables' => ['step_html' => NULL, 'treatment_title' => NULL, 'base_path' => NULL, 'bwi_vars' => NULL, 'state_code' => NULL, 'infoXmlResults' => NULL, 'waterAnalysisResults' => NULL],
     ],
+    'result_row' => [
+      'variables' => [],
+      'template' => 'result-row.html.twig',
+    ],
+    'result_legend' => [
+      'variables' => [],
+      'template' => 'result-legend.html.twig',
+    ]
   ];
 }

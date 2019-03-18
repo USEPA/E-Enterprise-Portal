@@ -1,8 +1,18 @@
-eep_my_reporting.my_reporting:
-  path: '/eep_generate_pdf/water_analysis_results_pdf'
+eep_generate_pdf.eep_generate_pdf:
+  path: '/eep_generate_pdf/water_analysis_results_pdf_template'
   defaults:
-    _controller: '\Drupal\eep_my_reporting\Controller\EEPMyReportingController::generate_pdf'
+    _controller: '\Drupal\eep_generate_pdf\Controller\EEPGeneratePDFController::generate_pdf'
     _title: 'Generate PDF'
   methods:  [GET, POST]
   requirements:
     _access: 'TRUE'
+
+eep_generate_pdf.process_pdf:
+  path: '/eep_generate_pdf/water_analysis_results_pdf'
+  defaults:
+    _controller: '\Drupal\eep_generate_pdf\Controller\EEPGeneratePDFController::process_pdf'
+    _title: 'Generate PDF'
+  methods:  [GET, POST]
+  requirements:
+    _access: 'TRUE'
+

@@ -1,39 +1,9 @@
-<div class="row border {{ result.GuidelineColor }} my-2 px-2">
-    <div class="col-sm-12 col-md-1 border-bottom py-1 mb-1">
-        <h6 class="d-inline d-md-none">Result: </h6>
+{% for  key, result in keys %}
+    <div class="one-half">
         <img class="key-image-icon"
-             src="{{ result.GuidelineIcon }}"
-             alt="aKey">
+             title="{{ result._cdata }}"
+             src="{{ base_path }}/sites/default/files/bwi_pdf_styles/images/{{ key }}.png"
+             alt="{{ key }}">
+        {{ result._cdata | raw }}
     </div>
-    <div class="col-sm-12 col-md-2 border-bottom py-1 mb-1">
-        <h6 class="d-inline d-md-none">Name: </h6>
-        <span> {{ result.ContaminantFullName | raw }}</span>
-    </div>
-    <div class="col-sm-12 col-md-2 border-bottom py-1 mb-1">
-        <h6 class="d-inline d-md-none">Your Entry: </h6>
-        <span> {{ result.UserContaminatValue | raw }}</span>
-    </div>
-    <div class="col-sm-12 col-md-2 border-bottom py-1 mb-1">
-        <h6 class="d-inline d-md-none">Limit: </h6>
-        <span>{{ result.MaximumContaminantLevel | raw }}</span>
-    </div>
-    <div class="col-sm-12 col-md-5 border-bottom py-1 mb-1">
-        <h6 class="d-md-none">About Your Well Water: </h6>
-        <p> {{ result.GuidelineText | raw }}</p>
-    </div>
-    {% if result.InterpretationMessages is defined and result.InterpretationMessages is not null %}
-        <div class="col-12 border border-warning py-1 mb-1">
-            {{ result.InterpretationMessages | raw  }}
-        </div>
-    {% endif %}
-    {% if result.HealthMessages is defined and result.HealthMessages is not null %}
-        <div class="col-12 border border-warning py-1 mb-1">
-            {{ result.HealthMessages | raw }}
-        </div>
-    {% endif %}
-    {% if result.TreatmentMessages is defined and result.TreatmentMessages is not null %}
-        <div class="col-12 border border-warning py-1 mb-1">
-            {{ result.TreatmentMessages | raw }}
-        </div>
-    {% endif %}
-</div>
+{% endfor %}
