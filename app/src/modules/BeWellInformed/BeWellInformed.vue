@@ -301,6 +301,7 @@
         'updatePromptResponses',
         'updateSelectedPartner',
         'updateWaterAnalysisRequestProperty',
+        'downloadPDF',
       ]),
       onCheckYourWater(evt) {
         evt.preventDefault();
@@ -341,7 +342,7 @@
       },
       onSubmit(evt) {
         this.interactiveModalSubmit = true;
-        this.partnerModalSubmit = false;
+        this.partnerModalSubmit= false;
         const partner = this.selectedPartner;
         const vm = this;
         const isRequestEmpty = vm.isWaterAnalysisRequestEmpty();

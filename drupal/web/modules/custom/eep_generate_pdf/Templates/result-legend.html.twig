@@ -1,0 +1,9 @@
+{% for  key, result in keys %}
+    <div class="one-half">
+        <img class="key-image-icon"
+             title="{{ result._cdata }}"
+             src="{{ base_path }}/sites/default/files/bwi_pdf_styles/images/{{ key }}.png"
+             alt="{{ key }}">
+        {{ result._cdata | raw }}
+    </div>
+{% endfor %}

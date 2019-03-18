@@ -1,0 +1,5 @@
+name: 'EEP Generate PDF'
+type: module
+description: 'Provides functionality for E-Enterprise PDF Generation.'
+core: 8.x
+package: 'EEP'

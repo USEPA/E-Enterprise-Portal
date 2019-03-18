@@ -15,6 +15,10 @@
           <template
             class="introduction"
             :html="infoXmlResults.Introduction._cdata"></template>
+          <template>
+            <a class="cursor-pointer"
+                    @click="buildPDF()">
+              <img src="/images/pdf_icon.png"></a></template>
         </div>
       </div>
     </div>
@@ -95,7 +99,7 @@
         <div class="col-12">
           <h4
             class="heading-bar"
-            v-html="getWaterTreatmentTitle()">
+            v-html="getWaterTreatmentTitle">
           </h4>
         </div>
       </div>
@@ -225,13 +229,23 @@
   </div>
 </template>
 <script>
-  import { mapGetters } from 'vuex';
+  import { mapActions, mapGetters } from 'vuex';
   import ResultLegend from './ResultLegend.vue';
   import ResultRow from './ResultRow.vue';
+  import BButton from "bootstrap-vue/src/components/button/button";
+  import storeModule from '../store/index';
+
+  const componentName = 'WaterAnalysisResult';
 
   export default {
-    name: 'WaterAnalysisResult',
-    components: { ResultRow, ResultLegend },
+    name: componentName,
+    components: { BButton, ResultRow, ResultLegend },
+    created() {
+      const store = this.$store;
+      if (!(store && store.state && store.state[componentName])) {
+        store.registerModule(name, storeModule);
+      }
+    },
     props: {
       waterAnalysisResult: {
         required: true,
@@ -244,6 +258,7 @@
         partnerXmls: 'BeWellInformed/getPartnerXmls',
         selectedPartner: 'BeWellInformed/getSelectedPartner',
         partnerResource: 'BeWellInformed/getPartnerResource',
+        getWaterTreatmentTitle: 'BeWellInformed/getWaterTreatmentTitle',
       }),
       infoXmlResults() {
         const xmls = this.partnerXmls;
@@ -256,6 +271,9 @@
       },
     },
     methods: {
+      ...mapActions(name, [
+        'downloadPDF',
+      ]),
       isReady() {
         return !!this.infoXmlResults;
       },
@@ -282,24 +300,6 @@
         }
         return r;
       },
-      getWaterTreatmentTitle() {
-        let r = 'Water Treatment Systems That Remove ';
-        const resultEvaluations = this.waterAnalysisResult.ResultEvaluations;
-        const treatedContaminants = [];
-        Object.keys(resultEvaluations).forEach((symbol) => {
-          if (resultEvaluations[symbol].GuidelineColor === 'font-red' ||
-            resultEvaluations[symbol].TreatmentMessages) {
-            treatedContaminants.push(resultEvaluations[symbol].ContaminantFullName);
-          }
-        });
-        const lastContaminant = treatedContaminants.pop();
-        if (treatedContaminants.length > 1) {
-          r += treatedContaminants.join(', ');
-          r += ' and ';
-        }
-        r += lastContaminant;
-        return r;
-      },
       hasWholeHomeTreatment(treatment) {
         let r = [];
         const wholeHomeTreatments = ['home', 'house'];
@@ -323,6 +323,9 @@
           r = pointOfUseTreatment.filter(value => systemTypes.indexOf(value) !== -1);
         }
         return r.length;
+      },
+      buildPDF() {
+        this.downloadPDF();
       },
     },
   };

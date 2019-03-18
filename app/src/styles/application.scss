@@ -6,11 +6,20 @@ body {
   min-height: 100vh;
 }
 #app {
+  font-family: 'Source Sans Pro';
   display: block;
   min-height: 100vh;
   background-color: $white;
 
   & > header, & > container {
     background-color: $white;
+  }
+  .table {
+    thead {
+      font-size: 14px;
+    }
+    tr {
+      font-size: 10px;
+    }
   }
 }
