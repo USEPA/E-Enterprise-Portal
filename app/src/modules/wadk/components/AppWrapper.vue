@@ -200,7 +200,6 @@
         vm.menuModalTabIndex = keys.indexOf('Description');
         vm.$root.$emit('bv::show::modal', `${vm.eepApp.id}-widget-modal`, button);
         this.$ga.event('eportal', 'click', `${vm.eepApp.id} Description Modal`, 1)
-
       },
       onSource(button) {
         const vm = this;
