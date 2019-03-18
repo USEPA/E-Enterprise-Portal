@@ -232,14 +232,13 @@
   import { mapActions, mapGetters } from 'vuex';
   import ResultLegend from './ResultLegend.vue';
   import ResultRow from './ResultRow.vue';
-  import BButton from "bootstrap-vue/src/components/button/button";
   import storeModule from '../store/index';
 
   const componentName = 'WaterAnalysisResult';
 
   export default {
     name: componentName,
-    components: { BButton, ResultRow, ResultLegend },
+    components: { ResultRow, ResultLegend },
     created() {
       const store = this.$store;
       if (!(store && store.state && store.state[componentName])) {
