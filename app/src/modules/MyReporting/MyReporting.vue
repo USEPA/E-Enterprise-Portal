@@ -147,12 +147,14 @@
                     <div class="organization-name"/>
                     <template v-if="linkDetails.organizations">
                       <b-form-select
-                        v-model="linkDetails.organizations[0].orgName"
+                        v-model="organization"
                         class="mb-3"
                         v-if="linkDetails.organizations.length === 1">
                         <template slot="first">
                           <option :value="null">Choose Organization...</option>
-                          <option>
+                          <option
+                            :value="linkDetails.organizations[0]"
+                            selected>
                             {{ linkDetails.organizations[0].orgName }}
                           </option>
                         </template>
@@ -382,6 +384,7 @@
       },
       openPopupPage(url, params) {
         this.openWindowWithPost(`${url}`, '', 'sso-handoff', params);
+        this.$ga.event('eportal', 'click', 'My Reporting SSO Handoff', 1);
       },
       openWindowWithPost(url, windowoption, name, params) {
         const form = document.createElement('form');
