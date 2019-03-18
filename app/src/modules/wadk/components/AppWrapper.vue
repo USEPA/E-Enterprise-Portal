@@ -199,17 +199,21 @@
         const keys = Object.keys(this.eepApp.field_settings_menu_items);
         vm.menuModalTabIndex = keys.indexOf('Description');
         vm.$root.$emit('bv::show::modal', `${vm.eepApp.id}-widget-modal`, button);
+        this.$ga.event('eportal', 'click', `${vm.eepApp.id} Description Modal`, 1)
+
       },
       onSource(button) {
         const vm = this;
         const keys = Object.keys(this.eepApp.field_settings_menu_items);
         vm.menuModalTabIndex = keys.length;
         vm.$root.$emit('bv::show::modal', `${vm.eepApp.id}-widget-modal`, button);
+        this.$ga.event('eportal', 'click', `${vm.eepApp.id} Source Modal`, 1)
       },
       widgetMenuModalToIndex(title, button, index) {
         const vm = this;
         vm.menuModalTabIndex = index;
         vm.$root.$emit('bv::show::modal', `${vm.eepApp.id}-widget-modal`, button);
+        this.$ga.event('eportal', 'click', `${vm.eepApp.id} Info Modal`, 1)
       },
     },
   };
