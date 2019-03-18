@@ -47,7 +47,6 @@
     name: 'BasicPage',
     components: {
       AppPlaceholderContent,
-      uswds,
     },
     props: {
       urlAlias: {
