@@ -29,6 +29,12 @@
                 :key="title"
                 @click="widgetMenuModalToIndex(title, $event.target, index)">{{ title }}
               </b-dropdown-item-button>
+              <b-dropdown-item-button
+                v-if="eepApp.source.length > 0"
+                title="Source"
+                @click="onSource">
+                Source
+              </b-dropdown-item-button>
             </b-dropdown>
             <label
               for="expander"
@@ -98,6 +104,19 @@
               :key="index">
               <h3>{{ title }}</h3>
               <div v-html="text"/>
+            </div>
+            <div  class="pl-3" v-if="eepApp.source.length > 0">
+              <h3>Source</h3>
+              <div v-for ="(source, index) in eepApp.source">
+                <a
+                :title="source.text"
+                :href="source.link"
+                target="_blank">{{ source.text }}</a>
+                <br
+                :key="index"
+                v-if="eepApp.source.length !== index + 1">
+              </div>
+
             </div>
           </template>
         </div>
