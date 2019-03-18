@@ -1,6 +1,6 @@
 // USWDS
 @import 'uswds-override';
-@import '../../node_modules/uswds/dist/scss/uswds.scss';
+@import '~uswds/src/stylesheets/uswds';
 
 // BS basic configuration
 @import "bootstrap-mixins-cheatsheet";
