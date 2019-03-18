@@ -51,7 +51,7 @@
             :style="getIcon">{{ getTitle }}</h2>
         </div>
       </div>
-      <div class="w-100 source-description-wrapper pt-1 pb-2">
+      <div class="w-100 source-description-wrapper pt-1">
         <p>
           <a
             class="text-decoration-underline cursor-pointer link-button"
@@ -105,16 +105,18 @@
               <h3>{{ title }}</h3>
               <div v-html="text"/>
             </div>
-            <div  class="pl-3" v-if="eepApp.source.length > 0">
+            <div
+              class="pl-3"
+              v-if="eepApp.source.length > 0">
               <h3>Source</h3>
               <div v-for ="(source, index) in eepApp.source">
                 <a
-                :title="source.text"
-                :href="source.link"
-                target="_blank">{{ source.text }}</a>
+                  :title="source.text"
+                  :href="source.link"
+                  target="_blank">{{ source.text }}</a>
                 <br
-                :key="index"
-                v-if="eepApp.source.length !== index + 1">
+                  :key="index"
+                  v-if="eepApp.source.length !== index + 1">
               </div>
 
             </div>
@@ -199,20 +201,20 @@
         const keys = Object.keys(this.eepApp.field_settings_menu_items);
         vm.menuModalTabIndex = keys.indexOf('Description');
         vm.$root.$emit('bv::show::modal', `${vm.eepApp.id}-widget-modal`, button);
-        this.$ga.event('eportal', 'click', `${vm.eepApp.id} Description Modal`, 1)
+        this.$ga.event('eportal', 'click', `${vm.eepApp.id} Description Modal`, 1);
       },
       onSource(button) {
         const vm = this;
         const keys = Object.keys(this.eepApp.field_settings_menu_items);
         vm.menuModalTabIndex = keys.length;
         vm.$root.$emit('bv::show::modal', `${vm.eepApp.id}-widget-modal`, button);
-        this.$ga.event('eportal', 'click', `${vm.eepApp.id} Source Modal`, 1)
+        this.$ga.event('eportal', 'click', `${vm.eepApp.id} Source Modal`, 1);
       },
       widgetMenuModalToIndex(title, button, index) {
         const vm = this;
         vm.menuModalTabIndex = index;
         vm.$root.$emit('bv::show::modal', `${vm.eepApp.id}-widget-modal`, button);
-        this.$ga.event('eportal', 'click', `${vm.eepApp.id} Info Modal`, 1)
+        this.$ga.event('eportal', 'click', `${vm.eepApp.id} Info Modal`, 1);
       },
     },
   };
