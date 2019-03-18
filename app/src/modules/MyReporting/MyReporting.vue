@@ -147,14 +147,12 @@
                     <div class="organization-name"/>
                     <template v-if="linkDetails.organizations">
                       <b-form-select
-                        v-model="organization"
+                        v-model="linkDetails.organizations[0].orgName"
                         class="mb-3"
                         v-if="linkDetails.organizations.length === 1">
                         <template slot="first">
                           <option :value="null">Choose Organization...</option>
-                          <option
-                            :value="linkDetails.organizations[0]"
-                            selected>
+                          <option>
                             {{ linkDetails.organizations[0].orgName }}
                           </option>
                         </template>
@@ -222,7 +220,18 @@
                       :per-page="perPage"
                       v-model="currentPage"
                       class="my-0 font-weight-normal">
-                      <PaginationArrows/>
+                      <div class="wapp-arrows"
+                        slot="first-text"><img src="/images/pager-first.png"
+                        alt="Go to first page"></div>
+                      <div class="wapp-arrows"
+                        slot="next-text"><img src="/images/pager-next.png"
+                        alt="Go to next page"></div>
+                      <div class="wapp-arrows"
+                        slot="prev-text"><img src="/images/pager-previous.png"
+                        alt="Go to previous page"></div>
+                      <div class="wapp-arrows"
+                        slot="last-text"><img src="/images/pager-last.png"
+                        alt="Go to last page"></div>
                     </b-pagination>
                   </b-col>
                 </b-row>
@@ -384,7 +393,7 @@
       },
       openPopupPage(url, params) {
         this.openWindowWithPost(`${url}`, '', 'sso-handoff', params);
-        this.$ga.event('eportal', 'click', 'My Reporting SSO Handoff', 1);
+        this.$ga.event('eportal', 'click', 'My Reporting SSO Handoff', 1)
       },
       openWindowWithPost(url, windowoption, name, params) {
         const form = document.createElement('form');

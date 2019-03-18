@@ -49,8 +49,31 @@ export default {
   },
   setMsgpFacilityState(context, payload) {
     const store = context;
-
+    const { vm } = payload;
+    const apiURL = store.rootGetters.getEnvironmentApiURL;
     store.commit(types.SET_MSGP_FACILITY_STATE, payload);
+    const { facilityState } = store.state.msgpFormData;
+    const { baseFormOptions } = store.state.formOptions;
+    let stateCode = '';
+
+    baseFormOptions[1].forEach((key) => {
+      if (key.stateName === facilityState) {
+        stateCode = key.stateCode;
+      }
+    });
+
+    const axiosUrlBase = `${apiURL}/eep/proxy/service/oeca-svc-ref?counties=${stateCode}`;
+
+    AppAxios.get(axiosUrlBase).then((response) => {
+      const counties = response.data.helperQueryResponse.oecaSvcWithParams[0];
+      const countyNames = [];
+      counties.forEach((key) => {
+        if (key.stateCode === stateCode) {
+          countyNames.push(key.countyName);
+        }
+      });
+      store.commit(types.SET_MSGP_COUNTIES, countyNames);
+    });
   },
   setMsgpFacilityZip(context, payload) {
     const store = context;
@@ -109,8 +132,30 @@ export default {
   },
   setMsgpSector(context, payload) {
     const store = context;
-
+    const { vm } = payload;
+    const apiURL = store.rootGetters.getEnvironmentApiURL;
     store.commit(types.SET_MSGP_SECTOR, payload);
+    const { sector } = store.state.msgpFormData;
+    const { baseFormOptions } = store.state.formOptions;
+    let sectorCode = '';
+    baseFormOptions[0].forEach((key) => {
+      if (sector === key.sectorName) {
+        sectorCode = key.sectorCode;
+      }
+    });
+
+    const axiosUrlBase = `${apiURL}/eep/proxy/service/oeca-svc-ref?subsectors=${sectorCode}`;
+
+    AppAxios.get(axiosUrlBase).then((response) => {
+      const subSectors = response.data.helperQueryResponse.oecaSvcWithParams[0];
+      const subSectorNames = [];
+      subSectors.forEach((key) => {
+        if (key.sectorCode === sectorCode) {
+          subSectorNames.push(key.subsectorName);
+        }
+      });
+      store.commit(types.SET_BASE_FORM_OPTION_SUB_SECTOR_NAMES, subSectorNames);
+    });
   },
   setMsgpSubsector(context, payload) {
     const store = context;
@@ -154,8 +199,31 @@ export default {
   },
   setCgpFacilityState(context, payload) {
     const store = context;
-
+    const { vm } = payload;
+    const apiURL = store.rootGetters.getEnvironmentApiURL;
     store.commit(types.SET_CGP_FACILITY_STATE, payload);
+    const { projectState } = store.state.cgpFormData;
+    const { baseFormOptions } = store.state.formOptions;
+    let stateCode = '';
+
+    baseFormOptions[1].forEach((key) => {
+      if (key.stateName === projectState) {
+        stateCode = key.stateCode;
+      }
+    });
+
+    const axiosUrlBase = `${apiURL}/eep/proxy/service/oeca-svc-ref?counties=${stateCode}`;
+
+    AppAxios.get(axiosUrlBase).then((response) => {
+      const counties = response.data.helperQueryResponse.oecaSvcWithParams[0];
+      const countyNames = [];
+      counties.forEach((key) => {
+        if (key.stateCode === stateCode) {
+          countyNames.push(key.countyName);
+        }
+      });
+      store.commit(types.SET_CGP_COUNTIES, countyNames);
+    });
   },
   setCgpFacilityZip(context, payload) {
     const store = context;
@@ -219,7 +287,7 @@ export default {
     const { state } = store;
     const apiURL = store.rootGetters.getEnvironmentApiURL;
 
-    AppAxios.get(`${apiURL}/eep/proxy/service/oeca-svc-ref?tribes&states&sectors`)
+    AppAxios.get(`${apiURL}/eep/proxy/service/oeca-svc-ref?tribes&states&sectors&subsectors`)
       .then((response) => {
         const formOptions = response.data.helperQueryResponse.oecaSvc;
         const formSectorOptions = formOptions[0];
@@ -250,7 +318,7 @@ export default {
     const { state } = store;
     const apiURL = store.rootGetters.getEnvironmentApiURL;
 
-    AppAxios.get(`${apiURL}/eep/proxy/service/oeca-msgp?formTypes&formStatuses&coverageTypes&submissionTypes&issuers&coverageStatuses&form&msgpDownloadUrlBase`)
+    AppAxios.get(`${apiURL}/eep/proxy/service/oeca-msgp?formTypes&formStatuses&coverageTypes&submissionTypes&issuers&coverageStatuses&msgpDownloadUrlBase`)
       .then((response) => {
         const formOptions = response.data.helperQueryResponse;
         store.commit(types.SET_FORM_OPTIONS_MSGP, formOptions);
@@ -275,15 +343,20 @@ export default {
     const { baseFormOptions } = store.state.formOptions;
     const axiosUrlBase = `${apiURL}/eep/proxy/service/oeca-msgp?`;
     let urlQueries = '';
-
     // Set msgp form inputs that aren't empty or default as queries
     Object.keys(msgpFormData).forEach((key) => {
-      if (msgpFormData[key] !== 'Select...' && msgpFormData[key] !== '') {
+      if (msgpFormData[key] !== 'Select...' && msgpFormData[key] !== '' && msgpFormData[key] !== 'null') {
         // Map State Name to State Code
         if (key === 'facilityState') {
-          baseFormOptions[1].forEach((subKeyA) => {
-            if (subKeyA.stateName === msgpFormData.facilityState) {
-              urlQueries += `facilityState=${subKeyA.stateCode}`;
+          baseFormOptions[1].forEach((subKey) => {
+            if (subKey.stateName === msgpFormData.facilityState) {
+              urlQueries += `facilityState=${subKey.stateCode}`;
+            }
+          });
+        } else if (key === 'subsector') {
+          baseFormOptions[0].forEach((subKey) => {
+            if (subKey.sectorName === msgpFormData.sector) {
+              urlQueries += `subsector=${subKey.sectorCode}`;
             }
           });
         } else if (key === 'submittedDateTo') {
@@ -304,13 +377,19 @@ export default {
     // get stuff
     AppAxios.get(axiosUrl)
       .then((response) => {
-        const msgpResponse = response.data.formQueryResponse;
-        store.commit(types.SET_MSGP_RESPONSE, msgpResponse);
-        store.commit(types.SET_MSGP_RESULTS_LOADED, true);
+        let msgpResponse = response.data.formQueryResponse;
+        if (msgpResponse.code === 'E_InternalError') {
+          msgpResponse = 'Error Loading Results...';
+          store.commit(types.SET_MSGP_RESPONSE, msgpResponse);
+          store.commit(types.SET_RESULTS_ERROR, true);
+        } else {
+          store.commit(types.SET_RESULTS_ERROR, false);
+          store.commit(types.SET_MSGP_RESPONSE, msgpResponse);
+          store.commit(types.SET_MSGP_RESULTS_LOADED, true);
+        }
         vm.$root.$emit('bv::show::modal', 'permit-results-modal');
       });
   },
-
   cgpFormGetResults(context, payload) {
     const store = context;
     const { vm } = payload;
@@ -322,12 +401,12 @@ export default {
 
     // Set cgp form inputs that aren't empty or default as queries
     Object.keys(cgpFormData).forEach((key) => {
-      if (cgpFormData[key] !== 'Select...' && cgpFormData[key] !== '') {
+      if (cgpFormData[key] !== 'Select...' && cgpFormData[key] !== '' && cgpFormData[key] !== 'null') {
         // Map State Name to State Code
-        if (key === 'facilityState') {
-          baseFormOptions[1].forEach((subKeyA) => {
-            if (subKeyA.stateName === cgpFormData.facilityState) {
-              urlQueries += `facilityState=${subKeyA.stateCode}`;
+        if (key === 'projectState') {
+          baseFormOptions[1].forEach((subKey) => {
+            if (subKey.stateName === cgpFormData.projectState) {
+              urlQueries += `projectState=${subKey.stateCode}`;
             }
           });
         } else if (key === 'submittedDateTo') {
@@ -336,6 +415,14 @@ export default {
         } else if (key === 'submittedDateFrom') {
           const unformattedDate = new Date(cgpFormData[key]);
           urlQueries += `${key}=${unformattedDate.toISOString()}`;
+        } else if (key === 'updatedDateTo') {
+          const unformattedDate = new Date(cgpFormData[key]);
+          urlQueries += `${key}=${unformattedDate.toISOString()}`;
+        } else if (key === 'updatedDateFrom') {
+          const unformattedDate = new Date(cgpFormData[key]);
+          urlQueries += `${key}=${unformattedDate.toISOString()}`;
+        } else if (key === 'dateSelection') {
+          urlQueries += '';
         } else {
           urlQueries += `${urlQueries + key}=${cgpFormData[key]}`;
         }
@@ -348,11 +435,33 @@ export default {
     // get stuff
     AppAxios.get(axiosUrl)
       .then((response) => {
-        const cgpResponse = response.data.formQueryResponse;
-        store.commit(types.SET_CGP_RESPONSE, cgpResponse);
-        store.commit(types.SET_CGP_RESULTS_LOADED, true);
+        let cgpResponse = response.data.formQueryResponse;
+        if (cgpResponse.code === 'E_InternalError') {
+          cgpResponse = 'Error Loading Results...';
+          store.commit(types.SET_CGP_RESPONSE, cgpResponse);
+          store.commit(types.SET_RESULTS_ERROR, true);
+        } else {
+          store.commit(types.SET_RESULTS_ERROR, false);
+          store.commit(types.SET_CGP_RESPONSE, cgpResponse);
+          store.commit(types.SET_CGP_RESULTS_LOADED, true);
+        }
         vm.$root.$emit('bv::show::modal', 'permit-results-modal');
       });
   },
-
+  resetResultsLoaded(context) {
+    const store = context;
+    store.commit(types.SET_RESULTS_ERROR, false);
+    store.commit(types.SET_CGP_RESULTS_LOADED, true);
+    store.commit(types.SET_MSGP_RESULTS_LOADED, true);
+  },
+  setMsgpFormToDefaults(context) {
+    const store = context;
+    const defaults = store.state.msgpFormDataDefaults;
+    store.commit(types.SET_MSGP_FORM_DATA, defaults);
+  },
+  setCgpFormToDefaults(context) {
+    const store = context;
+    const defaults = store.state.cgpFormDataDefaults;
+    store.commit(types.SET_CGP_FORM_DATA, defaults);
+  },
 };
