@@ -51,7 +51,7 @@
             :style="getIcon">{{ getTitle }}</h2>
         </div>
       </div>
-      <div class="w-100 source-description-wrapper">
+      <div class="w-100 source-description-wrapper pt-2">
         <p class="small">
           <a
             class="text-decoration-underline cursor-pointer link-button"
@@ -104,6 +104,19 @@
               :key="index">
               <h3>{{ title }}</h3>
               <div v-html="text"/>
+            </div>
+            <div  class="pl-3" v-if="eepApp.source.length > 0">
+              <h3>Source</h3>
+              <div v-for ="(source, index) in eepApp.source">
+                <a
+                :title="source.text"
+                :href="source.link"
+                target="_blank">{{ source.text }}</a>
+                <br
+                :key="index"
+                v-if="eepApp.source.length !== index + 1">
+              </div>
+
             </div>
           </template>
         </div>

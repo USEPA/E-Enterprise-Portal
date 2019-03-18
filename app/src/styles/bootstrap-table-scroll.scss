@@ -1,6 +1,7 @@
-.bootstrap-vue-table-scroll > thead, tbody {
+.bootstrap-vue-table-scroll > thead, .bootstrap-vue-table-scroll > tbody {
   display: block;
 }
+
 .bootstrap-vue-table-scroll > thead th,
 .bootstrap-vue-table-scroll > tbody td {
   width: 65%;
@@ -25,7 +26,9 @@
 .bootstrap-vue-mycerts-table-scroll > thead th,
 .bootstrap-vue-mycerts-table-scroll > table,
 .bootstrap-vue-table-scroll > table {
+  table-layout: fixed;
   width: 100%;
+  float: left;
 }
 
 .bootstrap-vue-mycerts-table-scroll > thead th {
@@ -43,6 +46,8 @@
 .bootstrap-vue-fav-table-scroll > thead th,
 .bootstrap-vue-fav-table-scroll > tbody td {
   display: flex;
+  width: 100%;
+  float: left;
 }
 
 .table.no-top-border > thead th {
@@ -66,19 +71,24 @@
 .bootstrap-vue-fav-table-scroll {
   font-size:.875rem;
 }
+
 .wapp .page-link {
   padding: 0.25rem 0.50rem;
   border:none;
   font-size:.75rem;
   font-weight:bold;
+  text-decoration:none;
 }
+
 .wapp .page-item.active .page-link {
   border-radius:5px;
 }
+
 .wapp .input-group > .form-control {
   height:auto;
   padding: 2px 10px;
 }
+
 .wapp .custom-select {
   height:auto;
   padding:2px 10px;
@@ -98,5 +108,5 @@
 .bootstrap-vue-table-scroll > tbody {
   overflow-y: auto;
   width: 100%;
-  height:125px;
+  height:100px;
 }

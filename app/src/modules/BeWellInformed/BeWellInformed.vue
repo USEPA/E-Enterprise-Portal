@@ -3,35 +3,46 @@
   <div>
     <AppWrapper
       :eep-app="eepApp">
+      <template>
+        <p class="check-water-message pt-2">
+          Have a well and wonder what your water testing results mean? Enter
+          water test results and get feedback about health concerns and water treatment choices.</p>
+      </template>
       <b-form
         class="needs-validation"
         @submit="onCheckYourWater"
         novalidated>
         <label
           for="partner-selection"
-          class="sr-only">Select partner</label>
-        <b-form-select
-          id="partner-selection"
-          :value="selectedPartner"
-          :options="partners"
-          ref="partnerDropdown"
-          @change="setSelectedPartner"
-          class="mb-3"
-          required>
-          <template slot="first">
-            <!-- this slot appears above the options from 'options' prop -->
-            <option
-              :value="null"
-              disabled>Select...
-            </option>
-          </template>
-        </b-form-select>
-        <b-btn
-          variant="primary"
-          ref="btnCheckYourWater"
-          type="submit">
-          Go
-        </b-btn>
+        >State/Tribe</label>
+        <b-row>
+          <b-col md="8">
+            <b-form-select
+              id="partner-selection"
+              :value="selectedPartner"
+              :options="partners"
+              ref="partnerDropdown"
+              @change="setSelectedPartner"
+              class="mb-3"
+              required>
+              <template slot="first">
+                <!-- this slot appears above the options from 'options' prop -->
+                <option
+                  :value="null"
+                  disabled>Select...
+                </option>
+              </template>
+            </b-form-select>
+          </b-col>
+          <b-col md="4">
+            <b-btn
+              variant="primary"
+              ref="btnCheckYourWater"
+              type="submit">
+              Go
+            </b-btn>
+          </b-col>
+        </b-row>
       </b-form>
       <!-- Various Modals required for the workbench app-->
 
@@ -383,4 +394,8 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped
   lang="scss">
+  .check-water-message {
+    font-size: .75rem;
+    line-height: .75rem;
+  }
 </style>

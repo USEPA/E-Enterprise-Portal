@@ -301,4 +301,14 @@
   #nav {
     margin-top: 20px !important;
   }
+
+  .usa-button:active,
+  button:active,
+  .usa-button:focus,
+  button:focus,
+  .usa-button:hover,
+  button:hover{
+    border: none;
+    outline: none;
+  }
 </style>
