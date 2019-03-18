@@ -478,8 +478,11 @@
   #my-reporting-flows-container .nav-item {
     color: #000;
   }
+  .col-form-label {
+    font-size: 0.875rem; // 14px - Use smaller size in tab content
+  }
   .my-reporting-top-line {
-    font-size: 80%;
+    font-size: 0.875rem;    // 14px
   }
   .form-group {
     border: 0rem;
@@ -525,7 +528,7 @@
     background-image: url('/images/mr-history.svg');
   }
   .my-cdx-web-handoff-link {
-    font-size: .8rem;
+    font-size: .875rem; // 14px
   }
   .Active {
     background-repeat: no-repeat;
