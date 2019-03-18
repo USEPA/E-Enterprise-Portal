@@ -105,7 +105,7 @@
 
       <!-- pagination -->
       <b-row class="text-center"
-             v-if="totalRows > perPage"
+        v-if="totalRows > perPage"
       >
         <b-col
           md="12"
@@ -115,7 +115,20 @@
             :total-rows="totalRows"
             :per-page="perPage"
             v-model="currentPage"
-            class="my-0"/>
+            class="my-0">
+            <div class="wapp-arrows"
+              slot="first-text"><img src="/images/pager-first.png"
+              alt="Go to first page"></div>
+            <div class="wapp-arrows"
+              slot="next-text"><img src="/images/pager-next.png"
+              alt="Go to next page"></div>
+            <div class="wapp-arrows"
+              slot="prev-text"><img src="/images/pager-previous.png"
+              alt="Go to previous page"></div>
+            <div class="wapp-arrows"
+              slot="last-text"><img src="/images/pager-last.png"
+              alt="Go to last page"></div>
+          </b-pagination>
         </b-col>
       </b-row>
 
@@ -191,7 +204,7 @@
 
 <script>
   import { mapGetters, mapActions } from 'vuex';
-  import { AppWrapper, AppPlaceholderContent, AppModal } from '../wadk/WADK';
+  import { AppWrapper, AppPlaceholderContent, AppModal, PaginationArrows } from '../wadk/WADK';
   import storeModule from './store/index';
 
   const moduleName = 'FavoriteLinks';
@@ -202,6 +215,7 @@
       AppWrapper,
       AppPlaceholderContent,
       AppModal,
+      PaginationArrows,
     },
     data() {
       return {
@@ -351,15 +365,12 @@
   .add-favorite-btn {
     background-image: url('../../assets/images/favorites-add.svg');
   }
-
   .edit-favorite-btn {
     background-image: url('../../assets/images/favorites-edit.svg');
   }
-
   .delete-favorite-btn {
     background-image: url('../../assets/images/favorites-empty.svg');
   }
-
   /* Fixes bottom of workbench grey area */
   #app {
     margin-bottom: 7rem;

@@ -72,11 +72,11 @@
         </div>
       </template>
       <template
-              slot="partner_id"
-              slot-scope="row">
+        slot="partner_id"
+        slot-scope="row">
         <div
-                class="text-primary text-decoration-underline text-bold cursor-pointer"
-                @click="openCertsDecriptionModal(row.item, row.index, $event.target)">
+          class="text-primary text-decoration-underline text-bold cursor-pointer"
+          @click="openCertsDecriptionModal(row.item, row.index, $event.target)">
           {{ row.value }}
         </div>
       </template>
@@ -101,7 +101,28 @@
           :total-rows="totalRows"
           :per-page="datatableSettings.perPage"
           v-model="datatableSettings.currentPage"
-          class="my-0"/>
+          class="my-0">
+          <div
+            class="wapp-arrows"
+            slot="first-text"><img
+            src="/images/pager-first.png"
+            alt="Go to first page"></div>
+          <div
+            class="wapp-arrows"
+            slot="next-text"><img
+            src="/images/pager-next.png"
+            alt="Go to next page"></div>
+          <div
+            class="wapp-arrows"
+            slot="prev-text"><img
+            src="/images/pager-previous.png"
+            alt="Go to previous page"></div>
+          <div
+            class="wapp-arrows"
+            slot="last-text"><img
+            src="/images/pager-last.png"
+            alt="Go to last page"></div>
+        </b-pagination>
       </b-col>
     </b-row>
 
@@ -111,13 +132,14 @@
       class="m-1"
       modal-ref="my-certs-details-modal"
       :hide-footer="true"
-      :title="modalSettings.title">
+      :title="modalSettings.title"
+      :icon="modalSettings.icon">
       <div class="my-cert-modal-base-info mb-3">
         <b-row class="mb-2">
           <b-col md="8">
             <b-row>
               <b-col>
-              Application #
+                Application #
               </b-col>
               <b-col>
                 Application Type
@@ -177,7 +199,7 @@
                   :href="modalSettings.info.certificateDownloadUrl"
                   @click="downloadCertificate(document)"
                   class="text-primary text-decoration-underline text-bold cursor-pointer"
-                  >{{document.anchorName}}</a>
+                >{{ document.anchorName }}</a>
               </b-col>
             </b-row>
           </b-col>
@@ -188,7 +210,7 @@
           <b-col>
             <b-row>
               <b-col>
-              What's Next?
+                What's Next?
               </b-col>
             </b-row>
             <b-row>
@@ -207,12 +229,12 @@
           <b-col>
             <b-row>
               <b-col>
-              Questions or need help?
+                Questions or need help?
               </b-col>
             </b-row>
             <b-row>
               <b-col>
-              Lead Help Desk: leadhelpdesk@epa.gov
+                Lead Help Desk: leadhelpdesk@epa.gov
               </b-col>
             </b-row>
           </b-col>
@@ -224,8 +246,8 @@
 </template>
 
 <script>
-  import { mapGetters, mapActions } from 'vuex';
-  import { AppWrapper, AppPlaceholderContent, AppModal } from '../wadk/WADK';
+  import {mapGetters, mapActions} from 'vuex';
+  import {AppWrapper, AppPlaceholderContent, AppModal, PaginationArrows} from '../wadk/WADK';
   import storeModule from './store/index';
 
   const moduleName = 'MyCertifications';
@@ -236,6 +258,7 @@
       AppWrapper,
       AppPlaceholderContent,
       AppModal,
+      PaginationArrows,
     },
     data() {
       return {
@@ -261,14 +284,15 @@
             },
           ],
           currentPage: 1,
-          perPage: 5,
+          perPage: 3,
           pageOptions: [5, 10, 15, 20],
           sortBy: null,
           sortDesc: false,
           sortDirection: 'asc',
-          filter: null
+          filter: null,
         },
         modalSettings: {
+          icon: 'state-government.png',
           title: 'My Certifications',
           index: 0,
           info: {
@@ -300,8 +324,7 @@
       },
     },
     methods: {
-      ...mapActions([
-      ]),
+      ...mapActions([]),
       ...mapActions(moduleName, [
         'loadMyCertifications',
         'downloadDocument',
@@ -320,16 +343,20 @@
         this.modalSettings.info.updated = item.updated;
         item.documents.forEach((document, index) => {
           if (document.name.indexOf('Certificate') >= 0) {
-            item.documents[index].anchorName = "Certificate";
+            item.documents[index].anchorName = 'Certificate';
+          } else if (document.name.indexOf('Receipt') >= 0) {
+            item.documents[index].anchorName = 'Receipt';
           } else {
-            item.documents[index].anchorName = "Logo";
+            item.documents[index].anchorName = 'Logo';
           }
         });
         this.modalSettings.info.documents = item.documents;
         this.$root.$emit('bv::show::modal', 'my-certs-details-modal', button);
+        this.$ga.event('eportal', 'click', 'My Certifications Certificate Description Modal', 1);
       },
       downloadCertificate(documentObject) {
         this.downloadDocument(documentObject);
+        this.$ga.event('eportal', 'click', 'My Certifications Certificate Download', 1);
       },
     },
     created() {
@@ -354,7 +381,7 @@
        lang="scss">
   /* To import images */
   .cert-needs-attn-decoration,
-  .cert-not-completed-decoration{
+  .cert-not-completed-decoration {
     height: .8rem;
     width: .8rem;
     color: #fff;
@@ -366,17 +393,14 @@
     float: right;
     position: relative;
   }
-
   .cert-not-completed-decoration {
     background-size: .5rem;
     background-image: url('../../assets/images/mycert-question.svg');
   }
-
   .cert-needs-attn-decoration {
     background-size: .25rem;
     background-image: url('../../assets/images/mycert-exclamation.svg');
   }
-
   /* Fixes bottom of workbench grey area */
   #app {
     margin-bottom: 7rem;

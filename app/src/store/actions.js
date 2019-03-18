@@ -271,25 +271,41 @@ export default {
   extendSession(context, payload) {
     const store = context;
     const { vm } = payload;
+    const { uid } = store.getters.getUser;
 
     // Cookie information from the store
     const COOKIE_EXPIRATION_TIME = store.getters.getUser.cookie.time
       + store.getters.getUser.cookie.time_units;
 
-    Vue.cookie.set('userLoggedIn', true, { expires: COOKIE_EXPIRATION_TIME });
-    Vue.cookie.set('uid', store.getters.getUser.id, { expires: COOKIE_EXPIRATION_TIME });
-    Vue.cookie.set('Token', store.getters.getLoggedInToken, { expires: COOKIE_EXPIRATION_TIME });
-    Vue.cookie.set('userLogInTime', new Date(), { expires: COOKIE_EXPIRATION_TIME });
+    //Axios call to back end to create new JWT token
+    AppAxios.get(store.getters.getApiUrl('resetToken') , {
+      headers: {
+        Authorization: `Bearer ${Vue.cookie.get('Token')}`,
+        crossDomain: true,
+        'cache-control': 'no-cache',
+        'Content-Type': 'application/json',
+      },
+    }).then((response) => {
 
-    // Set timeout again to continously check the cookie
-    store.dispatch('checkCookie', payload);
+        // Set all of the cookies after axios is successful
+        Vue.cookie.set('Token', response.data.token, { expires: COOKIE_EXPIRATION_TIME });
+        Vue.cookie.set('userLoggedIn', true, { expires: COOKIE_EXPIRATION_TIME });
+        Vue.cookie.set('uid', store.getters.getUser.id, { expires: COOKIE_EXPIRATION_TIME });
+        Vue.cookie.set('userLogInTime', new Date(), { expires: COOKIE_EXPIRATION_TIME });
 
-    // Close modal
-    vm.$root.$emit(
-      'bv::hide::modal',
-      'cookieModal',
-      vm.$refs.cookie_modal,
-    );
+        // Set timeout again to continously check the cookie
+        store.dispatch('checkCookie', payload);
+
+        // Close modal
+        vm.$root.$emit(
+          'bv::hide::modal',
+          'cookieModal',
+          vm.$refs.cookie_modal,
+        );
+    }).catch((error) =>{
+        console.warn(error.response);
+        store.dispatch('userLogOut');
+    });
   },
   getEEPConfigs(context, payload) {
     const store = context;

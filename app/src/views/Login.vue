@@ -25,8 +25,9 @@
             <b-tab class="tab" title="State">
                 <!-- Once we get more states then it can be optimized with using a v-for to loop through -->
                 <!-- and create each <b-row> and each <b-col> -->
-                <h6 class="tabText font-weight-bold">Use your state account to log in...</h6>
-                <LoginType index="2"></LoginType>
+                <!-- uncomment when a tribal node is added for the content type-->
+                <!--<h6 class="tabText font-weight-bold">Use your state account to log in...</h6>-->
+                <!--<LoginType index="2"></LoginType>-->
                 <p>
                     We're working with select state agencies so you can log in with your state account credentials. In the
                     meantime, please use your EPA or social media accounts or the Try It option.
@@ -40,9 +41,9 @@
                 </router-link>
             </b-tab>
             <b-tab class="tab" title="Tribal">
-                <h6 class="tabText font-weight-bold">Use your tribal account to log in...</h6>
-                
+
                 <!-- uncomment when a tribal node is added for the content type-->
+                <!--<h6 class="tabText font-weight-bold">Use your tribal account to log in...</h6>-->
                 <!--<LoginType index="3"></LoginType>-->
                 <p>
                     We would like to work with tribal nations so you can log in using your tribal nation account credentials.
