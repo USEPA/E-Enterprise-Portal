@@ -11,7 +11,7 @@
             novalidated>
             <b-row>
               <label
-                class="mb-0 pl-3"
+                class="mb-0 pl-3 input-row"
                 for="permit-type-selection-a">Select a permit type</label>
             </b-row>
             <b-row>
@@ -199,7 +199,11 @@
                 <b-row>
                   <b-col md="6">
                     <label
-                      class="mb-0">Status</label>
+                      class="mb-0 label-with-info">Status</label>
+                    <b-button
+                      title="Information"
+                      @click="openPermitInfoModal"
+                      class="permit-lookup-info-btn mr-1"/>
                   </b-col>
                   <b-col md="6">
                     <label
@@ -501,7 +505,11 @@
                   </b-col>
                   <b-col md="6">
                     <label
-                      class="mb-0">Coverage status</label>
+                      class="mb-0 label-with-info">Coverage status</label>
+                    <b-button
+                      title="Information"
+                      @click="openPermitInfoModal"
+                      class="permit-lookup-info-btn mr-1"/>
                   </b-col>
                 </b-row>
                 <b-row
@@ -548,10 +556,6 @@
                   <b-col md="6">
                     <label
                       class="mb-0 pr-1">Sector</label>
-                    <b-button
-                      title="Information"
-                      @click="openPermitInfoModal"
-                      class="permit-lookup-info-btn mr-1"/>
                   </b-col>
                 </b-row>
                 <b-row
