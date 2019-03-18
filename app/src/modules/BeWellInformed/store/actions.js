@@ -179,7 +179,6 @@ export default {
                 store.commit(types.UPDATE_INTERACTIVE_PROMPTS, []);
               }
               if (data.AdditionalContaminantRequests.length) {
-                console.log(data.AdditionalContaminantRequests);
                 if (data.AdditionalContaminantRequests.length > 1) {
                   let additionalRequests = [];
                   for (let i = 0; i < data.AdditionalContaminantRequests.length - 1; i++) {
