@@ -51,8 +51,8 @@
             :style="getIcon">{{ getTitle }}</h2>
         </div>
       </div>
-      <div class="w-100 source-description-wrapper pt-2">
-        <p class="small">
+      <div class="w-100 source-description-wrapper pt-1 pb-2">
+        <p>
           <a
             class="text-decoration-underline cursor-pointer link-button"
             v-show="!!eepApp.field_settings_menu_items.Description"

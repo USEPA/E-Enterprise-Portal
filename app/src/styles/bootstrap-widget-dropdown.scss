@@ -5,6 +5,9 @@
 .dropdown .dropdown-menu {
     background-color: #0071c2;
     border-radius: 10%;
+    button {
+        font-size: 0.875rem;    // 14px
+    }
 }
 .dropdown .dropdown-divider {
     margin:0.5rem;

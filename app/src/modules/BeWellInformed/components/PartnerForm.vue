@@ -1,7 +1,6 @@
 <template>
   <div>
     <h3>Enter the Results of Your Drinking Water Test</h3>
-    <br>
 
     <div
       v-if="submissionErrorMessage"

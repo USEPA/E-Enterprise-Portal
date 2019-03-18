@@ -375,5 +375,16 @@
   #app {
     margin-bottom: 7rem;
   }
+  .wapp {
+    label,
+    input,
+    .col-form-label,
+    .custom-select,
+    .input-group>.form-control {
+      line-height: 1;
+      font-size: 0.9375rem; //15px
+    }
+  }
+
 </style>
 
