@@ -2,7 +2,7 @@
   <div class="section mb-4">
     <div
       class="row">
-      <h5 class="col-md-12">{{ getContaminantTitle }}</h5>
+      <h4 class="col-md-12">{{ getContaminantTitle }}</h4>
       <template v-for="(contaminant, key, index) in contaminants">
         <div
           class="contaminant-wrapper col-md-6"
@@ -11,7 +11,7 @@
             <div class="col-sm-5">
               <label class="">{{ contaminant._attributes.Text }}</label>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-3 pr-2">
               <b-form-input
                 :ref="`${contaminant._attributes.Value}-Value`"
                 :id="`${contaminant._attributes.Value}-Value`"
@@ -146,7 +146,7 @@
   };
 </script>
 
-<style
+<style scoped
   lang="scss">
 
   .contaminant-wrapper {

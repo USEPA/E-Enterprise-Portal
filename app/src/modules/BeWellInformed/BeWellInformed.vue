@@ -125,7 +125,7 @@
         modal-ref="bwi-modal-interactive"
         title="Additional Information Needed">
         <div class="row">
-          <h5 class="col-md-12">Enter the Results of Your Drinking Water Test</h5>
+          <h3 class="col-md-12">Enter the Results of Your Drinking Water Test</h3>
 
           <!-- Requested prompts form the BWI Service -->
           <template
@@ -395,7 +395,36 @@
 <style scoped
   lang="scss">
   .check-water-message {
-    font-size: .75rem;
-    line-height: .75rem;
+    font-size: .875rem; //14px
+    line-height: 1.2;
+    margin-top: .5rem;
   }
+  .wapp {
+    form {
+      margin-top: .5rem;
+      label {
+        margin-bottom: 0;
+      }
+      label,
+      .custom-select,
+      .btn-primary {
+        font-size: 0.9375rem; //15px
+      }
+      .btn-primary {
+        line-height: 1;
+      }
+    }
+  }
+  #bwi-modal {
+    h3 {
+      font-family: "Source Sans Pro Web", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+    h4 {
+      font-size: 1rem;
+      font-weight: bold;
+    }
+  }
+
 </style>
