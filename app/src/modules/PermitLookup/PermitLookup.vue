@@ -202,7 +202,7 @@
                       class="mb-0 label-with-info">Status</label>
                     <b-button
                       title="Information"
-                      @click="openPermitInfoModal"
+                      @click="openPermitStatusInfoModal"
                       class="permit-lookup-info-btn mr-1"/>
                   </b-col>
                   <b-col md="6">
@@ -508,7 +508,7 @@
                       class="mb-0 label-with-info">Coverage status</label>
                     <b-button
                       title="Information"
-                      @click="openPermitInfoModal"
+                      @click="openPermitStatusInfoModal"
                       class="permit-lookup-info-btn mr-1"/>
                   </b-col>
                 </b-row>
@@ -1049,60 +1049,10 @@
 
           </AppModal>
           <AppModal
-            id="permit-info-modal"
-            modal-ref="permit-info-modal"
-            title="Permit Information"
+            id="permit-status-info-modal"
+            modal-ref="permit-status-info-modal"
+            title="What do the permit statuses mean?"
             :hide-footer="true">
-            <div
-              class="info-modal-component">
-              <b-row>
-                <div
-                  class="info-title">
-                  What permits can I find?
-                </div>
-                <div>
-                  At this time, search results will only include new activity for the following
-                  permits as reported in
-                  the
-                  national NPDES eReporting Tool (NeT) for U.S. EPA lead and participating states and
-                  tribes. For
-                  additional information about which submissions are currently made through NeT please
-                  visit:
-                  <a
-                    href="https://www.epa.gov/compliance/npdes-ereporting"
-                    target="_blank">
-                    https://www.epa.gov/compliance/npdes-ereporting
-                  </a>
-                </div>
-              </b-row>
-            </div>
-            <div
-              class="info-modal-component">
-              <b-row
-                class="info-title">
-                • Construction General Permit (CGP)
-              </b-row>
-              <b-row>
-                Find Notices of Intent (NOIs), Notices of Termination (NOTs), or Low Erosivity Waivers
-                (LEWs) submitted
-                under the U.S. EPA 2017 Construction General (CGP) in NET-CGP.
-              </b-row>
-              <b-row class="info-title">
-                • Multi-Sector General Permit (MSGP)
-              </b-row>
-              <b-row>
-                Find new Notices of Intent (NOIs) under the U.S. EPA 2015 Multi-Sector General Permit
-                (MSGP) submitted
-                as of April 1, 2018 in NET-MSGP.
-              </b-row>
-            </div>
-            <div
-              class="info-modal-component">
-              <b-row
-                class="info-title">
-                What do the permit statuses mean?
-              </b-row>
-            </div>
             <div
               class="info-modal-component">
               <b-row>
@@ -1201,6 +1151,51 @@
                   the NPDES permitting authority and has been denied coverage under the general
                   permit.
                 </div>
+              </b-row>
+            </div>
+          </AppModal>
+          <AppModal
+            id="permit-info-modal"
+            modal-ref="permit-info-modal"
+            title="What permits can I find?"
+            :hide-footer="true">
+            <div
+              class="info-modal-component">
+              <b-row>
+                <div>
+                  At this time, search results will only include new activity for the following
+                  permits as reported in
+                  the
+                  national NPDES eReporting Tool (NeT) for U.S. EPA lead and participating states and
+                  tribes. For
+                  additional information about which submissions are currently made through NeT please
+                  visit:
+                  <a
+                    href="https://www.epa.gov/compliance/npdes-ereporting"
+                    target="_blank">
+                    https://www.epa.gov/compliance/npdes-ereporting
+                  </a>
+                </div>
+              </b-row>
+            </div>
+            <div
+              class="info-modal-component">
+              <b-row
+                class="info-title">
+                • Construction General Permit (CGP)
+              </b-row>
+              <b-row>
+                Find Notices of Intent (NOIs), Notices of Termination (NOTs), or Low Erosivity Waivers
+                (LEWs) submitted
+                under the U.S. EPA 2017 Construction General (CGP) in NET-CGP.
+              </b-row>
+              <b-row class="info-title">
+                • Multi-Sector General Permit (MSGP)
+              </b-row>
+              <b-row>
+                Find new Notices of Intent (NOIs) under the U.S. EPA 2015 Multi-Sector General Permit
+                (MSGP) submitted
+                as of April 1, 2018 in NET-MSGP.
               </b-row>
             </div>
           </AppModal>
@@ -1505,6 +1500,9 @@
       },
       openPermitInfoModal() {
         this.$root.$emit('bv::show::modal', 'permit-info-modal');
+      },
+      openPermitStatusInfoModal() {
+        this.$root.$emit('bv::show::modal', 'permit-status-info-modal');
       },
       cgpFormSubmit(evt) {
         const vm = this;
