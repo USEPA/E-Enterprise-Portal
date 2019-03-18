@@ -241,11 +241,6 @@
   export default {
     name: componentName,
     components: { BButton, ResultRow, ResultLegend },
-    data() {
-      return {
-        waterTreatmentTitle: '',
-      }
-    },
     created() {
       const store = this.$store;
       if (!(store && store.state && store.state[componentName])) {
