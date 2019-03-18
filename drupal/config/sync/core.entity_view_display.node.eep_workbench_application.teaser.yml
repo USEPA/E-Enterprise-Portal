@@ -31,7 +31,6 @@ content:
 hidden:
   field_default_grid_size: true
   field_description: true
-  field_direct_links: true
   field_grid: true
   field_grid_sizes: true
   field_html_content: true
