@@ -37,6 +37,7 @@
 
 <script>
 
+  // needed for accordions
   import * as uswds from 'uswds';
 
   import { mapGetters } from 'vuex';
