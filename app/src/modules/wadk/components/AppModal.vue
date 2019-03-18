@@ -141,7 +141,9 @@
   };
 </script>
 
-<style lang="scss">
+<style
+  scoped
+  lang="scss">
   @import '../../../styles/bootstrap-mixins-cheatsheet.scss';
 
   @include media-breakpoint-up(sm) {
@@ -170,5 +172,7 @@
 
   .modal-title {
     background-repeat: no-repeat;
+    background-position: left;
+    background-size: 1.2rem 1.2rem;
   }
 </style>

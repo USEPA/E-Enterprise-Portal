@@ -8,6 +8,10 @@
                 <b-form-input id="locationInput" v-model="user.inputBoxText" @keydown.native="submitInput" class="col-4 ml-3"/>
             </b-input-group>
         </div>
+        <b-input-group v-show="user.isAllZipcodesDisplayed" class="pt-2">
+            <b-form-input id="inputMessege" :value="user.inputMessage"
+                          class="col-sm-auto col ml-3 border border-danger inputboxHeight text-red"/>
+        </b-input-group>
         <div id="input-box-results-drop-down" class="pt-3 d-flex">
             <b-input-group v-show="!user.isAfterInputDropdownDisplayed">
                 <label class="col-12 font-weight-bold">{{user.dropDownLabel}} {{user.inputBoxText}}</label>
@@ -99,7 +103,9 @@
           isValidLocation(afterInputOption){
                 let isValid = false;
                 if(/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(afterInputOption) ||
-                        /[A-Z][a-zA-Z]+,[ ]?[A-Z]{2}/.test(afterInputOption)){
+                      /[A-Z][a-zA-Z]+,[ ]?[A-Z]{2}/.test(afterInputOption) ||
+                              (/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(this.user.inputBoxText) &&
+                      /[a-zA-Z]/.test(afterInputOption))){
                     isValid = true;
                 }
                 return isValid;
@@ -111,4 +117,7 @@
 
 <style scoped
        lang="scss">
+  .inputboxHeight {
+    height: 1.5em;
+  }
 </style>

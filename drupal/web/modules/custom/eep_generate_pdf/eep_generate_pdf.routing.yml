@@ -3,6 +3,6 @@ eep_my_reporting.my_reporting:
   defaults:
     _controller: '\Drupal\eep_my_reporting\Controller\EEPMyReportingController::generate_pdf'
     _title: 'Generate PDF'
-  methods:  [GET]
+  methods:  [GET, POST]
   requirements:
     _access: 'TRUE'

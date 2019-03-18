@@ -90,7 +90,7 @@ export default {
   [types.USER_POLICY_COOKIE_DISMISS](state) {
     Vue.set(
       state.user,
-      'UserPolicyCookieDismiss',
+      'UserCookiePolicyDismiss',
       true,
     );
   },
@@ -220,6 +220,11 @@ export default {
       'isAfterInputDropdownDisplayed',
       isDisplayed);
   },
+  [types.SET_IS_ALL_ZIPCODES_DISPLAYED](state, isDisplayed) {
+    Vue.set(state.user,
+      'isAllZipcodesDisplayed',
+      isDisplayed);
+  },
   [types.SET_INPUT_BOX_TEXT](state, newText) {
     Vue.set(state.user,
       'inputBoxText',
@@ -238,17 +243,24 @@ export default {
       dropdownSelection);
   },
   [types.SAVE_USER_SELECTED_LOCATIONS](state, newLocation) {
-    console.log(newLocation);
     state.user.userLocationsFromLoad.push(newLocation);
   },
   [types.DELETE_USER_SELECTED_LOCATION](state, deletedSelection) {
     // Filter the array with the location that they want deleted
-    let filteredLocation = state.user.userLocationsFromLoad
-      .filter(location => location.second !== deletedSelection.second);
+    let filteredLocations = [];
+
+    state.user.userLocationsFromLoad.forEach(function(location){
+      if(parseInt(location.second) !== parseInt(deletedSelection.second)
+          && location.first.trim !== deletedSelection.first.trim() ||
+          parseInt(location.second) === parseInt(deletedSelection.second)
+          && location.first.trim() !== deletedSelection.first.trim()){
+        filteredLocations.push(location);
+      }
+    })
     // Save back to state
     Vue.set(state.user,
       'userLocationsFromLoad',
-      filteredLocation);
+      filteredLocations);
   },
   [types.SET_DISPLAY_WHEN_LOCATION_IS_CLICKED](state, css_prop) {
     Vue.set(state.user,
@@ -294,9 +306,13 @@ export default {
       display);
   },
   [types.SET_USER_FAV_LOCATION](state, userFavLocation){
-    console.log('hit here');
     Vue.set(state.user,
       'userFavoriteLocation',
       userFavLocation);
+  },
+  [types.SET_INPUT_MESSAGE](state, inputMessageText){
+    Vue.set(state.user,
+      'inputMessage',
+      inputMessageText);
   },
 };

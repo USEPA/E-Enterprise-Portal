@@ -15,11 +15,14 @@ export default {
   getMsgpFormData(state) {
     return state.msgpFormData;
   },
+  getCgpFormData(state) {
+    return state.cgpFormData;
+  },
   getMsgpResultsLoaded(state) {
     return state.msgpResultsLoaded;
   },
-  getMsgpStateSelected(state) {
-    return state.msgpStateSelected;
+  getCgpResultsLoaded(state) {
+    return state.cgpResultsLoaded;
   },
   getPermitType(state) {
     return state.permitType;
@@ -102,7 +105,16 @@ export default {
   getMsgpFormResults(state) {
     return state.msgpFormResults;
   },
+  getCgpFormResults(state) {
+    return state.cgpFormResults;
+  },
   getTotalRows(state) {
-    return state.msgpFormResults.length;
+    if (state.permitType === 'Multi-Sector General Permit') {
+      return state.msgpFormResults.length;
+    } else if (state.permitType === 'Construction General Permit') {
+      return state.cgpFormResults.length;
+    } else {
+      return 0;
+    }
   },
 };

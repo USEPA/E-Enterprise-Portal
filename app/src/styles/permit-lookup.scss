@@ -4,9 +4,23 @@
     overflow: scroll;
   }
 }
-/*.bootstrap-vue-permit-table-scroll th {
-  display: flex;
-    max-width: 10% !important;
-
-}*/
-
+%header {
+  font-weight: bold;
+}
+#cgp-header, #msgp-header {
+  @extend %header;
+  padding-bottom: 0.5em;
+}
+.input-row {
+  padding-top: 0.2em;
+  padding-bottom: 0.5em;
+}
+.info-modal-component {
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+.info-title {
+  font-weight: bold;
+}

@@ -152,7 +152,7 @@ export default {
     Vue.cookie.set('userTandC', true, { expires: '1Y' });
     store.commit('USER_TANDC_COOKIE_DISMISS');
   },
-  setUserPolicyCookie(context) {
+  setUserCookiePolicy(context) {
     const store = context;
     Vue.cookie.set('userPolicy', true, { expires: '1Y' });
     store.commit('USER_POLICY_COOKIE_DISMISS');
@@ -438,7 +438,7 @@ export default {
     const store = context;
     let params = '';
     const userInput = store.getters.getUser.inputBoxText;
-    let userSavedLocations = store.getters.getUser.userLocationsFromLoad;
+    let {userLocationsFromLoad} = store.getters.getUser;
 
     store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', false);
 
@@ -464,6 +464,8 @@ export default {
       // Declare variables
       let formattedResponseInformation = [];
       let dropDownLabelText = 'Select a zipcode for';
+      let savedZipcodes = [];
+      let commonZipcodes = [];
 
       const returnData = response.data;
       if (params.indexOf('tribe') !== -1) {
@@ -473,14 +475,10 @@ export default {
           let thisTribeZipcodes = [];
           formattedResponseInformation.push(tribeName);
 
-          returnData.tribal_information[key].forEach((item) => {
-
-            // @TODO: filter out the zipcodes that the user has already selected
-
-            let zipcode = item;
-
-            thisTribeZipcodes.push(zipcode);
-
+          returnData.tribal_information[key].forEach((zipcode) => {
+            if(!doesUserHaveGivenLocation(tribeName, zipcode)){
+              thisTribeZipcodes.push(zipcode);
+            }
           });
           if(thisTribeZipcodes.length > 0){
               formattedResponseInformation.push({tribeName: thisTribeZipcodes});
@@ -492,33 +490,107 @@ export default {
         // The if statement handles the case of if a zipcode exist in more than
         // one place
         if (returnData.cities_and_states) {
-          formattedResponseInformation = returnData.cities_and_states;
+          let cities_and_states_return_from_ajax = returnData.cities_and_states;
+          let cities_and_states = [];
+          cities_and_states_return_from_ajax.forEach(function(city_and_state){
+            if(!doesUserHaveGivenLocation(city_and_state, userInput.trim())){
+              cities_and_states.push(city_and_state);
+            }
+          });
+          formattedResponseInformation = cities_and_states.filter(cityAndState => cityAndState !== '');
         } else {
           const cities = returnData.city;
 
-          // Loop through cities array and build new array to commit to store
           for (let i = 0; i < cities.length; i += 1) {
-            formattedResponseInformation.push(`${cities[i]}, ${returnData.state[0]}`);
+            let formattedCityAndState = `${cities[i]}, ${returnData.state[0]}`;
+            if(!doesUserHaveGivenLocation(formattedCityAndState, userInput.trim())){
+              formattedResponseInformation.push(formattedCityAndState);
+            }
           }
         }
         if (returnData.associated_tribes) {
           const tribes = returnData.associated_tribes;
           for (let i = 0; i < tribes.length; i += 1) {
-            formattedResponseInformation.push(tribes[i]);
+            let tribe = tribes[i].trim();
+            if(!doesUserHaveGivenLocation(tribe, userInput.trim())){
+              formattedResponseInformation.push(tribe);
+            }
           }
           store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', true);
         }
+
+        if(formattedResponseInformation.length === 0){
+            store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', true);
+            store.commit('SET_INPUT_MESSAGE', 'Duplicate location name and zip code pairs are not allowed.');
+        }else{
+            store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', false);
+            store.commit('SET_INPUT_MESSAGE', '');
+        }
         dropDownLabelText = 'Select a location for';
       } else if (params.indexOf('city') !== -1 && params.indexOf('state') !== -1) {
-        formattedResponseInformation = returnData.zipcode;
+
+        let zipcodes = [];
+        let cityAndState = params.indexOf('city') + ", " + params.indexOf('state');
+
+        checkIfAllZipSaved();
+
+        if (commonZipcodes.length === returnData.zipcode.length) {
+            store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', true);
+            store.commit('SET_INPUT_MESSAGE', 'All of the zip codes for the given location have been used');
+        } else {
+            store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', false);
+            store.commit('SET_INPUT_MESSAGE', '');
+            returnData.zipcode.forEach(function(zipcode){
+                if(!doesUserHaveGivenLocation(userInput.trim(), zipcode)){
+                    zipcodes.push(zipcode);
+                }
+            });
+            formattedResponseInformation = zipcodes;
+        }
+      }
+
+      function doesUserHaveGivenLocation(name, zipcode){
+        return userLocationsFromLoad.some(function(location){
+            return parseInt(location.second) === parseInt(zipcode)
+                && location.first.trim() === name.trim();
+        });
+      }
+
+      function checkIfAllZipSaved() {
+        const savedLocation = store.getters.getUser.userLocationsFromLoad;
+        const inputlocationZipcodes = returnData.zipcode;
+        let zipcodesFromSavedLocations = [];
+        for (let i = 0; i < savedLocation.length; i += 1) {
+            zipcodesFromSavedLocations.push(savedLocation[i].second);
+        }
+        savedZipcodes = zipcodesFromSavedLocations.map(function (e) {
+            return e.toString()
+        });
+        compareZipcodes(inputlocationZipcodes, savedZipcodes);
+      }
+
+      function compareZipcodes(inputlocationZipcodes, savedZipcodes) {
+        const objMap = {};
+
+        inputlocationZipcodes.forEach((inputZipcode) => savedZipcodes.forEach((storedZipcode) => {
+           if (inputZipcode === storedZipcode) {
+             objMap[inputZipcode] = objMap[storedZipcode] + 1 || 1;
+           }
+          }
+        ));
+        commonZipcodes = Object.keys(objMap).map(zipcodes => Number(zipcodes));
       }
 
       // Commit all of the information to the store
       store.commit('SET_OPTIONS_AFTER_INPUT', formattedResponseInformation);
       store.commit('SET_INPUT_BOX_TEXT', store.getters.getUser.inputBoxText);
-      store.commit('SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED', false);
       // Change the label for the dropdown
       store.commit('SET_DROPDOWN_LABEL', dropDownLabelText);
+      if(store.getters.getUser.isAllZipcodesDisplayed){
+        store.commit(types.SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED, true);
+      }else{
+        store.commit(types.SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED, false);
+      }
     }).catch((error) => {
       console.warn(error);
     });
@@ -530,8 +602,6 @@ export default {
     const { dropDownSelection } = store.getters.getUser;
     let typedInLocationToCommit = '';
     let selectedLocationFromDropdownToCommit = '';
-
-
 
     if (/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(inputBoxText)) {
       selectedLocationFromDropdownToCommit = inputBoxText;

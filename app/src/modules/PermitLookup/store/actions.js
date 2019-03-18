@@ -14,6 +14,24 @@ export default {
 
     store.commit(types.SET_PERMIT_TYPE, payload);
   },
+
+  setStatus(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_STATUS, payload);
+  },
+  setFormType(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_FORM_TYPE, payload);
+  },
+
+  setDateSelection(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_DATE_SELECTION, payload);
+  },
+
   setMsgpFacilityName(context, payload) {
     const store = context;
 
@@ -33,74 +51,43 @@ export default {
     const store = context;
 
     store.commit(types.SET_MSGP_FACILITY_STATE, payload);
-    store.commit(types.SET_MSGP_STATE_SELECTED, true);
   },
   setMsgpFacilityZip(context, payload) {
     const store = context;
 
     store.commit(types.SET_MSGP_FACILITY_ZIP, payload);
   },
-  setStatus(context, payload) {
+  setMsgpStartDate(context, payload) {
     const store = context;
 
-    store.commit(types.SET_STATUS, payload);
+    store.commit(types.SET_MSGP_START_DATE, payload);
   },
-  setFormType(context, payload) {
+  setMsgpEndDate(context, payload) {
     const store = context;
 
-    store.commit(types.SET_FORM_TYPE, payload);
+    store.commit(types.SET_MSGP_END_DATE, payload);
   },
-  setMsgpOperatorName(context, payload) {
+  setMsgpTribalIndicator(context, payload) {
     const store = context;
 
-    store.commit(types.SET_MSGP_OPERATOR_NAME, payload);
+    store.commit(types.SET_MSGP_TRIBAL_INDICATOR, payload);
   },
-  setFederalIndicator(context, payload) {
+  setMsgpFacilityCounty(context, payload) {
     const store = context;
 
-    store.commit(types.SET_FEDERAL_INDICATOR, payload);
-  },
-  setDateSelection(context, payload) {
-    const store = context;
-
-    store.commit(types.SET_DATE_SELECTION, payload);
-  },
-  setStartDate(context, payload) {
-    const store = context;
-
-    store.commit(types.SET_START_DATE, payload);
-  },
-  setEndDate(context, payload) {
-    const store = context;
-
-    store.commit(types.SET_END_DATE, payload);
-  },
-  setTribalIndicator(context, payload) {
-    const store = context;
-
-    store.commit(types.SET_TRIBAL_INDICATOR, payload);
-  },
-  setTribeSelection(context, payload) {
-    const store = context;
-
-    store.commit(types.SET_TRIBE_SELECTION, payload);
-  },
-  setFacilityCounty(context, payload) {
-    const store = context;
-
-    store.commit(types.SET_FACILITY_COUNTY, payload);
+    store.commit(types.SET_MSGP_FACILITY_COUNTY, payload);
   },
   setMsgpMasterPermitNumber(context, payload) {
     const store = context;
 
     store.commit(types.SET_MSGP_MASTER_PERMIT_NUMBER, payload);
   },
-  setTribalName(context, payload) {
+  setMsgpTribalName(context, payload) {
     const store = context;
 
-    store.commit(types.SET_TRIBAL_NAME, payload);
+    store.commit(types.SET_MSGP_TRIBAL_NAME, payload);
   },
-  setIssuer(context, payload) {
+  setMsgpIssuer(context, payload) {
     const store = context;
 
     store.commit(types.SET_MSGP_ISSUER, payload);
@@ -125,10 +112,10 @@ export default {
 
     store.commit(types.SET_MSGP_SECTOR, payload);
   },
-  setSubsector(context, payload) {
+  setMsgpSubsector(context, payload) {
     const store = context;
 
-    store.commit(types.SET_SUBSECTOR, payload);
+    store.commit(types.SET_MSGP_SUBSECTOR, payload);
   },
   setMsgpSicCode(context, payload) {
     const store = context;
@@ -140,6 +127,93 @@ export default {
 
     store.commit(types.SET_MSGP_ADDRESS, payload);
   },
+  setMsgpOperatorName(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_MSGP_OPERATOR_NAME, payload);
+  },
+  setMsgpFederalIndicator(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_MSGP_FEDERAL_INDICATOR, payload);
+  },
+  setCgpFacilityName(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_FACILITY_NAME, payload);
+  },
+  setCgpNpdesId(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_NPDESID, payload);
+  },
+  setCgpFacilityCity(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_FACILITY_CITY, payload);
+  },
+  setCgpFacilityState(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_FACILITY_STATE, payload);
+  },
+  setCgpFacilityZip(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_FACILITY_ZIP, payload);
+  },
+  setCgpStatus(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_STATUS, payload);
+  },
+  setCgpFormType(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_FORM_TYPE, payload);
+  },
+  setCgpOperatorName(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_OPERATOR_NAME, payload);
+  },
+  setCgpFederalIndicator(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_FEDERAL_INDICATOR, payload);
+  },
+  setCgpDateSelection(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_DATE_SELECTION, payload);
+  },
+
+  setCgpStartDate(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_START_DATE, payload);
+  },
+  setCgpEndDate(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_END_DATE, payload);
+  },
+  setCgpTribalIndicator(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_TRIBAL_INDICATOR, payload);
+  },
+  setCgpTribalName(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_TRIBAL_NAME, payload);
+  },
+  setCgpFacilityCounty(context, payload) {
+    const store = context;
+
+    store.commit(types.SET_CGP_FACILITY_COUNTY, payload);
+  },
+
   loadBaseFormOption(context) {
     const store = context;
     const { state } = store;
@@ -164,7 +238,7 @@ export default {
         formTribalOptions.forEach((tribeOption) => {
           formTribalNames.push(tribeOption.tribalName);
         });
-        
+
         store.commit(types.SET_BASE_FORM_OPTIONS, formOptions);
         store.commit(types.SET_BASE_FORM_OPTION_STATE_NAMES, formStateNames.sort());
         store.commit(types.SET_BASE_FORM_OPTION_SECTOR_NAMES, formSectorNames.sort());
@@ -176,7 +250,7 @@ export default {
     const { state } = store;
     const apiURL = store.rootGetters.getEnvironmentApiURL;
 
-    AppAxios.get(`${apiURL}/eep/proxy/service/oeca-msgp?formTypes&formStatuses&coverageTypes&submissionTypes&issuers&coverageStatuses&form`)
+    AppAxios.get(`${apiURL}/eep/proxy/service/oeca-msgp?formTypes&formStatuses&coverageTypes&submissionTypes&issuers&coverageStatuses&form&msgpDownloadUrlBase`)
       .then((response) => {
         const formOptions = response.data.helperQueryResponse;
         store.commit(types.SET_FORM_OPTIONS_MSGP, formOptions);
@@ -209,11 +283,17 @@ export default {
         if (key === 'facilityState') {
           baseFormOptions[1].forEach((subKeyA) => {
             if (subKeyA.stateName === msgpFormData.facilityState) {
-              urlQueries = `facilityState=${subKeyA.stateCode}`;
+              urlQueries += `facilityState=${subKeyA.stateCode}`;
             }
           });
+        } else if (key === 'submittedDateTo') {
+          const unformattedDate = new Date(msgpFormData[key]);
+          urlQueries += `${key}=${unformattedDate.toISOString()}`;
+        } else if (key === 'submittedDateFrom') {
+          const unformattedDate = new Date(msgpFormData[key]);
+          urlQueries += `${key}=${unformattedDate.toISOString()}`;
         } else {
-          urlQueries = `${urlQueries + key}=${msgpFormData[key]}`;
+          urlQueries += `${urlQueries + key}=${msgpFormData[key]}`;
         }
         urlQueries += '&';
       }
@@ -230,4 +310,49 @@ export default {
         vm.$root.$emit('bv::show::modal', 'permit-results-modal');
       });
   },
+
+  cgpFormGetResults(context, payload) {
+    const store = context;
+    const { vm } = payload;
+    const apiURL = store.rootGetters.getEnvironmentApiURL;
+    const { cgpFormData } = store.state;
+    const { baseFormOptions } = store.state.formOptions;
+    const axiosUrlBase = `${apiURL}/eep/proxy/service/oeca-cgp?`;
+    let urlQueries = '';
+
+    // Set cgp form inputs that aren't empty or default as queries
+    Object.keys(cgpFormData).forEach((key) => {
+      if (cgpFormData[key] !== 'Select...' && cgpFormData[key] !== '') {
+        // Map State Name to State Code
+        if (key === 'facilityState') {
+          baseFormOptions[1].forEach((subKeyA) => {
+            if (subKeyA.stateName === cgpFormData.facilityState) {
+              urlQueries += `facilityState=${subKeyA.stateCode}`;
+            }
+          });
+        } else if (key === 'submittedDateTo') {
+          const unformattedDate = new Date(cgpFormData[key]);
+          urlQueries += `${key}=${unformattedDate.toISOString()}`;
+        } else if (key === 'submittedDateFrom') {
+          const unformattedDate = new Date(cgpFormData[key]);
+          urlQueries += `${key}=${unformattedDate.toISOString()}`;
+        } else {
+          urlQueries += `${urlQueries + key}=${cgpFormData[key]}`;
+        }
+        urlQueries += '&';
+      }
+    });
+    urlQueries = encodeURI(urlQueries);
+    const axiosUrl = axiosUrlBase + urlQueries;
+    vm.$root.$emit('bv::hide::modal', 'permit-search-modal');
+    // get stuff
+    AppAxios.get(axiosUrl)
+      .then((response) => {
+        const cgpResponse = response.data.formQueryResponse;
+        store.commit(types.SET_CGP_RESPONSE, cgpResponse);
+        store.commit(types.SET_CGP_RESULTS_LOADED, true);
+        vm.$root.$emit('bv::show::modal', 'permit-results-modal');
+      });
+  },
+
 };

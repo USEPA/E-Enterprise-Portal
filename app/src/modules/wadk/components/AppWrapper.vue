@@ -100,7 +100,8 @@
           <template>
             <div
               v-for="(text, title, index) in eepApp.field_settings_menu_items"
-              class="col-12 pb-3" v-key="index">
+              class="col-12 pb-3"
+              :key="index">
               <h3>{{ title }}</h3>
               <div v-html="text"/>
             </div>

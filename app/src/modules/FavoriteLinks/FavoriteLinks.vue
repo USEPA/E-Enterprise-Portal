@@ -54,7 +54,7 @@
       <div
         class="bootstrap-vue-fav-table-scroll mb-3 favorite-links-blank-placeholder text-center"
         v-if="!favoriteLinksLoaded">
-        <p class="pt-5">Loading you Favorites...</p>
+        <p class="pt-5">Loading your Favorites...</p>
       </div>
       <!-- if No Favorites -->
       <div
@@ -104,7 +104,9 @@
       </b-table>
 
       <!-- pagination -->
-      <b-row class="text-center">
+      <b-row class="text-center"
+        v-if="totalRows > perPage"
+      >
         <b-col
           md="12"
           class="my-1">
@@ -113,7 +115,10 @@
             :total-rows="totalRows"
             :per-page="perPage"
             v-model="currentPage"
-            class="my-0"/>
+            class="my-0">
+            <PaginationArrows/>
+          </b-pagination>
+
         </b-col>
       </b-row>
 
@@ -189,7 +194,7 @@
 
 <script>
   import { mapGetters, mapActions } from 'vuex';
-  import { AppWrapper, AppPlaceholderContent, AppModal } from '../wadk/WADK';
+  import { AppWrapper, AppPlaceholderContent, AppModal, PaginationArrows } from '../wadk/WADK';
   import storeModule from './store/index';
 
   const moduleName = 'FavoriteLinks';
@@ -200,6 +205,7 @@
       AppWrapper,
       AppPlaceholderContent,
       AppModal,
+      PaginationArrows,
     },
     data() {
       return {
@@ -349,15 +355,12 @@
   .add-favorite-btn {
     background-image: url('../../assets/images/favorites-add.svg');
   }
-
   .edit-favorite-btn {
     background-image: url('../../assets/images/favorites-edit.svg');
   }
-
   .delete-favorite-btn {
     background-image: url('../../assets/images/favorites-empty.svg');
   }
-
   /* Fixes bottom of workbench grey area */
   #app {
     margin-bottom: 7rem;
