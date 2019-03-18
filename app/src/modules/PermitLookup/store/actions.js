@@ -379,6 +379,12 @@ export default {
     AppAxios.get(axiosUrl)
       .then((response) => {
         let msgpResponse = response.data.formQueryResponse;
+
+        // Massage dates to only include Year, month, and day
+        msgpResponse.forEach(function(data_object){
+          data_object['certifiedDate'] = data_object['certifiedDate'].substring(0, 10);
+        });
+
         if (msgpResponse.code === 'E_InternalError') {
           msgpResponse = 'Error Loading Results...';
           store.commit(types.SET_MSGP_RESPONSE, msgpResponse);
@@ -437,6 +443,12 @@ export default {
     AppAxios.get(axiosUrl)
       .then((response) => {
         let cgpResponse = response.data.formQueryResponse;
+
+        // Massage dates to only include Year, month, and day
+        cgpResponse.forEach(function(data_object){
+          data_object['certifiedDate'] = data_object['certifiedDate'].substring(0, 10);
+        });
+
         if (cgpResponse.code === 'E_InternalError') {
           cgpResponse = 'Error Loading Results...';
           store.commit(types.SET_CGP_RESPONSE, cgpResponse);
