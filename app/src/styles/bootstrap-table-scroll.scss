@@ -50,6 +50,12 @@
   float: left;
 }
 
+.bootstrap-vue-mycerts-table-scroll > thead tr,
+.bootstrap-vue-mycerts-table-scroll > tbody tr {
+  font-size: 0.69em;
+  font-family: 'Source Serif Pro Web';
+}
+
 .table.no-top-border > thead th {
   border-top: 0;
 }
