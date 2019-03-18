@@ -148,24 +148,17 @@
                     <template v-if="linkDetails.organizations">
                       <b-form-select
                         v-model="organization"
-                        class="mb-3"
-                        v-if="linkDetails.organizations.length === 1">
+                        class="mb-3">
                         <template slot="first">
                           <option :value="null">Choose Organization...</option>
                           <option
+                            v-if="linkDetails.organizations.length === 1"
                             :value="linkDetails.organizations[0]"
                             selected>
                             {{ linkDetails.organizations[0].orgName }}
                           </option>
-                        </template>
-                      </b-form-select>
-                      <b-form-select
-                        v-model="organization"
-                        class="mb-3"
-                        v-else>
-                        <template slot="first">
-                          <option :value="null">Choose Organization...</option>
                           <option
+                            v-else
                             v-for="(item, index) in linkDetails.organizations"
                             :value="linkDetails.organizations[index]"
                             :key="index">
