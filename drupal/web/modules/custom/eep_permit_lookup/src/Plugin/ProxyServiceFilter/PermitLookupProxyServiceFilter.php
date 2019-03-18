@@ -213,6 +213,7 @@ class PermitLookupProxyServiceFilter extends ProxyServiceFilterBase
         (!isset($query['issuers'])) ?: $payload['helperQueries']['issuers'][] = trim($query['issuers']);
         (!isset($query['formStatuses'])) ?: $payload['helperQueries']['formStatuses'][] = trim($query['formStatuses']);
         (!isset($query['msgpDownloadUrlBase'])) ?: $payload['helperQueries']['msgpDownloadUrlBase'][] = trim($query['msgpDownloadUrlBase']);
+        (!isset($query['cgpDownloadUrlBase'])) ?: $payload['helperQueries']['cgpDownloadUrlBase'][] = trim($query['cgpDownloadUrlBase']);
         // oeca-services with no parameters
         (!isset($query['sectors'])) ?: $payload['helperQueries']['oecaSvc']['sectors'][] = trim($query['sectors']);
         (!isset($query['states'])) ?: $payload['helperQueries']['oecaSvc']['states'][] = trim($query['states']);
@@ -255,6 +256,12 @@ class PermitLookupProxyServiceFilter extends ProxyServiceFilterBase
         if (isset($payload['helperQueries']['msgpDownloadUrlBase'])) {
             $msgpDownloadUrlBase = $this->request->getUri() . '';
             $payload['helperQueryResponse']['msgpDownloadUrlBase'] = $msgpDownloadUrlBase;
+        }
+
+        // Get cgpDownloadUrlBase
+        if (isset($payload['helperQueries']['cgpDownloadUrlBase'])) {
+            $cgpDownloadUrlBase = $this->request->getUri() . '';
+            $payload['helperQueryResponse']['cgpDownloadUrlBase'] = $cgpDownloadUrlBase;
         }
 
         // Get formTypes
