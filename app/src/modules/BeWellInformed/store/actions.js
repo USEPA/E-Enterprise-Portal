@@ -59,9 +59,11 @@ export default {
     const app = store.rootGetters.getApp;
     const { state } = store;
     const partner = state.selectedPartner;
+    const partnerUrl = store.getters.getApiUrl('getPartnerXML');
+    const flowchartUrl = store.getters.getApiUrl('getFlowchartXML');
 
     if (!state.partnerXmls[partnerCode]) {
-      AppAxios.get(state.urls[env].getPartnerXML + partnerCode + '.xml')
+      AppAxios.get(`${partnerUrl + partnerCode}.xml`)
         .then((response) => {
           // @todo add sanity check for returned data
           const partnerJsonString = convert.xml2json(response.data, { compact: true });
@@ -88,7 +90,7 @@ export default {
           console.warn('AppAxios fail: ', args);
         });
 
-      AppAxios.get(state.urls[env].getFlowchartXML + partnerCode + '.xml')
+      AppAxios.get(`${flowchartUrl + partnerCode}.xml`)
         .then((response) => {
           // @todo add sanity check for returned data
           const partnerJsonString = convert.xml2json(response.data, { compact: true });
@@ -124,16 +126,17 @@ export default {
 
     if (!store.state.partners.length) {
       // eslint-disable-next-line vue/no-async-in-computed-properties
+      const partnersUrl = store.getters.getApiUrl('getPartners');
 
-      AppAxios.get(store.state.urls[env].getPartners)
+      AppAxios.get(partnersUrl)
         .then((response) => {
           // @todo add sanity check for returned data
           store.commit(types.UPDATE_PARTNERS, response.data);
         }).catch((...args) => {
         // @todo add sanity check for errors & visual prompt to the user
-        app.$Progress.fail();
-        console.warn('AppAxios fail: ', args);
-      });
+          app.$Progress.fail();
+          console.warn('AppAxios fail: ', args);
+        });
     }
   },
   submitPartnersData(context, payload) {
@@ -158,10 +161,12 @@ export default {
           },
         };
 
+        const bwiServiceUrl = store.getters.getApiUrl('bwiService');
+
         // eslint-disable-next-line vue/no-async-in-computed-properties
         AppAxios
           .post(
-            store.state.urls[env].submitPartnersData,
+            bwiServiceUrl,
             JSON.stringify(rawWaterAnalysisRequest),
             axiosConfig,
           )

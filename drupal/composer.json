@@ -47,7 +47,6 @@
     "drupal/pathauto": "^1.2",
     "drupal/redirect": "^1.2",
     "drupal/restui": "^1.15",
-    "drupal/save_edit": "^1.1",
     "drupal/simplesamlphp_auth": "^3.0",
     "drupal/structure_sync": "^1.16",
     "drupal/supercache": "^1.3",
@@ -95,11 +94,9 @@
       "@php web/profiles/e_enterprise_portal/post-install-setup.php"
     ],
     "post-update-cmd": [
-      "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
-      "@php web/profiles/e_enterprise_portal/post-deployment-update.php"
+      "DrupalProject\\composer\\ScriptHandler::createRequiredFiles"
     ],
     "post-deployment-update": [
-      "@php web/profiles/e_enterprise_portal/post-deployment-update.php"
     ],
     "test-cmd": [
       "@php web/profiles/e_enterprise_portal/post-deployment-update.php",
