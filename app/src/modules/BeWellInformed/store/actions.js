@@ -182,7 +182,7 @@ export default {
                 if (data.AdditionalContaminantRequests.length > 1) {
                   let additionalRequests = [];
                   for (let i = 0; i < data.AdditionalContaminantRequests.length - 1; i++) {
-                    if (data.AdditionalContaminantRequests[i].Symbol != data.AdditionalContaminantRequests[i + 1].Symbol) {
+                    if (data.AdditionalContaminantRequests[i].Symbol !== data.AdditionalContaminantRequests[i + 1].Symbol) {
                       additionalRequests.push(data.AdditionalContaminantRequests[i]);
                       additionalRequests.push(data.AdditionalContaminantRequests[i+1]);
                     }

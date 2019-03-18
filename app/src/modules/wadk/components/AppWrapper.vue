@@ -29,7 +29,6 @@
                 :key="title"
                 @click="widgetMenuModalToIndex(title, $event.target, index)">{{ title }}
               </b-dropdown-item-button>
-              
             </b-dropdown>
             <label
               for="expander"
