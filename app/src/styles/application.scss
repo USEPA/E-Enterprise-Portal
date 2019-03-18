@@ -18,11 +18,13 @@ h2 {
     background-color: $white;
   }
   .table {
-    thead {
-      font-size: 14px;
-    }
+    thead,
     tr {
-      font-size: 10px;
+      font-size: 0.875rem;  // 14px
+    }
+    th {
+      padding-top: 5px;
+      padding-bottom: 5px;
     }
   }
 }

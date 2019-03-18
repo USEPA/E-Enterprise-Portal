@@ -4,7 +4,7 @@
     <AppWrapper
       :eep-app="eepApp">
       <template>
-        <p class="check-water-message pt-2">
+        <p class="check-water-message pt-1">
           Have a well and wonder what your water testing results mean? Enter
           water test results and get feedback about health concerns and water treatment choices.</p>
       </template>
@@ -409,6 +409,9 @@
       .custom-select,
       .btn-primary {
         font-size: 0.9375rem; //15px
+      }
+      .custom-select {
+        line-height: 1.5;
       }
       .btn-primary {
         line-height: 1;

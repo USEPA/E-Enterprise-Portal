@@ -6,12 +6,12 @@
       <div id="permit-search-wapp-inner">
         <div v-if="eepApp.size === 'small'">
           <b-form
-            class="needs-validation"
+            class="needs-validation pt-1"
             @submit="initialFormSubmit"
             novalidated>
             <b-row>
               <label
-                class="mb-0 pl-3 input-row"
+                class="mb-0 pl-3"
                 for="permit-type-selection-a">Select a permit type</label>
             </b-row>
             <b-row>
@@ -1557,4 +1557,19 @@
   .permit-lookup-info-btn {
     background-image: url('../../assets/images/widget-info-circle.svg');
   }
+  label,
+  .custom-select-sm,
+  .form-control-sm,
+   .btn-group-sm>.btn,
+   .btn-sm  {
+    font-size: 0.9375rem; //15px
+  }
+  .btn-sm {
+    line-height: 1.4;   // Temporary fix - @todo adjust small buttons so reasonable height and padding
+  }
+  .form-control-sm,
+  .custom-select-sm {
+    line-height: 1.5;
+  }
+
 </style>
