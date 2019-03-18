@@ -29,12 +29,7 @@
                 :key="title"
                 @click="widgetMenuModalToIndex(title, $event.target, index)">{{ title }}
               </b-dropdown-item-button>
-              <b-dropdown-item-button
-                v-if="eepApp.source.length > 0"
-                title="Source"
-                @click="onSource">
-                Source
-              </b-dropdown-item-button>
+              
             </b-dropdown>
             <label
               for="expander"
