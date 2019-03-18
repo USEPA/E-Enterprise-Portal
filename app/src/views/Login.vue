@@ -1,20 +1,20 @@
 <template>
-  <div class="container">
-    <h3>Login</h3>
+  <div class="container pl-0 ml-0">
+    <h1>Login</h1>
     <div class="pt-2 caption-wrapper">
-        <p class="pt-2 font-weight-bold">Select your preferred login method to access E-Enterprise
+        <p class="pt-2">Select your preferred login method to access E-Enterprise
         using one of
         your existing accounts. Choose a
         preferred login type and option to get started.</p>
         </div>
         <div class="pt-3"></div>
-        <h6 class="ml-4 font-weight-bold ">Use this account:</h6>
+        <h6 class="ml-0 font-weight-bold">Use this account:</h6>
         <b-tabs class="epa-tabs" pills card vertical>
             <b-tab title="EPA" active>
                 <h6 class="tabText font-weight-bold">Use your EPA account...</h6>
                 <LoginType index="0"></LoginType>
                 <div class="mt-4">
-                    You can <a href="https://cdx.epa.gov/">create a free CDX account </a> within the Exchange Network.
+                    You can <a href="https://cdx.epa.gov/">create a free CDX account</a> within the Exchange Network.
                     You only need to provide some basic information.
                 </div>
             </b-tab>
@@ -98,9 +98,19 @@
     }
   }
 
+  h1, h2 {
+      font-weight: bold;
+  }
+  h2 {
+      font-size: 1.2rem;
+  }
+
   .epa-tabs {
       .col-auto{
           width: 25%;
+      }
+      .nav-pills {
+          padding-left: 0;
       }
       ul {
           border-right: 1px solid lightgrey;

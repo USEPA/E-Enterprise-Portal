@@ -237,7 +237,6 @@
 </script>
 
 <style lang="scss">
-  /*// @TODO - Move non scoped styles to the appropriate sass file*/
   @import './styles/bootstrap-variable-overrides.scss';
   @import '../node_modules/bootstrap/scss/bootstrap.scss';
   @import '../node_modules/bootstrap-vue/dist/bootstrap-vue.css';
