@@ -330,7 +330,7 @@ export default {
     const { state } = store;
     const apiURL = store.rootGetters.getEnvironmentApiURL;
 
-    AppAxios.get(`${apiURL}/eep/proxy/service/oeca-cgp?formTypes&formStatuses`)
+    AppAxios.get(`${apiURL}/eep/proxy/service/oeca-cgp?formTypes&formStatuses&cgpDownloadUrlBase`)
       .then((response) => {
         const formOptions = response.data.helperQueryResponse;
         store.commit(types.SET_FORM_OPTIONS_CGP, formOptions);
