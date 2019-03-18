@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import types from './types';
 import { AppAxios, commonAppStore } from '../../wadk/WADK';
 import { EventBus } from '../../../EventBus';
@@ -456,12 +457,12 @@ export default {
   },
   setMsgpFormToDefaults(context) {
     const store = context;
-    const defaults = store.state.msgpFormDataDefaults;
+    const defaults = _.clone(store.state.msgpFormDataDefaults, true);
     store.commit(types.SET_MSGP_FORM_DATA, defaults);
   },
   setCgpFormToDefaults(context) {
     const store = context;
-    const defaults = store.state.cgpFormDataDefaults;
+    const defaults = _.clone(store.state.cgpFormDataDefaults, true);
     store.commit(types.SET_CGP_FORM_DATA, defaults);
   },
 };
