@@ -40,7 +40,7 @@
                   ref="permitTypeSubmit"
                   class="permit-lookup-base-btn"
                   type="submit">
-                  Lookup
+                  Search
                 </b-btn>
               </b-col>
             </b-row>
@@ -250,7 +250,7 @@
                   class="btn-outline-primary"
                   variant="outline-primary"
                   ref="btnAdvancedSettings-cgp">
-                  Advanced Lookup Criteria
+                  Advanced Search Criteria
                 </b-btn>
                 <b-collapse
                   v-model="cgpAdvancedSearchWrapper"
@@ -431,7 +431,7 @@
                       variant="primary"
                       ref="btnSubmitCgp"
                       type="submit">
-                      Lookup
+                      Search
                     </b-btn>
                   </b-col>
                 </b-row>
@@ -722,7 +722,7 @@
                   class="btn-outline-primary"
                   variant="outline-primary"
                   ref="btnAdvancedSettings-msgp">
-                  Advanced Lookup Criteria
+                  Advanced Search Criteria
                 </b-btn>
                 <b-collapse
                   v-model="msgpAdvancedSearchWrapper"
@@ -898,7 +898,7 @@
                       variant="primary"
                       ref="btnSubmitMsgp"
                       type="submit">
-                      Lookup
+                      Search
                     </b-btn>
                   </b-col>
                 </b-row>
