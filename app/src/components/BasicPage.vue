@@ -37,15 +37,17 @@
 
 <script>
 
+  import * as uswds from 'uswds';
+
   import { mapGetters } from 'vuex';
   import { AppPlaceholderContent } from '../modules/wadk/WADK';
 
-  import * as uswds from 'uswds';
 
   export default {
     name: 'BasicPage',
     components: {
       AppPlaceholderContent,
+      uswds,
     },
     props: {
       urlAlias: {
