@@ -284,20 +284,25 @@ export default {
       // driven by "partners"
       const { partners } = store.state;
       const { state } = rootStore.state.user.location;
-      const newSelectedpartners = partners.filter(partner => partner.code == state);
+      const newSelectedpartners = partners.filter(partner => partner.code === state);
       if (newSelectedpartners.length) {
         store.commit(types.SET_SELECTED_PARTNER, newSelectedpartners[0]);
       }
     }
   },
   downloadPDF(context) {
+    // eslint-disable-next-line max-len
     // @todo this form submission method can be extracted because it duplicates code from My Reporting
     const store = context;
     const rootStore = this;
     const apiURL = rootStore.getters.getEnvironmentApiURL;
-    let waterResults = store.getters.getWaterAnalysisResults;
-    let infoXML = store.getters.getPartnerXmls;
-    const payload = {'results': waterResults, 'info': infoXML, 'treatment_title': store.getters.getWaterTreatmentTitle}
+    const waterResults = store.getters.getWaterAnalysisResults;
+    const infoXML = store.getters.getPartnerXmls;
+    const payload = {
+      results: waterResults,
+      info: infoXML,
+      treatment_title: store.getters.getWaterTreatmentTitle,
+    };
     const form = document.createElement('form');
     form.setAttribute('method', 'post');
     form.setAttribute('action', `${apiURL}/eep_generate_pdf/water_analysis_results_pdf_template`);
@@ -310,5 +315,5 @@ export default {
     document.body.appendChild(form);
     form.submit();
     document.body.removeChild(form);
-  }
+  },
 };
