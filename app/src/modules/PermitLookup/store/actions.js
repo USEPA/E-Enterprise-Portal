@@ -452,8 +452,8 @@ export default {
   resetResultsLoaded(context) {
     const store = context;
     store.commit(types.SET_RESULTS_ERROR, false);
-    store.commit(types.SET_CGP_RESULTS_LOADED, true);
-    store.commit(types.SET_MSGP_RESULTS_LOADED, true);
+    store.commit(types.SET_CGP_RESULTS_LOADED, false);
+    store.commit(types.SET_MSGP_RESULTS_LOADED, false);
   },
   setMsgpFormToDefaults(context) {
     const store = context;
