@@ -219,7 +219,7 @@ class EEPGeneratePDFController extends ControllerBase {
         1 => ['pipe', 'w'], // stdout
         2 => ['pipe', 'a'], // stderr
       ];
-      $process = proc_open('c:\inetpub\wwwroot\eep2\drupal\web\sites\all\libraries\wkhtmltopdf\bin\wkhtmltopdf -q - -', $descriptorspec, $pipes);
+      $process = proc_open(\Drupal::root() . '\sites\all\libraries\wkhtmltopdf\bin\wkhtmltopdf -q - -', $descriptorspec, $pipes);
 
       // Send the HTML on stdin
       fwrite($pipes[0], $html);

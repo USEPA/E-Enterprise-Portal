@@ -1,6 +1,5 @@
 <template>
   <div
-    id="content"
     class="be-well-informed-result-wrapper row"
     v-if="waterAnalysisResult">
 
