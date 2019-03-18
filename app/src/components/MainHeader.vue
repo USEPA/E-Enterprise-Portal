@@ -13,7 +13,7 @@
         </a>
       </div>
       <div class="w-100 d-block d-sm-none "/>
-      <div class="col-md-6 col-12 pt-3 d-flex justify-content-center justify-content-lg-end align-self-end-lg">
+      <div class="col-md-8 col-12 pt-3 d-flex justify-content-center justify-content-lg-end align-self-end-lg">
         <div class="tryit-wrapper pr-2 float-right">
           <router-link
             to="/workbench"
@@ -114,7 +114,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-  
+
   .eep_logo {
     img {
       max-width: 250px;
