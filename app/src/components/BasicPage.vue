@@ -40,7 +40,7 @@
   import { mapGetters } from 'vuex';
   import { AppPlaceholderContent } from '../modules/wadk/WADK';
 
-  import * as uswds from '../../node_modules/uswds/dist/js/uswds';
+  import * as uswds from 'uswds';
 
   export default {
     name: 'BasicPage',
