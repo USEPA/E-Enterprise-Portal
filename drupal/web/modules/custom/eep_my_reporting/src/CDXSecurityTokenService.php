@@ -14,7 +14,7 @@ class CDXSecurityTokenService extends CDXNaasService {
 
   private $system_config;
 
-  
+
   function __construct($config) {
     $this->config = $config;
     $this->system_config = \Drupal::config('system.passwords');
@@ -24,21 +24,34 @@ class CDXSecurityTokenService extends CDXNaasService {
     $soap_service_setup = $this->soap_handler->connectToSOAPServerWithWSDL($this->wsdl);
     if ($soap_service_setup->error) {
       $this->client = FALSE;
-    }
-    else {
+    } else {
       $this->token_access_name = 'return';
       $this->client = $soap_service_setup->client;
       $this->token_generation_method = 'CreateSecurityToken';
-      $this->generate_token_params();
-      $this->generate_token();
     }
+  }
+  
+  public function generate_token() {
+    $this->generate_token_params();
+    parent::generate_token(); 
   }
 
   private function return_user_cdx_name() {
     $user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
     $user_name = $user->get('field_cdx_user_id')->getString();
     return strtoupper($user_name);
+  }
 
+  public function decode_token($token, $ip) {
+    $this->params = [
+      "userId" => $this->config->get('admin_id'),
+      "credential" => $this->system_config->get('cdx_naas'),
+      "domain" => $this->config->get('domain'),
+      "securityToken" => $token,
+      "clientIp" => $ip,
+      "resourceURI" => ""
+    ];
+    return $this->call_service_method('Validate');
   }
 
   private function generate_token_params() {
