@@ -33,6 +33,10 @@ class AuthenticatedUser {
   function set_authentication_domain($issuer) {
     $this->authentication_domain = $issuer;
   }
+  
+  function set_source_username($username) {
+    $this->source_username = $username;
+  }
 
   function get_name() {
     return $this->name;
