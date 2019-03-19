@@ -203,7 +203,7 @@ class EEPBridgeController extends ControllerBase {
    * @param $uid
    */
   private function create_jwt_and_send_user($uid = NULL) {
-    $environment_name = $this->config('eep_bridge.environment_settings');
+    $environment_name = $this->config('eep_bridge.environment_settings')->get('eep_bridge_environment_name');
     if (!$uid) {
       $uid = \Drupal::currentUser()->id();
     }
