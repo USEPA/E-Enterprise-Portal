@@ -1511,7 +1511,7 @@
           this.noFieldsToQuery = false;
           this.cgpFormGetResults({ vm });
           this.setCgpFormToDefaults();
-          this.$ga.event('eportal', 'click', 'Permit Lookup MSGP Form Submission', 1);
+          this.$ga.event('eportal', 'click', 'Permit Lookup CGP Form Submission', 1);
         } else {
           this.noFieldsToQuery = true;
         }
