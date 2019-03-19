@@ -36,7 +36,7 @@ eep_bridge.dev_logout:
     _title: 'E-Enterprise Bridge Logout'
   requirements:
     _permission: 'access content'
-eep_core.reset_token:
+eep_bridge.reset_token:
   path: '/eep/resetToken'
   defaults:
      _controller: '\Drupal\eep_bridge\Controller\EEPBridgeController::generate_new_token'
@@ -45,3 +45,11 @@ eep_core.reset_token:
      _access: 'TRUE'
   options:
      _auth: ['cookie', 'basic_auth','jwt_auth']
+eep_bridge.single_sign_on:
+  path: '/eep/single-sign-on'
+  defaults:
+     _controller: '\Drupal\eep_bridge\Controller\EEPBridgeController::single_sign_on'
+     _title: 'Single Sign on with NAAS'
+  requirements:
+     _access: 'TRUE'
+  methods:  [POST]

@@ -49,7 +49,6 @@ class EEPMyReportingController extends ControllerBase {
     if (!$client->error) {
       $this->client = $client->client;
     }
-
   }
 
   /*
@@ -227,7 +226,7 @@ class EEPMyReportingController extends ControllerBase {
     unset($response['authentication_method']);
     unset($response['domain']);
     unset($response['wsdl']);
-
+    $security_token_handler->generate_token();
     // UTF-16LE and base64 encoding are required by the cdx NaasToken silent handoff.
     $sso_token = "token=" . $security_token_handler->return_token() . "&remoteIpAddress=" . $_SERVER['LOCAL_ADDR'];
     $sso_token = mb_convert_encoding($sso_token, 'UTF-16LE');

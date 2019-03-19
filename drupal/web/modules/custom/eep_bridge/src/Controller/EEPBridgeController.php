@@ -13,6 +13,7 @@ use Drupal\eep_bridge\AuthenticatedUser;
 use Drupal\jwt\Authentication\Provider\JwtAuth;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\user\Entity\User;
+use Drupal\eep_my_reporting\CDXSecurityTokenService;
 
 
 /**
@@ -42,47 +43,12 @@ class EEPBridgeController extends ControllerBase {
       $this->eep_bridge_goto($url);
       return;
     }
-
-    $post = $_POST;
     // Pull UserDetails from Post
-    $userDetails = $this->parse_post_for_user_details($post);
-
+    $userDetails = $this->parse_post_for_user_details($_POST);
     $authenticated_user = new AuthenticatedUser($userDetails);
-    $entity_storage = \Drupal::entityTypeManager()->getStorage('user');
-    $account_search = $entity_storage->loadByProperties(['name' => $authenticated_user->get_name()]);
-    $account_data = [];
-    if (empty($account_search)) {
-      //if the account does not already exist, create one.
-      $account_data = array_merge(
-        [
-          'name' => $authenticated_user->get_name(),
-          'init' => $authenticated_user->get_authentication_domain(),
-          'mail' => $authenticated_user->get_email(),
-          'status' => 1,
-          'access' => (int)$_SERVER['REQUEST_TIME'],
-        ], $account_data);
-      $account = $entity_storage->create($account_data);
-      $account->enforceIsNew();
-      $account->save();
-      user_login_finalize($account);
-    } else {
-      //Account already exists, just login the user
-      $account_search = array_values($account_search);
-      user_login_finalize($account_search[0]);
-    }
-    $uid = \Drupal::currentUser()->id();
-    if ($authenticated_user->get_authentication_domain() === 'CDX') {
-      $this->add_field_if_needed($uid, 'field_cdx_user_id', $authenticated_user->get_source_username());
-    }
-    $this->add_field_if_needed($uid, 'mail', $authenticated_user->get_email());
-    $jwt_token = $this->auth->generateToken();
-    if ($jwt_token === FALSE) {
-      $error_msg = "Error. Please set a key in the JWT admin page.";
-      \Drupal::logger('eep_bridge')->error($error_msg);
-    }
-
-    $url = Url::fromUri($environment_name . '?token=' . $jwt_token . '&uid=' . $uid);
-    $this->eep_bridge_goto($url, $jwt_token);
+    $this->create_or_login_user_if_exists($authenticated_user);
+    $this->process_required_fields_for_user($authenticated_user);
+    $this->create_jwt_and_send_user();
     return;
   }
 
@@ -100,15 +66,7 @@ class EEPBridgeController extends ControllerBase {
     if (!$uid) {
       $uid = \Drupal::currentUser()->id();
     }
-
-    $jwt_token = $this->auth->generateToken();
-    if ($jwt_token === FALSE) {
-      $error_msg = "Error. Please set a key in the JWT admin page.";
-      \Drupal::logger('eep_bridge')->error($error_msg);
-    }
-
-    $url = Url::fromUri($environment_name . '?token=' . $jwt_token . '&uid=' . $uid);
-    $this->eep_bridge_goto($url, $jwt_token);
+    $this->create_jwt_and_send_user($uid);
     return;
   }
 
@@ -136,10 +94,36 @@ class EEPBridgeController extends ControllerBase {
     return new static($auth);
   }
 
+  public function single_sign_on() {
+    $_POST = array_change_key_case($_POST, CASE_UPPER);
+
+    if (isset($_POST['CDX_DATA']) || isset($_POST['SCS_DATA'])) {
+      if (isset($_POST['CDX_DATA'])) {
+        $ip = $_POST['CDX_DATA'];
+      } else {
+        $ip = $_POST['SCS_DATA'];
+      }
+      $token = $_POST['TOKEN'];
+      $config = $this->config('eep_my_reporting.form');
+      $cdx_service = new CDXSecurityTokenService($config);
+      $decoded_token = $cdx_service->decode_token($token, $ip);
+      parse_str($decoded_token->return, $decoded_parts);
+      $user_data = array_change_key_case($decoded_parts, CASE_UPPER);
+      $authenticated_user = new AuthenticatedUser([]);
+      $username = $user_data['UID'] . '_Via_' . $user_data['ISSUER'];
+      $authenticated_user->set_name($username);
+      $authenticated_user->set_authentication_domain($user_data['ISSUER']);
+      $this->create_or_login_user_if_exists($authenticated_user);
+      $this->process_required_fields_for_user($authenticated_user);
+      $this->create_jwt_and_send_user();
+    }
+  }
+
+
   /**
    * @return JsonResponse
    */
-  public function generate_new_token(){
+  public function generate_new_token() {
     $new_jwt_token = $this->auth->generateToken();
     return new JsonResponse([
       'current_user_id' => \Drupal::currentUser()->id(),
@@ -172,5 +156,63 @@ class EEPBridgeController extends ControllerBase {
       $user->set($field_name, trim($field_value));
       $user->save();
     }
+  }
+
+
+  private function create_or_login_user_if_exists($authenticated_user) {
+    $entity_storage = \Drupal::entityTypeManager()->getStorage('user');
+    $account_search = $entity_storage->loadByProperties(['name' => $authenticated_user->get_name()]);
+    $account_data = [];
+    if (empty($account_search)) {
+      //if the account does not already exist, create one.
+      $account_data = array_merge(
+        [
+          'name' => $authenticated_user->get_name(),
+          'init' => $authenticated_user->get_authentication_domain(),
+          'mail' => $authenticated_user->get_email(),
+          'status' => 1,
+          'access' => (int)$_SERVER['REQUEST_TIME'],
+        ], $account_data);
+      $account = $entity_storage->create($account_data);
+      $account->enforceIsNew();
+      $account->save();
+      user_login_finalize($account);
+    } else {
+      //Account already exists, just login the user
+      $account_search = array_values($account_search);
+      user_login_finalize($account_search[0]);
+    }
+  }
+
+  /**
+   * @param $authenticated_user
+   * @return int
+   */
+  private function process_required_fields_for_user($authenticated_user) {
+    $uid = \Drupal::currentUser()->id();
+    if ($uid) {
+      if ($authenticated_user->get_authentication_domain() === 'CDX') {
+        $this->add_field_if_needed($uid, 'field_cdx_user_id', $authenticated_user->get_source_username());
+      }
+      $this->add_field_if_needed($uid, 'mail', $authenticated_user->get_email());
+    }
+  }
+
+  /**
+   * @param $environment_name
+   * @param $uid
+   */
+  private function create_jwt_and_send_user($uid = NULL) {
+    $environment_name = $this->config('eep_bridge.environment_settings')->get('eep_bridge_environment_name');
+    if (!$uid) {
+      $uid = \Drupal::currentUser()->id();
+    }
+    $jwt_token = $this->auth->generateToken();
+    if ($jwt_token === FALSE) {
+      $error_msg = "Error. Please set a key in the JWT admin page.";
+      \Drupal::logger('eep_bridge')->error($error_msg);
+    }
+    $url = Url::fromUri($environment_name . '?token=' . $jwt_token . '&uid=' . $uid);
+    $this->eep_bridge_goto($url, $jwt_token);
   }
 }
