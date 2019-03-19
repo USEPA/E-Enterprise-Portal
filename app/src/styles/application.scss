@@ -9,23 +9,13 @@ h2 {
   font-size: 1.2rem;
 }
 #app {
-  font-family: 'Source Sans Pro';
+  font-family: 'Source Sans Pro Web';
   display: block;
   min-height: 100vh;
   background-color: $white;
 
-  & > header, & > container {
+  & > header, & > .container {
     background-color: $white;
-  }
-  .table {
-    thead,
-    tr {
-      font-size: 0.875rem;  // 14px
-    }
-    th {
-      padding-top: 5px;
-      padding-bottom: 5px;
-    }
   }
 }
 
