@@ -6,7 +6,7 @@
       <div
         v-html="eepApp.field_html_content.mainCard"/>
       <b-col>
-        <b-row class="my-reporting-top-line pb-3">
+        <b-row class="my-reporting-top-line pb-1">
           Report directly to your CDX data flows.
         </b-row>
       </b-col>
