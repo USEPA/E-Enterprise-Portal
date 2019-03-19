@@ -78,7 +78,7 @@ class ProxyServiceController extends ControllerBase {
     // @todo manage requests that have appended endings
 
     $config = $this->config('eep_core.settings');
-    $environment = $config->get('environment');
+    $environment = $config->get('environment') ?: 'LOCAL';
     $current_request = $this->requestStack->getCurrentRequest();
 
     // @todo Check for cached responses
