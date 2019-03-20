@@ -144,4 +144,10 @@
     /*!*Sets position of triangle*!*/
     margin-top: -11px;
   }
+
+  @media (max-width: 410px) {
+    .tooltip{
+      width: 75%;
+    }
+  }
 </style>
