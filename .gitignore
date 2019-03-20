@@ -18,7 +18,6 @@ composer.phar
 /sites/*/*services*.yml
 
 # Ignore paths that may contain user-generated content
-/sites/*/files
 /sites/*/public
 /sites/*/private
 /sites/*/files-public
@@ -205,3 +204,5 @@ $RECYCLE.BIN/
 /app/web.config
 /drupal/web.config
 /drupal/web/web.config
+
+!/drupal/web/sites/default/files/resources/
