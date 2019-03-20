@@ -78,7 +78,11 @@
             ]),
         },
         beforeCreate(){
-            this.$store.dispatch('handleLogin');
+            if(this.$cookie.get('userPolicy')){
+              window.location = this.$cookie.get('bridgeUrlLoginOption');
+            }else{
+              this.$store.dispatch('handleLogin');
+            }
         },
         computed: {
             ...mapGetters({
