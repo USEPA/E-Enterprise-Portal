@@ -1,8 +1,7 @@
 <template>
   <div class="bwi-partner-resources">
     <h3>State/Tribe Resources</h3>
-    <br/>
-    <div v-if="partnerResource">
+    <div v-if="(partnerResource && partnerResource.info)">
       <template
         v-for="(section, key) in partnerResource.info.Partner.SupportInformation.Section">
         <div
@@ -25,14 +24,13 @@
   export default {
     name: 'PartnerResources',
     components: {},
-    created() {},
+    created() {
+    },
     computed: {
       ...mapGetters({
         partners: 'BeWellInformed/getPartners',
-        partnerXmls: 'BeWellInformed/getPartnerXmls',
         selectedPartner: 'BeWellInformed/getSelectedPartner',
         partnerResource: 'BeWellInformed/getPartnerResource',
-        waterAnalysisRequest: 'BeWellInformed/getWaterAnalysisRequest',
       }),
     },
     methods: {
@@ -47,9 +45,8 @@
 </script>
 
 <style
-lang="scss">
+  lang="scss">
   @import '../../../styles/bootstrap-variable-overrides.scss';
-
   .bwi-partner-resources {
     .card {
       h4 {
@@ -60,11 +57,9 @@ lang="scss">
       }
     }
   }
-
   .bwi-resource-name {
     font-weight: 700;
   }
-
   .plain-list {
     margin: 0;
     padding: 0;

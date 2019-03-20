@@ -1,0 +1,143 @@
+[
+  {
+    "nid": [
+      {
+        "value": "1"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "22dc268c-71f2-465f-889d-7be13394fd9c"
+      }
+    ],
+    "vid": [
+      {
+        "value": "16"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "eep_proxy_service"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1545234256"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "status": [
+      {
+        "value": "0"
+      }
+    ],
+    "title": [
+      {
+        "value": "Be Well Informed Service"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1541711939"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1541712034"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "field_cache_max_age": [
+      {
+        "value": "86400"
+      }
+    ],
+    "field_proxy_filter": [
+      {
+        "value": "generic"
+      }
+    ],
+    "field_proxy_service_machine_name": [
+      {
+        "value": "bwi"
+      },
+      {
+        "value": "be-well-informed"
+      }
+    ],
+    "field_request_headers": [
+      {
+        "first": "content-type",
+        "second": "application\/json"
+      }
+    ],
+    "field_requeste_timeout": [
+      {
+        "value": "60"
+      }
+    ],
+    "field_response_headers": [
+      {
+        "first": "Content-Type",
+        "second": "application\/json"
+      },
+      {
+        "first": "Transfer-Encoding",
+        "second": ""
+      }
+    ],
+    "field_service_endpoints": [
+      {
+        "first": "LOCAL",
+        "second": "https:\/\/dev.e-enterprise.gov\/TestRest\/bwievaluation"
+      },
+      {
+        "first": "DEV",
+        "second": "https:\/\/dev.e-enterprise.gov\/TestRest\/bwievaluation"
+      }
+    ]
+  }
+]

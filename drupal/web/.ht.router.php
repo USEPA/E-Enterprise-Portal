@@ -63,4 +63,3 @@ $_SERVER['PHP_SELF'] = $index_file_relative;
 
 // Require the script and let core take over.
 require $_SERVER['SCRIPT_FILENAME'];
-

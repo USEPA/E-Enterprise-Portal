@@ -1,0 +1,17 @@
+/**
+ * @file
+ * Styles for Content Access administration pages.
+ */
+
+.content_access-div {
+  width: 25%;
+  margin: 0;
+  padding: 0;
+  float: left;
+  overflow: hidden;
+}
+
+form.content-access-page fieldset:not(.fieldgroup) legend,
+form.content-access-admin-settings fieldset:not(.fieldgroup) legend {
+    position: static;
+}

@@ -1,0 +1,7 @@
+.git
+.idea
+vendor
+node_modules
+contrib
+.\drupal\web\core
+.\drupal\web\sites\default\files

@@ -1,0 +1,17 @@
+uuid: d7d18836-e485-4b84-9acb-14c6ef00bf72
+langcode: en
+status: false
+dependencies: {  }
+id: prod
+label: Prod
+description: ''
+folder: ../config/prod
+module:
+  eep_bridge: 0
+theme: {  }
+blacklist:
+  - eep_bridge.environment_settings
+graylist: {  }
+graylist_dependents: true
+graylist_skip_equal: true
+weight: 0

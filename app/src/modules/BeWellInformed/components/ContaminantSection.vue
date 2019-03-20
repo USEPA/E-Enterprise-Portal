@@ -1,10 +1,9 @@
 <template>
   <div class="section mb-4">
     <div
-      v-if="flowchartContaminants(section)"
       class="row">
-      <h5 class="col-md-12">{{ getContaminantTitle }}</h5>
-      <template v-for="(contaminant, key, index) in flowchartContaminants(section)">
+      <h4 class="col-md-12">{{ getContaminantTitle }}</h4>
+      <template v-for="(contaminant, key, index) in contaminants">
         <div
           class="contaminant-wrapper col-md-6"
           :key="key">
@@ -12,38 +11,42 @@
             <div class="col-sm-5">
               <label class="">{{ contaminant._attributes.Text }}</label>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-3 pr-2">
               <b-form-input
                 :ref="`${contaminant._attributes.Value}-Value`"
                 :id="`${contaminant._attributes.Value}-Value`"
                 type="number"
                 step="0.001"
-                size="lg"
-                @:change.native="updateProperty( section, contaminant, 'Value', $event)" />
+                v-model="request[contaminant._attributes.Value].Value"
+                @change="updateProperty( section, contaminant, 'Value', $event)"
+                size="lg"/>
             </div>
             <div class="col-sm-4">
               <b-form-select
                 :value="contaminant._attributes.DefaultUnit"
+                v-model="request[contaminant._attributes.Value].Unit"
                 @change="updateProperty( section, contaminant, 'Unit', $event)"
                 size="lg">
-                <template v-for="unit in contaminant._attributes.Units.split('|')" >
+                <template v-for="unit in contaminant._attributes.Units.split('|')">
                   <option
                     :key="unit"
-                    :value="unit" >{{ unit }}</option>
+                    :value="unit">{{ unit }}
+                  </option>
                 </template>
               </b-form-select>
             </div>
           </div>
           <div
-            v-if="contaminant._attributes.ShowIsPresent"
+            v-if="canShowIsPresent(contaminant)"
             class="row justify-content-end">
             <b-form-group
-            class="col text-right">
+              class="col text-right">
               <b-form-radio-group
                 :ref="`${contaminant._attributes.Value}-ShowIsPresent`"
                 :id="`${contaminant._attributes.Value}-ShowIsPresent`"
                 @change="updateProperty( section, contaminant, 'Present', $event)"
-                :name="`${contaminant._attributes.Value}`-ShowIsPresent">
+                v-model="request[contaminant._attributes.Value].Present"
+                :name="`${contaminant._attributes.Value}-ShowIsPresent`">
                 <b-form-radio value="true">Present</b-form-radio>
                 <b-form-radio value="false">Absent</b-form-radio>
               </b-form-radio-group>
@@ -74,15 +77,24 @@
         required: true,
         type: String,
       },
+      request: {
+        required: true,
+        type: Object,
+      },
+    },
+    created() {
+      const vm = this;
+      vm.contaminants = vm.flowchartContaminants(vm.section);
     },
     data() {
-      return {};
+      return {
+        contaminants: {},
+      };
     },
     computed: {
       ...mapGetters({
         partnerResource: 'BeWellInformed/getPartnerResource',
         flowchartContaminants: 'BeWellInformed/getFlowchartContaminants',
-        waterAnalysisRequest: 'BeWellInformed/getWaterAnalysisRequest',
       }),
       getContaminantTitle() {
         let r = '';
@@ -103,16 +115,6 @@
       maxColumnCount() {
         return Math.floor(this.flowchartContaminants(this.section).length / 2);
       },
-      updateProperty: vm => (
- section, contaminant, property, event,
-) => {
-        if(contaminant._attributes.ShowIsPresent && (event === 'false')) {
-          vm.$refs[`${contaminant._attributes.Value}-Value`].forEach(input => input.setValue(''));
-        }
-        vm.updateWaterAnalysisRequestProperty({
-         section, contaminant, property, event,
-        });
-      },
     },
     methods: {
       ...mapActions(name, [
@@ -121,11 +123,30 @@
         'fetchPartnerAndFlowchartXML',
         'updateWaterAnalysisRequestProperty',
       ]),
+      canShowIsPresent(contaminant) {
+        const r = !!((
+          contaminant
+          && contaminant._attributes
+          && Object.prototype.hasOwnProperty.call(contaminant._attributes, 'ShowIsPresent')
+          && contaminant._attributes.ShowIsPresent
+        ));
+        return r;
+      },
+      updateProperty(section, contaminant, property, event) {
+        const vm = this;
+        if (contaminant._attributes.ShowIsPresent && (event === 'false')) {
+          vm.$refs[`${contaminant._attributes.Value}-Value`].forEach(input => input.setValue(''));
+        }
+
+        vm.updateWaterAnalysisRequestProperty({
+          section, contaminant, property, event,
+        });
+      },
     },
   };
 </script>
 
-<style
+<style scoped
   lang="scss">
 
   .contaminant-wrapper {

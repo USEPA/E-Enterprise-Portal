@@ -1,0 +1,55 @@
+eep_bridge.bridge:
+  path: '/authenticate/user'
+  defaults:
+    _controller: '\Drupal\eep_bridge\Controller\EEPBridgeController::eep_authenticate'
+    _title: 'E-Enterprise Bridge Authentication'
+  requirements:
+    _permission: 'access content'
+eep_bridge.eep_bridge_environment_form:
+  path: '/admin/config/system/eep_bridge_auth_settings'
+  defaults:
+    _form: '\Drupal\eep_bridge\Form\AuthenticationConfigForm'
+    _title: 'E-Enterprise Bridge Authentication settings'
+  description: 'Configure host name and other authentication settings.'
+  requirements:
+    _permission: 'access content'
+  options:
+    _admin_route: TRUE
+eep_bridge.dev_login_auto:
+  path: '/authenticate/dev_user'
+  defaults:
+    _controller: '\Drupal\eep_bridge\Controller\EEPBridgeController::eep_authenticate_dev_user'
+    _title: 'E-Enterprise Bridge Authentication'
+  requirements:
+    _permission: 'administer site configuration'
+eep_bridge.dev_login:
+  path: '/authenticate/dev_user/{uid}'
+  defaults:
+    _controller: '\Drupal\eep_bridge\Controller\EEPBridgeController::eep_authenticate_dev_user'
+    _title: 'E-Enterprise Bridge Authentication'
+  requirements:
+    _permission: 'administer site configuration'
+eep_bridge.dev_logout:
+  path: '/authenticate/user/logout'
+  defaults:
+    _controller: '\Drupal\eep_bridge\Controller\EEPBridgeController::bridge_auth_logout'
+    _title: 'E-Enterprise Bridge Logout'
+  requirements:
+    _permission: 'access content'
+eep_bridge.reset_token:
+  path: '/eep/resetToken'
+  defaults:
+     _controller: '\Drupal\eep_bridge\Controller\EEPBridgeController::generate_new_token'
+     _title: 'EEP Reset Token'
+  requirements:
+     _access: 'TRUE'
+  options:
+     _auth: ['cookie', 'basic_auth','jwt_auth']
+eep_bridge.single_sign_on:
+  path: '/eep/single-sign-on'
+  defaults:
+     _controller: '\Drupal\eep_bridge\Controller\EEPBridgeController::single_sign_on'
+     _title: 'Single Sign on with NAAS'
+  requirements:
+     _access: 'TRUE'
+  methods:  [POST]

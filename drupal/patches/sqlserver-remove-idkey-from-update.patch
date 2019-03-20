@@ -1,0 +1,52 @@
+Index: lib/Drupal/Core/Entity/Sql/SqlContentEntityStorage.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lib/Drupal/Core/Entity/Sql/SqlContentEntityStorage.php	(revision 953a117007acf88062ded3891e4b4ecf16a7862a)
++++ lib/Drupal/Core/Entity/Sql/SqlContentEntityStorage.php	(date 1539711879794)
+@@ -821,6 +821,9 @@
+       if ($update) {
+         $default_revision = $entity->isDefaultRevision();
+         if ($default_revision) {
++          // Remove the ID from the record to enable updates on SQL variants
++          // that prevent updating serial columns, for example, mssql.
++          unset($record->{$this->idKey});
+           $this->database
+             ->update($this->baseTable)
+             ->fields((array) $record)
+@@ -833,6 +836,10 @@
+           }
+           else {
+             $record = $this->mapToStorageRecord($entity->getUntranslated(), $this->revisionTable);
++            // Remove the revision ID from the record to enable updates on SQL
++            // variants that prevent updating serial columns, for example,
++            // mssql.
++            unset($record->{$this->revisionKey});
+             $entity->preSaveRevision($this, $record);
+             $this->database
+               ->update($this->revisionTable)
+@@ -894,11 +901,8 @@
+    *   The entity object.
+    * @param string $table_name
+    *   (optional) The table name to save to. Defaults to the data table.
+-   * @param bool $new_revision
+-   *   (optional) Whether we are dealing with a new revision. By default fetches
+-   *   the information from the entity object.
+    */
+-  protected function saveToSharedTables(ContentEntityInterface $entity, $table_name = NULL, $new_revision = NULL) {
++  protected function saveToSharedTables(ContentEntityInterface $entity, $table_name = NULL) {
+     if (!isset($table_name)) {
+       $table_name = $this->dataTable;
+     }
+@@ -1066,6 +1070,10 @@
+       }
+     }
+     else {
++      // Remove the revision ID from the record to enable updates on SQL
++      // variants that prevent updating serial columns, for example,
++      // mssql.
++      unset($record->{$this->revisionKey});
+       $this->database
+         ->update($this->revisionTable)
+         ->fields((array) $record)

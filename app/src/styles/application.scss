@@ -1,0 +1,87 @@
+html {
+  min-height: 100%;
+  background-color: $gray-300;
+}
+body {
+  min-height: 100vh;
+}
+h2 {
+  font-size: 1.2rem;
+}
+#app {
+  font-family: 'Source Sans Pro Web';
+  display: block;
+  min-height: 100vh;
+  background-color: $white;
+
+  & > header, & > .container {
+    background-color: $white;
+  }
+}
+
+.workbench-container.container {
+  background-color: $eep-gray-light;
+  max-width: 100%;
+}
+
+#main-content {
+  margin: 0 auto;
+}
+
+@media (min-width: 576px) {
+  .workbench-container.container {
+    width: 100%;
+    margin: 0;
+    #main-content {
+      max-width: 540px;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .workbench-container.container {
+    width: 100%;
+    margin: 0;
+    #main-content {
+      max-width: 720px;
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  .workbench-container.container {
+    width: 100%;
+    margin: 0;
+    #main-content {
+      max-width: 960px;
+    }
+  }
+}
+@media (min-width: 1200px) {
+  .workbench-container.container {
+    width: 100%;
+    margin: 0;
+    #main-content {
+      max-width: 1140px;
+    }
+  }
+}
+
+.eep-blue {
+
+}
+.eep-slate {
+
+}
+.eep-yellow {
+
+}
+.eep-orange {
+
+}
+.eep-green {
+
+}
+
+
+

@@ -1,0 +1,135 @@
+[
+  {
+    "nid": [
+      {
+        "value": "2"
+      }
+    ],
+    "uuid": [
+      {
+        "value": "c08fc9b7-b1dd-4c42-a441-4c54606bcb1a"
+      }
+    ],
+    "vid": [
+      {
+        "value": "10"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "eep_proxy_service"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "1544108619"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "status": [
+      {
+        "value": "0"
+      }
+    ],
+    "title": [
+      {
+        "value": "Locations Service"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": "1"
+      }
+    ],
+    "created": [
+      {
+        "value": "1541712063"
+      }
+    ],
+    "changed": [
+      {
+        "value": "1544108619"
+      }
+    ],
+    "promote": [
+      {
+        "value": "0"
+      }
+    ],
+    "sticky": [
+      {
+        "value": "0"
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": "1"
+      }
+    ],
+    "revision_default": [
+      {
+        "value": "1"
+      }
+    ],
+    "path": [
+      {
+        "langcode": "en"
+      }
+    ],
+    "field_cache_max_age": [
+      {
+        "value": "86400"
+      }
+    ],
+    "field_proxy_filter": [
+      {
+        "value": "location"
+      }
+    ],
+    "field_proxy_service_machine_name": [
+      {
+        "value": "location"
+      }
+    ],
+    "field_request_headers": [
+      {
+        "first": "content-type",
+        "second": "application\/json"
+      }
+    ],
+    "field_requeste_timeout": [
+      {
+        "value": "60"
+      }
+    ],
+    "field_response_headers": [
+      {
+        "first": "Content-Type",
+        "second": "application\/json; charset=utf-8"
+      },
+      {
+        "first": "Transfer-Encoding",
+        "second": ""
+      }
+    ],
+    "field_service_endpoints": [
+      {
+        "first": "LOCAL",
+        "second": "https:\/\/services.arcgis.com\/cJ9YHowT8TU7DUyn\/arcgis\/rest\/services"
+      },
+      {
+        "first": "DEV",
+        "second": "https:\/\/services.arcgis.com\/cJ9YHowT8TU7DUyn\/arcgis\/rest\/services"
+      }
+    ]
+  }
+]

@@ -1,0 +1,23 @@
+[
+  {
+    "name": "E-Enterprise Home",
+    "link": "http://www2.epa.gov/e-enterprise/about-e-enterprise-environment"
+  },
+  {
+    "name": "Privacy and Security Notice",
+    "link": "https://www.epa.gov/privacy/privacy-and-security-notice"
+  },
+
+  {
+    "name": "Accessibility",
+    "link": "https://www.epa.gov/accessibility"
+  },
+  {
+    "name": "GitHub",
+    "link": "https://github.com/USEPA/E-Enterprise-Portal"
+  },
+  {
+  "name": "Version",
+  "number":"2.0.1"
+}
+]

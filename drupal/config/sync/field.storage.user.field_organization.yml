@@ -1,0 +1,32 @@
+uuid: bf4ae620-2210-4d1b-89c1-d5428e04f2f0
+langcode: en
+status: true
+dependencies:
+  module:
+    - double_field
+    - user
+id: user.field_organization
+field_name: field_organization
+entity_type: user
+type: double_field
+settings:
+  storage:
+    first:
+      type: string
+      maxlength: 255
+      precision: 10
+      scale: 2
+      datetime_type: datetime
+    second:
+      type: string
+      maxlength: 255
+      precision: 10
+      scale: 2
+      datetime_type: datetime
+module: double_field
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

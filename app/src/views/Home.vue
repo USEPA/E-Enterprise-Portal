@@ -1,138 +1,216 @@
 <template>
-  <div class="home">
+  <div class="home mt-2">
     <b-carousel
       id="home-carousel"
-      controls
-      indicators
-      background="#ababab"
+      background="#575757"
       :interval="0"
       v-model="slide"
       @sliding-start="onSlideStart"
-      @sliding-end="onSlideEnd"
-    >
-      <!-- Text slides with image -->
-      <b-carousel-slide
-        class="col"
-        img-blank
-        img-height="fixedHeight">
-        <div class="container">
-          <div class="row">
-            <div class="col-md align-self-start">
-              <h2>Customize your information</h2>
-              <p>The E-Enterprise Portal provides an important new means by which
-              users can customize the types of information presented to them,
-              find and select tools and other resources, and conduct
-              transactions with EPA, Tribes, and States.</p>
-              <p>See the video <span aria-hidden="true">&gt;&gt;</span></p>
-            </div>
-            <div class="col-md align-self-end">
-              <b-embed
-                type="iframe"
-                aspect="16by9"
-                src="https://www.youtube.com/embed/iFv0DYnW1-A?rel=0"
-                allowfullscreen
-                frameborder="0"
-              />
-            </div>
-          </div>
-        </div>
-
-      </b-carousel-slide>
-
+      @sliding-end="onSlideEnd">
+      <!-- customised numbered indicators -->
+      <ol class="carousel-indicators carousel-indicators-numbers mt-1">
+        <li
+          data-target="#home-carousel"
+          data-slide-to="0"
+          class="active">1</li>
+        <li
+          data-target="#home-carousel"
+          data-slide-to="1">2</li>
+        <li
+          data-target="#home-carousel"
+          data-slide-to="2">3</li>
+      </ol>
+      <!-- controllers linked to customised indicators -->
+      <a
+        class="carousel-control-prev"
+        href="#home-carousel"
+        role="button"
+        data-slide="prev">
+        <span
+          class="carousel-control-prev-icon"
+          aria-hidden="true"/>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a
+        class="carousel-control-next"
+        href="#home-carousel"
+        role="button"
+        data-slide="next">
+        <span
+          class="carousel-control-next-icon"
+          aria-hidden="true"/>
+        <span class="sr-only">Next</span>
+      </a>
       <!-- Slide with blank fluid image to maintain slide aspect ratio -->
       <b-carousel-slide
         class="col"
         img-blank>
         <div class="container">
-          <h2>What's Included</h2>
           <div class="row">
-            <ul class="including_items col-md-6">
-              <li>
+            <div class="slide-details col-md-7 align-self-center">
+              <h2>A Tool Suite for Your Environmental Needs</h2>
+              <p>
+                E-Enterprise for the Environment is a new model for collaborative leadership
+                among environmental co-regulators,engaging with all interested and affected parties,
+                to achieve positive environmental,human health, and economic outcomes.
+              </p>
+              <div class="align-self-center pt-5">
+                <router-link to="/workbench">
+                  <button
+                    id="try-it-carousel-button"
+                    class="usa-button float-right"
+                    variant="primary"
+                    :title="tryitTitle"
+                    v-if='!authenticated'>
+                    <i class="fas fa-arrow-circle-right pr-1"/>Try It
+                  </button>
+                </router-link>
+              </div>
+            </div>
+            <div class="slide-image col-md-5 align-self-center">
+              <div class="row pt-5">
                 <img
-                  alt=""
+                  class="widget-button"
+                  alt="Environment."
                   src="../assets/images/environment.png">
-                <div><h5>Environmental Reporting</h5>
-                  <p>New ways to submit information.</p>
+                <div>
+                  <h5>Environment Reporting</h5>
+                  <h6>
+                    New ways to submit information.
+                  </h6>
                 </div>
-              </li>
-              <li>
+              </div>
+              <div class="row pt-3">
                 <img
-                  alt=""
-                  src="../assets/images/settings.png">
-                <div><h5>Developer Community (Future)</h5>
-                  <p>New ways to submit information.</p>
-                </div>
-              </li>
-            </ul>
-            <ul class="including_items col-md-6">
-              <li>
-                <img
-                  alt=""
+                  class="widget-button"
+                  alt="Workbench."
                   src="../assets/images/workbench.png">
                 <div>
                   <h5>Workbench</h5>
-                  <p>Tools, data, and resources to help you.</p>
+                  <h6>
+                    Tools, data, and resources to help you
+                  </h6>
                 </div>
-              </li>
-              <li>
+              </div>
+              <div class="row pt-3">
                 <img
-                  alt=""
+                  class="widget-button"
+                  alt="Maps & Dashboard."
                   src="../assets/images/headline.png">
-                <div><h5>Maps &amp; Dashboard</h5>
-                  <p>Learn more about the environment thru maps and data mashups.</p>
-                </div>
-              </li>
-            </ul>
+                <div>
+                  <h5>Maps & Dashboard</h5>
+                  <h6>
+                    Learn more about the environment through <br/>maps and data mashups
+                  </h6>
+                  </div>
+              </div>
+              <div>
+                <router-link to="/about">
+                  <a href="" class="float-right text-white">..and more</a>
+                </router-link>
+              </div>
+            </div>
           </div>
-          <p class="learn-more">…<a href="/about">and more</a></p>
         </div>
       </b-carousel-slide>
-
       <!-- Slide with blank fluid image to maintain slide aspect ratio -->
       <b-carousel-slide
         class="col"
         img-blank>
         <div class="container">
           <div class="row">
-            <div class="slide-image col-md-6 align-self-start">
-              <img
-                class="lgc-roles"
-                alt="Through our What Matters to You screen, you can select locations,
-              organizations, and roles that matter to you to see relevant content,
-              including local government resources."
-                src="../assets/images/lgc-select-role-magnified.png">
-              <img
-                class="lgc-highlight"
-                alt="You can see and update topics that matter to you in our Resources for Local
-          Communities widget also."
-                src="../assets/images/my-topics-large.png">
-            </div>
-            <div class="slide-details col-md-6 align-self-end">
-              <h2>Find Local Government Resources</h2>
+            <div class="slide-details col-md-7 align-self-center">
+              <h2>Access Your State and EPA Accounts</h2>
               <p>
-                The local government component will provide powerful, easy-to-use
-                tools that will enable local governments to make better
-                decisions, save staff time and money, and provide higher levels
-                of service to community members.
+                Personalize your E-Enterprise experience by logging in with your state or EPA
+                account. You'll have access to valuable content and tools like My Facility Manager,
+                My Reporting, permits, and more.
+                We will continue to add partners in the future.
               </p>
+              <router-link
+                to="/login"
+                class="usa-button float-right"
+                ref="loginBtn"
+                :title="loginTitle"
+                v-if='!authenticated'>
+                <i class="fas fa-lock pr-1"/>
+                Login
+              </router-link>
             </div>
-            <p class="lgc-calltoaction">Select your location, organization, and role
-            to find resources.</p>
+            <div class="col-md-5 align-self-center">
+              <img
+                fluid
+                id="my-reporting-img"
+                src="../assets/images/carousel-my-reporting.png"
+                alt="My Reporting">
+              <div class="w-100 h-5"/>
+              <img
+                fluid
+                id="construction-permits-img"
+                src="../assets/images/carousel-construction-permits.png"
+                alt="Construction Permits">
+              <div class="w-100 h-5"/>
+              <img
+                fluid
+                id="my-certifications-img"
+                src="../assets/images/carousel-my-certifications.png"
+                alt="My Certification">
+            </div>
           </div>
         </div>
-
       </b-carousel-slide>
-
+      <!-- Text slides with image -->
+      <b-carousel-slide
+        class="col"
+        img-blank>
+        <div class="container">
+          <div class="row">
+            <div class="slide-image col-md-4 align-self-center">
+                <img
+                  class="lg-carousel-highlight"
+                  id="regular-finder-img"
+                  src="../assets/images/carousel-regulation-finder.png"
+                  alt="Regualtion Finder">
+                <div class="w-100 h-5"/>
+                <img
+                  id="regular-finder-results-img"
+                  src="../assets/images/carousel-regulation-finder-results.png"
+                  alt="Regulation Finder Results">
+              </div>
+            <div class="slide-details col-md mb-5 align-self-center">
+              <h2>Find Federal Regulations That Apply</h2>
+              <p>
+                The Regulation Finder tool pulls in content from several different environmental and
+                legislative websites to make it easier to look up a chemical or topic and see what
+                rules may apply. Enter a chemical or keyword and find a list of federal regulations
+                that may apply, as well as proposed and recently finalized rules.
+              </p>
+            </div>
+        </div>
+        </div>
+      </b-carousel-slide>
     </b-carousel>
   </div>
 </template>
 
 <script>
   // @ is an alias to /src
+  import { mapGetters } from 'vuex';
 
   export default {
     name: 'Home',
     components: {},
+    computed: {
+      ...mapGetters({
+        authenticated: 'getIsLoggedIn',
+      }),
+      tryitTitle() {
+        return 'Want to just try it? No log in needed.';
+      },
+      loginTitle() {
+        return this.$store.state.loginBtnHoverMessage;
+      },
+    },
     data() {
       return {
         slide: 0,
@@ -148,18 +226,16 @@
         this.sliding = false;
       },
     },
-    mounted() {},
+    mounted() {
+    },
   };
 </script>
 
 
 <style lang="scss">
-  // @TODO - Move no scoped styles to the appropiate sass file
-
+  // @TODO - Move non scoped styles to the appropriate sass file
   @import '../styles/bootstrap-mixins-cheatsheet.scss';
-
   #home-carousel {
-
     h1, h2, h3, h4, h5, h6 {
       font-weight: 300;
     }
@@ -167,6 +243,34 @@
     p {
       // font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
       font-weight: 300;
+    }
+    .carousel-indicators-numbers {
+      li {
+        text-indent: 0;
+        text-align: center;
+        margin: 0 0.125rem;
+        width: 1.875rem;
+        height: 1.875rem;
+        border: none;
+        border-radius: 100%;
+        line-height: 1.875rem;
+        color: #FFFFFF;
+        background-color: #999;
+        transition: all 0.25s ease;
+        &.active,
+        &:hover {
+          margin: 0 0.125rem;
+          width: 1.875rem;
+          height: 1.875rem;
+          color:#000000;
+          background-color: #ffffff;
+        }
+      }
+    }
+    .carousel-controls {
+      position: relative;
+      width: 18.75rem;
+      margin: 0 auto;
     }
 
     .carousel-caption {
@@ -176,14 +280,11 @@
       bottom: auto;
       left: auto;
       z-index: 10;
-      padding-top: 20px;
-      padding-bottom: 20px;
+      padding-top: 1.25rem;
+      padding-bottom: 1.25rem;
       color: #fff;
     }
     .carousel-item {
-      background-color: #575757;
-      min-height: 40rem;
-
       & > img:first-child {
         display: none !important;
       }
@@ -194,47 +295,54 @@
     }
 
     // Slide 1
+  .widget-button {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+  }
 
     // Slide 2
-    .including_items {
-      padding: 0;
-
-      img {
-        width: 2rem;
-        height: 2rem;
-        vertical-align: top;
-      }
-      li {
-        list-style: none;
-
-        &:not(:last-child) {
-          margin-bottom: 1rem;
-        }
-
-        & > div {
-          width: 80%;
-          display: inline-block;
-          margin-left: 5%;
-        }
-      }
+    #my-reporting-img {
+      width: 45%;
+      max-width: 100%;
+      padding-bottom: 1rem;
+      padding-right: 1rem;
     }
 
+    #my-certifications-img{
+      width: 45%;
+      max-width: 100%;
+    }
+    #construction-permits-img{
+      width: 45%;
+      max-width: 100%;
+      padding-bottom: 1rem;
+      float:right;
+    }
     // Slide 3
+    #regular-finder-img {
+      max-width: 55%;
+    }
+
+    #regular-finder-results-img {
+      width: 85%;
+      max-width: 100%;
+      height: auto;
+    }
+
+
     .slide-image {
       position: relative;
       margin-bottom: 1rem;
     }
-    .lgc-roles {
-      width: 85%;
-      max-width: 100%;
-    }
-    .lgc-highlight {
-      border: #1c9b97 solid 7px;
-      border-radius: 5px;
+
+    .lg-carousel-highlight {
+      border: #1c9b97 solid 0.4375rem;
+      border-radius: 0.3125rem;
       width: 43%;
       position: absolute;
-      right: 40px;
-      top: 30px;
+      right: 2.5rem;
+      top: 1.875rem;
     }
 
     // General slider media queries
@@ -253,5 +361,72 @@
         min-height: 22rem;
       }
     }
+  }
+  .account-auth {
+    background-color: #0071bc;
+    color: white;
+  }
+
+  .login-btn-wrapper {
+    padding-left: 40%;
+  }
+
+  // allows for carousel nav buttons to be clicked properly
+  .carousel-item {
+    padding: 2rem;
+  }
+
+  // fixes height of carousel
+  .carousel-inner {
+    min-height: 28rem;
+  }
+
+  // usa-buttons in carousel styles fixes for mobile
+  @media all and (max-width: 479px){
+    #home-carousel .usa-button {
+      margin-right: 0;
+      margin-bottom: 1rem;
+    }
+  }
+
+  // fix carousel heights and provide space between footer and carousel
+  @media all and (max-width: 767px){
+    .carousel-inner {
+      min-height: 41rem;
+    }
+    .slide-details {
+      padding-bottom: 2rem;
+    }
+    .slide-image {
+      padding-bottom: 2rem;
+    }
+  }
+  .home {
+    padding-bottom: 1.25rem;
+  }
+
+  #home-carousel {
+    background-color: #5d67ff;
+    &:before {
+       content: '';
+       display: block;
+       position: absolute;
+       background-color: rgb(87, 87, 87);;
+       height: 100%;
+       width: 100%;
+       left: 0;
+       margin-left: -100%;
+     }
+  &:after {
+     content: '';
+     display: block;
+     position: absolute;
+     background-color: rgb(87, 87, 87);;
+     height: 100%;
+     width: 100%;
+     right: 0;
+     margin-right: -100%;
+     top:0;
+   }
   }
 </style>

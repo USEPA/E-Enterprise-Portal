@@ -1,4 +1,4 @@
-uuid: 7d34a4cc-bbc7-4207-aa3e-bca132e65265
+uuid: 7c20772f-b966-4957-aa7c-ae02bb885eb9
 langcode: en
 status: true
 dependencies: {  }
@@ -12,7 +12,6 @@ permissions:
   - 'access comments'
   - 'access content'
   - 'access shortcuts'
-  - 'access site-wide contact form'
   - 'post comments'
   - 'search content'
   - 'skip comment approval'

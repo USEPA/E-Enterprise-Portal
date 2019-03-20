@@ -1,0 +1,30 @@
+[
+  {
+    "type": "org",
+    "name": "Business"
+  },
+  {
+    "type": "org",
+    "name": "Education"
+  },
+
+  {
+    "type": "org",
+    "name": "Federal government"
+  },
+  {
+    "type": "org",
+    "name": "General public"
+  },
+  {
+    "type": "org",
+    "name":"Local government"
+  },
+  {
+    "type": "org",
+    "name":"Research"
+  },{
+  "type": "org",
+  "name":"State government"
+}
+]

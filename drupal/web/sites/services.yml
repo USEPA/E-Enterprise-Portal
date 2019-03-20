@@ -1,0 +1,29 @@
+# Local development services.
+#
+# To activate this feature, follow the instructions at the top of the
+# 'example.settings.local.php' file, which sits next to this file.
+parameters:
+  twig.config:
+    debug: true
+
+   # Configure Cross-Site HTTP requests (CORS).
+   # Read https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
+   # for more information about the topic in general.
+   # Note: By default the configuration is disabled.
+  cors.config:
+    enabled: true
+    # Specify allowed headers, like 'x-allowed-header'. TODO: remove unused allowed headers after verifying what actually works.
+    allowedHeaders: ['x-csrf-token','authorization','content-type','accept','origin','x-requested-with']
+    # Specify allowed request methods, specify ['*'] to allow all possible ones.
+    allowedMethods: ['*']
+    # Configure requests allowed from specific origins.
+    allowedOrigins: ['https://dev2.e-enterprise.gov/', 'https://test2.e-enterprise.gov/', 'https://e-enterprise.gov/']
+    # Sets the Access-Control-Expose-Headers header.
+    exposedHeaders: false
+    # Sets the Access-Control-Max-Age header.
+    maxAge: false
+    # Sets the Access-Control-Allow-Credentials header.
+    supportsCredentials: false
+services:
+  cache.backend.null:
+    class: Drupal\Core\Cache\NullBackendFactory

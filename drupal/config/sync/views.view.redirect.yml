@@ -1,4 +1,4 @@
-uuid: 17417e91-2aba-4f36-8cd1-b8c295c51560
+uuid: e850e341-73ba-46bf-877c-60dfb68de823
 langcode: en
 status: true
 dependencies:
@@ -7,7 +7,7 @@ dependencies:
     - redirect
     - user
 _core:
-  default_config_hash: nyKyD0xiKPzp-sRYnfEnHSMz29rdivJvMv2Qjnm5jvk
+  default_config_hash: szL-A_Er9yaiA51EXGl3yYAj1T_LnNrYdxxY6UwRisU
 id: redirect
 label: Redirect
 module: views
@@ -41,7 +41,7 @@ display:
       exposed_form:
         type: basic
         options:
-          submit_button: Apply
+          submit_button: Filter
           reset_button: false
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'

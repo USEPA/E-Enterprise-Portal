@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.eep_app_content.field_html
+    - field.field.node.eep_app_content.field_key
+    - node.type.eep_app_content
+  module:
+    - user
+id: node.eep_app_content.teaser
+targetEntityType: node
+bundle: eep_app_content
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_html: true
+  field_key: true

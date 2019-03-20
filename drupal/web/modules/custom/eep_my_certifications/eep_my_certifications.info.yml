@@ -1,0 +1,8 @@
+name: 'EEP My Certifications'
+type: module
+description: 'My Certifications API endpoint'
+core: 8.x
+package: 'EEP'
+dependencies:
+  - 'eep_core'
+  - 'default_content'

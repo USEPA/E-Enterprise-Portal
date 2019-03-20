@@ -1,0 +1,14 @@
+{
+  "name": "drupal/eep_proxy_service",
+  "type": "drupal-module",
+  "description": "This module provides a way to declare a 3rd party service and make it available to in the EEP API.",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/eep_proxy_service",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/eep_proxy_service",
+    "source": "http://cgit.drupalcode.org/eep_proxy_service"
+  },
+  "require": { }
+}

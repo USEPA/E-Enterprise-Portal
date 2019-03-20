@@ -1,50 +1,113 @@
 <template>
-  <footer class="footer fixed-bottom">
-    <div class="container py-2">
+  <footer
+    v-bind:class="getClass()">
+    <div
+      v-if="footerLinksLoaded && footerLinks.length > 0"
+      class="container py-2">
       <div class="row justify-content-center small">
-        <div class="col-auto">
+        <div
+          class="col-auto"
+          v-for="item in footerLinks" >
           <a
-            href="http://www2.epa.gov/e-enterprise/about-e-enterprise-environment"
+            :href="item.second"
             target="_blank"
-            class="">E-Enterprise Home</a>
-        </div>
-        <div class="col-auto">
-          <a
-            href="http://www2.epa.gov/home/privacy-and-security-notice"
-            target="_blank"
-            class="">Privacy and Security Notice</a>
-        </div>
-        <div class="col-auto">
-          <a
-            href="http://www2.epa.gov/accessibility"
-            target="_blank"
-            class="">Accessibility</a>
-        </div>
-        <div class="col-auto">
-          <a
-            href="https://github.com/USEPA/E-Enterprise-Portal/"
-            class="github"
-            target="_blank">GitHub</a>
+            class="">{{ item.first }}</a>
         </div>
       </div>
-      <div class="row">
-        <div class="col wd-100"></div>
+      <div class="row justify-content-center small">
+        <div class="col-auto text-align-center small">
+          {{ this.footerVersion[0].first }} {{ this.footerVersion[0].second }}
+        </div>
+      </div>
+    </div>
+    <div
+      v-else-if="!footerLinksLoaded"
+      class="container py-2">
+      <div class="row justify-content-center small">
+        <div
+          class="col-auto">
+          Loading Footer...
+        </div>
       </div>
       <div class="row justify-content-center small">
-        <div class="col-auto text-align-center small">Version 2.0.1</div>
+        <div class="col-auto text-align-center small">
+          Loading Footer...
+        </div>
+      </div>
+    </div>
+    <div
+      v-else-if="footerLinksLoaded && footerLinks.length === 0"
+      class="container py-2">
+      <div class="row justify-content-center small">
+        <div
+          class="col-auto">
+          Failed to load Footer.
+        </div>
+      </div>
+      <div class="row justify-content-center small">
+        <div class="col-auto text-align-center small">
+          Failed to load Footer.
+        </div>
       </div>
     </div>
   </footer>
 </template>
 <script>
+  import AppAxios from 'axios';
+  import { mapActions, mapGetters } from 'vuex';
+
   export default {
     name: 'MainFooter',
+    components: {  },
+    computed: {
+      ...mapGetters({
+        apiUrl: 'getEnvironmentApiURL',
+      }),
+    },
+    methods: {
+      ...mapActions([
+      ]),
+      getClass() {
+        if (this.$route.path === ('/')){
+          return 'homePageFooter';
+        } else {
+          return 'footer';
+        }
+      },
+    },
+    data() {
+      return {
+        footerLinks: [],
+        footerVersion: [],
+        footerLinksLoaded: false,
+      };
+    },
+    mounted() {
+      AppAxios
+        .get(`${this.apiUrl}/api/footer`)
+        .then((response) => {
+          this.footerLinks = response.data[0].field_footer_link_name;
+          this.footerVersion = response.data[0].field_version;
+          this.footerLinksLoaded = true;
+        });
+    },
   };
+
 </script>
 
 <style scoped
   lang="scss">
-  @import '../styles/bootstrap-mixins-cheatsheet.scss';
+  .homePageFooter {
+    color: #171717;
+    background-color: #fefefe;
+    a {
+      color: #171717;
+
+      &:hover, &:active {
+        text-decoration: underline;
+      }
+    }
+  }
 
   footer {
     color: #fefefe;
@@ -59,13 +122,4 @@
     }
   }
 
-  @include media-breakpoint-down(xs) {
-    footer.fixed-bottom {
-      position: relative;
-      right: auto;
-      bottom: auto;
-      left: auto;
-      z-index: auto;
-    }
-  }
 </style>

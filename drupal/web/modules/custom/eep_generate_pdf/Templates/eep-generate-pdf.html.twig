@@ -1,0 +1,113 @@
+<html>
+<meta charset="UTF-8"/>
+<head>
+    <link rel="stylesheet" type="text/css"
+          href="{{ base_path }}\modules\custom\eep_generate_pdf\css\eep_generate_pdf.module.css">
+    <style type="text/css">
+        /* This style is inserted as an internal style to avoid affecting these IDs in the html results page. The effect is needed only on the pdf version.*/
+        #Bac1, #Cl1a, #Cu1, #Pb1, #N1, #N2 {
+            display: block !important;
+        }
+    </style>
+</head>
+<body>
+<div id="be-well-informed-results-wrapper-pdf"
+     class="be-well-informed-modal-wrapper">
+
+    <div id="be-well-informed-accordion" class="ui-accordion">
+        <h1 class="be-well-pdf-title">
+            {{ infoXmlResults.Heading._cdata | raw }} <br>
+            Created {{ "now"|date("M j, Y") }}
+        </h1>
+        {{ infoXmlResults.Introduction._cdata | raw }}
+        <h1 class="head" role="tab" tabindex="0">
+            <span class="bwi-result-title">About the Results</span>
+        </h1>
+        {{ infoXmlResults.AboutTheResults._cdata | raw }}
+        <h1 class="head" role="tab" tabindex="0">
+            <span class="bwi-result-title">Results Summary</span>
+        </h1>
+        <div>
+            <h3 class="bwi-key">Key</h3>
+            <div class="bwi-legend clearfix">
+                {% include 'result-legend.html.twig' with {'keys': infoXmlResults.Key} %}
+            </div>
+        </div>
+        <table id="be-well-informed-results-table" cellspacing=0 cellpadding=0
+               class="eportal-responsive-table usa-table-borderless no-footer summary-table-pdf">
+            <thead>
+            <tr role="row">
+                <th class="sorting_disabled small-screen-td-header" rowspan="1"
+                    colspan="1">Result
+                </th>
+                <th class="sorting_disabled" rowspan="1" colspan="1">Element</th>
+                <th class="sorting_disabled" rowspan="1" colspan="1">Your Entry</th>
+                <th class="sorting_disabled" rowspan="1" colspan="1">Limit</th>
+                <th class="sorting_disabled" rowspan="1" colspan="1">About Your Well
+                    Water
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for key, result in waterAnalysisResults.ResultEvaluations if result.GuidelineText %}
+                {% include 'result-row.html.twig' with  { 'result': result, 'type': 'condensed'} %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br><br>
+    <h1 class="head treatment-header" role="tab"
+        tabindex="0">
+        <span class="bwi-result-title">{{ treatment_title }}</span>
+    </h1>
+    <div class="datatable usa-width-one-whole treatment-content">
+        <div class='water-treatment-head'>The following water treatment is based
+            on the water quality information you entered. <span
+                    class='detail-show'>Details concerning water treatment are below.</span>
+        </div>
+        <h3 class="treatment_order_title of-{{ waterAnalysisResults['TreatmentSteps'] | length }}">Treatment Order</h3>
+        <div class="step-class">
+            {{ step_html | raw }}
+            {% if infoXmlResults.WaterTreatmentSystem %}
+                {{ infoXmlResults.WaterTreatmentSystem._cdata | raw }}
+            {% endif %}
+            <h1 class="head" role="tab" tabindex="0">
+                <span class="bwi-result-title">Results Details</span>
+            </h1>
+            <div class="datatable usa-width-one-whole be-well-informed-result-details">
+                <h3 class="bwi-key">Key</h3>
+                <div class="bwi-legend clearfix">
+                    {% include 'result-legend.html.twig' with {'keys': infoXmlResults.Key} %}
+                </div>
+                <div>
+                    <table cellspacing=0 cellpadding=0
+                           class="eportal-responsive-table usa-table-borderless no-footer summary-table-pdf">
+                        <thead>
+                        <tr role="row">
+                            <th class="sorting_disabled small-screen-td-header" rowspan="1"
+                                colspan="1">Result
+                            </th>
+                            <th class="sorting_disabled" rowspan="1" colspan="1">Element
+                            </th>
+                            <th class="sorting_disabled" rowspan="1" colspan="1">Your
+                                Entry
+                            </th>
+                            <th class="sorting_disabled" rowspan="1" colspan="1">Limit</th>
+                            <th class="sorting_disabled" rowspan="1" colspan="1">About Your
+                                Well Water
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for key, result in waterAnalysisResults.ResultEvaluations %}
+                            {% include 'result-row.html.twig' with  { 'result': result, 'type': 'full'} %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

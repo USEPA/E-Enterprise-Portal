@@ -1,0 +1,50 @@
+// small
+.wapp-small {
+  #permit-results-modal > tbody {
+    overflow: scroll;
+  }
+  .permit-lookup-base-btn {
+    left: -.5rem;
+    position: relative;
+  }
+}
+%header {
+  font-weight: bold;
+}
+#cgp-header, #msgp-header {
+  @extend %header;
+  padding-bottom: 0.5em;
+}
+.input-row {
+  padding-top: 0.2em;
+  padding-bottom: 0.5em;
+}
+.info-modal-component {
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+.info-title {
+  font-weight: bold;
+}
+.label-with-info {
+  padding-right: 0.2em;
+}
+.permit-lookup-info-btn {
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: #fff;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  padding: 0;
+  border-width: 0;
+  background-size: .8rem;
+  left: -.25rem;
+  top: -.15rem;
+}
+.permit-lookup-info-btn:hover {
+  background-color: #fff;
+}

@@ -1,0 +1,32 @@
+uuid: 59e1ed5d-1956-433a-ab07-a2462d847018
+langcode: en
+status: true
+dependencies:
+  module:
+    - double_field
+    - user
+id: user.field_userlocation
+field_name: field_userlocation
+entity_type: user
+type: double_field
+settings:
+  storage:
+    first:
+      type: string
+      maxlength: 255
+      precision: 10
+      scale: 2
+      datetime_type: datetime
+    second:
+      type: integer
+      maxlength: 255
+      precision: 10
+      scale: 2
+      datetime_type: datetime
+module: double_field
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

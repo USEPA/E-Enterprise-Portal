@@ -1,0 +1,78 @@
+{
+  "StateCode": "MA",
+  "RoutineContaminants": {
+    "As": {
+      "Symbol": "As",
+      "Name": "Arsenic",
+      "Value": "1",
+      "Unit": "mg\/L"
+    },
+    "Cl": {
+      "Symbol": "Cl",
+      "Name": "Chloride",
+      "Value": "300",
+      "Unit": "mg\/L"
+    },
+    "Fl": {
+      "Symbol": "Fl",
+      "Name": "Fluoride",
+      "Value": "3.5",
+      "Unit": "mg\/L"
+    },
+    "Fe": {
+      "Symbol": "Fe",
+      "Name": "Iron",
+      "Value": "1",
+      "Unit": "mg\/L"
+    },
+    "Pb": {
+      "Symbol": "Pb",
+      "Name": "Lead",
+      "Value": "1",
+      "Unit": "mg\/L"
+    },
+    "Mn": {
+      "Symbol": "Mn",
+      "Name": "Manganese",
+      "Value": "1",
+      "Unit": "mg\/L"
+    }
+  },
+  "BacterialContaminants": {
+    "Bac": {
+      "Symbol": "Bac",
+      "Name": "Total Coliform",
+      "Value": "12345",
+      "Unit": "CFU\/100 mL"
+    },
+    "Ecoli": {
+      "Symbol": "Ecoli",
+      "Name": "E. coli",
+      "Value": "12345",
+      "Unit": "CFU\/100 mL"
+    }
+  },
+  "Bac_G": "absent",
+  "Ecoli_G": "absent",
+  "RadionuclideContaminants": {
+    "Rn": {
+      "Symbol": "Rn",
+      "Name": "Radon",
+      "Value": "99999",
+      "Unit": "pCi\/L"
+    },
+    "U": {
+      "Symbol": "U",
+      "Name": "Uranium",
+      "Value": "100",
+      "Unit": "\u03bcg\/L"
+    }
+  },
+  "InteractivePromptResponses": [
+    {
+      "InteractionIdentifier": "Cl_True",
+      "Symbol": "Cl",
+      "Interaction": "true"
+    }
+  ]
+}

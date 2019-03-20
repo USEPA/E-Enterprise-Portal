@@ -1,0 +1,9 @@
+uuid: ad9dbd16-335e-4006-bff0-0172a43a843f
+langcode: en
+status: true
+dependencies: {  }
+name: 'Authentication Category'
+vid: authentication_category
+description: 'one of four categories will be chosen to represent the current authentication method'
+hierarchy: 0
+weight: 0

@@ -1,0 +1,8 @@
+eep_generate_pdf.eep_generate_pdf:
+  path: '/eep_generate_pdf/water_analysis_results_pdf_template'
+  defaults:
+    _controller: '\Drupal\eep_generate_pdf\Controller\EEPGeneratePDFController::generate_pdf'
+    _title: 'Generate PDF'
+  methods:  [GET, POST]
+  requirements:
+    _access: 'TRUE'

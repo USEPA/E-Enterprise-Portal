@@ -1,0 +1,23 @@
+{
+  "ResultEvaluations": {},
+  "InteractivePrompts": [
+    {
+      "Symbol": "Cl",
+      "Interaction": "Does your water taste salty?",
+      "InteractionIdentifier": "Cl_True"
+    }
+  ],
+  "AdditionalContaminantRequests": [
+    {
+      "Symbol": "Fe",
+      "Interaction": "Please enter the value for Iron (symbol is \"Fe\") if there is a result within your lab report. If Iron was not tested as part of your water analysis, leave the field empty and do not supply \"0\".",
+      "InteractionIdentifier": "Fe"
+    },
+    {
+      "Symbol": "Mn",
+      "Interaction": "Please enter the value for Manganese (symbol is \"Mn\") if there is a result within your lab report. If Manganese was not tested as part of your water analysis, leave the field empty and do not supply \"0\".",
+      "InteractionIdentifier": "Mn"
+    }
+  ],
+  "TreatmentSteps": {}
+}

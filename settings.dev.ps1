@@ -1,0 +1,5 @@
+$dest = '\\cdxdeep01.cloud.epacdx\wwwroot_eep2'
+$excluded_project_files = 'excluded_files.dev.txt'
+$excluded_project_folders = 'excluded_folders.dev.txt'
+$excluded_dependencies_files = 'excluded_files.dev.txt'
+$excluded_dependencies_folders = 'excluded_folders.dev.txt'

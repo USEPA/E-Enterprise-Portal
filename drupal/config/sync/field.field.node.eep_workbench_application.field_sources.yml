@@ -1,0 +1,37 @@
+uuid: 0e4fbb07-42f6-4525-a799-16c413829f75
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_sources
+    - node.type.eep_workbench_application
+  module:
+    - double_field
+id: node.eep_workbench_application.field_sources
+field_name: field_sources
+entity_type: node
+bundle: eep_workbench_application
+label: Sources
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  first:
+    required: true
+    list: false
+    allowed_values: {  }
+    max: null
+    min: null
+    on_label: 'On'
+    off_label: 'Off'
+  second:
+    required: true
+    list: false
+    allowed_values: {  }
+    max: null
+    min: null
+    on_label: 'On'
+    off_label: 'Off'
+field_type: double_field

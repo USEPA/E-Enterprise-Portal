@@ -1,0 +1,5 @@
+name: 'EEP My Reporting'
+type: module
+description: 'Provides functionality for E-Enterprise My Reporting.'
+core: 8.x
+package: 'EEP'
