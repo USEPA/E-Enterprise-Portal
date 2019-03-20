@@ -59,6 +59,7 @@ module:
   kint: 0
   layout_discovery: 0
   link: 0
+  media: 0
   menu_ui: 0
   node: 0
   node_import_export: 0
