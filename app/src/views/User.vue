@@ -410,9 +410,17 @@
       },
       deleteSelectedLocation(location) {
 
+        // Take care of store and back end first
+
         // Delete selected location out of the store
         this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
 
+        // Save updated array to store
+        this.apiUserPatch({
+          field_userlocation: this.$store.getters.getUser.userLocationsFromLoad,
+        });
+
+        // Then take care of UI
         if(this.user.userFavoriteLocation.length > 0){
           if (location.second === this.user.userFavoriteLocation[0].second) {
            // Clear all the stars
@@ -420,16 +428,19 @@
              star.classList.remove('fas');
              star.classList.add('far');
            });
-           // Reset userFavoriteLocations
+
+           // Reset user fav location in the front end
+           this.$store.commit('SET_USER_FAV_LOCATION', {
+              first: '',
+              second: '',
+           });
+
+           // Reset userFavoriteLocations in back end
            this.apiUserPatch({
              field_userfavoritelocations: [],
            });
           }
         }
-        // Save updated array to store
-        this.apiUserPatch({
-          field_userlocation: this.$store.getters.getUser.userLocationsFromLoad,
-        });
       },
       revealLocationInputBox() {
         // Reset the display none for the populated dropdown
