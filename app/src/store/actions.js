@@ -160,8 +160,6 @@ export default {
     if(yesButtonPressed) {
       Vue.cookie.set('userPolicy', true, { expires: '7D' });
       store.commit('USER_POLICY_COOKIE_DISMISS');
-    } else {
-      Vue.cookie.remove('bridgeUrlLoginOption');
     }
   },
   /**
@@ -195,11 +193,11 @@ export default {
     // Declare store
     const store = context;
 
-    // This cookie is set so the URL for the bridge can be remembered for acceptance of the remembering the login
-    Vue.cookie.set('bridgeUrlLoginOption', store.getters.getBridgeURL, { expires: '7D' });
-
     // Set URN in the state so that the URN in the bridge URL getter is set
     store.commit('SET_BRIDGE_URN', urn);
+
+    // This cookie is set so the URL for the bridge can be remembered for acceptance of the remembering the login
+    Vue.cookie.set('bridgeUrlLoginOption', store.getters.getBridgeURL, { expires: '7D' });
 
     // Redirect to the bridge login for a given urn
     window.location = store.getters.getBridgeURL;
