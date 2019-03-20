@@ -411,7 +411,6 @@
       deleteSelectedLocation(location) {
 
         // Take care of store and back end first
-
         // Delete selected location out of the store
         this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
 
