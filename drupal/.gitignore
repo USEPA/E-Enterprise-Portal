@@ -26,3 +26,6 @@
 
 !/composer.lock
 /web/web.config
+
+// Files for download will be stored here
+!/web/sites/*/files/resources/
