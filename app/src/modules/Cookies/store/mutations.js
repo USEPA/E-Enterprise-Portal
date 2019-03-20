@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import { commonAppStore } from '../../wadk/WADK';
 import types from './types';
 

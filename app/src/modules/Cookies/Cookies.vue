@@ -16,19 +16,21 @@
         name: moduleName,
         beforeCreate() {
           const vm = this;
-          // Handles open browser cookies
+
+          // -- Handling open browser cookies --
           const session = Vue.cookie.get('BrowserSession');
           const routeCurrent = vm.$router.history.current;
+
           // If there is no browser session and we are not redirecting from a login, delete all
-          // related to the users sessions
+          // related to the users sessions to satisfy CDX policies
           if (!session && !routeCurrent.query.token) {
-            // remove cookies to satisfy CDX policies
             Vue.cookie.delete('Token');
             Vue.cookie.delete('uid');
             Vue.cookie.delete('userLoggedIn');
             Vue.cookie.delete('userLogInTime');
             Vue.cookie.set('BrowserSession', true);
           }
+          // -- END: Handling open browser cookies --
         },
         created() {
             const store = this.$store;

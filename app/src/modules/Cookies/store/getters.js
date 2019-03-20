@@ -5,6 +5,7 @@
  *
  * @SEE https://vuex.vuejs.org/guide/getters.html
  */
+
 import { commonAppStore } from '../../wadk/WADK';
 
 export default {
