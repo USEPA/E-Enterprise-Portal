@@ -137,7 +137,7 @@
                       class="mb-3"
                       :value="cgpFormData.npdesId"
                       @change="setCgpNpdesId"
-                      type="number"
+                      type="text"
                       size="sm"/>
                   </b-col>
                 </b-row>
@@ -567,7 +567,7 @@
                       class="mb-3"
                       :value="msgpFormData.npdesId"
                       @change="setMsgpNpdesId"
-                      type="number"
+                      type="text"
                       size="sm"/>
                   </b-col>
                   <b-col md="6">
