@@ -54,7 +54,7 @@
           <template v-else>
             <div class="login-wrapper">
               <router-link
-                to="/login"
+                @click="navigateToLoginRoute"
                 ref="log-in-button"
                 class="usa-button login-button"
                 v-b-tooltip.hover="{
@@ -107,6 +107,14 @@
       ]),
       navigateToRouterLink(link){
         this.$router.push(link);
+      },
+      navigateToLoginRoute(){
+        if(this.$cookie.get('userPolicy')){
+          // Redirect to the bridge login for a given url that is already stored in cookie
+          window.location = this.$cookie.get('bridgeUrlLoginOption');
+        }else{
+          this.$router.push('/login')
+        }
       },
     },
   };

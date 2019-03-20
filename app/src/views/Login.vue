@@ -78,13 +78,7 @@
             ]),
         },
         beforeCreate(){
-            // Checks to see if the user policy is set and if it is then we know the url to go to the bridge
-            // and if not then the handle login action is called to generate all of the login options and they can login as they see fit
-            if(this.$cookie.get('userPolicy')){
-              window.location = this.$cookie.get('bridgeUrlLoginOption');
-            }else{
-              this.$store.dispatch('handleLogin');
-            }
+            this.$store.dispatch('handleLogin');
         },
         computed: {
             ...mapGetters({
