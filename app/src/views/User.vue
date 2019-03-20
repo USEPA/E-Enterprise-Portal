@@ -410,8 +410,8 @@
       },
       deleteSelectedLocation(location) {
 
-        // Take care of store and back end first
-        // Delete selected location out of the store
+
+        // Delete selected location out of the API
         this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
 
         // Save updated array to store
