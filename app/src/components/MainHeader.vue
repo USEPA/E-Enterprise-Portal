@@ -53,18 +53,18 @@
           </template>
           <template v-else>
             <div class="login-wrapper">
-              <router-link
-                to="/login"
+              <b-button
+                @click="navigateToLoginRoute"
                 ref="log-in-button"
                 class="usa-button login-button"
                 v-b-tooltip.hover="{
-                                placement:'bottomleft',
-                                html: true
-                              }"
+                  placement:'bottomleft',
+                  html: true
+                }"
                 :title="loginCaptionTitle"
                 data-container="body">
                 <i class="fas fa-lock pr-1"/>Login
-              </router-link>
+              </b-button>
             </div>
           </template>
         </div>
@@ -107,6 +107,18 @@
       ]),
       navigateToRouterLink(link){
         this.$router.push(link);
+      },
+      navigateToLoginRoute() {
+        console.log("hit navigate login route");
+
+        // Checks to see if the user already accepted the user policy and if they did then go to the bridge login
+        // If not, then go to the login view where the login options will be loaded
+        if(this.$cookie.get('userPolicy')){
+          // Redirect to the bridge login for a given url that is already stored in cookie
+          window.location = this.$cookie.get('bridgeUrlLoginOption');
+        }else{
+          this.$router.push('/login')
+        }
       },
     },
   };
