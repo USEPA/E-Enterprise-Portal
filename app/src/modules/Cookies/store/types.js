@@ -8,5 +8,4 @@
 
 export default {
   NAMESPACE: 'Cookies/',
-  SAMPLE_MUTATION: 'SAMPLE_MUTATION',
 };

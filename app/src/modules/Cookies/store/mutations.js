@@ -20,14 +20,4 @@ import types from './types';
 
 export default {
   ...commonAppStore.mutations,
-  [types.SAMPLE_MUTATION](state, obj) {
-    // synchronise changes to the state of the store
-
-    // Example of how to change properties on the state object
-    Vue.set(
-      state, // <- state value to change
-      'name', // <- the name of the property on the object the line above
-      obj.value, // <- new value to set on that property
-    );
-  },
 };

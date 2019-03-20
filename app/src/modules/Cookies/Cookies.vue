@@ -14,8 +14,6 @@
 
     export default {
         name: moduleName,
-        components: {
-        },
         beforeCreate() {
           const vm = this;
           // Handles open browser cookies
@@ -37,24 +35,6 @@
             if (!(store && store.state && store.state[moduleName])) {
                 store.registerModule(moduleName, storeModule);
             }
-        },
-        data() {
-            return {
-            };
-        },
-        mounted() {
-
-        },
-        computed: {
-            ...mapGetters({
-                localSampleGetterName: `${moduleName}/sampleGetter`,
-                localSampleGetterWithParamGetterName: `${moduleName}/sampleGetterWithParam`,
-            }),
-        },
-        methods: {
-            ...mapActions(moduleName, [
-                'sampleAction',
-            ]),
         },
     };
 </script>

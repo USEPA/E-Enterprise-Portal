@@ -9,11 +9,4 @@ import { commonAppStore } from '../../wadk/WADK';
 
 export default {
   ...commonAppStore.getters,
-  sampleGetter(state) {
-    return state.sampleProperty;
-  },
-  sampleGetterWithParam: (state, getters) => (propertyName) => {
-    const name = getters.sampleGetter[propertyName];
-    return name;
-  },
 };
