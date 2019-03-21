@@ -114,4 +114,5 @@ export default {
   cgpResultsLoaded: false,
   resultsError: false,
   optionsError: '',
+  noResults: false,
 };

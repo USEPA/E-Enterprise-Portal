@@ -422,20 +422,23 @@ export default {
     AppAxios.get(axiosUrl)
       .then((response) => {
         let msgpResponse = response.data.formQueryResponse;
-
-        // Massage dates to only include Year, month, and day
-        msgpResponse.forEach(function(data_object){
-          data_object['certifiedDate'] = data_object['certifiedDate'].substring(0, 10);
-        });
-
-        if (msgpResponse.code === 'E_InternalError') {
-          msgpResponse = 'Error Loading Results...';
-          store.commit(types.SET_MSGP_RESPONSE, msgpResponse);
-          store.commit(types.SET_RESULTS_ERROR, true);
+        if (msgpResponse) {
+          store.commit(types.SET_NO_RESULTS, false);
+          // Massage dates to only include Year, month, and day
+          msgpResponse.forEach(function(data_object){
+            data_object['certifiedDate'] = data_object['certifiedDate'].substring(0, 10);
+          });
+          if (msgpResponse.code === 'E_InternalError') {
+            msgpResponse = 'Error Loading Results...';
+            store.commit(types.SET_MSGP_RESPONSE, msgpResponse);
+            store.commit(types.SET_RESULTS_ERROR, true);
+          } else {
+            store.commit(types.SET_RESULTS_ERROR, false);
+            store.commit(types.SET_MSGP_RESPONSE, msgpResponse);
+            store.commit(types.SET_MSGP_RESULTS_LOADED, true);
+          }
         } else {
-          store.commit(types.SET_RESULTS_ERROR, false);
-          store.commit(types.SET_MSGP_RESPONSE, msgpResponse);
-          store.commit(types.SET_MSGP_RESULTS_LOADED, true);
+          store.commit(types.SET_NO_RESULTS, true);
         }
         vm.$root.$emit('bv::show::modal', 'permit-results-modal');
       });
@@ -486,20 +489,23 @@ export default {
     AppAxios.get(axiosUrl)
       .then((response) => {
         let cgpResponse = response.data.formQueryResponse;
-
-        // Massage dates to only include Year, month, and day
-        cgpResponse.forEach(function(data_object){
-          data_object['certifiedDate'] = data_object['certifiedDate'].substring(0, 10);
-        });
-
-        if (cgpResponse.code === 'E_InternalError') {
-          cgpResponse = 'Error Loading Results...';
-          store.commit(types.SET_CGP_RESPONSE, cgpResponse);
-          store.commit(types.SET_RESULTS_ERROR, true);
+        if (cgpResponse) {
+          store.commit(types.SET_NO_RESULTS, false);
+          // Massage dates to only include Year, month, and day
+          cgpResponse.forEach(function(data_object){
+            data_object['certifiedDate'] = data_object['certifiedDate'].substring(0, 10);
+          });
+          if (cgpResponse.code === 'E_InternalError') {
+            cgpResponse = 'Error Loading Results...';
+            store.commit(types.SET_CGP_RESPONSE, cgpResponse);
+            store.commit(types.SET_RESULTS_ERROR, true);
+          } else {
+            store.commit(types.SET_RESULTS_ERROR, false);
+            store.commit(types.SET_CGP_RESPONSE, cgpResponse);
+            store.commit(types.SET_CGP_RESULTS_LOADED, true);
+          }
         } else {
-          store.commit(types.SET_RESULTS_ERROR, false);
-          store.commit(types.SET_CGP_RESPONSE, cgpResponse);
-          store.commit(types.SET_CGP_RESULTS_LOADED, true);
+          store.commit(types.SET_NO_RESULTS, true);
         }
         vm.$root.$emit('bv::show::modal', 'permit-results-modal');
       });
@@ -507,6 +513,7 @@ export default {
   resetResultsLoaded(context) {
     const store = context;
     store.commit(types.SET_RESULTS_ERROR, false);
+    store.commit(types.SET_NO_RESULTS, false);
     store.commit(types.SET_CGP_RESULTS_LOADED, false);
     store.commit(types.SET_MSGP_RESULTS_LOADED, false);
   },

@@ -115,7 +115,7 @@
               <div
                 class="input-row">
                 Find Notices of Intent (NOIs), Notices of Termination (NOTs), or Low Erosivity Waivers (LEWs) submitted
-                under the U.S. EPA 2017 Construction General Permit (CGP).  At this time, search results will only
+                under the U.S. EPA 2017 Construction General Permit (CGP). At this time, search results will only
                 include activity with the national NPDES eReporting Tool (NeT-CGP) for U.S. EPA lead and participating
                 states and tribes.
               </div>
@@ -461,7 +461,8 @@
               v-else-if="permitType === 'Multi-Sector General Permit'"
               id="msgp-form-wrapper">
               <div class="input-row">
-                Find notices of intent and related submissions for general permits implemented in EPA’s NPDES eReporting Tool (NeT).
+                Find notices of intent and related submissions for general permits implemented in EPA’s NPDES eReporting
+                Tool (NeT).
               </div>
               <div
                 id="msgp-header">
@@ -969,13 +970,13 @@
                 </b-form-group>
               </b-col>
             </b-row>
-            <b-col class="overflow-x-scroll">
-              <b-row v-if="cgpResultsLoaded || msgpResultsLoaded || resultsError">
+            <b-col>
+              <b-row v-if="cgpResultsLoaded || msgpResultsLoaded || resultsError || noResults">
                 <b-table
                   v-if="cgpResultsLoaded"
                   hover
                   id="permit-lookup-table-cgp"
-                  class="bootstrap-vue-permit-table-scroll d-block"
+                  class="bootstrap-vue-permit-table-scroll d-block overflow-x-scroll"
                   :items="cgpFormResults"
                   :fields="cgpFields"
                   :current-page="currentPage"
@@ -998,7 +999,7 @@
                   v-else-if="msgpResultsLoaded"
                   hover
                   id="permit-lookup-table-msgp"
-                  class="bootstrap-vue-permit-table-scroll d-block"
+                  class="bootstrap-vue-permit-table-scroll d-block overflow-x-scroll"
                   :items="msgpFormResults"
                   :fields="msgpFields"
                   :current-page="currentPage"
@@ -1029,10 +1030,16 @@
                     {{ cgpFormResults }}
                   </div>
                 </div>
+                <div v-else-if="noResults">
+                  <div class="text-danger text-center">
+                    No permits seem to match your search criteria.
+                  </div>
+                </div>
               </b-row>
             </b-col>
             <!-- pagination -->
-            <b-row class="text-center">
+            <b-row class="text-center"
+              v-if="!noResults">
               <b-col
                 md="12"
                 class="my-1">
@@ -1439,6 +1446,7 @@
         totalRows: 'getTotalRows',
         resultsError: 'getResultsError',
         optionsError: 'getOptionsError',
+        noResults: 'getNoResults',
       }),
       isDisabledCountyMsgp() {
         return this.msgpFormData.facilityState === 'Select...';
@@ -1580,8 +1588,8 @@
   label,
   .custom-select-sm,
   .form-control-sm,
-   .btn-group-sm>.btn,
-   .btn-sm  {
+  .btn-group-sm > .btn,
+  .btn-sm {
     font-size: 0.9375rem; //15px
   }
   .btn-sm {

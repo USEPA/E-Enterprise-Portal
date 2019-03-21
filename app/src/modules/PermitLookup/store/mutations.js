@@ -492,5 +492,11 @@ export default {
       bool,
     );
   },
-
+  [types.SET_NO_RESULTS](state, bool) {
+    Vue.set(
+      state,
+      'noResults',
+      bool,
+    );
+  },
 };
