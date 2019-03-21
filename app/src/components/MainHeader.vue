@@ -32,7 +32,7 @@
             <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left pr-1"/>Try It
           </router-link>
         </div>
-        <div class="otherbtns-wrapper float-right">
+        <div class="otherbtns-wrapper">
           <template v-if='displayLoggedInElements'>
             <div class="greeting-wrapper">
               <span class="mr-3">Welcome {{ user.name }}</span>
@@ -134,8 +134,6 @@
       max-width: 250px;
     }
   }
-
-
 
   @media only screen and (min-width: 320px) and (max-device-width: 992px) {
     .greeting-wrapper {
