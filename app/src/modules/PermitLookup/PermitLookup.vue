@@ -33,7 +33,20 @@
                   </template>
                 </b-form-select>
               </b-col>
-              <b-col md="4">
+              <b-col md="4"
+                v-if="optionsError">
+                <b-btn
+                  size="sm"
+                  variant="primary"
+                  ref="permitTypeSubmit"
+                  class="permit-lookup-base-btn"
+                  type="submit"
+                  disabled>
+                  Search
+                </b-btn>
+              </b-col>
+              <b-col md="4"
+                v-else-if="!optionsError">
                 <b-btn
                   size="sm"
                   variant="primary"
@@ -45,7 +58,13 @@
               </b-col>
             </b-row>
           </b-form>
-          <br>
+          <div v-if="optionsError"
+            class="text-danger">
+            {{ optionsError }}
+          </div>
+          <div v-else-if="!optionsError">
+            <br>
+          </div>
           <b-row>
             <b-col class="permit-search-footer">
               <a
@@ -1033,23 +1052,23 @@
                   <div
                     class="wapp-arrows"
                     slot="first-text"><img
-                    src="/images/pager-first.png"
-                    alt="Go to first page"></div>
+                      src="/images/pager-first.png"
+                      alt="Go to first page"></div>
                   <div
                     class="wapp-arrows"
                     slot="next-text"><img
-                    src="/images/pager-next.png"
-                    alt="Go to next page"></div>
+                      src="/images/pager-next.png"
+                      alt="Go to next page"></div>
                   <div
                     class="wapp-arrows"
                     slot="prev-text"><img
-                    src="/images/pager-previous.png"
-                    alt="Go to previous page"></div>
+                      src="/images/pager-previous.png"
+                      alt="Go to previous page"></div>
                   <div
                     class="wapp-arrows"
                     slot="last-text"><img
-                    src="/images/pager-last.png"
-                    alt="Go to last page"></div>
+                      src="/images/pager-last.png"
+                      alt="Go to last page"></div>
                 </b-pagination>
               </b-col>
             </b-row>
@@ -1218,8 +1237,8 @@
 
 <script>
 
-  import {mapActions, mapGetters} from 'vuex';
-  import {AppWrapper, AppModal} from '../wadk/WADK';
+  import { mapActions, mapGetters } from 'vuex';
+  import { AppWrapper, AppModal } from '../wadk/WADK';
   import storeModule from './store/index';
 
   const moduleName = 'PermitLookup';
@@ -1426,6 +1445,7 @@
         cgpFormDataDefaults: 'getCgpFormDataDefaults',
         totalRows: 'getTotalRows',
         resultsError: 'getResultsError',
+        optionsError: 'getOptionsError',
         noResults: 'getNoResults',
       }),
       isDisabledCountyMsgp() {
@@ -1517,7 +1537,7 @@
         evt.preventDefault();
         if (JSON.stringify(this.cgpFormData) !== JSON.stringify(this.cgpFormDataDefaults)) {
           this.noFieldsToQuery = false;
-          this.cgpFormGetResults({vm});
+          this.cgpFormGetResults({ vm });
           this.setCgpFormToDefaults();
           this.$ga.event('eportal', 'click', 'Permit Lookup CGP Form Submission', 1);
         } else {
@@ -1529,7 +1549,7 @@
         evt.preventDefault();
         if (JSON.stringify(this.msgpFormData) !== JSON.stringify(this.msgpFormDataDefaults)) {
           this.noFieldsToQuery = false;
-          this.msgpFormGetResults({vm});
+          this.msgpFormGetResults({ vm });
           this.$ga.event('eportal', 'click', 'Permit Lookup MSGP Form Submission', 1);
         } else {
           this.noFieldsToQuery = true;
@@ -1565,7 +1585,6 @@
   .permit-lookup-info-btn {
     background-image: url('../../assets/images/widget-info-circle.svg');
   }
-
   label,
   .custom-select-sm,
   .form-control-sm,
@@ -1573,11 +1592,9 @@
   .btn-sm {
     font-size: 0.9375rem; //15px
   }
-
   .btn-sm {
-    line-height: 1.4; // Temporary fix - @todo adjust small buttons so reasonable height and padding
+    line-height: 1.4;   // Temporary fix - @todo adjust small buttons so reasonable height and padding
   }
-
   .form-control-sm,
   .custom-select-sm {
     line-height: 1.5;

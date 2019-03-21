@@ -291,6 +291,7 @@ export default {
     AppAxios.get(`${apiURL}/eep/proxy/service/oeca-svc-ref?tribes&states&sectors&subsectors`)
       .then((response) => {
         const formOptions = response.data.helperQueryResponse.oecaSvc;
+        let isValid = false;
         const formSectorOptions = formOptions[0];
         const formStateOptions = formOptions[1];
         const formTribalOptions = formOptions[2];
@@ -298,20 +299,30 @@ export default {
         const formStateNames = [];
         const formTribalNames = [];
 
-        formSectorOptions.forEach((sectorOption) => {
-          formSectorNames.push(sectorOption.sectorName);
-        });
-        formStateOptions.forEach((stateOption) => {
-          formStateNames.push(stateOption.stateName);
-        });
-        formTribalOptions.forEach((tribeOption) => {
-          formTribalNames.push(tribeOption.tribalName);
-        });
+        if (formSectorOptions && formStateOptions && formTribalOptions){
+          isValid = true;
+        }
 
-        store.commit(types.SET_BASE_FORM_OPTIONS, formOptions);
-        store.commit(types.SET_BASE_FORM_OPTION_STATE_NAMES, formStateNames.sort());
-        store.commit(types.SET_BASE_FORM_OPTION_SECTOR_NAMES, formSectorNames.sort());
-        store.commit(types.SET_BASE_FORM_OPTION_TRIAL_NAMES, formTribalNames.sort());
+        // If response is as expected, populate fields as normal. Otherwise, set the options error.
+        if (isValid) {
+          formSectorOptions.forEach((sectorOption) => {
+            formSectorNames.push(sectorOption.sectorName);
+          });
+          formStateOptions.forEach((stateOption) => {
+            formStateNames.push(stateOption.stateName);
+          });
+          formTribalOptions.forEach((tribeOption) => {
+            formTribalNames.push(tribeOption.tribalName);
+          });
+          store.commit(types.SET_BASE_FORM_OPTIONS, formOptions);
+          store.commit(types.SET_BASE_FORM_OPTION_STATE_NAMES, formStateNames.sort());
+          store.commit(types.SET_BASE_FORM_OPTION_SECTOR_NAMES, formSectorNames.sort());
+          store.commit(types.SET_BASE_FORM_OPTION_TRIAL_NAMES, formTribalNames.sort());
+        } else {
+          let errorResponse = 'Shared form services unavailable at this time.';
+          console.warn('Check if oeca base endpoint is running. Form options are unable to be loaded from this endpoint at this time.');
+          store.commit(types.SET_OPTIONS_ERROR, errorResponse);
+        }
       });
   },
   loadMsgpFormOptions(context) {
@@ -321,8 +332,24 @@ export default {
 
     AppAxios.get(`${apiURL}/eep/proxy/service/oeca-msgp?formTypes&formStatuses&coverageTypes&submissionTypes&issuers&coverageStatuses&msgpDownloadUrlBase`)
       .then((response) => {
+        let isValid = true;
         const formOptions = response.data.helperQueryResponse;
-        store.commit(types.SET_FORM_OPTIONS_MSGP, formOptions);
+        // Check each option. If any option was not recieved (null value), then mark as invalid and stop checking
+        for (let option in formOptions){
+          if (!formOptions[option]){
+            isValid = false;
+            break;
+          }
+        }
+        // If response is as expected, populate fields as normal. Otherwise, set the options error.
+        if (isValid){
+          store.commit(types.SET_FORM_OPTIONS_MSGP, formOptions);
+        } else {
+          let errorResponse = 'MSGP form services unavailable at this time.';
+          console.warn('Check if msgp endpoint is running. Form options are unable to be loaded from this endpoint at this time.\n' +
+            'Current end point is: ', formOptions['msgpDownloadUrlBase']);
+          store.commit(types.SET_OPTIONS_ERROR, errorResponse);
+        }
       });
   },
   loadCgpFormOptions(context) {
@@ -332,8 +359,24 @@ export default {
 
     AppAxios.get(`${apiURL}/eep/proxy/service/oeca-cgp?formTypes&formStatuses&cgpDownloadUrlBase`)
       .then((response) => {
+        let isValid = true;
         const formOptions = response.data.helperQueryResponse;
-        store.commit(types.SET_FORM_OPTIONS_CGP, formOptions);
+        // Check each option. If any option was not recieved (null value), then mark as invalid and stop checking
+        for (let option in formOptions){
+          if (!formOptions[option]){
+            isValid = false;
+            break;
+          }
+        }
+        // If response is as expected, populate fields as normal. Otherwise, set the options error.
+        if (isValid){
+          store.commit(types.SET_FORM_OPTIONS_CGP, formOptions);
+        } else {
+          let errorResponse = 'CGP form services unavailable at this time.';
+          console.warn('Check if cgp endpoint is running. Form options are unable to be loaded from this endpoint at this time.\n' +
+            'Current end point is: ', formOptions['cgpDownloadUrlBase']);
+          store.commit(types.SET_OPTIONS_ERROR, errorResponse);
+        }
       });
   },
   msgpFormGetResults(context, payload) {
