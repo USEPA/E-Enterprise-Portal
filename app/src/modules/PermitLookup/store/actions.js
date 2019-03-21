@@ -334,12 +334,14 @@ export default {
       .then((response) => {
         let isValid = true;
         const formOptions = response.data.helperQueryResponse;
+        // Check each option. If any option was not recieved (null value), then mark as invalid and stop checking
         for (let option in formOptions){
           if (!formOptions[option]){
             isValid = false;
             break;
           }
         }
+        // If response is as expected, populate fields as normal. Otherwise, set the options error.
         if (isValid){
           store.commit(types.SET_FORM_OPTIONS_MSGP, formOptions);
         } else {
@@ -359,12 +361,14 @@ export default {
       .then((response) => {
         let isValid = true;
         const formOptions = response.data.helperQueryResponse;
+        // Check each option. If any option was not recieved (null value), then mark as invalid and stop checking
         for (let option in formOptions){
           if (!formOptions[option]){
             isValid = false;
             break;
           }
         }
+        // If response is as expected, populate fields as normal. Otherwise, set the options error.
         if (isValid){
           store.commit(types.SET_FORM_OPTIONS_CGP, formOptions);
         } else {
