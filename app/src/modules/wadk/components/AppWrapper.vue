@@ -93,7 +93,7 @@
       :id="`${eepApp.id}-widget-modal`"
       modal-ref="widgetMenuModal"
       hide-footer
-      :title="`${eepApp.title}`"
+      :title="eepApp.title"
       :icon="eepApp.field_icon_name">
       <div class="container">
         <div class="row">
