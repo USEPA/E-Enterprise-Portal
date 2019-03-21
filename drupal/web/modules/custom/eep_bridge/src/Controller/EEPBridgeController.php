@@ -12,7 +12,7 @@ use Drupal\eep_bridge\ADFSBridge;
 use Drupal\eep_bridge\AuthenticatedUser;
 use Drupal\jwt\Authentication\Provider\JwtAuth;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\user\Entity\User;
+use Drupal\user\UserInterface;
 use Drupal\eep_my_reporting\CDXSecurityTokenService;
 
 
@@ -175,6 +175,8 @@ class EEPBridgeController extends ControllerBase {
           'access' => (int)$_SERVER['REQUEST_TIME'],
         ], $account_data);
       $account = $entity_storage->create($account_data);
+
+      $this->add_role($account, $authenticated_user->get_authentication_domain());
       $account->enforceIsNew();
       $account->save();
       user_login_finalize($account);
@@ -215,5 +217,40 @@ class EEPBridgeController extends ControllerBase {
     }
     $url = Url::fromUri($environment_name . '?token=' . $jwt_token . '&uid=' . $uid);
     $this->eep_bridge_goto($url, $jwt_token);
+  }
+
+  /**
+   * @param \Drupal\user\UserInterface $user
+   * @param $role_name
+   * Add role name to AuthenticatedUser
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  function add_role(UserInterface $user, $role_name) {
+
+    $role_entity_storage = \Drupal::entityTypeManager()->getStorage('user_role');
+    $role_search = $role_entity_storage->loadByProperties(['name' => $role_name]);
+    if(count($role_search) === 0) {
+      $label = ucwords(preg_replace('/-/', ' ', $role_name));
+      $role_id = $this->get_role_name($role_name);
+
+      $role = $this->create_role($role_id, $label);
+      $user->addRole($role->id());
+    }
+
+    foreach ($role_search as $key => $rid) {
+      $user->addRole($rid);
+    }
+  }
+
+  function create_role($id, $label) {
+    $role = \Drupal\user\Entity\Role::create(array('id' => $id, 'label' => $label));
+    $role->save();
+    return $role;
+  }
+
+  function get_role_name($role_name) {
+    return strtolower(preg_replace('/\s/', '-', $role_name));
   }
 }

@@ -13,9 +13,9 @@ class AuthenticatedUser {
   private $authentication_domain = null;
   private $source_username;
 
-  var $issuer;
-  var $userDetails;
-  var $authentication_method;
+  public $issuer;
+  public $userDetails;
+  public $authentication_method;
 
 
 
@@ -33,7 +33,7 @@ class AuthenticatedUser {
   function set_authentication_domain($issuer) {
     $this->authentication_domain = $issuer;
   }
-  
+
   function set_source_username($username) {
     $this->source_username = $username;
   }
