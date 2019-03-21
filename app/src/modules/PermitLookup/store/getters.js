@@ -125,4 +125,7 @@ export default {
   getResultsError(state) {
     return state.resultsError;
   },
+  getNoResults(state) {
+    return state.noResults;
+  },
 };

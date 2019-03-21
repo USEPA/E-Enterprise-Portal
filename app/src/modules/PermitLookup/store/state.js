@@ -113,4 +113,5 @@ export default {
   cgpFormResults: {},
   cgpResultsLoaded: false,
   resultsError: false,
+  noResults: false,
 };

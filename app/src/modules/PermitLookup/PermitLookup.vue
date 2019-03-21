@@ -53,6 +53,9 @@
                 @click="openPermitInfoModal">
                 What permits can I find?
               </a>
+              <div>
+                {{ noResults }}
+              </div>
             </b-col>
           </b-row>
 
@@ -96,7 +99,7 @@
               <div
                 class="input-row">
                 Find Notices of Intent (NOIs), Notices of Termination (NOTs), or Low Erosivity Waivers (LEWs) submitted
-                under the U.S. EPA 2017 Construction General Permit (CGP).  At this time, search results will only
+                under the U.S. EPA 2017 Construction General Permit (CGP). At this time, search results will only
                 include activity with the national NPDES eReporting Tool (NeT-CGP) for U.S. EPA lead and participating
                 states and tribes.
               </div>
@@ -442,7 +445,8 @@
               v-else-if="permitType === 'Multi-Sector General Permit'"
               id="msgp-form-wrapper">
               <div class="input-row">
-                Find notices of intent and related submissions for general permits implemented in EPA’s NPDES eReporting Tool (NeT).
+                Find notices of intent and related submissions for general permits implemented in EPA’s NPDES eReporting
+                Tool (NeT).
               </div>
               <div
                 id="msgp-header">
@@ -951,7 +955,7 @@
               </b-col>
             </b-row>
             <b-col class="overflow-x-scroll">
-              <b-row v-if="cgpResultsLoaded || msgpResultsLoaded || resultsError">
+              <b-row v-if="cgpResultsLoaded || msgpResultsLoaded || resultsError || noResults">
                 <b-table
                   v-if="cgpResultsLoaded"
                   hover
@@ -1010,6 +1014,11 @@
                     {{ cgpFormResults }}
                   </div>
                 </div>
+                <div v-else-if="noResults">
+                  <div class="text-danger text-center">
+                    No permits seem to match your search criteria.
+                  </div>
+                </div>
               </b-row>
             </b-col>
             <!-- pagination -->
@@ -1026,23 +1035,23 @@
                   <div
                     class="wapp-arrows"
                     slot="first-text"><img
-                      src="/images/pager-first.png"
-                      alt="Go to first page"></div>
+                    src="/images/pager-first.png"
+                    alt="Go to first page"></div>
                   <div
                     class="wapp-arrows"
                     slot="next-text"><img
-                      src="/images/pager-next.png"
-                      alt="Go to next page"></div>
+                    src="/images/pager-next.png"
+                    alt="Go to next page"></div>
                   <div
                     class="wapp-arrows"
                     slot="prev-text"><img
-                      src="/images/pager-previous.png"
-                      alt="Go to previous page"></div>
+                    src="/images/pager-previous.png"
+                    alt="Go to previous page"></div>
                   <div
                     class="wapp-arrows"
                     slot="last-text"><img
-                      src="/images/pager-last.png"
-                      alt="Go to last page"></div>
+                    src="/images/pager-last.png"
+                    alt="Go to last page"></div>
                 </b-pagination>
               </b-col>
             </b-row>
@@ -1211,8 +1220,8 @@
 
 <script>
 
-  import { mapActions, mapGetters } from 'vuex';
-  import { AppWrapper, AppModal } from '../wadk/WADK';
+  import {mapActions, mapGetters} from 'vuex';
+  import {AppWrapper, AppModal} from '../wadk/WADK';
   import storeModule from './store/index';
 
   const moduleName = 'PermitLookup';
@@ -1419,6 +1428,7 @@
         cgpFormDataDefaults: 'getCgpFormDataDefaults',
         totalRows: 'getTotalRows',
         resultsError: 'getResultsError',
+        noResults: 'getNoResults',
       }),
       isDisabledCountyMsgp() {
         return this.msgpFormData.facilityState === 'Select...';
@@ -1509,7 +1519,7 @@
         evt.preventDefault();
         if (JSON.stringify(this.cgpFormData) !== JSON.stringify(this.cgpFormDataDefaults)) {
           this.noFieldsToQuery = false;
-          this.cgpFormGetResults({ vm });
+          this.cgpFormGetResults({vm});
           this.setCgpFormToDefaults();
           this.$ga.event('eportal', 'click', 'Permit Lookup CGP Form Submission', 1);
         } else {
@@ -1521,7 +1531,7 @@
         evt.preventDefault();
         if (JSON.stringify(this.msgpFormData) !== JSON.stringify(this.msgpFormDataDefaults)) {
           this.noFieldsToQuery = false;
-          this.msgpFormGetResults({ vm });
+          this.msgpFormGetResults({vm});
           this.$ga.event('eportal', 'click', 'Permit Lookup MSGP Form Submission', 1);
         } else {
           this.noFieldsToQuery = true;
@@ -1557,16 +1567,19 @@
   .permit-lookup-info-btn {
     background-image: url('../../assets/images/widget-info-circle.svg');
   }
+
   label,
   .custom-select-sm,
   .form-control-sm,
-   .btn-group-sm>.btn,
-   .btn-sm  {
+  .btn-group-sm > .btn,
+  .btn-sm {
     font-size: 0.9375rem; //15px
   }
+
   .btn-sm {
-    line-height: 1.4;   // Temporary fix - @todo adjust small buttons so reasonable height and padding
+    line-height: 1.4; // Temporary fix - @todo adjust small buttons so reasonable height and padding
   }
+
   .form-control-sm,
   .custom-select-sm {
     line-height: 1.5;
