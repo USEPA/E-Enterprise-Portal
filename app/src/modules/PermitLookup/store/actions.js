@@ -489,7 +489,7 @@ export default {
     AppAxios.get(axiosUrl)
       .then((response) => {
         let cgpResponse = response.data.formQueryResponse;
-        if (cgpResponse){
+        if (cgpResponse) {
           store.commit(types.SET_NO_RESULTS, false);
           // Massage dates to only include Year, month, and day
           cgpResponse.forEach(function(data_object){
