@@ -176,7 +176,7 @@ class EEPBridgeController extends ControllerBase {
         ], $account_data);
       $account = $entity_storage->create($account_data);
 
-      $this->addRole();
+      $this->add_role($account, $authenticated_user->get_authentication_domain());
       $account->enforceIsNew();
       $account->save();
       user_login_finalize($account);
@@ -229,10 +229,28 @@ class EEPBridgeController extends ControllerBase {
    */
   function add_role(UserInterface $user, $role_name) {
 
-    $entity_storage = \Drupal::entityTypeManager()->getStorage('role');
-    $role_search = $entity_storage->loadByProperties(['name' => $role_name]);
+    $role_entity_storage = \Drupal::entityTypeManager()->getStorage('user_role');
+    $role_search = $role_entity_storage->loadByProperties(['name' => $role_name]);
+    if(count($role_search) === 0) {
+      $label = ucwords(preg_replace('/-/', ' ', $role_name));
+      $role_id = $this->get_role_name($role_name);
+
+      $role = $this->create_role($role_id, $label);
+      $user->addRole($role->id());
+    }
+
     foreach ($role_search as $key => $rid) {
       $user->addRole($rid);
     }
+  }
+
+  function create_role($id, $label) {
+    $role = \Drupal\user\Entity\Role::create(array('id' => $id, 'label' => $label));
+    $role->save();
+    return $role;
+  }
+
+  function get_role_name($role_name) {
+    return strtolower(preg_replace('/\s/', '-', $role_name));
   }
 }
