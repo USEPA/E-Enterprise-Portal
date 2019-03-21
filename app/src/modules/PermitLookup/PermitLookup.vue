@@ -53,9 +53,6 @@
                 @click="openPermitInfoModal">
                 What permits can I find?
               </a>
-              <div>
-                {{ noResults }}
-              </div>
             </b-col>
           </b-row>
 
@@ -954,13 +951,13 @@
                 </b-form-group>
               </b-col>
             </b-row>
-            <b-col class="overflow-x-scroll">
+            <b-col>
               <b-row v-if="cgpResultsLoaded || msgpResultsLoaded || resultsError || noResults">
                 <b-table
                   v-if="cgpResultsLoaded"
                   hover
                   id="permit-lookup-table-cgp"
-                  class="bootstrap-vue-permit-table-scroll d-block"
+                  class="bootstrap-vue-permit-table-scroll d-block overflow-x-scroll"
                   :items="cgpFormResults"
                   :fields="cgpFields"
                   :current-page="currentPage"
@@ -983,7 +980,7 @@
                   v-else-if="msgpResultsLoaded"
                   hover
                   id="permit-lookup-table-msgp"
-                  class="bootstrap-vue-permit-table-scroll d-block"
+                  class="bootstrap-vue-permit-table-scroll d-block overflow-x-scroll"
                   :items="msgpFormResults"
                   :fields="msgpFields"
                   :current-page="currentPage"
@@ -1022,7 +1019,8 @@
               </b-row>
             </b-col>
             <!-- pagination -->
-            <b-row class="text-center">
+            <b-row class="text-center"
+              v-if="!noResults">
               <b-col
                 md="12"
                 class="my-1">
