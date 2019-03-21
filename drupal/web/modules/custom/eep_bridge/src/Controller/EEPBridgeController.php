@@ -12,7 +12,7 @@ use Drupal\eep_bridge\ADFSBridge;
 use Drupal\eep_bridge\AuthenticatedUser;
 use Drupal\jwt\Authentication\Provider\JwtAuth;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\user\Entity\User;
+use Drupal\user\UserInterface;
 use Drupal\eep_my_reporting\CDXSecurityTokenService;
 
 
@@ -175,6 +175,8 @@ class EEPBridgeController extends ControllerBase {
           'access' => (int)$_SERVER['REQUEST_TIME'],
         ], $account_data);
       $account = $entity_storage->create($account_data);
+
+      $this->addRole();
       $account->enforceIsNew();
       $account->save();
       user_login_finalize($account);
@@ -215,5 +217,22 @@ class EEPBridgeController extends ControllerBase {
     }
     $url = Url::fromUri($environment_name . '?token=' . $jwt_token . '&uid=' . $uid);
     $this->eep_bridge_goto($url, $jwt_token);
+  }
+
+  /**
+   * @param \Drupal\user\UserInterface $user
+   * @param $role_name
+   * Add role name to AuthenticatedUser
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  function add_role(UserInterface $user, $role_name) {
+
+    $entity_storage = \Drupal::entityTypeManager()->getStorage('role');
+    $role_search = $entity_storage->loadByProperties(['name' => $role_name]);
+    foreach ($role_search as $key => $rid) {
+      $user->addRole($rid);
+    }
   }
 }
