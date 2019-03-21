@@ -13,7 +13,7 @@
         </a>
       </div>
       <div class="w-100 d-block d-sm-none"/>
-      <div class="col-md-9 col-12 pt-3 d-flex justify-content-center justify-content-lg-end align-self-end-lg">
+      <div class="col-md-9 col-12 pt-3 d-flex justify-content-sm-end  justify-content-md-end justify-content-center">
         <div class="tryit-wrapper pr-2 float-right">
           <router-link
             to="/workbench"
