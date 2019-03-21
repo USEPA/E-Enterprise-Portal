@@ -2,7 +2,7 @@
   <div class="section mb-4">
     <div
       class="row">
-      <h4 class="col-md-12">{{ getContaminantTitle }}</h4>
+      <h5 class="col-md-12">{{ getContaminantTitle }}</h5>
       <template v-for="(contaminant, key, index) in contaminants">
         <div
           class="contaminant-wrapper col-md-6"
@@ -19,14 +19,14 @@
                 step="0.001"
                 v-model="request[contaminant._attributes.Value].Value"
                 @change="updateProperty( section, contaminant, 'Value', $event)"
-                size="lg"/>
+                />
             </div>
             <div class="col-sm-4">
               <b-form-select
                 :value="contaminant._attributes.DefaultUnit"
                 v-model="request[contaminant._attributes.Value].Unit"
                 @change="updateProperty( section, contaminant, 'Unit', $event)"
-                size="lg">
+                >
                 <template v-for="unit in contaminant._attributes.Units.split('|')">
                   <option
                     :key="unit"
@@ -155,5 +155,8 @@
       border: 0;
       border-top: 1px solid rgba(0, 0, 0, 0.1);
     }
+  }
+  .custom-select {
+    font-family: "Source Sans Pro Web", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
   }
 </style>
