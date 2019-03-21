@@ -58,7 +58,7 @@
           </template>
           <template v-else>
             <div class="login-wrapper">
-              <button
+              <b-button
                 @click="navigateToLoginRoute"
                 ref="log-in-button"
                 class="usa-button login-button"
@@ -69,7 +69,7 @@
                 :title="loginCaptionTitle"
                 data-container="body">
                 <i class="fas fa-lock pr-1"/>Login
-              </button>
+              </b-button>
             </div>
           </template>
         </div>
