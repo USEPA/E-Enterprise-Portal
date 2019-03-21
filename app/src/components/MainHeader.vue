@@ -25,9 +25,9 @@
             @mouseover="showTryitArrow=true"
             @mouseleave="showTryitArrow=false"
             v-b-tooltip.hover="{
-                        placement:'bottomleft',
-                        html: true
-                      }"
+              placement:'bottomleft',
+              html: true
+            }"
             :title="tryitCaptionTitle"
             data-container="body">
             <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left pr-1"/>Try It
@@ -58,7 +58,7 @@
           </template>
           <template v-else>
             <div class="login-wrapper">
-              <b-button
+              <button
                 @click="navigateToLoginRoute"
                 ref="log-in-button"
                 class="usa-button login-button"
@@ -69,7 +69,7 @@
                 :title="loginCaptionTitle"
                 data-container="body">
                 <i class="fas fa-lock pr-1"/>Login
-              </b-button>
+              </button>
             </div>
           </template>
         </div>
