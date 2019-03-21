@@ -45,11 +45,35 @@ class EEPBridgeController extends ControllerBase {
     }
     // Pull UserDetails from Post
     $userDetails = $this->parse_post_for_user_details($_POST);
-    $authenticated_user = new AuthenticatedUser($userDetails);
-    $this->create_or_login_user_if_exists($authenticated_user);
-    $this->process_required_fields_for_user($authenticated_user);
-    $this->create_jwt_and_send_user();
+    if ($this->verify_token_with_request($userDetails)) {
+      $authenticated_user = new AuthenticatedUser($userDetails);
+      $this->create_or_login_user_if_exists($authenticated_user);
+      $this->process_required_fields_for_user($authenticated_user);
+      $this->create_jwt_and_send_user();
+    }
     return;
+  }
+
+  private function verify_token_with_request($request_details) {
+    $valid_token = FALSE;
+    if (isset($request_details->attributes)) {
+      $attributes = $request_details->attributes;
+      if ($attributes['authenticationMethod']) {
+        $auth_method = str_replace('urn:', '', $attributes['authenticationMethod']);
+        if ($auth_method === 'ENNAAS') {
+          $security_token = $attributes['securityToken'][0];
+          try {
+            $user_data = $this->pull_user_data_from_token($security_token, $_SERVER['LOCAL_ADDR']);
+            if ($user_data['EMAIL'] == $attributes['email'][0] && $user_data['USERID'] == $attributes['userId'][0]) {
+              $valid_token = TRUE;
+            }
+          } catch (\Exception $e) {
+            $this->bridge_auth_logout();
+          }
+        }
+      }
+    }
+    return $valid_token;
   }
 
   /**
@@ -104,11 +128,7 @@ class EEPBridgeController extends ControllerBase {
         $ip = $_POST['SCS_DATA'];
       }
       $token = $_POST['TOKEN'];
-      $config = $this->config('eep_my_reporting.form');
-      $cdx_service = new CDXSecurityTokenService($config);
-      $decoded_token = $cdx_service->decode_token($token, $ip);
-      parse_str($decoded_token->return, $decoded_parts);
-      $user_data = array_change_key_case($decoded_parts, CASE_UPPER);
+      $user_data = $this->pull_user_data_from_token($token, $ip);
       $authenticated_user = new AuthenticatedUser([]);
       $username = $user_data['UID'] . '_Via_' . $user_data['ISSUER'];
       $authenticated_user->set_name($username);
@@ -132,7 +152,7 @@ class EEPBridgeController extends ControllerBase {
     ]);
   }
 
-  private function eep_bridge_goto($url, $jwt_token) {
+  private function eep_bridge_goto($url, $jwt_token = NULL) {
     $response = new RedirectResponse($url->toString());
     $response->headers->set('token', $jwt_token);
     $response->send();
@@ -215,5 +235,20 @@ class EEPBridgeController extends ControllerBase {
     }
     $url = Url::fromUri($environment_name . '?token=' . $jwt_token . '&uid=' . $uid);
     $this->eep_bridge_goto($url, $jwt_token);
+  }
+
+  /**
+   * @param $token
+   * @param $ip
+   * @param $decoded_parts
+   * @return array
+   */
+  private function pull_user_data_from_token($token, $ip) {
+    $config = $this->config('eep_my_reporting.form');
+    $cdx_service = new CDXSecurityTokenService($config);
+    $decoded_token = $cdx_service->decode_token($token, $ip);
+    parse_str($decoded_token->return, $decoded_parts);
+    $user_data = array_change_key_case($decoded_parts, CASE_UPPER);
+    return $user_data;
   }
 }
