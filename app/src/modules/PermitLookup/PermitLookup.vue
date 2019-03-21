@@ -33,7 +33,20 @@
                   </template>
                 </b-form-select>
               </b-col>
-              <b-col md="4">
+              <b-col md="4"
+                v-if="optionsError">
+                <b-btn
+                  size="sm"
+                  variant="primary"
+                  ref="permitTypeSubmit"
+                  class="permit-lookup-base-btn"
+                  type="submit"
+                  disabled>
+                  Search
+                </b-btn>
+              </b-col>
+              <b-col md="4"
+                v-else-if="!optionsError">
                 <b-btn
                   size="sm"
                   variant="primary"
@@ -45,7 +58,13 @@
               </b-col>
             </b-row>
           </b-form>
-          <br>
+          <div v-if="optionsError"
+            class="text-danger">
+            {{ optionsError }}
+          </div>
+          <div v-else-if="!optionsError">
+            <br>
+          </div>
           <b-row>
             <b-col class="permit-search-footer">
               <a
@@ -1419,6 +1438,7 @@
         cgpFormDataDefaults: 'getCgpFormDataDefaults',
         totalRows: 'getTotalRows',
         resultsError: 'getResultsError',
+        optionsError: 'getOptionsError',
       }),
       isDisabledCountyMsgp() {
         return this.msgpFormData.facilityState === 'Select...';
