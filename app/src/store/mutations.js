@@ -110,6 +110,7 @@ export default {
     }
     const favoriteLinks = obj.field_favorite_links;
     const loaded = true;
+
     Vue.set(state.user,
       'name',
       name);
