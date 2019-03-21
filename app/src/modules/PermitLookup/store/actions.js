@@ -123,8 +123,8 @@ export default {
   },
   setMsgpCoverageType(context, payload) {
     const store = context;
-
-    store.commit(types.SET_MSGP_COVERAGE_TYPE, payload);
+    const massagedType = payload.replace(/ /g, '_');
+    store.commit(types.SET_MSGP_COVERAGE_TYPE, massagedType);
   },
   setMsgpCoverageStatus(context, payload) {
     const store = context;
@@ -238,8 +238,8 @@ export default {
   },
   setCgpFormType(context, payload) {
     const store = context;
-
-    store.commit(types.SET_CGP_FORM_TYPE, payload);
+    const massagedType = payload.replace(/ /g, '_');
+    store.commit(types.SET_CGP_FORM_TYPE, massagedType);
   },
   setCgpOperatorName(context, payload) {
     const store = context;
@@ -343,6 +343,16 @@ export default {
         }
         // If response is as expected, populate fields as normal. Otherwise, set the options error.
         if (isValid){
+          // Massage out underscores
+          let coverageTypes = formOptions['coverageTypes'];
+          let i = 0;
+          for (let type in coverageTypes){
+            if (coverageTypes[i].includes('_')) {
+              coverageTypes[i] = coverageTypes[i].replace(/_/g, ' ');
+            }
+            i++;
+          }
+          formOptions['coverageTypes'] = coverageTypes;
           store.commit(types.SET_FORM_OPTIONS_MSGP, formOptions);
         } else {
           let errorResponse = 'MSGP form services unavailable at this time.';
@@ -363,13 +373,24 @@ export default {
         const formOptions = response.data.helperQueryResponse;
         // Check each option. If any option was not recieved (null value), then mark as invalid and stop checking
         for (let option in formOptions){
-          if (!formOptions[option]){
+          if (!formOptions[option]) {
             isValid = false;
             break;
           }
         }
         // If response is as expected, populate fields as normal. Otherwise, set the options error.
         if (isValid){
+          // Massage out underscores
+          let formTypes = formOptions['formTypes'];
+          let i = 0;
+          for (let type in formTypes){
+            if (formTypes[i].includes('_')) {
+              formTypes[i] = formTypes[i].replace(/_/g, ' ');
+            }
+            i++;
+          }
+          formOptions['formTypes'] = formTypes;
+
           store.commit(types.SET_FORM_OPTIONS_CGP, formOptions);
         } else {
           let errorResponse = 'CGP form services unavailable at this time.';
@@ -427,6 +448,7 @@ export default {
           // Massage dates to only include Year, month, and day
           msgpResponse.forEach(function(data_object){
             data_object['certifiedDate'] = data_object['certifiedDate'].substring(0, 10);
+            data_object['coverageType'] = data_object['coverageType'].replace(/_/g, ' ');
           });
           if (msgpResponse.code === 'E_InternalError') {
             msgpResponse = 'Error Loading Results...';
@@ -494,6 +516,7 @@ export default {
           // Massage dates to only include Year, month, and day
           cgpResponse.forEach(function(data_object){
             data_object['certifiedDate'] = data_object['certifiedDate'].substring(0, 10);
+            data_object['type'] = data_object['type'].replace(/_/g, ' ');
           });
           if (cgpResponse.code === 'E_InternalError') {
             cgpResponse = 'Error Loading Results...';

@@ -251,7 +251,7 @@
                     <b-form-select
                       id="form-type-selection"
                       class="mb-3"
-                      :value="cgpFormData.formType"
+                      v-model="cgpType"
                       :options="formOptions.cgpFormOptions.formTypes"
                       ref="formType-Dropdown"
                       @change="setCgpFormType"
@@ -538,7 +538,7 @@
                     <b-form-select
                       id="coverage-type-selection"
                       class="mb-3"
-                      :value="msgpFormData.coverageType"
+                      v-model="msgpType"
                       :options="formOptions.msgpFormOptions.coverageTypes"
                       ref="coverage-type-selection"
                       @change="setMsgpCoverageType"
@@ -1266,6 +1266,8 @@
         radioSelection2: null,
         radioSelection3: null,
         radioSelection4: null,
+        cgpType: null,
+        msgpType: null,
         msgpFields: [
           {
             key: 'issuer',
@@ -1569,6 +1571,8 @@
         this.radioSelection2 = null;
         this.radioSelection3 = null;
         this.radioSelection4 = null;
+        this.cgpType = null;
+        this.msgpType = null;
       },
     },
     props: {
