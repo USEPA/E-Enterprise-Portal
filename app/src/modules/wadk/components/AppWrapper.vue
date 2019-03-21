@@ -93,7 +93,7 @@
       :id="`${eepApp.id}-widget-modal`"
       modal-ref="widgetMenuModal"
       hide-footer
-      :title="`${eepApp.title} Menu`"
+      :title="`${eepApp.title}`"
       :icon="eepApp.field_icon_name">
       <div class="container">
         <div class="row">
@@ -214,7 +214,7 @@
         const vm = this;
         vm.menuModalTabIndex = index;
         vm.$root.$emit('bv::show::modal', `${vm.eepApp.id}-widget-modal`, button);
-        this.$ga.event('eportal', 'click', `${vm.eepApp.id} Info Modal`, 1);
+        this.$ga.event('eportal', 'click', `${vm.eepApp.id} ${title} Modal`, 1);
       },
     },
   };
