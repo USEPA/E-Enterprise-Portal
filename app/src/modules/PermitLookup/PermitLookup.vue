@@ -644,8 +644,8 @@
                       ref="sic-code-input"
                       class="mb-3"
                       :value="msgpFormData.sicCode"
-                      :disabled="isDisabledSubsectorMsgp"
                       @change="setMsgpSicCode"
+                      type="number"
                       size="sm"/>
                   </b-col>
                 </b-row>
