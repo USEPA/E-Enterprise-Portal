@@ -23,6 +23,27 @@
   overflow: hidden;
 }
 
+#bwi-modal .modal-header {
+  padding:1rem 1rem 0;
+}
+
+#bwi-modal .modal-body {
+  position:static;
+  padding:0 1rem 1rem;
+  margin-top:2rem;
+}
+
+#bwi-modal .tab-content {
+  padding-top:3em;
+}
+
+#bwi-modal .nav-tabs {
+  position:absolute;
+  z-index:100;
+  background-color:#fff;
+  width:92%
+}
+
 // Medium Wapp
 .wapp-small {
   min-height: 190px;

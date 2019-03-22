@@ -8,7 +8,7 @@
             <a class="link"
               href="javascript:void(0);"
               @click="navigateToBridge(account.data.field_urn[0].value)">
-              <div class="link-wrapper">
+              <div class="link-wrapper" tabindex="0">
                 <img :src="account.data.field_option_image[0].url"
                   alt="not found">
                 <span class="pl-2">{{account.data.title[0].value}}</span>
