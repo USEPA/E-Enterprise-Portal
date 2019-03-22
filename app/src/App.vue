@@ -43,7 +43,8 @@
         </div>
       </div>
     </div>
-    <div class="px-0">
+    <!-- issue here with container and the caroseul -->
+    <div class="container px-0">
       <div
         id="main-content"
         class="no-gutters py-2">
