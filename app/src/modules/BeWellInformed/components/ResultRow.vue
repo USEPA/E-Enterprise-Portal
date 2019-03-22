@@ -37,6 +37,8 @@
       <p v-html="result.GuidelineText"></p>
     </div>
 
+    <h6>Interpretation of Results:</h6>
+
     <div
       class="col-12 border border-warning py-1 mb-1"
       v-if="canShowDetail(result.InterpretationMessages, result)"
@@ -44,12 +46,16 @@
     >
     </div>
 
+    <h6>Health Concerns:</h6>
+
     <div
       class="col-12 border border-warning py-1 mb-1"
       v-if="canShowDetail(result.HealthMessages, result)"
       v-html="unescape(result.HealthMessages)"
     >
     </div>
+
+    <h6>Treatment Options:</h6>
 
     <div
       v-if="canShowDetail(result.TreatmentMessages, result)"
