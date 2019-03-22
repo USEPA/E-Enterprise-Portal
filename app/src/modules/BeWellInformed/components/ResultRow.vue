@@ -37,7 +37,7 @@
       <p v-html="result.GuidelineText"></p>
     </div>
 
-    <h6>Interpretation of Results:</h6>
+    <h6 class="treatment-results-title" v-if="canShowDetail(result.InterpretationMessages, result)">Interpretation of Results:</h6>
 
     <div
       class="col-12 border border-warning py-1 mb-1"
@@ -46,7 +46,7 @@
     >
     </div>
 
-    <h6>Health Concerns:</h6>
+    <h6 class="treatment-results-title" v-if="canShowDetail(result.InterpretationMessages, result)">Health Concerns:</h6>
 
     <div
       class="col-12 border border-warning py-1 mb-1"
@@ -55,7 +55,7 @@
     >
     </div>
 
-    <h6>Treatment Options:</h6>
+    <h6 class="treatment-results-title" v-if="canShowDetail(result.InterpretationMessages, result)">Treatment Options:</h6>
 
     <div
       v-if="canShowDetail(result.TreatmentMessages, result)"
@@ -157,5 +157,8 @@
     $ratio: 1.5rem;
     width: $ratio;
     height: $ratio
+  }
+  .treatment-results-title {
+    font-weight:bold;
   }
 </style>
