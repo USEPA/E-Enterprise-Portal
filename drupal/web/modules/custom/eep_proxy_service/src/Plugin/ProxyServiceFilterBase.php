@@ -111,8 +111,8 @@ abstract class ProxyServiceFilterBase extends PluginBase implements ProxyService
     // make sure the query params are passed on to the url
     $this->incoming_request->query->remove('XDEBUG_SESSION_START');
     $request_suffix = array_pop(explode($this->service_machine_name, $this->incoming_request->getUri()));
-    $extended_path = '';
-    $query = '';
+
+    // Split the components apart
     if(stripos($request_suffix, '?') !== false) {
       $parts = explode('?', $request_suffix);
       $extended_path = array_shift($parts);
