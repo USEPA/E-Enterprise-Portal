@@ -232,6 +232,7 @@ class ADFSBridge {
       $notBefore = $condition->getAttribute('NotBefore');
       $notOnOrAfter = $condition->getAttribute('NotOnOrAfter');
       if (!$this->checkCurrentTime($notBefore, $notOnOrAfter)) {
+        // @todo we need better error responses to the API calls. It should still bubble up a JSON response.
         $exception_msg = 'The WS-Fed response has expired.';
         \Drupal::logger('eep_bridge')->error($exception_msg);
         throw new \Exception($exception_msg);
