@@ -1,0 +1,7 @@
+wsdl: 'https://cdxnodengn.epa.gov/ngn-enws20/services/NetworkNode2ServiceConditionalMTOM?wsdl'
+security_token_wsdl: 'https://cdxnodengn.epa.gov/cdx-register-II/services/RegisterService?wsdl'
+cdx_base_url: 'https://cdx.epa.gov'
+cdx_submission_history_url: null
+admin_id: registration.prod@cgifederal.com
+domain: default
+authentication_method: password

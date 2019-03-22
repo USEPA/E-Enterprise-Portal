@@ -1,0 +1,7 @@
+wsdl: 'https://cdxnodengn.epa.gov/cdx-register-II/services/RegisterMyCdxService?wsdl'
+admin_id: registration.prod@cgifederal.com
+domain: default
+authentication_method: password
+cdx_base_url: 'https://cdx.epa.gov'
+cdx_submission_history_url: 'https://cdxnodengn.epa.gov/cromerr-review/action/submitter/home/'
+security_token_wsdl: 'https://cdxnodenaas.epa.gov/xml/SecurityToken_v30.wsdl'
