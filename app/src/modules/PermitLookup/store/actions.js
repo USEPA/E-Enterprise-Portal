@@ -449,6 +449,9 @@ export default {
           msgpResponse.forEach(function(data_object){
             data_object['certifiedDate'] = data_object['certifiedDate'].substring(0, 10);
             data_object['coverageType'] = data_object['coverageType'].replace(/_/g, ' ');
+            data_object['attachments'].forEach(function(attachment){
+
+            });
           });
           if (msgpResponse.code === 'E_InternalError') {
             msgpResponse = 'Error Loading Results...';
