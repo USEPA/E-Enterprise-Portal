@@ -19,6 +19,6 @@ content:
     region: content
 hidden:
   field_authentication_category: true
-  field_image_path: true
+  field_option_image: true
   field_tab_order: true
   field_urn: true

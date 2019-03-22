@@ -1,13 +1,14 @@
 module:
   action: 0
+  admin_css: 0
   admin_toolbar: 0
   admin_toolbar_tools: 0
   advagg: 0
   api_favorite_links: 0
-  api_login: 0
   automated_cron: 0
   backup_migrate: 0
   basic_auth: 0
+  better_json_view: 0
   big_pipe: 0
   block: 0
   block_content: 0
@@ -18,8 +19,10 @@ module:
   config: 0
   config_actions: 0
   config_filter: 0
+  config_split: 0
   config_update: 0
   contact: 0
+  content_access: 0
   contextual: 0
   ctools: 0
   ctools_block: 0
@@ -31,9 +34,12 @@ module:
   double_field: 0
   dynamic_page_cache: 0
   editor: 0
-  eep_bridge: 0
   eep_core: 0
+  eep_generate_pdf: 0
   eep_location_services: 0
+  eep_my_certifications: 0
+  eep_my_reporting: 0
+  eep_permit_lookup: 0
   eep_proxy_service: 0
   entity_browser: 0
   entity_reference_revisions: 0
@@ -41,6 +47,7 @@ module:
   field_ui: 0
   file: 0
   filter: 0
+  formatter_field: 0
   hal: 0
   help: 0
   history: 0
@@ -52,9 +59,9 @@ module:
   kint: 0
   layout_discovery: 0
   link: 0
+  media: 0
   menu_ui: 0
   node: 0
-  node_export: 0
   node_import_export: 0
   openapi: 0
   openapi_ui: 0
@@ -76,6 +83,8 @@ module:
   search: 0
   serialization: 0
   shortcut: 0
+  structure_sync: 0
+  svg_image: 0
   system: 0
   taxonomy: 0
   text: 0
@@ -88,7 +97,6 @@ module:
   pathauto: 1
   views: 10
   paragraphs: 11
-  e_enterprise_portal: 1000
 theme:
   stable: 0
   classy: 0

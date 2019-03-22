@@ -4,12 +4,14 @@
     :id="id"
     :hide-footer="hideFooter"
     :ref="modalRef"
+    scrollable
     v-on="inputListeners">
     <template
       slot="modal-header">
       <h5
         class="modal-title"
-        id="gridModalLabel">{{ title }}</h5>
+        id="gridModalLabel"
+        :style="getIcon">{{ title }}</h5>
       <button
         type="button"
         class="close"
@@ -19,18 +21,19 @@
       >
         <span aria-hidden="true">×</span>
       </button>
-
     </template>
     <div class="">
-      <slot></slot>
+      <slot/>
     </div>
     <template slot="modal-footer">
-      <slot name="footer"></slot>
+      <slot name="footer"/>
     </template>
   </b-modal>
 </template>
 
 <script>
+  import { EventBus } from '../../../EventBus';
+
   export default {
     name: 'AppModal',
     props: {
@@ -62,6 +65,16 @@
       title: {
         type: String,
         required: true,
+      },
+      useAppModalManager: {
+        type: Boolean,
+        default: () => true,
+        required: false,
+      },
+      icon: {
+        type: String,
+        required: false,
+        default: () => '',
       },
     },
     computed: {
@@ -97,30 +110,70 @@
               vm.$emit('cancel', event);
             },
           },
-        // eslint-disable-next-line function-paren-newline
+          // eslint-disable-next-line function-paren-newline
         );
       },
+      getIcon() {
+        const vm = this;
+        let style = '';
+        // Using CSS to gracefully fail if the image doesn't exist
+        const padding = '1.8rem';
+        if (vm.icon) {
+          style = `background-image: url('images/${vm.icon}'); padding-left: ${padding};`;
+        }
+        return style;
+      },
+    },
+    mounted() {
+      const vm = this;
+      if (vm.useAppModalManager) {
+        EventBus.$emit('AppModalManager::registerModal', {
+          callee: vm,
+          modal: vm.$refs[vm.modalRef],
+        });
+      }
     },
     methods: {
       hideModal() {
-        this.$refs[this.modalRef].hide();
+        const vm = this;
+        vm.$refs[vm.modalRef].hide();
       },
     },
   };
 </script>
 
-<style lang="scss">
+<style
+  scoped
+  lang="scss">
   @import '../../../styles/bootstrap-mixins-cheatsheet.scss';
+
   @include media-breakpoint-up(sm) {
-    .modal-dialog { max-width: $modal-sm; }
+    .modal-dialog {
+      max-width: $modal-sm;
+    }
   }
+
   @include media-breakpoint-up(md) {
-    .modal-dialog { max-width: $modal-md; }
+    .modal-dialog {
+      max-width: $modal-md;
+    }
   }
+
   @include media-breakpoint-up(lg) {
-    .modal-dialog { max-width: $modal-lg; }
+    .modal-dialog {
+      max-width: $modal-lg;
+    }
   }
+
   @include media-breakpoint-up(xl) {
-    .modal-dialog { max-width: $modal-xl; }
+    .modal-dialog {
+      max-width: $modal-xl;
+    }
+  }
+
+  .modal-title {
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size: 1.2rem 1.2rem;
   }
 </style>

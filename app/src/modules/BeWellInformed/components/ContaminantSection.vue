@@ -11,7 +11,7 @@
             <div class="col-sm-5">
               <label class="">{{ contaminant._attributes.Text }}</label>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-3 pr-2">
               <b-form-input
                 :ref="`${contaminant._attributes.Value}-Value`"
                 :id="`${contaminant._attributes.Value}-Value`"
@@ -19,14 +19,14 @@
                 step="0.001"
                 v-model="request[contaminant._attributes.Value].Value"
                 @change="updateProperty( section, contaminant, 'Value', $event)"
-                size="lg"/>
+                />
             </div>
             <div class="col-sm-4">
               <b-form-select
                 :value="contaminant._attributes.DefaultUnit"
                 v-model="request[contaminant._attributes.Value].Unit"
                 @change="updateProperty( section, contaminant, 'Unit', $event)"
-                size="lg">
+                >
                 <template v-for="unit in contaminant._attributes.Units.split('|')">
                   <option
                     :key="unit"
@@ -146,7 +146,7 @@
   };
 </script>
 
-<style
+<style scoped
   lang="scss">
 
   .contaminant-wrapper {
@@ -155,5 +155,8 @@
       border: 0;
       border-top: 1px solid rgba(0, 0, 0, 0.1);
     }
+  }
+  .custom-select {
+    font-family: "Source Sans Pro Web", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
   }
 </style>

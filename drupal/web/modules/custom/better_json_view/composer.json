@@ -1,0 +1,14 @@
+{
+  "name": "drupal/better_json_view",
+  "type": "drupal-module",
+  "description": "Used to convert fields to json output. It is useful when exporting for REST api exports.",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/better_json_view",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/better_json_view",
+    "source": "http://cgit.drupalcode.org/better_json_view"
+  },
+  "require": { }
+}

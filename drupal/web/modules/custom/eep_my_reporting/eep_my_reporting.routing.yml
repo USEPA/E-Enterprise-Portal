@@ -1,7 +1,50 @@
-eep_my_reporting.get:
-path: '/api/cdxprogramtitles'
-  defaults: { _controller: '\Drupal\test_api\Controller\EEPMyReportingController::get_example' }
+eep_my_reporting.my_reporting:
+  path: '/api/cdx/dataflows'
+  defaults:
+    _controller: '\Drupal\eep_my_reporting\Controller\EEPMyReportingController::fetch_my_cdx_links'
+    _title: 'CDX Dataflows'
   methods:  [GET]
   requirements:
     _access: 'TRUE'
-
+  options:
+    _auth: ['cookie', 'basic_auth','jwt_auth']
+eep_my_reporting.eep_my_reporting_form:
+  path: '/admin/config/system/eep_my_reporting_administration_form'
+  defaults:
+    _form: '\Drupal\eep_my_reporting\Form\AuthenticationConfigForm'
+    _title: 'E-Enterprise My Reporting Authentication settings'
+  description: 'Configure administration details.'
+  requirements:
+    _permission: 'access content'
+  options:
+    _admin_route: TRUE
+eep_my_reporting.link_details_json:
+  path: '/api/cdx/link-details-json/{roleId}'
+  defaults:
+    _controller: '\Drupal\eep_my_reporting\Controller\EEPMyReportingController::my_cdx_json_link_details'
+    _title: 'CDX Dataflows - Link Details'
+  methods:  [GET]
+  requirements:
+    _access: 'TRUE'
+  options:
+    _auth: ['cookie', 'basic_auth','jwt_auth']
+eep_my_reporting.link_json_handoff:
+  path: '/api/cdx/link-json-handoff/{roleId}'
+  defaults:
+    _controller: '\Drupal\eep_my_reporting\Controller\EEPMyReportingController::my_cdx_json_link_handoff'
+    _title: 'CDX Dataflows - Link Handoff'
+  methods:  [GET]
+  requirements:
+    _access: 'TRUE'
+  options:
+    _auth: ['cookie', 'basic_auth','jwt_auth']
+eep_my_reporting.configs:
+  path: '/api/cdx/configs'
+  defaults:
+    _controller: '\Drupal\eep_my_reporting\Controller\EEPMyReportingController::fetch_my_reporting_configs'
+    _title: 'CDX Dataflows - Configs'
+  methods:  [GET]
+  requirements:
+    _access: 'TRUE'
+  options:
+    _auth: ['cookie', 'basic_auth','jwt_auth']

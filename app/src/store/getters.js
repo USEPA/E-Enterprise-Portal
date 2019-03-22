@@ -7,29 +7,24 @@ export default {
   getApp(state) {
     return state.app;
   },
-  getIsLoggedIn(state) {
-    return state.user.isLoggedIn;
+  getDeepLink(state) {
+    return state.deepLink;
   },
-  getUserFullName(state) {
-    let fullname = '';
-    const userName = state.user.name;
-    const nameParts = [userName.prefix, userName.first, userName.last, userName.suffix];
-    fullname = nameParts
-      .filter(namePart => (namePart && namePart.length))
-      .join(' ');
-    return fullname;
+  getIsLoggedIn(state) {
+    const logInCookie = document.cookie.match('(^|;) ?Token=([^;]*)(;|$)');
+    return !!logInCookie;
   },
   /**
    * gets users TAndCCookie state
    */
-  getTAndCCookieDismiss() {
+  getTermsAndConditionsCookie() {
     const cookieState = document.cookie.match('(^|;) ?userTandC=([^;]*)(;|$)');
     return cookieState;
   },
   /**
    * gets users login preference state
    */
-  getUserPolicyCookieDismiss() {
+  getUserCookiePolicyDismiss() {
     const cookieState = document.cookie.match('(^|;) ?userPolicy=([^;]*)(;|$)');
     return cookieState;
   },
@@ -64,19 +59,27 @@ export default {
     // env = 'DEV';
     return env;
   },
-  getLocation(state) {
-    return state.user.location;
-  },
   getUser(state) {
     return state.user;
   },
-  getURL: (state, ref) => urlName => state.urls[ref.getEnvironment][urlName],
+  getApiUrl: (state, ref) => (urlName) => {
+    const envApiUrl = ref.getEnvironmentApiURL;
+    let response = `${envApiUrl}/${state.api.urls[urlName]}`;
+    if (state.api.urls[urlName].search(/http[s]?:/) > -1) {
+      response = state.api.urls[urlName];
+    } else if (state.api.urls[urlName].search(/internal:/) > -1) {
+      const { origin } = window.location;
+      const url = state.api.urls[urlName].replace(/internal:/, '');
+      response = `${origin}/${url}`;
+    }
+    return response;
+  },
   getBridgeURL(state, ref) {
     const env = ref.getEnvironment;
     let url = '#';
     const bridgeSettings = state.bridgeSettings[env];
     if (bridgeSettings) {
-      url = `${bridgeSettings.issuer}?wtrealm=${encodeURI(bridgeSettings.relyingParty) 
+      url = `${bridgeSettings.issuer}?wtrealm=${encodeURI(bridgeSettings.relyingParty)
       }&wreply=${encodeURI(bridgeSettings.sendBridgeBackTo)}&whr=urn:${state.currentBridgeUrn
       }&wa=${bridgeSettings.signInMethod}`;
     }
@@ -88,33 +91,46 @@ export default {
   getnavMargin(state) {
     return state.navMargin;
   },
-  getloginPageAccounts(state) {
+  getLoginPageAccounts(state) {
     return state.loginPageAccounts;
-  },
-  getUsername(state){
-    return state.user.userName;
   },
   getUserObject(state) {
     return state.user.userObject;
   },
-  getEnvironmentApiURL(state, ref){
-    let environment = ref.getEnvironment;
+  getEnvironmentApiURL(state, ref) {
+    const environment = ref.getEnvironment;
     let environmentApiURL = 'https://apidev2.e-enterprise.gov';
     if (environment === 'LOCAL') {
       environmentApiURL = 'http://e-enterprise';
-    }
-    else if (environment === 'DEV') {
+    } else if (environment === 'DEV') {
       environmentApiURL = 'https://apidev2.e-enterprise.gov';
-    }
-    else if (environment === 'TEST') {
-      environmentApiURL = 'https://apitest2.e-enterprise.gov';
+    } else if (environment === 'TEST') {
+      environmentApiURL = 'https://apitest.e-enterprise.gov';
+    } else {
+      environmentApiURL = 'https://api.e-enterprise.gov';
     }
     return environmentApiURL;
   },
-  getBasicPagesArray(state){
+  getBasicPagesArray(state) {
     return state.basicPages.pagesArray;
   },
-  getCurrentUrn(state){
-    return state.currentBridgeUrn;
+  getLoginViewAccounts(state) {
+    return state.loginViewAccounts;
+  },
+  getDisplayLoggedInElements(state) {
+    let loggedIn = false;
+    if (state.user) {
+      loggedIn = state.user.isLoggedIn;
+    }
+    return loggedIn;
+  },
+  getLoggedInToken(state) {
+    return state.token.raw;
+  },
+  getEEPAPIURL: (state, ref) => variables => ((variables.params !== '') ? `${variables.endpoint}?${variables.params}`
+    : `${variables.endpoint}`),
+  getUserInitValidation(state) {
+    const userInit = state.user.init;
+    return (userInit.length > 0 && userInit[0].value.indexOf('@') < 1);
   },
 };

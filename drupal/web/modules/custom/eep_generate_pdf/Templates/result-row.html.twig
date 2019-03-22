@@ -1,0 +1,36 @@
+<tr>
+    <td class='icon-column'>
+        <img class="key-image-icon"
+             src="{{ base_path }}/sites/default/files/bwi_pdf_styles/images/{{ result.GuidelineIcon }}.png"
+             alt="aKey">
+    </td>
+    <td class='element-col'>
+        {{ result.ContaminantFullName | raw }}
+    </td>
+    <td>{{ result.UserContaminatValue | raw }}</td>
+    <td class='limit-col'>{{ result.MaximumContaminantLevel | raw }}</td>
+    <td>{{ result.GuidelineText | raw }}</td>
+</tr>
+{% if type is same as('full') %}
+    {% if result.InterpretationMessages %}
+        <tr>
+            <td class='bwi-detail-td' colspan='5'>
+                <h4>Interpretation of Results:</h4>{{ result.InterpretationMessages | raw }}
+            </td>
+        </tr>
+    {% endif %}
+    {% if result.HealthMessages %}
+        <tr>
+            <td class='bwi-detail-td' colspan='5'>
+                <h4>Health Concerns:</h4>{{ result.HealthMessages | raw }}
+            </td>
+        </tr>
+    {% endif %}
+    {% if result.TreatmentMessages %}
+        <tr>
+            <td class='bwi-detail-td' colspan='5'>
+                <h4>Treatment Options:</h4>{{ result.TreatmentMessages | raw }}
+            </td>
+        </tr>
+    {% endif %}
+{% endif %}

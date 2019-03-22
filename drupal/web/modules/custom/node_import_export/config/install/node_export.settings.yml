@@ -1,0 +1,2 @@
+node_import_export_import: 'replace'
+node_import_export_format: 'JSON'

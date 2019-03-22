@@ -156,10 +156,10 @@ class ProxyService implements ProxyServiceInterface {
       $HFRequest = $this->request;
     }
     $this->filter->setIncomingRequest($HFRequest);
+    $this->filter->setServiceMachineName($this->service_machine_name);
 
     // @todo move allowed headers to filter plugin base
     $this->getAllowedHeaders($HFRequest);
-
 
     $this->buildRequest(
       $HFRequest->getMethod(),
@@ -307,7 +307,7 @@ class ProxyService implements ProxyServiceInterface {
     // Get the right endpoint value for the current environment
     if ($entity) {
       $uris = array_filter($entity->field_service_endpoints->getValue(), function ($endpoint) use ($ENV) {
-        return ($endpoint->first == $ENV);
+        return ($endpoint['first'] == $ENV);
       });
       if (count($uris) > 0) {
         $uri_obj = array_pop($uris);

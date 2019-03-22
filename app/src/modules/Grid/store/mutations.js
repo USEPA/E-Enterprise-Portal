@@ -1,3 +1,6 @@
+import Vue from 'vue';
+import types from './types';
+
 /**
  * Methods added here are available to the workbench applications. There
  * are no returned values. Changes should be atomic when possible.
@@ -14,4 +17,19 @@
  *  @SEE https://vuex.vuejs.org/guide/mutations.html
  */
 
-export default {};
+export default {
+  [types.SET_LAYOUT](state, obj) {
+    Vue.set(
+      state,
+      'layout',
+      obj,
+    );
+  },
+  [types.PUSH_DIRECT_LINKS_REGISTRATION](state, registration) {
+    Vue.set(
+      state.directLinkMappings,
+      registration.id,
+      registration.direct_links,
+    );
+  },
+};

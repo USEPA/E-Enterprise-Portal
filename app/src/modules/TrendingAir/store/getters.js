@@ -7,21 +7,22 @@
  */
 
 import { commonAppStore } from '../../wadk/WADK';
+
 export default {
   ...commonAppStore.getters,
-  getAirMonitoringStations(state){
+  getAirMonitoringStations(state) {
     return state.airMonitoringStations;
   },
-  getlastWeatherReading(state){
+  getlastWeatherReading(state) {
     return state.lastWeatherReading;
   },
-  getDropDownSelection(state){
+  getDropDownSelection(state) {
     return state.selectedLocation;
   },
-  getNewUpdatedLocation(state){
+  getNewUpdatedLocation(state) {
     return state.newUpdatedLocation;
   },
-  getCurrentSelectedLocationInformation(state){
+  getCurrentSelectedLocationInformation(state) {
     return state.currentSelectedLocationInformation;
   },
 };

@@ -1,0 +1,3 @@
+node_import_export_identifier: uuid
+node_import_export_import: replace
+node_import_export_format: JSON

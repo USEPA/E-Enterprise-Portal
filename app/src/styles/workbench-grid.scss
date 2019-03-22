@@ -1,15 +1,29 @@
 .workbench-grid {
 
   .vue-grid-item {
-    overflow-y: hidden;
+    overflow: hidden;
     border: 1px solid $gray-300;
     border-radius: .2rem;
+    border-top: 2px solid $eep-blue-dark;
+    background: linear-gradient(to bottom, $eep-blue-dark 0%, $eep-blue-light 2px, $white 3px);
     padding: .5rem;
+
+    .source-description-wrapper p {
+      font-size: 0.675rem;  // 10px
+    }
+    p {
+      font-size: 0.875rem;  // 14px
+      line-height: 1.2;
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
+    & > div {
+      overflow-x: hidden;
+    }
 
     &.vue-grid-placeholder {
       background: $blue;
     }
   }
 }
-
 

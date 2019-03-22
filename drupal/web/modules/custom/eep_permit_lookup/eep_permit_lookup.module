@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains eep_permit_lookup.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function eep_permit_lookup_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the eep_permit_lookup module.
+    case 'help.page.eep_permit_lookup':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Permit Lookup proxy service endpoint. Query ?docs for documentation.') . '</p>';
+      return $output;
+
+    default:
+  }
+}

@@ -3,37 +3,46 @@
   <div>
     <AppWrapper
       :eep-app="eepApp">
+      <template>
+        <p class="check-water-message pt-1">
+          Have a well and wonder what your water testing results mean? Enter
+          water test results and get feedback about health concerns and water treatment choices.</p>
+      </template>
       <b-form
         class="needs-validation"
         @submit="onCheckYourWater"
         novalidated>
-        <b-form-select
-                id="partner-selection"
-                :value="selectedPartner"
-                :options="partners"
-                ref="partnerDropdown"
-                @change="setSelectedPartner"
-                class="mb-3"
-                required>
-          <template slot="first">
-            <!-- this slot appears above the options from 'options' prop -->
-            <option
-                    :value="null"
-                    disabled>-- Please select an partner --
-            </option>
-          </template>
-        </b-form-select>
-        <div
-          id="bwi-widget-state-content"
-          class="py-2"
-          v-html="eepApp.html.mainCard">
-        </div>
-        <b-btn
-          variant="primary"
-          ref="btnCheckYourWater"
-          type="submit">
-          Check Your Water
-        </b-btn>
+        <label
+          for="partner-selection"
+        >State/Tribe</label>
+        <b-row>
+          <b-col md="8">
+            <b-form-select
+              id="partner-selection"
+              :value="selectedPartner"
+              :options="partners"
+              ref="partnerDropdown"
+              @change="setSelectedPartner"
+              class="mb-3"
+              required>
+              <template slot="first">
+                <!-- this slot appears above the options from 'options' prop -->
+                <option
+                  :value="null"
+                  disabled>Select...
+                </option>
+              </template>
+            </b-form-select>
+          </b-col>
+          <b-col md="4">
+            <b-btn
+              variant="primary"
+              ref="btnCheckYourWater"
+              type="submit">
+              Go
+            </b-btn>
+          </b-col>
+        </b-row>
       </b-form>
       <!-- Various Modals required for the workbench app-->
 
@@ -42,7 +51,6 @@
         id="bwi-modal"
         modal-ref="bwi-modal"
         title="Be Well Informed Water Analysis Tool"
-        @hide="onHideMainModal"
         :hide-footer="true">
 
         <b-tabs
@@ -105,7 +113,7 @@
           </b-tab>
         </b-tabs>
 
-       <!-- NBSP is used to prevent the default modal buttons from rendering -->
+        <!-- NBSP is used to prevent the default modal buttons from rendering -->
         <template
           slot="footer">&nbsp;
         </template>
@@ -243,48 +251,24 @@
       }
       this.fetchPartners();
 
-
       // Custom event listeners
       EventBus.$on('bwi::showWaterAnalysisResults', this.showWaterAnalysisResults);
 
       // Update location in BWI app
       EventBus.$on('locationService::update', this.updateSelectedPartner);
+
+      // Partner modal submit button clicked
+      EventBus.$on('bwi::partnerModalSubmit', this.onPartnerModalSubmit);
     },
     data() {
       return {
-        eepApp: {
-          id: 'be-well-informed',
-          title: 'Be Well Informed',
-          source: {
-            text: 'New Hampshire’s Be Well Informed Guide',
-            link: 'https://xml2.des.state.nh.us/DWITool/Welcome.aspx',
-          },
-          html: {
-            mainCard:
-              '<p>Have a well and wonder what your water testing results mean?</p>\n' +
-              '<p>\n' +
-              '  Be Well Informed lets you enter your test results and get feedback about health\n' +
-              '  concerns and water treatment choices. Be Well Informed includes useful information about\n' +
-              '  the most common contaminants that affect wells.\n' +
-              '</p>\n' +
-              '<p>\n' +
-              '  A quick disclaimer before we start: Information provided by the participating States\n' +
-              '  is for informational purposes only. It is recommended that you consult a qualified water\n' +
-              '  treatment professional if you need to treat your water. They can consider other\n' +
-              '  conditions or factors related to your well or home to determine the most appropriate\n' +
-              '  water treatment option.\n' +
-              '</p>\n' +
-              '<p class="widget-note powered-by-nhbwi">Modeled After:\n' +
-              '  <a\n' +
-              '    href="https://xml2.des.state.nh.us/DWITool/Welcome.aspx"\n' +
-              '    target="_blank">New Hampshire’s Be <em>Well</em> Informed Guide</a>\n' +
-              '</p>',
-          },
-          isExpandable:true
-        },
         tabIndex: 0,
         hasResults: false,
+        partnerModalSubmit: false,
+        interactiveModalSubmit: false,
       };
+    },
+    mounted() {
     },
     computed: {
       ...mapGetters({
@@ -317,15 +301,18 @@
         'updatePromptResponses',
         'updateSelectedPartner',
         'updateWaterAnalysisRequestProperty',
+        'downloadPDF',
       ]),
       onCheckYourWater(evt) {
         evt.preventDefault();
         const partner = this.selectedPartner;
         if (partner) {
+          EventBus.$emit('grid::modalOpen', this.eepApp.field_vue_component_name, this.eepApp);
           this.fetchPartnerAndFlowchartXML(partner.code);
           this.$root.$emit(
             'bv::show::modal', 'bwi-modal', this.$refs.btnCheckYourWater,
           );
+          this.$ga.event('eportal', 'click', `BWI Partner Load- ${partner.code}`, 1)
         }
       },
       getContaminantUnits(question) {
@@ -354,12 +341,21 @@
         return section;
       },
       onSubmit(evt) {
+        this.interactiveModalSubmit = true;
+        this.partnerModalSubmit= false;
+        const partner = this.selectedPartner;
         const vm = this;
         const isRequestEmpty = vm.isWaterAnalysisRequestEmpty();
         if (!isRequestEmpty) {
           evt.preventDefault();
           vm.submissionErrorMessage = '';
           vm.submitPartnersData({ vm, evt });
+          vm.$root.$emit(
+            'bv::hide::modal',
+            'bwi-modal-interactive',
+            vm.$refs.bwiModalInteractive
+          );
+          this.$ga.event('eportal', 'click', `BWI Submit Form- ${partner.code}`, 1)
         } else {
           this.submissionErrorMessage = 'Please enter values for some of the contaminants.';
         }
@@ -377,14 +373,19 @@
           vm.tabIndex = event.value;
         });
       },
-      onHideMainModal() {
-        const vm = this;
-        vm.tabIndex = 0;
-      },
       hasWaterAnalysisResults() {
         return this.waterAnalysisResults
           && this.waterAnalysisResults.length
           && this.waterAnalysisResults[0];
+      },
+      onPartnerModalSubmit() {
+        this.partnerModalSubmit = true;
+      },
+    },
+    props: {
+      eepApp: {
+        type: Object,
+        required: true,
       },
     },
   };
@@ -393,4 +394,40 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped
   lang="scss">
+  .check-water-message {
+    font-size: .875rem; //14px
+    line-height: 1.2;
+    margin-top: .5rem;
+  }
+  .wapp {
+    form {
+      margin-top: .5rem;
+      label {
+        margin-bottom: 0;
+      }
+      label,
+      .custom-select,
+      .btn-primary {
+        font-size: 0.9375rem; //15px
+      }
+      .custom-select {
+        line-height: 1.5;
+      }
+      .btn-primary {
+        line-height: 1;
+      }
+    }
+  }
+  #bwi-modal {
+    h3 {
+      font-family: "Source Sans Pro Web", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+    h4 {
+      font-size: 1rem;
+      font-weight: bold;
+    }
+  }
+
 </style>

@@ -3,15 +3,24 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.eep_workbench_application.field_app_html_content
     - field.field.node.eep_workbench_application.field_default_grid_size
+    - field.field.node.eep_workbench_application.field_description
+    - field.field.node.eep_workbench_application.field_direct_links
+    - field.field.node.eep_workbench_application.field_grid
+    - field.field.node.eep_workbench_application.field_grid_sizes
     - field.field.node.eep_workbench_application.field_html_content
+    - field.field.node.eep_workbench_application.field_icon_name
+    - field.field.node.eep_workbench_application.field_is_expandable
+    - field.field.node.eep_workbench_application.field_settings_menu_items
     - field.field.node.eep_workbench_application.field_sources
     - field.field.node.eep_workbench_application.field_title
+    - field.field.node.eep_workbench_application.field_vue_component_name
     - node.type.eep_workbench_application
   module:
     - double_field
+    - options
     - panelizer
+    - text
     - user
 third_party_settings:
   panelizer:
@@ -26,8 +35,30 @@ targetEntityType: node
 bundle: eep_workbench_application
 mode: default
 content:
-  field_app_html_content:
-    weight: 106
+  field_default_grid_size:
+    weight: 114
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
+    region: content
+  field_description:
+    weight: 115
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_direct_links:
+    weight: 116
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_grid:
+    weight: 108
     label: above
     settings:
       inline: true
@@ -46,14 +77,12 @@ content:
     third_party_settings: {  }
     type: double_field_unformatted_list
     region: content
-  field_default_grid_size:
-    weight: 102
+  field_grid_sizes:
+    weight: 113
     label: above
-    settings:
-      thousand_separator: ''
-      prefix_suffix: true
+    settings: {  }
     third_party_settings: {  }
-    type: number_integer
+    type: list_default
     region: content
   field_html_content:
     weight: 103
@@ -63,15 +92,74 @@ content:
     third_party_settings: {  }
     type: entity_reference_label
     region: content
-  field_sources:
-    weight: 104
+  field_icon_name:
+    weight: 110
     label: above
-    settings: {  }
+    settings:
+      link_to_entity: false
     third_party_settings: {  }
-    type: basic_string
+    type: string
+    region: content
+  field_is_expandable:
+    weight: 109
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
+    region: content
+  field_settings_menu_items:
+    weight: 111
+    label: above
+    settings:
+      inline: true
+      first:
+        hidden: false
+        prefix: ''
+        suffix: ''
+        link: false
+        format_type: medium
+      second:
+        hidden: false
+        prefix: ''
+        suffix: ''
+        link: false
+        format_type: medium
+    third_party_settings: {  }
+    type: double_field_unformatted_list
+    region: content
+  field_sources:
+    weight: 107
+    label: above
+    settings:
+      inline: true
+      first:
+        hidden: false
+        prefix: ''
+        suffix: ''
+        link: false
+        format_type: medium
+      second:
+        hidden: false
+        prefix: ''
+        suffix: ''
+        link: false
+        format_type: medium
+    third_party_settings: {  }
+    type: double_field_unformatted_list
     region: content
   field_title:
     weight: 105
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_vue_component_name:
+    weight: 112
     label: above
     settings:
       link_to_entity: false

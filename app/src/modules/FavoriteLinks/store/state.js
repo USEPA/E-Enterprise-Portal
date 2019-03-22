@@ -7,14 +7,4 @@ import { commonAppStore } from "../../wadk/WADK";
  * @SEE https://vuex.vuejs.org/guide/state.html
  */
 
-export default {
-  // @todo Remove POC "user" and add meaningful intial state values
-  user: {
-    id: 0,
-    roles: [
-      'admin',
-      'logged in',
-      'authenitcated',
-    ],
-  },
-};
+export default {};

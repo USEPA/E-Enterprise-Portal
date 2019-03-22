@@ -1,7 +1,7 @@
 <template>
   <div
     id='location-wrapper'
-    class='col-md-7 mt-1'>
+    class='col-md-7 pt-2'>
     <div class="row justify-content-end">
       <div class="col-sm-12">
         <div
@@ -9,18 +9,36 @@
           class="text-right mt-2 cursor-pointer"
           @click="toggleLocationSearchBar"
           v-if="hasLocation && !isLocationSearchBarEnabled">
-          {{ finalized_city }}, {{ finalized_state }} - {{ finalized_zipcode }}</div>
+          {{ finalized_city }}, {{ finalized_state }} - {{ finalized_zipcode }}
+        </div>
       </div>
       <div
         class="col-sm-12"
         v-if="isLocationSearchBarEnabled">
         <b-input-group id="location-input">
+          <label for="locationInput"
+            class="sr-only">
+            Enter Your Location as City, State, or Zip Code
+          </label>
           <b-form-input
-            type="text"
-            v-model="locationInputText"
-            @keyup.enter.native="submitLocation"
-            placeholder="Enter city, state; or ZIP code"/>
+              v-if="userfavoritelocations.length > 0"
+              id="locationInput"
+              type="text"
+              v-model="locationInputText"
+              @keyup.enter.native="submitLocation"
+              :placeholder="userfavoritelocations[0].first +'  (' +userfavoritelocations[0].second +')'"/>
+          <b-form-input
+              v-else
+              id="locationInput"
+              type="text"
+              v-model="locationInputText"
+              @keyup.enter.native="submitLocation"
+              placeholder="Enter city, state; or ZIP code"/>
           <b-input-group-append>
+            <label for="submit-geolocation"
+              class="sr-only">
+              Click to use your current location
+            </label>
             <b-button
               id="submit-geolocation"
               type="submit"
@@ -32,6 +50,10 @@
                 <i class="fas fa-globe"></i>
               </div>
             </b-button>
+            <label for="submit-location"
+              class="sr-only">
+              Click to submit Your location
+            </label>
             <b-button
               id="submit-location"
               type="submit"
@@ -58,8 +80,10 @@
           <template slot="first">
             <!-- this slot appears above the options from 'options' prop -->
             <option
-              :value="null"
-              disabled>-- Please select an partner --
+              value=""
+              disabled
+              selected
+              hidden>Select a ZIP code...
             </option>
           </template>
         </b-form-select>
@@ -73,9 +97,10 @@
           v-model="finalized_city">
           <template slot="first">
             <!-- this slot appears above the options from 'options' prop -->
-            <option
-              :value="null"
-              disabled>-- Please select an partner --
+            <option value=""
+              disabled
+              selected
+              hidden>Select a city...
             </option>
           </template>
         </b-form-select>
@@ -90,9 +115,10 @@
           v-model="finalized_state">
           <template slot="first">
             <!-- this slot appears above the options from 'options' prop -->
-            <option
-              :value="null"
-              disabled>-- Please select an partner --
+            <option value=""
+              disabled
+              selected
+              hidden>Select a state...
             </option>
           </template>
         </b-form-select>
@@ -112,7 +138,7 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex';
+  import { mapActions, mapGetters } from 'vuex';
   import { AppModal } from '../modules/wadk/WADK';
   import { EventBus } from '../EventBus';
 
@@ -138,6 +164,15 @@
       EventBus.$on('locationSearch::showUserConfirmationModal', this.showUserConfirmationModal);
     },
     computed: {
+      ...mapGetters({
+        // map getters go here
+        user: 'getUser',
+      }),
+      userfavoritelocations: {
+        get() {
+          return this.user.userFavoriteLocation;
+        }
+      },
       geolocationTitle() {
         return (!this.checkForGeolocation()) ? 'Enable Geolocation' : 'Click to use your geolocation';
       },

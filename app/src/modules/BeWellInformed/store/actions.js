@@ -59,10 +59,11 @@ export default {
     const app = store.rootGetters.getApp;
     const { state } = store;
     const partner = state.selectedPartner;
-    const suffix = (env === 'LOCAL') ? '.xml' : '';
+    const partnerUrl = store.getters.getApiUrl('getPartnerXML');
+    const flowchartUrl = store.getters.getApiUrl('getFlowchartXML');
 
     if (!state.partnerXmls[partnerCode]) {
-      AppAxios.get(state.urls[env].getPartnerXML + partnerCode + suffix)
+      AppAxios.get(`${partnerUrl + partnerCode}.xml`)
         .then((response) => {
           // @todo add sanity check for returned data
           const partnerJsonString = convert.xml2json(response.data, { compact: true });
@@ -89,7 +90,7 @@ export default {
           console.warn('AppAxios fail: ', args);
         });
 
-      AppAxios.get(state.urls[env].getFlowchartXML + partnerCode + suffix)
+      AppAxios.get(`${flowchartUrl + partnerCode}.xml`)
         .then((response) => {
           // @todo add sanity check for returned data
           const partnerJsonString = convert.xml2json(response.data, { compact: true });
@@ -125,13 +126,14 @@ export default {
 
     if (!store.state.partners.length) {
       // eslint-disable-next-line vue/no-async-in-computed-properties
-      AppAxios.get(store.state.urls[env].getPartners)
+      const partnersUrl = store.getters.getApiUrl('getPartners');
+
+      AppAxios.get(partnersUrl)
         .then((response) => {
           // @todo add sanity check for returned data
           store.commit(types.UPDATE_PARTNERS, response.data);
-        })
-        .catch((...args) => {
-          // @todo add sanity check for errors & visual prompt to the user
+        }).catch((...args) => {
+        // @todo add sanity check for errors & visual prompt to the user
           app.$Progress.fail();
           console.warn('AppAxios fail: ', args);
         });
@@ -159,10 +161,12 @@ export default {
           },
         };
 
+        const bwiServiceUrl = store.getters.getApiUrl('bwiService');
+
         // eslint-disable-next-line vue/no-async-in-computed-properties
         AppAxios
           .post(
-            store.state.urls[env].submitPartnersData,
+            bwiServiceUrl,
             JSON.stringify(rawWaterAnalysisRequest),
             axiosConfig,
           )
@@ -180,13 +184,29 @@ export default {
                 store.commit(types.UPDATE_INTERACTIVE_PROMPTS, []);
               }
               if (data.AdditionalContaminantRequests.length) {
-                store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS,
-                  data.AdditionalContaminantRequests);
-              } else {
-                store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS, []);
-              }
-              if (!!data.InteractivePrompts.length
-                || !!data.AdditionalContaminantRequests.length) {
+                if (data.AdditionalContaminantRequests.length > 1) {
+                  let additionalRequests = [];
+                  for (let i = 0; i < data.AdditionalContaminantRequests.length - 1; i++) {
+                    if (data.AdditionalContaminantRequests[i].Symbol !== data.AdditionalContaminantRequests[i + 1].Symbol) {
+                      additionalRequests.push(data.AdditionalContaminantRequests[i]);
+                      additionalRequests.push(data.AdditionalContaminantRequests[i+1]);
+                    }
+                    else {
+                      additionalRequests.push(data.AdditionalContaminantRequests[i])
+                    }
+                    store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS,
+                      additionalRequests);
+                  }
+                } else {
+                    store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS,
+                      data.AdditionalContaminantRequests);
+                }
+                } else {
+                  store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS, []);
+                }
+
+              if (data.InteractivePrompts.length
+                || data.AdditionalContaminantRequests.length) {
                 const bwiModalInteractive = vm.$refs.bwi_modal_interactive;
 
                 vm.$root.$emit(
@@ -276,14 +296,40 @@ export default {
 
     // So if the dropdown is already selected we do nothing
     if (store.selectedPartner == null) {
-      // If there is an option we can update to it; the select options are driven
-      // by "partners"
+      // If there is an option we can update to it; the select options are
+      // driven by "partners"
       const { partners } = store.state;
       const { state } = rootStore.state.user.location;
-      const newSelectedpartners = partners.filter(partner => partner.code == state);
+      const newSelectedpartners = partners.filter(partner => partner.code === state);
       if (newSelectedpartners.length) {
         store.commit(types.SET_SELECTED_PARTNER, newSelectedpartners[0]);
       }
     }
+  },
+  downloadPDF(context) {
+    // eslint-disable-next-line max-len
+    // @todo this form submission method can be extracted because it duplicates code from My Reporting
+    const store = context;
+    const rootStore = this;
+    const apiURL = rootStore.getters.getEnvironmentApiURL;
+    const waterResults = store.getters.getWaterAnalysisResults;
+    const infoXML = store.getters.getPartnerXmls;
+    const payload = {
+      results: waterResults,
+      info: infoXML,
+      treatment_title: store.getters.getWaterTreatmentTitle,
+    };
+    const form = document.createElement('form');
+    form.setAttribute('method', 'post');
+    form.setAttribute('action', `${apiURL}/eep_generate_pdf/water_analysis_results_pdf_template`);
+    form.setAttribute('target', '_blank');
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'payload';
+    input.value = JSON.stringify(payload);
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
   },
 };

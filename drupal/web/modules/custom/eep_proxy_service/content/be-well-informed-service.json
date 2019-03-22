@@ -119,6 +119,16 @@
         "value": "60"
       }
     ],
+    "field_response_headers": [
+      {
+        "first": "Content-Type",
+        "second": "application\/json"
+      },
+      {
+        "first": "Transfer-Encoding",
+        "second": ""
+      }
+    ],
     "field_service_endpoints": [
       {
         "first": "LOCAL",

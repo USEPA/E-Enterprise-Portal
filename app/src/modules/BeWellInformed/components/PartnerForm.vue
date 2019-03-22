@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h3>Enter the Results of Your Drinking Water Test</h3>
-    <br>
+    <h5>Enter the Results of Your Drinking Water Test</h5>
 
     <div
       v-if="submissionErrorMessage"
@@ -55,6 +54,7 @@
 <script>
   import { mapActions, mapGetters } from 'vuex';
   import ContaminantSection from './ContaminantSection.vue';
+  import { EventBus } from '../../../EventBus';
 
   const name = 'BeWellInformed';
 
@@ -87,6 +87,8 @@
         'submitPartnersData',
       ]),
       onSubmit(evt) {
+        EventBus.$emit('bwi::partnerModalSubmit');
+
         evt.preventDefault();
 
         const vm = this;

@@ -1,0 +1,11 @@
+.tooltip {
+  .tooltip-inner {
+    position: relative;
+    background-color: transparent;
+    color: #212529;
+    max-width: 320px;
+  }
+  .arrow:before {
+    border-bottom-color: transparent !important;
+  }
+}

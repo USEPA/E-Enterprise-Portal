@@ -1,0 +1,13 @@
+uuid: c1bbb96e-ea86-4c69-a759-9b2f879124eb
+langcode: en
+status: true
+dependencies:
+  module:
+    - node_import_export
+_core:
+  default_config_hash: xRBO5E7G9Ys_VVrU8OFne5psftX1YzjqhKNp9LfnGyo
+id: bulk_node_import_export
+label: 'Node Import-Export'
+type: node
+plugin: bulk_node_import_export
+configuration: {  }

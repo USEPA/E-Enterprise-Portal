@@ -24,3 +24,5 @@
 # Ignore .env files as they are personal
 /.env
 
+!/composer.lock
+/web/web.config

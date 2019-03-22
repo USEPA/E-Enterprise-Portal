@@ -1,0 +1,7 @@
+wsdl: 'https://testngn.epacdxnode.net/ngn-enws20/services/NetworkNode2ServiceConditionalMTOM?wsdl'
+security_token_wsdl: 'https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl'
+cdx_base_url: 'https://test.epacdx.net'
+cdx_submission_history_url: null
+admin_id: registration.dev@cgifederal.com
+domain: default
+authentication_method: password

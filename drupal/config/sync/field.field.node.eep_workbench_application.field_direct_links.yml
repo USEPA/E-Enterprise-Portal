@@ -1,0 +1,19 @@
+uuid: 3cf93cbb-d0ca-4fe5-b2ef-aaf6c35f22ea
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_direct_links
+    - node.type.eep_workbench_application
+id: node.eep_workbench_application.field_direct_links
+field_name: field_direct_links
+entity_type: node
+bundle: eep_workbench_application
+label: 'Direct Links'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

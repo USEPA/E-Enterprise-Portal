@@ -30,6 +30,7 @@ abstract class ProxyServiceFilterBase extends PluginBase implements ProxyService
   protected $payload = [];
   public $timeout = 60;
   public $http_errors = false;
+  protected $service_machine_name;
 
   // Add common methods and abstract methods for your plugin type here.
 
@@ -91,6 +92,13 @@ abstract class ProxyServiceFilterBase extends PluginBase implements ProxyService
   }
 
   /**
+   * @param HttpFoundationRequest $incoming_request
+   */
+  public function setServiceMachineName($service_machine_name) {
+    $this->service_machine_name = $service_machine_name;
+  }
+
+  /**
    * @param \GuzzleHttp\Psr7\Request $request
    *
    * @return \GuzzleHttp\Psr7\Request
@@ -100,18 +108,23 @@ abstract class ProxyServiceFilterBase extends PluginBase implements ProxyService
 
     // make sure the query params are passed on to the url
     $this->incoming_request->query->remove('XDEBUG_SESSION_START');
+    $parts = explode($this->service_machine_name, $this->incoming_request->getUri());
+
+    $extended_path = (count($parts) > 1) ? array_pop($parts) : '';
 
     $queries = http_build_query($this->incoming_request->query->all());
-    if(strlen($queries) > 0) {
+    $queries = ($queries) ? '?' . $queries : '';
+
+    if(strlen($queries) > 0 || strlen($extended_path) > 0) {
       $request = new Request(
         $this->request->getMethod(),
-        $this->request->getUri() . '?' . $queries,
+        $this->request->getUri() . $extended_path . $queries,
         $this->request->getHeaders(),
         $this->request->getBody(),
         $this->request->getProtocolVersion()
       );
 
-      $this->request = $request;
+      $this->setRequest($request);
     }
 
     return $this->request;

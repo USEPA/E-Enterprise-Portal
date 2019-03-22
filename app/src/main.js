@@ -6,22 +6,18 @@ import Vue from 'vue';
 Vue.config.productionTip = true;
 Vue.config.devtools = true;
 
+import VueScrollTo from 'vue-scrollto';
 import VueProgressBar from 'vue-progressbar';
 import 'bootstrap';
 import BootstrapVue from 'bootstrap-vue';
-// Font Awesome
-import { library } from '@fortawesome/fontawesome-svg-core';
-// Add Icons individually for performance reasons. No reason to load 3000+
-import {
-  faEllipsisV,
-  faWindowMinimize,
-  faWindowMaximize,
-  faExternalLinkAlt,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import App from './App.vue';
 import router from './router';
 import store from './store';
+import VueAnalytics from 'vue-analytics';
+import VueGtm from 'vue-gtm';
+import VueCookie from 'vue-cookie';
+
+const isProd = process.env.NODE_ENV === 'production';
 
 const VueProgressBarOptions = {
   color: '#007AC6',
@@ -37,18 +33,39 @@ const VueProgressBarOptions = {
   inverse: false,
 };
 
+const VueScrollToDefaultSettings = {
+  container: 'body',
+  duration: 500,
+  easing: 'ease',
+  offset: 0,
+  force: true,
+  cancelable: false,
+  onStart: false,
+  onDone: false,
+  onCancel: false,
+  x: false,
+  y: true,
+};
+
+Vue.use(VueCookie);
 Vue.use(VueProgressBar, VueProgressBarOptions);
-
-// Add Font Awesome SVG icons individually here
-library.add(
-  faEllipsisV,
-  faWindowMinimize,
-  faWindowMaximize,
-  faExternalLinkAlt,
-);
-
-Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.use(BootstrapVue);
+Vue.use(VueScrollTo, VueScrollToDefaultSettings);
+Vue.use(VueAnalytics, {
+  id: 'UA-135645481-1',
+  router,
+  debug: {
+    enabled: false,
+    sendHitTask: isProd
+  }
+});
+Vue.use(VueGtm, {
+  id: 'GTM-L8ZB',
+  enabled: true,
+  debug: false,
+  vueRouter: router,
+  ignoredViews: []
+});
 
 export default new Vue({
   router,

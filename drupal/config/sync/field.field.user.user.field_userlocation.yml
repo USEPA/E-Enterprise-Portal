@@ -1,0 +1,37 @@
+uuid: 783a0c96-7054-4880-83c5-04947a9c5ad6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_userlocation
+  module:
+    - double_field
+    - user
+id: user.user.field_userlocation
+field_name: field_userlocation
+entity_type: user
+bundle: user
+label: userLocation
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  first:
+    min: null
+    max: null
+    list: false
+    allowed_values: {  }
+    required: true
+    on_label: 'On'
+    off_label: 'Off'
+  second:
+    min: null
+    max: null
+    list: false
+    allowed_values: {  }
+    required: true
+    on_label: 'On'
+    off_label: 'Off'
+field_type: double_field

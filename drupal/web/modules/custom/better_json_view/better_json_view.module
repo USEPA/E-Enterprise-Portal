@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains better_json_view.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function better_json_view_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the better_json_view module.
+    case 'help.page.better_json_view':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Used to convert fields to json output. It is useful when exporting for REST api exports.') . '</p>';
+      return $output;
+
+    default:
+  }
+}

@@ -1,0 +1,10 @@
+services:
+  access_check.content_access_node_page_access:
+    class: Drupal\content_access\Access\ContentAccessNodePageAccessCheck
+    tags:
+      - { name: access_check, applies_to: _content_access_node_page_access }
+
+  access_check.content_access_admin_settings_access:
+    class: Drupal\content_access\Access\ContentAccessAdminSettingsAccessCheck
+    tags:
+      - { name: access_check, applies_to: _content_access_admin_settings_access }

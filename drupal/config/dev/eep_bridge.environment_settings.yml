@@ -1,1 +1,4 @@
 eep_bridge_environment_name: 'https://dev2.e-enterprise.gov'
+eep_bridge_issuer: 'https://extauthdev.epacdxnode.net'
+eep_bridge_realm: 'https://dev2.e-enterprise.gov'
+eep_bridge_wreply: 'https://dev2.e-enterprise.gov/login'

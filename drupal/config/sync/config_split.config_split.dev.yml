@@ -1,0 +1,18 @@
+uuid: 208fac26-d2c9-45e6-a8d5-d2f74c80e7dd
+langcode: en
+status: false
+dependencies: {  }
+id: dev
+label: Dev
+description: ''
+folder: ../config/dev
+module:
+  eep_bridge: 0
+theme: {  }
+blacklist:
+  - eep_bridge.environment_settings
+  - eep_core.settings
+graylist: {  }
+graylist_dependents: true
+graylist_skip_equal: true
+weight: 0

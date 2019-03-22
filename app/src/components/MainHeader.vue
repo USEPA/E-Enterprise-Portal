@@ -1,7 +1,7 @@
 <template>
   <header class="py-3 container">
-    <div class="d-flex flex-nowrap justify-content-between align-items-center">
-      <div class="col-4-md justify-content-start">
+    <div class="row d-flex justify-content-between align-items-center">
+      <div class="col-md-3 justify-content-start">
         <a
           class="eep_logo"
           href='#/home'
@@ -12,51 +12,64 @@
             alt="Home - E-Enterprise for the Environment">
         </a>
       </div>
-      <div class="w-100 d-block d-md-none "></div>
-
-      <div class="col-4-md d-flex justify-content-lg-end align-self-end align-items-center">
-        <div class="col-4-md d-flex mr-3 align-self-end align-items-center" >
-          <template>
-            <router-link to="/workbench">
-              <b-button
-                id="try-it"
-                class="btn btn-sm"
-                variant="primary"
-                :title="tryitTitle"
-                v-if='!isLoggedIn'>
-                <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left"></i>&nbsp;Try It
-              </b-button>
-            </router-link>
-          </template>
+      <div class="w-100 d-block d-sm-none"/>
+      <div class="col-md-9 col-12 pt-3 d-flex justify-content-sm-end justify-content-md-end
+            justify-content-lg-end justify-content-center">
+        <div class="tryit-wrapper pr-2 float-right">
+          <router-link
+            to="/workbench"
+            v-if='!displayLoggedInElements'
+            ref="try-it-button"
+            class="usa-button pr-3 tryit-button"
+            variant="primary"
+            @mouseover="showTryitArrow=true"
+            @mouseleave="showTryitArrow=false"
+            v-b-tooltip.hover="{
+              placement:'bottomleft',
+              html: true
+            }"
+            :title="tryitCaptionTitle"
+            data-container="body">
+            <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left pr-1"/>Try It
+          </router-link>
         </div>
-        <div class="col-4-md">
-          <template v-if='isLoggedIn'>
-            <span>Welcome {{ username }}</span>
-            <b-btn
-              to="/"
-              variant="outline-secondary"
-              class="btn btn-sm btn-outline-primary account-auth"
-              @click="userLogOut">
-              <i class="fas fa-lock"></i>&nbsp;
-              Logout
-            </b-btn>
-           <b-button
-                to="/User"
+        <div class="otherbtns-wrapper">
+          <template v-if='displayLoggedInElements'>
+            <div class="greeting-wrapper">
+              <span class="mr-3">Welcome {{ user.name }}</span>
+            </div>
+            <div class="logout-myaccount-wrapper">
+              <button
+                variant="outline-secondary"
+                class="usa-button logout-btn"
+                @click="userLogOut">
+                <i class="fas fa-lock pr-1"/>
+                Logout
+              </button>
+              <button
                 id="my-account"
-                class="btn btn-sm ml-2"
-                variant="primary">
+                class="usa-button ml-2 myaccount-btn"
+                @click="navigateToRouterLink('/User')"
+                variant="primary"
+                tag="button">
                 My account
-           </b-button>
-        </template>
+              </button>
+            </div>
+          </template>
           <template v-else>
-            <div class="router-link-wrapper pt-2">
-              <router-link
-                to="/login"
-                class="btn btn-sm btn-outline-primary account-auth-login">
-                <i class="fas fa-lock"></i>&nbsp;
-                Login
-                <span class="arrow-down-message small mt-3">{{ loginBtnHoverMessage }}</span>
-              </router-link>
+            <div class="login-wrapper">
+              <button
+                @click="navigateToLoginRoute"
+                ref="log-in-button"
+                class="usa-button login-button"
+                v-b-tooltip.hover="{
+                  placement:'bottomleft',
+                  html: true
+                }"
+                :title="loginCaptionTitle"
+                data-container="body">
+                <i class="fas fa-lock pr-1"/>Login
+              </button>
             </div>
           </template>
         </div>
@@ -73,74 +86,98 @@
   export default {
     name: 'MainHeader',
     props: {},
+    data() {
+      return {
+        loginCaptionTitle: '<div class="arrow-down-tryit float-right" v-show="showTryitArrow"></div>' +
+          '<div class=\'login-caption\'>Use an EPA, CDX, or a social media account to login.</div>',
+        tryitCaptionTitle: '<div class="arrow-down-login float-right" v-show="showLoginArrow"></div>' +
+          '<div class="tryit-caption">Want to just try it? No log in needed.</div>',
+        showTryitArrow: false,
+        showLoginArrow: false,
+      };
+    },
     computed: {
       ...mapGetters({
         isLoggedIn: 'getIsLoggedIn',
         bridgeURL: 'getBridgeURL',
-        username: 'getUsername',
         loginBtnHoverMessage: 'getloginBtnHoverMessage',
+        displayLoggedInElements: 'getDisplayLoggedInElements',
+        user: 'getUser',
       }),
-      tryitTitle() {
-        return 'Want to just try it? No log in needed.';
-      },
     },
     methods: {
       ...mapActions([
+        'navigateToBridge',
         'userLogOut',
       ]),
-      dumyLogOut() {
-        this.userLogOut();
+      navigateToRouterLink(link){
+        this.$router.push(link);
       },
-    },
-    data() {
-      return {
-      };
+      navigateToLoginRoute() {
+        // Checks to see if the user already accepted the user policy and if they did then go to the bridge login
+        // If not, then go to the login view where the login options will be loaded
+        if(this.$cookie.get('userPolicy')){
+          // Redirect to the bridge login for a given url that is already stored in cookie
+          window.location = this.$cookie.get('bridgeUrlLoginOption');
+        }else{
+          this.$router.push('/login')
+        }
+      },
     },
   };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped
-  lang="scss">
+<style lang="scss">
+
   .eep_logo {
     img {
-      max-width: 100%;
+      max-width: 250px;
     }
   }
 
-  .arrow-down-message {
-    display: none;
-    color: #000;
-    position: absolute;
-    right: 0;
-    font-size: 1rem;
-    font-family: 'Futura LT BT', 'Poppins', 'Century Gothic', 'Source Sans Pro', Helvetica, Arial, sans-serif
-  }
+  @media only screen and (min-width: 320px) and (max-device-width: 992px) {
+    .greeting-wrapper {
+      display: block !important;
+    }
 
-  .account-auth-login {
-    background-color: #0071bc;
-    color: white;
-    position: relative;
-
-    &:hover {
-      &:after {
-        content: '';
-        width: 0;
-        height: 0;
-        border-left: 7px solid transparent;
-        border-right: 7px solid transparent;
-        border-top: 7px solid #0071bc;
-        bottom: -7px;
-        left: 50%;
-        transform: translateX(-50%);
-        position: absolute;
-      }
-
-      .arrow-down-message {
-        display: block;
-      }
+    .logout-myaccount-wrapper {
+      margin-top: .5rem;
+      float: left;
     }
   }
 
+  .greeting-wrapper, .logout-myaccount-wrapper{
+    display: inline-block;
+  }
 
+  .tryit-button,
+  .login-button,
+  .tryit-caption,
+  .login-caption {
+    white-space: nowrap;
+  }
+
+  .tryit-caption, .login-caption {
+    display: inline-block;
+  }
+
+  .arrow-down-login, .arrow-down-tryit {
+
+    /* Draws the triangle*/
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #112e51;
+
+    /*!*Sets position of triangle*!*/
+    margin-top: -11px;
+  }
+
+  @media (max-width: 410px) {
+    .tooltip{
+      width: 75%;
+    }
+  }
 </style>

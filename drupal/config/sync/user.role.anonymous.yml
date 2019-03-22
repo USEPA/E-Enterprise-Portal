@@ -11,6 +11,6 @@ is_admin: false
 permissions:
   - 'access comments'
   - 'access content'
-  - 'restful get api_login_resource'
   - 'search content'
   - 'use text format restricted_html'
+  - 'view media'

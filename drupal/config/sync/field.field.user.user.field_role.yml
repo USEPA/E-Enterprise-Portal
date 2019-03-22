@@ -1,0 +1,40 @@
+uuid: 9566c7b8-3744-4607-a994-967d3fbdcf01
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_role
+  module:
+    - double_field
+    - user
+id: user.user.field_role
+field_name: field_role
+entity_type: user
+bundle: user
+label: Role
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    first: Role
+    second: '--None--'
+default_value_callback: ''
+settings:
+  first:
+    required: true
+    list: false
+    allowed_values: {  }
+    max: null
+    min: null
+    on_label: 'On'
+    off_label: 'Off'
+  second:
+    required: true
+    list: false
+    allowed_values: {  }
+    max: null
+    min: null
+    on_label: 'On'
+    off_label: 'Off'
+field_type: double_field

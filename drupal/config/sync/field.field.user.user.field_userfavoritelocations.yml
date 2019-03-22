@@ -1,0 +1,37 @@
+uuid: ae8522dd-b774-45ff-a234-99549999622a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_userfavoritelocations
+  module:
+    - double_field
+    - user
+id: user.user.field_userfavoritelocations
+field_name: field_userfavoritelocations
+entity_type: user
+bundle: user
+label: userFavoriteLocations
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  first:
+    required: true
+    list: false
+    allowed_values: {  }
+    max: null
+    min: null
+    on_label: 'On'
+    off_label: 'Off'
+  second:
+    required: true
+    list: false
+    allowed_values: {  }
+    min: null
+    max: null
+    on_label: 'On'
+    off_label: 'Off'
+field_type: double_field

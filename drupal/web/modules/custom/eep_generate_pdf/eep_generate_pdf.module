@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * @file
+ * Contains eep_generate_pdf.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ * @param $route_name
+ * @param $route_match
+ *
+ * @return $output
+ *
+ */
+function eep_generate_pdf_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.eep_generate_pdf':
+      $output = '';
+      $output .= '<h1>' . t('EEP Generate PDF Help Page') . '</h1>';
+      return $output;
+    default:
+      return "";
+  }
+}
+
+function eep_generate_pdf_theme($existing, $type, $theme, $path) {
+  return [
+    'eep_generate_pdf' => [
+      'variables' => ['step_html' => NULL, 'treatment_title' => NULL, 'base_path' => NULL, 'state_code' => NULL, 'infoXmlResults' => NULL, 'waterAnalysisResults' => NULL],
+    ],
+    'result_row' => [
+      'variables' => [],
+      'template' => 'result-row.html.twig',
+    ],
+    'result_legend' => [
+      'variables' => [],
+      'template' => 'result-legend.html.twig',
+    ]
+  ];
+}
