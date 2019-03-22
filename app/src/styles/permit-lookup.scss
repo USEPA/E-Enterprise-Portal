@@ -48,3 +48,9 @@
 .permit-lookup-info-btn:hover {
   background-color: #fff;
 }
+
+#permit-results-modal {
+  .modal-dialog {
+    max-width: 1300px;
+  }
+}
