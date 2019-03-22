@@ -4,6 +4,7 @@ namespace Drupal\eep_bridge\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\eep_bridge\ADFSConf;
+use Drupal\user\Entity\Role;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\Core\Url;
@@ -228,20 +229,18 @@ class EEPBridgeController extends ControllerBase {
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   function add_role(UserInterface $user, $role_name) {
+    $role_id = $this->get_role_name($role_name);
+    $role = Role::load($role_id);
 
-    $role_entity_storage = \Drupal::entityTypeManager()->getStorage('user_role');
-    $role_search = $role_entity_storage->loadByProperties(['name' => $role_name]);
-    if(count($role_search) === 0) {
+    // Create Role
+    if(!$role) {
       $label = ucwords(preg_replace('/-/', ' ', $role_name));
-      $role_id = $this->get_role_name($role_name);
 
       $role = $this->create_role($role_id, $label);
-      $user->addRole($role->id());
     }
 
-    foreach ($role_search as $key => $rid) {
-      $user->addRole($rid);
-    }
+    // Add Role to user
+    $user->addRole($role->id());
   }
 
   function create_role($id, $label) {
