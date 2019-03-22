@@ -34,7 +34,7 @@
             id="page-selection-wrapper"
             class="col-md-5 mt-2 pt-1 ml-0 pl-0">
             <ul>
-              <li class="pl-0"><router-link to="/">Home</router-link></li>
+              <li class="pl-0" v-show="!user.isLoggedIn"><router-link to="/">Home</router-link></li>
               <li><router-link to="/about">About</router-link></li>
               <li><router-link to="/workbench">Workbench</router-link></li>
             </ul>
