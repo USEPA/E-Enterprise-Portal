@@ -99,6 +99,8 @@ abstract class ProxyServiceFilterBase extends PluginBase implements ProxyService
   }
 
   /**
+   * The $request_suffix is all the stuff that could come after our proxy
+   * service base url request including additional path and params
    * @param \GuzzleHttp\Psr7\Request $request
    *
    * @return \GuzzleHttp\Psr7\Request
@@ -108,9 +110,15 @@ abstract class ProxyServiceFilterBase extends PluginBase implements ProxyService
 
     // make sure the query params are passed on to the url
     $this->incoming_request->query->remove('XDEBUG_SESSION_START');
-    $parts = explode($this->service_machine_name, $this->incoming_request->getUri());
-
-    $extended_path = (count($parts) > 1) ? array_pop($parts) : '';
+    $request_suffix = array_pop(explode($this->service_machine_name, $this->incoming_request->getUri()));
+    $extended_path = '';
+    $query = '';
+    if(stripos($request_suffix, '?') !== false) {
+      $parts = explode('?', $request_suffix);
+      $extended_path = array_shift($parts);
+    } else {
+      $extended_path = $request_suffix;
+    }
 
     $queries = http_build_query($this->incoming_request->query->all());
     $queries = ($queries) ? '?' . $queries : '';
