@@ -136,6 +136,18 @@
         const vm = this;
         vm.updateWaterAnalysisRequestProperty({
           section, contaminant, property, event,
+        }).then(function () {
+          // TODO
+          // Make this a better solution. Currently just visually sets the fields to null
+          // to avoid confusion, but setting these directly causes them to be accurately
+          // displayed when the DOM re-renders.
+          
+          if (contaminant._attributes.ShowIsPresent && (event === '-1' || event === '-2')) {
+            //console.log(vm.$refs[`${contaminant._attributes.Value}-Value`]);
+            vm.$refs[`${contaminant._attributes.Value}-Value`].forEach(input =>
+              input['value'] = null
+            );
+          }
         });
       },
     },
