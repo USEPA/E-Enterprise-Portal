@@ -18,7 +18,7 @@
               <b-col md="8">
                 <b-form-select
                   id="permit-type-selection-a"
-                  class="mb-3"
+                  class="mb-3 standard-styling"
                   :value="permitType"
                   :options="formOptions.permitType"
                   ref="permitTypeDropdown"
@@ -68,7 +68,7 @@
           <b-row>
             <b-col class="permit-search-footer">
               <a
-                class="text-decoration-underline cursor-pointer link-button"
+                class="text-decoration-underline cursor-pointer link-button standard-styling"
                 @click="openPermitInfoModal">
                 What permits can I find?
               </a>
@@ -83,7 +83,7 @@
             :title="`${permitType} Lookup`"
             :hide-footer="true">
             <b-form
-              class="needs-validation"
+              class="needs-validation standard-styling"
               @submit="initialFormSubmit"
               novalidated>
               <b-row>
@@ -95,7 +95,7 @@
                 <b-col md="6">
                   <b-form-select
                     id="permit-type-selection-b"
-                    class="mb-3"
+                    class="mb-3 standard-styling"
                     :value="permitType"
                     :options="formOptions.permitType"
                     ref="permitTypeDropdown"
@@ -1590,11 +1590,15 @@
     background-image: url('../../assets/images/widget-info-circle.svg');
   }
   label,
+  .btn,
   .custom-select-sm,
   .form-control-sm,
-  .btn-group-sm > .btn,
-  .btn-sm {
+  .standard-styling,
+  .input-row,
+  #msgp-header,
+  #cgp-header{
     font-size: 0.9375rem; //15px
+    font-family: "Source Sans Pro Web";
   }
   .btn-sm {
     line-height: 1.4;   // Temporary fix - @todo adjust small buttons so reasonable height and padding
