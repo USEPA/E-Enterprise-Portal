@@ -240,6 +240,10 @@
       font-weight: 300;
     }
 
+    a {
+      text-decoration: none;
+    }
+
     p {
       // font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
       font-weight: 300;

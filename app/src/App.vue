@@ -43,7 +43,7 @@
         </div>
       </div>
     </div>
-    <div class="container px-0">
+    <div class="px-0">
       <div
         id="main-content"
         class="no-gutters py-2">
