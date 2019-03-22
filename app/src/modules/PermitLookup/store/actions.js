@@ -319,7 +319,7 @@ export default {
           store.commit(types.SET_BASE_FORM_OPTION_SECTOR_NAMES, formSectorNames.sort());
           store.commit(types.SET_BASE_FORM_OPTION_TRIAL_NAMES, formTribalNames.sort());
         } else {
-          let errorResponse = 'Shared form services unavailable at this time.';
+          let errorResponse = 'Permit Lookup form services unavailable at this time.';
           console.warn('Check if oeca base endpoint is running. Form options are unable to be loaded from this endpoint at this time.');
           store.commit(types.SET_OPTIONS_ERROR, errorResponse);
         }
@@ -355,7 +355,7 @@ export default {
           formOptions['coverageTypes'] = coverageTypes;
           store.commit(types.SET_FORM_OPTIONS_MSGP, formOptions);
         } else {
-          let errorResponse = 'MSGP form services unavailable at this time.';
+          let errorResponse = 'Permit Lookup form services unavailable at this time.';
           console.warn('Check if msgp endpoint is running. Form options are unable to be loaded from this endpoint at this time.\n' +
             'Current end point is: ', formOptions['msgpDownloadUrlBase']);
           store.commit(types.SET_OPTIONS_ERROR, errorResponse);
@@ -393,7 +393,7 @@ export default {
 
           store.commit(types.SET_FORM_OPTIONS_CGP, formOptions);
         } else {
-          let errorResponse = 'CGP form services unavailable at this time.';
+          let errorResponse = 'Permit Lookup form services unavailable at this time.';
           console.warn('Check if cgp endpoint is running. Form options are unable to be loaded from this endpoint at this time.\n' +
             'Current end point is: ', formOptions['cgpDownloadUrlBase']);
           store.commit(types.SET_OPTIONS_ERROR, errorResponse);
