@@ -185,20 +185,18 @@ export default {
               }
               if (data.AdditionalContaminantRequests.length) {
                 let requests = data.AdditionalContaminantRequests;
-                getUniqueRequests(requests, 'Symbol');
-                function getUniqueRequests(requests, comp) {
-                  const uniqueRequests = requests
-                    .map(e => e[comp])
+                const uniqueRequests = requests
+                  .map(e => e['Symbol'])
 
-                    // store the keys of the unique objects
-                    .map((e, i, final) => final.indexOf(e) === i && i)
+                  // store the keys of the unique objects
+                  .map((e, i, final) => final.indexOf(e) === i && i)
 
-                    // eliminate the dead keys & store unique objects
-                    .filter(e => requests[e]).map(e => requests[e]);
-                  store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS,
-                    uniqueRequests);
-                  return uniqueRequests;
-                }
+                  // eliminate the dead keys & store unique objects
+                  .filter(e => requests[e]).map(e => requests[e]);
+                store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS,
+                  uniqueRequests);
+
+
               } else {
                 store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS, []);
               }
