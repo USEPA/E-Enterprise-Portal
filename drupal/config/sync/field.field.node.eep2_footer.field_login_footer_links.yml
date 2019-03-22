@@ -1,0 +1,37 @@
+uuid: 346714b9-164d-4f35-9c13-5de0dbfa8047
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_login_footer_links
+    - node.type.eep2_footer
+  module:
+    - double_field
+id: node.eep2_footer.field_login_footer_links
+field_name: field_login_footer_links
+entity_type: node
+bundle: eep2_footer
+label: 'Login footer links'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  first:
+    required: true
+    list: false
+    allowed_values: {  }
+    max: null
+    min: null
+    on_label: 'On'
+    off_label: 'Off'
+  second:
+    required: true
+    list: false
+    allowed_values: {  }
+    max: null
+    min: null
+    on_label: 'On'
+    off_label: 'Off'
+field_type: double_field
