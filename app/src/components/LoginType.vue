@@ -66,6 +66,13 @@
       margin-top: -2.2rem; // Move buttons up to align with buttons on left
     }
   }
+
+  .link {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+  }
+
   .link-wrapper {
     background-color: #aeb0b6;
     cursor: pointer;
@@ -75,12 +82,6 @@
 
     &:hover {
       background-color: #094e7a;
-    }
-
-    .link {
-      color: #fff;
-      text-decoration: none;
-      display: block;
     }
 
     img {

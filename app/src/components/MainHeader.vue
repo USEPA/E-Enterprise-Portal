@@ -116,7 +116,7 @@
       navigateToLoginRoute() {
         // Checks to see if the user already accepted the user policy and if they did then go to the bridge login
         // If not, then go to the login view where the login options will be loaded
-        if(this.$cookie.get('userPolicy')){
+        if(this.$cookie.get('userPolicy') && !!this.$cookie.get('bridgeUrlLoginOption')){
           // Redirect to the bridge login for a given url that is already stored in cookie
           window.location = this.$cookie.get('bridgeUrlLoginOption');
         }else{

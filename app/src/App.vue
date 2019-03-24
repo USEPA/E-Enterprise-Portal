@@ -10,8 +10,8 @@
           <div class="col-12 text-center text-white">
             <span class="is-strong">{{ environmentName }} :</span>
             <span>
-              Welcome to the E-Enterprise {{ environmentName }} Environment
-              .</span>
+              Welcome to the E-Enterprise {{ environmentName }} Environment.
+              </span>
             <br>
             <span>
               This is a non-production demonstration environment and is not to be used for
@@ -43,13 +43,22 @@
         </div>
       </div>
     </div>
-    <div class="container px-0">
-      <div
-        id="main-content"
-        class="no-gutters py-2">
-        <router-view/>
+    <!-- issue here with container and the caroseul -->
+    <template v-if="this.$router.history.current.path === '/' ">
+      <div class="px-0">
+        <div id="main-content" class="no-gutters py-2">
+          <router-view/>
+        </div>
       </div>
-    </div>
+    </template>
+    <template v-else>
+      <div class="container px-0">
+        <div id="main-content" class="no-gutters py-2">
+          <router-view/>
+        </div>
+      </div>
+    </template>
+
     <MainFooter/>
     <BannerUserCookiePolicy/>
     <!-- END OF CONTENT -->
@@ -224,9 +233,6 @@
       const currentRoute = vm.$router.history.current;
       vm.setDeepLink({ query: currentRoute.query.q, params: currentRoute.params });
     },
-    beforeMount() {
-
-    },
     mounted() {
       // Declare the store
       const vm = this;
@@ -258,6 +264,10 @@
     input {
       font-size: 0.875rem;
       border-bottom: none;
+    }
+
+    a{
+      text-decoration: none;
     }
 
     ul {
