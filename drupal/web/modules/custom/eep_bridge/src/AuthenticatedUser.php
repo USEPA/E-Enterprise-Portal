@@ -11,6 +11,7 @@ class AuthenticatedUser {
   private $name;
   private $authentication_domain = null;
   private $source_username;
+  private $naas_token;
 
   public $issuer;
   public $userDetails;
@@ -45,6 +46,9 @@ class AuthenticatedUser {
     return $this->userDetails->attributes['email'][0];
   }
 
+  function get_naas_token() {
+    return $this->naas_token;
+  }
   function get_source_username() {
     return $this->source_username;
   }
@@ -60,7 +64,11 @@ class AuthenticatedUser {
     if (isset($userDetails->attributes['authenticationdomain']) && count($userDetails->attributes['authenticationdomain']) > 0) {
       $this->authentication_domain = $userDetails->attributes['authenticationdomain'][0];
     }
-    $username_raw = explode('/', $userDetails->attributes['name'][0]);
+    if ($this->authentication_method === "SMARTCARDAUTH") {
+      $username_raw = explode('/', $userDetails->attributes['uid'][0]);
+    } else {
+      $username_raw = explode('/', $userDetails->attributes['name'][0]);
+    }
     // Default username if source username is not found in other UserDetails attribute, and also remove spaces and quotation marks from end and beginning of usernames.
     $source_username = trim(trim(end($username_raw), '"'));
     $source_username = str_replace(" ", "_", $source_username);
@@ -86,5 +94,6 @@ class AuthenticatedUser {
     $this->source_username = $source_username;
     $this->userDetails = $userDetails;
     $this->name = $source_username . "_Via_" . $this->authentication_domain;
+    $this->naas_token = $userDetails->attributes['securityToken'][0];
   }
 }

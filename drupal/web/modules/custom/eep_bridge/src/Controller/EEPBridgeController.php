@@ -46,29 +46,42 @@ class EEPBridgeController extends ControllerBase {
     }
     // Pull UserDetails from Post
     $userDetails = $this->parse_post_for_user_details($_POST);
-    $authenticated_user = new AuthenticatedUser($userDetails);
-    $this->create_or_login_user_if_exists($authenticated_user);
-    $this->process_required_fields_for_user($authenticated_user);
-    $this->create_jwt_and_send_user();
+    if ($this->verify_token_with_request($userDetails)) {
+      $authenticated_user = new AuthenticatedUser($userDetails);
+      $this->create_or_login_user_if_exists($authenticated_user);
+      $this->process_required_fields_for_user($authenticated_user);
+      $this->create_jwt_and_send_user();
+    } else {
+      $this->bridge_auth_logout();
+    }
     return;
   }
 
   private function verify_token_with_request($request_details) {
+    // @todo The actual attribute check versus token can be ported to configurations and this function
+    // should be generalized. The pattern is the same for every Auth Method
     $valid_token = FALSE;
     if (isset($request_details->attributes)) {
       $attributes = $request_details->attributes;
       if ($attributes['authenticationMethod']) {
-        $auth_method = str_replace('urn:', '', $attributes['authenticationMethod']);
-        if ($auth_method === 'ENNAAS') {
-          $security_token = $attributes['securityToken'][0];
-          try {
-            $user_data = $this->pull_user_data_from_token($security_token, $_SERVER['LOCAL_ADDR']);
-            if ($user_data['EMAIL'] == $attributes['email'][0] && $user_data['USERID'] == $attributes['userId'][0]) {
-              $valid_token = TRUE;
-            }
-          } catch (\Exception $e) {
-            $this->bridge_auth_logout();
+        $auth_method = strtoupper(str_replace('urn:', '', $attributes['authenticationMethod']));
+        $security_token = $attributes['securityToken'][0];
+        try {
+          $user_data = $this->pull_user_data_from_token($security_token, $_SERVER['LOCAL_ADDR']);
+          if ($auth_method === 'ENNAAS') {
+            $valid_token = ($user_data['USERID'] == $attributes['userId'][0]);
+          } else if ($auth_method === 'FACEBOOK') {
+            $valid_token = ($user_data['ID'] == $attributes['id'][0]);
+          } else if ($auth_method === 'WAMNAAS') {
+            $valid_token = ($user_data['UID'] == $attributes['name'][0]);
+          } else if ($auth_method === 'TWITTER') {
+            $valid_token = ($user_data['ID'] == $attributes['id'][0]);
+          } else if ($auth_method === 'SMARTCARDAUTH') {
+            $valid_token = ($user_data['UID'] == $attributes['uid'][0]);
           }
+        } catch
+        (\SoapFault $soap_fault) {
+          $this->bridge_auth_logout();
         }
       }
     }
@@ -158,7 +171,7 @@ class EEPBridgeController extends ControllerBase {
     ]);
   }
 
-  private function eep_bridge_goto($url, $jwt_token) {
+  private function eep_bridge_goto($url, $jwt_token = NULL) {
     $response = new RedirectResponse($url->toString());
     $response->headers->set('token', $jwt_token);
     $response->send();
@@ -261,36 +274,36 @@ class EEPBridgeController extends ControllerBase {
   }
 
 
-/**
- * @param \Drupal\user\UserInterface $user
- * @param $role_name
- * Add role name to AuthenticatedUser
- *
- * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
- * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
- */
-function add_role(UserInterface $user, $role_name) {
-  $role_id = $this->get_role_name($role_name);
-  $role = Role::load($role_id);
+  /**
+   * @param \Drupal\user\UserInterface $user
+   * @param $role_name
+   * Add role name to AuthenticatedUser
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  function add_role(UserInterface $user, $role_name) {
+    $role_id = $this->get_role_name($role_name);
+    $role = Role::load($role_id);
 
-  // Create Role
-  if(!$role) {
-    $label = ucwords(preg_replace('/-/', ' ', $role_name));
+    // Create Role
+    if (!$role) {
+      $label = ucwords(preg_replace('/-/', ' ', $role_name));
 
-    $role = $this->create_role($role_id, $label);
+      $role = $this->create_role($role_id, $label);
+    }
+
+    // Add Role to user
+    $user->addRole($role->id());
   }
 
-  // Add Role to user
-  $user->addRole($role->id());
-}
+  function create_role($id, $label) {
+    $role = \Drupal\user\Entity\Role::create(array('id' => $id, 'label' => $label));
+    $role->save();
+    return $role;
+  }
 
-function create_role($id, $label) {
-  $role = \Drupal\user\Entity\Role::create(array('id' => $id, 'label' => $label));
-  $role->save();
-  return $role;
-}
-
-function get_role_name($role_name) {
-  return strtolower(preg_replace('/\s/', '-', $role_name));
-}
+  function get_role_name($role_name) {
+    return strtolower(preg_replace('/\s/', '-', $role_name));
+  }
 }
