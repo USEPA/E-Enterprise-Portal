@@ -10,7 +10,7 @@
     import { mapActions, mapGetters } from 'vuex';
     import storeModule from './store/index';
 
-    const moduleName = 'Cookies';
+    const moduleName = 'Storage';
 
     export default {
         name: moduleName,
@@ -18,17 +18,17 @@
           const vm = this;
 
           // -- Handling open browser cookies --
-          const session = Vue.cookie.get('BrowserSession');
+          let BrowserSession = sessionStorage.getItem('BrowserSession');
           const routeCurrent = vm.$router.history.current;
 
           // If there is no browser session and we are not redirecting from a login, delete all
           // related to the users sessions to satisfy CDX policies
-          if (!session && !routeCurrent.query.token) {
+          if (!BrowserSession && !routeCurrent.query.token) {
             Vue.cookie.delete('Token');
             Vue.cookie.delete('uid');
             Vue.cookie.delete('userLoggedIn');
             Vue.cookie.delete('userLogInTime');
-            Vue.cookie.set('BrowserSession', true);
+            sessionStorage.setItem('BrowserSession', 'true');
           }
           // -- END: Handling open browser cookies --
         },
