@@ -15,34 +15,34 @@
         <label
           for="partner-selection"
         >State/Tribe</label>
-        <b-row>
-          <b-col md="8">
+        <div class="row">
+          <div class="col-8">
             <b-form-select
-              id="partner-selection"
-              :value="selectedPartner"
-              :options="partners"
-              ref="partnerDropdown"
-              @change="setSelectedPartner"
-              class="mb-3"
-              required>
-              <template slot="first">
-                <!-- this slot appears above the options from 'options' prop -->
-                <option
-                  :value="null"
-                  disabled>Select...
-                </option>
-              </template>
-            </b-form-select>
-          </b-col>
-          <b-col md="4">
+            id="partner-selection"
+            :value="selectedPartner"
+            :options="partners"
+            ref="partnerDropdown"
+            @change="setSelectedPartner"
+            class="mb-3"
+            required>
+            <template slot="first">
+              <!-- this slot appears above the options from 'options' prop -->
+              <option
+                :value="null"
+                disabled>Select...
+              </option>
+            </template>
+          </b-form-select>
+          </div>
+          <div class="col-4">
             <b-btn
               variant="primary"
               ref="btnCheckYourWater"
               type="submit">
               Go
             </b-btn>
-          </b-col>
-        </b-row>
+          </div>
+        </div>
       </b-form>
       <!-- Various Modals required for the workbench app-->
 

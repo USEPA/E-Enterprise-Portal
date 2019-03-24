@@ -14,8 +14,8 @@
                 class="mb-0 pl-3"
                 for="permit-type-selection-a">Select a permit type</label>
             </b-row>
-            <b-row>
-              <b-col md="8">
+            <div class="row">
+              <div class="col-8">
                 <b-form-select
                   id="permit-type-selection-a"
                   class="mb-3 standard-styling"
@@ -32,9 +32,8 @@
                     </option>
                   </template>
                 </b-form-select>
-              </b-col>
-              <b-col md="4"
-                v-if="optionsError">
+              </div>
+              <div class="col-4"v-if="optionsError">
                 <b-btn
                   size="sm"
                   variant="primary"
@@ -44,9 +43,8 @@
                   disabled>
                   Search
                 </b-btn>
-              </b-col>
-              <b-col md="4"
-                v-else-if="!optionsError">
+              </div>
+              <div class="col-4"v-else-if="!optionsError">
                 <b-btn
                   size="sm"
                   variant="primary"
@@ -55,8 +53,8 @@
                   type="submit">
                   Search
                 </b-btn>
-              </b-col>
-            </b-row>
+              </div>
+            </div>
           </b-form>
           <div v-if="optionsError"
             class="text-danger">
@@ -975,6 +973,7 @@
                 <b-table
                   v-if="cgpResultsLoaded"
                   hover
+                  stacked="lg"
                   id="permit-lookup-table-cgp"
                   class="bootstrap-vue-permit-table-scroll d-block"
                   :items="cgpFormResults"
@@ -998,6 +997,7 @@
                 <b-table
                   v-else-if="msgpResultsLoaded"
                   hover
+                  stacked="lg"
                   id="permit-lookup-table-msgp"
                   class="bootstrap-vue-permit-table-scroll d-block"
                   :items="msgpFormResults"
