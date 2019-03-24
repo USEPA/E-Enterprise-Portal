@@ -9,7 +9,6 @@ namespace Drupal\eep_bridge;
  */
 class AuthenticatedUser {
   private $name;
-  private $user;
   private $authentication_domain = null;
   private $source_username;
 
