@@ -125,19 +125,11 @@
                 class="needs-validation"
                 @submit="cgpFormSubmit"
                 novalidated>
-                <b-row>
-                  <b-col md="6">
-                    <label
-                      class="mb-0">Site / Facility name</label>
-                  </b-col>
-                  <b-col md="6">
-                    <label
-                      class="mb-0">NPDES ID</label>
-                  </b-col>
-                </b-row>
                 <b-row
                   class="input-row">
                   <b-col md="6">
+                    <label
+                      class="mb-0">Site / Facility name</label>
                     <b-form-input
                       id="facility-name-input-cgp"
                       ref="facility-name-input-cgp"
@@ -148,6 +140,8 @@
                       size="sm"/>
                   </b-col>
                   <b-col md="6">
+                    <label
+                      class="mb-0">NPDES ID</label>
                     <b-form-input
                       id="NPDES-ID-cgp"
                       ref="NPDES-ID-input-cgp"
@@ -159,23 +153,11 @@
                   </b-col>
                 </b-row>
 
-                <b-row>
-                  <b-col md="6">
-                    <label
-                      class="mb-0">City</label>
-                  </b-col>
-                  <b-col md="3">
-                    <label
-                      class="mb-0">State / Territory</label>
-                  </b-col>
-                  <b-col md="3">
-                    <label
-                      class="mb-0">Zip</label>
-                  </b-col>
-                </b-row>
                 <b-row
                   class="input-row">
                   <b-col md="6">
+                    <label
+                      class="mb-0">City</label>
                     <b-form-input
                       id="city-input-cgp"
                       ref="city-input-cgp"
@@ -186,6 +168,8 @@
                       size="sm"/>
                   </b-col>
                   <b-col md="3">
+                    <label
+                      class="mb-0">State / Territory</label>
                     <b-form-select
                       id="state-territory-selection-cgp"
                       class="mb-3"
@@ -202,6 +186,8 @@
                     </b-form-select>
                   </b-col>
                   <b-col md="3">
+                    <label
+                      class="mb-0">Zip</label>
                     <b-form-input
                       id="zip-input-cgp"
                       ref="zip-input-cgp"
@@ -213,7 +199,8 @@
                   </b-col>
                 </b-row>
 
-                <b-row>
+                <b-row
+                  class="input-row">
                   <b-col md="6">
                     <label
                       class="mb-0 label-with-info">Status</label>
@@ -221,15 +208,6 @@
                       title="Information"
                       @click="openPermitStatusInfoModal"
                       class="permit-lookup-info-btn mr-1"/>
-                  </b-col>
-                  <b-col md="6">
-                    <label
-                      class="mb-0">Form type</label>
-                  </b-col>
-                </b-row>
-                <b-row
-                  class="input-row">
-                  <b-col md="6">
                     <b-form-select
                       id="status-selection"
                       class="mb-3"
@@ -246,6 +224,8 @@
                     </b-form-select>
                   </b-col>
                   <b-col md="6">
+                    <label
+                      class="mb-0">Form type</label>
                     <b-form-select
                       id="form-type-selection"
                       class="mb-3"
@@ -262,9 +242,10 @@
                     </b-form-select>
                   </b-col>
                 </b-row>
+                
                 <b-btn
                   @click="cgpAdvancedSearchWrapper = !cgpAdvancedSearchWrapper"
-                  class="btn-outline-primary"
+                  class="btn-outline-primary mb-1"
                   variant="outline-primary"
                   ref="btnAdvancedSettings-cgp">
                   Advanced Search Criteria
@@ -273,19 +254,11 @@
                   v-model="cgpAdvancedSearchWrapper"
                   id="cgp-advanced-search-wrapper">
                   <br>
-                  <b-row>
-                    <b-col md="6">
-                      <label
-                        class="mb-0">Facility operator name</label>
-                    </b-col>
-                    <b-col md="6">
-                      <label
-                        class="mb-0">Federal facility?</label>
-                    </b-col>
-                  </b-row>
                   <b-row
                     class="input-row">
                     <b-col md="6">
+                      <label
+                        class="mb-0">Facility operator name</label>
                       <b-form-input
                         id="facility-operator-input-cgp"
                         class="mb-3"
@@ -296,6 +269,8 @@
                         size="sm"/>
                     </b-col>
                     <b-col md="6">
+                      <label
+                        class="mb-0">Federal facility?</label>
                       <b-form-radio-group
                         v-model="radioSelection4"
                         id="federal-facility-selection-cgp"
@@ -307,23 +282,11 @@
                     </b-col>
                   </b-row>
 
-                  <b-row>
-                    <b-col md="4">
-                      <label
-                        class="mb-0">Date</label>
-                    </b-col>
-                    <b-col md="4">
-                      <label
-                        class="mb-0">From</label>
-                    </b-col>
-                    <b-col md="4">
-                      <label
-                        class="mb-0">To</label>
-                    </b-col>
-                  </b-row>
                   <b-row
                     class="input-row">
                     <b-col md="4">
+                      <label
+                        class="mb-0">Date</label>
                       <b-form-select
                         id="date-selection"
                         ref="date-selection"
@@ -340,6 +303,8 @@
                       </b-form-select>
                     </b-col>
                     <b-col md="4">
+                      <label
+                        class="mb-0">From</label>
                       <b-form-input
                         id="start-date-input-cgp"
                         class="mb-3"
@@ -351,6 +316,8 @@
                         placeholder="MM/DD/YYYY"/>
                     </b-col>
                     <b-col md="4">
+                      <label
+                        class="mb-0">To</label>
                       <b-form-input
                         id="end-date-input-cgp"
                         ref="end-date-input-cgp"
@@ -363,19 +330,11 @@
                     </b-col>
                   </b-row>
 
-                  <b-row>
-                    <b-col md="6">
-                      <label
-                        class="mb-0">Construction on Tribal Lands</label>
-                    </b-col>
-                    <b-col md="6">
-                      <label
-                        class="mb-0">Tribe</label>
-                    </b-col>
-                  </b-row>
                   <b-row
                     class="input-row">
                     <b-col md="6">
+                      <label
+                        class="mb-0">Construction on Tribal Lands</label>
                       <b-form-radio-group
                         v-model="radioSelection3"
                         id="tribal-lands-construction-cgp"
@@ -386,6 +345,8 @@
                         ref="tribal-lands-construction-cgp"/>
                     </b-col>
                     <b-col md="6">
+                      <label
+                        class="mb-0">Tribe</label>
                       <b-form-select
                         id="tribe-selection"
                         ref="tribe-selection"
@@ -404,15 +365,11 @@
                     </b-col>
                   </b-row>
 
-                  <b-row>
-                    <b-col md="6">
-                      <label
-                        class="mb-0">County</label>
-                    </b-col>
-                  </b-row>
                   <b-row
                     class="input-row">
                     <b-col md="6">
+                      <label
+                        class="mb-0">County</label>
                       <b-form-select
                         id="county-selection-cgp"
                         ref="county-selection-cgp"
@@ -433,7 +390,8 @@
                 </b-collapse>
                 <b-row>
                   <b-col md="6"/>
-                  <b-col md="3">
+                  <b-col md="3"
+                    class="mb-1">
                     <b-btn
                       class="btn-outline-primary btn-block"
                       variant="outline-primary"
@@ -442,7 +400,8 @@
                       Reset
                     </b-btn>
                   </b-col>
-                  <b-col md="3">
+                  <b-col md="3"
+                    class="mb-1">
                     <b-btn
                       class="btn-block"
                       variant="primary"
@@ -470,19 +429,11 @@
                 class="needs-validation"
                 @submit="msgpFormSubmit"
                 novalidated>
-                <b-row>
-                  <b-col md="6">
-                    <label
-                      class="mb-0">Issuer</label>
-                  </b-col>
-                  <b-col md="6">
-                    <label
-                      class="mb-0">Submission type</label>
-                  </b-col>
-                </b-row>
                 <b-row
                   class="input-row">
                   <b-col md="6">
+                    <label
+                      class="mb-0">Issuer</label>
                     <b-form-select
                       id="issue-selection"
                       class="mb-3"
@@ -499,6 +450,8 @@
                     </b-form-select>
                   </b-col>
                   <b-col md="6">
+                    <label
+                      class="mb-0">Submission type</label>
                     <b-form-select
                       id="submission-type-Dropdown"
                       class="mb-3"
@@ -516,23 +469,11 @@
                   </b-col>
                 </b-row>
 
-                <b-row>
-                  <b-col md="6">
-                    <label
-                      class="mb-0">Coverage type</label>
-                  </b-col>
-                  <b-col md="6">
-                    <label
-                      class="mb-0 label-with-info">Coverage status</label>
-                    <b-button
-                      title="Information"
-                      @click="openPermitStatusInfoModal"
-                      class="permit-lookup-info-btn mr-1"/>
-                  </b-col>
-                </b-row>
                 <b-row
                   class="input-row">
                   <b-col md="6">
+                    <label
+                      class="mb-0">Coverage type</label>
                     <b-form-select
                       id="coverage-type-selection"
                       class="mb-3"
@@ -549,6 +490,12 @@
                     </b-form-select>
                   </b-col>
                   <b-col md="6">
+                    <label
+                      class="mb-0 label-with-info">Coverage status</label>
+                    <b-button
+                      title="Information"
+                      @click="openPermitStatusInfoModal"
+                      class="permit-lookup-info-btn mr-1"/>
                     <b-form-select
                       id="form-status-selection"
                       class="mb-3"
@@ -566,19 +513,11 @@
                   </b-col>
                 </b-row>
 
-                <b-row>
-                  <b-col md="6">
-                    <label
-                      class="mb-0">NPDES ID</label>
-                  </b-col>
-                  <b-col md="6">
-                    <label
-                      class="mb-0 pr-1">Sector</label>
-                  </b-col>
-                </b-row>
                 <b-row
                   class="input-row">
                   <b-col md="6">
+                    <label
+                      class="mb-0">NPDES ID</label>
                     <b-form-input
                       id="NPDES-ID-input-msgp"
                       ref="NPDES-ID-input-msgp"
@@ -589,6 +528,8 @@
                       size="sm"/>
                   </b-col>
                   <b-col md="6">
+                    <label
+                      class="mb-0 pr-1">Sector</label>
                     <b-form-select
                       id="sector-selection"
                       class="mb-3"
@@ -606,19 +547,11 @@
                   </b-col>
                 </b-row>
 
-                <b-row>
-                  <b-col md="6">
-                    <label
-                      class="mb-0">Subsector</label>
-                  </b-col>
-                  <b-col md="6">
-                    <label
-                      class="mb-0">Primary SIC Code</label>
-                  </b-col>
-                </b-row>
                 <b-row
                   class="input-row">
                   <b-col md="6">
+                    <label
+                      class="mb-0">Subsector</label>
                     <b-form-select
                       id="subsector-input"
                       ref="subsector-input"
@@ -637,6 +570,8 @@
                     </b-form-select>
                   </b-col>
                   <b-col md="6">
+                    <label
+                      class="mb-0">Primary SIC Code</label>
                     <b-form-input
                       id="sic-code-input"
                       ref="sic-code-input"
@@ -648,19 +583,11 @@
                   </b-col>
                 </b-row>
 
-                <b-row>
-                  <b-col md="6">
-                    <label
-                      class="mb-0">Facility Name</label>
-                  </b-col>
-                  <b-col md="6">
-                    <label
-                      class="mb-0">Street Address</label>
-                  </b-col>
-                </b-row>
                 <b-row
                   class="input-row">
                   <b-col md="6">
+                    <label
+                      class="mb-0">Facility Name</label>
                     <b-form-input
                       id="facility-name-input-msgp"
                       ref="facility-name-input-msgp"
@@ -671,6 +598,8 @@
                       size="sm"/>
                   </b-col>
                   <b-col md="6">
+                    <label
+                      class="mb-0">Street Address</label>
                     <b-form-input
                       id="address-input"
                       ref="address-input"
@@ -682,23 +611,11 @@
                   </b-col>
                 </b-row>
 
-                <b-row>
-                  <b-col md="6">
-                    <label
-                      class="mb-0">City</label>
-                  </b-col>
-                  <b-col md="3">
-                    <label
-                      class="mb-0">State / Territory</label>
-                  </b-col>
-                  <b-col md="3">
-                    <label
-                      class="mb-0">Zip</label>
-                  </b-col>
-                </b-row>
                 <b-row
                   class="input-row">
                   <b-col md="6">
+                    <label
+                      class="mb-0">City</label>
                     <b-form-input
                       id="city-input-msgp"
                       ref="city-input-msgp"
@@ -709,6 +626,8 @@
                       size="sm"/>
                   </b-col>
                   <b-col md="3">
+                    <label
+                      class="mb-0">State / Territory</label>
                     <b-form-select
                       id="state-territory-selection-msgp"
                       class="mb-3"
@@ -725,6 +644,8 @@
                     </b-form-select>
                   </b-col>
                   <b-col md="3">
+                    <label
+                      class="mb-0">Zip</label>
                     <b-form-input
                       id="zip-input-msgp"
                       ref="zip-input-msgp"
@@ -737,7 +658,7 @@
                 </b-row>
                 <b-btn
                   @click="msgpAdvancedSearchWrapper = !msgpAdvancedSearchWrapper"
-                  class="btn-outline-primary"
+                  class="btn-outline-primary mb-1"
                   variant="outline-primary"
                   ref="btnAdvancedSettings-msgp">
                   Advanced Search Criteria
@@ -746,19 +667,11 @@
                   v-model="msgpAdvancedSearchWrapper"
                   id="msgp-advanced-search-wrapper">
                   <br>
-                  <b-row>
-                    <b-col md="6">
-                      <label
-                        class="mb-0">Facility operator name</label>
-                    </b-col>
-                    <b-col md="6">
-                      <label
-                        class="mb-0">Federal operator?</label>
-                    </b-col>
-                  </b-row>
                   <b-row
                     class="input-row">
                     <b-col md="6">
+                      <label
+                        class="mb-0">Facility operator name</label>
                       <b-form-input
                         id="facility-operator-input-msgp"
                         class="mb-3"
@@ -769,6 +682,8 @@
                         size="sm"/>
                     </b-col>
                     <b-col md="6">
+                      <label
+                        class="mb-0">Federal operator?</label>
                       <b-form-radio-group
                         v-model="radioSelection2"
                         id="federal-facility-selection-msgp"
@@ -780,23 +695,11 @@
                     </b-col>
                   </b-row>
 
-                  <b-row>
-                    <b-col md="6">
-                      <label
-                        class="mb-0">Master general permit</label>
-                    </b-col>
-                    <b-col md="3">
-                      <label
-                        class="mb-0">Submitted from</label>
-                    </b-col>
-                    <b-col md="3">
-                      <label
-                        class="mb-0">Submitted to</label>
-                    </b-col>
-                  </b-row>
                   <b-row
                     class="input-row">
                     <b-col md="6">
+                      <label
+                        class="mb-0">Master general permit</label>
                       <b-form-input
                         id="master-general-permit-input"
                         ref="master-general-permit-input"
@@ -807,6 +710,8 @@
                         size="sm"/>
                     </b-col>
                     <b-col md="3">
+                      <label
+                        class="mb-0">Submitted from</label>
                       <b-form-input
                         id="start-date-input-msgp"
                         class="mb-3"
@@ -818,6 +723,8 @@
                         placeholder="MM/DD/YYYY"/>
                     </b-col>
                     <b-col md="3">
+                      <label
+                        class="mb-0">Submitted to</label>
                       <b-form-input
                         id="end-date-input-msgp"
                         ref="end-date-input-msgp"
@@ -830,19 +737,11 @@
                     </b-col>
                   </b-row>
 
-                  <b-row>
-                    <b-col md="6">
-                      <label
-                        class="mb-0">Located on Indian Country Lands</label>
-                    </b-col>
-                    <b-col md="6">
-                      <label
-                        class="mb-0">Indian Country Land</label>
-                    </b-col>
-                  </b-row>
                   <b-row
                     class="input-row">
                     <b-col md="6">
+                      <label
+                        class="mb-0">Located on Indian Country Lands</label>
                       <b-form-radio-group
                         v-model="radioSelection1"
                         id="tribal-lands-construction-msgp"
@@ -853,6 +752,8 @@
                         ref="tribal-lands-construction"/>
                     </b-col>
                     <b-col md="6">
+                      <label
+                        class="mb-0">Indian Country Land</label>
                       <b-form-select
                         id="indian-country-selection"
                         ref="indian-country-selection"
@@ -871,15 +772,11 @@
                     </b-col>
                   </b-row>
 
-                  <b-row>
-                    <b-col md="6">
-                      <label
-                        class="mb-0">County</label>
-                    </b-col>
-                  </b-row>
                   <b-row
                     class="input-row">
                     <b-col md="6">
+                      <label
+                        class="mb-0">County</label>
                       <b-form-select
                         id="county-selection-msgp"
                         ref="county-selection-msgp"
@@ -901,7 +798,8 @@
                 <br>
                 <b-row>
                   <b-col md="6"/>
-                  <b-col md="3">
+                  <b-col md="3"
+                    class="mb-1">
                     <b-btn
                       class="btn-outline-primary btn-block"
                       variant="outline-primary"
@@ -910,7 +808,8 @@
                       Reset
                     </b-btn>
                   </b-col>
-                  <b-col md="3">
+                  <b-col md="3"
+                    class="mb-1">
                     <b-btn
                       class="btn-block"
                       variant="primary"
