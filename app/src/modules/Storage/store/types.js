@@ -7,5 +7,5 @@
  */
 
 export default {
-  NAMESPACE: 'Cookies/',
+  NAMESPACE: 'Storage/',
 };

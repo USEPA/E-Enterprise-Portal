@@ -1,7 +1,7 @@
 <template>
   <div
     id="app">
-    <Cookies/>
+    <Storage/>
     <div
       class="environment-status text-white"
       v-if="(ENV !='PROD')">
@@ -98,7 +98,7 @@
   import VueProgessBar from 'vue-progressbar';
   import types from './store/types';
   import { AppModal } from './modules/wadk/WADK';
-  import Cookies from './modules/Cookies/Cookies';
+  import Storage from './modules/Storage/Storage';
 
   const moduleName = 'App';
 
@@ -112,7 +112,7 @@
       AppModal,
       BannerTermsAndConditions,
       BannerUserCookiePolicy,
-      Cookies,
+      Storage,
     },
     computed: {
       ...mapGetters({

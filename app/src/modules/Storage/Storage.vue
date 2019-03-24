@@ -10,7 +10,7 @@
     import { mapActions, mapGetters } from 'vuex';
     import storeModule from './store/index';
 
-    const moduleName = 'Cookies';
+    const moduleName = 'Storage';
 
     export default {
         name: moduleName,
