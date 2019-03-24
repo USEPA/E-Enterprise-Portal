@@ -223,13 +223,11 @@
     },
     methods: {
       onSlideStart() {
-        this.sliding = true;
+        this.sliding = false;
       },
       onSlideEnd() {
         this.sliding = false;
       },
-    },
-    mounted() {
     },
   };
 </script>
@@ -317,18 +315,18 @@
 
     // Slide 2
     #my-reporting-img {
-      width: 45%;
+      width: 100%;
+      height: 18rem;
       max-width: 100%;
       padding-bottom: 1rem;
-      padding-right: 1rem;
     }
 
     #my-certifications-img{
-      width: 45%;
+      width: 48%;
       max-width: 100%;
     }
     #construction-permits-img{
-      width: 45%;
+      width: 48%;
       max-width: 100%;
       padding-bottom: 1rem;
       float:right;
