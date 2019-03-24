@@ -72,7 +72,7 @@
     text-decoration: none;
     display: block;
   }
-  
+
   .link-wrapper {
     background-color: #aeb0b6;
     cursor: pointer;
