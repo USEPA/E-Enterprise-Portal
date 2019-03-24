@@ -142,7 +142,6 @@ class EEPBridgeController extends ControllerBase {
         $issuer = 'SCS';
       }
       $token = $_POST['TOKEN'];
-      $user_data = $this->pull_user_data_from_token($token, $ip);
       $config = $this->config('eep_my_reporting.form');
       $cdx_service = new CDXSecurityTokenService($config);
       $decoded_token = $cdx_service->decode_token($token, $ip);
@@ -171,7 +170,7 @@ class EEPBridgeController extends ControllerBase {
     ]);
   }
 
-  private function eep_bridge_goto($url, $jwt_token = NULL) {
+  private function eep_bridge_goto($url, $jwt_token) {
     $response = new RedirectResponse($url->toString());
     $response->headers->set('token', $jwt_token);
     $response->send();

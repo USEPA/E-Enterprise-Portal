@@ -11,7 +11,6 @@ class AuthenticatedUser {
   private $name;
   private $authentication_domain = null;
   private $source_username;
-  private $naas_token;
 
   public $issuer;
   public $userDetails;
@@ -46,9 +45,6 @@ class AuthenticatedUser {
     return $this->userDetails->attributes['email'][0];
   }
 
-  function get_naas_token() {
-    return $this->naas_token;
-  }
   function get_source_username() {
     return $this->source_username;
   }
@@ -94,6 +90,5 @@ class AuthenticatedUser {
     $this->source_username = $source_username;
     $this->userDetails = $userDetails;
     $this->name = $source_username . "_Via_" . $this->authentication_domain;
-    $this->naas_token = $userDetails->attributes['securityToken'][0];
   }
 }
