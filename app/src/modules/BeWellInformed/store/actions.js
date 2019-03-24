@@ -243,6 +243,43 @@ export default {
       }
     }
   },
+
+  showResults(context){
+    const store = context;
+    const selectedPartner = store.getters.getSelectedPartner;
+    const partnerCode = selectedPartner.code;
+    const bwiServiceUrl = store.getters.getApiUrl('bwiService');
+    const rawWaterAnalysisRequest = store.getters.getRawWaterAnalysisRequest();
+    const axiosConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    /**
+     * See if the response returns results for the test and proceed to
+     * render as necessary
+     */
+    AppAxios
+      .post(
+        bwiServiceUrl,
+        JSON.stringify(rawWaterAnalysisRequest),
+        axiosConfig,
+      )
+      .then((response) => {
+        if (response.status === 200 && !!response.data) {
+          const {data} = response;
+          // Check if we have a fully formed response then add it to the
+          data.StateCode = partnerCode;
+          store.commit(types.SET_WATER_ANALYSIS_RESULT, data);
+            store.commit(types.UNSHIFT_WATER_ANALYSIS_RESULT, data);
+            EventBus.$emit('bwi::showWaterAnalysisResults', {
+              callee: this,
+              value: 2,
+            });
+
+        }
+      })
+  },
   updatePromptResponses(context, payload) {
     const store = context;
     const { question } = payload;
