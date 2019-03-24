@@ -44,11 +44,11 @@
               <b-form-radio-group
                 :ref="`${contaminant._attributes.Value}-ShowIsPresent`"
                 :id="`${contaminant._attributes.Value}-ShowIsPresent`"
-                @change="updateProperty( section, contaminant, 'Present', $event)"
+                @change="updateProperty( section, contaminant, 'Value', $event)"
                 v-model="request[contaminant._attributes.Value].Present"
                 :name="`${contaminant._attributes.Value}-ShowIsPresent`">
-                <b-form-radio value="true">Present</b-form-radio>
-                <b-form-radio value="false">Absent</b-form-radio>
+                <b-form-radio value="-1">Present</b-form-radio>
+                <b-form-radio value="-2">Absent</b-form-radio>
               </b-form-radio-group>
             </b-form-group>
           </div>
@@ -134,16 +134,30 @@
       },
       updateProperty(section, contaminant, property, event) {
         const vm = this;
-        if (contaminant._attributes.ShowIsPresent && (event === 'false')) {
-          vm.$refs[`${contaminant._attributes.Value}-Value`].forEach(input => input.setValue(''));
-        }
-
         vm.updateWaterAnalysisRequestProperty({
           section, contaminant, property, event,
+        }).then(function () {
+          // TODO
+          // Make this a better solution. Currently just visually sets the fields to null
+          // to avoid confusion, but setting these directly causes them to be accurately
+          // displayed when the DOM re-renders.
+          if (contaminant._attributes.ShowIsPresent && (event === '-1' || event === '-2')) {
+            //console.log(vm.$refs[`${contaminant._attributes.Value}-Value`]);
+            vm.$refs[`${contaminant._attributes.Value}-Value`].forEach(input =>
+              input['value'] = null
+            );
+          }
         });
       },
     },
   };
+
+  /*
+  NOTE ABOUT 'ABSENT' AND 'PRESENT':
+  DO NOT DIRECTLY SET THE 'PRESENT' FIELD. THERE ARE SPECIAL VALUES THAT MUST BE STORED IN THE 'VALUE' FIELD
+  THAT REPRESENT 'ABSENT' AND 'PRESENT'.  THESE VALUES ARE -2 AND -1 RESPECTIVELY.
+   */
+
 </script>
 
 <style scoped
