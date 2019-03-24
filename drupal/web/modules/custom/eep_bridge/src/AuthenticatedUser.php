@@ -25,8 +25,8 @@ class AuthenticatedUser {
     }
   }
 
-  function set_name($uname) {
-    $this->name = $uname;
+  function set_name($username) {
+    $this->name = strtoupper($username);
   }
 
   function set_authentication_domain($issuer) {
@@ -34,7 +34,7 @@ class AuthenticatedUser {
   }
 
   function set_source_username($username) {
-    $this->source_username = $username;
+    $this->source_username = strtoupper($username);
   }
 
   function get_name() {

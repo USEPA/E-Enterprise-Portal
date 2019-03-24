@@ -101,8 +101,10 @@ class EEPBridgeController extends ControllerBase {
     if (isset($_POST['CDX_DATA']) || isset($_POST['SCS_DATA'])) {
       if (isset($_POST['CDX_DATA'])) {
         $ip = $_POST['CDX_DATA'];
+        $issuer = 'CDX';
       } else {
         $ip = $_POST['SCS_DATA'];
+        $issuer = 'SCS';
       }
       $token = $_POST['TOKEN'];
       $config = $this->config('eep_my_reporting.form');
@@ -111,7 +113,7 @@ class EEPBridgeController extends ControllerBase {
       parse_str($decoded_token->return, $decoded_parts);
       $user_data = array_change_key_case($decoded_parts, CASE_UPPER);
       $authenticated_user = new AuthenticatedUser([]);
-      $username = $user_data['USERID'] . '_Via_' . $user_data['ISSUER'];
+      $username = $user_data['USERID'] . '_Via_' . $issuer;
       $authenticated_user->set_name($username);
       $authenticated_user->set_source_username($user_data['USERID']);
       $authenticated_user->set_authentication_domain($user_data['ISSUER']);
