@@ -6,6 +6,7 @@ import { AppAxios, commonAppStore } from '../../wadk/WADK';
  * should not directly modify any Store values directly but rather invoke
  * mutators.  Async tasks should be created here.
  */
+
 export default {
   ...commonAppStore.actions,
   loadMyCertifications(context) {

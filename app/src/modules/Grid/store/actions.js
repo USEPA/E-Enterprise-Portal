@@ -43,7 +43,7 @@ export default {
         keys.forEach((key) => {
           wapp.eepApp.source.push({
             text: key,
-            link: rawWapp.field_sources[keys[0]],
+            link: rawWapp.field_sources[key],
           });
         });
 

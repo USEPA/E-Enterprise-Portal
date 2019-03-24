@@ -4,6 +4,7 @@
     :id="id"
     :hide-footer="hideFooter"
     :ref="modalRef"
+    scrollable
     v-on="inputListeners">
     <template
       slot="modal-header">

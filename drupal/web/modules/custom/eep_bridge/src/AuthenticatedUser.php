@@ -9,13 +9,12 @@ namespace Drupal\eep_bridge;
  */
 class AuthenticatedUser {
   private $name;
-  private $user;
   private $authentication_domain = null;
   private $source_username;
 
-  var $issuer;
-  var $userDetails;
-  var $authentication_method;
+  public $issuer;
+  public $userDetails;
+  public $authentication_method;
 
 
 
@@ -26,16 +25,16 @@ class AuthenticatedUser {
     }
   }
 
-  function set_name($uname) {
-    $this->name = $uname;
+  function set_name($username) {
+    $this->name = strtoupper($username);
   }
 
   function set_authentication_domain($issuer) {
     $this->authentication_domain = $issuer;
   }
-  
+
   function set_source_username($username) {
-    $this->source_username = $username;
+    $this->source_username = strtoupper($username);
   }
 
   function get_name() {

@@ -37,10 +37,12 @@
 
 <script>
 
+  // needed for accordions
+  import * as uswds from 'uswds';
+
   import { mapGetters } from 'vuex';
   import { AppPlaceholderContent } from '../modules/wadk/WADK';
 
-  require('../../node_modules/uswds/dist/js/uswds');
 
   export default {
     name: 'BasicPage',

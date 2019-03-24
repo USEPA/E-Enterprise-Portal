@@ -15,14 +15,14 @@
     <div class="col-12 text-right p-2 w-75">
       <a
         href="#"
-        @click="setUserCookiePolicy"
+        @click="setUserCookiePolicy(false)"
         data-dismiss="alert"
         class="text-dark text-decoration-underline pr-2"
       >No Thanks</a>
       <button
         class="btn btn-primary"
         data-dismiss="alert"
-        @click="setUserCookiePolicy">Yes, Please
+        @click="setUserCookiePolicy(true)">Yes, Please
       </button>
     </div>
   </div>

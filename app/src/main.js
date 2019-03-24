@@ -15,6 +15,7 @@ import router from './router';
 import store from './store';
 import VueAnalytics from 'vue-analytics';
 import VueGtm from 'vue-gtm';
+import VueCookie from 'vue-cookie';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -46,6 +47,7 @@ const VueScrollToDefaultSettings = {
   y: true,
 };
 
+Vue.use(VueCookie);
 Vue.use(VueProgressBar, VueProgressBarOptions);
 Vue.use(BootstrapVue);
 Vue.use(VueScrollTo, VueScrollToDefaultSettings);
@@ -59,10 +61,10 @@ Vue.use(VueAnalytics, {
 });
 Vue.use(VueGtm, {
   id: 'GTM-L8ZB',
-  enabled: true, 
+  enabled: true,
   debug: false,
   vueRouter: router,
-  ignoredViews: [] 
+  ignoredViews: []
 });
 
 export default new Vue({

@@ -4,6 +4,7 @@ namespace Drupal\eep_bridge\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\eep_bridge\ADFSConf;
+use Drupal\user\Entity\Role;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\Core\Url;
@@ -12,7 +13,7 @@ use Drupal\eep_bridge\ADFSBridge;
 use Drupal\eep_bridge\AuthenticatedUser;
 use Drupal\jwt\Authentication\Provider\JwtAuth;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\user\Entity\User;
+use Drupal\user\UserInterface;
 use Drupal\eep_my_reporting\CDXSecurityTokenService;
 
 
@@ -45,12 +46,10 @@ class EEPBridgeController extends ControllerBase {
     }
     // Pull UserDetails from Post
     $userDetails = $this->parse_post_for_user_details($_POST);
-    if ($this->verify_token_with_request($userDetails)) {
-      $authenticated_user = new AuthenticatedUser($userDetails);
-      $this->create_or_login_user_if_exists($authenticated_user);
-      $this->process_required_fields_for_user($authenticated_user);
-      $this->create_jwt_and_send_user();
-    }
+    $authenticated_user = new AuthenticatedUser($userDetails);
+    $this->create_or_login_user_if_exists($authenticated_user);
+    $this->process_required_fields_for_user($authenticated_user);
+    $this->create_jwt_and_send_user();
     return;
   }
 
@@ -124,15 +123,22 @@ class EEPBridgeController extends ControllerBase {
     if (isset($_POST['CDX_DATA']) || isset($_POST['SCS_DATA'])) {
       if (isset($_POST['CDX_DATA'])) {
         $ip = $_POST['CDX_DATA'];
+        $issuer = 'CDX';
       } else {
         $ip = $_POST['SCS_DATA'];
+        $issuer = 'SCS';
       }
       $token = $_POST['TOKEN'];
       $user_data = $this->pull_user_data_from_token($token, $ip);
+      $config = $this->config('eep_my_reporting.form');
+      $cdx_service = new CDXSecurityTokenService($config);
+      $decoded_token = $cdx_service->decode_token($token, $ip);
+      parse_str($decoded_token->return, $decoded_parts);
+      $user_data = array_change_key_case($decoded_parts, CASE_UPPER);
       $authenticated_user = new AuthenticatedUser([]);
-      $username = $user_data['UID'] . '_Via_' . $user_data['ISSUER'];
+      $username = $user_data['USERID'] . '_Via_' . $issuer;
       $authenticated_user->set_name($username);
-      $authenticated_user->set_source_username($user_data['UID']);
+      $authenticated_user->set_source_username($user_data['USERID']);
       $authenticated_user->set_authentication_domain($user_data['ISSUER']);
       $this->create_or_login_user_if_exists($authenticated_user);
       $this->process_required_fields_for_user($authenticated_user);
@@ -152,7 +158,7 @@ class EEPBridgeController extends ControllerBase {
     ]);
   }
 
-  private function eep_bridge_goto($url, $jwt_token = NULL) {
+  private function eep_bridge_goto($url, $jwt_token) {
     $response = new RedirectResponse($url->toString());
     $response->headers->set('token', $jwt_token);
     $response->send();
@@ -195,6 +201,8 @@ class EEPBridgeController extends ControllerBase {
           'access' => (int)$_SERVER['REQUEST_TIME'],
         ], $account_data);
       $account = $entity_storage->create($account_data);
+
+      $this->add_role($account, $authenticated_user->get_authentication_domain());
       $account->enforceIsNew();
       $account->save();
       user_login_finalize($account);
@@ -251,4 +259,38 @@ class EEPBridgeController extends ControllerBase {
     $user_data = array_change_key_case($decoded_parts, CASE_UPPER);
     return $user_data;
   }
+
+
+/**
+ * @param \Drupal\user\UserInterface $user
+ * @param $role_name
+ * Add role name to AuthenticatedUser
+ *
+ * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+ * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+ */
+function add_role(UserInterface $user, $role_name) {
+  $role_id = $this->get_role_name($role_name);
+  $role = Role::load($role_id);
+
+  // Create Role
+  if(!$role) {
+    $label = ucwords(preg_replace('/-/', ' ', $role_name));
+
+    $role = $this->create_role($role_id, $label);
+  }
+
+  // Add Role to user
+  $user->addRole($role->id());
+}
+
+function create_role($id, $label) {
+  $role = \Drupal\user\Entity\Role::create(array('id' => $id, 'label' => $label));
+  $role->save();
+  return $role;
+}
+
+function get_role_name($role_name) {
+  return strtolower(preg_replace('/\s/', '-', $role_name));
+}
 }

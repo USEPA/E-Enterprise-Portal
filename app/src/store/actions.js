@@ -1,12 +1,9 @@
 import _ from 'lodash';
-import VueCookie from 'vue-cookie';
 import Vue from 'vue';
 import { AppAxios } from '../modules/wadk/WADK';
 import { EventBus } from '../EventBus';
 import types from './types';
 import router from '../router';
-
-Vue.use(VueCookie);
 
 export default {
   /**
@@ -152,10 +149,15 @@ export default {
     Vue.cookie.set('userTandC', true, { expires: '1Y' });
     store.commit('USER_TANDC_COOKIE_DISMISS');
   },
-  setUserCookiePolicy(context) {
+  setUserCookiePolicy(context, yesButtonPressed) {
     const store = context;
-    Vue.cookie.set('userPolicy', true, { expires: '1Y' });
-    store.commit('USER_POLICY_COOKIE_DISMISS');
+
+    // 1) Checks to see if the user selected yes, and if they did then the user policy is set
+    // 2) Sets a flag in a cookie saying that the user accepted the terms about remembering the cookie
+    if(yesButtonPressed) {
+      Vue.cookie.set('userPolicy', true, { expires: '7D' });
+      store.commit('USER_POLICY_COOKIE_DISMISS');
+    }
   },
   /**
    * API GET request function
@@ -190,6 +192,9 @@ export default {
 
     // Set URN in the state so that the URN in the bridge URL getter is set
     store.commit('SET_BRIDGE_URN', urn);
+
+    // This cookie is set so the URL for the bridge can be remembered for acceptance of the remembering the login
+    Vue.cookie.set('bridgeUrlLoginOption', store.getters.getBridgeURL, { expires: '7D' });
 
     // Redirect to the bridge login for a given urn
     window.location = store.getters.getBridgeURL;
@@ -248,8 +253,7 @@ export default {
           const associatedTaxonomyWeight = response.data.find(x => x.tid[0].value
             === respItem.field_authentication_category[0].target_id).weight[0].value;
 
-          // save each option to the formatted array variable to pass to
-          // mutation
+          // save each option to the formatted array variable to pass to mutation
           formattedOption.push({
             weight: associatedTaxonomyWeight,
             tab_order: respItem.field_tab_order[0].value,

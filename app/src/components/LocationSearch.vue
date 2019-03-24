@@ -1,7 +1,7 @@
 <template>
   <div
     id='location-wrapper'
-    class='col-md-7 mt-1'>
+    class='col-md-7 pt-2'>
     <div class="row justify-content-end">
       <div class="col-sm-12">
         <div
@@ -37,7 +37,7 @@
           <b-input-group-append>
             <label for="submit-geolocation"
               class="sr-only">
-              Click to use Your current location
+              Click to use your current location
             </label>
             <b-button
               id="submit-geolocation"
@@ -83,7 +83,7 @@
               value=""
               disabled
               selected
-              hidden>-- Please select a zipcode --
+              hidden>Select a ZIP code...
             </option>
           </template>
         </b-form-select>
@@ -100,7 +100,7 @@
             <option value=""
               disabled
               selected
-              hidden>-- Please select a city --
+              hidden>Select a city...
             </option>
           </template>
         </b-form-select>
@@ -118,7 +118,7 @@
             <option value=""
               disabled
               selected
-              hidden>-- Please select a state --
+              hidden>Select a state...
             </option>
           </template>
         </b-form-select>

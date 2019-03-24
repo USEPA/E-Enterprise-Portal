@@ -64,7 +64,15 @@ export default {
   },
   getApiUrl: (state, ref) => (urlName) => {
     const envApiUrl = ref.getEnvironmentApiURL;
-    return `${envApiUrl}/${state.api.urls[urlName]}`;
+    let response = `${envApiUrl}/${state.api.urls[urlName]}`;
+    if (state.api.urls[urlName].search(/http[s]?:/) > -1) {
+      response = state.api.urls[urlName];
+    } else if (state.api.urls[urlName].search(/internal:/) > -1) {
+      const { origin } = window.location;
+      const url = state.api.urls[urlName].replace(/internal:/, '');
+      response = `${origin}/${url}`;
+    }
+    return response;
   },
   getBridgeURL(state, ref) {
     const env = ref.getEnvironment;
@@ -72,8 +80,8 @@ export default {
     const bridgeSettings = state.bridgeSettings[env];
     if (bridgeSettings) {
       url = `${bridgeSettings.issuer}?wtrealm=${encodeURI(bridgeSettings.relyingParty)
-        }&wreply=${encodeURI(bridgeSettings.sendBridgeBackTo)}&whr=urn:${state.currentBridgeUrn
-        }&wa=${bridgeSettings.signInMethod}`;
+      }&wreply=${encodeURI(bridgeSettings.sendBridgeBackTo)}&whr=urn:${state.currentBridgeUrn
+      }&wa=${bridgeSettings.signInMethod}`;
     }
     return url;
   },
@@ -98,6 +106,8 @@ export default {
       environmentApiURL = 'https://apidev2.e-enterprise.gov';
     } else if (environment === 'TEST') {
       environmentApiURL = 'https://apitest.e-enterprise.gov';
+    } else {
+      environmentApiURL = 'https://api.e-enterprise.gov';
     }
     return environmentApiURL;
   },
@@ -117,8 +127,8 @@ export default {
   getLoggedInToken(state) {
     return state.token.raw;
   },
-  getEEPAPIURL: (state, ref) => variables => (variables.params !== '') ? `${variables.endpoint}?${variables.params}`
-    :`${variables.endpoint}`,
+  getEEPAPIURL: (state, ref) => variables => ((variables.params !== '') ? `${variables.endpoint}?${variables.params}`
+    : `${variables.endpoint}`),
   getUserInitValidation(state) {
     const userInit = state.user.init;
     return (userInit.length > 0 && userInit[0].value.indexOf('@') < 1);

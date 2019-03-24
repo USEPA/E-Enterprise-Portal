@@ -37,7 +37,7 @@ class EepCoreModuleConfigurationForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('eep_core.settings');
-    $form['your_message'] = [
+    $form['environment'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Environment:'),
       '#default_value' => $config->get('environment') ?: 'LOCAL',

@@ -6,7 +6,7 @@
       <div id="permit-search-wapp-inner">
         <div v-if="eepApp.size === 'small'">
           <b-form
-            class="needs-validation"
+            class="needs-validation pt-1"
             @submit="initialFormSubmit"
             novalidated>
             <b-row>
@@ -18,7 +18,7 @@
               <b-col md="8">
                 <b-form-select
                   id="permit-type-selection-a"
-                  class="mb-3"
+                  class="mb-3 standard-styling"
                   :value="permitType"
                   :options="formOptions.permitType"
                   ref="permitTypeDropdown"
@@ -33,23 +33,42 @@
                   </template>
                 </b-form-select>
               </b-col>
-              <b-col md="4">
+              <b-col md="4"
+                v-if="optionsError">
+                <b-btn
+                  size="sm"
+                  variant="primary"
+                  ref="permitTypeSubmit"
+                  class="permit-lookup-base-btn"
+                  type="submit"
+                  disabled>
+                  Search
+                </b-btn>
+              </b-col>
+              <b-col md="4"
+                v-else-if="!optionsError">
                 <b-btn
                   size="sm"
                   variant="primary"
                   ref="permitTypeSubmit"
                   class="permit-lookup-base-btn"
                   type="submit">
-                  Lookup
+                  Search
                 </b-btn>
               </b-col>
             </b-row>
           </b-form>
-          <br>
+          <div v-if="optionsError"
+            class="text-danger">
+            {{ optionsError }}
+          </div>
+          <div v-else-if="!optionsError">
+            <br>
+          </div>
           <b-row>
             <b-col class="permit-search-footer">
               <a
-                class="text-decoration-underline cursor-pointer link-button"
+                class="text-decoration-underline cursor-pointer link-button standard-styling"
                 @click="openPermitInfoModal">
                 What permits can I find?
               </a>
@@ -60,11 +79,11 @@
           <AppModal
             id="permit-search-modal"
             modal-ref="permit-search-modal"
-            @close="clearForm"
+            @hide="clearForm"
             :title="`${permitType} Lookup`"
             :hide-footer="true">
             <b-form
-              class="needs-validation"
+              class="needs-validation standard-styling"
               @submit="initialFormSubmit"
               novalidated>
               <b-row>
@@ -76,7 +95,7 @@
                 <b-col md="6">
                   <b-form-select
                     id="permit-type-selection-b"
-                    class="mb-3"
+                    class="mb-3 standard-styling"
                     :value="permitType"
                     :options="formOptions.permitType"
                     ref="permitTypeDropdown"
@@ -93,6 +112,13 @@
             <div
               v-if="permitType === 'Construction General Permit'"
               id="cgp-form-wrapper">
+              <div
+                class="input-row">
+                Find Notices of Intent (NOIs), Notices of Termination (NOTs), or Low Erosivity Waivers (LEWs) submitted
+                under the U.S. EPA 2017 Construction General Permit (CGP). At this time, search results will only
+                include activity with the national NPDES eReporting Tool (NeT-CGP) for U.S. EPA lead and participating
+                states and tribes.
+              </div>
               <div
                 id="cgp-header">
                 Enter one or more search criteria
@@ -130,7 +156,7 @@
                       class="mb-3"
                       :value="cgpFormData.npdesId"
                       @change="setCgpNpdesId"
-                      type="number"
+                      type="text"
                       size="sm"/>
                   </b-col>
                 </b-row>
@@ -192,7 +218,11 @@
                 <b-row>
                   <b-col md="6">
                     <label
-                      class="mb-0">Status</label>
+                      class="mb-0 label-with-info">Status</label>
+                    <b-button
+                      title="Information"
+                      @click="openPermitStatusInfoModal"
+                      class="permit-lookup-info-btn mr-1"/>
                   </b-col>
                   <b-col md="6">
                     <label
@@ -221,7 +251,7 @@
                     <b-form-select
                       id="form-type-selection"
                       class="mb-3"
-                      :value="cgpFormData.formType"
+                      v-model="cgpType"
                       :options="formOptions.cgpFormOptions.formTypes"
                       ref="formType-Dropdown"
                       @change="setCgpFormType"
@@ -239,7 +269,7 @@
                   class="btn-outline-primary"
                   variant="outline-primary"
                   ref="btnAdvancedSettings-cgp">
-                  Advanced Lookup Criteria
+                  Advanced Search Criteria
                 </b-btn>
                 <b-collapse
                   v-model="cgpAdvancedSearchWrapper"
@@ -420,7 +450,7 @@
                       variant="primary"
                       ref="btnSubmitCgp"
                       type="submit">
-                      Lookup
+                      Search
                     </b-btn>
                   </b-col>
                 </b-row>
@@ -430,6 +460,10 @@
             <div
               v-else-if="permitType === 'Multi-Sector General Permit'"
               id="msgp-form-wrapper">
+              <div class="input-row">
+                Find notices of intent and related submissions for general permits implemented in EPA’s NPDES eReporting
+                Tool (NeT).
+              </div>
               <div
                 id="msgp-header">
                 Enter one or more search criteria
@@ -491,7 +525,11 @@
                   </b-col>
                   <b-col md="6">
                     <label
-                      class="mb-0">Coverage status</label>
+                      class="mb-0 label-with-info">Coverage status</label>
+                    <b-button
+                      title="Information"
+                      @click="openPermitStatusInfoModal"
+                      class="permit-lookup-info-btn mr-1"/>
                   </b-col>
                 </b-row>
                 <b-row
@@ -500,7 +538,7 @@
                     <b-form-select
                       id="coverage-type-selection"
                       class="mb-3"
-                      :value="msgpFormData.coverageType"
+                      v-model="msgpType"
                       :options="formOptions.msgpFormOptions.coverageTypes"
                       ref="coverage-type-selection"
                       @change="setMsgpCoverageType"
@@ -538,10 +576,6 @@
                   <b-col md="6">
                     <label
                       class="mb-0 pr-1">Sector</label>
-                    <b-button
-                      title="Information"
-                      @click="openPermitInfoModal"
-                      class="permit-lookup-info-btn mr-1"/>
                   </b-col>
                 </b-row>
                 <b-row
@@ -553,7 +587,7 @@
                       class="mb-3"
                       :value="msgpFormData.npdesId"
                       @change="setMsgpNpdesId"
-                      type="number"
+                      type="text"
                       size="sm"/>
                   </b-col>
                   <b-col md="6">
@@ -610,8 +644,8 @@
                       ref="sic-code-input"
                       class="mb-3"
                       :value="msgpFormData.sicCode"
-                      :disabled="isDisabledSubsectorMsgp"
                       @change="setMsgpSicCode"
+                      type="number"
                       size="sm"/>
                   </b-col>
                 </b-row>
@@ -708,7 +742,7 @@
                   class="btn-outline-primary"
                   variant="outline-primary"
                   ref="btnAdvancedSettings-msgp">
-                  Advanced Lookup Criteria
+                  Advanced Search Criteria
                 </b-btn>
                 <b-collapse
                   v-model="msgpAdvancedSearchWrapper"
@@ -884,7 +918,7 @@
                       variant="primary"
                       ref="btnSubmitMsgp"
                       type="submit">
-                      Lookup
+                      Search
                     </b-btn>
                   </b-col>
                 </b-row>
@@ -892,13 +926,14 @@
             </div>
             <div
               class="text-danger"
-              v-if="noFieldsToQuery">{{ noFields }}</div>
+              v-if="noFieldsToQuery">{{ noFields }}
+            </div>
           </AppModal>
           <!-- Permit Results Modal-->
           <AppModal
             id="permit-results-modal"
             modal-ref="permit-results-modal"
-            @close="clearForm"
+            @hide="clearForm"
             :title="`${permitType} Lookup Results`"
             :hide-footer="true">
             <b-row>
@@ -935,8 +970,8 @@
                 </b-form-group>
               </b-col>
             </b-row>
-            <b-col class="overflow-x-scroll">
-              <b-row v-if="cgpResultsLoaded || msgpResultsLoaded || resultsError">
+            <b-col>
+              <b-row v-if="cgpResultsLoaded || msgpResultsLoaded || resultsError || noResults">
                 <b-table
                   v-if="cgpResultsLoaded"
                   hover
@@ -995,9 +1030,16 @@
                     {{ cgpFormResults }}
                   </div>
                 </div>
-            </b-row></b-col>
+                <div v-else-if="noResults">
+                  <div class="text-danger text-center">
+                    No permits seem to match your search criteria.
+                  </div>
+                </div>
+              </b-row>
+            </b-col>
             <!-- pagination -->
-            <b-row class="text-center">
+            <b-row class="text-center"
+              v-if="!noResults">
               <b-col
                 md="12"
                 class="my-1">
@@ -1033,60 +1075,10 @@
 
           </AppModal>
           <AppModal
-            id="permit-info-modal"
-            modal-ref="permit-info-modal"
-            title="Permit Information"
+            id="permit-status-info-modal"
+            modal-ref="permit-status-info-modal"
+            title="What do the permit statuses mean?"
             :hide-footer="true">
-            <div
-              class="info-modal-component">
-              <b-row>
-                <div
-                  class="info-title">
-                  What permits can I find?
-                </div>
-                <div>
-                  At this time, search results will only include new activity for the following
-                  permits as reported in
-                  the
-                  national NPDES eReporting Tool (NeT) for U.S. EPA lead and participating states and
-                  tribes. For
-                  additional information about which submissions are currently made through NeT please
-                  visit:
-                  <a
-                    href="https://www.epa.gov/compliance/npdes-ereporting"
-                    target="_blank">
-                    https://www.epa.gov/compliance/npdes-ereporting
-                  </a>
-                </div>
-              </b-row>
-            </div>
-            <div
-              class="info-modal-component">
-              <b-row
-                class="info-title">
-                • Construction General Permit (CGP)
-              </b-row>
-              <b-row>
-                Find Notices of Intent (NOIs), Notices of Termination (NOTs), or Low Erosivity Waivers
-                (LEWs) submitted
-                under the U.S. EPA 2017 Construction General (CGP) in NET-CGP.
-              </b-row>
-              <b-row class="info-title">
-                • Multi-Sector General Permit (MSGP)
-              </b-row>
-              <b-row>
-                Find new Notices of Intent (NOIs) under the U.S. EPA 2015 Multi-Sector General Permit
-                (MSGP) submitted
-                as of April 1, 2018 in NET-MSGP.
-              </b-row>
-            </div>
-            <div
-              class="info-modal-component">
-              <b-row
-                class="info-title">
-                What do the permit statuses mean?
-              </b-row>
-            </div>
             <div
               class="info-modal-component">
               <b-row>
@@ -1188,6 +1180,51 @@
               </b-row>
             </div>
           </AppModal>
+          <AppModal
+            id="permit-info-modal"
+            modal-ref="permit-info-modal"
+            title="What permits can I find?"
+            :hide-footer="true">
+            <div
+              class="info-modal-component">
+              <b-row>
+                <div>
+                  At this time, search results will only include new activity for the following
+                  permits as reported in
+                  the
+                  national NPDES eReporting Tool (NeT) for U.S. EPA lead and participating states and
+                  tribes. For
+                  additional information about which submissions are currently made through NeT please
+                  visit:
+                  <a
+                    href="https://www.epa.gov/compliance/npdes-ereporting"
+                    target="_blank">
+                    https://www.epa.gov/compliance/npdes-ereporting
+                  </a>
+                </div>
+              </b-row>
+            </div>
+            <div
+              class="info-modal-component">
+              <b-row
+                class="info-title">
+                • Construction General Permit (CGP)
+              </b-row>
+              <b-row>
+                Find Notices of Intent (NOIs), Notices of Termination (NOTs), or Low Erosivity Waivers
+                (LEWs) submitted
+                under the U.S. EPA 2017 Construction General (CGP) in NET-CGP.
+              </b-row>
+              <b-row class="info-title">
+                • Multi-Sector General Permit (MSGP)
+              </b-row>
+              <b-row>
+                Find new Notices of Intent (NOIs) under the U.S. EPA 2015 Multi-Sector General Permit
+                (MSGP) submitted
+                as of April 1, 2018 in NET-MSGP.
+              </b-row>
+            </div>
+          </AppModal>
 
         </div>
         <div v-else-if="eepApp.size === 'large'">
@@ -1229,65 +1266,67 @@
         radioSelection2: null,
         radioSelection3: null,
         radioSelection4: null,
+        cgpType: null,
+        msgpType: null,
         msgpFields: [
           {
             key: 'issuer',
             label: 'Issuer',
-            sortable: false,
+            sortable: true,
             sortDirection: 'desc',
           },
           {
             key: 'npdesId',
             label: 'NPDES ID',
-            sortable: false,
+            sortable: true,
             sortDirection: 'desc',
           },
           {
             key: 'coverageType',
             label: 'Coverage Type',
-            sortable: false,
+            sortable: true,
             sortDirection: 'desc',
           },
           {
             key: 'submissionType',
             label: 'Submission Type',
-            sortable: false,
+            sortable: true,
             sortDirection: 'desc',
           },
           {
             key: 'facilitySiteInformation.siteName',
             label: 'Facility Name',
-            sortable: false,
+            sortable: true,
             sortDirection: 'desc',
           },
           {
             key: 'operatorInformation.operatorName',
             label: 'Facility Operator',
-            sortable: false,
+            sortable: true,
             sortDirection: 'desc',
           },
           {
             key: 'facilitySiteInformation.siteAddress.stateCode',
             label: 'Facility State',
-            sortable: false,
+            sortable: true,
             sortDirection: 'desc',
           },
           {
             key: 'facilitySiteInformation.siteAddress.city',
             label: 'Facility City',
-            sortable: false,
+            sortable: true,
             sortDirection: 'desc',
           },
           {
             key: 'coverageStatus',
             label: 'Coverage Status',
-            sortable: false,
+            sortable: true,
             sortDirection: 'desc',
           },
           {
             key: 'certifiedDate',
             label: 'Effective Date',
-            sortable: false,
+            sortable: true,
             sortDirection: 'desc',
           },
           {
@@ -1300,49 +1339,49 @@
           {
             key: 'npdesId',
             label: 'NPDES ID',
-            sortable: false,
+            sortable: true,
             sortDirection: 'desc',
           },
           {
             key: 'projectSiteInformation.siteName',
             label: 'Project Name',
-            sortable: false,
+            sortable: true,
             sortDirection: 'desc',
           },
           {
             key: 'operatorInformation.operatorName',
             label: 'Project Operator',
-            sortable: false,
+            sortable: true,
             sortDirection: 'desc',
           },
           {
             key: 'projectSiteInformation.siteAddress.stateCode',
             label: 'Project State',
-            sortable: false,
+            sortable: true,
             sortDirection: 'desc',
           },
           {
             key: 'projectSiteInformation.siteAddress.city',
             label: 'Project City',
-            sortable: false,
+            sortable: true,
             sortDirection: 'desc',
           },
           {
             key: 'status',
             label: 'Status',
-            sortable: false,
+            sortable: true,
             sortDirection: 'desc',
           },
           {
             key: 'type',
             label: 'Type',
-            sortable: false,
+            sortable: true,
             sortDirection: 'desc',
           },
           {
             key: 'certifiedDate',
             label: 'Effective Date',
-            sortable: false,
+            sortable: true,
             sortDirection: 'desc',
           },
           {
@@ -1408,6 +1447,8 @@
         cgpFormDataDefaults: 'getCgpFormDataDefaults',
         totalRows: 'getTotalRows',
         resultsError: 'getResultsError',
+        optionsError: 'getOptionsError',
+        noResults: 'getNoResults',
       }),
       isDisabledCountyMsgp() {
         return this.msgpFormData.facilityState === 'Select...';
@@ -1490,6 +1531,9 @@
       openPermitInfoModal() {
         this.$root.$emit('bv::show::modal', 'permit-info-modal');
       },
+      openPermitStatusInfoModal() {
+        this.$root.$emit('bv::show::modal', 'permit-status-info-modal');
+      },
       cgpFormSubmit(evt) {
         const vm = this;
         evt.preventDefault();
@@ -1497,7 +1541,7 @@
           this.noFieldsToQuery = false;
           this.cgpFormGetResults({ vm });
           this.setCgpFormToDefaults();
-          this.$ga.event('eportal', 'click', 'Permit Lookup MSGP Form Submission', 1);
+          this.$ga.event('eportal', 'click', 'Permit Lookup CGP Form Submission', 1);
         } else {
           this.noFieldsToQuery = true;
         }
@@ -1527,6 +1571,8 @@
         this.radioSelection2 = null;
         this.radioSelection3 = null;
         this.radioSelection4 = null;
+        this.cgpType = null;
+        this.msgpType = null;
       },
     },
     props: {
@@ -1543,4 +1589,23 @@
   .permit-lookup-info-btn {
     background-image: url('../../assets/images/widget-info-circle.svg');
   }
+  label,
+  .btn,
+  .custom-select-sm,
+  .form-control-sm,
+  .standard-styling,
+  .input-row,
+  #msgp-header,
+  #cgp-header{
+    font-size: 0.9375rem; //15px
+    font-family: "Source Sans Pro Web";
+  }
+  .btn-sm {
+    line-height: 1.4;   // Temporary fix - @todo adjust small buttons so reasonable height and padding
+  }
+  .form-control-sm,
+  .custom-select-sm {
+    line-height: 1.5;
+  }
+
 </style>

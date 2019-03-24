@@ -1,6 +1,7 @@
 <?php
 
 namespace Drupal\eep_bridge;
+
 /**
  * Handles the ADFS SignIn/SignOut/PRP handling.
  *
@@ -8,13 +9,13 @@ namespace Drupal\eep_bridge;
  *
  * Refer:
  *  http://code.google.com/p/simplesamlphp/source/browse/trunk/www/wsfed/sp/prp.php
- *  http://code.google.com/p/simplesamlphp/source/browse/trunk/www/wsfed/sp/initSSO.php
- *  http://code.google.com/p/simplesamlphp/source/browse/trunk/www/wsfed/sp/initSLO.php
- *  https://pamelaproject.com/svn/pw/pwcommon/trunk/vendorsrc/phpInfoCard/0.1.1-beta1/lib/rp.phpicprocessor.php
+ *   http://code.google.com/p/simplesamlphp/source/browse/trunk/www/wsfed/sp/initSSO.php
+ *   http://code.google.com/p/simplesamlphp/source/browse/trunk/www/wsfed/sp/initSLO.php
+ *   https://pamelaproject.com/svn/pw/pwcommon/trunk/vendorsrc/phpInfoCard/0.1.1-beta1/lib/rp.phpicprocessor.php
  */
 class ADFSBridge {
 
-  function getAdfsSignInResponse($adfsConf, $wresult){
+  function getAdfsSignInResponse($adfsConf, $wresult) {
     // Validate configuration
     // If certificate content is provided, don't try to load from file.
     if ($adfsConf->encryptionCertData == '') {
@@ -26,7 +27,8 @@ class ADFSBridge {
           throw new \Exception($exception_msg);
         }
       }
-    } else {
+    }
+    else {
       $encryptionCertData = $adfsConf->encryptionCertData;
     }
     // Accommodate for MS-ADFS escaped quotes
@@ -55,7 +57,7 @@ class ADFSBridge {
 
     // Decrypts the xmlToken if it is encrypted, using the private key specified in the configuration.
     $decryptedToken = '';
-    $decryptionFailed = false;
+    $decryptionFailed = FALSE;
     $rootElement = $xpath->query('/trust:RequestSecurityTokenResponseCollection/trust:RequestSecurityTokenResponse');
     $rootElement = $rootElement->item(0);
     if (preg_match('/EncryptedData/i', $rootElement->nodeName) > 0) {
@@ -80,7 +82,7 @@ class ADFSBridge {
           }
 
           # Alg. has been determined, check to make sure an error hasn't been thrown, and proceed.
-          if ($decryptionFailed == false) {
+          if ($decryptionFailed == FALSE) {
             $topNode = $topNode->nextSibling;
             if (preg_match('/KeyInfo/i', $topNode->nodeName) > 0) {
               $encryptionMethods = $topNode->getElementsByTagname("EncryptionMethod");
@@ -98,7 +100,7 @@ class ADFSBridge {
                   \Drupal::logger('eep_bridge')->error($exception_msg);
                   throw new \Exception($exception_msg);
               }
-              if ($decryptionFailed == false) {
+              if ($decryptionFailed == FALSE) {
                 if ($cipherValueNodes = $topNode->getElementsByTagname("CipherValue")) {
                   $cipherValueNode = $cipherValueNodes->item(0);
                   $keyWrapCipher = $cipherValueNode->nodeValue;
@@ -108,7 +110,8 @@ class ADFSBridge {
                     $exception_msg = "Unable to load private key for decryption.";
                     \Drupal::logger('eep_bridge')->error($exception_msg);
                     throw new Exception($exception_msg);
-                  } else {
+                  }
+                  else {
                     if (openssl_private_decrypt($keyWrapCipher, $blockCipherKey, $private_key, $ssl_padding)) {
                       openssl_free_key($private_key);
                       switch ($keyWrapAlgorithm) {
@@ -126,7 +129,8 @@ class ADFSBridge {
                           $exception_msg = "No block cipher data found.";
                           \Drupal::logger('eep_bridge')->error($exception_msg);
                           throw new \Exception("No block cipher data found.");
-                        } else {
+                        }
+                        else {
                           $cipherValueNode = $cipherValueNodes->item(0);
                           $blockCipher = $cipherValueNode->nodeValue;
                           $blockCipher = base64_decode($blockCipher);
@@ -138,44 +142,52 @@ class ADFSBridge {
                           $decryptedToken = mcrypt_decrypt($mcrypt_cipher, $blockCipherKey, $blockCipher, $mcrypt_mode, $mcrypt_iv);
                           if (!$decryptedToken) {
                             $exception_msg = "Decryption of token failed.";
-                            \Drupal::logger('eep_bridge')->error($exception_msg);
+                            \Drupal::logger('eep_bridge')
+                              ->error($exception_msg);
                             throw new \Exception($exception_msg);
                           }
                         }
-                      } else {
+                      }
+                      else {
                         $exception_msg = "Unable to locate cipher data.";
                         \Drupal::logger('eep_bridge')->error($exception_msg);
                         throw new \Exception($exception_msg);
                       }
-                    } else {
+                    }
+                    else {
                       $exception_msg = "Unable to decrypt token, check private key configuration.";
                       \Drupal::logger('eep_bridge')->error($exception_msg);
                       throw new \Exception($exception_msg);
                     }
                   }
-                } else {
+                }
+                else {
                   $exception_msg = "No wrapping cipher found.";
                   \Drupal::logger('eep_bridge')->error($exception_msg);
                   throw new \Exception($exception_msg);
                 }
               }
-            } else {
+            }
+            else {
               $exception_msg = "Unable to continue, keyInfo is not present.";
               \Drupal::logger('eep_bridge')->error($exception_msg);
               throw new \Exception($exception_msg);
             }
           }
-        } else {
+        }
+        else {
           $exception_msg = "Encryption method BlockAlgorithm not specified.";
           \Drupal::logger('eep_bridge')->error($exception_msg);
           throw new \Exception($exception_msg);
         }
-      } else {
+      }
+      else {
         $exception_msg = "Unable to determine Encryption method.";
         \Drupal::logger('eep_bridge')->error($exception_msg);
         throw new \Exception($exception_msg);
       }
-    } else {
+    }
+    else {
       if (isset($encryptionCertData)) {
         $exception_msg = "Unable to find encrypted data.";
         \Drupal::logger('eep_bridge')->error($exception_msg);
@@ -197,7 +209,8 @@ class ADFSBridge {
       $xpath->registerNamespace('saml', 'urn:oasis:names:tc:SAML:1.0:assertion');
       $xpath->registerNamespace('xenc', 'http://www.w3.org/2001/04/xmlenc#');
       $assertion = $decryptedToken_dom->documentElement;
-    } else {
+    }
+    else {
       // Find the saml:Assertion element in the response.
       $assertions = $xpath->query('/trust:RequestSecurityTokenResponseCollection/trust:RequestSecurityTokenResponse/trust:RequestedSecurityToken/saml:Assertion');
       $saml = 'saml';
@@ -219,6 +232,7 @@ class ADFSBridge {
       $notBefore = $condition->getAttribute('NotBefore');
       $notOnOrAfter = $condition->getAttribute('NotOnOrAfter');
       if (!$this->checkCurrentTime($notBefore, $notOnOrAfter)) {
+        // @todo we need better error responses to the API calls. It should still bubble up a JSON response.
         $exception_msg = 'The WS-Fed response has expired.';
         \Drupal::logger('eep_bridge')->error($exception_msg);
         throw new \Exception($exception_msg);
@@ -235,14 +249,15 @@ class ADFSBridge {
         throw new \Exception($exception_msg);
       }
       $userDetails->nameIdentifier = $nameid->item(0)->textContent;
-      $userDetails->nameIdentifierFormat = $nameid->item(0)->getAttribute('Format');
+      $userDetails->nameIdentifierFormat = $nameid->item(0)
+        ->getAttribute('Format');
     }
     //*/ Extract the attributes from the response.
-    $userDetails->attributes = array();
+    $userDetails->attributes = [];
     $attributeValues = $xpath->query('./' . $saml . ':AttributeStatement/' . $saml . ':Attribute/' . $saml . ':AttributeValue', $assertion);
 
     //Extract a node from the result XML that contains the Authentication Method attribute and pass it to userDetails.
-    $authMethodValues = $xpath->query('./'. $saml . ':AuthenticationStatement', $assertion);
+    $authMethodValues = $xpath->query('./' . $saml . ':AuthenticationStatement', $assertion);
     foreach ($authMethodValues as $authMethodValue) {
       $authMethod = $authMethodValue->getAttribute('AuthenticationMethod');
     }
@@ -251,12 +266,13 @@ class ADFSBridge {
     foreach ($attributeValues as $attribute) {
       if ($saml === 'saml') {
         $name = $attribute->parentNode->getAttribute('AttributeName');
-      } else {
+      }
+      else {
         $name = $attribute->parentNode->getAttribute('Name');
       }
       $value = $attribute->textContent;
       if (!array_key_exists($name, $userDetails->attributes)) {
-        $userDetails->attributes[$name] = array();
+        $userDetails->attributes[$name] = [];
       }
       array_push($userDetails->attributes[$name], $value);
     }
@@ -271,6 +287,7 @@ class ADFSBridge {
    *
    * @param string $start time in SAML2 format
    * @param string $end time in SAML2 format
+   *
    * @return boolean
    */
   function checkCurrentTime($start = NULL, $end = NULL) {
@@ -305,10 +322,11 @@ class ADFSBridge {
    *
    *
    * @param string $time The time to convert in SAML2 format
+   *
    * @return string  $time converted to a unix timestamp.
    */
   function parseSAML2Time($time) {
-    $matches = array();
+    $matches = [];
     /* We use a very strict regex to parse the timestamp. */
     if (preg_match('/^(\\d\\d\\d\\d)-(\\d\\d)-(\\d\\d)' .
         'T(\\d\\d):(\\d\\d):(\\d\\d)(?:\\.\\d+)?Z$/D',

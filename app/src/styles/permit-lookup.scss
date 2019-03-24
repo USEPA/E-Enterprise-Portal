@@ -28,6 +28,9 @@
 .info-title {
   font-weight: bold;
 }
+.label-with-info {
+  padding-right: 0.2em;
+}
 .permit-lookup-info-btn {
   position: relative;
   background-repeat: no-repeat;
@@ -44,4 +47,10 @@
 }
 .permit-lookup-info-btn:hover {
   background-color: #fff;
+}
+
+#permit-results-modal {
+  .modal-dialog {
+    max-width: 1300px;
+  }
 }
