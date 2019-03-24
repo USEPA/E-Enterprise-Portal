@@ -177,7 +177,7 @@
       },
       handleLogOut() {
         const vm = this;
-        vm.$router.push('/');
+        vm.$router.push('/login');
         vm.$root.$emit(
           'bv::hide::modal',
           'cookieModal',
