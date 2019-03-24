@@ -68,20 +68,20 @@ class EEPBridgeController extends ControllerBase {
         $security_token = $attributes['securityToken'][0];
         try {
           $user_data = $this->pull_user_data_from_token($security_token, $_SERVER['LOCAL_ADDR']);
-          if ($auth_method === 'ENNAAS') {
-            $valid_token = ($user_data['USERID'] == $attributes['userId'][0]);
-          } else if ($auth_method === 'FACEBOOK') {
-            $valid_token = ($user_data['ID'] == $attributes['id'][0]);
-          } else if ($auth_method === 'WAMNAAS') {
-            $valid_token = ($user_data['UID'] == $attributes['name'][0]);
-          } else if ($auth_method === 'TWITTER') {
-            $valid_token = ($user_data['ID'] == $attributes['id'][0]);
-          } else if ($auth_method === 'SMARTCARDAUTH') {
-            $valid_token = ($user_data['UID'] == $attributes['uid'][0]);
-          }
         } catch
         (\SoapFault $soap_fault) {
           $this->bridge_auth_logout();
+        }
+        if ($auth_method === 'ENNAAS') {
+          $valid_token = ($user_data['USERID'] == $attributes['userId'][0]);
+        } else if ($auth_method === 'FACEBOOK') {
+          $valid_token = ($user_data['ID'] == $attributes['id'][0]);
+        } else if ($auth_method === 'WAMNAAS') {
+          $valid_token = ($user_data['UID'] == $attributes['name'][0]);
+        } else if ($auth_method === 'TWITTER') {
+          $valid_token = ($user_data['ID'] == $attributes['id'][0]);
+        } else if ($auth_method === 'SMARTCARDAUTH') {
+          $valid_token = ($user_data['UID'] == $attributes['uid'][0]);
         }
       }
     }
