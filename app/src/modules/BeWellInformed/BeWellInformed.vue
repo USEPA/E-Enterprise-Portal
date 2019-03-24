@@ -125,7 +125,7 @@
         modal-ref="bwi-modal-interactive"
         title="Additional Information Needed">
         <div class="row">
-          <h3 class="col-md-12">Enter the Results of Your Drinking Water Test</h3>
+          <h5 class="col-md-12">Enter the Results of Your Drinking Water Test</h5>
 
           <!-- Requested prompts form the BWI Service -->
           <template

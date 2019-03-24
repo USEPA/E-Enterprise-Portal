@@ -123,8 +123,8 @@ export default {
   },
   setMsgpCoverageType(context, payload) {
     const store = context;
-
-    store.commit(types.SET_MSGP_COVERAGE_TYPE, payload);
+    const massagedType = payload.replace(/ /g, '_');
+    store.commit(types.SET_MSGP_COVERAGE_TYPE, massagedType);
   },
   setMsgpCoverageStatus(context, payload) {
     const store = context;
@@ -238,8 +238,8 @@ export default {
   },
   setCgpFormType(context, payload) {
     const store = context;
-
-    store.commit(types.SET_CGP_FORM_TYPE, payload);
+    const massagedType = payload.replace(/ /g, '_');
+    store.commit(types.SET_CGP_FORM_TYPE, massagedType);
   },
   setCgpOperatorName(context, payload) {
     const store = context;
@@ -291,6 +291,7 @@ export default {
     AppAxios.get(`${apiURL}/eep/proxy/service/oeca-svc-ref?tribes&states&sectors&subsectors`)
       .then((response) => {
         const formOptions = response.data.helperQueryResponse.oecaSvc;
+        let isValid = false;
         const formSectorOptions = formOptions[0];
         const formStateOptions = formOptions[1];
         const formTribalOptions = formOptions[2];
@@ -298,20 +299,30 @@ export default {
         const formStateNames = [];
         const formTribalNames = [];
 
-        formSectorOptions.forEach((sectorOption) => {
-          formSectorNames.push(sectorOption.sectorName);
-        });
-        formStateOptions.forEach((stateOption) => {
-          formStateNames.push(stateOption.stateName);
-        });
-        formTribalOptions.forEach((tribeOption) => {
-          formTribalNames.push(tribeOption.tribalName);
-        });
+        if (formSectorOptions && formStateOptions && formTribalOptions){
+          isValid = true;
+        }
 
-        store.commit(types.SET_BASE_FORM_OPTIONS, formOptions);
-        store.commit(types.SET_BASE_FORM_OPTION_STATE_NAMES, formStateNames.sort());
-        store.commit(types.SET_BASE_FORM_OPTION_SECTOR_NAMES, formSectorNames.sort());
-        store.commit(types.SET_BASE_FORM_OPTION_TRIAL_NAMES, formTribalNames.sort());
+        // If response is as expected, populate fields as normal. Otherwise, set the options error.
+        if (isValid) {
+          formSectorOptions.forEach((sectorOption) => {
+            formSectorNames.push(sectorOption.sectorName);
+          });
+          formStateOptions.forEach((stateOption) => {
+            formStateNames.push(stateOption.stateName);
+          });
+          formTribalOptions.forEach((tribeOption) => {
+            formTribalNames.push(tribeOption.tribalName);
+          });
+          store.commit(types.SET_BASE_FORM_OPTIONS, formOptions);
+          store.commit(types.SET_BASE_FORM_OPTION_STATE_NAMES, formStateNames.sort());
+          store.commit(types.SET_BASE_FORM_OPTION_SECTOR_NAMES, formSectorNames.sort());
+          store.commit(types.SET_BASE_FORM_OPTION_TRIAL_NAMES, formTribalNames.sort());
+        } else {
+          let errorResponse = 'Permit Lookup form services unavailable at this time.';
+          console.warn('Check if oeca base endpoint is running. Form options are unable to be loaded from this endpoint at this time.');
+          store.commit(types.SET_OPTIONS_ERROR, errorResponse);
+        }
       });
   },
   loadMsgpFormOptions(context) {
@@ -321,8 +332,34 @@ export default {
 
     AppAxios.get(`${apiURL}/eep/proxy/service/oeca-msgp?formTypes&formStatuses&coverageTypes&submissionTypes&issuers&coverageStatuses&msgpDownloadUrlBase`)
       .then((response) => {
+        let isValid = true;
         const formOptions = response.data.helperQueryResponse;
-        store.commit(types.SET_FORM_OPTIONS_MSGP, formOptions);
+        // Check each option. If any option was not recieved (null value), then mark as invalid and stop checking
+        for (let option in formOptions){
+          if (!formOptions[option]){
+            isValid = false;
+            break;
+          }
+        }
+        // If response is as expected, populate fields as normal. Otherwise, set the options error.
+        if (isValid){
+          // Massage out underscores
+          let coverageTypes = formOptions['coverageTypes'];
+          let i = 0;
+          for (let type in coverageTypes){
+            if (coverageTypes[i].includes('_')) {
+              coverageTypes[i] = coverageTypes[i].replace(/_/g, ' ');
+            }
+            i++;
+          }
+          formOptions['coverageTypes'] = coverageTypes;
+          store.commit(types.SET_FORM_OPTIONS_MSGP, formOptions);
+        } else {
+          let errorResponse = 'Permit Lookup form services unavailable at this time.';
+          console.warn('Check if msgp endpoint is running. Form options are unable to be loaded from this endpoint at this time.\n' +
+            'Current end point is: ', formOptions['msgpDownloadUrlBase']);
+          store.commit(types.SET_OPTIONS_ERROR, errorResponse);
+        }
       });
   },
   loadCgpFormOptions(context) {
@@ -332,8 +369,35 @@ export default {
 
     AppAxios.get(`${apiURL}/eep/proxy/service/oeca-cgp?formTypes&formStatuses&cgpDownloadUrlBase`)
       .then((response) => {
+        let isValid = true;
         const formOptions = response.data.helperQueryResponse;
-        store.commit(types.SET_FORM_OPTIONS_CGP, formOptions);
+        // Check each option. If any option was not recieved (null value), then mark as invalid and stop checking
+        for (let option in formOptions){
+          if (!formOptions[option]) {
+            isValid = false;
+            break;
+          }
+        }
+        // If response is as expected, populate fields as normal. Otherwise, set the options error.
+        if (isValid){
+          // Massage out underscores
+          let formTypes = formOptions['formTypes'];
+          let i = 0;
+          for (let type in formTypes){
+            if (formTypes[i].includes('_')) {
+              formTypes[i] = formTypes[i].replace(/_/g, ' ');
+            }
+            i++;
+          }
+          formOptions['formTypes'] = formTypes;
+
+          store.commit(types.SET_FORM_OPTIONS_CGP, formOptions);
+        } else {
+          let errorResponse = 'Permit Lookup form services unavailable at this time.';
+          console.warn('Check if cgp endpoint is running. Form options are unable to be loaded from this endpoint at this time.\n' +
+            'Current end point is: ', formOptions['cgpDownloadUrlBase']);
+          store.commit(types.SET_OPTIONS_ERROR, errorResponse);
+        }
       });
   },
   msgpFormGetResults(context, payload) {
@@ -379,20 +443,24 @@ export default {
     AppAxios.get(axiosUrl)
       .then((response) => {
         let msgpResponse = response.data.formQueryResponse;
-
-        // Massage dates to only include Year, month, and day
-        msgpResponse.forEach(function(data_object){
-          data_object['certifiedDate'] = data_object['certifiedDate'].substring(0, 10);
-        });
-
-        if (msgpResponse.code === 'E_InternalError') {
-          msgpResponse = 'Error Loading Results...';
-          store.commit(types.SET_MSGP_RESPONSE, msgpResponse);
-          store.commit(types.SET_RESULTS_ERROR, true);
+        if (msgpResponse) {
+          store.commit(types.SET_NO_RESULTS, false);
+          // Massage dates to only include Year, month, and day
+          msgpResponse.forEach(function(data_object){
+            data_object['certifiedDate'] = data_object['certifiedDate'].substring(0, 10);
+            data_object['coverageType'] = data_object['coverageType'].replace(/_/g, ' ');
+          });
+          if (msgpResponse.code === 'E_InternalError') {
+            msgpResponse = 'Error Loading Results...';
+            store.commit(types.SET_MSGP_RESPONSE, msgpResponse);
+            store.commit(types.SET_RESULTS_ERROR, true);
+          } else {
+            store.commit(types.SET_RESULTS_ERROR, false);
+            store.commit(types.SET_MSGP_RESPONSE, msgpResponse);
+            store.commit(types.SET_MSGP_RESULTS_LOADED, true);
+          }
         } else {
-          store.commit(types.SET_RESULTS_ERROR, false);
-          store.commit(types.SET_MSGP_RESPONSE, msgpResponse);
-          store.commit(types.SET_MSGP_RESULTS_LOADED, true);
+          store.commit(types.SET_NO_RESULTS, true);
         }
         vm.$root.$emit('bv::show::modal', 'permit-results-modal');
       });
@@ -443,20 +511,24 @@ export default {
     AppAxios.get(axiosUrl)
       .then((response) => {
         let cgpResponse = response.data.formQueryResponse;
-
-        // Massage dates to only include Year, month, and day
-        cgpResponse.forEach(function(data_object){
-          data_object['certifiedDate'] = data_object['certifiedDate'].substring(0, 10);
-        });
-
-        if (cgpResponse.code === 'E_InternalError') {
-          cgpResponse = 'Error Loading Results...';
-          store.commit(types.SET_CGP_RESPONSE, cgpResponse);
-          store.commit(types.SET_RESULTS_ERROR, true);
+        if (cgpResponse) {
+          store.commit(types.SET_NO_RESULTS, false);
+          // Massage dates to only include Year, month, and day
+          cgpResponse.forEach(function(data_object){
+            data_object['certifiedDate'] = data_object['certifiedDate'].substring(0, 10);
+            data_object['type'] = data_object['type'].replace(/_/g, ' ');
+          });
+          if (cgpResponse.code === 'E_InternalError') {
+            cgpResponse = 'Error Loading Results...';
+            store.commit(types.SET_CGP_RESPONSE, cgpResponse);
+            store.commit(types.SET_RESULTS_ERROR, true);
+          } else {
+            store.commit(types.SET_RESULTS_ERROR, false);
+            store.commit(types.SET_CGP_RESPONSE, cgpResponse);
+            store.commit(types.SET_CGP_RESULTS_LOADED, true);
+          }
         } else {
-          store.commit(types.SET_RESULTS_ERROR, false);
-          store.commit(types.SET_CGP_RESPONSE, cgpResponse);
-          store.commit(types.SET_CGP_RESULTS_LOADED, true);
+          store.commit(types.SET_NO_RESULTS, true);
         }
         vm.$root.$emit('bv::show::modal', 'permit-results-modal');
       });
@@ -464,6 +536,7 @@ export default {
   resetResultsLoaded(context) {
     const store = context;
     store.commit(types.SET_RESULTS_ERROR, false);
+    store.commit(types.SET_NO_RESULTS, false);
     store.commit(types.SET_CGP_RESULTS_LOADED, false);
     store.commit(types.SET_MSGP_RESULTS_LOADED, false);
   },

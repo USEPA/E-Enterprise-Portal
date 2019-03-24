@@ -113,7 +113,7 @@ class EEPBridgeController extends ControllerBase {
       $authenticated_user = new AuthenticatedUser([]);
       $username = $user_data['UID'] . '_Via_' . $user_data['ISSUER'];
       $authenticated_user->set_name($username);
-      $authenticated_user->set_source_username($user_data['UID']);
+      $authenticated_user->set_source_username($user_data['USERID']);
       $authenticated_user->set_authentication_domain($user_data['ISSUER']);
       $this->create_or_login_user_if_exists($authenticated_user);
       $this->process_required_fields_for_user($authenticated_user);

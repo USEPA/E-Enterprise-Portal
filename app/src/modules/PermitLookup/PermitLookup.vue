@@ -18,7 +18,7 @@
               <b-col md="8">
                 <b-form-select
                   id="permit-type-selection-a"
-                  class="mb-3"
+                  class="mb-3 standard-styling"
                   :value="permitType"
                   :options="formOptions.permitType"
                   ref="permitTypeDropdown"
@@ -33,7 +33,20 @@
                   </template>
                 </b-form-select>
               </b-col>
-              <b-col md="4">
+              <b-col md="4"
+                v-if="optionsError">
+                <b-btn
+                  size="sm"
+                  variant="primary"
+                  ref="permitTypeSubmit"
+                  class="permit-lookup-base-btn"
+                  type="submit"
+                  disabled>
+                  Search
+                </b-btn>
+              </b-col>
+              <b-col md="4"
+                v-else-if="!optionsError">
                 <b-btn
                   size="sm"
                   variant="primary"
@@ -45,11 +58,17 @@
               </b-col>
             </b-row>
           </b-form>
-          <br>
+          <div v-if="optionsError"
+            class="text-danger">
+            {{ optionsError }}
+          </div>
+          <div v-else-if="!optionsError">
+            <br>
+          </div>
           <b-row>
             <b-col class="permit-search-footer">
               <a
-                class="text-decoration-underline cursor-pointer link-button"
+                class="text-decoration-underline cursor-pointer link-button standard-styling"
                 @click="openPermitInfoModal">
                 What permits can I find?
               </a>
@@ -64,7 +83,7 @@
             :title="`${permitType} Lookup`"
             :hide-footer="true">
             <b-form
-              class="needs-validation"
+              class="needs-validation standard-styling"
               @submit="initialFormSubmit"
               novalidated>
               <b-row>
@@ -76,7 +95,7 @@
                 <b-col md="6">
                   <b-form-select
                     id="permit-type-selection-b"
-                    class="mb-3"
+                    class="mb-3 standard-styling"
                     :value="permitType"
                     :options="formOptions.permitType"
                     ref="permitTypeDropdown"
@@ -96,7 +115,7 @@
               <div
                 class="input-row">
                 Find Notices of Intent (NOIs), Notices of Termination (NOTs), or Low Erosivity Waivers (LEWs) submitted
-                under the U.S. EPA 2017 Construction General Permit (CGP).  At this time, search results will only
+                under the U.S. EPA 2017 Construction General Permit (CGP). At this time, search results will only
                 include activity with the national NPDES eReporting Tool (NeT-CGP) for U.S. EPA lead and participating
                 states and tribes.
               </div>
@@ -232,7 +251,7 @@
                     <b-form-select
                       id="form-type-selection"
                       class="mb-3"
-                      :value="cgpFormData.formType"
+                      v-model="cgpType"
                       :options="formOptions.cgpFormOptions.formTypes"
                       ref="formType-Dropdown"
                       @change="setCgpFormType"
@@ -442,7 +461,8 @@
               v-else-if="permitType === 'Multi-Sector General Permit'"
               id="msgp-form-wrapper">
               <div class="input-row">
-                Find notices of intent and related submissions for general permits implemented in EPA’s NPDES eReporting Tool (NeT).
+                Find notices of intent and related submissions for general permits implemented in EPA’s NPDES eReporting
+                Tool (NeT).
               </div>
               <div
                 id="msgp-header">
@@ -518,7 +538,7 @@
                     <b-form-select
                       id="coverage-type-selection"
                       class="mb-3"
-                      :value="msgpFormData.coverageType"
+                      v-model="msgpType"
                       :options="formOptions.msgpFormOptions.coverageTypes"
                       ref="coverage-type-selection"
                       @change="setMsgpCoverageType"
@@ -624,8 +644,8 @@
                       ref="sic-code-input"
                       class="mb-3"
                       :value="msgpFormData.sicCode"
-                      :disabled="isDisabledSubsectorMsgp"
                       @change="setMsgpSicCode"
+                      type="number"
                       size="sm"/>
                   </b-col>
                 </b-row>
@@ -950,8 +970,8 @@
                 </b-form-group>
               </b-col>
             </b-row>
-            <b-col class="overflow-x-scroll">
-              <b-row v-if="cgpResultsLoaded || msgpResultsLoaded || resultsError">
+            <b-col>
+              <b-row v-if="cgpResultsLoaded || msgpResultsLoaded || resultsError || noResults">
                 <b-table
                   v-if="cgpResultsLoaded"
                   hover
@@ -1010,10 +1030,16 @@
                     {{ cgpFormResults }}
                   </div>
                 </div>
+                <div v-else-if="noResults">
+                  <div class="text-danger text-center">
+                    No permits seem to match your search criteria.
+                  </div>
+                </div>
               </b-row>
             </b-col>
             <!-- pagination -->
-            <b-row class="text-center">
+            <b-row class="text-center"
+              v-if="!noResults">
               <b-col
                 md="12"
                 class="my-1">
@@ -1240,6 +1266,8 @@
         radioSelection2: null,
         radioSelection3: null,
         radioSelection4: null,
+        cgpType: null,
+        msgpType: null,
         msgpFields: [
           {
             key: 'issuer',
@@ -1419,6 +1447,8 @@
         cgpFormDataDefaults: 'getCgpFormDataDefaults',
         totalRows: 'getTotalRows',
         resultsError: 'getResultsError',
+        optionsError: 'getOptionsError',
+        noResults: 'getNoResults',
       }),
       isDisabledCountyMsgp() {
         return this.msgpFormData.facilityState === 'Select...';
@@ -1541,6 +1571,8 @@
         this.radioSelection2 = null;
         this.radioSelection3 = null;
         this.radioSelection4 = null;
+        this.cgpType = null;
+        this.msgpType = null;
       },
     },
     props: {
@@ -1558,11 +1590,15 @@
     background-image: url('../../assets/images/widget-info-circle.svg');
   }
   label,
+  .btn,
   .custom-select-sm,
   .form-control-sm,
-   .btn-group-sm>.btn,
-   .btn-sm  {
+  .standard-styling,
+  .input-row,
+  #msgp-header,
+  #cgp-header{
     font-size: 0.9375rem; //15px
+    font-family: "Source Sans Pro Web";
   }
   .btn-sm {
     line-height: 1.4;   // Temporary fix - @todo adjust small buttons so reasonable height and padding

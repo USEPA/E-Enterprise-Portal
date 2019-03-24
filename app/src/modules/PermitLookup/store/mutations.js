@@ -485,4 +485,18 @@ export default {
       bool,
     );
   },
+  [types.SET_OPTIONS_ERROR](state, bool) {
+    Vue.set(
+      state,
+      'optionsError',
+      bool,
+    );
+  },
+  [types.SET_NO_RESULTS](state, bool) {
+    Vue.set(
+      state,
+      'noResults',
+      bool,
+    );
+  },
 };
