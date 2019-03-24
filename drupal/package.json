@@ -21,8 +21,5 @@
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "uglify-js": "^2.7.0"
-  },
-  "dependencies": {
-    "jQuery": "^1.7.4"
   }
 }
