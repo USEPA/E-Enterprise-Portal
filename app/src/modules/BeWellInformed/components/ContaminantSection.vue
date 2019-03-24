@@ -141,7 +141,6 @@
           // Make this a better solution. Currently just visually sets the fields to null
           // to avoid confusion, but setting these directly causes them to be accurately
           // displayed when the DOM re-renders.
-          
           if (contaminant._attributes.ShowIsPresent && (event === '-1' || event === '-2')) {
             //console.log(vm.$refs[`${contaminant._attributes.Value}-Value`]);
             vm.$refs[`${contaminant._attributes.Value}-Value`].forEach(input =>
@@ -152,6 +151,13 @@
       },
     },
   };
+
+  /*
+  NOTE ABOUT 'ABSENT' AND 'PRESENT':
+  DO NOT DIRECTLY SET THE 'PRESENT' FIELD. THERE ARE SPECIAL VALUES THAT MUST BE STORED IN THE 'VALUE' FIELD
+  THAT REPRESENT 'ABSENT' AND 'PRESENT'.  THESE VALUES ARE -2 AND -1 RESPECTIVELY.
+   */
+
 </script>
 
 <style scoped
