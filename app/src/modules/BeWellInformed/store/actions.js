@@ -184,26 +184,22 @@ export default {
                 store.commit(types.UPDATE_INTERACTIVE_PROMPTS, []);
               }
               if (data.AdditionalContaminantRequests.length) {
-                if (data.AdditionalContaminantRequests.length > 1) {
-                  let additionalRequests = [];
-                  for (let i = 0; i < data.AdditionalContaminantRequests.length - 1; i++) {
-                    if (data.AdditionalContaminantRequests[i].Symbol !== data.AdditionalContaminantRequests[i + 1].Symbol) {
-                      additionalRequests.push(data.AdditionalContaminantRequests[i]);
-                      additionalRequests.push(data.AdditionalContaminantRequests[i+1]);
-                    }
-                    else {
-                      additionalRequests.push(data.AdditionalContaminantRequests[i])
-                    }
-                    store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS,
-                      additionalRequests);
-                  }
-                } else {
-                    store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS,
-                      data.AdditionalContaminantRequests);
-                }
-                } else {
-                  store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS, []);
-                }
+                let requests = data.AdditionalContaminantRequests;
+                const uniqueRequests = requests
+                  .map(e => e['Symbol'])
+
+                  // store the keys of the unique objects
+                  .map((e, i, final) => final.indexOf(e) === i && i)
+
+                  // eliminate the dead keys & store unique objects
+                  .filter(e => requests[e]).map(e => requests[e]);
+                store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS,
+                  uniqueRequests);
+
+
+              } else {
+                store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS, []);
+              }
 
               if (data.InteractivePrompts.length
                 || data.AdditionalContaminantRequests.length) {

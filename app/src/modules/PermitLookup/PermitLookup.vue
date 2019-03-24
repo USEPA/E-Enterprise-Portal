@@ -976,7 +976,7 @@
                   v-if="cgpResultsLoaded"
                   hover
                   id="permit-lookup-table-cgp"
-                  class="bootstrap-vue-permit-table-scroll d-block overflow-x-scroll"
+                  class="bootstrap-vue-permit-table-scroll d-block"
                   :items="cgpFormResults"
                   :fields="cgpFields"
                   :current-page="currentPage"
@@ -999,7 +999,7 @@
                   v-else-if="msgpResultsLoaded"
                   hover
                   id="permit-lookup-table-msgp"
-                  class="bootstrap-vue-permit-table-scroll d-block overflow-x-scroll"
+                  class="bootstrap-vue-permit-table-scroll d-block"
                   :items="msgpFormResults"
                   :fields="msgpFields"
                   :current-page="currentPage"

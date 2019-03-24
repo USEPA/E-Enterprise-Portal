@@ -38,9 +38,14 @@ Cache-Control: no-cache
 ###
 
 
-# Geolocation
+# Geolocation (Generic Filter)
 GET http://e-enterprise/eep/proxy/service/geolocation?f=pjson&location=-92.0420352,30.217830399999997&XDEBUG_SESSION_START=PHPSTORM
 Accept: */*
 Cache-Control: no-cache
+
+###
+
+GET http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&location=-92.0420352,30.217830399999997
+Accept: application/json
 
 ###
