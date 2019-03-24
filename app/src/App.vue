@@ -177,14 +177,6 @@
       },
       handleLogOut() {
         const vm = this;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-        vm.$router.push('/login');
->>>>>>> parent of 40bab58f... added comments on functionality
-=======
-        vm.$router.push('/login');
->>>>>>> parent of 40bab58f... added comments on functionality
         vm.$root.$emit(
           'bv::hide::modal',
           'cookieModal',
