@@ -177,12 +177,12 @@
       },
       handleLogOut() {
         const vm = this;
-        vm.$router.push('/login');
         vm.$root.$emit(
           'bv::hide::modal',
           'cookieModal',
           vm.$refs.cookieModal,
         );
+        vm.$router.push('/');
       },
       exitModal() {
         const vm = this;
