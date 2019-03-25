@@ -2,6 +2,10 @@
   display: block;
 }
 
+.bootstrap-vue-permit-table-scroll > thead, .bootstrap-vue-permit-table-scroll > tbody {
+  display: block;
+}
+
 .bootstrap-vue-fav-table-scroll > tbody,
 .bootstrap-vue-mycerts-table-scroll > tbody {
   overflow-y: auto;
@@ -10,6 +14,7 @@
 
 .bootstrap-vue-fav-table-scroll > thead,
 .bootstrap-vue-mycerts-table-scroll > thead,
+.bootstrap-vue-permit-table-scroll > thead,
 .wapp tbody {
   display: block;
 }
@@ -20,6 +25,7 @@
 .bootstrap-vue-mycerts-table-scroll > tbody td,
 .bootstrap-vue-mycerts-table-scroll > thead th,
 .bootstrap-vue-mycerts-table-scroll > table,
+.bootstrap-vue-permit-table-scroll > table,
 .bootstrap-vue-table-scroll > table {
   table-layout: fixed;
   width: 100%;
@@ -38,6 +44,8 @@
 .bootstrap-vue-fav-table-scroll > tbody tr,
 .bootstrap-vue-mycerts-table-scroll > thead tr,
 .bootstrap-vue-mycerts-table-scroll > tbody tr,
+bootstrap-vue-permit-table-scroll > thead tr,
+bootstrap-vue-permit-table-scroll > tbody tr,
 .bootstrap-vue-fav-table-scroll > thead th,
 .bootstrap-vue-fav-table-scroll > tbody td {
   display: flex;
@@ -114,4 +122,9 @@
   overflow-y: auto;
   width: 100%;
   height:125px;
+}
+.bootstrap-vue-permit-table-scroll > tbody {
+  overflow-y: auto;
+  width:100%;
+  height:250px;
 }
