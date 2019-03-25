@@ -182,7 +182,7 @@
                       section: getSectionFromSymbol(question.Symbol),
                       contaminant: getContaminantFromSymbol(question.Symbol),
                       property: 'Value',
-                      $event:$event })"/>
+                      value:$event })"/>
                 </div>
                 <div class="col-sm-4">
                   <b-form-select
@@ -192,7 +192,7 @@
                       section: getSectionFromSymbol(question.Symbol),
                       contaminant: getContaminantFromSymbol(question.Symbol),
                       property: 'Unit',
-                      $event:$event })">
+                      value:$event })">
                     <template
                       v-for="unit in getContaminantUnits(question)">
                       <option
@@ -228,7 +228,6 @@
   import PartnerResources from './components/PartnerResources.vue';
   import { EventBus } from '../../EventBus';
   import WaterAnalysisResult from './components/WaterAnalysisResult.vue';
-  import ContaminantSection from './components/ContaminantSection.vue';
 
   const moduleName = 'BeWellInformed';
 
@@ -241,7 +240,6 @@
       AppPlaceholderContent,
       PartnerForm,
       PartnerResources,
-      ContaminantSection,
     },
     beforeCreate() {
       require.context('./images', false, /\.png$/);
