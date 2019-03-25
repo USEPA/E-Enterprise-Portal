@@ -989,10 +989,60 @@
             title="What do the coverage status terms mean?"
             hide-footer="true">
             <div
+              v-show="permitType === 'Construction General Permit'"
               class="info-modal-component">
               <b-row>
                 <div>
-                  <span class="font-weight-bold">1. Active:</span> General permit coverage that has been granted by the NPDES permitting authority.
+                  <span class="font-weight-bold">1. Active (NOI):</span> CGP NOI that has been certified, submitted to
+                  EPA, and completed a 14-day review process. Active NOIs are considered covered under the CGP permit.
+                </div>
+              </b-row>
+              <b-row>
+                <div>
+                  <span class="font-weight-bold">2. Active (LEW):</span> A LEW that has been certified and submitted to
+                  EPA. Active LEWs are considered covered under the waiver from needing CGP coverage.
+                </div>
+              </b-row>
+              <b-row>
+                <div>
+                  <span class="font-weight-bold">3. Submitted to EPA:</span> CGP NOI that has been certified and
+                  submitted to EPA and is undergoing the 14-day review process.
+                </div>
+              </b-row>
+              <b-row>
+                <div>
+                  <span class="font-weight-bold">4. Active - Pending Change:</span> CGP NOI that is Active but has had a
+                  Change NOI submitted to EPA and is currently undergoing the 14-day review process. Once the Change NOI
+                  becomes Active, the original NOI will become Archived.
+                </div>
+              </b-row>
+              <b-row>
+                <div>
+                  <span class="font-weight-bold">5. Archived:</span> When a Change NOI or LEW has been submitted to EPA
+                  and becomes Active, the original NOI or LEW becomes Archived and is no longer Active.
+                </div>
+              </b-row>
+              <b-row>
+                <div>
+                  <span class="font-weight-bold">6. Terminated:</span> CGP NOI that has been terminated for a project
+                  that no longer needs permit coverage. Projects are only eligible for termination after meeting the
+                  requirements of Part 8 of EPA’s 2017 CGP.
+                </div>
+              </b-row>
+              <b-row>
+                <div>
+                  <span class="font-weight-bold">7. Discontinued:</span> A LEW that has been discontinued for a project
+                  that no longer needs or is eligible for the waiver for permit coverage.
+                </div>
+              </b-row>
+            </div>
+            <div
+              v-show="permitType === 'Multi-Sector General Permit'"
+              class="info-modal-component">
+              <b-row>
+                <div>
+                  <span class="font-weight-bold">1. Active:</span> General permit coverage that has been granted by the
+                  NPDES permitting authority.
                   Typically, a Notice
                   of
                   Intent (NOI) or request for exclusion or waiver that has been certified, submitted,
@@ -1472,7 +1522,7 @@
   .standard-styling,
   .input-row,
   #msgp-header,
-  #cgp-header{
+  #cgp-header {
     font-size: 0.9375rem; //15px
     font-family: "Source Sans Pro Web";
   }
