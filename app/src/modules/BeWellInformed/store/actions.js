@@ -312,7 +312,7 @@ export default {
     const request = {
       path: `BeWellInformed.waterAnalysisRequest.${payload.section}.${payload.contaminant._attributes.Value}`,
       property: payload.property,
-      value: payload.event,
+      value: payload.value,
       defaultValue: payload.defaultValue || '',
     };
 

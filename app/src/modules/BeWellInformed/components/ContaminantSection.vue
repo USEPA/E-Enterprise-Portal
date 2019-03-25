@@ -12,14 +12,28 @@
               <label :for="`${contaminant._attributes.Value}-Value`" class="">{{ contaminant._attributes.Text }}</label>
             </div>
             <div class="col-sm-3 pr-2">
+              <!-- Show fake input when we have to juggle present/absent/real values -->
               <b-form-input
+                v-show="!canShowIsPresent(contaminant)"
+                class="actual-contaminant-input"
                 :ref="`${contaminant._attributes.Value}-Value`"
                 :id="`${contaminant._attributes.Value}-Value`"
                 type="number"
                 step="0.001"
                 v-model="request[contaminant._attributes.Value].Value"
                 @change="updateProperty( section, contaminant, 'Value', $event)"
-                />
+              />
+              <!-- Show actual input when we have don't have to juggle-->
+              <b-form-input
+                v-show="canShowIsPresent(contaminant)"
+                class="fake-contaminant-input"
+                :ref="`${contaminant._attributes.Value}-Value-Fake`"
+                :id="`${contaminant._attributes.Value}-Value-Fake`"
+                v-model="fakeInputs[contaminant._attributes.Value]"
+                type="number"
+                step="0.001"
+                @change="updateProperty( section, contaminant, 'Value', $event)"
+              />
             </div>
             <div class="col-sm-4">
               <label for="measurement-units" class="sr-only">Units of Measurement</label>
@@ -28,7 +42,7 @@
                 :value="contaminant._attributes.DefaultUnit"
                 v-model="request[contaminant._attributes.Value].Unit"
                 @change="updateProperty( section, contaminant, 'Unit', $event)"
-                >
+              >
                 <template v-for="unit in contaminant._attributes.Units.split('|')">
                   <option
                     :key="unit"
@@ -47,7 +61,7 @@
                 :ref="`${contaminant._attributes.Value}-ShowIsPresent`"
                 :id="`${contaminant._attributes.Value}-ShowIsPresent`"
                 @change="updateProperty( section, contaminant, 'Value', $event)"
-                v-model="request[contaminant._attributes.Value].Present"
+                v-model="radios[contaminant._attributes.Value]"
                 :name="`${contaminant._attributes.Value}-ShowIsPresent`">
                 <b-form-radio value="-1">Present</b-form-radio>
                 <b-form-radio value="-2">Absent</b-form-radio>
@@ -68,7 +82,7 @@
   </div>
 </template>
 <script>
-  import { mapActions, mapGetters } from 'vuex';
+  import {mapActions, mapGetters} from 'vuex';
 
   const name = 'BeWellInformed';
 
@@ -91,6 +105,8 @@
     data() {
       return {
         contaminants: {},
+        fakeInputs: {},
+        radios: {},
       };
     },
     computed: {
@@ -134,20 +150,17 @@
         ));
         return r;
       },
-      updateProperty(section, contaminant, property, event) {
+      updateProperty(section, contaminant, property, $event) {
         const vm = this;
         vm.updateWaterAnalysisRequestProperty({
-          section, contaminant, property, event,
+          section, contaminant, property, value: $event,
         }).then(function () {
-          // TODO
-          // Make this a better solution. Currently just visually sets the fields to null
-          // to avoid confusion, but setting these directly causes them to be accurately
-          // displayed when the DOM re-renders.
-          if (contaminant._attributes.ShowIsPresent && (event === '-1' || event === '-2')) {
-            //console.log(vm.$refs[`${contaminant._attributes.Value}-Value`]);
-            vm.$refs[`${contaminant._attributes.Value}-Value`].forEach(input =>
-              input['value'] = null
-            );
+          // If it has radio buttons and one of those values is passed, we need to clear the fake input field ;)
+          if (contaminant._attributes.ShowIsPresent && ($event === '-2')) {
+            vm.fakeInputs[contaminant._attributes.Value] = undefined;
+          }
+          else if (vm.radios[contaminant._attributes.Value] && ($event !== '-1' && $event !== '-2')) {
+            vm.radios[contaminant._attributes.Value] = undefined;
           }
         });
       },
@@ -163,8 +176,10 @@
 </script>
 
 <style scoped
-  lang="scss">
-
+ lang="scss">
+  .real-input {
+    display: none;
+  }
   .contaminant-wrapper {
     hr {
       margin: 0;
