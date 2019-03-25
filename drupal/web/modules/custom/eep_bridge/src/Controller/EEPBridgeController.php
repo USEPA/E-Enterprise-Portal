@@ -52,7 +52,7 @@ class EEPBridgeController extends ControllerBase {
       $this->process_required_fields_for_user($authenticated_user);
       $this->create_jwt_and_send_user();
     } else {
-      $this->bridge_auth_logout();
+      $this->force_new_bridge_login($userDetails->attributes['authenticationMethod']);
     }
     return;
   }
@@ -70,7 +70,7 @@ class EEPBridgeController extends ControllerBase {
           $user_data = $this->pull_user_data_from_token($security_token, $_SERVER['LOCAL_ADDR']);
         } catch
         (\SoapFault $soap_fault) {
-          $this->bridge_auth_logout();
+          $this->force_new_bridge_login($attributes['authenticationMethod']);
         }
         if ($auth_method === 'ENNAAS') {
           $valid_token = ($user_data['USERID'] == $attributes['userId'][0]);
@@ -107,10 +107,25 @@ class EEPBridgeController extends ControllerBase {
    * @return JsonResponse
    */
   public function bridge_auth_logout() {
+    $config = \Drupal::config('eep_bridge.environment_settings');
+    $logout_url = $config->get('eep_bridge_issuer') . '?wa=wsignout1.0&wreply=' . urlencode($config->get('eep_bridge_wreply'));
+    user_logout();
+    header("Location:$logout_url");
+    exit();
+  }
+
+  /**
+   * Builds URL that sends user to Bridge logout, then sends the user back to login again for the
+   * passed in URN.
+   */
+  private function force_new_bridge_login($urn_method) {
     // Declare variables
     $config = \Drupal::config('eep_bridge.environment_settings');
-    // Build logout url
-    $logout = $config->get('eep_bridge_issuer') . '?wa=wsignout1.0&wreply=' . urlencode($config->get('eep_bridge_wreply'));
+    $bridge_url = $config->get('eep_bridge_issuer');
+    $eep_realm = $config->get('eep_bridge_realm');
+    $bridge_url = $bridge_url . '?wtrealm=' . $eep_realm . '&wreply=' . $eep_realm . '/authenticate/user' . '&whr=' . $urn_method . '&wa=wsignin1.0';
+    $bridge_url_encode = urlencode($bridge_url);
+    $logout = $config->get('eep_bridge_issuer') . '?wa=wsignout1.0&wreply=' . $bridge_url_encode;
     // Log current user out
     user_logout();
     // Redirect to the bridge
