@@ -136,7 +136,7 @@
               :key="question.Symbol">
               <div class="row my-2">
                 <div class="col-sm-6">
-                  <label class="">{{ question.Interaction }}</label>
+                  <label :for="`${question.Symbol}-question-Value`" class="">{{ question.Interaction }}</label>
                 </div>
                 <div class="col-sm-6">
                   <b-form-radio-group
@@ -169,7 +169,7 @@
               :key="question.Symbol">
               <div class="row my-2">
                 <div class="col-sm-5">
-                  <label class="">{{ question.Interaction }}</label>
+                  <label :for="`${question.Symbol}-question-Value`" class="">{{ question.Interaction }}</label>
                 </div>
                 <div class="col-sm-3">
                   <b-form-input
@@ -185,7 +185,9 @@
                       event:$event })"/>
                 </div>
                 <div class="col-sm-4">
+                  <label for="measurement-unit" class="sr-only">Measurement Unit</label>
                   <b-form-select
+                    id="measurement-unit"
                     :contam="getContaminantFromSymbol(question.Symbol)"
                     :value="getContaminantFromSymbol(question.Symbol)._attributes.DefaultUnit"
                     @change="updateWaterAnalysisRequestProperty( {
