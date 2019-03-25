@@ -297,6 +297,7 @@
         'fetchPartners',
         'fetchPartnerAndFlowchartXML',
         'submitPartnersData',
+        'showResults',
         'updateAdditionalContaminantProperty',
         'updatePromptResponses',
         'updateSelectedPartner',
@@ -349,7 +350,7 @@
         if (!isRequestEmpty) {
           evt.preventDefault();
           vm.submissionErrorMessage = '';
-          vm.submitPartnersData({ vm, evt });
+         vm.showResults({ vm, evt });
           vm.$root.$emit(
             'bv::hide::modal',
             'bwi-modal-interactive',

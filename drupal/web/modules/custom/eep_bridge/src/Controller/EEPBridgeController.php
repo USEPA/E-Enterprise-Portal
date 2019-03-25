@@ -46,11 +46,46 @@ class EEPBridgeController extends ControllerBase {
     }
     // Pull UserDetails from Post
     $userDetails = $this->parse_post_for_user_details($_POST);
-    $authenticated_user = new AuthenticatedUser($userDetails);
-    $this->create_or_login_user_if_exists($authenticated_user);
-    $this->process_required_fields_for_user($authenticated_user);
-    $this->create_jwt_and_send_user();
+    if ($this->verify_token_with_request($userDetails)) {
+      $authenticated_user = new AuthenticatedUser($userDetails);
+      $this->create_or_login_user_if_exists($authenticated_user);
+      $this->process_required_fields_for_user($authenticated_user);
+      $this->create_jwt_and_send_user();
+    } else {
+      $this->bridge_auth_logout();
+    }
     return;
+  }
+
+  private function verify_token_with_request($request_details) {
+    // @todo The actual attribute check versus token can be ported to configurations and this function
+    // should be generalized. The pattern is the same for every Auth Method
+    $valid_token = FALSE;
+    if (isset($request_details->attributes)) {
+      $attributes = $request_details->attributes;
+      if ($attributes['authenticationMethod']) {
+        $auth_method = strtoupper(str_replace('urn:', '', $attributes['authenticationMethod']));
+        $security_token = $attributes['securityToken'][0];
+        try {
+          $user_data = $this->pull_user_data_from_token($security_token, $_SERVER['LOCAL_ADDR']);
+        } catch
+        (\SoapFault $soap_fault) {
+          $this->bridge_auth_logout();
+        }
+        if ($auth_method === 'ENNAAS') {
+          $valid_token = ($user_data['USERID'] == $attributes['userId'][0]);
+        } else if ($auth_method === 'FACEBOOK') {
+          $valid_token = ($user_data['ID'] == $attributes['id'][0]);
+        } else if ($auth_method === 'WAMNAAS') {
+          $valid_token = ($user_data['UID'] == $attributes['name'][0]);
+        } else if ($auth_method === 'TWITTER') {
+          $valid_token = ($user_data['ID'] == $attributes['id'][0]);
+        } else if ($auth_method === 'SMARTCARDAUTH') {
+          $valid_token = ($user_data['UID'] == $attributes['uid'][0]);
+        }
+      }
+    }
+    return $valid_token;
   }
 
   /**
@@ -61,9 +96,6 @@ class EEPBridgeController extends ControllerBase {
    * @param $uid
    */
   public function eep_authenticate_dev_user($uid = NULL) {
-    $config = $this->config('eep_bridge.environment_settings');
-    $environment_name = $config->get('eep_bridge_environment_name');
-
     if (!$uid) {
       $uid = \Drupal::currentUser()->id();
     }
@@ -214,6 +246,7 @@ class EEPBridgeController extends ControllerBase {
       $uid = \Drupal::currentUser()->id();
     }
     $jwt_token = $this->auth->generateToken();
+    user_logout();
     if ($jwt_token === FALSE) {
       $error_msg = "Error. Please set a key in the JWT admin page.";
       \Drupal::logger('eep_bridge')->error($error_msg);
@@ -221,6 +254,22 @@ class EEPBridgeController extends ControllerBase {
     $url = Url::fromUri($environment_name . '?token=' . $jwt_token . '&uid=' . $uid);
     $this->eep_bridge_goto($url, $jwt_token);
   }
+
+  /**
+   * @param $token
+   * @param $ip
+   * @param $decoded_parts
+   * @return array
+   */
+  private function pull_user_data_from_token($token, $ip) {
+    $config = $this->config('eep_my_reporting.form');
+    $cdx_service = new CDXSecurityTokenService($config);
+    $decoded_token = $cdx_service->decode_token($token, $ip);
+    parse_str($decoded_token->return, $decoded_parts);
+    $user_data = array_change_key_case($decoded_parts, CASE_UPPER);
+    return $user_data;
+  }
+
 
   /**
    * @param \Drupal\user\UserInterface $user
@@ -235,7 +284,7 @@ class EEPBridgeController extends ControllerBase {
     $role = Role::load($role_id);
 
     // Create Role
-    if(!$role) {
+    if (!$role) {
       $label = ucwords(preg_replace('/-/', ' ', $role_name));
 
       $role = $this->create_role($role_id, $label);
