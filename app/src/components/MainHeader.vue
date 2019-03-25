@@ -22,8 +22,6 @@
             ref="try-it-button"
             class="usa-button pr-3 tryit-button"
             variant="primary"
-            @mouseover="showTryitArrow=true"
-            @mouseleave="showTryitArrow=false"
             v-b-tooltip.hover="{
               placement:'bottomleft',
               html: true
@@ -160,19 +158,6 @@
 
   .tryit-caption, .login-caption {
     display: inline-block;
-  }
-
-  .arrow-down-login, .arrow-down-tryit {
-
-    /* Draws the triangle*/
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 10px solid #112e51;
-
-    /*!*Sets position of triangle*!*/
-    margin-top: -11px;
   }
 
   @media (max-width: 410px) {

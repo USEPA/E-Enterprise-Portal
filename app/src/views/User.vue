@@ -162,12 +162,12 @@
         </p>
         <div class="mt-2">
           <b-btn
-            class="usa-button mr-3 ml-2 mt-0"
+            class="usa-button mt-0 mb-1 mr-2"
             @click="save">Save
           </b-btn>
           <b-btn
             v-b-modal.UserDeleteModalInfo
-            class="usa-button">Delete Profile
+            class="usa-button mb-1">Delete Profile
           </b-btn>
         </div>
       </b-tabs>
