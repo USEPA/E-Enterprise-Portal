@@ -76,9 +76,40 @@
     },
   };
 </script>
+<style>
+  .usa-accordion__button {
 
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    -webkit-font-smoothing: auto;
+    background-color: #f1f1f1;
+    background-position: right 2rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5rem;
+    color: #212121;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+    font-weight: 700;
+    margin: 1rem;
+    padding: 1.5rem 5.5rem 1.5rem 2rem;
+    width: 100%;
+  }
+  .usa-accordion-content {
+    background-color: #ffffff;
+    overflow: auto;
+    padding: 1.5rem 2rem;
+  }
+</style>
 <style scoped
   lang="scss">
+
+
   h2 + p,
   h2 + table,
   p + pre {
