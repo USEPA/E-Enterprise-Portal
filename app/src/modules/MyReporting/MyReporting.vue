@@ -88,7 +88,8 @@
                           class="ml-3"
                           aria-controls="my-reporting-table"
                           :options="pageOptions"
-                          v-model="perPage"/>
+                          v-model="perPage"
+                          @change="toPageOne"/>
                       </b-form-group>
                     </b-col>
                   </b-row>
@@ -145,7 +146,7 @@
                   <div class="my-cdx-modal">
                     <template v-if="!selectRequired">
                       <div class="w-100 text-center">
-                          <b-spinner large/>
+                        <b-spinner large/>
                       </div>
                     </template>
                     <template v-else>
@@ -157,7 +158,9 @@
                           class="mb-3"
                           @change="prepareProgramSelectionsFromOrganization($event)">
                           <template slot="first">
-                            <option disabled :value="null">Choose Organization...</option>
+                            <option
+                              disabled
+                              :value="null">Choose Organization...</option>
                             <option
                               v-for="(item, index) in linkDetails.organizations"
                               :value="linkDetails.organizations[index]"
@@ -180,7 +183,9 @@
                         <template
                           slot="first"
                           v-if="!!organization">
-                          <option disabled :value="null">Choose Program Client...</option>
+                          <option
+                            disabled
+                            :value="null">Choose Program Client...</option>
                           <option
                             v-for="(item, index) in organization.programClients"
                             :value="item.userRoleId"
@@ -216,18 +221,26 @@
                       :per-page="perPage"
                       v-model="currentPage"
                       class="my-0 font-weight-normal">
-                      <div class="wapp-arrows"
-                        slot="first-text"><img src="/images/pager-first.png"
-                        alt="Go to first page"></div>
-                      <div class="wapp-arrows"
-                        slot="next-text"><img src="/images/pager-next.png"
-                        alt="Go to next page"></div>
-                      <div class="wapp-arrows"
-                        slot="prev-text"><img src="/images/pager-previous.png"
-                        alt="Go to previous page"></div>
-                      <div class="wapp-arrows"
-                        slot="last-text"><img src="/images/pager-last.png"
-                        alt="Go to last page"></div>
+                      <div
+                        class="wapp-arrows"
+                        slot="first-text"><img
+                          src="/images/pager-first.png"
+                          alt="Go to first page"></div>
+                      <div
+                        class="wapp-arrows"
+                        slot="next-text"><img
+                          src="/images/pager-next.png"
+                          alt="Go to next page"></div>
+                      <div
+                        class="wapp-arrows"
+                        slot="prev-text"><img
+                          src="/images/pager-previous.png"
+                          alt="Go to previous page"></div>
+                      <div
+                        class="wapp-arrows"
+                        slot="last-text"><img
+                          src="/images/pager-last.png"
+                          alt="Go to last page"></div>
                     </b-pagination>
                   </b-col>
                 </b-row>
@@ -393,7 +406,7 @@
         const params = vm.handoff.post_params;
         if (url && params) {
             vm.openWindowWithPost(url, '', 'sso-handoff', params);
-            vm.$ga.event('eportal', 'click', 'My Reporting SSO Handoff', 1)
+            vm.$ga.event('eportal', 'click', 'My Reporting SSO Handoff', 1);
         }
         vm.closeAddModal();
       },
@@ -406,7 +419,7 @@
           params = vm.getReturnURLWithCdxParams(signOnType);
         }
         vm.openWindowWithPost(vm.cdx_configs.cdx_silent_handoff_url, '', 'sso-handoff', params);
-        vm.$ga.event('eportal', 'click', `My Reporting Direct SSO- ${signOnType}`, 1)
+        vm.$ga.event('eportal', 'click', `My Reporting Direct SSO- ${signOnType}`, 1);
       },
       openWindowWithPost(url, windowoption, name, params) {
         const form = document.createElement('form');
@@ -453,7 +466,7 @@
                 if (vm.organization.programClients.length === 1) {
                     vm.selectRequired = false;
                 }
-                vm.prepareProgramSelectionsFromOrganization(vm.organization)
+                vm.prepareProgramSelectionsFromOrganization(vm.organization);
               }
               this.$Progress.finish();
               this.$ga.event('eportal', 'click', 'My Reporting Link Details', 1);
@@ -483,7 +496,10 @@
             });
         }
       },
-      prepareProgramSelectionsFromOrganization(organization){
+      toPageOne() {
+        this.currentPage = 1;
+      },
+      prepareProgramSelectionsFromOrganization(organization) {
         const vm = this;
         if (organization.programClients.length === 1) {
           vm.userRoleId = organization.programClients[0].userRoleId;
