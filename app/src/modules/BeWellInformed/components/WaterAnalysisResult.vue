@@ -197,7 +197,7 @@
         </div>
         <div
           class="col-sm-12 col-md-1 py-1">
-          <h6>Name</h6>
+          <h6>Element</h6>
         </div>
         <div
           class="col-sm-12 col-md-2 py-1">
