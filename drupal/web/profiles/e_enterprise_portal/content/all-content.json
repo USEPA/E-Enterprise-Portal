@@ -2320,7 +2320,7 @@
     ],
     "vid": [
       {
-        "value": "816"
+        "value": "896"
       }
     ],
     "langcode": [
@@ -2335,7 +2335,7 @@
     ],
     "revision_timestamp": [
       {
-        "value": "1552927923"
+        "value": "1553522267"
       }
     ],
     "revision_uid": [
@@ -2366,7 +2366,7 @@
     ],
     "changed": [
       {
-        "value": "1552927923"
+        "value": "1553522267"
       }
     ],
     "promote": [
@@ -2409,6 +2409,9 @@
     "field_direct_links": [
       {
         "value": "my-certifications"
+      },
+      {
+        "value": "mc"
       }
     ],
     "field_grid": [
@@ -2452,7 +2455,7 @@
       },
       {
         "first": "Contact",
-        "second": "Questions or Need Help? Contact our <a href=\"https:\/\/www.epa.gov\/lead\/forms\/lead-hotline-national-lead-information-center\">Lead Hotline<\/a>"
+        "second": "Questions or Need Help? Contact our <a href=\"https:\/\/www.epa.gov\/lead\/forms\/lead-hotline-national-lead-information-center\" target=\"_blank\">Lead Hotline<\/a>"
       },
       {
         "first": "Help",
