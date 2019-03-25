@@ -18,7 +18,7 @@
           <template>
             <a class="cursor-pointer"
                     @click="buildPDF()">
-              <img src="/images/pdf_icon.png" alt="Generate PDF"></a></template>
+              <img src="/images/pdf_icon.png" alt="Generate PDF of your water analysis results"></a></template>
         </div>
       </div>
     </div>

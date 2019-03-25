@@ -9,7 +9,7 @@
           :key="key">
           <div class="row no-gutters my-2">
             <div class="col-sm-5">
-              <label class="">{{ contaminant._attributes.Text }}</label>
+              <label :for="`${contaminant._attributes.Value}-Value`" class="">{{ contaminant._attributes.Text }}</label>
             </div>
             <div class="col-sm-3 pr-2">
               <b-form-input
@@ -22,7 +22,9 @@
                 />
             </div>
             <div class="col-sm-4">
+              <label for="measurement-units" class="sr-only">Units of Measurement</label>
               <b-form-select
+                id="measurement-units"
                 :value="contaminant._attributes.DefaultUnit"
                 v-model="request[contaminant._attributes.Value].Unit"
                 @change="updateProperty( section, contaminant, 'Unit', $event)"
