@@ -89,7 +89,7 @@
                           aria-controls="my-reporting-table"
                           :options="pageOptions"
                           v-model="perPage"
-                          @change="toPageOne"/>
+                          @change="tableToPageOne"/>
                       </b-form-group>
                     </b-col>
                   </b-row>
@@ -496,7 +496,7 @@
             });
         }
       },
-      toPageOne() {
+      tableToPageOne() {
         this.currentPage = 1;
       },
       prepareProgramSelectionsFromOrganization(organization) {
