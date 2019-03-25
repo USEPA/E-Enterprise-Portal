@@ -242,7 +242,7 @@
                     </b-form-select>
                   </b-col>
                 </b-row>
-                
+
                 <b-btn
                   @click="cgpAdvancedSearchWrapper = !cgpAdvancedSearchWrapper"
                   class="btn-outline-primary mb-1"
@@ -951,23 +951,23 @@
                   <div
                     class="wapp-arrows"
                     slot="first-text"><img
-                      src="/images/pager-first.png"
-                      alt="Go to first page"></div>
+                    src="/images/pager-first.png"
+                    alt="Go to first page"></div>
                   <div
                     class="wapp-arrows"
                     slot="next-text"><img
-                      src="/images/pager-next.png"
-                      alt="Go to next page"></div>
+                    src="/images/pager-next.png"
+                    alt="Go to next page"></div>
                   <div
                     class="wapp-arrows"
                     slot="prev-text"><img
-                      src="/images/pager-previous.png"
-                      alt="Go to previous page"></div>
+                    src="/images/pager-previous.png"
+                    alt="Go to previous page"></div>
                   <div
                     class="wapp-arrows"
                     slot="last-text"><img
-                      src="/images/pager-last.png"
-                      alt="Go to last page"></div>
+                    src="/images/pager-last.png"
+                    alt="Go to last page"></div>
                 </b-pagination>
               </b-col>
             </b-row>
@@ -976,17 +976,13 @@
           <AppModal
             id="permit-status-info-modal"
             modal-ref="permit-status-info-modal"
-            title="What do the permit statuses mean?"
+            title="What do the permit status terms mean?"
             :hide-footer="true">
             <div
               class="info-modal-component">
               <b-row>
-                <div
-                  class="info-title">
-                  • Active:
-                </div>
                 <div>
-                  General permit coverage that has been granted by the NPDES permitting authority.
+                 <strong>1. Active:</strong> General permit coverage that has been granted by the NPDES permitting authority.
                   Typically, a Notice
                   of
                   Intent (NOI) or request for exclusion or waiver that has been certified, submitted,
@@ -995,23 +991,15 @@
                 </div>
               </b-row>
               <b-row>
-                <div
-                  class="info-title">
-                  • Administratively Continued:
-                </div>
                 <div>
-                  An active general permit coverage that has been extended to remain in force and
+                <strong>2. Administratively Continued:</strong>  An active general permit coverage that has been extended to remain in force and
                   effect for activities
                   and discharges that were covered prior to expiration of the general permit.
                 </div>
               </b-row>
               <b-row>
-                <div
-                  class="info-title">
-                  • Expired:
-                </div>
                 <div>
-                  A general permit coverage, exclusion or waiver that has reached the end of the
+                 <strong>3. Expired:</strong> A general permit coverage, exclusion or waiver that has reached the end of the
                   original issuance
                   period,
                   and for which requirements to submit a notice to renew coverage were not satisfied.
@@ -1020,12 +1008,8 @@
                 </div>
               </b-row>
               <b-row>
-                <div
-                  class="info-title">
-                  • Terminated:
-                </div>
                 <div>
-                  A general permit coverage that has been terminated. Terminations can be requested by
+                 <strong>4. Terminated:</strong> A general permit coverage that has been terminated. Terminations can be requested by
                   submitting a
                   Notice
                   of Termination (NOT) request for active general permit coverages. Coverage can also
@@ -1035,12 +1019,8 @@
                 </div>
               </b-row>
               <b-row>
-                <div
-                  class="info-title">
-                  • Discontinued:
-                </div>
                 <div>
-                  A certified exclusion or waiver from general permit coverage that has been
+                 <strong>5. Discontinued:</strong> A certified exclusion or waiver from general permit coverage that has been
                   discontinued.
                   Discontinuations can be requested by submitting a Notice of Termination (NOT)
                   request for active
@@ -1050,12 +1030,8 @@
                 </div>
               </b-row>
               <b-row>
-                <div
-                  class="info-title">
-                  • Under Review:
-                </div>
                 <div>
-                  A Notice of Intent (NOI) for a new coverage, a modification request or Notice of
+                <strong>6. Under Review:</strong>  A Notice of Intent (NOI) for a new coverage, a modification request or Notice of
                   Termination (NOT)
                   request for existing coverage, or an exclusion/waiver request that has been
                   submitted to the NPDES
@@ -1066,12 +1042,8 @@
                 </div>
               </b-row>
               <b-row>
-                <div
-                  class="info-title">
-                  • Inactive:
-                </div>
                 <div>
-                  A Notice of Intent (NOI) for a new coverage or an exclusion/waiver request that has
+                 <strong>7. Inactive:</strong> A Notice of Intent (NOI) for a new coverage or an exclusion/waiver request that has
                   been submitted to
                   the NPDES permitting authority and has been denied coverage under the general
                   permit.
@@ -1428,7 +1400,7 @@
         this.$root.$emit('bv::show::modal', 'permit-search-modal');
       },
       openPermitInfoModal() {
-        this.$root.$emit('bv::show::modal', 'permit-info-modal');
+        this.$root.$emit('bv::show::modal', 'permit-lookup-widget-modal');
       },
       openPermitStatusInfoModal() {
         this.$root.$emit('bv::show::modal', 'permit-status-info-modal');
@@ -1484,7 +1456,7 @@
 </script>
 
 <style scoped
-       lang="scss">
+  lang="scss">
   .permit-lookup-info-btn {
     background-image: url('../../assets/images/widget-info-circle.svg');
   }
