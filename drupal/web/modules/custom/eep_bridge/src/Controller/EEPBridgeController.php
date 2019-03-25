@@ -52,7 +52,7 @@ class EEPBridgeController extends ControllerBase {
       $this->process_required_fields_for_user($authenticated_user);
       $this->create_jwt_and_send_user();
     } else {
-      $this->bridge_auth_logout();
+      $this->force_new_bridge_login($userDetails->attributes['authenticationMethod']);
     }
     return;
   }
@@ -68,20 +68,20 @@ class EEPBridgeController extends ControllerBase {
         $security_token = $attributes['securityToken'][0];
         try {
           $user_data = $this->pull_user_data_from_token($security_token, $_SERVER['LOCAL_ADDR']);
+          if ($auth_method === 'ENNAAS') {
+            $valid_token = ($user_data['USERID'] == $attributes['userId'][0]);
+          } else if ($auth_method === 'FACEBOOK') {
+            $valid_token = ($user_data['ID'] == $attributes['id'][0]);
+          } else if ($auth_method === 'WAMNAAS') {
+            $valid_token = ($user_data['UID'] == $attributes['name'][0]);
+          } else if ($auth_method === 'TWITTER') {
+            $valid_token = ($user_data['ID'] == $attributes['id'][0]);
+          } else if ($auth_method === 'SMARTCARDAUTH') {
+            $valid_token = ($user_data['UID'] == $attributes['uid'][0]);
+          }
         } catch
         (\SoapFault $soap_fault) {
-          $this->bridge_auth_logout();
-        }
-        if ($auth_method === 'ENNAAS') {
-          $valid_token = ($user_data['USERID'] == $attributes['userId'][0]);
-        } else if ($auth_method === 'FACEBOOK') {
-          $valid_token = ($user_data['ID'] == $attributes['id'][0]);
-        } else if ($auth_method === 'WAMNAAS') {
-          $valid_token = ($user_data['UID'] == $attributes['name'][0]);
-        } else if ($auth_method === 'TWITTER') {
-          $valid_token = ($user_data['ID'] == $attributes['id'][0]);
-        } else if ($auth_method === 'SMARTCARDAUTH') {
-          $valid_token = ($user_data['UID'] == $attributes['uid'][0]);
+          $valid_token = FALSE;
         }
       }
     }
@@ -107,14 +107,28 @@ class EEPBridgeController extends ControllerBase {
    * @return JsonResponse
    */
   public function bridge_auth_logout() {
-    // Declare variables
     $config = \Drupal::config('eep_bridge.environment_settings');
-    // Build logout url
-    $logout = $config->get('eep_bridge_issuer') . '?wa=wsignout1.0&wreply=' . urlencode($config->get('eep_bridge_wreply'));
-    // Log current user out
+    $logout_url = $config->get('eep_bridge_issuer') . '?wa=wsignout1.0&wreply=' . urlencode($config->get('eep_bridge_environment_name')) . '/login';
     user_logout();
-    // Redirect to the bridge
-    header("Location:$logout");
+    $response = new RedirectResponse($logout_url);
+    $response->send();
+    exit();
+  }
+
+  /**
+   * Builds URL that sends user to Bridge logout, then sends the user back to login again for the
+   * passed in URN.
+   */
+  private function force_new_bridge_login($urn_method) {
+    $config = \Drupal::config('eep_bridge.environment_settings');
+    $bridge_url = $config->get('eep_bridge_issuer');
+    $eep_realm = $config->get('eep_bridge_realm');
+    $bridge_login_url = $bridge_url . '?wtrealm=' . $eep_realm . '&wreply=' . $eep_realm . '/authenticate/user&whr=' . $urn_method . '&wa=wsignin1.0';
+    // You must double encode the URL. PHP will decode automatically through header (or RedirectResponse) functions
+    $bridge_url_encode = urlencode(urlencode($bridge_login_url));
+    $logout_url = $bridge_url . '?wa=wsignout1.0&wreply=' . $bridge_url_encode;
+    $response = new RedirectResponse($logout_url);
+    $response->send();
     exit();
   }
 
@@ -171,7 +185,7 @@ class EEPBridgeController extends ControllerBase {
     $response = new RedirectResponse($url->toString());
     $response->headers->set('token', $jwt_token);
     $response->send();
-    exit;
+    exit();
   }
 
   /**
