@@ -154,7 +154,7 @@ export default {
 
     // 1) Checks to see if the user selected yes, and if they did then the user policy is set
     // 2) Sets a flag in a cookie saying that the user accepted the terms about remembering the cookie
-    if(yesButtonPressed) {
+    if (yesButtonPressed) {
       Vue.cookie.set('userPolicy', true, { expires: '7D' });
       store.commit('USER_POLICY_COOKIE_DISMISS');
     }
@@ -281,8 +281,8 @@ export default {
     const COOKIE_EXPIRATION_TIME = store.getters.getUser.cookie.time
       + store.getters.getUser.cookie.time_units;
 
-    //Axios call to back end to create new JWT token
-    AppAxios.get(store.getters.getApiUrl('resetToken') , {
+    // Axios call to back end to create new JWT token
+    AppAxios.get(store.getters.getApiUrl('resetToken'), {
       headers: {
         Authorization: `Bearer ${Vue.cookie.get('Token')}`,
         crossDomain: true,
@@ -290,25 +290,24 @@ export default {
         'Content-Type': 'application/json',
       },
     }).then((response) => {
+      // Set all of the cookies after axios is successful
+      Vue.cookie.set('Token', response.data.token, { expires: COOKIE_EXPIRATION_TIME });
+      Vue.cookie.set('userLoggedIn', true, { expires: COOKIE_EXPIRATION_TIME });
+      Vue.cookie.set('uid', store.getters.getUser.id, { expires: COOKIE_EXPIRATION_TIME });
+      Vue.cookie.set('userLogInTime', new Date(), { expires: COOKIE_EXPIRATION_TIME });
 
-        // Set all of the cookies after axios is successful
-        Vue.cookie.set('Token', response.data.token, { expires: COOKIE_EXPIRATION_TIME });
-        Vue.cookie.set('userLoggedIn', true, { expires: COOKIE_EXPIRATION_TIME });
-        Vue.cookie.set('uid', store.getters.getUser.id, { expires: COOKIE_EXPIRATION_TIME });
-        Vue.cookie.set('userLogInTime', new Date(), { expires: COOKIE_EXPIRATION_TIME });
+      // Set timeout again to continously check the cookie
+      store.dispatch('checkCookie', payload);
 
-        // Set timeout again to continously check the cookie
-        store.dispatch('checkCookie', payload);
-
-        // Close modal
-        vm.$root.$emit(
-          'bv::hide::modal',
-          'cookieModal',
-          vm.$refs.cookie_modal,
-        );
-    }).catch((error) =>{
-        console.warn(error.response);
-        store.dispatch('userLogOut');
+      // Close modal
+      vm.$root.$emit(
+        'bv::hide::modal',
+        'cookieModal',
+        vm.$refs.cookie_modal,
+      );
+    }).catch((error) => {
+      console.warn(error.response);
+      store.dispatch('userLogOut');
     });
   },
   getEEPConfigs(context, payload) {
@@ -369,9 +368,9 @@ export default {
          * redirect to workbench.
          */
         if (router.history.current.path === '/') {
-            store.dispatch('loadEEPUser').then(router.push('/workbench'));
+          store.dispatch('loadEEPUser').then(router.push('/workbench'));
         } else {
-            store.dispatch('loadEEPUser');
+          store.dispatch('loadEEPUser');
         }
       }
       store.dispatch('checkCookie', payload);
@@ -458,7 +457,7 @@ export default {
     const store = context;
     let params = '';
     const userInput = store.getters.getUser.inputBoxText;
-    let {userLocationsFromLoad} = store.getters.getUser;
+    const { userLocationsFromLoad } = store.getters.getUser;
 
     store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', false);
 
@@ -490,18 +489,17 @@ export default {
       const returnData = response.data;
       if (params.indexOf('tribe') !== -1) {
         Object.keys(returnData.tribal_information).forEach((key) => {
-
-          let tribeName = key;
-          let thisTribeZipcodes = [];
+          const tribeName = key;
+          const thisTribeZipcodes = [];
           formattedResponseInformation.push(tribeName);
 
           returnData.tribal_information[key].forEach((zipcode) => {
-            if(!doesUserHaveGivenLocation(tribeName, zipcode)){
+            if (!doesUserHaveGivenLocation(tribeName, zipcode)) {
               thisTribeZipcodes.push(zipcode);
             }
           });
-          if(thisTribeZipcodes.length > 0){
-              formattedResponseInformation.push({tribeName: thisTribeZipcodes});
+          if (thisTribeZipcodes.length > 0) {
+            formattedResponseInformation.push({ tribeName: thisTribeZipcodes });
           }
         });
         store.commit(types.IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES, true);
@@ -510,10 +508,10 @@ export default {
         // The if statement handles the case of if a zipcode exist in more than
         // one place
         if (returnData.cities_and_states) {
-          let cities_and_states_return_from_ajax = returnData.cities_and_states;
-          let cities_and_states = [];
-          cities_and_states_return_from_ajax.forEach(function(city_and_state){
-            if(!doesUserHaveGivenLocation(city_and_state, userInput.trim())){
+          const cities_and_states_return_from_ajax = returnData.cities_and_states;
+          const cities_and_states = [];
+          cities_and_states_return_from_ajax.forEach((city_and_state) => {
+            if (!doesUserHaveGivenLocation(city_and_state, userInput.trim())) {
               cities_and_states.push(city_and_state);
             }
           });
@@ -522,8 +520,8 @@ export default {
           const cities = returnData.city;
 
           for (let i = 0; i < cities.length; i += 1) {
-            let formattedCityAndState = `${cities[i]}, ${returnData.state[0]}`;
-            if(!doesUserHaveGivenLocation(formattedCityAndState, userInput.trim())){
+            const formattedCityAndState = `${cities[i]}, ${returnData.state[0]}`;
+            if (!doesUserHaveGivenLocation(formattedCityAndState, userInput.trim())) {
               formattedResponseInformation.push(formattedCityAndState);
             }
           }
@@ -531,73 +529,67 @@ export default {
         if (returnData.associated_tribes) {
           const tribes = returnData.associated_tribes;
           for (let i = 0; i < tribes.length; i += 1) {
-            let tribe = tribes[i].trim();
-            if(!doesUserHaveGivenLocation(tribe, userInput.trim())){
+            const tribe = tribes[i].trim();
+            if (!doesUserHaveGivenLocation(tribe, userInput.trim())) {
               formattedResponseInformation.push(tribe);
             }
           }
           store.commit('IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES', true);
         }
 
-        if(formattedResponseInformation.length === 0){
-            store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', true);
-            store.commit('SET_INPUT_MESSAGE', 'Duplicate location name and zip code pairs are not allowed.');
-        }else{
-            store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', false);
-            store.commit('SET_INPUT_MESSAGE', '');
+        if (formattedResponseInformation.length === 0) {
+          store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', true);
+          store.commit('SET_INPUT_MESSAGE', 'Duplicate location name and zip code pairs are not allowed.');
+        } else {
+          store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', false);
+          store.commit('SET_INPUT_MESSAGE', '');
         }
         dropDownLabelText = 'Select a location for';
       } else if (params.indexOf('city') !== -1 && params.indexOf('state') !== -1) {
-
-        let zipcodes = [];
-        let cityAndState = params.indexOf('city') + ", " + params.indexOf('state');
+        const zipcodes = [];
+        const cityAndState = `${params.indexOf('city')}, ${params.indexOf('state')}`;
 
         checkIfAllZipSaved();
 
         if (commonZipcodes.length === returnData.zipcode.length) {
-            store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', true);
-            store.commit('SET_INPUT_MESSAGE', 'All of the zip codes for the given location have been used');
+          store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', true);
+          store.commit('SET_INPUT_MESSAGE', 'All of the zip codes for the given location have been used');
         } else {
-            store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', false);
-            store.commit('SET_INPUT_MESSAGE', '');
-            returnData.zipcode.forEach(function(zipcode){
-                if(!doesUserHaveGivenLocation(userInput.trim(), zipcode)){
-                    zipcodes.push(zipcode);
-                }
-            });
-            formattedResponseInformation = zipcodes;
+          store.commit('SET_IS_ALL_ZIPCODES_DISPLAYED', false);
+          store.commit('SET_INPUT_MESSAGE', '');
+          returnData.zipcode.forEach((zipcode) => {
+            if (!doesUserHaveGivenLocation(userInput.trim(), zipcode)) {
+              zipcodes.push(zipcode);
+            }
+          });
+          formattedResponseInformation = zipcodes;
         }
       }
 
-      function doesUserHaveGivenLocation(name, zipcode){
-        return userLocationsFromLoad.some(function(location){
-            return parseInt(location.second) === parseInt(zipcode)
-                && location.first.trim() === name.trim();
-        });
+      function doesUserHaveGivenLocation(name, zipcode) {
+        return userLocationsFromLoad.some(location => parseInt(location.second) === parseInt(zipcode)
+                && location.first.trim() === name.trim());
       }
 
       function checkIfAllZipSaved() {
         const savedLocation = store.getters.getUser.userLocationsFromLoad;
         const inputlocationZipcodes = returnData.zipcode;
-        let zipcodesFromSavedLocations = [];
+        const zipcodesFromSavedLocations = [];
         for (let i = 0; i < savedLocation.length; i += 1) {
-            zipcodesFromSavedLocations.push(savedLocation[i].second);
+          zipcodesFromSavedLocations.push(savedLocation[i].second);
         }
-        savedZipcodes = zipcodesFromSavedLocations.map(function (e) {
-            return e.toString()
-        });
+        savedZipcodes = zipcodesFromSavedLocations.map(e => e.toString());
         compareZipcodes(inputlocationZipcodes, savedZipcodes);
       }
 
       function compareZipcodes(inputlocationZipcodes, savedZipcodes) {
         const objMap = {};
 
-        inputlocationZipcodes.forEach((inputZipcode) => savedZipcodes.forEach((storedZipcode) => {
-           if (inputZipcode === storedZipcode) {
-             objMap[inputZipcode] = objMap[storedZipcode] + 1 || 1;
-           }
+        inputlocationZipcodes.forEach(inputZipcode => savedZipcodes.forEach((storedZipcode) => {
+          if (inputZipcode === storedZipcode) {
+            objMap[inputZipcode] = objMap[storedZipcode] + 1 || 1;
           }
-        ));
+        }));
         commonZipcodes = Object.keys(objMap).map(zipcodes => Number(zipcodes));
       }
 
@@ -606,9 +598,9 @@ export default {
       store.commit('SET_INPUT_BOX_TEXT', store.getters.getUser.inputBoxText);
       // Change the label for the dropdown
       store.commit('SET_DROPDOWN_LABEL', dropDownLabelText);
-      if(store.getters.getUser.isAllZipcodesDisplayed){
+      if (store.getters.getUser.isAllZipcodesDisplayed) {
         store.commit(types.SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED, true);
-      }else{
+      } else {
         store.commit(types.SET_IS_AFTER_INPUT_DROPDOWN_DISPLAYED, false);
       }
     }).catch((error) => {
@@ -626,13 +618,12 @@ export default {
     if (/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(inputBoxText)) {
       selectedLocationFromDropdownToCommit = inputBoxText;
       typedInLocationToCommit = dropDownSelection;
-    } else if(store.getters.getUser.isCurrentDropdownZipcodeWithTribes) {
-
+    } else if (store.getters.getUser.isCurrentDropdownZipcodeWithTribes) {
       selectedLocationFromDropdownToCommit = dropDownSelection;
-      let tribeArray = store.getters.getUser.tribesArray;
-      for (let i = 0; i < tribeArray.length; i++){
-        if(Array.isArray(tribeArray[i].tribeName)) {
-          if(tribeArray[i].tribeName.indexOf(dropDownSelection) > -1){
+      const tribeArray = store.getters.getUser.tribesArray;
+      for (let i = 0; i < tribeArray.length; i++) {
+        if (Array.isArray(tribeArray[i].tribeName)) {
+          if (tribeArray[i].tribeName.indexOf(dropDownSelection) > -1) {
             typedInLocationToCommit = tribeArray[i - 1];
           }
         }
@@ -686,5 +677,12 @@ export default {
     }).catch((error) => {
       console.warn(error);
     });
+  },
+  setFontScaleRatio(context, currentHeight) {
+    const store = context;
+    const baseHeight = 38;
+    const ratio = currentHeight / baseHeight;
+    store.commit(types.SET_FONT_SCALE_RATIO, ratio);
+    console.log(ratio);
   },
 };

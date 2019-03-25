@@ -9,7 +9,7 @@
         :cols="{ lg: 4, md: 2, sm: 2, xs: 1, xxs: 1 }"
         :col-num="4"
         :max-row="4"
-        :row-height="210"
+        :row-height="gridHeights"
         :is-draggable="true"
         :is-resizable="false"
         :is-mirrored="false"
@@ -121,9 +121,15 @@
       ...mapGetters({
         getDeepLink: 'getDeepLink',
         directLinksMappings: 'getDirectLinksMappings',
+        fontScaleRatio: 'getFontScaleRatio',
         getLayout: `${moduleName}/getLayout`,
         isLayoutReady: `${moduleName}/isLayoutReady`,
       }),
+      gridHeights: {
+        get() {
+          return 210 * this.fontScaleRatio;
+        },
+      },
       deepLink: {
         get() {
           return this.getDeepLink;
