@@ -12,4 +12,7 @@ export default {
   getCertifications(state) {
     return state.certifications;
   },
+  getCertificationsLoaded(state) {
+    return state.certificationsLoaded;
+  },
 };

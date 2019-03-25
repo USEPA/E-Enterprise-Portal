@@ -14,17 +14,19 @@ export default {
     const vm = this._vm;
     if (vm.getIsLoggedIn) {
       const cookie = vm.$cookie.get('Token');
-        AppAxios.get(
-            `${vm.getEnvironmentApiURL}/api/cdx/certifications`,
-            {
-              headers: {
-                Authorization: `Bearer ${cookie}`,
-                crossDomain: true,
-                'cache-control': 'no-cache',
-                'Content-Type': 'application/json',
-              },
-            }).then((response) => {
+      AppAxios.get(
+        `${vm.getEnvironmentApiURL}/api/cdx/certifications`,
+        {
+          headers: {
+            Authorization: `Bearer ${cookie}`,
+            crossDomain: true,
+            'cache-control': 'no-cache',
+            'Content-Type': 'application/json',
+          },
+        },
+      ).then((response) => {
         store.commit(types.LOAD_CERTIFICATIONS, response.data);
+        store.commit(types.SET_CERTIFICATIONS_LOADED, true);
       });
     } else {
       store.commit(types.LOAD_CERTIFICATIONS, []);
@@ -34,6 +36,6 @@ export default {
     const vm = this._vm;
     const docString = JSON.stringify(documentObject);
     const params = encodeURIComponent(docString);
-    window.open(`${vm.getEnvironmentApiURL}/api/cdx/certifications/documents?document_download_params=` + params);
-  }
+    window.open(`${vm.getEnvironmentApiURL}/api/cdx/certifications/documents?document_download_params=${params}`);
+  },
 };
