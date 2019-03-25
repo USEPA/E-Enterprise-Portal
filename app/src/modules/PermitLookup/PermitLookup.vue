@@ -982,7 +982,7 @@
               class="info-modal-component">
               <b-row>
                 <div>
-                 <strong>1. Active:</strong> General permit coverage that has been granted by the NPDES permitting authority.
+                 <span class="font-weight-bold">1. Active:</span> General permit coverage that has been granted by the NPDES permitting authority.
                   Typically, a Notice
                   of
                   Intent (NOI) or request for exclusion or waiver that has been certified, submitted,
@@ -992,14 +992,14 @@
               </b-row>
               <b-row>
                 <div>
-                <strong>2. Administratively Continued:</strong>  An active general permit coverage that has been extended to remain in force and
+                <span class="font-weight-bold">2. Administratively Continued:</span>  An active general permit coverage that has been extended to remain in force and
                   effect for activities
                   and discharges that were covered prior to expiration of the general permit.
                 </div>
               </b-row>
               <b-row>
                 <div>
-                 <strong>3. Expired:</strong> A general permit coverage, exclusion or waiver that has reached the end of the
+                 <span class="font-weight-bold">3. Expired:</span> A general permit coverage, exclusion or waiver that has reached the end of the
                   original issuance
                   period,
                   and for which requirements to submit a notice to renew coverage were not satisfied.
@@ -1009,7 +1009,7 @@
               </b-row>
               <b-row>
                 <div>
-                 <strong>4. Terminated:</strong> A general permit coverage that has been terminated. Terminations can be requested by
+                 <span class="font-weight-bold">4. Terminated:</span> A general permit coverage that has been terminated. Terminations can be requested by
                   submitting a
                   Notice
                   of Termination (NOT) request for active general permit coverages. Coverage can also
@@ -1020,7 +1020,7 @@
               </b-row>
               <b-row>
                 <div>
-                 <strong>5. Discontinued:</strong> A certified exclusion or waiver from general permit coverage that has been
+                 <span class="font-weight-bold">5. Discontinued:</span> A certified exclusion or waiver from general permit coverage that has been
                   discontinued.
                   Discontinuations can be requested by submitting a Notice of Termination (NOT)
                   request for active
@@ -1031,7 +1031,7 @@
               </b-row>
               <b-row>
                 <div>
-                <strong>6. Under Review:</strong>  A Notice of Intent (NOI) for a new coverage, a modification request or Notice of
+                <span class="font-weight-bold">6. Under Review:</span>  A Notice of Intent (NOI) for a new coverage, a modification request or Notice of
                   Termination (NOT)
                   request for existing coverage, or an exclusion/waiver request that has been
                   submitted to the NPDES
@@ -1043,7 +1043,7 @@
               </b-row>
               <b-row>
                 <div>
-                 <strong>7. Inactive:</strong> A Notice of Intent (NOI) for a new coverage or an exclusion/waiver request that has
+                 <span class="font-weight-bold">7. Inactive:</span> A Notice of Intent (NOI) for a new coverage or an exclusion/waiver request that has
                   been submitted to
                   the NPDES permitting authority and has been denied coverage under the general
                   permit.
