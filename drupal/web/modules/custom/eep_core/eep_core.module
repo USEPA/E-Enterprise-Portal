@@ -7,7 +7,7 @@
 
 use Drupal\Core\Routing\RouteMatchInterface;
 
-/** e
+/**
  * Implements hook_help().
  */
 function eep_core_help($route_name, RouteMatchInterface $route_match) {
