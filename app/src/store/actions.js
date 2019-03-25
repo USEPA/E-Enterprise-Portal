@@ -686,6 +686,5 @@ export default {
       ratio *= 1.3;
     }
     store.commit(types.SET_FONT_SCALE_RATIO, ratio);
-    console.log(ratio);
   },
 };
