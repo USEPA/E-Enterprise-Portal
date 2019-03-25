@@ -16,7 +16,7 @@
             title="US EPA"
             class="nav-item nav-link active text-decoration-none"
             title-link-class="small text-dark text-bold pb-0"
-            title-item-class="w-25 text-center">
+            title-item-class="w-30 text-center">
             <template>
               <div id="my-reporting-flows-container">
                 <ul class="inline-cdx-links pr-3">
@@ -57,46 +57,40 @@
               </div>
               <b-container fluid>
                 <!-- User Interface controls -->
-                <b-col>
-                  <b-row>
-                    <b-col
-                      md="5"
-                      class="mb-1 pl-0 mr-auto">
-                      <b-form-group
-                        horizontal
-                        label="Filter"
-                        label-for="filter-results"
-                        class="mb-0">
-                        <b-input-group>
-                          <b-form-input
-                            id="filter-results"
-                            aria-controls="my-reporting-table"
-                            v-model="filter"
-                            placeholder=""/>
-                        </b-input-group>
-                      </b-form-group>
-                    </b-col>
-                    <b-col
-                      md="3"
-                      class="mb-1 pl-0 pr-4">
-                      <b-form-group
-                        horizontal
-                        label="Rows"
-                        label-for="row-results"
-                        class="mb-0">
-                        <b-form-select
-                          class="ml-3"
+                <div class="row">
+                  <div class="col-9 mb-1 mr-auto">
+                    <b-form-group
+                      horizontal
+                      label="Filter"
+                      label-for="filter-results"
+                      class="mb-0">
+                      <b-input-group>
+                        <b-form-input
+                          id="filter-results"
                           aria-controls="my-reporting-table"
-                          :options="pageOptions"
-                          v-model="perPage"/>
-                      </b-form-group>
-                    </b-col>
-                  </b-row>
-                </b-col>
+                          v-model="filter"
+                          placeholder=""/>
+                      </b-input-group>
+                    </b-form-group>
+                  </div>
+                  <div class="col-3 mb-1 pl-0">
+                    <b-form-group
+                      horizontal
+                      label="Rows"
+                      label-for="row-results"
+                      class="mb-0">
+                      <b-form-select
+                        class=""
+                        aria-controls="my-reporting-table"
+                        :options="pageOptions"
+                        v-model="perPage"/>
+                    </b-form-group>
+                  </div>
+                </div>
                 <b-table
                   show-empty
                   id="my-reporting-table"
-                  class="bootstrap-vue-table-scroll no-top-border no-bottom-border no-sort-images font-weight-normal"
+                  class="bootstrap-vue-table-scroll no-top-border no-bottom-border no-sort-images font-weight-normal mb-0"
                   stacked="md"
                   :items="items"
                   :fields="fields"
