@@ -234,7 +234,7 @@
             </b-row>
             <b-row>
               <b-col>
-                Lead Help Desk: leadhelpdesk@epa.gov
+                Lead Help Desk: <a href="mailto:leadhelpdesk@epa.gov&subject=My Certifications - E-Enterprise Portal">Lead Help Desk</a>
               </b-col>
             </b-row>
           </b-col>
