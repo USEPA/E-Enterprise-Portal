@@ -182,7 +182,7 @@
                       section: getSectionFromSymbol(question.Symbol),
                       contaminant: getContaminantFromSymbol(question.Symbol),
                       property: 'Value',
-                      event:$event })"/>
+                      $event:$event })"/>
                 </div>
                 <div class="col-sm-4">
                   <b-form-select
@@ -192,7 +192,7 @@
                       section: getSectionFromSymbol(question.Symbol),
                       contaminant: getContaminantFromSymbol(question.Symbol),
                       property: 'Unit',
-                      event:$event })">
+                      $event:$event })">
                     <template
                       v-for="unit in getContaminantUnits(question)">
                       <option
@@ -253,7 +253,7 @@
       }
       this.fetchPartners();
 
-      // Custom event listeners
+      // Custom $event listeners
       EventBus.$on('bwi::showWaterAnalysisResults', this.showWaterAnalysisResults);
 
       // Update location in BWI app
@@ -363,7 +363,7 @@
           this.submissionErrorMessage = 'Please enter values for some of the contaminants.';
         }
       },
-      showWaterAnalysisResults(event) {
+      showWaterAnalysisResults($event) {
         const vm = this;
         const bwiModal = vm.$refs.bwi_modal;
         vm.$root.$emit(
@@ -371,7 +371,7 @@
         );
         vm.hasResults = true;
         vm.$nextTick(() => {
-          vm.tabIndex = event.value;
+          vm.tabIndex = $event.value;
         });
       },
       hasWaterAnalysisResults() {

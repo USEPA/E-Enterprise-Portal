@@ -11,32 +11,27 @@
             <div class="col-sm-5">
               <label class="">{{ contaminant._attributes.Text }}</label>
             </div>
-            <div class="col-sm-3 pr-2"
-              v-if="canShowIsPresent(contaminant)">
+            <div class="col-sm-3 pr-2">
+              <!-- Show fake input when we have to juggle present/absent/real values -->
               <b-form-input
-                class="real-input"
+                v-show="!canShowIsPresent(contaminant)"
+                class="actual-contaminant-input"
                 :ref="`${contaminant._attributes.Value}-Value`"
                 :id="`${contaminant._attributes.Value}-Value`"
                 type="number"
                 step="0.001"
                 v-model="request[contaminant._attributes.Value].Value"
                 @change="updateProperty( section, contaminant, 'Value', $event)"
-                />
+              />
+              <!-- Show actual input when we have don't have to juggle-->
               <b-form-input
+                v-show="canShowIsPresent(contaminant)"
+                class="fake-contaminant-input"
                 :ref="`${contaminant._attributes.Value}-Value-Fake`"
                 :id="`${contaminant._attributes.Value}-Value-Fake`"
+                v-model="fakeInputs[contaminant._attributes.Value]"
                 type="number"
                 step="0.001"
-              />
-            </div>
-            <div class="col-sm-3 pr-2"
-                 v-else>
-              <b-form-input
-                :ref="`${contaminant._attributes.Value}-Value`"
-                :id="`${contaminant._attributes.Value}-Value`"
-                type="number"
-                step="0.001"
-                v-model="request[contaminant._attributes.Value].Value"
                 @change="updateProperty( section, contaminant, 'Value', $event)"
               />
             </div>
@@ -45,7 +40,7 @@
                 :value="contaminant._attributes.DefaultUnit"
                 v-model="request[contaminant._attributes.Value].Unit"
                 @change="updateProperty( section, contaminant, 'Unit', $event)"
-                >
+              >
                 <template v-for="unit in contaminant._attributes.Units.split('|')">
                   <option
                     :key="unit"
@@ -64,7 +59,7 @@
                 :ref="`${contaminant._attributes.Value}-ShowIsPresent`"
                 :id="`${contaminant._attributes.Value}-ShowIsPresent`"
                 @change="updateProperty( section, contaminant, 'Value', $event)"
-                v-model="request[contaminant._attributes.Value].Present"
+                v-model="radios[contaminant._attributes.Value]"
                 :name="`${contaminant._attributes.Value}-ShowIsPresent`">
                 <b-form-radio value="-1">Present</b-form-radio>
                 <b-form-radio value="-2">Absent</b-form-radio>
@@ -85,7 +80,7 @@
   </div>
 </template>
 <script>
-  import { mapActions, mapGetters } from 'vuex';
+  import {mapActions, mapGetters} from 'vuex';
 
   const name = 'BeWellInformed';
 
@@ -108,6 +103,8 @@
     data() {
       return {
         contaminants: {},
+        fakeInputs: {},
+        radios: {},
       };
     },
     computed: {
@@ -142,25 +139,6 @@
         'fetchPartnerAndFlowchartXML',
         'updateWaterAnalysisRequestProperty',
       ]),
-      clearPresentAbsentInputs(name) {
-        const refs = this.$refs;
-        console.log(name);
-        console.log(refs);
-        if (name === 'Ecoli') {
-          refs['Ecoli-Value-Fake']['0']['$refs']['input']['value'] = null;
-        } else {
-          refs['Bac-Value-Fake']['0']['$refs']['input']['value'] = null;
-        }
-      },
-      // updateRealInput(contaminantName, value) {
-      //   const refs = this.$refs;
-      //   console.log(refs);
-      //   if (contaminantName === 'Ecoli'){
-      //     refs['Ecoli-Value']['0']['']['value'] = value;
-      //   } else {
-      //     refs['Bac-Value']['0']['$refs']['input']['value']= value;
-      //   }
-      // },
       canShowIsPresent(contaminant) {
         const r = !!((
           contaminant
@@ -170,13 +148,17 @@
         ));
         return r;
       },
-      updateProperty(section, contaminant, property, event) {
+      updateProperty(section, contaminant, property, $event) {
         const vm = this;
         vm.updateWaterAnalysisRequestProperty({
-          section, contaminant, property, event,
+          section, contaminant, property, value: $event,
         }).then(function () {
-          if (contaminant._attributes.ShowIsPresent && (event === '-1' || event === '-2')) {
-            vm.clearPresentAbsentInputs(contaminant._attributes.Value);
+          // If it has radio buttons and one of those values is passed, we need to clear the fake input field ;)
+          if (contaminant._attributes.ShowIsPresent && ($event === '-2')) {
+            vm.fakeInputs[contaminant._attributes.Value] = undefined;
+          }
+          else if (vm.radios[contaminant._attributes.Value] && ($event !== '-1' && $event !== '-2')) {
+            vm.radios[contaminant._attributes.Value] = undefined;
           }
         });
       },
@@ -192,7 +174,7 @@
 </script>
 
 <style scoped
-  lang="scss">
+ lang="scss">
   .real-input {
     display: none;
   }
