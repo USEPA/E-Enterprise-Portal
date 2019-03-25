@@ -41,14 +41,14 @@
             <div class="logout-myaccount-wrapper">
               <button
                 variant="outline-secondary"
-                class="usa-button logout-btn"
+                class="usa-button logout-btn mb-1 mr-2"
                 @click="userLogOut">
                 <i class="fas fa-lock pr-1"/>
                 Logout
               </button>
               <button
                 id="my-account"
-                class="usa-button ml-2 myaccount-btn"
+                class="usa-button myaccount-btn mb-1"
                 @click="navigateToRouterLink('/User')"
                 variant="primary"
                 tag="button">

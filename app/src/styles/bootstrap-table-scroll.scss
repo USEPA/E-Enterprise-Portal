@@ -2,11 +2,6 @@
   display: block;
 }
 
-.bootstrap-vue-table-scroll > thead th,
-.bootstrap-vue-table-scroll > tbody td {
-  width: 65%;
-}
-
 .bootstrap-vue-fav-table-scroll > tbody,
 .bootstrap-vue-mycerts-table-scroll > tbody {
   overflow-y: auto;

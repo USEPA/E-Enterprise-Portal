@@ -30,6 +30,10 @@
             Vue.cookie.delete('userLogInTime');
             sessionStorage.setItem('BrowserSession', 'true');
           }
+          // If we redirect from the backend it will now play nice
+          else if (!BrowserSession && routeCurrent.query.token) {
+            sessionStorage.setItem('BrowserSession', 'true');
+          }
           // -- END: Handling open browser cookies --
         },
         created() {
