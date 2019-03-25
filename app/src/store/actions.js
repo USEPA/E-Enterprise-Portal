@@ -681,7 +681,10 @@ export default {
   setFontScaleRatio(context, currentHeight) {
     const store = context;
     const baseHeight = 38;
-    const ratio = currentHeight / baseHeight;
+    let ratio = currentHeight / baseHeight;
+    if (ratio !== 1) {
+      ratio *= 1.3;
+    }
     store.commit(types.SET_FONT_SCALE_RATIO, ratio);
     console.log(ratio);
   },
