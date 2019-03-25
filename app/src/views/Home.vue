@@ -143,7 +143,6 @@
               <img
                 fluid
                 id="my-reporting-img"
-                class="center-block"
                 src="../assets/images/carousel-my-reporting.png"
                 alt="My Reporting">
               <div class="w-100 h-5"/>
