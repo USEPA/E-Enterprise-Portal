@@ -13,4 +13,5 @@ export default {
     test: '',
   },
   certifications: [],
+  certificationsLoaded: false,
 };
