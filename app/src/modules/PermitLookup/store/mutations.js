@@ -429,6 +429,13 @@ export default {
       arr,
     );
   },
+  [types.SET_BASE_FORM_SIC_CODES](state, arr) {
+    Vue.set(
+      state.formOptions.baseFormOptions,
+      'sicCodes',
+      arr,
+    );
+  },
   [types.SET_MSGP_RESPONSE](state, arr) {
     Vue.set(
       state,
