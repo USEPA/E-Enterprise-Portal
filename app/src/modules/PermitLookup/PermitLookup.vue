@@ -33,7 +33,9 @@
                   </template>
                 </b-form-select>
               </div>
-              <div class="col-4"v-if="optionsError">
+              <div
+                class="col-4"
+                v-if="optionsError">
                 <b-btn
                   size="sm"
                   variant="primary"
@@ -44,7 +46,9 @@
                   Search
                 </b-btn>
               </div>
-              <div class="col-4"v-else-if="!optionsError">
+              <div
+                class="col-4"
+                v-else-if="!optionsError">
                 <b-btn
                   size="sm"
                   variant="primary"
@@ -56,7 +60,8 @@
               </div>
             </div>
           </b-form>
-          <div v-if="optionsError"
+          <div
+            v-if="optionsError"
             class="text-danger">
             {{ optionsError }}
           </div>
@@ -390,7 +395,8 @@
                 </b-collapse>
                 <b-row>
                   <b-col md="6"/>
-                  <b-col md="3"
+                  <b-col
+                    md="3"
                     class="mb-1">
                     <b-btn
                       class="btn-outline-primary btn-block"
@@ -400,7 +406,8 @@
                       Reset
                     </b-btn>
                   </b-col>
-                  <b-col md="3"
+                  <b-col
+                    md="3"
                     class="mb-1">
                     <b-btn
                       class="btn-block"
@@ -798,7 +805,8 @@
                 <br>
                 <b-row>
                   <b-col md="6"/>
-                  <b-col md="3"
+                  <b-col
+                    md="3"
                     class="mb-1">
                     <b-btn
                       class="btn-outline-primary btn-block"
@@ -808,7 +816,8 @@
                       Reset
                     </b-btn>
                   </b-col>
-                  <b-col md="3"
+                  <b-col
+                    md="3"
                     class="mb-1">
                     <b-btn
                       class="btn-block"
@@ -937,7 +946,8 @@
               </b-row>
             </b-col>
             <!-- pagination -->
-            <b-row class="text-center"
+            <b-row
+              class="text-center"
               v-if="!noResults">
               <b-col
                 md="12"
@@ -951,23 +961,23 @@
                   <div
                     class="wapp-arrows"
                     slot="first-text"><img
-                    src="/images/pager-first.png"
-                    alt="Go to first page"></div>
+                      src="/images/pager-first.png"
+                      alt="Go to first page"></div>
                   <div
                     class="wapp-arrows"
                     slot="next-text"><img
-                    src="/images/pager-next.png"
-                    alt="Go to next page"></div>
+                      src="/images/pager-next.png"
+                      alt="Go to next page"></div>
                   <div
                     class="wapp-arrows"
                     slot="prev-text"><img
-                    src="/images/pager-previous.png"
-                    alt="Go to previous page"></div>
+                      src="/images/pager-previous.png"
+                      alt="Go to previous page"></div>
                   <div
                     class="wapp-arrows"
                     slot="last-text"><img
-                    src="/images/pager-last.png"
-                    alt="Go to last page"></div>
+                      src="/images/pager-last.png"
+                      alt="Go to last page"></div>
                 </b-pagination>
               </b-col>
             </b-row>
@@ -976,13 +986,13 @@
           <AppModal
             id="permit-status-info-modal"
             modal-ref="permit-status-info-modal"
-            title="What do the permit status terms mean?"
-            :hide-footer="true">
+            title="What do the coverage status terms mean?"
+            hide-footer="true">
             <div
               class="info-modal-component">
               <b-row>
                 <div>
-                 <span class="font-weight-bold">1. Active:</span> General permit coverage that has been granted by the NPDES permitting authority.
+                  <span class="font-weight-bold">1. Active:</span> General permit coverage that has been granted by the NPDES permitting authority.
                   Typically, a Notice
                   of
                   Intent (NOI) or request for exclusion or waiver that has been certified, submitted,
@@ -992,14 +1002,14 @@
               </b-row>
               <b-row>
                 <div>
-                <span class="font-weight-bold">2. Administratively Continued:</span>  An active general permit coverage that has been extended to remain in force and
+                  <span class="font-weight-bold">2. Administratively Continued:</span>  An active general permit coverage that has been extended to remain in force and
                   effect for activities
                   and discharges that were covered prior to expiration of the general permit.
                 </div>
               </b-row>
               <b-row>
                 <div>
-                 <span class="font-weight-bold">3. Expired:</span> A general permit coverage, exclusion or waiver that has reached the end of the
+                  <span class="font-weight-bold">3. Expired:</span> A general permit coverage, exclusion or waiver that has reached the end of the
                   original issuance
                   period,
                   and for which requirements to submit a notice to renew coverage were not satisfied.
@@ -1009,7 +1019,7 @@
               </b-row>
               <b-row>
                 <div>
-                 <span class="font-weight-bold">4. Terminated:</span> A general permit coverage that has been terminated. Terminations can be requested by
+                  <span class="font-weight-bold">4. Terminated:</span> A general permit coverage that has been terminated. Terminations can be requested by
                   submitting a
                   Notice
                   of Termination (NOT) request for active general permit coverages. Coverage can also
@@ -1020,7 +1030,7 @@
               </b-row>
               <b-row>
                 <div>
-                 <span class="font-weight-bold">5. Discontinued:</span> A certified exclusion or waiver from general permit coverage that has been
+                  <span class="font-weight-bold">5. Discontinued:</span> A certified exclusion or waiver from general permit coverage that has been
                   discontinued.
                   Discontinuations can be requested by submitting a Notice of Termination (NOT)
                   request for active
@@ -1031,19 +1041,14 @@
               </b-row>
               <b-row>
                 <div>
-                <span class="font-weight-bold">6. Under Review:</span>  A Notice of Intent (NOI) for a new coverage, a modification request or Notice of
-                  Termination (NOT)
-                  request for existing coverage, or an exclusion/waiver request that has been
-                  submitted to the NPDES
-                  permitting authority and is currently undergoing review before decision to approve
-                  or deny the
-                  coverage
-                  request.
+                  <span class="font-weight-bold">6. Under Review:</span>  A Notice of Intent (NOI) for a new coverage,
+                  or an exclusion/waiver request that has been submitted to the NPDES permitting authority and is
+                  currently undergoing review before decision to approve or deny the coverage request.
                 </div>
               </b-row>
               <b-row>
                 <div>
-                 <span class="font-weight-bold">7. Inactive:</span> A Notice of Intent (NOI) for a new coverage or an exclusion/waiver request that has
+                  <span class="font-weight-bold">7. Inactive:</span> A Notice of Intent (NOI) for a new coverage or an exclusion/waiver request that has
                   been submitted to
                   the NPDES permitting authority and has been denied coverage under the general
                   permit.
