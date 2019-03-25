@@ -109,7 +109,6 @@
 <style scoped
   lang="scss">
 
-
   h2 + p,
   h2 + table,
   p + pre {
