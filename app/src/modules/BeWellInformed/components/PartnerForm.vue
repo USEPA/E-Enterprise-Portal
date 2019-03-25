@@ -17,16 +17,19 @@
       <ContaminantSection
         v-if="partnerResource && waterAnalysisRequest.RoutineContaminants"
         :request="waterAnalysisRequest.RoutineContaminants"
+        ref="RoutineContaminants"
         section="RoutineContaminants"/>
 
       <ContaminantSection
         v-if="partnerResource && waterAnalysisRequest.BacterialContaminants"
         :request="waterAnalysisRequest.BacterialContaminants"
+        ref="BacterialContaminants"
         section="BacterialContaminants"/>
 
       <ContaminantSection
         v-if="partnerResource && waterAnalysisRequest.RadionuclideContaminants"
         :request="waterAnalysisRequest.RadionuclideContaminants"
+        ref="RadionuclideContaminants"
         section="RadionuclideContaminants"/>
 
       <div
@@ -104,9 +107,14 @@
         }
       },
       onReset(evt) {
+        const vm = this;
         evt.preventDefault();
         /* Reset our form values */
         this.createWaterAnalysisRequest();
+        // Reset fake values on sections
+        const section = vm.$refs['BacterialContaminants'];
+        section.fakeInputs = {};
+        section.radios = {};
       },
     },
   };
