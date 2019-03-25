@@ -429,18 +429,7 @@ export default {
     const apiURL = store.getters.getEnvironmentApiURL;
     const { id } = store.getters.getUser;
     const token = Vue.cookie.get('Token');
-    const userInit = store.getters.getUser.init;
-    const updatedBody = body;
-    const userInitValid = store.getters.getUserInitValidation;
-    if (userInitValid) {
-      updatedBody.init =
-        {
-          value: 'generated-user@e-enterprise',
-        };
-    } else {
-      updatedBody.init = userInit;
-    }
-    AppAxios.patch(`${apiURL}/user/${id}?_format=json`, updatedBody, {
+    AppAxios.patch(`${apiURL}/user/${id}?_format=json`, body, {
       headers: {
         Authorization: `Bearer ${token}`,
         crossDomain: true,
