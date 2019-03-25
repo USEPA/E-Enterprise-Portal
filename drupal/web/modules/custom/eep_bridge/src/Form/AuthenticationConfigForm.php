@@ -51,12 +51,6 @@ class AuthenticationConfigForm extends ConfigFormBase{
       '#title' => $this->t('Realm'),
       '#default_value' => $config->get('eep_bridge_realm'),
     ];
-    $form['eep_bridge_wreply'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Reply'),
-      '#description' => $this->t('the wreply is the page that they will be redirected too after logout'),
-      '#default_value' => $config->get('eep_bridge_wreply'),
-    ];
     return parent::buildForm($form, $form_state);
   }
 
@@ -66,7 +60,6 @@ class AuthenticationConfigForm extends ConfigFormBase{
       ->set('eep_bridge_environment_name', $form_state->getValue('eep_bridge_environment_name'))
       ->set('eep_bridge_issuer', $form_state->getValue('eep_bridge_issuer'))
       ->set('eep_bridge_realm', $form_state->getValue('eep_bridge_realm'))
-      ->set('eep_bridge_wreply', $form_state->getValue('eep_bridge_wreply'))
       ->save();
   }
 }
