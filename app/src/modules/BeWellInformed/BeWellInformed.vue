@@ -228,6 +228,7 @@
   import PartnerResources from './components/PartnerResources.vue';
   import { EventBus } from '../../EventBus';
   import WaterAnalysisResult from './components/WaterAnalysisResult.vue';
+  import ContaminantSection from './components/ContaminantSection.vue';
 
   const moduleName = 'BeWellInformed';
 
@@ -240,6 +241,7 @@
       AppPlaceholderContent,
       PartnerForm,
       PartnerResources,
+      ContaminantSection,
     },
     beforeCreate() {
       require.context('./images', false, /\.png$/);
@@ -350,7 +352,7 @@
         if (!isRequestEmpty) {
           evt.preventDefault();
           vm.submissionErrorMessage = '';
-         vm.showResults({ vm, evt });
+          vm.showResults({ vm, evt });
           vm.$root.$emit(
             'bv::hide::modal',
             'bwi-modal-interactive',
@@ -364,11 +366,9 @@
       showWaterAnalysisResults(event) {
         const vm = this;
         const bwiModal = vm.$refs.bwi_modal;
-
         vm.$root.$emit(
           'bv::show::modal', 'bwi-modal', bwiModal,
         );
-
         vm.hasResults = true;
         vm.$nextTick(() => {
           vm.tabIndex = event.value;

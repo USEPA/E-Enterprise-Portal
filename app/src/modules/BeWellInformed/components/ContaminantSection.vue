@@ -11,8 +11,10 @@
             <div class="col-sm-5">
               <label class="">{{ contaminant._attributes.Text }}</label>
             </div>
-            <div class="col-sm-3 pr-2">
+            <div class="col-sm-3 pr-2"
+              v-if="canShowIsPresent(contaminant)">
               <b-form-input
+                class="real-input"
                 :ref="`${contaminant._attributes.Value}-Value`"
                 :id="`${contaminant._attributes.Value}-Value`"
                 type="number"
@@ -20,6 +22,23 @@
                 v-model="request[contaminant._attributes.Value].Value"
                 @change="updateProperty( section, contaminant, 'Value', $event)"
                 />
+              <b-form-input
+                :ref="`${contaminant._attributes.Value}-Value-Fake`"
+                :id="`${contaminant._attributes.Value}-Value-Fake`"
+                type="number"
+                step="0.001"
+              />
+            </div>
+            <div class="col-sm-3 pr-2"
+                 v-else>
+              <b-form-input
+                :ref="`${contaminant._attributes.Value}-Value`"
+                :id="`${contaminant._attributes.Value}-Value`"
+                type="number"
+                step="0.001"
+                v-model="request[contaminant._attributes.Value].Value"
+                @change="updateProperty( section, contaminant, 'Value', $event)"
+              />
             </div>
             <div class="col-sm-4">
               <b-form-select
@@ -123,6 +142,25 @@
         'fetchPartnerAndFlowchartXML',
         'updateWaterAnalysisRequestProperty',
       ]),
+      clearPresentAbsentInputs(name) {
+        const refs = this.$refs;
+        console.log(name);
+        console.log(refs);
+        if (name === 'Ecoli') {
+          refs['Ecoli-Value-Fake']['0']['$refs']['input']['value'] = null;
+        } else {
+          refs['Bac-Value-Fake']['0']['$refs']['input']['value'] = null;
+        }
+      },
+      // updateRealInput(contaminantName, value) {
+      //   const refs = this.$refs;
+      //   console.log(refs);
+      //   if (contaminantName === 'Ecoli'){
+      //     refs['Ecoli-Value']['0']['']['value'] = value;
+      //   } else {
+      //     refs['Bac-Value']['0']['$refs']['input']['value']= value;
+      //   }
+      // },
       canShowIsPresent(contaminant) {
         const r = !!((
           contaminant
@@ -137,15 +175,8 @@
         vm.updateWaterAnalysisRequestProperty({
           section, contaminant, property, event,
         }).then(function () {
-          // TODO
-          // Make this a better solution. Currently just visually sets the fields to null
-          // to avoid confusion, but setting these directly causes them to be accurately
-          // displayed when the DOM re-renders.
           if (contaminant._attributes.ShowIsPresent && (event === '-1' || event === '-2')) {
-            //console.log(vm.$refs[`${contaminant._attributes.Value}-Value`]);
-            vm.$refs[`${contaminant._attributes.Value}-Value`].forEach(input =>
-              input['value'] = null
-            );
+            vm.clearPresentAbsentInputs(contaminant._attributes.Value);
           }
         });
       },
@@ -162,7 +193,9 @@
 
 <style scoped
   lang="scss">
-
+  .real-input {
+    display: none;
+  }
   .contaminant-wrapper {
     hr {
       margin: 0;
