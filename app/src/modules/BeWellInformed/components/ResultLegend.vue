@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-12">
-        <h5>Legend:</h5>
+        <h5>Key</h5>
       </div>
     </div>
     <div class="row border border-info">
