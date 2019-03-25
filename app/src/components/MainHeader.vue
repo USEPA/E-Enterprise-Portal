@@ -13,7 +13,8 @@
         </a>
       </div>
       <div class="w-100 d-block d-sm-none"/>
-      <div class="col-md-9 col-12 pt-3 d-flex justify-content-sm-end justify-content-md-end
+      <div
+        class="col-md-9 col-12 pt-3 d-flex justify-content-sm-end justify-content-md-end
             justify-content-lg-end justify-content-center">
         <div class="tryit-wrapper pr-2 float-right">
           <router-link
@@ -70,6 +71,9 @@
               </button>
             </div>
           </template>
+          <h1
+            ref="zoomHeightFix"
+            class="invisible position-absolute">HEIGHT</h1>
         </div>
       </div>
     </div>
@@ -107,20 +111,24 @@
       ...mapActions([
         'navigateToBridge',
         'userLogOut',
+        'setFontScaleRatio',
       ]),
-      navigateToRouterLink(link){
+      navigateToRouterLink(link) {
         this.$router.push(link);
       },
       navigateToLoginRoute() {
         // Checks to see if the user already accepted the user policy and if they did then go to the bridge login
         // If not, then go to the login view where the login options will be loaded
-        if(this.$cookie.get('userPolicy') && !!this.$cookie.get('bridgeUrlLoginOption')){
+        if (this.$cookie.get('userPolicy') && !!this.$cookie.get('bridgeUrlLoginOption')) {
           // Redirect to the bridge login for a given url that is already stored in cookie
           window.location = this.$cookie.get('bridgeUrlLoginOption');
-        }else{
-          this.$router.push('/login')
+        } else {
+          this.$router.push('/login');
         }
       },
+    },
+    mounted() {
+      this.setFontScaleRatio(this.$refs.zoomHeightFix.clientHeight);
     },
   };
 </script>

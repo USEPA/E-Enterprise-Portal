@@ -133,4 +133,7 @@ export default {
     const userInit = state.user.init;
     return (userInit.length > 0 && userInit[0].value.indexOf('@') < 1);
   },
+  getFontScaleRatio(state) {
+    return state.fontScaleRatio;
+  },
 };
