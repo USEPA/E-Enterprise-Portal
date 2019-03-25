@@ -85,7 +85,7 @@
     <div v-else-if="!certificationsLoaded">Loading your Certifications...</div>
 
     <!--if No Certifications-->
-    <div v-else-if="certificationsLoaded && certifications.length === 0">No certifications...</div>
+    <div v-else-if="certificationsLoaded && certifications.length === 0">No Certifications...</div>
 
     <!--pagination-->
     <b-row
