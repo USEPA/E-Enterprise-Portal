@@ -143,6 +143,7 @@
               <img
                 fluid
                 id="my-reporting-img"
+                class="center-block"
                 src="../assets/images/carousel-my-reporting.png"
                 alt="My Reporting">
               <div class="w-100 h-5"/>
@@ -314,19 +315,27 @@
   }
 
     // Slide 2
+    #my-reporting-img,
+    #my-certifications-img,
+    #construction-permits-img {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
     #my-reporting-img {
-      width: 100%;
-      height: 18rem;
+      width: 65%;
+      height: 13.5rem;
       max-width: 100%;
       padding-bottom: 1rem;
     }
 
     #my-certifications-img{
-      width: 48%;
+      width: 45%;
       max-width: 100%;
     }
     #construction-permits-img{
-      width: 48%;
+      width: 45%;
       max-width: 100%;
       padding-bottom: 1rem;
       float:right;
