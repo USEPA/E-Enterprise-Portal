@@ -33,7 +33,7 @@
                   </template>
                 </b-form-select>
               </div>
-              <div class="col-4"v-if="optionsError">
+              <div class="col-4" v-if="optionsError">
                 <b-btn
                   size="sm"
                   variant="primary"
@@ -44,7 +44,7 @@
                   Search
                 </b-btn>
               </div>
-              <div class="col-4"v-else-if="!optionsError">
+              <div class="col-4" v-else-if="!optionsError">
                 <b-btn
                   size="sm"
                   variant="primary"
@@ -979,10 +979,60 @@
             title="What do the permit status terms mean?"
             :hide-footer="true">
             <div
+              v-show="permitType === 'Construction General Permit'"
               class="info-modal-component">
               <b-row>
                 <div>
-                 <span class="font-weight-bold">1. Active:</span> General permit coverage that has been granted by the NPDES permitting authority.
+                  <span class="font-weight-bold">1. Active (NOI):</span> CGP NOI that has been certified, submitted to
+                  EPA, and completed a 14-day review process. Active NOIs are considered covered under the CGP permit.
+                </div>
+              </b-row>
+              <b-row>
+                <div>
+                  <span class="font-weight-bold">2. Active (LEW):</span> A LEW that has been certified and submitted to
+                  EPA. Active LEWs are considered covered under the waiver from needing CGP coverage.
+                </div>
+              </b-row>
+              <b-row>
+                <div>
+                  <span class="font-weight-bold">3. Submitted to EPA:</span> CGP NOI that has been certified and
+                  submitted to EPA and is undergoing the 14-day review process.
+                </div>
+              </b-row>
+              <b-row>
+                <div>
+                  <span class="font-weight-bold">4. Active - Pending Change:</span> CGP NOI that is Active but has had a
+                  Change NOI submitted to EPA and is currently undergoing the 14-day review process. Once the Change NOI
+                  becomes Active, the original NOI will become Archived.
+                </div>
+              </b-row>
+              <b-row>
+                <div>
+                  <span class="font-weight-bold">5. Archived:</span> When a Change NOI or LEW has been submitted to EPA
+                  and becomes Active, the original NOI or LEW becomes Archived and is no longer Active.
+                </div>
+              </b-row>
+              <b-row>
+                <div>
+                  <span class="font-weight-bold">6. Terminated:</span> CGP NOI that has been terminated for a project
+                  that no longer needs permit coverage. Projects are only eligible for termination after meeting the
+                  requirements of Part 8 of EPA’s 2017 CGP.
+                </div>
+              </b-row>
+              <b-row>
+                <div>
+                  <span class="font-weight-bold">7. Discontinued:</span> A LEW that has been discontinued for a project
+                  that no longer needs or is eligible for the waiver for permit coverage.
+                </div>
+              </b-row>
+            </div>
+            <div
+              v-show="permitType === 'Multi-Sector General Permit'"
+              class="info-modal-component">
+              <b-row>
+                <div>
+                  <span class="font-weight-bold">1. Active:</span> General permit coverage that has been granted by the
+                  NPDES permitting authority.
                   Typically, a Notice
                   of
                   Intent (NOI) or request for exclusion or waiver that has been certified, submitted,
@@ -992,14 +1042,16 @@
               </b-row>
               <b-row>
                 <div>
-                <span class="font-weight-bold">2. Administratively Continued:</span>  An active general permit coverage that has been extended to remain in force and
+                  <span class="font-weight-bold">2. Administratively Continued:</span> An active general permit coverage
+                  that has been extended to remain in force and
                   effect for activities
                   and discharges that were covered prior to expiration of the general permit.
                 </div>
               </b-row>
               <b-row>
                 <div>
-                 <span class="font-weight-bold">3. Expired:</span> A general permit coverage, exclusion or waiver that has reached the end of the
+                  <span class="font-weight-bold">3. Expired:</span> A general permit coverage, exclusion or waiver that
+                  has reached the end of the
                   original issuance
                   period,
                   and for which requirements to submit a notice to renew coverage were not satisfied.
@@ -1009,7 +1061,8 @@
               </b-row>
               <b-row>
                 <div>
-                 <span class="font-weight-bold">4. Terminated:</span> A general permit coverage that has been terminated. Terminations can be requested by
+                  <span class="font-weight-bold">4. Terminated:</span> A general permit coverage that has been
+                  terminated. Terminations can be requested by
                   submitting a
                   Notice
                   of Termination (NOT) request for active general permit coverages. Coverage can also
@@ -1020,7 +1073,8 @@
               </b-row>
               <b-row>
                 <div>
-                 <span class="font-weight-bold">5. Discontinued:</span> A certified exclusion or waiver from general permit coverage that has been
+                  <span class="font-weight-bold">5. Discontinued:</span> A certified exclusion or waiver from general
+                  permit coverage that has been
                   discontinued.
                   Discontinuations can be requested by submitting a Notice of Termination (NOT)
                   request for active
@@ -1031,7 +1085,8 @@
               </b-row>
               <b-row>
                 <div>
-                <span class="font-weight-bold">6. Under Review:</span>  A Notice of Intent (NOI) for a new coverage, a modification request or Notice of
+                  <span class="font-weight-bold">6. Under Review:</span> A Notice of Intent (NOI) for a new coverage, a
+                  modification request or Notice of
                   Termination (NOT)
                   request for existing coverage, or an exclusion/waiver request that has been
                   submitted to the NPDES
@@ -1043,7 +1098,8 @@
               </b-row>
               <b-row>
                 <div>
-                 <span class="font-weight-bold">7. Inactive:</span> A Notice of Intent (NOI) for a new coverage or an exclusion/waiver request that has
+                  <span class="font-weight-bold">7. Inactive:</span> A Notice of Intent (NOI) for a new coverage or an
+                  exclusion/waiver request that has
                   been submitted to
                   the NPDES permitting authority and has been denied coverage under the general
                   permit.
@@ -1410,7 +1466,7 @@
         evt.preventDefault();
         if (JSON.stringify(this.cgpFormData) !== JSON.stringify(this.cgpFormDataDefaults)) {
           this.noFieldsToQuery = false;
-          this.cgpFormGetResults({ vm });
+          this.cgpFormGetResults({vm});
           this.setCgpFormToDefaults();
           this.$ga.event('eportal', 'click', 'Permit Lookup CGP Form Submission', 1);
         } else {
@@ -1422,7 +1478,7 @@
         evt.preventDefault();
         if (JSON.stringify(this.msgpFormData) !== JSON.stringify(this.msgpFormDataDefaults)) {
           this.noFieldsToQuery = false;
-          this.msgpFormGetResults({ vm });
+          this.msgpFormGetResults({vm});
           this.$ga.event('eportal', 'click', 'Permit Lookup MSGP Form Submission', 1);
         } else {
           this.noFieldsToQuery = true;
@@ -1467,7 +1523,7 @@
   .standard-styling,
   .input-row,
   #msgp-header,
-  #cgp-header{
+  #cgp-header {
     font-size: 0.9375rem; //15px
     font-family: "Source Sans Pro Web";
   }
