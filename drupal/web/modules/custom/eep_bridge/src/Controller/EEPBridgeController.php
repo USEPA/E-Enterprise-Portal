@@ -112,7 +112,7 @@ class EEPBridgeController extends ControllerBase {
     // Build logout url
     $logout = $config->get('eep_bridge_issuer') . '?wa=wsignout1.0&wreply=' . urlencode($config->get('eep_bridge_wreply'));
     // Log current user out
-    user_logout_current_user();
+    user_logout();
     // Redirect to the bridge
     header("Location:$logout");
     exit();
@@ -246,7 +246,7 @@ class EEPBridgeController extends ControllerBase {
       $uid = \Drupal::currentUser()->id();
     }
     $jwt_token = $this->auth->generateToken();
-    user_logout_current_user();
+    user_logout();
     if ($jwt_token === FALSE) {
       $error_msg = "Error. Please set a key in the JWT admin page.";
       \Drupal::logger('eep_bridge')->error($error_msg);
