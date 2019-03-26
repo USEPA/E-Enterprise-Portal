@@ -16,7 +16,7 @@
             <span>
               Welcome to the new E-Enterprise Portal, with an updated and improved look and
               performance! As we move everything over, you can find old widgets and services
-              at the original E-Enterprise <a :href="EEPURL">{{EEPURL}}</a> for the time being.
+              at the original E-Enterprise <a :href="EEPURL" class="text-white text-underline">({{EEPURL}})</a> for the time being.
             </span>
             <br />
             <span>
