@@ -1000,7 +1000,7 @@
             id="permit-status-info-modal"
             modal-ref="permit-status-info-modal"
             title="What do the coverage status terms mean?"
-            hide-footer="true">
+            :hide-footer="true">
             <div
               class="info-modal-component">
               <b-row>
