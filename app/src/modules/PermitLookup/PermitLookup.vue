@@ -932,7 +932,7 @@
                       <a
                         v-if="attachment.category.toUpperCase() === 'COR'"
                         :href="`${formOptions.msgpFormOptions.msgpDownloadUrlBase}/form/${data.item.id}/attachment/${attachment.id}`"
-                        class="pl-2">{{ attachment.category.toUpperCase() }}</a>
+                        class="pl-2">COR</a>
                     </template>
                     <a
                       :href="`${formOptions.msgpFormOptions.msgpDownloadUrlBase}/form/${data.item.id}/attachment/zip`"
