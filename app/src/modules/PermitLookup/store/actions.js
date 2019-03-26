@@ -431,7 +431,7 @@ export default {
             }
           });
         } else if (key === 'sicCode') {
-          const code = msgpFormData[key].split('-')[0];
+          const code = msgpFormData[key].split('-')[0].trim();
           urlQueries += `${key}=${code}`;
         } else if (key === 'submittedDateTo') {
           const unformattedDate = new Date(msgpFormData[key]);
