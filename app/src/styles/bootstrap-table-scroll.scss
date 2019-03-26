@@ -118,12 +118,14 @@
 
 
 @media only screen and (min-width:768px) {
-  .bootstrap-vue-permit-table-scroll > table {
+  .bootstrap-vue-permit-table-scroll > table,
+  .bootstrap-vue-permit-msgp-table-scroll > table{
     width: 100%;
     border-spacing: 0;
   }
 
-  .bootstrap-vue-permit-table-scroll > thead tr {
+  .bootstrap-vue-permit-table-scroll > thead tr,
+  .bootstrap-vue-permit-msgp-table-scroll > thead tr {
     /* fallback */
     width: 100%;
   }
@@ -133,18 +135,27 @@
   .bootstrap-vue-permit-table-scroll > thead > tr,
   .bootstrap-vue-permit-table-scroll > tbody > tr,
   .bootstrap-vue-permit-table-scroll > thead > tr > th,
-  .bootstrap-vue-permit-table-scroll > tbody > tr > td {
+  .bootstrap-vue-permit-table-scroll > tbody > tr > td,
+  .bootstrap-vue-permit-msgp-table-scroll > thead,
+  .bootstrap-vue-permit-msgp-table-scroll > tbody,
+  .bootstrap-vue-permit-msgp-table-scroll > thead > tr,
+  .bootstrap-vue-permit-msgp-table-scroll > tbody > tr,
+  .bootstrap-vue-permit-msgp-table-scroll > thead > tr > th,
+  .bootstrap-vue-permit-msgp-table-scroll > tbody > tr > td {
     display: block;
   }
   .bootstrap-vue-permit-table-scroll > tbody > tr:after,
-  .bootstrap-vue-permit-table-scroll > thead > tr:after {
+  .bootstrap-vue-permit-table-scroll > thead > tr:after,
+  .bootstrap-vue-permit-msgp-table-scroll > tbody > tr:after,
+  .bootstrap-vue-permit-msgp-table-scroll > thead > tr:after {
     content: ' ';
     display: block;
     visibility: hidden;
     clear: both;
   }
 
-  .bootstrap-vue-permit-table-scroll > tbody {
+  .bootstrap-vue-permit-table-scroll > tbody,
+  .bootstrap-vue-permit-msgp-table-scroll > tbody{
     overflow-y: auto;
     overflow-x:hidden;
     height: 250px;
@@ -155,7 +166,13 @@
     width: 11%;
     float: left;
   }
-  .bootstrap-vue-permit-table-scroll > thead th {
+  .bootstrap-vue-permit-table-scroll > thead th,
+  .bootstrap-vue-permit-msgp-table-scroll > thead th{
     border-bottom:none;
+  }
+  .bootstrap-vue-permit-msgp-table-scroll > tbody > tr > td,
+  .bootstrap-vue-permit-msgp-table-scroll > thead > tr > th {
+    width: 9%;
+    float: left;
   }
   }
