@@ -1514,8 +1514,8 @@
         this.msgpType = null;
       },
       focusMyElement(e) {
-        this.$refs.focusThis.focus()
-      }
+        this.$refs.focusThis.focus();
+      },
     },
     props: {
       eepApp: {
