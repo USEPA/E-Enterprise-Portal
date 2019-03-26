@@ -50,6 +50,7 @@ class EEPBridgeController extends ControllerBase {
       $authenticated_user = new AuthenticatedUser($userDetails);
       $this->create_or_login_user_if_exists($authenticated_user);
       $this->process_required_fields_for_user($authenticated_user);
+      $this->add_required_role_for_current_user($authenticated_user->get_authentication_domain());
       $this->create_jwt_and_send_user();
     } else {
       $this->force_new_bridge_login($userDetails->attributes['authenticationMethod']);
@@ -116,22 +117,19 @@ class EEPBridgeController extends ControllerBase {
   }
 
   /**
-   * Builds URL that sends user to Bridge logout, then sends the user back to login again for the
-   * passed in URN.
+   * Builds bridge login for specific URN
    */
-  private function force_new_bridge_login($urn_method) {
-    $config = \Drupal::config('eep_bridge.environment_settings');
-    $bridge_url = $config->get('eep_bridge_issuer');
-    $eep_realm = $config->get('eep_bridge_realm');
-    $bridge_login_url = $bridge_url . '?wtrealm=' . $eep_realm . '&wreply=' . $eep_realm . '/authenticate/user&whr=' . $urn_method . '&wa=wsignin1.0';
-    // You must double encode the URL. PHP will decode automatically through header (or RedirectResponse) functions
-    $bridge_url_encode = urlencode(urlencode($bridge_login_url));
-    $logout_url = $bridge_url . '?wa=wsignout1.0&wreply=' . $bridge_url_encode;
-    $response = new RedirectResponse($logout_url);
-    $response->send();
+  public function bridge_redirect() {
+    if (isset($_GET['whr'])) {
+      $config = \Drupal::config('eep_bridge.environment_settings');
+      $bridge_url = $config->get('eep_bridge_issuer');
+      $eep_realm = $config->get('eep_bridge_realm');
+      $bridge_login_url = $bridge_url . '?wtrealm=' . $eep_realm . '&wreply=' . urlencode($eep_realm . '/authenticate/user') . '&whr=' . $_GET['whr'] . '&wa=wsignin1.0';
+      $response = new RedirectResponse($bridge_login_url);
+      $response->send();
+    }
     exit();
   }
-
   /**
    * @param ContainerInterface $container
    * @return static
@@ -165,6 +163,7 @@ class EEPBridgeController extends ControllerBase {
       $authenticated_user->set_authentication_domain($user_data['ISSUER']);
       $this->create_or_login_user_if_exists($authenticated_user);
       $this->process_required_fields_for_user($authenticated_user);
+      $this->add_required_role_for_current_user($authenticated_user->get_authentication_domain());
       $this->create_jwt_and_send_user();
     }
   }
@@ -179,6 +178,21 @@ class EEPBridgeController extends ControllerBase {
       'current_user_id' => \Drupal::currentUser()->id(),
       'token' => $new_jwt_token
     ]);
+  }
+
+  /**
+   * Builds URL that sends user to Bridge logout, then sends the user back to login again for the
+   * passed in URN.
+   */
+  private function force_new_bridge_login($urn_method) {
+    $config = \Drupal::config('eep_bridge.environment_settings');
+    $bridge_url = $config->get('eep_bridge_issuer');
+    $eep_realm = $config->get('eep_bridge_realm');
+    $bridge_redirect = $eep_realm . '/eep/bridge-redirect' . '?whr=' . $urn_method;
+    $logout_url = $bridge_url . '?wa=wsignout1.0&wreply=' . urlencode($bridge_redirect);
+    $response = new RedirectResponse($logout_url);
+    $response->send();
+    exit();
   }
 
   private function eep_bridge_goto($url, $jwt_token) {
@@ -224,8 +238,6 @@ class EEPBridgeController extends ControllerBase {
           'access' => (int)$_SERVER['REQUEST_TIME'],
         ], $account_data);
       $account = $entity_storage->create($account_data);
-
-      $this->add_role($account, $authenticated_user->get_authentication_domain());
       $account->enforceIsNew();
       $account->save();
       user_login_finalize($account);
@@ -247,6 +259,14 @@ class EEPBridgeController extends ControllerBase {
         $this->add_field_if_needed($uid, 'field_cdx_user_id', $authenticated_user->get_source_username());
       }
       $this->add_field_if_needed($uid, 'mail', $authenticated_user->get_email());
+    }
+  }
+
+  private function add_required_role_for_current_user($role_name) {
+    $uid = \Drupal::currentUser()->id();
+    if ($uid) {
+      $user = \Drupal\user\Entity\User::load($uid);
+      $this->add_role($user, $role_name);
     }
   }
 
@@ -306,6 +326,7 @@ class EEPBridgeController extends ControllerBase {
 
     // Add Role to user
     $user->addRole($role->id());
+    $user->save();
   }
 
   function create_role($id, $label) {
