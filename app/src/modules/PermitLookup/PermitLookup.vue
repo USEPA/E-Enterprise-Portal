@@ -234,7 +234,7 @@
                     <b-form-select
                       id="form-type-selection"
                       class="mb-3"
-                      v-model="cgpType"
+                      :value="cgpFormData.formType"
                       :options="formOptions.cgpFormOptions.formTypes"
                       ref="formType-Dropdown"
                       @change="setCgpFormType"
@@ -579,14 +579,19 @@
                   <b-col md="6">
                     <label
                       class="mb-0">Primary SIC Code</label>
-                    <b-form-input
+                    <b-form-select
                       id="sic-code-input"
                       ref="sic-code-input"
                       class="mb-3"
                       :value="msgpFormData.sicCode"
+                      :options="formOptions.baseFormOptions.sicCodes"
                       @change="setMsgpSicCode"
-                      type="number"
-                      size="sm"/>
+                      size="sm">
+                      <template slot="first">
+                        <option
+                          disabled>Select...
+                        </option>
+                    </template></b-form-select>
                   </b-col>
                 </b-row>
 
@@ -883,7 +888,7 @@
                   hover
                   stacked="lg"
                   id="permit-lookup-table-cgp"
-                  class="bootstrap-vue-permit-table-scroll d-block"
+                  class="bootstrap-vue-permit-cgp-table-scroll"
                   :items="cgpFormResults"
                   :fields="cgpFields"
                   :current-page="currentPage"
@@ -896,10 +901,17 @@
                   <template
                     slot="documents"
                     slot-scope="data">
-                    <a
-                      v-for="attachment in data.item.attachments"
-                      :href="`${formOptions.cgpFormOptions.cgpDownloadUrlBase}/form/${data.item.id}/attachment/${attachment.id}`"
-                      class="pl-2">Download</a>
+                    <template
+                      v-for="attachment in data.item.attachments">
+                      <a
+                        v-if="attachment.category.toUpperCase() === 'COR'"
+                        :href="`${formOptions.cgpFormOptions.cgpDownloadUrlBase}/form/${data.item.id}/attachment/${attachment.id}`"
+                        class="pl-2">COR</a>
+                      <a
+                        v-else
+                        :href="`${formOptions.cgpFormOptions.cgpDownloadUrlBase}/form/${data.item.id}/attachment/${attachment.id}`"
+                        class="pl-2">Download</a>
+                    </template>
                   </template>
                 </b-table>
                 <b-table
@@ -907,7 +919,7 @@
                   hover
                   stacked="lg"
                   id="permit-lookup-table-msgp"
-                  class="bootstrap-vue-permit-table-scroll d-block"
+                  class="bootstrap-vue-permit-msgp-table-scroll"
                   :items="msgpFormResults"
                   :fields="msgpFields"
                   :current-page="currentPage"
@@ -920,10 +932,15 @@
                   <template
                     slot="documents"
                     slot-scope="data">
+                    <template v-for="attachment in data.item.attachments">
+                      <a
+                        v-if="attachment.category.toUpperCase() === 'COR'"
+                        :href="`${formOptions.msgpFormOptions.msgpDownloadUrlBase}/form/${data.item.id}/attachment/${attachment.id}`"
+                        class="pl-2">COR</a>
+                    </template>
                     <a
-                      v-for="attachment in data.item.attachments"
-                      :href="`${formOptions.msgpFormOptions.msgpDownloadUrlBase}/form/${data.item.id}/attachment/${attachment.id}`"
-                      class="pl-2">Download</a>
+                      :href="`${formOptions.msgpFormOptions.msgpDownloadUrlBase}/form/${data.item.id}/attachment/zip`"
+                      class="pl-2">ZIP</a>
                   </template>
                 </b-table>
                 <div v-else-if="resultsError">
@@ -1499,6 +1516,9 @@
         this.radioSelection4 = null;
         this.cgpType = null;
         this.msgpType = null;
+      },
+      focusMyElement(e) {
+        this.$refs.focusThis.focus();
       },
     },
     props: {

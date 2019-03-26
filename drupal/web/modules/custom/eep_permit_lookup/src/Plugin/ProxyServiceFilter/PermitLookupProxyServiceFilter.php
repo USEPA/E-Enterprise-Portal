@@ -218,9 +218,9 @@ class PermitLookupProxyServiceFilter extends ProxyServiceFilterBase
         (!isset($query['sectors'])) ?: $payload['helperQueries']['oecaSvc']['sectors'][] = trim($query['sectors']);
         (!isset($query['states'])) ?: $payload['helperQueries']['oecaSvc']['states'][] = trim($query['states']);
         (!isset($query['tribes'])) ?: $payload['helperQueries']['oecaSvc']['tribes'][] = trim($query['tribes']);
+        (!isset($query['sics'])) ?: $payload['helperQueries']['oecaSvc']['sics'][] = trim($query['sics']);
         // oeca-services with parameters
         (!isset($query['counties'])) ?: $payload['helperQueries']['oecaSvcWithParams']['counties'][] = trim($query['counties']);
-        (!isset($query['sics'])) ?: $payload['helperQueries']['oecaSvcWithParams']['sics'][] = trim($query['sics']);
         (!isset($query['subsectors'])) ?: $payload['helperQueries']['oecaSvcWithParams']['subsectors'][] = trim($query['subsectors']);
 
         // docs

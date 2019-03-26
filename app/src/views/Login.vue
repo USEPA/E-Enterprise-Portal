@@ -1,5 +1,5 @@
 <template>
-  <div class="container pl-0 ml-0">
+  <div class="container ml-0 py-2">
     <h1>Login</h1>
     <div class="pt-2 caption-wrapper">
         <p class="pt-2">Select your preferred login method to access E-Enterprise

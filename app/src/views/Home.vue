@@ -1,5 +1,5 @@
 <template>
-  <div class="home mt-2">
+  <div class="home mt-2 py-2">
     <b-carousel
       id="home-carousel"
       background="#575757"
@@ -314,19 +314,27 @@
   }
 
     // Slide 2
+    #my-reporting-img,
+    #my-certifications-img,
+    #construction-permits-img {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
     #my-reporting-img {
-      width: 100%;
-      height: 18rem;
+      width: 65%;
+      height: 13.5rem;
       max-width: 100%;
       padding-bottom: 1rem;
     }
 
     #my-certifications-img{
-      width: 48%;
+      width: 45%;
       max-width: 100%;
     }
     #construction-permits-img{
-      width: 48%;
+      width: 45%;
       max-width: 100%;
       padding-bottom: 1rem;
       float:right;

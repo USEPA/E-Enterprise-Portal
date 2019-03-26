@@ -41,3 +41,29 @@ Accept: */*
 Cache-Control: no-cache
 
 ###
+
+# BWI Service Tests
+
+POST /TestRest/bwievaluation HTTP/1.1
+Host: dev.e-enterprise.gov
+Content-Type: application/json
+Cache-Control: no-cache
+Postman-Token: 49251968-d0b5-33f4-3dc7-fb01ebdc7f99
+
+{
+  "StateCode": "NH",
+  "RoutineContaminants": {
+    "As": {
+      "Symbol": "As",
+      "Name": "Arsenic",
+      "Value": "4444",
+      "Unit": "mg/L"
+    },
+    "Cl": {
+      "Symbol": "Cl",
+      "Name": "Chloride",
+      "Value": "4444",
+      "Unit": "mg/L"
+    }
+  }
+}
