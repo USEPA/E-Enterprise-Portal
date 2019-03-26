@@ -2,10 +2,6 @@
   display: block;
 }
 
-.bootstrap-vue-permit-table-scroll > thead, .bootstrap-vue-permit-table-scroll > tbody {
-  display: block;
-}
-
 .bootstrap-vue-fav-table-scroll > tbody,
 .bootstrap-vue-mycerts-table-scroll > tbody {
   overflow-y: auto;
@@ -14,7 +10,6 @@
 
 .bootstrap-vue-fav-table-scroll > thead,
 .bootstrap-vue-mycerts-table-scroll > thead,
-.bootstrap-vue-permit-table-scroll > thead,
 .wapp tbody {
   display: block;
 }
@@ -25,7 +20,6 @@
 .bootstrap-vue-mycerts-table-scroll > tbody td,
 .bootstrap-vue-mycerts-table-scroll > thead th,
 .bootstrap-vue-mycerts-table-scroll > table,
-.bootstrap-vue-permit-table-scroll > table,
 .bootstrap-vue-table-scroll > table {
   table-layout: fixed;
   width: 100%;
@@ -44,8 +38,6 @@
 .bootstrap-vue-fav-table-scroll > tbody tr,
 .bootstrap-vue-mycerts-table-scroll > thead tr,
 .bootstrap-vue-mycerts-table-scroll > tbody tr,
-bootstrap-vue-permit-table-scroll > thead tr,
-bootstrap-vue-permit-table-scroll > tbody tr,
 .bootstrap-vue-fav-table-scroll > thead th,
 .bootstrap-vue-fav-table-scroll > tbody td {
   display: flex;
@@ -123,8 +115,47 @@ bootstrap-vue-permit-table-scroll > tbody tr,
   width: 100%;
   height:125px;
 }
-.bootstrap-vue-permit-table-scroll > tbody {
-  overflow-y: auto;
-  width:100%;
-  height:250px;
-}
+
+
+@media only screen and (min-width:768px) {
+  .bootstrap-vue-permit-table-scroll > table {
+    width: 100%;
+    border-spacing: 0;
+  }
+
+  .bootstrap-vue-permit-table-scroll > thead tr {
+    /* fallback */
+    width: 100%;
+  }
+
+  .bootstrap-vue-permit-table-scroll > thead,
+  .bootstrap-vue-permit-table-scroll > tbody,
+  .bootstrap-vue-permit-table-scroll > thead > tr,
+  .bootstrap-vue-permit-table-scroll > tbody > tr,
+  .bootstrap-vue-permit-table-scroll > thead > tr > th,
+  .bootstrap-vue-permit-table-scroll > tbody > tr > td {
+    display: block;
+  }
+  .bootstrap-vue-permit-table-scroll > tbody > tr:after,
+  .bootstrap-vue-permit-table-scroll > thead > tr:after {
+    content: ' ';
+    display: block;
+    visibility: hidden;
+    clear: both;
+  }
+
+  .bootstrap-vue-permit-table-scroll > tbody {
+    overflow-y: auto;
+    overflow-x:hidden;
+    height: 250px;
+  }
+
+  .bootstrap-vue-permit-table-scroll > tbody > tr > td,
+  .bootstrap-vue-permit-table-scroll > thead > tr > th {
+    width: 9%;
+    float: left;
+  }
+  .bootstrap-vue-permit-table-scroll > thead th {
+    border-bottom:none;
+  }
+  }
