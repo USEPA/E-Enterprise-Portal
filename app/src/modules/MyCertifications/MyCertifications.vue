@@ -39,7 +39,7 @@
 
     <!--datatable-->
     <b-table
-      v-if="certificationsLoaded"
+      v-if="certificationsLoaded && certifications.length > 0"
       hover
       id="my-certifications-table"
       class="no-top-border no-bottom-border no-sort-images bootstrap-vue-mycerts-table-scroll"
