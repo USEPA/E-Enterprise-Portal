@@ -39,12 +39,14 @@
               <li><router-link to="/workbench">Workbench</router-link></li>
             </ul>
           </div>
-          <LocationSearch/>
+          <template v-if="this.$router.history.current.path === '/workbench'">
+            <LocationSearch/>
+          </template>
         </div>
       </div>
     </div>
     <!-- issue here with container and the caroseul -->
-    <template v-if="this.$router.history.current.path === '/' ">
+    <template v-if="this.$router.history.current.path === '/'">
       <div class="px-0">
         <div id="main-content" class="no-gutters py-2">
           <router-view/>
