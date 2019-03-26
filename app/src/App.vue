@@ -14,8 +14,29 @@
               </span>
             <br>
             <span>
+              Welcome to the new E-Enterprise Portal, with an updated and improved look and
+              performance! As we move everything over, you can find old widgets and services
+              at the original E-Enterprise <a :href="EEPURL">{{EEPURL}}</a> for the time being.
+            </span>
+            <br />
+            <span>
               This is a non-production demonstration environment and is not to be used for
               any regulatory activity.
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="environment-status text-white"
+      v-else>
+      <div class="container">
+        <div class="row">
+          <div class="col-12 text-center text-white">
+            <span>
+              Welcome to the new E-Enterprise Portal, with an updated and improved look and
+              performance! As we move everything over, you can find old widgets and services
+              at the original E-Enterprise <a :href="EEPURL">{{EEPURL}}</a> for the time being.
             </span>
           </div>
         </div>
@@ -34,9 +55,16 @@
             id="page-selection-wrapper"
             class="col-md-5 mt-2 pt-1 ml-0 pl-0">
             <ul>
-              <li class="pl-0" v-show="!user.isLoggedIn"><router-link to="/">Home</router-link></li>
-              <li><router-link to="/about">About</router-link></li>
-              <li><router-link to="/workbench">Workbench</router-link></li>
+              <li class="pl-0"
+                v-show="!user.isLoggedIn">
+                <router-link to="/">Home</router-link>
+              </li>
+              <li>
+                <router-link to="/about">About</router-link>
+              </li>
+              <li>
+                <router-link to="/workbench">Workbench</router-link>
+              </li>
             </ul>
           </div>
           <LocationSearch/>
@@ -46,14 +74,16 @@
     <!-- issue here with container and the caroseul -->
     <template v-if="this.$router.history.current.path === '/' ">
       <div class="px-0">
-        <div id="main-content" class="no-gutters py-2">
+        <div id="main-content"
+          class="no-gutters py-2">
           <router-view/>
         </div>
       </div>
     </template>
     <template v-else>
       <div class="container px-0">
-        <div id="main-content" class="no-gutters py-2">
+        <div id="main-content"
+          class="no-gutters py-2">
           <router-view/>
         </div>
       </div>
@@ -88,7 +118,7 @@
         <b-button
           class="usa-button"
           @click="handleLogOut"
-          v-show="!(user.displayLoginAgainButtonOnModal === 'none')" >
+          v-show="!(user.displayLoginAgainButtonOnModal === 'none')">
           Login Again
         </b-button>
       </template>
@@ -130,6 +160,7 @@
         navMargin: 'getnavMargin',
         basicPages: 'getBasicPages',
         user: 'getUser',
+        EEPURL: 'getOldEEPURL',
       }),
       onHomePage: {
         get() {
@@ -174,6 +205,20 @@
           'cookieModal',
           vm.$refs.cookieModal,
         );
+      },
+      OldEEPURL(state, ref) {
+        const environment = ref.getEnvironment;
+        let OldEEPURL = 'https://www2.e-enterprise.gov';
+        if (environment === 'LOCAL') {
+          OldEEPURL = 'http://e-enterprise';
+        } else if (environment === 'DEV') {
+          OldEEPURL = 'https://dev.e-enterprise.gov';
+        } else if (environment === 'TEST') {
+          OldEEPURL = 'https://test.e-enterprise.gov';
+        } else {
+          OldEEPURL = 'https://www2.e-enterprise.gov';
+        }
+        return OldEEPURL;
       },
       handleLogOut() {
         const vm = this;
@@ -251,7 +296,6 @@
   @import '../node_modules/bootstrap-vue/dist/bootstrap-vue.css';
   @import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
   @import './styles/styles.scss';
-
   .region-navigation {
     color: #fff;
     text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
@@ -266,7 +310,7 @@
       border-bottom: none;
     }
 
-    a{
+    a {
       text-decoration: none;
     }
 
@@ -297,15 +341,13 @@
       }
     }
   }
-
   .environment-status {
-    background-color:#444;
-    font-size:.75rem;
+    background-color: #444;
+    font-size: .75rem;
     &:hover {
       opacity: 1.0;
     }
   }
-
   // General slider media queries
   @include media-breakpoint-up(sm) {
     .environment-status {
@@ -315,7 +357,6 @@
       }
     }
   }
-
   @include media-breakpoint-up(md) {
     .environment-status {
       span {
@@ -323,17 +364,15 @@
       }
     }
   }
-
   #nav {
     margin-top: 20px !important;
   }
-
   .usa-button:active,
   button:active,
   .usa-button:focus,
   button:focus,
   .usa-button:hover,
-  button:hover{
+  button:hover {
     border: none;
     outline: none;
   }
