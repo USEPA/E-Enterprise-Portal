@@ -1839,7 +1839,7 @@
             </Missing>
           </Condition>
         </False>
-      
+
     </Condition>
 
       <Outcomes>
@@ -1963,7 +1963,7 @@
               </b>  Yes, your water meets the advisory level as it contains less than 2,000 pCi/L of radon.
             </Content>
           </Rn3>
-        
+
         </InterpretationMessages>
 
         <HealthMessages>
@@ -1984,7 +1984,7 @@
               <br/>
             </Content>
           </Rn3>
-      
+
         </HealthMessages>
 
         <TreatmentMessages>
@@ -2022,12 +2022,12 @@
               <br/>
             </Content>
           </Rn2>
-  
+
         </TreatmentMessages>
       </Outcomes>
     </Contaminant>
 
-    <Contaminant Section="RadionuclideContaminants" Value="Ur" Text="Uranium" DefaultUnit="μg/L" Units="µg/L|pCi/L" MCL="30 μg/L" NotEntered="Test your water.  Studies show that many private wells in New Hampshire have high uranium.">
+    <Contaminant Section="RadionuclideContaminants" Value="Ur" Text="Uranium" DefaultUnit="pCi/L" Units="µg/L|pCi/L" MCL="30 μg/L" NotEntered="Test your water.  Studies show that many private wells in New Hampshire have high uranium.">
       <Condition CheckOperator=">=" CheckValue="30">
         <True>
           <Outcome IM="Ur1" HM="Ur1" TM="Ur1" TreatmentOrder="5b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />

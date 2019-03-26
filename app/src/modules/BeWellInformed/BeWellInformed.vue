@@ -309,13 +309,16 @@
         'downloadPDF',
       ]),
       onCheckYourWater(evt) {
+        const vm = this;
         evt.preventDefault();
-        const partner = this.selectedPartner;
+        const partner = vm.selectedPartner;
         if (partner) {
-          EventBus.$emit('grid::modalOpen', this.eepApp.field_vue_component_name, this.eepApp);
-          this.fetchPartnerAndFlowchartXML(partner.code);
-          this.$root.$emit(
-            'bv::show::modal', 'bwi-modal', this.$refs.btnCheckYourWater,
+          // Reset the to the form tab
+          vm.tabIndex = 0;
+          EventBus.$emit('grid::modalOpen', vm.eepApp.field_vue_component_name, vm.eepApp);
+          vm.fetchPartnerAndFlowchartXML(partner.code);
+          vm.$root.$emit(
+            'bv::show::modal', 'bwi-modal', vm.$refs.btnCheckYourWater,
           );
           this.$ga.event('eportal', 'click', `BWI Partner Load- ${partner.code}`, 1)
         }
@@ -346,10 +349,8 @@
         return section;
       },
       onSubmit(evt) {
-        this.interactiveModalSubmit = true;
-        this.partnerModalSubmit= false;
-        const partner = this.selectedPartner;
         const vm = this;
+        const partner = vm.selectedPartner;
         const isRequestEmpty = vm.isWaterAnalysisRequestEmpty();
         if (!isRequestEmpty) {
           evt.preventDefault();
@@ -362,7 +363,7 @@
           );
           this.$ga.event('eportal', 'click', `BWI Submit Form- ${partner.code}`, 1)
         } else {
-          this.submissionErrorMessage = 'Please enter values for some of the contaminants.';
+          vm.submissionErrorMessage = 'Please enter values for some of the contaminants.';
         }
       },
       showWaterAnalysisResults($event) {
@@ -377,9 +378,10 @@
         });
       },
       hasWaterAnalysisResults() {
-        return this.waterAnalysisResults
-          && this.waterAnalysisResults.length
-          && this.waterAnalysisResults[0];
+        const vm = this;
+        return vm.waterAnalysisResults
+          && vm.waterAnalysisResults.length
+          && vm.waterAnalysisResults[0];
       },
       onPartnerModalSubmit() {
         this.partnerModalSubmit = true;

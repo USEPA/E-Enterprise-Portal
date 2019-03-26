@@ -46,19 +46,18 @@
     <!-- issue here with container and the caroseul -->
     <template v-if="this.$router.history.current.path === '/' ">
       <div class="px-0">
-        <div id="main-content" class="no-gutters py-2">
+        <div id="main-content" class="no-gutters">
           <router-view/>
         </div>
       </div>
     </template>
     <template v-else>
       <div class="container px-0">
-        <div id="main-content" class="no-gutters py-2">
+        <div id="main-content" class="no-gutters">
           <router-view/>
         </div>
       </div>
     </template>
-
     <MainFooter/>
     <BannerUserCookiePolicy/>
     <!-- END OF CONTENT -->
