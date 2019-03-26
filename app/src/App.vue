@@ -206,20 +206,6 @@
           vm.$refs.cookieModal,
         );
       },
-      OldEEPURL(state, ref) {
-        const environment = ref.getEnvironment;
-        let OldEEPURL = 'https://www2.e-enterprise.gov';
-        if (environment === 'LOCAL') {
-          OldEEPURL = 'http://e-enterprise';
-        } else if (environment === 'DEV') {
-          OldEEPURL = 'https://dev.e-enterprise.gov';
-        } else if (environment === 'TEST') {
-          OldEEPURL = 'https://test.e-enterprise.gov';
-        } else {
-          OldEEPURL = 'https://www2.e-enterprise.gov';
-        }
-        return OldEEPURL;
-      },
       handleLogOut() {
         const vm = this;
         vm.$root.$emit(
