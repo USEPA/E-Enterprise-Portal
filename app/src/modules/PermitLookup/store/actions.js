@@ -493,6 +493,8 @@ export default {
               urlQueries += `projectState=${subKey.stateCode}`;
             }
           });
+        } else if (key === 'formType') {
+          urlQueries += `applicationType=${cgpFormData[key]}`;
         } else if (key === 'submittedDateTo') {
           const unformattedDate = new Date(cgpFormData[key]);
           urlQueries += `${key}=${unformattedDate.toISOString()}`;
