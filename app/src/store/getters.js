@@ -111,6 +111,20 @@ export default {
     }
     return environmentApiURL;
   },
+  getOldEEPURL(state, ref) {
+    const environment = ref.getEnvironment;
+    let getOldEEPURL = 'https://www2.e-enterprise.gov';
+    if (environment === 'LOCAL') {
+      getOldEEPURL = 'http://e-enterprise';
+    } else if (environment === 'DEV') {
+      getOldEEPURL = 'https://dev2.e-enterprise.gov';
+    } else if (environment === 'TEST') {
+      getOldEEPURL = 'https://test2.e-enterprise.gov';
+    } else {
+      getOldEEPURL = 'https://www2.e-enterprise.gov';
+    }
+    return getOldEEPURL;
+  },
   getBasicPagesArray(state) {
     return state.basicPages.pagesArray;
   },
