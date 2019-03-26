@@ -263,14 +263,17 @@
           {
             key: 'program_service_name',
             label: 'Program service name',
+            thStyle: {width: '58%'},
           },
           {
             key: 'role',
             label: 'Role',
+            thStyle: {width: '33%'},
           },
           {
             key: 'status',
             label: 'Status',
+            thStyle: {width: '9%'},
           },
         ],
         currentPage: 1,
