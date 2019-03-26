@@ -288,18 +288,20 @@ export default {
     const { state } = store;
     const apiURL = store.rootGetters.getEnvironmentApiURL;
 
-    AppAxios.get(`${apiURL}/eep/proxy/service/oeca-svc-ref?tribes&states&sectors&subsectors`)
+    AppAxios.get(`${apiURL}/eep/proxy/service/oeca-svc-ref?sics&tribes&states&sectors&subsectors`)
       .then((response) => {
         const formOptions = response.data.helperQueryResponse.oecaSvc;
         let isValid = false;
         const formSectorOptions = formOptions[0];
         const formStateOptions = formOptions[1];
         const formTribalOptions = formOptions[2];
+        const formSicOptions = formOptions[3];
         const formSectorNames = [];
         const formStateNames = [];
         const formTribalNames = [];
+        const formSicCodes = [];
 
-        if (formSectorOptions && formStateOptions && formTribalOptions){
+        if (formSectorOptions && formStateOptions && formTribalOptions && formSicOptions) {
           isValid = true;
         }
 
@@ -314,12 +316,16 @@ export default {
           formTribalOptions.forEach((tribeOption) => {
             formTribalNames.push(tribeOption.tribalName);
           });
+          formSicOptions.forEach((sicOption) => {
+            formSicCodes.push(`${sicOption.sicCode} - ${sicOption.sicName}`);
+          });
           store.commit(types.SET_BASE_FORM_OPTIONS, formOptions);
           store.commit(types.SET_BASE_FORM_OPTION_STATE_NAMES, formStateNames.sort());
           store.commit(types.SET_BASE_FORM_OPTION_SECTOR_NAMES, formSectorNames.sort());
           store.commit(types.SET_BASE_FORM_OPTION_TRIAL_NAMES, formTribalNames.sort());
+          store.commit(types.SET_BASE_FORM_SIC_CODES, formSicCodes.sort());
         } else {
-          let errorResponse = 'Permit Lookup form services unavailable at this time.';
+          const errorResponse = 'Permit Lookup form services unavailable at this time.';
           console.warn('Check if oeca base endpoint is running. Form options are unable to be loaded from this endpoint at this time.');
           store.commit(types.SET_OPTIONS_ERROR, errorResponse);
         }
@@ -335,29 +341,29 @@ export default {
         let isValid = true;
         const formOptions = response.data.helperQueryResponse;
         // Check each option. If any option was not recieved (null value), then mark as invalid and stop checking
-        for (let option in formOptions){
-          if (!formOptions[option]){
+        for (const option in formOptions) {
+          if (!formOptions[option]) {
             isValid = false;
             break;
           }
         }
         // If response is as expected, populate fields as normal. Otherwise, set the options error.
-        if (isValid){
+        if (isValid) {
           // Massage out underscores
-          let coverageTypes = formOptions['coverageTypes'];
+          const { coverageTypes } = formOptions;
           let i = 0;
-          for (let type in coverageTypes){
+          for (const type in coverageTypes) {
             if (coverageTypes[i].includes('_')) {
               coverageTypes[i] = coverageTypes[i].replace(/_/g, ' ');
             }
             i++;
           }
-          formOptions['coverageTypes'] = coverageTypes;
+          formOptions.coverageTypes = coverageTypes;
           store.commit(types.SET_FORM_OPTIONS_MSGP, formOptions);
         } else {
-          let errorResponse = 'Permit Lookup form services unavailable at this time.';
+          const errorResponse = 'Permit Lookup form services unavailable at this time.';
           console.warn('Check if msgp endpoint is running. Form options are unable to be loaded from this endpoint at this time.\n' +
-            'Current end point is: ', formOptions['msgpDownloadUrlBase']);
+            'Current end point is: ', formOptions.msgpDownloadUrlBase);
           store.commit(types.SET_OPTIONS_ERROR, errorResponse);
         }
       });
@@ -372,30 +378,30 @@ export default {
         let isValid = true;
         const formOptions = response.data.helperQueryResponse;
         // Check each option. If any option was not recieved (null value), then mark as invalid and stop checking
-        for (let option in formOptions){
+        for (const option in formOptions) {
           if (!formOptions[option]) {
             isValid = false;
             break;
           }
         }
         // If response is as expected, populate fields as normal. Otherwise, set the options error.
-        if (isValid){
+        if (isValid) {
           // Massage out underscores
-          let formTypes = formOptions['formTypes'];
+          const { formTypes } = formOptions;
           let i = 0;
-          for (let type in formTypes){
+          for (const type in formTypes) {
             if (formTypes[i].includes('_')) {
               formTypes[i] = formTypes[i].replace(/_/g, ' ');
             }
             i++;
           }
-          formOptions['formTypes'] = formTypes;
+          formOptions.formTypes = formTypes;
 
           store.commit(types.SET_FORM_OPTIONS_CGP, formOptions);
         } else {
-          let errorResponse = 'Permit Lookup form services unavailable at this time.';
+          const errorResponse = 'Permit Lookup form services unavailable at this time.';
           console.warn('Check if cgp endpoint is running. Form options are unable to be loaded from this endpoint at this time.\n' +
-            'Current end point is: ', formOptions['cgpDownloadUrlBase']);
+            'Current end point is: ', formOptions.cgpDownloadUrlBase);
           store.commit(types.SET_OPTIONS_ERROR, errorResponse);
         }
       });
@@ -446,9 +452,9 @@ export default {
         if (msgpResponse) {
           store.commit(types.SET_NO_RESULTS, false);
           // Massage dates to only include Year, month, and day
-          msgpResponse.forEach(function(data_object){
-            data_object['certifiedDate'] = data_object['certifiedDate'].substring(0, 10);
-            data_object['coverageType'] = data_object['coverageType'].replace(/_/g, ' ');
+          msgpResponse.forEach((data_object) => {
+            data_object.certifiedDate = data_object.certifiedDate.substring(0, 10);
+            data_object.coverageType = data_object.coverageType.replace(/_/g, ' ');
           });
           if (msgpResponse.code === 'E_InternalError') {
             msgpResponse = 'Error Loading Results...';
@@ -514,9 +520,9 @@ export default {
         if (cgpResponse) {
           store.commit(types.SET_NO_RESULTS, false);
           // Massage dates to only include Year, month, and day
-          cgpResponse.forEach(function(data_object){
-            data_object['certifiedDate'] = data_object['certifiedDate'].substring(0, 10);
-            data_object['type'] = data_object['type'].replace(/_/g, ' ');
+          cgpResponse.forEach((data_object) => {
+            data_object.certifiedDate = data_object.certifiedDate.substring(0, 10);
+            data_object.type = data_object.type.replace(/_/g, ' ');
           });
           if (cgpResponse.code === 'E_InternalError') {
             cgpResponse = 'Error Loading Results...';

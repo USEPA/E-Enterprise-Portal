@@ -579,14 +579,19 @@
                   <b-col md="6">
                     <label
                       class="mb-0">Primary SIC Code</label>
-                    <b-form-input
+                    <b-form-select
                       id="sic-code-input"
                       ref="sic-code-input"
                       class="mb-3"
                       :value="msgpFormData.sicCode"
+                      :options="formOptions.baseFormOptions.sicCodes"
                       @change="setMsgpSicCode"
-                      type="number"
-                      size="sm"/>
+                      size="sm">
+                      <template slot="first">
+                        <option
+                          disabled>Select...
+                        </option>
+                    </template></b-form-select>
                   </b-col>
                 </b-row>
 
