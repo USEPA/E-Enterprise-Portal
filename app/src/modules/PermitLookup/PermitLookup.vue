@@ -888,7 +888,7 @@
                   hover
                   stacked="lg"
                   id="permit-lookup-table-cgp"
-                  class="bootstrap-vue-permit-table-scroll"
+                  class="bootstrap-vue-permit-cgp-table-scroll"
                   :items="cgpFormResults"
                   :fields="cgpFields"
                   :current-page="currentPage"
@@ -915,7 +915,7 @@
                   hover
                   stacked="lg"
                   id="permit-lookup-table-msgp"
-                  class="bootstrap-vue-permit-msgp-table-scroll d-block"
+                  class="bootstrap-vue-permit-msgp-table-scroll"
                   :items="msgpFormResults"
                   :fields="msgpFields"
                   :current-page="currentPage"
