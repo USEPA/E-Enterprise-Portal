@@ -151,7 +151,7 @@ export default {
     const partnerCode = selectedPartner.code;
 
     if (waterAnalysisRequest) {
-      const rawWaterAnalysisRequest = store.getters.getRawWaterAnalysisRequest();
+      const rawWaterAnalysisRequest = store.getters.getRawWaterAnalysisRequest;
       const isRequestEmpty = store.getters.isWaterAnalysisRequestEmpty();
 
       if (!isRequestEmpty) {
@@ -201,6 +201,7 @@ export default {
                 store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS, []);
               }
 
+              // If there are any additions questions or requests open the modal
               if (data.InteractivePrompts.length
                 || data.AdditionalContaminantRequests.length) {
                 const bwiModalInteractive = vm.$refs.bwi_modal_interactive;
@@ -249,12 +250,25 @@ export default {
     const selectedPartner = store.getters.getSelectedPartner;
     const partnerCode = selectedPartner.code;
     const bwiServiceUrl = store.getters.getApiUrl('bwiService');
-    const rawWaterAnalysisRequest = store.getters.getRawWaterAnalysisRequest();
+    const rawWaterAnalysisRequest = store.getters.getRawWaterAnalysisRequest;
+    const waterAnalysisRequest = store.getters.getWaterAnalysisRequest;
     const axiosConfig = {
       headers: {
         'Content-Type': 'application/json',
       },
     };
+
+    const additionalRequests = store.getters.getAdditionalContaminantRequests;
+
+    additionalRequests.forEach((request) => {
+      const contaminantProperties = store.getters.getContaminantFromSymbol(request.Symbol)._attributes;
+      const contaminant = waterAnalysisRequest[contaminantProperties.Section][request.Symbol];
+      const rawContaminant = rawWaterAnalysisRequest[contaminantProperties.Section][request.Symbol];
+      if (!rawContaminant) {
+        rawWaterAnalysisRequest[contaminantProperties.Section][request.Symbol] = contaminant;
+        rawWaterAnalysisRequest[contaminantProperties.Section][request.Symbol].Value = -9999;
+      }
+    });
     /**
      * See if the response returns results for the test and proceed to
      * render as necessary
