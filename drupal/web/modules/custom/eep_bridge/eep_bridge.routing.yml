@@ -53,3 +53,11 @@ eep_bridge.single_sign_on:
   requirements:
      _access: 'TRUE'
   methods:  [POST]
+eep_bridge.redirect:
+  path: '/eep/bridge-redirect'
+  defaults:
+     _controller: '\Drupal\eep_bridge\Controller\EEPBridgeController::bridge_redirect'
+     _title: 'Redirect traffic with URN param to bridge'
+  requirements:
+     _access: 'TRUE'
+  methods:  [GET]

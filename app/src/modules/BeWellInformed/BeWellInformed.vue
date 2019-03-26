@@ -233,7 +233,6 @@
   import PartnerResources from './components/PartnerResources.vue';
   import { EventBus } from '../../EventBus';
   import WaterAnalysisResult from './components/WaterAnalysisResult.vue';
-  import ContaminantSection from './components/ContaminantSection.vue';
 
   const moduleName = 'BeWellInformed';
 
@@ -246,7 +245,6 @@
       AppPlaceholderContent,
       PartnerForm,
       PartnerResources,
-      ContaminantSection,
     },
     beforeCreate() {
       require.context('./images', false, /\.png$/);
