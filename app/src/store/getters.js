@@ -117,9 +117,9 @@ export default {
     if (environment === 'LOCAL') {
       getOldEEPURL = 'http://e-enterprise';
     } else if (environment === 'DEV') {
-      getOldEEPURL = 'https://dev.e-enterprise.gov';
+      getOldEEPURL = 'https://dev2.e-enterprise.gov';
     } else if (environment === 'TEST') {
-      getOldEEPURL = 'https://test.e-enterprise.gov';
+      getOldEEPURL = 'https://test2.e-enterprise.gov';
     } else {
       getOldEEPURL = 'https://www2.e-enterprise.gov';
     }
