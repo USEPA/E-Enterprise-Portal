@@ -33,7 +33,7 @@
             class="">{{ item.first }}</a>
 
         </div>
-          </div>
+      </div>
 
       <div class="row justify-content-center small">
         <div class="col-auto text-align-center small">
