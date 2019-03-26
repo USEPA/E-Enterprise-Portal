@@ -907,10 +907,6 @@
                         v-if="attachment.category.toUpperCase() === 'COR'"
                         :href="`${formOptions.cgpFormOptions.cgpDownloadUrlBase}/form/${data.item.id}/attachment/${attachment.id}`"
                         class="pl-2">COR</a>
-                      <a
-                        v-else
-                        :href="`${formOptions.cgpFormOptions.cgpDownloadUrlBase}/form/${data.item.id}/attachment/${attachment.id}`"
-                        class="pl-2">{{ attachment.name.split('.')[1].toUpperCase() }}</a>
                     </template>
                   </template>
                 </b-table>
