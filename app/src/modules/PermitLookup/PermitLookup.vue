@@ -234,7 +234,7 @@
                     <b-form-select
                       id="form-type-selection"
                       class="mb-3"
-                      v-model="cgpType"
+                      v-model="cgpFormData.formType"
                       :options="formOptions.cgpFormOptions.formTypes"
                       ref="formType-Dropdown"
                       @change="setCgpFormType"
@@ -901,10 +901,13 @@
                   <template
                     slot="documents"
                     slot-scope="data">
-                    <a
-                      v-for="attachment in data.item.attachments"
-                      :href="`${formOptions.cgpFormOptions.cgpDownloadUrlBase}/form/${data.item.id}/attachment/${attachment.id}`"
-                      class="pl-2">Download</a>
+                    <template
+                      v-for="attachment in data.item.attachments">
+                      <a
+                        v-if="attachment.category.toUpperCase() === 'COR'"
+                        :href="`${formOptions.cgpFormOptions.cgpDownloadUrlBase}/form/${data.item.id}/attachment/${attachment.id}`"
+                        class="pl-2">COR</a>
+                    </template>
                   </template>
                 </b-table>
                 <b-table
@@ -925,10 +928,15 @@
                   <template
                     slot="documents"
                     slot-scope="data">
+                    <template v-for="attachment in data.item.attachments">
+                      <a
+                        v-if="attachment.category.toUpperCase() === 'COR'"
+                        :href="`${formOptions.msgpFormOptions.msgpDownloadUrlBase}/form/${data.item.id}/attachment/${attachment.id}`"
+                        class="pl-2">COR</a>
+                    </template>
                     <a
-                      v-for="attachment in data.item.attachments"
-                      :href="`${formOptions.msgpFormOptions.msgpDownloadUrlBase}/form/${data.item.id}/attachment/${attachment.id}`"
-                      class="pl-2">Download</a>
+                      :href="`${formOptions.msgpFormOptions.msgpDownloadUrlBase}/form/${data.item.id}/attachment/zip`"
+                      class="pl-2">ZIP</a>
                   </template>
                 </b-table>
                 <div v-else-if="resultsError">
