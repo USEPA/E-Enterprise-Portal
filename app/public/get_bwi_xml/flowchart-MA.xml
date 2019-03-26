@@ -1441,7 +1441,7 @@
             </Content>
           </Rn3>-->
           <!--  commented out and replaced by above lines 30-sep-2015 by REL per request by Pierce Rigrod
-          <Rn1> 
+          <Rn1>
             <Content>
               <b>
                 Does my well water meet <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> NHDES’s advisory level for radon in water</a>?
@@ -1538,7 +1538,7 @@
         </TreatmentMessages>
       </Outcomes>
     </Contaminant>
-    <Contaminant Value="U" Text="Uranium" MCL="30 μg/L" NotEntered="If your gross alpha result is 15 pCi/L or greater, test your water for uranium.  Studies show that many private wells in Massachusetts have high uranium." Section="RadionuclideContaminants" DefaultUnit="μg/L" Units="pCi/L|μg/L">
+    <Contaminant Value="U" Text="Uranium" MCL="30 μg/L" NotEntered="If your gross alpha result is 15 pCi/L or greater, test your water for uranium.  Studies show that many private wells in Massachusetts have high uranium." Section="RadionuclideContaminants" DefaultUnit="pCi/L" Units="pCi/L|μg/L">
       <Condition CheckOperator="&gt;=" CheckValue="30.5">
         <True>
           <Outcome IM="U1" HM="U1" TM="U1" TreatmentOrder="5b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />

@@ -77,7 +77,7 @@
     <template v-if="this.$router.history.current.path === '/'">
       <div class="px-0">
         <div id="main-content"
-          class="no-gutters py-2">
+          class="no-gutters">
           <router-view/>
         </div>
       </div>
@@ -85,12 +85,11 @@
     <template v-else>
       <div class="container px-0">
         <div id="main-content"
-          class="no-gutters py-2">
+          class="no-gutters">
           <router-view/>
         </div>
       </div>
     </template>
-
     <MainFooter/>
     <BannerUserCookiePolicy/>
     <!-- END OF CONTENT -->
@@ -284,6 +283,7 @@
   @import '../node_modules/bootstrap-vue/dist/bootstrap-vue.css';
   @import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
   @import './styles/styles.scss';
+
   .region-navigation {
     color: #fff;
     text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);

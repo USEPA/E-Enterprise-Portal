@@ -132,8 +132,9 @@ export default {
         .then((response) => {
           // @todo add sanity check for returned data
           store.commit(types.UPDATE_PARTNERS, response.data);
-        }).catch((...args) => {
-        // @todo add sanity check for errors & visual prompt to the user
+        })
+        .catch((...args) => {
+          // @todo add sanity check for errors & visual prompt to the user
           app.$Progress.fail();
           console.warn('AppAxios fail: ', args);
         });
@@ -151,7 +152,7 @@ export default {
     const partnerCode = selectedPartner.code;
 
     if (waterAnalysisRequest) {
-      const rawWaterAnalysisRequest = store.getters.getRawWaterAnalysisRequest();
+      const rawWaterAnalysisRequest = store.getters.getRawWaterAnalysisRequest;
       const isRequestEmpty = store.getters.isWaterAnalysisRequestEmpty();
 
       if (!isRequestEmpty) {
@@ -192,7 +193,8 @@ export default {
                   .map((e, i, final) => final.indexOf(e) === i && i)
 
                   // eliminate the dead keys & store unique objects
-                  .filter(e => requests[e]).map(e => requests[e]);
+                  .filter(e => requests[e])
+                  .map(e => requests[e]);
                 store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS,
                   uniqueRequests);
 
@@ -201,6 +203,7 @@ export default {
                 store.commit(types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS, []);
               }
 
+              // If there are any additions questions or requests open the modal
               if (data.InteractivePrompts.length
                 || data.AdditionalContaminantRequests.length) {
                 const bwiModalInteractive = vm.$refs.bwi_modal_interactive;
@@ -209,16 +212,9 @@ export default {
                   'bv::show::modal', 'bwi-modal-interactive', bwiModalInteractive,
                 );
               }
-              /**
-               * See if the response returns results for the test and proceed to
-               * render as necessary
-               */
-
-              const hasResultEvaluation = !!Object.keys(data.ResultEvaluations).length;
-              const hasTreatmentSteps = !!Object.keys(data.TreatmentSteps).length;
-
-              // Check if we have a fully formed response then add it to the
-              if (hasResultEvaluation || hasTreatmentSteps) {
+              else {
+                // else everything is done, show the results page
+                // Check if we have a fully formed response then add it to the
                 data.StateCode = partnerCode;
                 store.commit(types.SET_WATER_ANALYSIS_RESULT, data);
                 store.commit(types.UNSHIFT_WATER_ANALYSIS_RESULT, data);
@@ -244,17 +240,30 @@ export default {
     }
   },
 
-  showResults(context){
+  showResults(context) {
     const store = context;
     const selectedPartner = store.getters.getSelectedPartner;
     const partnerCode = selectedPartner.code;
     const bwiServiceUrl = store.getters.getApiUrl('bwiService');
-    const rawWaterAnalysisRequest = store.getters.getRawWaterAnalysisRequest();
+    const rawWaterAnalysisRequest = store.getters.getRawWaterAnalysisRequest;
+    const waterAnalysisRequest = store.getters.getWaterAnalysisRequest;
     const axiosConfig = {
       headers: {
         'Content-Type': 'application/json',
       },
     };
+
+    const additionalRequests = store.getters.getAdditionalContaminantRequests;
+
+    additionalRequests.forEach((request) => {
+      const contaminantProperties = store.getters.getContaminantFromSymbol(request.Symbol)._attributes;
+      const contaminant = waterAnalysisRequest[contaminantProperties.Section][request.Symbol];
+      const rawContaminant = rawWaterAnalysisRequest[contaminantProperties.Section][request.Symbol];
+      if (!rawContaminant) {
+        rawWaterAnalysisRequest[contaminantProperties.Section][request.Symbol] = contaminant;
+        rawWaterAnalysisRequest[contaminantProperties.Section][request.Symbol].Value = -9999;
+      }
+    });
     /**
      * See if the response returns results for the test and proceed to
      * render as necessary
@@ -267,18 +276,17 @@ export default {
       )
       .then((response) => {
         if (response.status === 200 && !!response.data) {
-          const {data} = response;
+          const { data } = response;
           // Check if we have a fully formed response then add it to the
           data.StateCode = partnerCode;
           store.commit(types.SET_WATER_ANALYSIS_RESULT, data);
-            store.commit(types.UNSHIFT_WATER_ANALYSIS_RESULT, data);
-            EventBus.$emit('bwi::showWaterAnalysisResults', {
-              callee: this,
-              value: 2,
-            });
-
+          store.commit(types.UNSHIFT_WATER_ANALYSIS_RESULT, data);
+          EventBus.$emit('bwi::showWaterAnalysisResults', {
+            callee: this,
+            value: 2,
+          });
         }
-      })
+      });
   },
   updatePromptResponses(context, payload) {
     const store = context;
@@ -341,7 +349,8 @@ export default {
   },
   downloadPDF(context) {
     // eslint-disable-next-line max-len
-    // @todo this form submission method can be extracted because it duplicates code from My Reporting
+    // @todo this form submission method can be extracted because it duplicates code from My
+    // Reporting
     const store = context;
     const rootStore = this;
     const apiURL = rootStore.getters.getEnvironmentApiURL;

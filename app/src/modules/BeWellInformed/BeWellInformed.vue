@@ -18,21 +18,21 @@
         <div class="row">
           <div class="col-8">
             <b-form-select
-            id="partner-selection"
-            :value="selectedPartner"
-            :options="partners"
-            ref="partnerDropdown"
-            @change="setSelectedPartner"
-            class="mb-3"
-            required>
-            <template slot="first">
-              <!-- this slot appears above the options from 'options' prop -->
-              <option
-                :value="null"
-                disabled>Select...
-              </option>
-            </template>
-          </b-form-select>
+              id="partner-selection"
+              :value="selectedPartner"
+              :options="partners"
+              ref="partnerDropdown"
+              @change="setSelectedPartner"
+              class="mb-3"
+              required>
+              <template slot="first">
+                <!-- this slot appears above the options from 'options' prop -->
+                <option
+                  :value="null"
+                  disabled>Select...
+                </option>
+              </template>
+            </b-form-select>
           </div>
           <div class="col-4">
             <b-btn
@@ -136,7 +136,8 @@
               :key="question.Symbol">
               <div class="row my-2">
                 <div class="col-sm-6">
-                  <label :for="`${question.Symbol}-question-Value`" class="">{{ question.Interaction }}</label>
+                  <label :for="`${question.Symbol}-question-Value`"
+                    class="">{{ question.Interaction }}</label>
                 </div>
                 <div class="col-sm-6">
                   <b-form-radio-group
@@ -169,7 +170,8 @@
               :key="question.Symbol">
               <div class="row my-2">
                 <div class="col-sm-5">
-                  <label :for="`${question.Symbol}-question-Value`" class="">{{ question.Interaction }}</label>
+                  <label :for="`${question.Symbol}-question-Value`"
+                    class="">{{ question.Interaction }}</label>
                 </div>
                 <div class="col-sm-3">
                   <b-form-input
@@ -185,7 +187,8 @@
                       value:$event })"/>
                 </div>
                 <div class="col-sm-4">
-                  <label for="measurement-unit" class="sr-only">Measurement Unit</label>
+                  <label for="measurement-unit"
+                    class="sr-only">Measurement Unit</label>
                   <b-form-select
                     id="measurement-unit"
                     :contam="getContaminantFromSymbol(question.Symbol)"
@@ -266,8 +269,6 @@
       return {
         tabIndex: 0,
         hasResults: false,
-        partnerModalSubmit: false,
-        interactiveModalSubmit: false,
       };
     },
     mounted() {
@@ -307,19 +308,25 @@
         'downloadPDF',
       ]),
       onCheckYourWater(evt) {
+        const vm = this;
         evt.preventDefault();
-        const partner = this.selectedPartner;
+        const partner = vm.selectedPartner;
         if (partner) {
-          EventBus.$emit('grid::modalOpen', this.eepApp.field_vue_component_name, this.eepApp);
-          this.fetchPartnerAndFlowchartXML(partner.code);
-          this.$root.$emit(
-            'bv::show::modal', 'bwi-modal', this.$refs.btnCheckYourWater,
+          // Reset the to the form tab
+          vm.tabIndex = 0;
+          EventBus.$emit('grid::modalOpen', vm.eepApp.field_vue_component_name, vm.eepApp);
+          vm.fetchPartnerAndFlowchartXML(partner.code);
+          vm.$root.$emit(
+            'bv::show::modal', 'bwi-modal', vm.$refs.btnCheckYourWater,
           );
-          this.$ga.event('eportal', 'click', `BWI Partner Load- ${partner.code}`, 1)
+          vm.$ga.event('eportal', 'click', `BWI Partner Load- ${partner.code}`, 1);
         }
       },
       getContaminantUnits(question) {
-        return this.getContaminantFromSymbol(question.Symbol)._attributes.Units.split('|');
+        return this.getContaminantFromSymbol(question.Symbol)
+          ._attributes
+          .Units
+          .split('|');
       },
       getContaminantFromSymbol(symbol) {
         const { partnerResource } = this;
@@ -344,23 +351,24 @@
         return section;
       },
       onSubmit(evt) {
-        this.interactiveModalSubmit = true;
-        this.partnerModalSubmit= false;
-        const partner = this.selectedPartner;
         const vm = this;
+        const partner = vm.selectedPartner;
         const isRequestEmpty = vm.isWaterAnalysisRequestEmpty();
         if (!isRequestEmpty) {
           evt.preventDefault();
           vm.submissionErrorMessage = '';
-          vm.showResults({ vm, evt });
+          vm.showResults({
+            vm,
+            evt
+          });
           vm.$root.$emit(
             'bv::hide::modal',
             'bwi-modal-interactive',
             vm.$refs.bwiModalInteractive
           );
-          this.$ga.event('eportal', 'click', `BWI Submit Form- ${partner.code}`, 1)
+          vm.$ga.event('eportal', 'click', `BWI Submit Form-${partner.code}`, 1);
         } else {
-          this.submissionErrorMessage = 'Please enter values for some of the contaminants.';
+          vm.submissionErrorMessage = 'Please enter values for some of the contaminants.';
         }
       },
       showWaterAnalysisResults($event) {
@@ -375,9 +383,10 @@
         });
       },
       hasWaterAnalysisResults() {
-        return this.waterAnalysisResults
-          && this.waterAnalysisResults.length
-          && this.waterAnalysisResults[0];
+        const vm = this;
+        return vm.waterAnalysisResults
+          && vm.waterAnalysisResults.length
+          && vm.waterAnalysisResults[0];
       },
       onPartnerModalSubmit() {
         this.partnerModalSubmit = true;
@@ -400,31 +409,38 @@
     line-height: 1.2;
     margin-top: .5rem;
   }
+
   .wapp {
     form {
       margin-top: .5rem;
+
       label {
         margin-bottom: 0;
       }
+
       label,
       .custom-select,
       .btn-primary {
         font-size: 0.9375rem; //15px
       }
+
       .custom-select {
         line-height: 1.5;
       }
+
       .btn-primary {
         line-height: 1;
       }
     }
   }
+
   #bwi-modal {
     h3 {
       font-family: "Source Sans Pro Web", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
       font-size: 1.2rem;
       margin-bottom: 1.5rem;
     }
+
     h4 {
       font-size: 1rem;
       font-weight: bold;

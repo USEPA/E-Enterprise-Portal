@@ -1,6 +1,6 @@
 <!--this view is so that users can find their information and view it and in the future, edit it-->
 <template>
-  <div class="container">
+  <div class="container py-2">
     <h3>Profile</h3>
     <b-card>
       <b-tabs class="profile-tabs">
