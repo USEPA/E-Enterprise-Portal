@@ -234,7 +234,7 @@
                     <b-form-select
                       id="form-type-selection"
                       class="mb-3"
-                      v-model="cgpFormData.formType"
+                      :value="cgpFormData.formType"
                       :options="formOptions.cgpFormOptions.formTypes"
                       ref="formType-Dropdown"
                       @change="setCgpFormType"
@@ -1514,8 +1514,8 @@
         this.msgpType = null;
       },
       focusMyElement(e) {
-        this.$refs.focusThis.focus()
-      }
+        this.$refs.focusThis.focus();
+      },
     },
     props: {
       eepApp: {
