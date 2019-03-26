@@ -430,6 +430,9 @@ export default {
               urlQueries += `subsector=${subKey.sectorCode}`;
             }
           });
+        } else if (key === 'sicCode') {
+          const code = msgpFormData[key].split('-')[0];
+          urlQueries += `${key}=${code}`;
         } else if (key === 'submittedDateTo') {
           const unformattedDate = new Date(msgpFormData[key]);
           urlQueries += `${key}=${unformattedDate.toISOString()}`;
