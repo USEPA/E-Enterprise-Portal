@@ -326,6 +326,7 @@ class EEPBridgeController extends ControllerBase {
 
     // Add Role to user
     $user->addRole($role->id());
+    $user->save();
   }
 
   function create_role($id, $label) {
