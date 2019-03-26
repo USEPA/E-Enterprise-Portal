@@ -57,37 +57,39 @@
               </div>
               <b-container fluid>
                 <!-- User Interface controls -->
-                <div class="row">
-                  <div class="col-9 mb-1 mr-auto">
-                    <b-form-group
-                      horizontal
-                      label="Filter"
-                      label-for="filter-results"
-                      class="mb-0">
-                      <b-input-group>
-                        <b-form-input
-                          id="filter-results"
+                <b-col>
+                  <div class="row">
+                    <div class="col-9 mb-1 mr-auto">
+                      <b-form-group
+                        horizontal
+                        label="Filter"
+                        label-for="filter-results"
+                        class="mb-0">
+                        <b-input-group>
+                          <b-form-input
+                            id="filter-results"
+                            aria-controls="my-reporting-table"
+                            v-model="filter"
+                            placeholder=""/>
+                        </b-input-group>
+                      </b-form-group>
+                    </div>
+                    <div class="col-3 mb-1 pl-0">
+                      <b-form-group
+                        horizontal
+                        label="Rows"
+                        label-for="row-results"
+                        class="mb-0">
+                        <b-form-select
+                          class="ml-2"
                           aria-controls="my-reporting-table"
-                          v-model="filter"
-                          placeholder=""/>
-                      </b-input-group>
-                    </b-form-group>
+                          :options="pageOptions"
+                          v-model="perPage"
+                          @change="tableToPageOne"/>
+                      </b-form-group>
+                    </div>
                   </div>
-                  <div class="col-3 mb-1 pl-0">
-                    <b-form-group
-                      horizontal
-                      label="Rows"
-                      label-for="row-results"
-                      class="mb-0">
-                      <b-form-select
-                        class="ml-3"
-                        aria-controls="my-reporting-table"
-                        :options="pageOptions"
-                        v-model="perPage"
-                        @change="tableToPageOne"/>
-                    </b-form-group>
-                  </div>
-                </div>
+                </b-col>
                 <b-table
                   show-empty
                   id="my-reporting-table"
@@ -270,17 +272,17 @@
           {
             key: 'program_service_name',
             label: 'Program service name',
-            thStyle: {width: '58%'},
+            thStyle: { width: '58%' },
           },
           {
             key: 'role',
             label: 'Role',
-            thStyle: {width: '33%'},
+            thStyle: { width: '33%' },
           },
           {
             key: 'status',
             label: 'Status',
-            thStyle: {width: '9%'},
+            thStyle: { width: '9%' },
           },
         ],
         currentPage: 1,
