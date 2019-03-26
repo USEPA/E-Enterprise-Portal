@@ -85,7 +85,24 @@
     <div v-else-if="!certificationsLoaded">Loading your Certifications...</div>
 
     <!--if No Certifications-->
-    <div v-else-if="certificationsLoaded && certifications.length === 0">No application submitted.</div>
+    <div v-else-if="certificationsLoaded && certifications.length === 0">
+      <b-row class="fake-table-headers">
+        <b-col class="fake-header">
+          Application #
+        </b-col>
+        <b-col class="fake-header">
+          Status
+        </b-col>
+        <b-col class="fake-header">
+          Submitted
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          No application submitted.
+        </b-col>
+      </b-row>
+    </div>
 
     <!--pagination-->
     <b-row
@@ -374,6 +391,22 @@
 <style scoped
        lang="scss">
   /* To import images */
+  .fake-table-headers {
+    padding-top: .75em;
+    padding-bottom: .6em;
+    padding-left: .3em;
+    padding-right: .3em;
+    margin-bottom: .5em;
+    text-align: center;
+    font-size: 0.62em;
+    font-family: 'Source Serif Pro Web';
+    font-weight: bold;
+    border-bottom: 1px solid lightgrey;
+  }
+  .fake-header {
+    display: inline-block;
+    width: 100px;
+  }
   .cert-needs-attn-decoration,
   .cert-not-completed-decoration {
     height: .8rem;
