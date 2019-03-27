@@ -34,3 +34,10 @@ eep_core.eep_cookie_config_form:
   description: 'this is the EEP Cookie Configuration Form Menu Link'
   parent: system.admin_config_system
   weight: 99
+eep_core.banner_config_form:
+  title: 'BannerConfigForm'
+  route_name: eep_core.banner_config_form
+  description: 'Enter banner text here'
+  parent: system.admin_config_system
+  weight: 99
+
