@@ -31,6 +31,16 @@ class BannerConfigForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('eep_core.bannerconfig');
+    $form['disabled'] = [
+      '#type' => 'form',
+      '#title' => $this->t('Banner Displayed'),
+      '#options' => [
+          '1' => $this->t('TRUE'),
+          '2' => $this->t('FALSE')
+      ],
+      '#description' => $this->t('This will decide if the banner is displayed or not'),
+      '#default_value' => $config->get('disabled'),
+      ];
     $form['banner_text'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Banner Text'),
