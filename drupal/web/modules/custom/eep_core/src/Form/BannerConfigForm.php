@@ -32,12 +32,11 @@ class BannerConfigForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('eep_core.bannerconfig');
     $form['banner_text'] = [
-      '#type' => 'text_format',
+      '#type' => 'textarea',
       '#title' => $this->t('Banner Text'),
       '#description' => $this->t('This is the text that will be displayed on the banner on the top of every route'),
       '#default_value' => $config->get('banner_text'),
     ];
-
     return parent::buildForm($form, $form_state);
   }
 

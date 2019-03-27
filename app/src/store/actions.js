@@ -325,7 +325,7 @@ export default {
       });
 
       //Set the banner text
-      store.commit(types.SET_BANNER, response.data.bannerconfig.banner_text.value);
+      store.commit(types.SET_BANNER, _.unescape(response.data.bannerconfig.banner_text));
 
       // Declare the main url that the page is currently on
       const currentUrl = window.location.href;

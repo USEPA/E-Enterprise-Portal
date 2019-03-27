@@ -7,8 +7,7 @@
       v-if="(ENV !='PROD')">
       <div class="container">
         <div class="row">
-          <div class="col-12 text-center text-white">
-            {{ bannerText }}
+          <div v-html="bannerText" class="col-12 text-center text-white">
           </div>
         </div>
       </div>
