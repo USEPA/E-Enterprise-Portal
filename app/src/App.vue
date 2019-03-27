@@ -13,21 +13,6 @@
         </div>
       </div>
     </div>
-    <div
-      class="environment-status text-white"
-      v-else>
-      <div class="container">
-        <div class="row">
-          <div class="col-12 text-center text-white">
-            <span>
-              Welcome to the new E-Enterprise Portal, with an updated and improved look and
-              performance! As we move everything over, you can find old widgets and services
-              at the original E-Enterprise <a :href="EEPURL">{{EEPURL}}</a> for the time being.
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
     <MainHeader/>
     <div
       id="nav"
