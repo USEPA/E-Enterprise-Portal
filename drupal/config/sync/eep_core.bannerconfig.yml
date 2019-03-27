@@ -1,4 +1,2 @@
 banner_text: " <span class=\"is-strong\">Development:</span>\r\n <span>\r\n     Welcome to the E-Enterprise Development Environment.\r\n </span>\r\n <br>\r\n    <span>\r\n              Welcome to the new E-Enterprise Portal, with an updated and improved look and\r\n              performance! As we move everything over, you can find old widgets and services\r\n              at the original E-Enterprise <a href=\"https://dev2.e-enterprise.gov\" class=\"text-white text-underline\">(https://dev2.e-enterprise.gov)</a> for the time being.\r\n            </span>\r\n            <br />\r\n            <span>\r\n              This is a non-production demonstration environment and is not to be used for\r\n              any regulatory activity.\r\n            </span>"
-environment_name: ''
-environment_link: ''
 enabled: '0'
