@@ -37,6 +37,7 @@ class BannerConfigForm extends ConfigFormBase {
       '#description' => $this->t('This is the text that will be displayed on the banner on the top of every route'),
       '#default_value' => $config->get('banner_text'),
     ];
+
     return parent::buildForm($form, $form_state);
   }
 
