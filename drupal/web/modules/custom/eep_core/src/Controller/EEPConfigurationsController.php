@@ -10,6 +10,7 @@ namespace Drupal\eep_core\Controller;
 
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\eep_core\Form\BannerConfigForm;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class EEPConfigurationsController extends ControllerBase {
@@ -20,13 +21,20 @@ class EEPConfigurationsController extends ControllerBase {
      */
     function eep_retrieve_configurations(){
         static $cookie_config_machine_name = 'eep_core.eepcookieconfig';
+        static $banner_config_machine_name = 'eep_core.bannerconfig';
 
-        $config = \Drupal::config($cookie_config_machine_name);
+        $cookie_config = \Drupal::config($cookie_config_machine_name);
+        $banner_config = \Drupal::config($banner_config_machine_name);
         $cookie_information = array(
            explode('.', $cookie_config_machine_name)[1] => array(
-                'cookie_expiration_time' => $config->get('cookie_duration'),
-                'cookie_time_units' => $config->get('cookie_time_units')
-            )
+              'cookie_expiration_time' => $cookie_config->get('cookie_duration'),
+              'cookie_time_units' => $cookie_config->get('cookie_time_units')
+           ),
+           explode('.', $banner_config_machine_name)[1] => array(
+              'environment_name' => $banner_config->get('environment_name'),
+              'environment_link' => $banner_config->get('environment_link'),
+              'banner_text' => $banner_config->get('banner_text')
+           )
         );
         return new JsonResponse($cookie_information);
     }
