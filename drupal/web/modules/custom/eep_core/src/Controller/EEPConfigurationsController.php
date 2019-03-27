@@ -25,7 +25,7 @@ class EEPConfigurationsController extends ControllerBase {
 
         $cookie_config = \Drupal::config($cookie_config_machine_name);
         $banner_config = \Drupal::config($banner_config_machine_name);
-        $cookie_information = array(
+        $configurations = array(
            explode('.', $cookie_config_machine_name)[1] => array(
               'cookie_expiration_time' => $cookie_config->get('cookie_duration'),
               'cookie_time_units' => $cookie_config->get('cookie_time_units')
@@ -35,7 +35,7 @@ class EEPConfigurationsController extends ControllerBase {
               'banner_text' => $banner_config->get('banner_text')
            )
         );
-        return new JsonResponse($cookie_information);
+        return new JsonResponse($configurations);
     }
 
 }
