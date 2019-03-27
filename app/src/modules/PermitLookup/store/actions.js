@@ -424,6 +424,12 @@ export default {
               urlQueries += `facilityState=${subKey.stateCode}`;
             }
           });
+        } else if (key === 'sector') {
+          baseFormOptions[0].forEach((subKey) => {
+            if (subKey.sectorName === msgpFormData.sector) {
+              urlQueries += `sector=${subKey.sectorCode}`;
+            }
+          });
         } else if (key === 'subsector') {
           baseFormOptions[0].forEach((subKey) => {
             if (subKey.sectorName === msgpFormData.sector) {
