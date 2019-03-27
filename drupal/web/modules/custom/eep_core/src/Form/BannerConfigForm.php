@@ -35,8 +35,8 @@ class BannerConfigForm extends ConfigFormBase {
       '#type' => 'select',
       '#title' => $this->t('Banner Displayed'),
       '#options' => [
-          '1' => $this->t('TRUE'),
-          '2' => $this->t('FALSE')
+          '0' => $this->t('false'),
+          '1' => $this->t('true')
       ],
       '#description' => $this->t('This will decide if the banner is displayed or not'),
       '#default_value' => $config->get('enabled'),
@@ -64,6 +64,7 @@ class BannerConfigForm extends ConfigFormBase {
     parent::submitForm($form, $form_state);
 
     $this->config('eep_core.bannerconfig')
+      ->set('enabled', $form_state->getValue('enabled'))
       ->set('banner_text', $form_state->getValue('banner_text'))
       ->save();
   }

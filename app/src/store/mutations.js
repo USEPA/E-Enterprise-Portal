@@ -323,6 +323,6 @@ export default {
       inputMessageText);
   },
   [types.SET_BANNER](state, obj){
-    state.bannerText = obj;
+    state.bannerInformation = obj;
   },
 };

@@ -31,6 +31,7 @@ class EEPConfigurationsController extends ControllerBase {
               'cookie_time_units' => $cookie_config->get('cookie_time_units')
            ),
            explode('.', $banner_config_machine_name)[1] => array(
+              'enabled' => $banner_config->get('enabled'),
               'banner_text' => $banner_config->get('banner_text')
            )
         );

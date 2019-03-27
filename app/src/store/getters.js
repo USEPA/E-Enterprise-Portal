@@ -151,6 +151,6 @@ export default {
     return state.fontScaleRatio;
   },
   getBannerText(state){
-    return state.bannerText;
+    return state.bannerInformation;
   },
 };
