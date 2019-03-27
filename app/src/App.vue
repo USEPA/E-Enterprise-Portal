@@ -6,38 +6,9 @@
       class="environment-status text-white"
       v-if="(ENV !='PROD')">
       <div class="container">
-        <div class="row">
+        <div class="row" v-show="bannerInformation.enabled !== '0'">
           <div class="col-12 text-center text-white">
-            <span class="is-strong">{{ environmentName }} :</span>
-            <span>
-              Welcome to the E-Enterprise {{ environmentName }} Environment.
-              </span>
-            <br>
-            <span>
-              Welcome to the new E-Enterprise Portal, with an updated and improved look and
-              performance! As we move everything over, you can find old widgets and services
-              at the original E-Enterprise <a :href="EEPURL" class="text-white text-underline">({{EEPURL}})</a> for the time being.
-            </span>
-            <br />
-            <span>
-              This is a non-production demonstration environment and is not to be used for
-              any regulatory activity.
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="environment-status text-white"
-      v-else>
-      <div class="container">
-        <div class="row">
-          <div class="col-12 text-center text-white">
-            <span>
-              Welcome to the new E-Enterprise Portal, with an updated and improved look and
-              performance! As we move everything over, you can find old widgets and services
-              at the original E-Enterprise <a :href="EEPURL">{{EEPURL}}</a> for the time being.
-            </span>
+            <div v-html="bannerInformation.html"></div>
           </div>
         </div>
       </div>
@@ -162,6 +133,7 @@
         basicPages: 'getBasicPages',
         user: 'getUser',
         EEPURL: 'getOldEEPURL',
+        bannerInformation: 'getBannerText'
       }),
       onHomePage: {
         get() {

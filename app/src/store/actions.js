@@ -324,6 +324,12 @@ export default {
         time_units: response.data.eepcookieconfig.cookie_time_units,
       });
 
+      //Set the banner text
+      store.commit(types.SET_BANNER, {
+        enabled: response.data.bannerconfig.enabled,
+        html: response.data.bannerconfig.banner_text
+      });
+
       // Declare the main url that the page is currently on
       const currentUrl = window.location.href;
 
