@@ -150,12 +150,16 @@ export default {
     AppAxios.get(axiosUrlBase).then((response) => {
       const subSectors = response.data.helperQueryResponse.oecaSvcWithParams[0];
       const subSectorNames = [];
+      const subSectorsArray = [];
+
       subSectors.forEach((key) => {
         if (key.sectorCode === sectorCode) {
           subSectorNames.push(key.subsectorName);
+          subSectorsArray.push(key);
         }
       });
       store.commit(types.SET_BASE_FORM_OPTION_SUB_SECTOR_NAMES, subSectorNames);
+      store.commit(types.SET_BASE_FORM_OPTION_SUB_SECTORS, subSectorsArray);
     });
   },
   setMsgpSubsector(context, payload) {
@@ -431,9 +435,9 @@ export default {
             }
           });
         } else if (key === 'subsector') {
-          baseFormOptions[0].forEach((subKey) => {
-            if (subKey.sectorName === msgpFormData.sector) {
-              urlQueries += `subsector=${subKey.sectorCode}`;
+          baseFormOptions.subSectors.forEach((subKey) => {
+            if (subKey.subsectorName === msgpFormData.subsector) {
+              urlQueries += `subsector=${subKey.subsectorCode}`;
             }
           });
         } else if (key === 'sicCode') {

@@ -422,6 +422,13 @@ export default {
       arr,
     );
   },
+  [types.SET_BASE_FORM_OPTION_SUB_SECTORS](state, arr) {
+    Vue.set(
+      state.formOptions.baseFormOptions,
+      'subSectors',
+      arr,
+    );
+  },
   [types.SET_BASE_FORM_OPTION_TRIAL_NAMES](state, arr) {
     Vue.set(
       state.formOptions.baseFormOptions,
