@@ -150,4 +150,7 @@ export default {
   getFontScaleRatio(state) {
     return state.fontScaleRatio;
   },
+  getBannerText(state){
+    return state.bannerText;
+  },
 };

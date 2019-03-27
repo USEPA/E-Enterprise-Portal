@@ -107,6 +107,7 @@ const state = {
     'Content-Type': 'application/hal+json',
   },
   fontScaleRatio: 0,
+  bannerText: '',
 };
 
 export default state;

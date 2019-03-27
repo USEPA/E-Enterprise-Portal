@@ -8,21 +8,22 @@
       <div class="container">
         <div class="row">
           <div class="col-12 text-center text-white">
-            <span class="is-strong">{{ environmentName }} :</span>
-            <span>
-              Welcome to the E-Enterprise {{ environmentName }} Environment.
-              </span>
-            <br>
-            <span>
-              Welcome to the new E-Enterprise Portal, with an updated and improved look and
-              performance! As we move everything over, you can find old widgets and services
-              at the original E-Enterprise <a :href="EEPURL" class="text-white text-underline">({{EEPURL}})</a> for the time being.
-            </span>
-            <br />
-            <span>
-              This is a non-production demonstration environment and is not to be used for
-              any regulatory activity.
-            </span>
+            <!--<span class="is-strong">{{ environmentName }} :</span>-->
+            <!--<span>-->
+              <!--Welcome to the E-Enterprise {{ environmentName }} Environment.-->
+              <!--</span>-->
+            <!--<br>-->
+            <!--<span>-->
+              <!--Welcome to the new E-Enterprise Portal, with an updated and improved look and-->
+              <!--performance! As we move everything over, you can find old widgets and services-->
+              <!--at the original E-Enterprise <a :href="EEPURL" class="text-white text-underline">({{EEPURL}})</a> for the time being.-->
+            <!--</span>-->
+            <!--<br />-->
+            <!--<span>-->
+              <!--This is a non-production demonstration environment and is not to be used for-->
+              <!--any regulatory activity.-->
+            <!--</span>-->
+            {{ bannerText }}
           </div>
         </div>
       </div>
@@ -162,6 +163,7 @@
         basicPages: 'getBasicPages',
         user: 'getUser',
         EEPURL: 'getOldEEPURL',
+        bannerText: 'getBannerText'
       }),
       onHomePage: {
         get() {
