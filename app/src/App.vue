@@ -6,8 +6,9 @@
       class="environment-status text-white"
       v-if="(ENV !='PROD')">
       <div class="container">
-        <div class="row">
-          <div v-html="bannerText" class="col-12 text-center text-white">
+        <div class="row" v-show="bannerInformation.enabled !== '0'">
+          <div class="col-12 text-center text-white">
+            <div v-html="bannerInformation.html"></div>
           </div>
         </div>
       </div>
@@ -147,7 +148,7 @@
         basicPages: 'getBasicPages',
         user: 'getUser',
         EEPURL: 'getOldEEPURL',
-        bannerText: 'getBannerText'
+        bannerInformation: 'getBannerText'
       }),
       onHomePage: {
         get() {
