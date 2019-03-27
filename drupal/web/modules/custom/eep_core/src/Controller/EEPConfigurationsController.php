@@ -26,11 +26,11 @@ class EEPConfigurationsController extends ControllerBase {
         $cookie_config = \Drupal::config($cookie_config_machine_name);
         $banner_config = \Drupal::config($banner_config_machine_name);
         $configurations = array(
-           explode('.', $cookie_config_machine_name)[1] => array(
+           'eepcookieconfig' => array(
               'cookie_expiration_time' => $cookie_config->get('cookie_duration'),
               'cookie_time_units' => $cookie_config->get('cookie_time_units')
            ),
-           explode('.', $banner_config_machine_name)[1] => array(
+           'bannerconfig' => array(
               'enabled' => $banner_config->get('enabled'),
               'banner_text' => $banner_config->get('banner_text')
            )
