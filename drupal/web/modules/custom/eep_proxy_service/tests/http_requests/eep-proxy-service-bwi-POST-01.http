@@ -11,21 +11,21 @@ Cache-Control: no-cache
 Content-Type: application/json
 
 {
-    "StateCode": "NH",
-    "RoutineContaminants": {
-        "As": {
-            "Symbol": "As",
-            "Name": "Arsenic",
-            "Value": "4444",
-            "Unit": "mg/L"
-        },
-        "Cl": {
-            "Symbol": "Cl",
-            "Name": "Chloride",
-            "Value": "4444",
-            "Unit": "mg/L"
-        }
+  "StateCode": "NH",
+  "RoutineContaminants": {
+    "As": {
+      "Symbol": "As",
+      "Name": "Arsenic",
+      "Value": "4444",
+      "Unit": "mg/L"
+    },
+    "Cl": {
+      "Symbol": "Cl",
+      "Name": "Chloride",
+      "Value": "4444",
+      "Unit": "mg/L"
     }
+  }
 }
 
 ###
@@ -41,14 +41,13 @@ Accept: */*
 Cache-Control: no-cache
 
 ###
-
-# BWI Service Tests
+# Help check if the endpoints are alive and working
+# DEV
 
 POST /TestRest/bwievaluation HTTP/1.1
 Host: dev.e-enterprise.gov
 Content-Type: application/json
 Cache-Control: no-cache
-Postman-Token: 49251968-d0b5-33f4-3dc7-fb01ebdc7f99
 
 {
   "StateCode": "NH",
@@ -67,3 +66,56 @@ Postman-Token: 49251968-d0b5-33f4-3dc7-fb01ebdc7f99
     }
   }
 }
+###
+
+# TEST
+
+POST /TestRest/bwievaluation HTTP/1.1
+Host: dev.e-enterprise.gov
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "StateCode": "NH",
+  "RoutineContaminants": {
+    "As": {
+      "Symbol": "As",
+      "Name": "Arsenic",
+      "Value": "4444",
+      "Unit": "mg/L"
+    },
+    "Cl": {
+      "Symbol": "Cl",
+      "Name": "Chloride",
+      "Value": "4444",
+      "Unit": "mg/L"
+    }
+  }
+}
+
+###
+
+POST /BWIService/Bwievaluation HTTP/1.1
+Host: nodewebdev.epacdxnode.net
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "StateCode": "NH",
+  "RoutineContaminants": {
+    "As": {
+      "Symbol": "As",
+      "Name": "Arsenic",
+      "Value": "4444",
+      "Unit": "mg/L"
+    },
+    "Cl": {
+      "Symbol": "Cl",
+      "Name": "Chloride",
+      "Value": "4444",
+      "Unit": "mg/L"
+    }
+  }
+}
+
+###
