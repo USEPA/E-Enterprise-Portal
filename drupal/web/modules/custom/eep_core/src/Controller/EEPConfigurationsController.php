@@ -36,7 +36,7 @@ class EEPConfigurationsController extends ControllerBase {
               'banner_text' => $banner_config->get('banner_text')
            )
         );
-        
+
         return new JsonResponse($configurations);
     }
 
