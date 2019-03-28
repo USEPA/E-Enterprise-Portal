@@ -82,7 +82,7 @@
           <AppModal
             id="permit-search-modal"
             modal-ref="permit-search-modal"
-             :title="`${permitType} Lookup`"
+            :title="`${permitType} Lookup`"
             :hide-footer="true">
             <b-form
               class="needs-validation standard-styling"
@@ -1297,18 +1297,6 @@
             sortDirection: 'desc',
           },
           {
-            key: 'projectSiteInformation.siteAddress.stateCode',
-            label: 'Project State',
-            sortable: true,
-            sortDirection: 'desc',
-          },
-          {
-            key: 'projectSiteInformation.siteAddress.city',
-            label: 'Project City',
-            sortable: true,
-            sortDirection: 'desc',
-          },
-          {
             key: 'status',
             label: 'Status',
             sortable: true,
@@ -1348,8 +1336,12 @@
       this.loadBaseFormOption();
       this.loadMsgpFormOptions();
       this.loadCgpFormOptions();
+      this.loadProperCgpDataStructure();
     },
     computed: {
+      ...mapGetters({
+        ENV: 'getEnvironment',
+      }),
       ...mapGetters(moduleName, {
         formOptions: 'getFormOptions',
         msgpFormResults: 'getMsgpFormResults',
@@ -1515,6 +1507,44 @@
         this.radioSelection4 = null;
         this.cgpType = null;
         this.msgpType = null;
+      },
+      loadProperCgpDataStructure() {
+        const env = this.ENV;
+        const dev = [
+          {
+            key: 'projectSiteInformation.siteAddress.stateCode',
+            label: 'Project State',
+            sortable: true,
+            sortDirection: 'desc',
+          },
+          {
+            key: 'projectSiteInformation.siteAddress.city',
+            label: 'Project City',
+            sortable: true,
+            sortDirection: 'desc',
+          },
+        ];
+        const test = [
+          {
+            key: 'projectSiteInformation.siteStateCode',
+            label: 'Project State',
+            sortable: true,
+            sortDirection: 'desc',
+          },
+          {
+            key: 'projectSiteInformation.siteCity',
+            label: 'Project City',
+            sortable: true,
+            sortDirection: 'desc',
+          },
+        ];
+        if (env === 'TEST' || env === 'PROD') {
+          this.cgpFields.splice(1, 0, test[0]);
+          this.cgpFields.splice(1, 0, test[1]);
+        } else if ( env === 'DEV' || 'LOCAL') {
+          this.cgpFields.splice(1, 0, dev[0]);
+          this.cgpFields.splice(1, 0, dev[1]);
+        }
       },
       focusMyElement(e) {
         this.$refs.focusThis.focus();
