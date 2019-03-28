@@ -1228,9 +1228,6 @@
       this.loadCgpFormOptions();
     },
     computed: {
-      ...mapGetters({
-        ENV: 'getEnvironment',
-      }),
       ...mapGetters(moduleName, {
         cgpFields: 'getCgpFields',
         msgpFields: 'getMsgpFields',
