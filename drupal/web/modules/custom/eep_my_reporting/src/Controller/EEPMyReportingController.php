@@ -151,6 +151,7 @@ class EEPMyReportingController extends ControllerBase {
 
         foreach ($result->response->linkDetails as $linkDetail) {
           // Only accept links that are Active
+          if ($linkDetail->RoleStatus->code === 'Active') {
             $userOrgId = $linkDetail->UserOrganizationId;
             if (!isset($data['organizations'][$userOrgId])) {
               $data['orgCount']++;
@@ -166,8 +167,8 @@ class EEPMyReportingController extends ControllerBase {
               'roleName' => $linkDetail->RoleName,
               'userRoleId' => $linkDetail->UserRoleId,
             ];
+          }
         }
-
       }
 
       // Organizations have a 1 to many relationship with Program Clients. We alphabetize
