@@ -5,7 +5,7 @@
                 <label class="col-12 font-weight-bold">
                     Enter city, state; tribe; or ZIP code
                 </label>
-                <b-form-input id="locationInput" v-model="user.inputBoxText" @keydown.native="submitInput" class="col-4 ml-3"/>
+                <b-form-input id="locationInput" v-model="user.inputBoxText" @change="submitInput" class="col-4 ml-3"/>
             </b-input-group>
         </div>
         <b-input-group v-show="user.isAllZipcodesDisplayed" class="pt-2">
@@ -82,8 +82,8 @@
         methods: {
            ...mapActions([
            ]),
-           submitInput(event){
-               if(event.which === 13 && this.$store.getters.getUser.inputBoxText !== ''){
+           submitInput(){
+               if(this.$store.getters.getUser.inputBoxText !== ''){
                    this.$store.dispatch('populateDropdownForUserInput', this.inputBoxText);
                }
            },
