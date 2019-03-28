@@ -82,7 +82,7 @@
           <AppModal
             id="permit-search-modal"
             modal-ref="permit-search-modal"
-            :title="`${permitType} Lookup`"
+             :title="`${permitType} Lookup`"
             :hide-footer="true">
             <b-form
               class="needs-validation standard-styling"
@@ -844,6 +844,7 @@
             id="permit-results-modal"
             modal-ref="permit-results-modal"
             :title="`${permitType} Lookup Results`"
+            @hide="resetResultsLoaded"
             :hide-footer="true">
             <b-row>
               <b-col
