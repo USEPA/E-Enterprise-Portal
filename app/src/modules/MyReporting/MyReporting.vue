@@ -109,20 +109,23 @@
                   <template
                     slot="role"
                     slot-scope="data">
-                    <div v-if="data.item.sso_to_app_enabled">
+                    <div v-if="data.item.status === 'Active' && data.item.sso_to_app_enabled">
                       <a
                         class="cursor-pointer text-decoration-underline text-primary"
                         @click="onClickGetLinkDetails(data.item.roleId, $event.target)"
                         :data-roleId="data.item.roleId">{{ data.item.role }}
                       </a>
                     </div>
-                    <div v-else>
+                    <div v-else-if="data.item.status === 'Active'">
                       <a
                         class="cursor-pointer text-decoration-underline text-primary"
                         data-handoff-type="login"
                         @click="cdxSingleSignOn('direct')">
                         {{ data.item.role }}
                       </a>
+                    </div>
+                    <div v-else>
+                      {{ data.item.role }}
                     </div>
                   </template>
                   <template
