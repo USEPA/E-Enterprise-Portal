@@ -101,8 +101,7 @@
           evt.preventDefault();
           vm.submissionErrorMessage = '';
           vm.submitPartnersData({ vm, evt });
-        }
-        else {
+        } else {
           vm.submissionErrorMessage = 'Please enter values for some of the contaminants.';
         }
       },
@@ -112,9 +111,12 @@
         /* Reset our form values */
         this.createWaterAnalysisRequest();
         // Reset fake values on sections
-        const section = vm.$refs['BacterialContaminants'];
-        section.fakeInputs = {};
-        section.radios = {};
+        const sectionNames = ['RoutineContaminants', 'BacterialContaminants', 'RadionuclideContaminants'];
+        sectionNames.forEach((sectionName) => {
+          const section = vm.$refs[sectionName];
+          section.fakeInputs = {};
+          section.radios = {};
+        });
       },
     },
   };
