@@ -233,6 +233,7 @@
   import PartnerResources from './components/PartnerResources.vue';
   import { EventBus } from '../../EventBus';
   import WaterAnalysisResult from './components/WaterAnalysisResult.vue';
+  import types from './store/types';
 
   const moduleName = 'BeWellInformed';
 
@@ -290,7 +291,7 @@
       },
       isFlowchartReady() {
         const { partnerResource } = this;
-        return !!(partnerResource && partnerResource.flowchart);
+        return partnerResource && partnerResource.flowchart;
       },
     },
     methods: {
@@ -352,6 +353,7 @@
       },
       onSubmit(evt) {
         const vm = this;
+        const store = vm.$store;
         const partner = vm.selectedPartner;
         const isRequestEmpty = vm.isWaterAnalysisRequestEmpty();
         if (!isRequestEmpty) {
@@ -373,11 +375,14 @@
       },
       showWaterAnalysisResults($event) {
         const vm = this;
+        const store = vm.$store;
         const bwiModal = vm.$refs.bwi_modal;
         vm.$root.$emit(
           'bv::show::modal', 'bwi-modal', bwiModal,
         );
         vm.hasResults = true;
+        store.commit(`BeWellInformed/${types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS}`, []);
+        store.commit(`BeWellInformed/${types.UPDATE_INTERACTIVE_PROMPTS}`, []);
         vm.$nextTick(() => {
           vm.tabIndex = $event.value;
         });
