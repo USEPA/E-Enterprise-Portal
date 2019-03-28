@@ -1359,6 +1359,7 @@
       cgpFormSubmit(evt) {
         const vm = this;
         evt.preventDefault();
+        this.currentPage = 1;
         if (JSON.stringify(this.cgpFormData) !== JSON.stringify(this.cgpFormDataDefaults)) {
           this.noFieldsToQuery = false;
           this.cgpFormGetResults({ vm });
@@ -1371,6 +1372,7 @@
       msgpFormSubmit(evt) {
         const vm = this;
         evt.preventDefault();
+        this.currentPage = 1;
         if (JSON.stringify(this.msgpFormData) !== JSON.stringify(this.msgpFormDataDefaults)) {
           this.noFieldsToQuery = false;
           this.msgpFormGetResults({ vm });
