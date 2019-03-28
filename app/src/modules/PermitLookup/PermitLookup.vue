@@ -233,7 +233,7 @@
                     <b-form-select
                       id="form-type-selection"
                       class="mb-3"
-                      v-model="cgpFormData.formType"
+                      v-model="cgpType"
                       :options="formOptions.cgpFormOptions.formTypes"
                       ref="formType-Dropdown"
                       @change="setCgpFormType"
