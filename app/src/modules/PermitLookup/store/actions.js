@@ -242,7 +242,8 @@ export default {
   },
   setCgpFormType(context, payload) {
     const store = context;
-    store.commit(types.SET_CGP_FORM_TYPE, payload);
+    const massagedType = payload.replace(/ /g, '_');
+    store.commit(types.SET_CGP_FORM_TYPE, massagedType);
   },
   setCgpOperatorName(context, payload) {
     const store = context;
