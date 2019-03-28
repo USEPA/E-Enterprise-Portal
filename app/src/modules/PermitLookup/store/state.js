@@ -7,6 +7,117 @@
 
 export default {
   permitType: null,
+
+  msgpFields: [
+    {
+      key: 'issuer',
+      label: 'Issuer',
+      sortable: true,
+      sortDirection: 'desc',
+    },
+    {
+      key: 'npdesId',
+      label: 'NPDES ID',
+      sortable: true,
+      sortDirection: 'desc',
+    },
+    {
+      key: 'coverageType',
+      label: 'Coverage Type',
+      sortable: true,
+      sortDirection: 'desc',
+    },
+    {
+      key: 'submissionType',
+      label: 'Submission Type',
+      sortable: true,
+      sortDirection: 'desc',
+    },
+    {
+      key: 'facilitySiteInformation.siteName',
+      label: 'Facility Name',
+      sortable: true,
+      sortDirection: 'desc',
+    },
+    {
+      key: 'operatorInformation.operatorName',
+      label: 'Facility Operator',
+      sortable: true,
+      sortDirection: 'desc',
+    },
+    {
+      key: 'facilitySiteInformation.siteAddress.stateCode',
+      label: 'Facility State',
+      sortable: true,
+      sortDirection: 'desc',
+    },
+    {
+      key: 'facilitySiteInformation.siteAddress.city',
+      label: 'Facility City',
+      sortable: true,
+      sortDirection: 'desc',
+    },
+    {
+      key: 'coverageStatus',
+      label: 'Coverage Status',
+      sortable: true,
+      sortDirection: 'desc',
+    },
+    {
+      key: 'certifiedDate',
+      label: 'Effective Date',
+      sortable: true,
+      sortDirection: 'desc',
+    },
+    {
+      key: 'documents',
+      label: 'Corresponding Documents',
+      sortable: false,
+    },
+  ],
+  cgpFields: [
+    {
+      key: 'npdesId',
+      label: 'NPDES ID',
+      sortable: true,
+      sortDirection: 'desc',
+    },
+    {
+      key: 'projectSiteInformation.siteName',
+      label: 'Project Name',
+      sortable: true,
+      sortDirection: 'desc',
+    },
+    {
+      key: 'operatorInformation.operatorName',
+      label: 'Project Operator',
+      sortable: true,
+      sortDirection: 'desc',
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      sortable: true,
+      sortDirection: 'desc',
+    },
+    {
+      key: 'type',
+      label: 'Type',
+      sortable: true,
+      sortDirection: 'desc',
+    },
+    {
+      key: 'certifiedDate',
+      label: 'Effective Date',
+      sortable: true,
+      sortDirection: 'desc',
+    },
+    {
+      key: 'documents',
+      label: 'Corresponding Documents',
+      sortable: false,
+    },
+  ],
   msgpFormData: {
     submissionType: 'Select...',
     issuer: 'Select...',
