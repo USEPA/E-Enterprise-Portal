@@ -35,7 +35,7 @@ export default {
       && state.partnerXmls[state.selectedPartner.code]
     )
       ? state.partnerXmls[state.selectedPartner.code]
-      : null;
+      : {};
   },
   [types.UPDATE_PARTNER_XML](state, obj) {
     const partner = {};
