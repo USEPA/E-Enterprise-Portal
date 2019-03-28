@@ -466,7 +466,11 @@ export default {
           store.commit(types.SET_NO_RESULTS, false);
           // Massage dates to only include Year, month, and day
           msgpResponse.forEach((data_object) => {
-            data_object.certifiedDate = data_object.certifiedDate.substring(0, 10);
+            if (data_object.certifiedDate){
+              data_object.certifiedDate = data_object.certifiedDate.substring(0, 10);
+            } else {
+              data_object.certifiedDate = '';
+            }
             data_object.coverageType = data_object.coverageType.replace(/_/g, ' ');
           });
           if (msgpResponse.code === 'E_InternalError') {
@@ -536,7 +540,11 @@ export default {
           store.commit(types.SET_NO_RESULTS, false);
           // Massage dates to only include Year, month, and day
           cgpResponse.forEach((data_object) => {
-            data_object.certifiedDate = data_object.certifiedDate.substring(0, 10);
+            if (data_object.certifiedDate) {
+              data_object.certifiedDate = data_object.certifiedDate.substring(0, 10);
+            } else {
+              data_object.certifiedDate = '';
+            }
             data_object.type = data_object.type.replace(/_/g, ' ');
           });
           if (cgpResponse.code === 'E_InternalError') {
