@@ -131,4 +131,10 @@ export default {
   getNoResults(state) {
     return state.noResults;
   },
+  getMsgpFields(state) {
+    return state.msgpFields;
+  },
+  getCgpFields(state) {
+    return state.cgpFields;
+  },
 };
