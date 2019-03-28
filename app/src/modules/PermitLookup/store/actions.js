@@ -546,6 +546,7 @@ export default {
           } else {
             store.commit(types.SET_RESULTS_ERROR, false);
             store.commit(types.SET_CGP_RESPONSE, cgpResponse);
+            store.dispatch('loadProperCgpDataStructure');
             store.commit(types.SET_CGP_RESULTS_LOADED, true);
           }
         } else {
@@ -570,5 +571,44 @@ export default {
     const store = context;
     const defaults = _.clone(store.state.cgpFormDataDefaults, true);
     store.commit(types.SET_CGP_FORM_DATA, defaults);
+  },
+  loadProperCgpDataStructure(context) {
+    const store = context;
+    const formResults = store.state.cgpFormResults;
+    const dev = [
+      {
+        key: 'projectSiteInformation.siteAddress.stateCode',
+        label: 'Project State',
+        sortable: true,
+        sortDirection: 'desc',
+      },
+      {
+        key: 'projectSiteInformation.siteAddress.city',
+        label: 'Project City',
+        sortable: true,
+        sortDirection: 'desc',
+      },
+    ];
+    const test = [
+      {
+        key: 'projectSiteInformation.siteStateCode',
+        label: 'Project State',
+        sortable: true,
+        sortDirection: 'desc',
+      },
+      {
+        key: 'projectSiteInformation.siteCity',
+        label: 'Project City',
+        sortable: true,
+        sortDirection: 'desc',
+      },
+    ];
+    if (formResults[0].projectSiteInformation.siteAddress.stateCode) {
+      store.state.cgpFields.splice(3, 0, dev[0]);
+      store.state.cgpFields.splice(3, 0, dev[1]);
+    } else if (formResults[0].projectSiteInformation.siteStateCode) {
+      store.state.cgpFields.splice(3, 0, test[0]);
+      store.state.cgpFields.splice(3, 0, test[1]);
+    }
   },
 };

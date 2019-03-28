@@ -1210,116 +1210,6 @@
         radioSelection4: null,
         cgpType: null,
         msgpType: null,
-        msgpFields: [
-          {
-            key: 'issuer',
-            label: 'Issuer',
-            sortable: true,
-            sortDirection: 'desc',
-          },
-          {
-            key: 'npdesId',
-            label: 'NPDES ID',
-            sortable: true,
-            sortDirection: 'desc',
-          },
-          {
-            key: 'coverageType',
-            label: 'Coverage Type',
-            sortable: true,
-            sortDirection: 'desc',
-          },
-          {
-            key: 'submissionType',
-            label: 'Submission Type',
-            sortable: true,
-            sortDirection: 'desc',
-          },
-          {
-            key: 'facilitySiteInformation.siteName',
-            label: 'Facility Name',
-            sortable: true,
-            sortDirection: 'desc',
-          },
-          {
-            key: 'operatorInformation.operatorName',
-            label: 'Facility Operator',
-            sortable: true,
-            sortDirection: 'desc',
-          },
-          {
-            key: 'facilitySiteInformation.siteAddress.stateCode',
-            label: 'Facility State',
-            sortable: true,
-            sortDirection: 'desc',
-          },
-          {
-            key: 'facilitySiteInformation.siteAddress.city',
-            label: 'Facility City',
-            sortable: true,
-            sortDirection: 'desc',
-          },
-          {
-            key: 'coverageStatus',
-            label: 'Coverage Status',
-            sortable: true,
-            sortDirection: 'desc',
-          },
-          {
-            key: 'certifiedDate',
-            label: 'Effective Date',
-            sortable: true,
-            sortDirection: 'desc',
-          },
-          {
-            key: 'documents',
-            label: 'Corresponding Documents',
-            sortable: false,
-          },
-        ],
-        cgpFields: [
-          {
-            key: 'npdesId',
-            label: 'NPDES ID',
-            sortable: true,
-            sortDirection: 'desc',
-          },
-          {
-            key: 'projectSiteInformation.siteName',
-            label: 'Project Name',
-            sortable: true,
-            sortDirection: 'desc',
-          },
-          {
-            key: 'operatorInformation.operatorName',
-            label: 'Project Operator',
-            sortable: true,
-            sortDirection: 'desc',
-          },
-          {
-            key: 'status',
-            label: 'Status',
-            sortable: true,
-            sortDirection: 'desc',
-          },
-          {
-            key: 'type',
-            label: 'Type',
-            sortable: true,
-            sortDirection: 'desc',
-          },
-          {
-            key: 'certifiedDate',
-            label: 'Effective Date',
-            sortable: true,
-            sortDirection: 'desc',
-          },
-          {
-            key: 'documents',
-            label: 'Corresponding Documents',
-            sortable: false,
-          },
-        ],
         noFields: 'Please provide input for at least one field.',
         noFieldsToQuery: false,
         currentPage: 1,
@@ -1336,13 +1226,14 @@
       this.loadBaseFormOption();
       this.loadMsgpFormOptions();
       this.loadCgpFormOptions();
-      this.loadProperCgpDataStructure();
     },
     computed: {
       ...mapGetters({
         ENV: 'getEnvironment',
       }),
       ...mapGetters(moduleName, {
+        cgpFields: 'getCgpFields',
+        msgpFields: 'getMsgpFields',
         formOptions: 'getFormOptions',
         msgpFormResults: 'getMsgpFormResults',
         cgpFormResults: 'getCgpFormResults',
@@ -1507,44 +1398,6 @@
         this.radioSelection4 = null;
         this.cgpType = null;
         this.msgpType = null;
-      },
-      loadProperCgpDataStructure() {
-        const env = this.ENV;
-        const dev = [
-          {
-            key: 'projectSiteInformation.siteAddress.stateCode',
-            label: 'Project State',
-            sortable: true,
-            sortDirection: 'desc',
-          },
-          {
-            key: 'projectSiteInformation.siteAddress.city',
-            label: 'Project City',
-            sortable: true,
-            sortDirection: 'desc',
-          },
-        ];
-        const test = [
-          {
-            key: 'projectSiteInformation.siteStateCode',
-            label: 'Project State',
-            sortable: true,
-            sortDirection: 'desc',
-          },
-          {
-            key: 'projectSiteInformation.siteCity',
-            label: 'Project City',
-            sortable: true,
-            sortDirection: 'desc',
-          },
-        ];
-        if (env === 'TEST' || env === 'PROD') {
-          this.cgpFields.splice(1, 0, test[0]);
-          this.cgpFields.splice(1, 0, test[1]);
-        } else if ( env === 'DEV' || 'LOCAL') {
-          this.cgpFields.splice(1, 0, dev[0]);
-          this.cgpFields.splice(1, 0, dev[1]);
-        }
       },
       focusMyElement(e) {
         this.$refs.focusThis.focus();
