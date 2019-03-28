@@ -483,7 +483,7 @@
                     <b-form-select
                       id="coverage-type-selection"
                       class="mb-3"
-                      v-model="msgpType"
+                      :value="msgpType"
                       :options="formOptions.msgpFormOptions.coverageTypes"
                       ref="coverage-type-selection"
                       @change="setMsgpCoverageType"
