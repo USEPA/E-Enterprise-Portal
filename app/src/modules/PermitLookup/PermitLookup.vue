@@ -233,7 +233,7 @@
                     <b-form-select
                       id="form-type-selection"
                       class="mb-3"
-                      :value="cgpFormData.formType"
+                      v-model="cgpFormData.formType"
                       :options="formOptions.cgpFormOptions.formTypes"
                       ref="formType-Dropdown"
                       @change="setCgpFormType"
@@ -483,7 +483,7 @@
                     <b-form-select
                       id="coverage-type-selection"
                       class="mb-3"
-                      :value="msgpType"
+                      v-model="msgpType"
                       :options="formOptions.msgpFormOptions.coverageTypes"
                       ref="coverage-type-selection"
                       @change="setMsgpCoverageType"
