@@ -4,7 +4,7 @@
     <Storage/>
     <div
       class="environment-status text-white"
-      v-if="(ENV !='PROD')">
+      >
       <div class="container">
         <div class="row" v-show="bannerInformation.enabled !== '0'">
           <div class="col-12 text-center text-white">
