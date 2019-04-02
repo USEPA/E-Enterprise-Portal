@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>Enter the Results of Your Drinking Water Test</h3>
+    <h5>Enter the Results of Your Drinking Water Test</h5>
 
     <div
       v-if="submissionErrorMessage"
@@ -17,16 +17,19 @@
       <ContaminantSection
         v-if="partnerResource && waterAnalysisRequest.RoutineContaminants"
         :request="waterAnalysisRequest.RoutineContaminants"
+        ref="RoutineContaminants"
         section="RoutineContaminants"/>
 
       <ContaminantSection
         v-if="partnerResource && waterAnalysisRequest.BacterialContaminants"
         :request="waterAnalysisRequest.BacterialContaminants"
+        ref="BacterialContaminants"
         section="BacterialContaminants"/>
 
       <ContaminantSection
         v-if="partnerResource && waterAnalysisRequest.RadionuclideContaminants"
         :request="waterAnalysisRequest.RadionuclideContaminants"
+        ref="RadionuclideContaminants"
         section="RadionuclideContaminants"/>
 
       <div
@@ -98,15 +101,22 @@
           evt.preventDefault();
           vm.submissionErrorMessage = '';
           vm.submitPartnersData({ vm, evt });
-        }
-        else {
+        } else {
           vm.submissionErrorMessage = 'Please enter values for some of the contaminants.';
         }
       },
       onReset(evt) {
+        const vm = this;
         evt.preventDefault();
         /* Reset our form values */
         this.createWaterAnalysisRequest();
+        // Reset fake values on sections
+        const sectionNames = ['RoutineContaminants', 'BacterialContaminants', 'RadionuclideContaminants'];
+        sectionNames.forEach((sectionName) => {
+          const section = vm.$refs[sectionName];
+          section.fakeInputs = {};
+          section.radios = {};
+        });
       },
     },
   };

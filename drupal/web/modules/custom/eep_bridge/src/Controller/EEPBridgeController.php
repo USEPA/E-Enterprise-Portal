@@ -4,6 +4,7 @@ namespace Drupal\eep_bridge\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\eep_bridge\ADFSConf;
+use Drupal\user\Entity\Role;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\Core\Url;
@@ -12,7 +13,7 @@ use Drupal\eep_bridge\ADFSBridge;
 use Drupal\eep_bridge\AuthenticatedUser;
 use Drupal\jwt\Authentication\Provider\JwtAuth;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\user\Entity\User;
+use Drupal\user\UserInterface;
 use Drupal\eep_my_reporting\CDXSecurityTokenService;
 
 
@@ -45,11 +46,47 @@ class EEPBridgeController extends ControllerBase {
     }
     // Pull UserDetails from Post
     $userDetails = $this->parse_post_for_user_details($_POST);
-    $authenticated_user = new AuthenticatedUser($userDetails);
-    $this->create_or_login_user_if_exists($authenticated_user);
-    $this->process_required_fields_for_user($authenticated_user);
-    $this->create_jwt_and_send_user();
+    if ($this->verify_token_with_request($userDetails)) {
+      $authenticated_user = new AuthenticatedUser($userDetails);
+      $this->create_or_login_user_if_exists($authenticated_user);
+      $this->process_required_fields_for_user($authenticated_user);
+      $this->add_required_role_for_current_user($authenticated_user->get_authentication_domain());
+      $this->create_jwt_and_send_user();
+    } else {
+      $this->force_new_bridge_login($userDetails->attributes['authenticationMethod']);
+    }
     return;
+  }
+
+  private function verify_token_with_request($request_details) {
+    // @todo The actual attribute check versus token can be ported to configurations and this function
+    // should be generalized. The pattern is the same for every Auth Method
+    $valid_token = FALSE;
+    if (isset($request_details->attributes)) {
+      $attributes = $request_details->attributes;
+      if ($attributes['authenticationMethod']) {
+        $auth_method = strtoupper(str_replace('urn:', '', $attributes['authenticationMethod']));
+        $security_token = $attributes['securityToken'][0];
+        try {
+          $user_data = $this->pull_user_data_from_token($security_token, $_SERVER['LOCAL_ADDR']);
+          if ($auth_method === 'ENNAAS') {
+            $valid_token = ($user_data['USERID'] == $attributes['userId'][0]);
+          } else if ($auth_method === 'FACEBOOK') {
+            $valid_token = ($user_data['ID'] == $attributes['id'][0]);
+          } else if ($auth_method === 'WAMNAAS') {
+            $valid_token = ($user_data['UID'] == $attributes['name'][0]);
+          } else if ($auth_method === 'TWITTER') {
+            $valid_token = ($user_data['ID'] == $attributes['id'][0]);
+          } else if ($auth_method === 'SMARTCARDAUTH') {
+            $valid_token = ($user_data['UID'] == $attributes['uid'][0]);
+          }
+        } catch
+        (\SoapFault $soap_fault) {
+          $valid_token = FALSE;
+        }
+      }
+    }
+    return $valid_token;
   }
 
   /**
@@ -60,9 +97,6 @@ class EEPBridgeController extends ControllerBase {
    * @param $uid
    */
   public function eep_authenticate_dev_user($uid = NULL) {
-    $config = $this->config('eep_bridge.environment_settings');
-    $environment_name = $config->get('eep_bridge_environment_name');
-
     if (!$uid) {
       $uid = \Drupal::currentUser()->id();
     }
@@ -74,17 +108,28 @@ class EEPBridgeController extends ControllerBase {
    * @return JsonResponse
    */
   public function bridge_auth_logout() {
-    // Declare variables
     $config = \Drupal::config('eep_bridge.environment_settings');
-    // Build logout url
-    $logout = $config->get('eep_bridge_issuer') . '?wa=wsignout1.0&wreply=' . urlencode($config->get('eep_bridge_wreply'));
-    // Log current user out
+    $logout_url = $config->get('eep_bridge_issuer') . '?wa=wsignout1.0&wreply=' . urlencode($config->get('eep_bridge_environment_name')) . '/login';
     user_logout();
-    // Redirect to the bridge
-    header("Location:$logout");
+    $response = new RedirectResponse($logout_url);
+    $response->send();
     exit();
   }
 
+  /**
+   * Builds bridge login for specific URN
+   */
+  public function bridge_redirect() {
+    if (isset($_GET['whr'])) {
+      $config = \Drupal::config('eep_bridge.environment_settings');
+      $bridge_url = $config->get('eep_bridge_issuer');
+      $eep_realm = $config->get('eep_bridge_realm');
+      $bridge_login_url = $bridge_url . '?wtrealm=' . $eep_realm . '&wreply=' . urlencode($eep_realm . '/authenticate/user') . '&whr=' . $_GET['whr'] . '&wa=wsignin1.0';
+      $response = new RedirectResponse($bridge_login_url);
+      $response->send();
+    }
+    exit();
+  }
   /**
    * @param ContainerInterface $container
    * @return static
@@ -100,8 +145,10 @@ class EEPBridgeController extends ControllerBase {
     if (isset($_POST['CDX_DATA']) || isset($_POST['SCS_DATA'])) {
       if (isset($_POST['CDX_DATA'])) {
         $ip = $_POST['CDX_DATA'];
+        $issuer = 'CDX';
       } else {
         $ip = $_POST['SCS_DATA'];
+        $issuer = 'SCS';
       }
       $token = $_POST['TOKEN'];
       $config = $this->config('eep_my_reporting.form');
@@ -110,12 +157,13 @@ class EEPBridgeController extends ControllerBase {
       parse_str($decoded_token->return, $decoded_parts);
       $user_data = array_change_key_case($decoded_parts, CASE_UPPER);
       $authenticated_user = new AuthenticatedUser([]);
-      $username = $user_data['UID'] . '_Via_' . $user_data['ISSUER'];
+      $username = $user_data['USERID'] . '_Via_' . $issuer;
       $authenticated_user->set_name($username);
-      $authenticated_user->set_source_username($user_data['UID']);
+      $authenticated_user->set_source_username($user_data['USERID']);
       $authenticated_user->set_authentication_domain($user_data['ISSUER']);
       $this->create_or_login_user_if_exists($authenticated_user);
       $this->process_required_fields_for_user($authenticated_user);
+      $this->add_required_role_for_current_user($authenticated_user->get_authentication_domain());
       $this->create_jwt_and_send_user();
     }
   }
@@ -132,11 +180,26 @@ class EEPBridgeController extends ControllerBase {
     ]);
   }
 
+  /**
+   * Builds URL that sends user to Bridge logout, then sends the user back to login again for the
+   * passed in URN.
+   */
+  private function force_new_bridge_login($urn_method) {
+    $config = \Drupal::config('eep_bridge.environment_settings');
+    $bridge_url = $config->get('eep_bridge_issuer');
+    $eep_realm = $config->get('eep_bridge_realm');
+    $bridge_redirect = $eep_realm . '/eep/bridge-redirect' . '?whr=' . $urn_method;
+    $logout_url = $bridge_url . '?wa=wsignout1.0&wreply=' . urlencode($bridge_redirect);
+    $response = new RedirectResponse($logout_url);
+    $response->send();
+    exit();
+  }
+
   private function eep_bridge_goto($url, $jwt_token) {
     $response = new RedirectResponse($url->toString());
     $response->headers->set('token', $jwt_token);
     $response->send();
-    exit;
+    exit();
   }
 
   /**
@@ -199,6 +262,14 @@ class EEPBridgeController extends ControllerBase {
     }
   }
 
+  private function add_required_role_for_current_user($role_name) {
+    $uid = \Drupal::currentUser()->id();
+    if ($uid) {
+      $user = \Drupal\user\Entity\User::load($uid);
+      $this->add_role($user, $role_name);
+    }
+  }
+
   /**
    * @param $environment_name
    * @param $uid
@@ -209,11 +280,64 @@ class EEPBridgeController extends ControllerBase {
       $uid = \Drupal::currentUser()->id();
     }
     $jwt_token = $this->auth->generateToken();
+    if ($uid !== '1') {
+      user_logout();
+    }
     if ($jwt_token === FALSE) {
       $error_msg = "Error. Please set a key in the JWT admin page.";
       \Drupal::logger('eep_bridge')->error($error_msg);
     }
     $url = Url::fromUri($environment_name . '?token=' . $jwt_token . '&uid=' . $uid);
     $this->eep_bridge_goto($url, $jwt_token);
+  }
+
+  /**
+   * @param $token
+   * @param $ip
+   * @param $decoded_parts
+   * @return array
+   */
+  private function pull_user_data_from_token($token, $ip) {
+    $config = $this->config('eep_my_reporting.form');
+    $cdx_service = new CDXSecurityTokenService($config);
+    $decoded_token = $cdx_service->decode_token($token, $ip);
+    parse_str($decoded_token->return, $decoded_parts);
+    $user_data = array_change_key_case($decoded_parts, CASE_UPPER);
+    return $user_data;
+  }
+
+
+  /**
+   * @param \Drupal\user\UserInterface $user
+   * @param $role_name
+   * Add role name to AuthenticatedUser
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  function add_role(UserInterface $user, $role_name) {
+    $role_id = $this->get_role_name($role_name);
+    $role = Role::load($role_id);
+
+    // Create Role
+    if (!$role) {
+      $label = ucwords(preg_replace('/-/', ' ', $role_name));
+
+      $role = $this->create_role($role_id, $label);
+    }
+
+    // Add Role to user
+    $user->addRole($role->id());
+    $user->save();
+  }
+
+  function create_role($id, $label) {
+    $role = \Drupal\user\Entity\Role::create(array('id' => $id, 'label' => $label));
+    $role->save();
+    return $role;
+  }
+
+  function get_role_name($role_name) {
+    return strtolower(preg_replace('/\s/', '-', $role_name));
   }
 }

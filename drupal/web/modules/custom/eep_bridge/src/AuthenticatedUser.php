@@ -9,13 +9,12 @@ namespace Drupal\eep_bridge;
  */
 class AuthenticatedUser {
   private $name;
-  private $user;
   private $authentication_domain = null;
   private $source_username;
 
-  var $issuer;
-  var $userDetails;
-  var $authentication_method;
+  public $issuer;
+  public $userDetails;
+  public $authentication_method;
 
 
 
@@ -26,16 +25,16 @@ class AuthenticatedUser {
     }
   }
 
-  function set_name($uname) {
-    $this->name = $uname;
+  function set_name($username) {
+    $this->name = strtoupper($username);
   }
 
   function set_authentication_domain($issuer) {
     $this->authentication_domain = $issuer;
   }
-  
+
   function set_source_username($username) {
-    $this->source_username = $username;
+    $this->source_username = strtoupper($username);
   }
 
   function get_name() {
@@ -61,7 +60,11 @@ class AuthenticatedUser {
     if (isset($userDetails->attributes['authenticationdomain']) && count($userDetails->attributes['authenticationdomain']) > 0) {
       $this->authentication_domain = $userDetails->attributes['authenticationdomain'][0];
     }
-    $username_raw = explode('/', $userDetails->attributes['name'][0]);
+    if ($this->authentication_method === "SMARTCARDAUTH") {
+      $username_raw = explode('/', $userDetails->attributes['uid'][0]);
+    } else {
+      $username_raw = explode('/', $userDetails->attributes['name'][0]);
+    }
     // Default username if source username is not found in other UserDetails attribute, and also remove spaces and quotation marks from end and beginning of usernames.
     $source_username = trim(trim(end($username_raw), '"'));
     $source_username = str_replace(" ", "_", $source_username);

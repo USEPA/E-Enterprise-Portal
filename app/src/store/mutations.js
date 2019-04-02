@@ -46,6 +46,13 @@ export default {
       obj,
     );
   },
+  [types.SET_FONT_SCALE_RATIO](state, float) {
+    Vue.set(
+      state,
+      'fontScaleRatio',
+      float,
+    );
+  },
   // Checks if path is already set, if not, uses lodash 'get' to get path
   [types.SET_DEEP_PROPERTY](state, payload) {
     const rootObject = (payload.path) ? _.get(state, payload.path) : state;
@@ -103,8 +110,8 @@ export default {
   },
   [types.SET_USER_OBJECT](state, obj) {
     const name = obj.name[0].value;
-    const {init} = obj;
-    let {mail} = state.user;
+    const { init } = obj;
+    let { mail } = state.user;
     if (obj.mail[0]) {
       mail = obj.mail[0].value;
     }
@@ -133,7 +140,7 @@ export default {
       obj.field_role);
     Vue.set(state.user,
       'userFavoriteLocation',
-        obj.field_userfavoritelocations);
+      obj.field_userfavoritelocations);
     Vue.set(state.user,
       'userLocationsFromLoad',
       obj.field_userlocation);
@@ -247,16 +254,16 @@ export default {
   },
   [types.DELETE_USER_SELECTED_LOCATION](state, deletedSelection) {
     // Filter the array with the location that they want deleted
-    let filteredLocations = [];
+    const filteredLocations = [];
 
-    state.user.userLocationsFromLoad.forEach(function(location){
-      if(parseInt(location.second) !== parseInt(deletedSelection.second)
+    state.user.userLocationsFromLoad.forEach((location) => {
+      if (parseInt(location.second) !== parseInt(deletedSelection.second)
           && location.first.trim !== deletedSelection.first.trim() ||
           parseInt(location.second) === parseInt(deletedSelection.second)
-          && location.first.trim() !== deletedSelection.first.trim()){
+          && location.first.trim() !== deletedSelection.first.trim()) {
         filteredLocations.push(location);
       }
-    })
+    });
     // Save back to state
     Vue.set(state.user,
       'userLocationsFromLoad',
@@ -280,39 +287,42 @@ export default {
   [types.ITERATE_FIRST_TIME_SELECT_BUTTON](state, amount) {
     state.user.firstTimeSelectButtonClicked += amount;
   },
-  [types.IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES](state, choice){
+  [types.IS_CURRENT_DROPDOWN_ZIPCODE_WITH_TRIBES](state, choice) {
     Vue.set(state.user,
       'isCurrentDropdownZipcodeWithTribes',
       choice);
   },
-  [types.SET_EXTEND_SESSION_MESSAGE](state, message){
+  [types.SET_EXTEND_SESSION_MESSAGE](state, message) {
     Vue.set(state.user,
       'extendSessionModalMessage',
       message);
   },
-  [types.SET_DISPLAY_LOGIN_AGAIN_BUTTON_ON_MODAL](state, css_prop){
+  [types.SET_DISPLAY_LOGIN_AGAIN_BUTTON_ON_MODAL](state, css_prop) {
     Vue.set(state.user,
       'displayLoginAgainButtonOnModal',
       css_prop);
   },
-  [types.SET_TRIBES_ARRAY](state, obj){
+  [types.SET_TRIBES_ARRAY](state, obj) {
     Vue.set(state.user,
       'tribesArray',
       obj);
   },
-  [types.SET_DISPLAY_NEW_LOCATION](state, display){
+  [types.SET_DISPLAY_NEW_LOCATION](state, display) {
     Vue.set(state.user,
       'displayNewLocation',
       display);
   },
-  [types.SET_USER_FAV_LOCATION](state, userFavLocation){
+  [types.SET_USER_FAV_LOCATION](state, userFavLocation) {
     Vue.set(state.user,
       'userFavoriteLocation',
       userFavLocation);
   },
-  [types.SET_INPUT_MESSAGE](state, inputMessageText){
+  [types.SET_INPUT_MESSAGE](state, inputMessageText) {
     Vue.set(state.user,
       'inputMessage',
       inputMessageText);
+  },
+  [types.SET_BANNER](state, obj){
+    state.bannerInformation = obj;
   },
 };

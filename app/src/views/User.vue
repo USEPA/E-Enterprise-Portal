@@ -1,6 +1,6 @@
 <!--this view is so that users can find their information and view it and in the future, edit it-->
 <template>
-  <div class="container">
+  <div class="container py-2">
     <h3>Profile</h3>
     <b-card>
       <b-tabs class="profile-tabs">
@@ -162,12 +162,12 @@
         </p>
         <div class="mt-2">
           <b-btn
-            class="usa-button mr-3 ml-2 mt-0"
+            class="usa-button mt-0 mb-1 mr-2"
             @click="save">Save
           </b-btn>
           <b-btn
             v-b-modal.UserDeleteModalInfo
-            class="usa-button">Delete Profile
+            class="usa-button mb-1">Delete Profile
           </b-btn>
         </div>
       </b-tabs>
@@ -410,9 +410,16 @@
       },
       deleteSelectedLocation(location) {
 
-        // Delete selected location out of the store
+
+        // Delete selected location out of the API
         this.$store.commit('DELETE_USER_SELECTED_LOCATION', location);
 
+        // Save updated array to store
+        this.apiUserPatch({
+          field_userlocation: this.$store.getters.getUser.userLocationsFromLoad,
+        });
+
+        // Then take care of UI
         if(this.user.userFavoriteLocation.length > 0){
           if (location.second === this.user.userFavoriteLocation[0].second) {
            // Clear all the stars
@@ -420,16 +427,19 @@
              star.classList.remove('fas');
              star.classList.add('far');
            });
-           // Reset userFavoriteLocations
+
+           // Reset user fav location in the front end
+           this.$store.commit('SET_USER_FAV_LOCATION', {
+              first: '',
+              second: '',
+           });
+
+           // Reset userFavoriteLocations in back end
            this.apiUserPatch({
              field_userfavoritelocations: [],
            });
           }
         }
-        // Save updated array to store
-        this.apiUserPatch({
-          field_userlocation: this.$store.getters.getUser.userLocationsFromLoad,
-        });
       },
       revealLocationInputBox() {
         // Reset the display none for the populated dropdown

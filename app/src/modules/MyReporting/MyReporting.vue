@@ -6,7 +6,7 @@
       <div
         v-html="eepApp.field_html_content.mainCard"/>
       <b-col>
-        <b-row class="my-reporting-top-line pb-3">
+        <b-row class="my-reporting-top-line pb-1">
           Report directly to your CDX data flows.
         </b-row>
       </b-col>
@@ -16,7 +16,7 @@
             title="US EPA"
             class="nav-item nav-link active text-decoration-none"
             title-link-class="small text-dark text-bold pb-0"
-            title-item-class="w-25 text-center">
+            title-item-class="w-30 text-center">
             <template>
               <div id="my-reporting-flows-container">
                 <ul class="inline-cdx-links pr-3">
@@ -24,7 +24,7 @@
                     <a
                       title="My CDX"
                       class="my-cdx-web-handoff-link my-cdx-login cursor-pointer text-primary font-weight-normal"
-                      @click="openPopupPage(cdx_configs.cdx_silent_handoff_url, getCdxParams())">
+                      @click="cdxSingleSignOn('direct')">
                       My CDX
                     </a>
                   </li>
@@ -32,7 +32,7 @@
                     <a
                       title="Inbox"
                       class="my-cdx-web-handoff-link  my-cdx-inbox cursor-pointer text-primary font-weight-normal"
-                      @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}`, getReturnURLWithCdxParams('Inbox'))">
+                      @click="cdxSingleSignOn('Inbox')">
                       Inbox
                     </a>
                   </li>
@@ -41,7 +41,7 @@
                       title="My Profile"
                       class="my-cdx-web-handoff-link my-cdx-profile cursor-pointer text-primary font-weight-normal"
                       data-handoff-type="profile"
-                      @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}`, getReturnURLWithCdxParams('MyProfile'))">
+                      @click="cdxSingleSignOn('MyProfile')">
                       My Profile</a>
                   </li>
                   <li>
@@ -49,7 +49,7 @@
                       title="Submission History"
                       class="my-cdx-web-handoff-link my-cdx-submission cursor-pointer text-primary font-weight-normal"
                       data-handoff-type="submission"
-                      @click="openPopupPage(`${cdx_configs.cdx_silent_handoff_url}`, getReturnURLWithCdxParams('submission'))">
+                      @click="cdxSingleSignOn('submission')">
                       Submission History
                     </a>
                   </li>
@@ -58,10 +58,8 @@
               <b-container fluid>
                 <!-- User Interface controls -->
                 <b-col>
-                  <b-row>
-                    <b-col
-                      md="5"
-                      class="mb-1 pl-0 mr-auto">
+                  <div class="row">
+                    <div class="col-9 mb-1 mr-auto">
                       <b-form-group
                         horizontal
                         label="Filter"
@@ -75,23 +73,22 @@
                             placeholder=""/>
                         </b-input-group>
                       </b-form-group>
-                    </b-col>
-                    <b-col
-                      md="3"
-                      class="mb-1 pl-0 pr-4">
+                    </div>
+                    <div class="col-3 mb-1 pl-0">
                       <b-form-group
                         horizontal
                         label="Rows"
                         label-for="row-results"
                         class="mb-0">
                         <b-form-select
-                          class="ml-3"
+                          class="ml-2"
                           aria-controls="my-reporting-table"
                           :options="pageOptions"
-                          v-model="perPage"/>
+                          v-model="perPage"
+                          @change="tableToPageOne"/>
                       </b-form-group>
-                    </b-col>
-                  </b-row>
+                    </div>
+                  </div>
                 </b-col>
                 <b-table
                   show-empty
@@ -112,20 +109,23 @@
                   <template
                     slot="role"
                     slot-scope="data">
-                    <div v-if="data.item.sso_to_app_enabled">
+                    <div v-if="data.item.status === 'Active' && data.item.sso_to_app_enabled">
                       <a
                         class="cursor-pointer text-decoration-underline text-primary"
                         @click="onClickGetLinkDetails(data.item.roleId, $event.target)"
                         :data-roleId="data.item.roleId">{{ data.item.role }}
                       </a>
                     </div>
-                    <div v-else>
+                    <div v-else-if="data.item.status === 'Active'">
                       <a
                         class="cursor-pointer text-decoration-underline text-primary"
                         data-handoff-type="login"
-                        @click="openPopupPage(cdx_configs.cdx_silent_handoff_url, getCdxParams())">
+                        @click="cdxSingleSignOn('direct')">
                         {{ data.item.role }}
                       </a>
+                    </div>
+                    <div v-else>
+                      {{ data.item.role }}
                     </div>
                   </template>
                   <template
@@ -143,63 +143,68 @@
                   hide-footer
                   title="Application Profile Settings">
                   <div class="my-cdx-modal">
-                    <div class="my-cdx-detail-group">Organization Name</div>
-                    <div class="organization-name"/>
-                    <template v-if="linkDetails.organizations">
+                    <template v-if="!selectRequired">
+                      <div class="w-100 text-center">
+                        <b-spinner large/>
+                      </div>
+                    </template>
+                    <template v-else>
+                      <div class="my-cdx-detail-group">Organization Name</div>
+                      <div class="organization-name"/>
+                      <template v-if="linkDetails.organizations">
+                        <b-form-select
+                          v-model="organization"
+                          class="mb-3"
+                          @change="prepareProgramSelectionsFromOrganization($event)">
+                          <template slot="first">
+                            <option
+                              disabled
+                              :value="null">Choose Organization...</option>
+                            <option
+                              v-for="(item, index) in linkDetails.organizations"
+                              :value="linkDetails.organizations[index]"
+                              :key="index">
+                              {{ item.orgName }}
+                            </option>
+                          </template>
+                        </b-form-select>
+                      </template>
+                      <template v-else>
+                        No Organizations...
+                      </template>
+                      <div class="my-cdx-detail-group">Program Client ID</div>
+                      <div class="program-client-name"/>
                       <b-form-select
-                        v-model="organization"
-                        class="mb-3">
-                        <template slot="first">
-                          <option :value="null">Choose Organization...</option>
+                        :disabled="!organization"
+                        v-model="userRoleId"
+                        class="mb-3"
+                        @change="prepareHandoffWithUserRoleId($event)">
+                        <template
+                          slot="first"
+                          v-if="!!organization">
                           <option
-                            v-if="linkDetails.organizations.length === 1"
-                            :value="linkDetails.organizations[0]"
-                            selected>
-                            {{ linkDetails.organizations[0].orgName }}
-                          </option>
+                            disabled
+                            :value="null">Choose Program Client...</option>
                           <option
-                            v-else
-                            v-for="(item, index) in linkDetails.organizations"
-                            :value="linkDetails.organizations[index]"
+                            v-for="(item, index) in organization.programClients"
+                            :value="item.userRoleId"
                             :key="index">
-                            {{ item.orgName }}
+                            {{ item.roleName }} - {{ item.clientName }}
                           </option>
                         </template>
                       </b-form-select>
+                      <div class="my-cdx-detail-group">
+                        <b-btn
+                          variant="primary"
+                          :disabled="!handoff"
+                          @click="openPopupPage()">
+                          <b-spinner
+                            small
+                            v-if="!handoff"/>
+                          Proceed
+                        </b-btn>
+                      </div>
                     </template>
-                    <template v-else>
-                      No Organizations...
-                    </template>
-                    <div class="my-cdx-detail-group">Program Client ID</div>
-                    <div class="program-client-name"/>
-                    <b-form-select
-                      :disabled="!organization"
-                      v-model="programClientId"
-                      class="mb-3"
-                      @change="onProgramClientChange($event)">
-                      <template
-                        slot="first"
-                        v-if="!!organization">
-                        <option :value="null">Choose Program Client...</option>
-                        <option
-                          v-for="(item, index) in organization.programClients"
-                          :value="item.userRoleId"
-                          :key="index">
-                          {{ item.roleName }} - {{ item.clientName }}
-                        </option>
-                      </template>
-                    </b-form-select>
-                    <div class="my-cdx-detail-group">
-                      <b-btn
-                        variant="primary"
-                        :disabled="!handoff"
-                        @click="openPopupPage(handoff.destination_url, handoff.post_params)">
-                        <b-spinner
-                          small
-                          v-if="!handoff"/>
-                        Proceed
-                      </b-btn>
-                    </div>
                   </div>
                 </AppModal>
                 <b-row
@@ -215,18 +220,26 @@
                       :per-page="perPage"
                       v-model="currentPage"
                       class="my-0 font-weight-normal">
-                      <div class="wapp-arrows"
-                        slot="first-text"><img src="/images/pager-first.png"
-                        alt="Go to first page"></div>
-                      <div class="wapp-arrows"
-                        slot="next-text"><img src="/images/pager-next.png"
-                        alt="Go to next page"></div>
-                      <div class="wapp-arrows"
-                        slot="prev-text"><img src="/images/pager-previous.png"
-                        alt="Go to previous page"></div>
-                      <div class="wapp-arrows"
-                        slot="last-text"><img src="/images/pager-last.png"
-                        alt="Go to last page"></div>
+                      <div
+                        class="wapp-arrows"
+                        slot="first-text"><img
+                          src="/images/pager-first.png"
+                          alt="Go to first page"></div>
+                      <div
+                        class="wapp-arrows"
+                        slot="next-text"><img
+                          src="/images/pager-next.png"
+                          alt="Go to next page"></div>
+                      <div
+                        class="wapp-arrows"
+                        slot="prev-text"><img
+                          src="/images/pager-previous.png"
+                          alt="Go to previous page"></div>
+                      <div
+                        class="wapp-arrows"
+                        slot="last-text"><img
+                          src="/images/pager-last.png"
+                          alt="Go to last page"></div>
                     </b-pagination>
                   </b-col>
                 </b-row>
@@ -262,14 +275,17 @@
           {
             key: 'program_service_name',
             label: 'Program service name',
+            thStyle: { width: '58%' },
           },
           {
             key: 'role',
             label: 'Role',
+            thStyle: { width: '33%' },
           },
           {
             key: 'status',
             label: 'Status',
+            thStyle: { width: '9%' },
           },
         ],
         currentPage: 1,
@@ -285,11 +301,11 @@
         modalInfo: { title: '', content: '' },
         linkDetails: {},
         organization: null,
-        programClientId: null,
+        userRoleId: null,
         roleId: '',
-        userRoleId: '',
         handoff: null,
         cdx_configs: {},
+        selectRequired: true,
       };
     },
     beforeCreate() {
@@ -352,8 +368,8 @@
       ...mapActions(moduleName, [
         // map actions go here
       ]),
-      closeAddModal(item, index, button) {
-        this.$root.$emit('bv::hide::modal', 'modalInfo', button);
+      closeAddModal() {
+        this.$root.$emit('bv::hide::modal', 'my-reporting-link-details');
       },
       getCdxParams() {
         return {
@@ -386,9 +402,26 @@
         this.totalRows = filteredItems.length;
         this.currentPage = 1;
       },
-      openPopupPage(url, params) {
-        this.openWindowWithPost(`${url}`, '', 'sso-handoff', params);
-        this.$ga.event('eportal', 'click', 'My Reporting SSO Handoff', 1)
+      openPopupPage() {
+        const vm = this;
+        const url = vm.handoff.destination_url;
+        const params = vm.handoff.post_params;
+        if (url && params) {
+            vm.openWindowWithPost(url, '', 'sso-handoff', params);
+            vm.$ga.event('eportal', 'click', 'My Reporting SSO Handoff', 1);
+        }
+        vm.closeAddModal();
+      },
+      cdxSingleSignOn(signOnType) {
+        const vm = this;
+        let params;
+        if (signOnType === 'direct') {
+          params = vm.getCdxParams();
+        } else {
+          params = vm.getReturnURLWithCdxParams(signOnType);
+        }
+        vm.openWindowWithPost(vm.cdx_configs.cdx_silent_handoff_url, '', 'sso-handoff', params);
+        vm.$ga.event('eportal', 'click', `My Reporting Direct SSO- ${signOnType}`, 1);
       },
       openWindowWithPost(url, windowoption, name, params) {
         const form = document.createElement('form');
@@ -427,20 +460,27 @@
           )
             .then((response) => {
               vm.organization = null;
+              vm.selectRequired = true;
               vm.$root.$emit('bv::show::modal', 'my-reporting-link-details', button);
               vm.linkDetails = response.data;
+              if (vm.linkDetails.organizations.length === 1) {
+                vm.organization = vm.linkDetails.organizations[0];
+                if (vm.organization.programClients.length === 1) {
+                    vm.selectRequired = false;
+                }
+                vm.prepareProgramSelectionsFromOrganization(vm.organization);
+              }
               this.$Progress.finish();
               this.$ga.event('eportal', 'click', 'My Reporting Link Details', 1);
             });
         }
       },
-      onProgramClientChange(value) {
+      prepareHandoffWithUserRoleId(userRoleID) {
         const vm = this;
         vm.handoff = null;
-
-        if (value) {
+        if (userRoleID) {
           AppAxios.get(
-            `${vm.apiURL}/api/cdx/link-json-handoff/${value}`,
+            `${vm.apiURL}/api/cdx/link-json-handoff/${userRoleID}`,
             {
               headers: {
                 Authorization: `Bearer ${vm.token}`,
@@ -452,7 +492,20 @@
           )
             .then((response) => {
               vm.handoff = response.data;
+              if (!vm.selectRequired) {
+                vm.openPopupPage();
+              }
             });
+        }
+      },
+      tableToPageOne() {
+        this.currentPage = 1;
+      },
+      prepareProgramSelectionsFromOrganization(organization) {
+        const vm = this;
+        if (organization.programClients.length === 1) {
+          vm.userRoleId = organization.programClients[0].userRoleId;
+          vm.prepareHandoffWithUserRoleId(vm.userRoleId);
         }
       },
     },

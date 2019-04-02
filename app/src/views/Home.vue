@@ -1,5 +1,5 @@
 <template>
-  <div class="home mt-2">
+  <div class="home mt-2 py-2">
     <b-carousel
       id="home-carousel"
       background="#575757"
@@ -48,12 +48,14 @@
         <div class="container">
           <div class="row">
             <div class="slide-details col-md-7 align-self-center">
-              <h2>A Tool Suite for Your Environmental Needs</h2>
-              <p>
-                E-Enterprise for the Environment is a new model for collaborative leadership
-                among environmental co-regulators,engaging with all interested and affected parties,
-                to achieve positive environmental,human health, and economic outcomes.
-              </p>
+              <div class="pt-2">
+                <h2>A Tool Suite for Your Environmental Needs</h2>
+                <p>
+                  E-Enterprise for the Environment is a new model for collaborative leadership
+                  among environmental co-regulators, engaging with all interested and affected parties,
+                  to achieve positive environmental, human health, and economic outcomes.
+                </p>
+              </div>
               <div class="align-self-center pt-5">
                 <router-link to="/workbench">
                   <button
@@ -75,9 +77,9 @@
                   src="../assets/images/environment.png">
                 <div>
                   <h5>Environment Reporting</h5>
-                  <h6>
+                  <span class="list-caption">
                     New ways to submit information.
-                  </h6>
+                  </span>
                 </div>
               </div>
               <div class="row pt-3">
@@ -87,9 +89,9 @@
                   src="../assets/images/workbench.png">
                 <div>
                   <h5>Workbench</h5>
-                  <h6>
+                  <span class="list-caption">
                     Tools, data, and resources to help you
-                  </h6>
+                  </span>
                 </div>
               </div>
               <div class="row pt-3">
@@ -99,14 +101,14 @@
                   src="../assets/images/headline.png">
                 <div>
                   <h5>Maps & Dashboard</h5>
-                  <h6>
+                  <span class="list-caption">
                     Learn more about the environment through <br/>maps and data mashups
-                  </h6>
+                  </span>
                   </div>
               </div>
               <div>
                 <router-link to="/about">
-                  <a href="" class="float-right text-white">..and more</a>
+                  <a href="" class="float-right pr-4 text-white">..and more</a>
                 </router-link>
               </div>
             </div>
@@ -178,6 +180,7 @@
                   alt="Regulation Finder Results">
               </div>
             <div class="slide-details col-md mb-5 align-self-center">
+              <span class="coming-soon">coming soon…</span>
               <h2>Find Federal Regulations That Apply</h2>
               <p>
                 The Regulation Finder tool pulls in content from several different environmental and
@@ -220,13 +223,11 @@
     },
     methods: {
       onSlideStart() {
-        this.sliding = true;
+        this.sliding = false;
       },
       onSlideEnd() {
         this.sliding = false;
       },
-    },
-    mounted() {
     },
   };
 </script>
@@ -236,13 +237,24 @@
   // @TODO - Move non scoped styles to the appropriate sass file
   @import '../styles/bootstrap-mixins-cheatsheet.scss';
   #home-carousel {
-    h1, h2, h3, h4, h5, h6 {
+    h1, h2, h3, h4, h5 {
+      font-family: "Merriweather", "Georgia", "Cambria", "Times New Roman", "Times", serif;
       font-weight: 300;
     }
 
-    p {
-      // font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
+    .list-caption{
+      font-family: "Source Sans Pro Web", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
       font-weight: 300;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    p, .coming-soon {
+      font-family: "Source Sans Pro Web", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+      font-weight: 300;
+      max-width: 90%;
     }
     .carousel-indicators-numbers {
       li {
@@ -302,11 +314,19 @@
   }
 
     // Slide 2
+    #my-reporting-img,
+    #my-certifications-img,
+    #construction-permits-img {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
     #my-reporting-img {
-      width: 45%;
+      width: 65%;
+      height: 13.5rem;
       max-width: 100%;
       padding-bottom: 1rem;
-      padding-right: 1rem;
     }
 
     #my-certifications-img{

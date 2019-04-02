@@ -27,4 +27,11 @@ export default {
       arr,
     );
   },
+  [types.SET_CERTIFICATIONS_LOADED](state, bool) {
+    Vue.set(
+      state,
+      'certificationsLoaded',
+      bool,
+    );
+  },
 };

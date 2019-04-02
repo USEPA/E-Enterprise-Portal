@@ -1,5 +1,5 @@
 <template>
-  <div class="workbench">
+  <div class="workbench py-2">
     <!-- @TODO - Dynamically load workbench apps -->
     <Grid/>
   </div>

@@ -1,21 +1,14 @@
 <template>
   <div
     id="app">
+    <Storage/>
     <div
       class="environment-status text-white"
-      v-if="(ENV !='PROD')">
+      >
       <div class="container">
-        <div class="row">
+        <div class="row" v-show="bannerInformation.enabled !== '0'">
           <div class="col-12 text-center text-white">
-            <span class="is-strong">{{ environmentName }} :</span>
-            <span>
-              Welcome to the E-Enterprise {{ environmentName }} Environment
-              .</span>
-            <br>
-            <span>
-              This is a non-production demonstration environment and is not to be used for
-              any regulatory activity.
-            </span>
+            <div v-html="bannerInformation.html"></div>
           </div>
         </div>
       </div>
@@ -33,22 +26,41 @@
             id="page-selection-wrapper"
             class="col-md-5 mt-2 pt-1 ml-0 pl-0">
             <ul>
-              <li class="pl-0"><router-link to="/">Home</router-link></li>
-              <li><router-link to="/about">About</router-link></li>
-              <li><router-link to="/workbench">Workbench</router-link></li>
+              <li class="pl-0"
+                v-show="!user.isLoggedIn">
+                <router-link to="/">Home</router-link>
+              </li>
+              <li>
+                <router-link to="/about">About</router-link>
+              </li>
+              <li>
+                <router-link to="/workbench">Workbench</router-link>
+              </li>
             </ul>
           </div>
-          <LocationSearch/>
+          <template v-if="this.$router.history.current.path === '/workbench'">
+            <LocationSearch/>
+          </template>
         </div>
       </div>
     </div>
-    <div class="container px-0">
-      <div
-        id="main-content"
-        class="no-gutters py-2">
-        <router-view/>
+    <!-- issue here with container and the caroseul -->
+    <template v-if="this.$router.history.current.path === '/'">
+      <div class="px-0">
+        <div id="main-content"
+          class="no-gutters">
+          <router-view/>
+        </div>
       </div>
-    </div>
+    </template>
+    <template v-else>
+      <div class="container px-0">
+        <div id="main-content"
+          class="no-gutters">
+          <router-view/>
+        </div>
+      </div>
+    </template>
     <MainFooter/>
     <BannerUserCookiePolicy/>
     <!-- END OF CONTENT -->
@@ -78,7 +90,7 @@
         <b-button
           class="usa-button"
           @click="handleLogOut"
-          v-show="!(user.displayLoginAgainButtonOnModal === 'none')" >
+          v-show="!(user.displayLoginAgainButtonOnModal === 'none')">
           Login Again
         </b-button>
       </template>
@@ -97,6 +109,7 @@
   import VueProgessBar from 'vue-progressbar';
   import types from './store/types';
   import { AppModal } from './modules/wadk/WADK';
+  import Storage from './modules/Storage/Storage';
 
   const moduleName = 'App';
 
@@ -110,6 +123,7 @@
       AppModal,
       BannerTermsAndConditions,
       BannerUserCookiePolicy,
+      Storage,
     },
     computed: {
       ...mapGetters({
@@ -118,6 +132,8 @@
         navMargin: 'getnavMargin',
         basicPages: 'getBasicPages',
         user: 'getUser',
+        EEPURL: 'getOldEEPURL',
+        bannerInformation: 'getBannerText'
       }),
       onHomePage: {
         get() {
@@ -165,12 +181,12 @@
       },
       handleLogOut() {
         const vm = this;
-        vm.$router.push('/login');
         vm.$root.$emit(
           'bv::hide::modal',
           'cookieModal',
           vm.$refs.cookieModal,
         );
+        vm.$router.push('/');
       },
       exitModal() {
         const vm = this;
@@ -221,9 +237,6 @@
       const currentRoute = vm.$router.history.current;
       vm.setDeepLink({ query: currentRoute.query.q, params: currentRoute.params });
     },
-    beforeMount() {
-
-    },
     mounted() {
       // Declare the store
       const vm = this;
@@ -257,6 +270,10 @@
       border-bottom: none;
     }
 
+    a {
+      text-decoration: none;
+    }
+
     ul {
       list-style: none;
       padding-left: 0;
@@ -284,15 +301,13 @@
       }
     }
   }
-
   .environment-status {
-    background-color:#444;
-    font-size:.75rem;
+    background-color: #444;
+    font-size: .75rem;
     &:hover {
       opacity: 1.0;
     }
   }
-
   // General slider media queries
   @include media-breakpoint-up(sm) {
     .environment-status {
@@ -302,7 +317,6 @@
       }
     }
   }
-
   @include media-breakpoint-up(md) {
     .environment-status {
       span {
@@ -310,17 +324,15 @@
       }
     }
   }
-
   #nav {
     margin-top: 20px !important;
   }
-
   .usa-button:active,
   button:active,
   .usa-button:focus,
   button:focus,
   .usa-button:hover,
-  button:hover{
+  button:hover {
     border: none;
     outline: none;
   }

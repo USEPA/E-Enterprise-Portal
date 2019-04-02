@@ -11,21 +11,21 @@ Cache-Control: no-cache
 Content-Type: application/json
 
 {
-    "StateCode": "NH",
-    "RoutineContaminants": {
-        "As": {
-            "Symbol": "As",
-            "Name": "Arsenic",
-            "Value": "4444",
-            "Unit": "mg/L"
-        },
-        "Cl": {
-            "Symbol": "Cl",
-            "Name": "Chloride",
-            "Value": "4444",
-            "Unit": "mg/L"
-        }
+  "StateCode": "NH",
+  "RoutineContaminants": {
+    "As": {
+      "Symbol": "As",
+      "Name": "Arsenic",
+      "Value": "4444",
+      "Unit": "mg/L"
+    },
+    "Cl": {
+      "Symbol": "Cl",
+      "Name": "Chloride",
+      "Value": "4444",
+      "Unit": "mg/L"
     }
+  }
 }
 
 ###
@@ -39,5 +39,83 @@ Cache-Control: no-cache
 GET http://e-enterprise/eep/proxy/service/get_test?XDEBUG_SESSION_START=PHPSTORM
 Accept: */*
 Cache-Control: no-cache
+
+###
+# Help check if the endpoints are alive and working
+# DEV
+
+POST /TestRest/bwievaluation HTTP/1.1
+Host: dev.e-enterprise.gov
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "StateCode": "NH",
+  "RoutineContaminants": {
+    "As": {
+      "Symbol": "As",
+      "Name": "Arsenic",
+      "Value": "4444",
+      "Unit": "mg/L"
+    },
+    "Cl": {
+      "Symbol": "Cl",
+      "Name": "Chloride",
+      "Value": "4444",
+      "Unit": "mg/L"
+    }
+  }
+}
+###
+
+# TEST
+
+POST /TestRest/bwievaluation HTTP/1.1
+Host: dev.e-enterprise.gov
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "StateCode": "NH",
+  "RoutineContaminants": {
+    "As": {
+      "Symbol": "As",
+      "Name": "Arsenic",
+      "Value": "4444",
+      "Unit": "mg/L"
+    },
+    "Cl": {
+      "Symbol": "Cl",
+      "Name": "Chloride",
+      "Value": "4444",
+      "Unit": "mg/L"
+    }
+  }
+}
+
+###
+
+POST /BWIService/Bwievaluation HTTP/1.1
+Host: nodewebdev.epacdxnode.net
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "StateCode": "NH",
+  "RoutineContaminants": {
+    "As": {
+      "Symbol": "As",
+      "Name": "Arsenic",
+      "Value": "4444",
+      "Unit": "mg/L"
+    },
+    "Cl": {
+      "Symbol": "Cl",
+      "Name": "Chloride",
+      "Value": "4444",
+      "Unit": "mg/L"
+    }
+  }
+}
 
 ###

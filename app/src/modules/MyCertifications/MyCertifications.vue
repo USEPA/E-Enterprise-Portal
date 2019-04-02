@@ -39,7 +39,7 @@
 
     <!--datatable-->
     <b-table
-      v-if="certificationsLoaded"
+      v-if="certificationsLoaded && certifications.length > 0"
       hover
       id="my-certifications-table"
       class="no-top-border no-bottom-border no-sort-images bootstrap-vue-mycerts-table-scroll"
@@ -80,14 +80,29 @@
           {{ row.value }}
         </div>
       </template>
-      <template
-        v-if='!certificationsLoaded'>
-        <p>Loading your Certifications...</p>
-      </template>
     </b-table>
 
+    <div v-else-if="!certificationsLoaded">Loading your Certifications...</div>
+
     <!--if No Certifications-->
-    <div v-if="(certifications.length === 0 && certificationsLoaded)">No certifications...</div>
+    <div v-else-if="certificationsLoaded && certifications.length === 0">
+      <b-row class="fake-table-headers">
+        <b-col class="fake-header">
+          Application #
+        </b-col>
+        <b-col class="fake-header">
+          Status
+        </b-col>
+        <b-col class="fake-header">
+          Submitted
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          No application submitted.
+        </b-col>
+      </b-row>
+    </div>
 
     <!--pagination-->
     <b-row
@@ -105,23 +120,23 @@
           <div
             class="wapp-arrows"
             slot="first-text"><img
-            src="/images/pager-first.png"
-            alt="Go to first page"></div>
+              src="/images/pager-first.png"
+              alt="Go to first page"></div>
           <div
             class="wapp-arrows"
             slot="next-text"><img
-            src="/images/pager-next.png"
-            alt="Go to next page"></div>
+              src="/images/pager-next.png"
+              alt="Go to next page"></div>
           <div
             class="wapp-arrows"
             slot="prev-text"><img
-            src="/images/pager-previous.png"
-            alt="Go to previous page"></div>
+              src="/images/pager-previous.png"
+              alt="Go to previous page"></div>
           <div
             class="wapp-arrows"
             slot="last-text"><img
-            src="/images/pager-last.png"
-            alt="Go to last page"></div>
+              src="/images/pager-last.png"
+              alt="Go to last page"></div>
         </b-pagination>
       </b-col>
     </b-row>
@@ -234,7 +249,7 @@
             </b-row>
             <b-row>
               <b-col>
-                Lead Help Desk: leadhelpdesk@epa.gov
+                Lead Help Desk: <a href="mailto:leadhelpdesk@epa.gov&subject=My Certifications - E-Enterprise Portal">Lead Help Desk</a>
               </b-col>
             </b-row>
           </b-col>
@@ -246,8 +261,8 @@
 </template>
 
 <script>
-  import {mapGetters, mapActions} from 'vuex';
-  import {AppWrapper, AppPlaceholderContent, AppModal, PaginationArrows} from '../wadk/WADK';
+  import { mapGetters, mapActions } from 'vuex';
+  import { AppWrapper, AppPlaceholderContent, AppModal, PaginationArrows } from '../wadk/WADK';
   import storeModule from './store/index';
 
   const moduleName = 'MyCertifications';
@@ -311,12 +326,8 @@
       }),
       ...mapGetters(moduleName, {
         certifications: 'getCertifications',
+        certificationsLoaded: 'getCertificationsLoaded',
       }),
-      certificationsLoaded: {
-        get() {
-          return this.certifications.length > 0;
-        },
-      },
       totalRows: {
         get() {
           return this.certifications.length;
@@ -380,6 +391,22 @@
 <style scoped
        lang="scss">
   /* To import images */
+  .fake-table-headers {
+    padding-top: .75em;
+    padding-bottom: .6em;
+    padding-left: .3em;
+    padding-right: .3em;
+    margin-bottom: .5em;
+    text-align: center;
+    font-size: 0.62em;
+    font-family: 'Source Serif Pro Web';
+    font-weight: bold;
+    border-bottom: 1px solid lightgrey;
+  }
+  .fake-header {
+    display: inline-block;
+    width: 100px;
+  }
   .cert-needs-attn-decoration,
   .cert-not-completed-decoration {
     height: .8rem;

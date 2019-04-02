@@ -1,7 +1,7 @@
 <template>
   <header class="py-3 container">
     <div class="row d-flex justify-content-between align-items-center">
-      <div class="col-4-md justify-content-start">
+      <div class="col-md-3 justify-content-start">
         <a
           class="eep_logo"
           href='#/home'
@@ -12,8 +12,10 @@
             alt="Home - E-Enterprise for the Environment">
         </a>
       </div>
-      <div class="w-100 d-block d-sm-none "/>
-      <div class="col-md-8 col-12 pt-3 d-flex justify-content-center justify-content-lg-end align-self-end-lg">
+      <div class="w-100 d-block d-sm-none"/>
+      <div
+        class="col-md-9 col-12 pt-3 d-flex justify-content-sm-end justify-content-md-end
+            justify-content-lg-end justify-content-center">
         <div class="tryit-wrapper pr-2 float-right">
           <router-link
             to="/workbench"
@@ -21,52 +23,57 @@
             ref="try-it-button"
             class="usa-button pr-3 tryit-button"
             variant="primary"
-            @mouseover="showTryitArrow=true"
-            @mouseleave="showTryitArrow=false"
             v-b-tooltip.hover="{
-                        placement:'bottomleft',
-                        html: true
-                      }"
+              placement:'bottomleft',
+              html: true
+            }"
             :title="tryitCaptionTitle"
             data-container="body">
             <i class="fas fa-arrow-circle-right fa-arrow-alt-from-left pr-1"/>Try It
           </router-link>
         </div>
-        <div class="otherbtns-wrapper float-right">
+        <div class="otherbtns-wrapper">
           <template v-if='displayLoggedInElements'>
-            <span class="mr-3">Welcome {{ user.name }}</span>
-            <button
-              variant="outline-secondary"
-              class="usa-button"
-              @click="userLogOut">
-              <i class="fas fa-lock pr-1"/>
-              Logout
-            </button>
-            <router-link
-              to="/User"
-              id="my-account"
-              class="usa-button ml-2"
-              variant="primary"
-              tag="button">
-              My account
-            </router-link>
+            <div class="greeting-wrapper">
+              <span class="mr-3">Welcome {{ user.name }}</span>
+            </div>
+            <div class="logout-myaccount-wrapper">
+              <button
+                variant="outline-secondary"
+                class="usa-button logout-btn mb-1 mr-2"
+                @click="userLogOut">
+                <i class="fas fa-lock pr-1"/>
+                Logout
+              </button>
+              <button
+                id="my-account"
+                class="usa-button myaccount-btn mb-1"
+                @click="navigateToRouterLink('/User')"
+                variant="primary"
+                tag="button">
+                My account
+              </button>
+            </div>
           </template>
           <template v-else>
             <div class="login-wrapper">
-              <router-link
-                to="/login"
+              <button
+                @click="navigateToLoginRoute"
                 ref="log-in-button"
                 class="usa-button login-button"
                 v-b-tooltip.hover="{
-                                placement:'bottomleft',
-                                html: true
-                              }"
+                  placement:'bottomleft',
+                  html: true
+                }"
                 :title="loginCaptionTitle"
                 data-container="body">
                 <i class="fas fa-lock pr-1"/>Login
-              </router-link>
+              </button>
             </div>
           </template>
+          <h1
+            ref="zoomHeightFix"
+            class="invisible position-absolute">HEIGHT</h1>
         </div>
       </div>
     </div>
@@ -104,10 +111,24 @@
       ...mapActions([
         'navigateToBridge',
         'userLogOut',
+        'setFontScaleRatio',
       ]),
-      navigateToRouterLink(link){
+      navigateToRouterLink(link) {
         this.$router.push(link);
       },
+      navigateToLoginRoute() {
+        // Checks to see if the user already accepted the user policy and if they did then go to the bridge login
+        // If not, then go to the login view where the login options will be loaded
+        if (this.$cookie.get('userPolicy') && !!this.$cookie.get('bridgeUrlLoginOption')) {
+          // Redirect to the bridge login for a given url that is already stored in cookie
+          window.location = this.$cookie.get('bridgeUrlLoginOption');
+        } else {
+          this.$router.push('/login');
+        }
+      },
+    },
+    mounted() {
+      this.setFontScaleRatio(this.$refs.zoomHeightFix.clientHeight);
     },
   };
 </script>
@@ -121,6 +142,21 @@
     }
   }
 
+  @media only screen and (min-width: 320px) and (max-device-width: 992px) {
+    .greeting-wrapper {
+      display: block !important;
+    }
+
+    .logout-myaccount-wrapper {
+      margin-top: .5rem;
+      float: left;
+    }
+  }
+
+  .greeting-wrapper, .logout-myaccount-wrapper{
+    display: inline-block;
+  }
+
   .tryit-button,
   .login-button,
   .tryit-caption,
@@ -132,16 +168,9 @@
     display: inline-block;
   }
 
-  .arrow-down-login, .arrow-down-tryit {
-
-    /* Draws the triangle*/
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 10px solid #112e51;
-
-    /*!*Sets position of triangle*!*/
-    margin-top: -11px;
+  @media (max-width: 410px) {
+    .tooltip{
+      width: 75%;
+    }
   }
 </style>

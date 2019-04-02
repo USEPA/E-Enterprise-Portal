@@ -23,35 +23,15 @@ function eep_core_help($route_name, RouteMatchInterface $route_match) {
   }
 }
 
-/*function eep_core_toolbar() {
-  $items = [];
-  $items['eep_core'] = [
-    '#cache' => [
-      'contexts' => [
-        'user.permissions',
-      ],
-    ],
-  ];
-
-  if (!\Drupal::currentUser()->hasPermission('access eep_core')) {
-    return $items;
+/**
+ * Implements hook_form_alter().
+ */
+function eep_core_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id === 'user_form') {
+    $current_user = \Drupal::currentUser();
+    if ($current_user->id() !== '1') {
+      $form['field_cdx_user_id']['#access'] = false;
+      $form['account']['#access'] = false;
+    }
   }
-
-  $items['eep_core'] += array(
-    '#type' => 'toolbar_item',
-    'tab' => array(
-      '#type' => 'html_tag',
-      '#tag' => 'button',
-      '#value' => t('E-Enterprise Portal'),
-      '#attributes' => array(
-        'class' => array('toolbar-icon', 'toolbar-icon-help'),
-        'aria-pressed' => 'false',
-      ),
-    ),
-    '#wrapper_attributes' => array(
-      'class' => array('eep_core-toolbar-tab', 'hidden'),
-      'id' => 'toolbar-tab-eep_core',
-    ),
-  );
-  return $items;
-}*/
+}

@@ -18,7 +18,7 @@
           <template>
             <a class="cursor-pointer"
                     @click="buildPDF()">
-              <img src="/images/pdf_icon.png"></a></template>
+              <img src="/images/pdf_icon.png" alt="Generate PDF of your water analysis results"></a></template>
         </div>
       </div>
     </div>
@@ -60,8 +60,8 @@
           <h6>Results</h6>
         </div>
         <div
-          class="col-sm-12 col-md-1 py-1">
-          <h6>Name</h6>
+          class="col-sm-12 col-md-2 py-1">
+          <h6>Element</h6>
         </div>
         <div
           class="col-sm-12 col-md-2 py-1">
@@ -196,8 +196,8 @@
           <h6>Results</h6>
         </div>
         <div
-          class="col-sm-12 col-md-1 py-1">
-          <h6>Name</h6>
+          class="col-sm-12 col-md-2 py-1">
+          <h6>Element</h6>
         </div>
         <div
           class="col-sm-12 col-md-2 py-1">

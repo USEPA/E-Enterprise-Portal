@@ -125,4 +125,16 @@ export default {
   getResultsError(state) {
     return state.resultsError;
   },
+  getOptionsError(state) {
+    return state.optionsError;
+  },
+  getNoResults(state) {
+    return state.noResults;
+  },
+  getMsgpFields(state) {
+    return state.msgpFields;
+  },
+  getCgpFields(state) {
+    return state.cgpFields;
+  },
 };

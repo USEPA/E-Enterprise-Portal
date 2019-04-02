@@ -31,6 +31,19 @@ export default {
       : [];
     return r;
   },
+  getContaminantFromSymbol: (state, getters) => (symbol) => {
+    const partnerResource = getters.getPartnerResource;
+    const Contaminants = partnerResource.flowchart.FlowCharts.Contaminants.Contaminant;
+    let contaminant = null;
+
+    const contaminantArray = Contaminants.filter(c => c._attributes.Value === symbol);
+
+    if (Array.isArray(contaminantArray) && contaminantArray.length) {
+      [contaminant] = contaminantArray;
+    }
+
+    return contaminant;
+  },
   getInteractivePrompts(state) {
     return state.interactivePrompts;
   },
@@ -69,9 +82,9 @@ export default {
   getWaterAnalysisResults(state) {
     return state.waterAnalysisResults;
   },
-
-  getRawWaterAnalysisRequest: (state, getters) => () => {
-    const { waterAnalysisRequest } = state;
+  getRawWaterAnalysisRequest: (state, getters) => {
+    const waterAnalysisRequest = getters.getWaterAnalysisRequest;
+    const partner = getters.getSelectedPartner;
     const r = {};
     const sections = getters.getPartnerSectors;
 
@@ -79,7 +92,7 @@ export default {
     Object.keys(sections).forEach((section) => {
       r[section] = {};
       Object.keys(waterAnalysisRequest[section]).forEach((symbol) => {
-        if (waterAnalysisRequest[section][symbol].Value
+        if ((waterAnalysisRequest[section][symbol].Value && waterAnalysisRequest[section][symbol].Value !== -9999)
           || waterAnalysisRequest[section][symbol].Present) {
           r[section][symbol] = {};
           Object.assign(r[section][symbol], waterAnalysisRequest[section][symbol]);
@@ -91,10 +104,13 @@ export default {
       r.InteractivePromptResponses = waterAnalysisRequest.InteractivePromptResponses;
     }
 
+    // Set the partner specific information
+    r.StateCode = partner.code;
+
     return r;
   },
   isWaterAnalysisRequestEmpty: (state, getters) => () => {
-    const waterAnalysisRequest = getters.getRawWaterAnalysisRequest();
+    const waterAnalysisRequest = getters.getRawWaterAnalysisRequest;
     let isEmpty = true;
     Object.keys(waterAnalysisRequest).forEach((section) => {
       // eslint-disable-next-line no-bitwise
@@ -103,21 +119,27 @@ export default {
     return isEmpty;
   },
   getWaterTreatmentTitle(state, getters) {
-    let r = 'Water Treatment Systems That Remove ';
-    const resultEvaluations = getters.getWaterAnalysisResults[0].ResultEvaluations;
-    const treatedContaminants = [];
-    Object.keys(resultEvaluations).forEach((symbol) => {
-      if (resultEvaluations[symbol].GuidelineColor === 'font-red' ||
+    let r = 'Water Treatment Systems';
+    const results = getters.getWaterAnalysisResults;
+
+    if (results.length && results[0]) {
+      r += ' That Remove ';
+      const resultEvaluations = results[0].ResultEvaluations;
+      const treatedContaminants = [];
+      Object.keys(resultEvaluations).forEach((symbol) => {
+        if (resultEvaluations[symbol].GuidelineColor === 'font-red' ||
           resultEvaluations[symbol].TreatmentMessages) {
-        treatedContaminants.push(resultEvaluations[symbol].ContaminantFullName);
+          treatedContaminants.push(resultEvaluations[symbol].ContaminantFullName);
+        }
+      });
+      const lastContaminant = treatedContaminants.pop();
+      if (treatedContaminants.length > 1) {
+        r += treatedContaminants.join(', ');
+        r += ' and ';
       }
-    });
-    const lastContaminant = treatedContaminants.pop();
-    if (treatedContaminants.length > 1) {
-      r += treatedContaminants.join(', ');
-      r += ' and ';
+      r += lastContaminant;
     }
-    r += lastContaminant;
+
     return r;
   },
 };

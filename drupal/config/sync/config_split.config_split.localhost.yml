@@ -11,6 +11,7 @@ module:
 theme: {  }
 blacklist:
   - eep_bridge.environment_settings
+  - eep_core.settings
 graylist: {  }
 graylist_dependents: true
 graylist_skip_equal: true

@@ -6,10 +6,10 @@
         :layout.sync="layout"
         :responsive="true"
         :breakpoints="{ lg: 992, md: 768, sm: 576, xs: 380, xxs: 0 }"
-        :cols="{ lg: 4, md: 4, sm: 2, xs: 1, xxs: 1 }"
+        :cols="{ lg: 4, md: 2, sm: 2, xs: 1, xxs: 1 }"
         :col-num="4"
         :max-row="4"
-        :row-height="210"
+        :row-height="gridHeights"
         :is-draggable="true"
         :is-resizable="false"
         :is-mirrored="false"
@@ -20,7 +20,6 @@
       >
         <grid-item
           v-for="(wapp, index) in layout"
-          :min-w="275"
           :drag-ignore-from="`.wapp-inner-wrapper`"
           :is-resizable="false"
           :ref="wapp.eepApp.id"
@@ -122,9 +121,15 @@
       ...mapGetters({
         getDeepLink: 'getDeepLink',
         directLinksMappings: 'getDirectLinksMappings',
+        fontScaleRatio: 'getFontScaleRatio',
         getLayout: `${moduleName}/getLayout`,
         isLayoutReady: `${moduleName}/isLayoutReady`,
       }),
+      gridHeights: {
+        get() {
+          return 210 * this.fontScaleRatio;
+        },
+      },
       deepLink: {
         get() {
           return this.getDeepLink;

@@ -15,8 +15,8 @@
         <label
           for="partner-selection"
         >State/Tribe</label>
-        <b-row>
-          <b-col md="8">
+        <div class="row">
+          <div class="col-8">
             <b-form-select
               id="partner-selection"
               :value="selectedPartner"
@@ -33,16 +33,16 @@
                 </option>
               </template>
             </b-form-select>
-          </b-col>
-          <b-col md="4">
+          </div>
+          <div class="col-4">
             <b-btn
               variant="primary"
               ref="btnCheckYourWater"
               type="submit">
               Go
             </b-btn>
-          </b-col>
-        </b-row>
+          </div>
+        </div>
       </b-form>
       <!-- Various Modals required for the workbench app-->
 
@@ -125,7 +125,7 @@
         modal-ref="bwi-modal-interactive"
         title="Additional Information Needed">
         <div class="row">
-          <h3 class="col-md-12">Enter the Results of Your Drinking Water Test</h3>
+          <h5 class="col-md-12">Enter the Results of Your Drinking Water Test</h5>
 
           <!-- Requested prompts form the BWI Service -->
           <template
@@ -136,7 +136,8 @@
               :key="question.Symbol">
               <div class="row my-2">
                 <div class="col-sm-6">
-                  <label class="">{{ question.Interaction }}</label>
+                  <label :for="`${question.Symbol}-question-Value`"
+                    class="">{{ question.Interaction }}</label>
                 </div>
                 <div class="col-sm-6">
                   <b-form-radio-group
@@ -169,7 +170,8 @@
               :key="question.Symbol">
               <div class="row my-2">
                 <div class="col-sm-5">
-                  <label class="">{{ question.Interaction }}</label>
+                  <label :for="`${question.Symbol}-question-Value`"
+                    class="">{{ question.Interaction }}</label>
                 </div>
                 <div class="col-sm-3">
                   <b-form-input
@@ -182,17 +184,20 @@
                       section: getSectionFromSymbol(question.Symbol),
                       contaminant: getContaminantFromSymbol(question.Symbol),
                       property: 'Value',
-                      event:$event })"/>
+                      value:$event })"/>
                 </div>
                 <div class="col-sm-4">
+                  <label for="measurement-unit"
+                    class="sr-only">Measurement Unit</label>
                   <b-form-select
+                    id="measurement-unit"
                     :contam="getContaminantFromSymbol(question.Symbol)"
                     :value="getContaminantFromSymbol(question.Symbol)._attributes.DefaultUnit"
                     @change="updateWaterAnalysisRequestProperty( {
                       section: getSectionFromSymbol(question.Symbol),
                       contaminant: getContaminantFromSymbol(question.Symbol),
                       property: 'Unit',
-                      event:$event })">
+                      value:$event })">
                     <template
                       v-for="unit in getContaminantUnits(question)">
                       <option
@@ -228,6 +233,7 @@
   import PartnerResources from './components/PartnerResources.vue';
   import { EventBus } from '../../EventBus';
   import WaterAnalysisResult from './components/WaterAnalysisResult.vue';
+  import types from './store/types';
 
   const moduleName = 'BeWellInformed';
 
@@ -251,7 +257,7 @@
       }
       this.fetchPartners();
 
-      // Custom event listeners
+      // Custom $event listeners
       EventBus.$on('bwi::showWaterAnalysisResults', this.showWaterAnalysisResults);
 
       // Update location in BWI app
@@ -264,8 +270,6 @@
       return {
         tabIndex: 0,
         hasResults: false,
-        partnerModalSubmit: false,
-        interactiveModalSubmit: false,
       };
     },
     mounted() {
@@ -287,7 +291,7 @@
       },
       isFlowchartReady() {
         const { partnerResource } = this;
-        return !!(partnerResource && partnerResource.flowchart);
+        return partnerResource && partnerResource.flowchart;
       },
     },
     methods: {
@@ -297,6 +301,7 @@
         'fetchPartners',
         'fetchPartnerAndFlowchartXML',
         'submitPartnersData',
+        'showResults',
         'updateAdditionalContaminantProperty',
         'updatePromptResponses',
         'updateSelectedPartner',
@@ -304,19 +309,25 @@
         'downloadPDF',
       ]),
       onCheckYourWater(evt) {
+        const vm = this;
         evt.preventDefault();
-        const partner = this.selectedPartner;
+        const partner = vm.selectedPartner;
         if (partner) {
-          EventBus.$emit('grid::modalOpen', this.eepApp.field_vue_component_name, this.eepApp);
-          this.fetchPartnerAndFlowchartXML(partner.code);
-          this.$root.$emit(
-            'bv::show::modal', 'bwi-modal', this.$refs.btnCheckYourWater,
+          // Reset the to the form tab
+          vm.tabIndex = 0;
+          EventBus.$emit('grid::modalOpen', vm.eepApp.field_vue_component_name, vm.eepApp);
+          vm.fetchPartnerAndFlowchartXML(partner.code);
+          vm.$root.$emit(
+            'bv::show::modal', 'bwi-modal', vm.$refs.btnCheckYourWater,
           );
-          this.$ga.event('eportal', 'click', `BWI Partner Load- ${partner.code}`, 1)
+          vm.$ga.event('eportal', 'click', `BWI Partner Load- ${partner.code}`, 1);
         }
       },
       getContaminantUnits(question) {
-        return this.getContaminantFromSymbol(question.Symbol)._attributes.Units.split('|');
+        return this.getContaminantFromSymbol(question.Symbol)
+          ._attributes
+          .Units
+          .split('|');
       },
       getContaminantFromSymbol(symbol) {
         const { partnerResource } = this;
@@ -341,42 +352,46 @@
         return section;
       },
       onSubmit(evt) {
-        this.interactiveModalSubmit = true;
-        this.partnerModalSubmit= false;
-        const partner = this.selectedPartner;
         const vm = this;
+        const store = vm.$store;
+        const partner = vm.selectedPartner;
         const isRequestEmpty = vm.isWaterAnalysisRequestEmpty();
         if (!isRequestEmpty) {
           evt.preventDefault();
           vm.submissionErrorMessage = '';
-          vm.submitPartnersData({ vm, evt });
+          vm.showResults({
+            vm,
+            evt
+          });
           vm.$root.$emit(
             'bv::hide::modal',
             'bwi-modal-interactive',
             vm.$refs.bwiModalInteractive
           );
-          this.$ga.event('eportal', 'click', `BWI Submit Form- ${partner.code}`, 1)
+          vm.$ga.event('eportal', 'click', `BWI Submit Form-${partner.code}`, 1);
         } else {
-          this.submissionErrorMessage = 'Please enter values for some of the contaminants.';
+          vm.submissionErrorMessage = 'Please enter values for some of the contaminants.';
         }
       },
-      showWaterAnalysisResults(event) {
+      showWaterAnalysisResults($event) {
         const vm = this;
+        const store = vm.$store;
         const bwiModal = vm.$refs.bwi_modal;
-
         vm.$root.$emit(
           'bv::show::modal', 'bwi-modal', bwiModal,
         );
-
         vm.hasResults = true;
+        store.commit(`BeWellInformed/${types.UPDATE_ADDITIONAL_CONTAMINANT_REQUESTS}`, []);
+        store.commit(`BeWellInformed/${types.UPDATE_INTERACTIVE_PROMPTS}`, []);
         vm.$nextTick(() => {
-          vm.tabIndex = event.value;
+          vm.tabIndex = $event.value;
         });
       },
       hasWaterAnalysisResults() {
-        return this.waterAnalysisResults
-          && this.waterAnalysisResults.length
-          && this.waterAnalysisResults[0];
+        const vm = this;
+        return vm.waterAnalysisResults
+          && vm.waterAnalysisResults.length
+          && vm.waterAnalysisResults[0];
       },
       onPartnerModalSubmit() {
         this.partnerModalSubmit = true;
@@ -399,31 +414,38 @@
     line-height: 1.2;
     margin-top: .5rem;
   }
+
   .wapp {
     form {
       margin-top: .5rem;
+
       label {
         margin-bottom: 0;
       }
+
       label,
       .custom-select,
       .btn-primary {
         font-size: 0.9375rem; //15px
       }
+
       .custom-select {
         line-height: 1.5;
       }
+
       .btn-primary {
         line-height: 1;
       }
     }
   }
+
   #bwi-modal {
     h3 {
       font-family: "Source Sans Pro Web", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
       font-size: 1.2rem;
       margin-bottom: 1.5rem;
     }
+
     h4 {
       font-size: 1rem;
       font-weight: bold;

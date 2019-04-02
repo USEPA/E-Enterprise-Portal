@@ -422,10 +422,24 @@ export default {
       arr,
     );
   },
+  [types.SET_BASE_FORM_OPTION_SUB_SECTORS](state, arr) {
+    Vue.set(
+      state.formOptions.baseFormOptions,
+      'subSectors',
+      arr,
+    );
+  },
   [types.SET_BASE_FORM_OPTION_TRIAL_NAMES](state, arr) {
     Vue.set(
       state.formOptions.baseFormOptions,
       'tribalNames',
+      arr,
+    );
+  },
+  [types.SET_BASE_FORM_SIC_CODES](state, arr) {
+    Vue.set(
+      state.formOptions.baseFormOptions,
+      'sicCodes',
       arr,
     );
   },
@@ -482,6 +496,20 @@ export default {
     Vue.set(
       state,
       'resultsError',
+      bool,
+    );
+  },
+  [types.SET_OPTIONS_ERROR](state, bool) {
+    Vue.set(
+      state,
+      'optionsError',
+      bool,
+    );
+  },
+  [types.SET_NO_RESULTS](state, bool) {
+    Vue.set(
+      state,
+      'noResults',
       bool,
     );
   },

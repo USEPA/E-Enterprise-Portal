@@ -34,6 +34,12 @@ const state = {
       sendBridgeBackTo: 'https://apitest.e-enterprise.gov/authenticate/user',
       signInMethod: 'wsignin1.0',
     },
+    PROD: {
+      relyingParty: 'https://api.e-enterprise.gov/',
+      issuer: 'https://extauth.epa.gov',
+      sendBridgeBackTo: 'https://api.e-enterprise.gov/authenticate/user',
+      signInMethod: 'wsignin1.0',
+    },
   },
   currentBridgeUrn: '',
   deepLinking: null,
@@ -65,7 +71,7 @@ const state = {
     init: [],
     organizations: [],
     roles: [],
-    userLocationsFromLoad:[],
+    userLocationsFromLoad: [],
     userFavoriteLocation: [],
     location: {
       zipcode: '',
@@ -96,10 +102,12 @@ const state = {
   },
   loginViewAccounts: [],
   GETHeaders: {
-    'crossDomain': true,
+    crossDomain: true,
     'cache-control': 'no-cache',
     'Content-Type': 'application/hal+json',
   },
+  fontScaleRatio: 0,
+  bannerInformation: {},
 };
 
 export default state;
